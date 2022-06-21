@@ -5,6 +5,10 @@
 ###############################################################################
 soheboxHome="Repository/Sohebox"
 soheboxBackendHome="Develop/Backend"
+soheboxBuildHome="target"
+
+soheboxDeployHome="Deploy/Backend"
+appName="sohebox-1.0.0.jar"
 
 cd 
 cd $soheboxHome
@@ -22,5 +26,9 @@ command -p pwd
 
 echo "============================ Build package ..."
 command -p mvn clean package -Pjar
+
+echo "============================ Move package to deploy folder "
+cd $soheboxBuildHome
+mv $HOME/$soheboxHome/$soheboxBackendHome/$soheboxBuildHome/$appName $HOME/$soheboxHome/$soheboxDeployHome
 
 $SHELL
