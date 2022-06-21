@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+	<Properties>
+		<Property name="log-path" value="./logs" />
+	</Properties>
+	<Appenders>
+		<!-- Console appender -->
+		<Console name="console-log" target="SYSTEM_OUT">
+			<PatternLayout
+				pattern="%d{yyyy-MM-dd HH:mm:ss} %-5p (%t) %C{1}.%M - %m%n" />
+		</Console>
+
+		<!-- Admin file appender -->
+		<RollingFile name="admin-log"
+			fileName="${log-path}/admin.log"
+			filePattern="${log-path}/admin-%d{yyyy-MM-dd}.log">
+			<PatternLayout>
+				<pattern>%d{yyyy-MM-dd HH:mm:ss} %-5p (%t) %C{1}.%M - %m%n
+				</pattern>
+			</PatternLayout>
+			<Policies>
+				<TimeBasedTriggeringPolicy interval="1"
+					modulate="true" />
+			</Policies>
+		</RollingFile>
+
+		<!-- Error file appender -->
+		<RollingFile name="error-log"
+			fileName="${log-path}/error.log"
+			filePattern="${log-path}/error-%d{yyyy-MM-dd}.log">
+			<PatternLayout>
+				<pattern>%d{yyyy-MM-dd HH:mm:ss} %-5p (%t) %C{1}.%M - %m%n
+				</pattern>
+			</PatternLayout>
+			<Policies>
+				<TimeBasedTriggeringPolicy interval="1"
+					modulate="true" />
+			</Policies>
+		</RollingFile>
+
+	</Appenders>
+	<Loggers>
+		<Logger name="com.hientran.sohebox" level="debug"
+			additivity="false">
+			<appender-ref ref="console-log" level="info" />
+			<appender-ref ref="admin-log" level="info" />
+			<appender-ref ref="error-log" level="error" />
+		</Logger>
+
+		<Root level="info" additivity="false">
+			<AppenderRef ref="console-log" />
+		</Root>
+	</Loggers>
+</Configuration>

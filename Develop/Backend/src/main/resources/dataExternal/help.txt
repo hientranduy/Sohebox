@@ -1,0 +1,4 @@
+- Request XML file from SJC
+- Request XML file from VCB
+- Request JSON data market from tradingeconomics
+- Request JSON data history from tradingeconomics
