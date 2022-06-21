@@ -5,5 +5,5 @@ Develop/Backend/logs/
 Develop/Backend/target/
 Develop/Backend/src/main/resources/dataExternal/vcb.txt
 
-Deploy/Backend/sohebox-1.0.0.jar
-Deploy/Backend/application.properties
+Deploy/Backend/run/
+Deploy/Backend/BOOT-INF/

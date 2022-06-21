@@ -3,16 +3,25 @@
 ###############################################################################
 ###                        Setup parameters/inputs                          ###
 ###############################################################################
+soheboxHome="Repository/Sohebox"
+soheboxRunHome="Deploy/Backend/run"
 appName="sohebox-1.0.0.jar"
-soheboxServiceHome="Repository/Sohebox/Develop/Backend/target"
+javaBinHome="/usr/lib/jvm/java-11-openjdk-amd64/bin"
+
+
+
+./stop_service.sh
+
 
 cd 
-cd $soheboxServiceHome
-echo "============================ Current in ........."
+cd $soheboxHome
+cd $soheboxRunHome
+echo "============================ Go to to Repo =============================="
 command -p pwd
 
-echo "============================ Start sohebox ..."
-command -p java -jar appName
+
+echo "============================ Start sohebox =============================="
+nohup java -jar $appName </dev/null &>/dev/null &
 
 
 $SHELL
