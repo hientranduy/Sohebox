@@ -13,7 +13,6 @@ command -p pwd
 
 echo "============================ Checkout Sohebox ..."
 command -p git fetch origin master
-command -p git --no-pager diff --name-only FETCH_HEAD $(git merge-base FETCH_HEAD master)
 command -p git pull origin master
 
 
