@@ -1,7 +1,5 @@
 # Sohebox page
 	https://sohebox.com
- 
-test
 
 # Technical
 	Backend: Java Spring Restful API
