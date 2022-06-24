@@ -1,0 +1,58 @@
+# Config MySQLPPA
+
+	wget -c https://repo.mysql.com//mysql-apt-config_0.8.13-1_all.deb
+	
+	sudo dpkg -i mysql-apt-config_0.8.13-1_all.deb 
+	
+	
+# Install
+	sudo apt-get install mysql-server
+	
+# Check status
+sudo systemctl status mysql	
+
+# Auto start when system boot
+sudo systemctl enable mysql
+
+# Connect 
+sudo mysql -u root -p     (pass admin)
+
+then change new pass: ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'xxxxxxxxxxxxxxxxxxxxxxxxxxxx';
+
+
+# Login again with new pass
+sudo mysql -u root -p 
+
+# Create new user
+	CREATE USER 'hientran'@'localhost' IDENTIFIED BY 'xxxxxxxxxxxxxxxxxxxxxxxxxxxx'; 
+	GRANT ALL ON my_db.* TO 'new_user'@'localhost';
+
+# Create new DB
+	CREATE DATABASE IF NOT EXISTS hientestDB
+	
+# Chek DB
+   show databases;	
+
+
+# Open port foward 3306 to local IP
+192.168.1.58	==> 3306
+
+#	Create remote user 
+CREATE USER 'hientran'@'localhost' IDENTIFIED BY 'xxxxxxxxxxxxxxxxxxxxxxxxxxxx';
+GRANT ALL PRIVILEGES ON *.* TO 'hientran'@'localhost' WITH GRANT OPTION;
+CREATE USER 'hientran'@'%' IDENTIFIED BY 'xxxxxxxxxxxxxxxxxxxxxxxxxxxx';
+GRANT ALL PRIVILEGES ON *.* TO 'hientran'@'%' WITH GRANT OPTION;
+ALTER USER 'hientran'@'%' IDENTIFIED WITH mysql_native_password BY 'xxxxxxxxxxxxxxxxxxxxxxxxxxxx';
+FLUSH PRIVILEGES;
+	
+
+
+
+##### OTHER
+# Select user list 
+SELECT User, Host FROM mysql.user;
+
+# Drop user
+DROP USER 'moitin'@'localhost';
+
+# Check sql version

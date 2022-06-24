@@ -52,6 +52,8 @@ $javaBinHome/jar uf $appName BOOT-INF/classes
 echo "============================ Move package to run folder ================="
 mv $appName run/
 
+echo "============================ Start new package =========================="
+$HOME/$soheboxHome/$soheboxDeployHome/restart_service.sh
 
 
 $SHELL

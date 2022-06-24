@@ -1,0 +1,21 @@
+#Git
+sudo apt install git
+
+
+# Setup Git
+git config --global user.name hientranduy
+git config --global user.email hientranduy@gmail.com
+
+
+# Check config
+git config --list
+
+
+# Install git gui
+sudo apt-get install -y git-gui
+
+# Install smat git
+
+## Add to $HOME/.profile
+export GOPATH="$HOME/go"
+PATH="$GOPATH/bin:$PATH"

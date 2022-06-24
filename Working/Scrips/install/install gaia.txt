@@ -1,0 +1,14 @@
+# Clone repo gaia
+git clone https://github.com/cosmos/gaia 
+
+# Check latest release version at https://github.com/cosmos/gaia/releases
+
+# Checkout 
+cd gaia 
+git checkout v7.0.2
+
+# Install
+make install
+
+# Check version
+gaiad version --long

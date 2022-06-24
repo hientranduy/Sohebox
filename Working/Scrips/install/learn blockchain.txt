@@ -1,0 +1,122 @@
+1/ Create new chain
+	ignite scaffold chain github.com/hientranduy/chain1			==> Create folder chain1 with blockchian files
+
+2A/ Start chain
+	cd chain1
+	ignite chain serve
+	
+	Tendermint node: http://0.0.0.0:26657
+	Blockchain API: http://0.0.0.0:1317
+	Token faucet: http://0.0.0.0:4500
+
+
+2B/ Start by technical
+	## Create binary file chain1
+	cd to chain1
+	
+	go install ./...  or make install
+	
+	check command chain1d
+	
+	## Initialize chain
+	chain1d init --help 
+	
+	chain1d init [moniker] [flags]
+	
+	chain1d init hien-chain1 --chain-id chain1-hientest   ==> Create folder $HOME/.chain1 with default config
+	
+	## Add a validator
+	chain1d keys add hien-key2 --keyring-backend=test --home=$HOME/.chain1/node0
+	chain1d keys add hienvalidator --keyring-backend test     
+	
+			  name: hienvalidator
+			  type: local
+			  address: cosmos1axzhmsc6ftjql9uqdx9420ewzsfedxqj4zytyd
+			  pubkey: '{"@type":"/cosmos.crypto.secp256k1.PubKey","key":"A4B3xlE/7Nyy5Xyclhj6/Yk1fc+0oVZ1znqCAipokywA"}'
+			  mnemonic: ""
+
+
+			**Important** write this mnemonic phrase in a safe place.
+			It is the only way to recover your account if you ever forget your password.
+
+			ring damp occur area gauge industry clock dry father wrap shoulder kite number asthma paddle acquire volume science unaware autumn enhance still scene palace
+			
+	chain1d add-genesis-account cosmos1axzhmsc6ftjql9uqdx9420ewzsfedxqj4zytyd 12300000stake --keyring-backend test
+    
+	chain1d gentx hienvalidator 2000000stake --chain-id chain1-hientest --keyring-backend test  
+			Genesis transaction written to "/home/hientran/.chain1/config/gentx/gentx-a5e3ea73db2c252b0ce7d752cb3d4555ac8d0e62.json"
+
+    ## Collect genesis txs and output a genesis.json file
+	chain1d collect-gentxs
+	
+	## validates the genesis file at the default location or at the location passed as an arg
+	chain1d validate-genesis
+			file at /home/hientran/.chain1/config/genesis.json is a valid genesis file
+			
+	## Start the chain
+	chain1d start
+			
+			
+3/ Account
+	## Create new account]
+	chain1d keys add hien-key1         
+			Pass 1234546
+			- name: hien-key1
+			  type: local
+			  address: cosmos1yfynema3xs585lahu807z5uu8kp3vel4hpg600
+			  pubkey: '{"@type":"/cosmos.crypto.secp256k1.PubKey","key":"AkYKA9Hk4dGa5NdEJLQSbLiJRwgIyOaHRLoqKdmT7Bx9"}'
+			  mnemonic: ""
+
+
+			**Important** write this mnemonic phrase in a safe place.
+			It is the only way to recover your account if you ever forget your password.
+
+			strong clever churn hub lobster replace olive drum trip adult people legend cruel someone prefer fiction quantum vessel unfold salon theory frequent pole stage
+	
+	chain1d keys add hien-key2 --keyring-backend=test --home=$HOME/.chain1/node0	
+			- name: hien-key2
+			  type: local
+			  address: cosmos143vg2vqpnsvp3753uxvlxxx9tvhxnqkwm40r6q
+			  pubkey: '{"@type":"/cosmos.crypto.secp256k1.PubKey","key":"AroLdlWXWlNNmM9wRla5N1O8/S9hiC1YLQPOr6qY/hdM"}'
+			  mnemonic: ""
+
+
+			**Important** write this mnemonic phrase in a safe place.
+			It is the only way to recover your account if you ever forget your password.
+
+			nephew relief myth army return truck tragic february ridge tide wing fashion market fee broken goose palm sport trick swing around hint clip piece
+		
+	## Delete new account]
+	chain1d keys delete hien-key1 
+
+    ## Recover
+	chain1d keys add hien-key1  --recover
+	
+	## Key list
+	chain1d keys list
+	hain1d keys list --keyring-backend=test --home=$HOME/.chain1/node
+	
+	## Show address
+	chain1d keys show hien-key1 -a
+	
+	## Show public key
+	chain1d keys show hien-key1 -p
+	chain1d keys show hien-key2 --keyring-backend=test --home=$HOME/.chain1/node0 -a
+		
+4/ Querry balance
+	chain1d q bank balances cosmos1axzhmsc6ftjql9uqdx9420ewzsfedxqj4zytyd --node tcp://0.0.0.0:26657
+			balances:
+			- amount: "10300000"
+			  denom: stake
+			pagination:
+			  next_key: null
+			  total: "0"
+
+	chain1d q bank balances cosmos143vg2vqpnsvp3753uxvlxxx9tvhxnqkwm40r6q --node tcp://0.0.0.0:26657
+			balances: []
+			pagination:
+			  next_key: null
+			  total: "0"
+
+5/ Send transaction
+	chain1d tx bank send cosmos1axzhmsc6ftjql9uqdx9420ewzsfedxqj4zytyd cosmos1yfynema3xs585lahu807z5uu8kp3vel4hpg600 1000000stake --chain-id chain1-hientest --node tcp://0.0.0.0:26657 --gas auto --fees 10stake -y --keyring-backend=test --home=$HOME/.chain1/node0

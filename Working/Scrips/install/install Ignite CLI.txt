@@ -1,0 +1,5 @@
+1/ Install + upgrade
+curl https://get.ignite.com/cli! | bash
+
+2/ Check version
+ignite version

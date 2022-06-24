@@ -1,0 +1,30 @@
+# Install
+sudo apt update
+sudo apt install xrdp
+
+# Start 
+sudo systemctl start xrdp
+
+# Enable
+sudo systemctl enable xrdp
+
+# Check status
+systemctl status xrdp
+
+# Open port
+sudo ufw allow from any to any port 3389 proto tcp
+
+# Install net tools
+sudo apt install net-tools
+
+# Check port ready 
+netstat -an | grep "LISTEN " | grep ":3389"
+
+# Stop fire wall
+sudo ufw disable
+
+
+
+
+WINDOW
+User Remote Desktop

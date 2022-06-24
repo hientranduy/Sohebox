@@ -3,10 +3,13 @@
 ###############################################################################
 ###                        Setup parameters/inputs                          ###
 ###############################################################################
-appName="sohebox-1.0.0.jar"
 
-ps -ef | grep $appName
+if ps aux | grep -q "[s]ohebox" ; then 
+   echo "============================ Sohebox service is stopping ============="
+   ps -ef | grep [s]ohebox
+   kill $(ps aux | grep '[s]ohebox' | awk '{print $2}')
+else 
+   echo "============================ Sohebox sevice is currently not active =="
+fi
 
-echo "============================ Stop sohebox =============================="
-ps -ef | grep $appName | awk '{print $2}' | xargs kill -9
-
+sleep 1

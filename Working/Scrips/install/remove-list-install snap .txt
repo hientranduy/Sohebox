@@ -1,0 +1,8 @@
+# List all install by snap
+sudo snap list
+
+# Install notepad++
+sudo snap install notepad-plus-plus
+
+# Remove notepad++
+sudo snap remove notepad-plus-plus

@@ -1,0 +1,16 @@
+Guide https://go.dev/doc/install
+
+1/ Download file
+
+2/ Run this command at Download folder with
+sudo rm -rf /usr/local/go && sudo tar -C /usr/local -xzf go1.18.3.linux-amd64.tar.gz
+
+3/ Add this line to 
+export PATH=$PATH:/usr/local/go/bin
+
+sudo nano -w /etc/profile
+sudo nano -w $HOME/.profile
+
+4/ Restart
+
+5/ go version

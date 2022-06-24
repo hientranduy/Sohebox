@@ -1,0 +1,11 @@
+# List all installed
+apt list --installed
+
+# Search app thunder
+dpkg --get-selections | grep thunder
+
+# Remove package, ther dependant packages  and  all local/config files
+sudo apt-get purge --auto-remove gnome-sudoku
+
+# Remove all thunderbird package
+sudo apt-get purge --auto-remove thunderbird*F

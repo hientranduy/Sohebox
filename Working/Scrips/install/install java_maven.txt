@@ -1,0 +1,46 @@
+# Install Java
+	sudo apt install default-jdk
+
+# Checkj java version
+	java -version
+
+# Checkj java compiler version
+	javac -version
+	
+	
+	
+# Install maven
+	sudo apt install maven
+	
+# Check maven version
+	mvn -version
+	
+		pache Maven 3.6.3
+		Maven home: /usr/share/maven
+		Java version: 11.0.15, vendor: Private Build, runtime: /usr/lib/jvm/java-11-openjdk-amd64
+		Default locale: en_US, platform encoding: UTF-8
+		OS name: "linux", version: "5.15.0-39-generic", arch: "amd64", family: "unix"
+
+# Download maven 	
+wget https://downloads.apache.org/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.tar.gz -P /tmp
+
+
+Extract
+tar -xvzf apache-maven-3.6.3-bin.tar.gz
+
+Copy to /opt/maven
+
+# Setup maven environement variables
+	sudo nano /etc/profile.d/maven.sh
+	
+	Add 4 lines
+		export JAVA_HOME=/usr/lib/jvm/default-java
+		export M2_HOME=/opt/maven
+		export MAVEN_HOME=/opt/maven
+		export PATH=${M2_HOME}/bin:${PATH}
+		
+# give permission
+sudo chmod +x /etc/profile.d/maven.sh
+
+# Load environement
+source /etc/profile.d/maven.sh		
