@@ -1,0 +1,51 @@
+<!-- Loading spinner -->
+<ngx-spinner *ngIf="isLoading">
+    <p class="loading">Loading ...</p>
+</ngx-spinner>
+
+<div class="finance-currency-container">
+    <div style="color: darkblue;margin-left: 10px;" *ngIf="currencyVCB">
+        <strong>
+            <i>*** Vietcombank ({{currencyVCB.dateTime}})</i>
+        </strong>
+    </div>
+    <div *ngIf="currencyVCB">
+        <ngx-datatable class="material" [rows]="currencyVCB.rates" [columnMode]="'force'" [headerHeight]="50"
+            rowHeight="auto" [limit]="30">
+            <!-- Currency Name -->
+            <ngx-datatable-column name="Mã NT" prop="currencyName" *ngIf="windownInnerWidth >= 600">
+                <ng-template let-value="value" ngx-datatable-cell-template>
+                    {{ value }}
+                </ng-template>
+            </ngx-datatable-column>
+
+            <!-- Currency Code -->
+            <ngx-datatable-column name="Tên ngoại tệ" prop="currencyCode">
+                <ng-template let-value="value" ngx-datatable-cell-template>
+                    {{ value }}
+                </ng-template>
+            </ngx-datatable-column>
+
+            <!-- Buy -->
+            <ngx-datatable-column name="Tiền mặt" prop="buy">
+                <ng-template let-value="value" ngx-datatable-cell-template>
+                    {{ value }}
+                </ng-template>
+            </ngx-datatable-column>
+
+            <!-- Transfer -->
+            <ngx-datatable-column name="Chuyển khoản" prop="transfer">
+                <ng-template let-value="value" ngx-datatable-cell-template>
+                    {{ value }}
+                </ng-template>
+            </ngx-datatable-column>
+
+            <!-- Sell -->
+            <ngx-datatable-column name="Bán" prop="sell">
+                <ng-template let-value="value" ngx-datatable-cell-template>
+                    {{ value }}
+                </ng-template>
+            </ngx-datatable-column>
+        </ngx-datatable>
+    </div>
+</div>

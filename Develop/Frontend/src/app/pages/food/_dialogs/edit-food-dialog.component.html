@@ -1,0 +1,112 @@
+<ngx-spinner *ngIf="isLoadingFoodAdd">
+    <p class="loading">Adding food ...</p>
+</ngx-spinner>
+
+<ngx-spinner *ngIf="isLoadingContent">
+    <p class="loading">Loading content ...</p>
+</ngx-spinner>
+
+<div class="modal-header">
+    <h4 class="modal-title">{{ title }}</h4>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="dismiss()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+<div class="modal-body">
+    <p><strong>{{ message }}</strong>
+        <strong><span class="text-danger">{{ messageError }}</span></strong></p>
+
+    <form class="food-form">
+
+        <!-- Field : Name -->
+        <mat-form-field class="field-full-width">
+            <input class="field-input-value" matInput readonly type="text" placeholder="Food name" [formControl]="nameFormControl" [errorStateMatcher]="matcher" [(ngModel)]="nameValue">
+            <mat-error *ngIf="nameFormControl.hasError('required')">
+                <strong>Required</strong>
+            </mat-error>
+            <mat-error *ngIf="nameFormControl.hasError('foodIsExisted')">
+                <strong>This food is existed</strong>
+            </mat-error>
+        </mat-form-field>
+
+        <!-- Field : Description -->
+        <mat-form-field class="field-full-width">
+            <input class="field-input-value" matInput type="text" placeholder="Description" [formControl]="descriptionFormControl" [errorStateMatcher]="matcher" [(ngModel)]="descriptionValue">
+            <mat-error *ngIf="descriptionFormControl.hasError('required')">
+                <strong>Required</strong>
+            </mat-error>
+        </mat-form-field>
+
+        <!-- Field : Location Note -->
+        <mat-form-field class="field-full-width">
+            <input class="field-input-value" matInput type="text" placeholder="Note for location" [formControl]="locationNoteFormControl" [errorStateMatcher]="matcher" [(ngModel)]="locationNoteValue">
+            <mat-error *ngIf="locationNoteFormControl.hasError('required')">
+                <strong>Required</strong>
+            </mat-error>
+        </mat-form-field>
+
+        <!-- Field : Type -->
+        <mat-form-field class="field-full-width">
+            <img *ngIf="food.type.iconUrl" class="img-responsive" src="assets/food/function/{{food.type.iconUrl}}" style="max-width: 1.4rem;">
+            <input class="field-input-value" matInput type="text" placeholder="Pick or type new food type" [matAutocomplete]="autoType" [formControl]="typeFormControl" [errorStateMatcher]="matcher" [(ngModel)]="typeValue">
+            <mat-error *ngIf="typeFormControl.hasError('required')">
+                <strong>Required</strong>
+            </mat-error>
+            <mat-autocomplete #autoType="matAutocomplete">
+                <mat-option (onSelectionChange)="onChangeFoodType(type)" *ngFor="let type of filteredTypes | async" [value]="type.typeCode">
+                    <img *ngIf="type.iconUrl" class="img-responsive" src="assets/food/function/{{type.iconUrl}}" style="max-width: 1.4rem;"> {{type.typeName}}
+                </mat-option>
+            </mat-autocomplete>
+        </mat-form-field>
+
+        <!-- Field : Category -->
+        <mat-form-field class="field-full-width">
+            <img *ngIf="food.category.iconUrl" class="img-responsive" src="assets/food/function/{{food.category.iconUrl}}" style="max-width: 1.4rem;">
+            <input class="field-input-value" matInput type="text" placeholder="Pick or type new category" [matAutocomplete]="autoCategory" [formControl]="categoryFormControl" [errorStateMatcher]="matcher" [(ngModel)]="categoryValue">
+            <mat-error *ngIf="categoryFormControl.hasError('required')">
+                <strong>Required</strong>
+            </mat-error>
+            <mat-autocomplete #autoCategory="matAutocomplete">
+                <mat-option (onSelectionChange)="onChangeFoodCategory(category)" *ngFor="let category of filteredCategories | async" [value]="category.typeCode">
+                    <img *ngIf="category.iconUrl" class="img-responsive" src="assets/food/function/{{category.iconUrl}}" style="max-width: 1.4rem;"> {{category.typeName}}
+                </mat-option>
+            </mat-autocomplete>
+        </mat-form-field>
+
+        <!-- Field : Is fast food -->
+        <div class="field-full-width">
+            <img *ngIf="isFastFoodValue == true" class="img-responsive" src="assets/food/function/isFastFood.jpg" style="max-width: 1.4rem;">
+            <img *ngIf="isFastFoodValue == false" class="img-responsive" src="assets/food/function/isNotFastFood.jpg" style="max-width: 1.4rem;">
+            <mat-label class="field-is-fast-food">Is fastfood? </mat-label>
+            <mat-checkbox class="amateur" color="primary" [checked]="isFastFoodValue" (change)="onChangeIsFastFood($event)"></mat-checkbox>
+        </div>
+
+        <!-- Field : Recipe -->
+        <mat-form-field class="field-full-width">
+            <textarea class="field-input-value" matInput rows="5" cols="40" placeholder="Recipe" [formControl]="recipeFormControl" [errorStateMatcher]="matcher" [(ngModel)]="recipeValue"></textarea>
+            <mat-error *ngIf="recipeFormControl.hasError('required')">
+                <strong>Required</strong>
+            </mat-error>
+        </mat-form-field>
+
+        <!-- Field : Url refference -->
+        <mat-form-field class="field-full-width">
+            <input class="field-input-value" matInput type="text" placeholder="URL Refference" [formControl]="urlReferenceFormControl" [errorStateMatcher]="matcher" [(ngModel)]="urlReferenceValue">
+            <mat-error *ngIf="urlReferenceFormControl.hasError('required')">
+                <strong>Required</strong>
+            </mat-error>
+        </mat-form-field>
+
+        <!-- Field : image -->
+        <input #file type="file" accept='image/*' (change)="preview(file.files)" />
+        <img [src]="imageFile" height="300" *ngIf="imageFile">
+        <img class="img-responsive" src="assets/food/image/{{food.imageName}}" class="icon_image" *ngIf="!imageFile">
+
+    </form>
+</div>
+
+<div class="modal-footer">
+    <button type="button" class="btn btn-danger" (click)="decline()" ngbAutofocus>{{ btnCancelText }} </button>
+    <button type="button" class="btn btn-primary" (click)="accept()">{{ btnOkText }}</button>
+</div>

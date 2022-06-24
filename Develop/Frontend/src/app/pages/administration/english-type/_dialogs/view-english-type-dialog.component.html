@@ -1,0 +1,63 @@
+<div class="modal-header">
+  <h4 class="modal-title">{{ title }}</h4>
+  <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="dismiss()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<div class="modal-body">
+  <p><strong>{{ message }}</strong>
+    <strong><span class="text-danger">{{ messageError }}</span></strong></p>
+
+  <form class="main-form">
+    <!-- Field : Type Class -->
+    <mat-form-field class="field-full-width">
+      <input matInput readonly type="text" placeholder="Type Class" [formControl]="typeClassFormControl"
+        [errorStateMatcher]="matcher" [(ngModel)]="typeClass" style="color: rgba(128, 128, 128, 0.568);">
+      <mat-error *ngIf="typeClassFormControl.hasError('required')">
+        <strong>Required</strong>
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Field : Type Code -->
+    <mat-form-field class="field-full-width">
+      <input matInput readonly type="text" placeholder="Type Code" [formControl]="typeCodeFormControl"
+        [errorStateMatcher]="matcher" [(ngModel)]="typeCode" style="color: rgba(128, 128, 128, 0.568);">
+      <mat-error *ngIf="typeCodeFormControl.hasError('required')">
+        <strong>Required</strong>
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Field : Type Name -->
+    <mat-form-field class="field-full-width">
+      <input matInput readonly type="text" placeholder="Type Name" [formControl]="typeNameFormControl"
+        [errorStateMatcher]="matcher" [(ngModel)]="typeName" style="color: rgba(128, 128, 128, 0.568);">
+      <mat-error *ngIf="typeNameFormControl.hasError('required')">
+        <strong>Required</strong>
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Field : Description -->
+    <mat-form-field class="field-full-width">
+      <input matInput readonly type="text" placeholder="Description" [formControl]="descriptionFormControl"
+        [errorStateMatcher]="matcher" [(ngModel)]="description" style="color: rgba(128, 128, 128, 0.568);">
+      <mat-error *ngIf="descriptionFormControl.hasError('required')">
+        <strong>Required</strong>
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Field : Icon Url -->
+    <mat-form-field class="field-full-width" floatLabel="always">
+      <img *ngIf="item.iconUrl" class="img-responsive" src="assets/account/{{type.iconUrl}}" style="max-width: 1.4rem;">
+      <input matInput readonly type="text" placeholder="Icon URL" [formControl]="iconUrlFormControl"
+        [errorStateMatcher]="matcher" [(ngModel)]="iconUrl" style="color: rgba(128, 128, 128, 0.568);">
+      <mat-error *ngIf="iconUrlFormControl.hasError('required')">
+        <strong>Required</strong>
+      </mat-error>
+    </mat-form-field>
+  </form>
+</div>
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-danger" (click)="decline()" ngbAutofocus>{{ btnCancelText }} </button>
+</div>

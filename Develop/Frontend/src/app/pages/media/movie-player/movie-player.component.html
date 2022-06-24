@@ -1,0 +1,19 @@
+<div class="row nopadding" style="background-color: transparent;font-size: 0.9em;">
+    <div class="col-sm-12">
+        <!-- Youtube Channel -->
+        <mat-form-field style="width:78%">
+            <input matInput type="text" placeholder="Input movie URL to play" [(ngModel)]="movieUrlValue"
+                (blur)=processMovieUrl()>
+        </mat-form-field>
+
+        &nbsp;
+
+        <!-- OK Button-->
+        <button style="width:16%" class="media-ok-button">
+            <strong>OK</strong>
+        </button>
+    </div>
+</div>
+
+<video width="100%" height="auto" [src]="movieUrlValuePlay" controls loop autoplay preload>
+</video>

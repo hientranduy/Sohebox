@@ -1,0 +1,19 @@
+.video-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.video-card {
+    max-height: 375px;
+    margin: 0px 0px 10px 10px;
+    cursor: pointer;
+    box-shadow: 0 0 15px rgba(27, 23, 27, 0.7);
+    border-radius: 10px;
+    background: white;
+}
+
+.card-body-video {
+    color: red;
+    text-align: right;
+    position: absolute;
+}

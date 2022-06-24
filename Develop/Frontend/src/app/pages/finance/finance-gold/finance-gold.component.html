@@ -1,0 +1,82 @@
+<!-- Loading spinner -->
+<ngx-spinner *ngIf="isLoading">
+    <p class="loading">Loading ...</p>
+</ngx-spinner>
+
+<div class="finance-gold-container">
+    <!-- Global gold chart -->
+    <div style="color: darkblue;margin-left: 10px;">
+        <strong>
+            <i>*** Unit: USD/Ounce (0.75 Tael)</i>
+        </strong>
+    </div>
+    <div class="row nopadding">
+        <div class="col-sm-12 nopadding">
+            <img src="https://www.kitco.com/images/live/gold.gif" class="kitco-gold-chart-img">
+        </div>
+    </div>
+
+    <!-- SJC Gold table -->
+    <div style="color: darkblue;margin-left: 10px;" *ngIf="goldSjc">
+        <strong>
+            <i>*** Vàng SJC ({{goldSjc.updated}})</i>
+        </strong>
+    </div>
+    <div class="row nopadding" *ngIf="goldSjc">
+        <div class="col-sm-12 nopadding">
+            <ngx-datatable class="material" [rows]="goldSjc.city[0].items" [columnMode]="'flex'" [headerHeight]="50"
+                rowHeight="auto" [limit]="20">
+                <!-- Type -->
+                <ngx-datatable-column name="Type" prop="type" [flexGrow]="3">
+                    <ng-template let-value="value" ngx-datatable-cell-template>
+                        {{ value }}
+                    </ng-template>
+                </ngx-datatable-column>
+
+                <!-- Buy -->
+                <ngx-datatable-column name="Buy" prop="buy" [flexGrow]="1">
+                    <ng-template let-value="value" ngx-datatable-cell-template>
+                        {{ value }}
+                    </ng-template>
+                </ngx-datatable-column>
+
+                <!-- Sell -->
+                <ngx-datatable-column name="Sell" prop="sell" [flexGrow]="1">
+                    <ng-template let-value="value" ngx-datatable-cell-template>
+                        {{ value }}
+                    </ng-template>
+                </ngx-datatable-column>
+            </ngx-datatable>
+        </div>
+    </div>
+
+    <div class="row nopadding">
+        <div class="col-sm-6 nopadding">
+            <img src="https://www.kitco.com/LFgif/au0030lns.gif" class="kitco-gold-chart-img">
+        </div>
+
+        <div class="col-sm-6 nopadding">
+            <img src="https://www.kitco.com/LFgif/au0060lns.gif" class="kitco-gold-chart-img">
+        </div>
+    </div>
+
+    <div class="row nopadding">
+        <div class="col-sm-6 nopadding">
+            <img src="https://www.kitco.com/LFgif/au0182nys.gif" class="kitco-gold-chart-img">
+        </div>
+
+        <div class="col-sm-6 nopadding">
+            <img src="https://www.kitco.com/LFgif/au0365nys.gif" class="kitco-gold-chart-img">
+        </div>
+    </div>
+
+    <div class="row nopadding">
+        <div class="col-sm-6 nopadding">
+            <img src="https://www.kitco.com/LFgif/au1825nys.gif" class="kitco-gold-chart-img">
+        </div>
+
+        <div class="col-sm-6 nopadding">
+            <img src="https://www.kitco.com/LFgif/au3650nys.gif" class="kitco-gold-chart-img">
+        </div>
+    </div>
+</div>

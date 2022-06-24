@@ -1,0 +1,7 @@
+<ngx-spinner *ngIf="isLoadingFood">
+    <p class="loading">Loading food ...</p>
+</ngx-spinner>
+
+<div class="food-container">
+    <app-food-item *ngFor="let foodItem of foods" [food]="foodItem"></app-food-item>
+</div>

@@ -1,0 +1,48 @@
+﻿<!-- Header -->
+<mat-toolbar color="primary" class="main-toolbar-edit" *ngIf="isShowMainToolbar==true">
+    <mat-toolbar-row>
+        <!-- Side nav icon hambuger  -->
+        <button mat-button (click)="onToggleSidenav()" *ngIf="currentUser">
+            <mat-icon>menu</mat-icon>
+        </button>
+
+        <!--Icon home -->
+        <button mat-button routerLink="/">
+            <mat-icon>home</mat-icon>
+        </button>
+
+        <!-- Add spaces   -->
+        <span class="toolbar-spacer-style"></span>
+
+        <!--Icon login -->
+        <button mat-button [matMenuTriggerFor]="menuUser" *ngIf="!currentUser">
+            <mat-icon>account_box</mat-icon>
+            <strong>Account</strong>
+            <mat-menu #menuUser="matMenu">
+                <button mat-menu-item routerLink="/login">Login</button>
+                <button mat-menu-item routerLink="/register">Register</button>
+                <button mat-menu-item routerLink="/changePassword">Change Password</button>
+            </mat-menu>
+        </button>
+
+        <!--Icon help -->
+        <button mat-button (click)="openHelpGuest()">
+            <mat-icon>help</mat-icon>
+            <strong> Help</strong>
+        </button>
+    </mat-toolbar-row>
+</mat-toolbar>
+
+<!-- Body -->
+<mat-sidenav-container class="main-sidenav-container-edit">
+    <!-- Side nav  -->
+    <mat-sidenav #sidenav mode="side" *ngIf="currentUser" class="main-sidenav-edit">
+        <app-user-slide-bar></app-user-slide-bar>
+    </mat-sidenav>
+
+    <!-- Main app content -->
+    <mat-sidenav-content>
+        <app-alert></app-alert>
+        <router-outlet></router-outlet>
+    </mat-sidenav-content>
+</mat-sidenav-container>

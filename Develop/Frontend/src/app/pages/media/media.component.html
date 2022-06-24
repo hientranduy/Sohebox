@@ -1,0 +1,23 @@
+<mat-toolbar class="mat-toolbar-style">
+    <mat-toolbar-row>
+        <button mat-button class="toolbar-button-style" (click)="selectYoutubeChannel()">
+            <img style="width: 50px;" src="assets/media/icon-youtube.png">
+            <strong> Channel</strong>
+        </button>
+
+        <button mat-button class="toolbar-button-style" (click)="selectMediaPlayer()">
+            <img style="width: 32px;" src="assets/media/icon-media.png">
+            <strong>Player</strong>
+        </button>
+
+        <button mat-button class="toolbar-button-style" (click)="selectPhimMoiPlayer()"
+            *ngIf="this.utilsService.isAdmin">
+            <img style="width: 30px;" src="assets/media/icon-phimmoi.png">
+            <strong> Phimmoi</strong>
+        </button>
+    </mat-toolbar-row>
+</mat-toolbar>
+
+<app-youtube-channel *ngIf="isYoutubeChannelOpen"></app-youtube-channel>
+<app-movie-player *ngIf="isMediaPlayerOpen"></app-movie-player>
+<app-phimmoi-player *ngIf="isPhimMoiPlayerOpen"></app-phimmoi-player>

@@ -1,0 +1,134 @@
+<div class="administration-container">
+  <mat-toolbar>
+
+    <mat-toolbar-row *ngIf="windownInnerWidth >= 550">
+      <!-- Back to home  -->
+      <button mat-button class="toolbar-button-style" routerLink="/">
+        <mat-icon>subdirectory_arrow_left</mat-icon>
+        <strong>Back</strong>
+      </button>
+
+      <!-- User control  -->
+      <button mat-button class="toolbar-button-style" [matMenuTriggerFor]="menuUser">
+        <mat-icon>accessibility</mat-icon>
+        <strong>User</strong>
+        <mat-menu #menuUser="matMenu">
+          <button mat-menu-item (click)="selectUserList()">User List</button>
+        </mat-menu>
+      </button>
+
+      <!-- Setting control  -->
+      <button mat-button class="toolbar-button-style" [matMenuTriggerFor]="menuSetting">
+        <mat-icon>settings</mat-icon>
+        <strong>Setting</strong>
+        <mat-menu #menuSetting="matMenu">
+          <button mat-menu-item (click)="selectSettingConfig()">Configuration</button>
+          <button mat-menu-item (click)="selectSettingType()">Type</button>
+        </mat-menu>
+      </button>
+
+      <!-- English Config  -->
+      <button mat-button class="toolbar-button-style" [matMenuTriggerFor]="menuEnglish">
+        <mat-icon>school</mat-icon>
+        <strong> English</strong>
+        <mat-menu #menuEnglish="matMenu">
+          <button mat-menu-item (click)="selectEnglishConfig()">Configuration</button>
+          <button mat-menu-item (click)="selectEnglishType()">Type</button>
+          <button mat-menu-item (click)="selectEnglishUserReport()">User Report</button>
+        </mat-menu>
+      </button>
+
+      <!-- Food Config  -->
+      <button mat-button class="toolbar-button-style" [matMenuTriggerFor]="menuFood">
+        <mat-icon>fastfood</mat-icon>
+        <strong>Food</strong>
+        <mat-menu #menuFood="matMenu">
+          <button mat-menu-item (click)="selectFoodConfig()">Configuration</button>
+          <button mat-menu-item (click)="selectFoodType()">Type</button>
+        </mat-menu>
+      </button>
+
+      <!-- Media Config  -->
+      <button mat-button class="toolbar-button-style" [matMenuTriggerFor]="menuMedia">
+        <mat-icon>movie</mat-icon>
+        <strong>Media</strong>
+        <mat-menu #menuMedia="matMenu">
+          <button mat-menu-item (click)="selectYoutubeChannelConfig()">Youtube Channel</button>
+          <button mat-menu-item (click)="selectMediaType()">Type</button>
+        </mat-menu>
+      </button>
+    </mat-toolbar-row>
+
+    <mat-toolbar-row *ngIf="windownInnerWidth < 550">
+      <!-- User control  -->
+      <button mat-button class="toolbar-button-style" [matMenuTriggerFor]="menuUser">
+        <mat-icon>accessibility</mat-icon>
+        <mat-menu #menuUser="matMenu">
+          <button mat-menu-item (click)="selectUserList()">User List</button>
+        </mat-menu>
+      </button>
+
+      <!-- Add spaces   -->
+      <span class="toolbar-spacer-style"></span>
+
+      <!-- Data master control  -->
+      <button mat-button class="toolbar-button-style" [matMenuTriggerFor]="menuSetting">
+        <mat-icon>settings</mat-icon>
+        <mat-menu #menuSetting="matMenu">
+          <button mat-menu-item (click)="selectSettingConfig()">Configuration</button>
+          <button mat-menu-item (click)="selectSettingType()">Type</button>
+        </mat-menu>
+      </button>
+
+      <!-- Add spaces   -->
+      <span class="toolbar-spacer-style"></span>
+
+      <!-- English Config  -->
+      <button mat-button class="toolbar-button-style" [matMenuTriggerFor]="menuEnglish">
+        <mat-icon>school</mat-icon>
+        <mat-menu #menuEnglish="matMenu">
+          <button mat-menu-item (click)="selectEnglishConfig()">Configuration</button>
+          <button mat-menu-item (click)="selectEnglishType()">Type</button>
+          <button mat-menu-item (click)="selectEnglishUserReport()">User Report</button>
+        </mat-menu>
+      </button>
+
+      <!-- Add spaces   -->
+      <span class="toolbar-spacer-style"></span>
+
+      <!-- Food Config  -->
+      <button mat-button class="toolbar-button-style" [matMenuTriggerFor]="menuFood">
+        <mat-icon>fastfood</mat-icon>
+        <mat-menu #menuFood="matMenu">
+          <button mat-menu-item (click)="selectFoodConfig()">Configuration</button>
+          <button mat-menu-item (click)="selectFoodType()">Type</button>
+        </mat-menu>
+      </button>
+
+      <!-- Add spaces   -->
+      <span class="toolbar-spacer-style"></span>
+
+      <!-- Media Config  -->
+      <button mat-button class="toolbar-button-style" [matMenuTriggerFor]="menuMedia">
+        <mat-icon>movie</mat-icon>
+        <mat-menu #menuMedia="matMenu">
+          <button mat-menu-item (click)="selectYoutubeChannelConfig()">Youtube Channel</button>
+          <button mat-menu-item (click)="selectMediaType()">Type</button>
+        </mat-menu>
+      </button>
+    </mat-toolbar-row>
+
+  </mat-toolbar>
+
+  <app-user-control *ngIf="isUserControlOpen"></app-user-control>
+  <app-setting-config *ngIf="isSettingConfigOpen"></app-setting-config>
+  <app-setting-type *ngIf="isSettingTypeOpen"></app-setting-type>
+  <app-english-config *ngIf="isEnglishConfigOpen"></app-english-config>
+  <app-english-type *ngIf="isEnglishTypeOpen"></app-english-type>
+  <app-english-user-report *ngIf="isEnglishUserReportOpen"></app-english-user-report>
+  <app-food-config *ngIf="isFoodConfigOpen"></app-food-config>
+  <app-food-type *ngIf="isFoodTypeOpen"></app-food-type>
+  <app-youtube-channel-config *ngIf="isYoutubeChannelConfigOpen"></app-youtube-channel-config>
+  <app-media-type *ngIf="isMediaTypeOpen"></app-media-type>
+</div>
+

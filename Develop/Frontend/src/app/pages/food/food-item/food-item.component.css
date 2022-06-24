@@ -1,0 +1,16 @@
+.food-item-container {
+    margin: 0px 0px 0px 10px;
+    cursor: pointer;
+    box-shadow: 0 0 15px rgba(27, 23, 27, 0.7);
+    border-radius: 10px;
+    background: white;
+}
+
+.food-body-container {
+    text-align: center;
+    text-transform: capitalize;
+    background-color: wheat;
+    color: black;
+    border-radius: 0px 0px 10px 10px;
+    opacity: 0.8;
+}

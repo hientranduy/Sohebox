@@ -1,0 +1,47 @@
+﻿<ngx-spinner *ngIf="isLoadingLogin">
+    <p class="loading">Loging account ...</p>
+</ngx-spinner>
+
+<div class="row">
+    <div class="col"></div>
+    <div class="col-sm-6">
+        <!-- Image -->
+        <img class="img-responsive" src="assets/common/welcome_image.png" class="welcome__image">
+        <br>
+        <br>
+        <h2>Login</h2>
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" [(ngModel)]="accountDisplay" formControlName="username" class="form-control"
+                    [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
+                <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+                    <div *ngIf="f.username.errors.required">Username is required</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" [(ngModel)]="passwordDisplay" formControlName="password" class="form-control"
+                    [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+                <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                    <div *ngIf="f.password.errors.required">Password is required</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-primary">Login</button>
+                <a routerLink="/" class="btn btn-link">Cancel</a>
+            </div>
+        </form>
+
+        <br>
+        <div (click)="fillVisitorAccount()"
+            style="word-wrap: break-word;color:black;font-style:oblique;cursor: pointer">
+            <div style="font-size: 18px">*** Welcome Visitor ***</div>
+            <div style="font-size: 15px">
+                Let use account/pasword (
+                <font color=blue font-weight=bold>visitor/visitor</font>)
+            </div>
+        </div>
+    </div>
+    <div class="col"></div>
+</div>

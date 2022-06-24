@@ -1,0 +1,105 @@
+﻿<div class="function-container">
+    <mat-card class="function-card" (click)="openAdminApplication()" *ngIf="this.utilsService.isAdmin">
+        <mat-card-header>
+            <div mat-card-avatar class="administration-avatar-image"></div>
+            <mat-card-title>Administration</mat-card-title>
+            <mat-card-subtitle>Admin control</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+            <p>User Activity</p>
+            <p>System settings</p>
+            <p>System configurations</p>
+        </mat-card-content>
+    </mat-card>
+
+    <mat-card class="function-card" (click)="openAccountApplication()" *ngIf="currentUser">
+        <mat-card-header>
+            <div mat-card-avatar class="account-avatar-image"></div>
+            <mat-card-title>Account</mat-card-title>
+            <mat-card-subtitle>Keep and save safety</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+            <p>Any account type</p>
+            <p>Encryp password by BCrypt</p>
+        </mat-card-content>
+        <mat-card-actions>
+        </mat-card-actions>
+    </mat-card>
+
+    <mat-card class="function-card" (click)="openEnglishApplication()" *ngIf="currentUser">
+        <mat-card-header>
+            <div mat-card-avatar class="english-avatar-image"></div>
+            <mat-card-title>English</mat-card-title>
+            <mat-card-subtitle>Power by Cambridge Dictionary</mat-card-subtitle>
+        </mat-card-header>
+        <!-- <img mat-card-image src="/assets/home_function/ic_english.gif" alt="..."> -->
+        <mat-card-content>
+            <p>Learn by images</p>
+            <p>2 voices US/UK</p>
+            <p>More than 7 learning levels</p>
+            <p>Daily report for parent control</p>
+            <button mat-button (click)="navigateEnglishReport()" class="function-card-button">E-DASHBOARD</button>
+        </mat-card-content>
+    </mat-card>
+
+    <mat-card class="function-card" (click)="openFinanceApplication()">
+        <mat-card-header>
+            <div mat-card-avatar class="finance-avatar-image"></div>
+            <mat-card-title>Finance</mat-card-title>
+            <mat-card-subtitle>Realtime indicators</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+            <p>International & local gold price</p>
+            <p>Oil and gas price</p>
+            <p>Currency rates</p>
+            <p>Stock index</p>
+        </mat-card-content>
+        <mat-card-actions>
+        </mat-card-actions>
+    </mat-card>
+
+    <mat-card class="function-card" (click)="openCryptoApplication()">
+        <mat-card-header>
+            <div mat-card-avatar class="crypto-avatar-image"></div>
+            <mat-card-title>Crypto</mat-card-title>
+            <mat-card-subtitle>Porfolio management</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+            <p>Porfolio</p>
+            <p>Price</p>
+            <p>Monitor</p>
+        </mat-card-content>
+        <mat-card-actions>
+        </mat-card-actions>
+    </mat-card>
+
+    <mat-card class="function-card" (click)="openMediaApplication()">
+        <mat-card-header>
+            <div mat-card-avatar class="media-avatar-image"></div>
+            <mat-card-title>Media</mat-card-title>
+            <mat-card-subtitle>Your entertainment</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+            <p>Youtube channel</p>
+            <p>Movie player</p>
+            <p>Others</p>
+        </mat-card-content>
+        <mat-card-actions>
+        </mat-card-actions>
+    </mat-card>
+
+    <mat-card class="function-card" (click)="openFoodApplication()">
+        <mat-card-header>
+            <div mat-card-avatar class="food-avatar-image"></div>
+            <mat-card-title>Food</mat-card-title>
+            <mat-card-subtitle>Collection of foods</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+            <p>Food characteristics </p>
+            <p>Materials</p>
+            <p>Recommend good brand</p>
+        </mat-card-content>
+        <mat-card-actions>
+        </mat-card-actions>
+    </mat-card>
+</div>

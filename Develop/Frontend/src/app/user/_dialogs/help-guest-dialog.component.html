@@ -1,0 +1,18 @@
+<div class="modal-header">
+  <h4 class="modal-title">
+    <font color="blue">Sohebox.com</font>
+    <mat-icon>help</mat-icon>
+  </h4>
+</div>
+
+<div class="modal-body">
+  <p><strong>{{ helpTitle }}</strong></p>
+
+  <pre style="white-space: pre-line;font-family: 'Roboto', sans-serif">
+    <p>{{ helpContent }}</p>
+  </pre>
+</div>
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-danger" (click)="decline()" ngbAutofocus>{{ btnCancelText }} </button>
+</div>

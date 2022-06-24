@@ -1,0 +1,93 @@
+@import "@angular/material/prebuilt-themes/indigo-pink.css";
+@import '~@swimlane/ngx-datatable/index.css';
+@import '~@swimlane/ngx-datatable/assets/icons.css';
+@import '~@swimlane/ngx-datatable/themes/material.css';
+
+/* Mat Autocomplete on Modal Fixes */
+.cdk-overlay-container {
+  z-index: 999999 !important;
+}
+
+/* Body html */
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  /* background-image: url(https://lh4.googleusercontent.com/-XplyTa1Za-I/VMSgIyAYkHI/AAAAAAAADxM/oL-rD6VP4ts/w1184-h666/Android-Lollipop-wallpapers-Google-Now-Wallpaper-2.png); */
+  background-image: url('/assets/background/Google-Now.png');
+  background-position: top;
+  background-size: cover;
+  background-repeat: inherit;
+  min-height: 100vh;
+  font-family: 'Roboto', sans-serif;
+}
+
+/* -------------------------------------------- */
+/* -------------------------------------------- */
+/* -------------------------------------------- */
+/* --------- */
+/* mat table */
+/* --------- */
+/* Filter table data */
+.mat-table-paginator-style {
+  background-color: transparent;
+}
+
+/* Toolbar */
+.mat-toolbar-style {
+  background-color: transparent;
+  color: white;
+  font-size: 0.75em
+}
+
+/* Toolbar Spacer */
+.toolbar-spacer-style {
+  flex: 1 1 auto;
+}
+
+/* Toolbar Button */
+.toolbar-button-style {
+  min-width: 45px;
+  padding: 0 15px;
+}
+
+/* Toolbar title */
+.toolbar-title-style {
+  letter-spacing: 0.1rem;
+  text-transform: uppercase;
+  font-size: 0.75em;
+  font-weight: bold;
+  color: blue;
+  justify-self: center;
+  align-self: center;
+  text-align: center;
+}
+
+/* ngx database header column */
+.ngx-datatable.material .datatable-header .datatable-header-cell {
+  font-weight: bold;
+  color: white;
+  background-color: rgb(61, 102, 236)
+}
+
+/* Hide placeholder when select fron drop down list */
+.mat-focused .placeholder {
+  color: transparent;
+}
+
+.nopadding {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.padding-left {
+  padding-left: 5 !important;
+  padding-right: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  margin: 0 !important;
+}

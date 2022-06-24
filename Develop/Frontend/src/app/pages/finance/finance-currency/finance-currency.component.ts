@@ -1,0 +1,80 @@
+import { Component, HostListener, OnInit } from '@angular/core';
+import { AlertService } from '@app/_common/alert';
+import { ApiReponse } from '@app/_common/_models';
+import { SpinnerService } from '@app/_common/_services';
+import { CurrencyVietcombank } from '../_models';
+import { FinanceService } from '../_services';
+
+@Component({
+  selector: 'app-finance-currency',
+  templateUrl: './finance-currency.component.html',
+  styleUrls: ['./finance-currency.component.css']
+})
+export class FinanceCurrencyComponent implements OnInit {
+  isLoading: Boolean = false;
+  currencyVCB: CurrencyVietcombank;
+
+  // Width change
+  windownInnerWidth = window.innerWidth;
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    this.windownInnerWidth = window.innerWidth;
+  }
+  @HostListener('window:orientationchange', ['$event'])
+  onOrientationChange(event) {
+    this.windownInnerWidth = window.innerWidth;
+  }
+
+  constructor(
+    private spinner: SpinnerService,
+    private financeService: FinanceService,
+    private alertService: AlertService
+  ) { }
+
+  ngOnInit(): void {
+    this.loadCurrencyVcb();
+  }
+
+  /**
+   * Load currency VCB
+   */
+  public loadCurrencyVcb() {
+    // Show loading
+    this.spinner.show();
+    this.isLoading = false;
+
+    // Get list
+    this.financeService.getCurrencyVcbRate()
+      .subscribe(data => {
+        // Get data
+        const responseAPi: any = data;
+        const typeResponse: ApiReponse<CurrencyVietcombank> = responseAPi;
+        if (typeResponse.data != null) {
+          this.currencyVCB = typeResponse.data.elements[0];
+        } else {
+          this.currencyVCB = null;
+        }
+
+        // Hide loading
+        this.spinner.hide();
+        this.isLoading = false;
+
+      }, error => {
+        this.processError(error);
+      });
+  }
+
+  ///////////////////
+  // GENERAL CHECK //
+  ///////////////////
+  /**
+   * Process error in case have error call API
+   */
+  public processError(error: any) {
+    // Hide loading
+    this.spinner.hide();
+    this.isLoading = false;
+
+    this.alertService.error(error);
+  }
+}

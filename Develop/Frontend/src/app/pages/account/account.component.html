@@ -1,0 +1,108 @@
+<ngx-spinner *ngIf="isLoading">
+    <p class="loading">Loading page ...</p>
+</ngx-spinner>
+
+<div class="account-container">
+    <mat-toolbar class="mat-toolbar-style">
+        <!-- 1st toolbar row -->
+        <mat-toolbar-row>
+
+            <!-- Add -->
+            <button mat-button class="toolbar-button-style" (click)="add()">
+                <mat-icon>add</mat-icon>
+                <strong>New</strong>
+            </button>
+
+            <!-- Add spaces   -->
+            <span class="toolbar-spacer-style"></span>
+
+            <h1 class="toolbar-title-style" fxHide.xs>LIST ACCOUNT</h1>
+
+            <!-- Add spaces   -->
+            <span class="toolbar-spacer-style"></span>
+
+            <!-- Refresh -->
+            <button mat-button class="toolbar-button-style" (click)="refresh()">
+                <mat-icon>refresh</mat-icon>
+                <strong>Refresh</strong>
+            </button>
+        </mat-toolbar-row>
+    </mat-toolbar>
+
+    <!-- Table data -->
+    <input matInput class="page-input-filter" (keyup)="onFilter($event)" placeholder="Type to search value...">
+
+    <mat-paginator class="mat-table-paginator-style" [length]="pageResult.totalElement" [pageIndex]="pageResult.currentPage"
+        [pageSize]="pageResult.pageSize" [pageSizeOptions]="[5, 10, 20, 50]" (page)="handlePaginatorEvent($event)"
+        showFirstLastButtons>
+    </mat-paginator>
+
+    <ngx-datatable class="material" [rows]="pageResult.elements" [columnMode]="'force'" [headerHeight]="50"
+        [footerHeight]="50" rowHeight="auto" [externalPaging]="true" [externalSorting]="true"
+        [count]="pageResult.totalElement" [offset]="pageResult.currentPage" [limit]="pageResult.pageSize"
+        (page)="setPage($event)" (sort)="onSort($event)">
+
+        <!-- User Owner -->
+        <ngx-datatable-column name="Owner" prop="user" *ngIf="this.utilsService.isAdmin">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                {{row.user.username}}
+            </ng-template>
+        </ngx-datatable-column>
+
+        <!-- Account Type -->
+        <ngx-datatable-column name="Type" prop="accountType">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <img class="img-responsive" src="assets/account/{{row.accountType.iconUrl}}" class="icon__image">
+                {{row.accountType.typeCode}}
+            </ng-template>
+        </ngx-datatable-column>
+
+        <!-- Account Name -->
+        <ngx-datatable-column name="Account" prop="accountName">
+            <ng-template let-value="value" ngx-datatable-cell-template>
+                {{ value }}
+            </ng-template>
+        </ngx-datatable-column>
+
+        <!-- Password -->
+        <ngx-datatable-column name="Password" prop="mdp">
+            <ng-template let-value="value" ngx-datatable-cell-template>
+                {{ value }}
+            </ng-template>
+        </ngx-datatable-column>
+
+        <!-- Notes -->
+        <ngx-datatable-column name="Notes" prop="note" *ngIf="windownInnerWidth >= 600">
+            <ng-template let-value="value" ngx-datatable-cell-template>
+                {{ value }}
+            </ng-template>
+        </ngx-datatable-column>
+
+        <!-- Edit -->
+        <ngx-datatable-column [sortable]="false">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <button mat-button [matMenuTriggerFor]="menuEdit">
+                    <mat-icon>drag_indicator</mat-icon>
+                </button>
+                <mat-menu #menuEdit="matMenu">
+                    <button mat-menu-item (click)="showPassword(row)" *ngIf="this.utilsService.isAdmin">
+                        Show password
+                        <mat-icon>remove_red_eye</mat-icon>
+                    </button>
+                    <button mat-menu-item (click)="viewDetailChoose(row)">Detail</button>
+                    <button mat-menu-item (click)="editChoose(row)">Edit</button>
+                    <button mat-menu-item (click)="deleteChoose(row)">Delete</button>
+                    <button mat-menu-item (click)="openLoginUrl(row)">
+                        <mat-icon>language</mat-icon>Login
+                    </button>
+                    <button mat-menu-item (click)="openChangePassWord(row)">
+                        <mat-icon>language</mat-icon>Change Password
+                    </button>
+                    <button mat-menu-item (click)="openResetPassWord(row)">
+                        <mat-icon>language</mat-icon>Reset Password
+                    </button>
+                </mat-menu>
+            </ng-template>
+        </ngx-datatable-column>
+    </ngx-datatable>
+</div>

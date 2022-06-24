@@ -1,0 +1,42 @@
+<ngx-spinner *ngIf="isLoading">
+    <p class="loading">Loading page ...</p>
+</ngx-spinner>
+
+<button mat-button class="page-title-button">
+    ENGLISH USER REPORT
+</button>
+
+<br>
+<br>
+<ngx-datatable 
+    class="material" 
+    [rows]="pageResult.elements" 
+    [columnMode]="'force'" 
+    [headerHeight]="50"
+    [footerHeight]="50" 
+    rowHeight="auto" 
+    [limit]="10">
+
+    <!-- User name -->
+    <ngx-datatable-column name="Username" prop="user">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+            <div (click)="navigateEDashboard(row)" class="english-learn-report-info">
+                {{row.user.username}}
+            </div>
+        </ng-template>        
+    </ngx-datatable-column>
+
+    <!-- Learn Day -->
+    <ngx-datatable-column name="Last Learn Date" prop="learnedDate">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+            {{ value | date : "yyyy-MM-dd" }}
+        </ng-template>
+    </ngx-datatable-column>
+
+    <!-- Category -->
+    <ngx-datatable-column name="Total" prop="learnedTotal">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+            {{ value }}
+        </ng-template>
+    </ngx-datatable-column>
+</ngx-datatable>

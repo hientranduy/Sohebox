@@ -1,0 +1,13 @@
+.account-form {
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+}
+
+.field-full-width {
+  width: 100%;
+}
+
+.icon__image {
+  max-width: 1.4rem;
+}

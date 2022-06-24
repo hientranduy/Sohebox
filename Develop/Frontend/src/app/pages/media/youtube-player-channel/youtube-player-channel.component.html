@@ -1,0 +1,17 @@
+<!-- Loading spinner -->
+<ngx-spinner *ngIf="isLoading">
+    <p class="loading">Loading video list ...</p>
+</ngx-spinner>
+
+<youtube-player
+    width="{{videoWidth}}" 
+    height="{{videoHeight}}" 
+    videoId="{{videoId}}" 
+    frameborder="0" 
+    allowfullscreen
+    suggestedQuality="highres"
+    (stateChange)="onStateChangeEvent($event)"
+    (ready)="onStateReady($event)"
+    (error)="onErrorEvent($event)"
+    >
+</youtube-player>

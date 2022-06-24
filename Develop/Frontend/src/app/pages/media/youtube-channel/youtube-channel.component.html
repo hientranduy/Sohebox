@@ -1,0 +1,51 @@
+<!-- Loading spinner -->
+<ngx-spinner *ngIf="isLoading">
+    <p class="loading">Loading image ...</p>
+</ngx-spinner>
+
+<div class="row nopadding" style="background-color: transparent;font-size: 0.9em;">
+    <div class="col-sm-12">
+        <!-- Youtube Channel -->
+        <mat-form-field style="width:50%">
+            <input matInput [(ngModel)]="channelSelect" [formControl]="channelFormControl"
+                [matAutocomplete]="autoChannel">
+            <mat-placeholder *ngIf="this.channelFormControl.valid && !this.channelFormControl.value"
+                class="placeholder">Type or select your favourite
+                youtube channel</mat-placeholder>
+            <mat-autocomplete #autoChannel="matAutocomplete" [displayWith]="displayChannel">
+                <mat-option *ngFor="let channel of filteredChannels | async" [value]="channel" (onSelectionChange)="searchMovieByChannel(channel)">
+                    {{channel.name}}
+                </mat-option>
+            </mat-autocomplete>
+            <mat-error *ngIf="channelFormControl.hasError('incorrect')">
+                Please select a valid channel in the list
+            </mat-error>
+        </mat-form-field>
+
+        <!-- OK Button-->
+        <button mat-button style="width:10%" (click)="playMovieButton()">
+            <img style="width: 28px;" src="assets/media/icon-youtube-play-all.png">
+        </button>
+
+        <!-- ADD Button-->
+        <button mat-button style="width:10%" (click)="addPrivateVideo()" *ngIf="currentUser">
+            <img style="width: 26px;" src="assets/media/icon-youtube-add.png">
+        </button>
+    </div>
+</div>
+
+<div class="video-container">
+    <div *ngFor="let video of videos">
+        <div class="video-card" style="width: {{videoCardWidth}}">
+            <button mat-button *ngIf="isPrivateChannel==true" class="card-body-video" style="width: {{videoCardWidth}}">
+                <mat-icon (click)="onClickDelete(video)">tv_off</mat-icon>
+            </button>
+            <img [src]="video.thumbnailMediumtUrl" class="card-img-top" alt="..." (click)="onClickVideo(video)">
+            <div class="card-body" style="padding: 1px" (click)="onClickVideo(video)">
+                <div class="card-title text-center" style="color: blue;">
+                    {{video.title}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
