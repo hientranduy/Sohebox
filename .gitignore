@@ -7,4 +7,3 @@ Develop/Backend/src/main/resources/dataExternal/vcb.txt
 
 Deploy/Backend/run/
 Deploy/Backend/logs/
-Deploy/Backend/BOOT-INF/classes/application.properties

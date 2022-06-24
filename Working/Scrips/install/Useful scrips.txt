@@ -1,0 +1,7 @@
+# Change permission all file and folder 
+chmod -R 777 /usr/local/share/ca-certificates
+
+
+# Add certificates
+Move .cer to folder /usr/local/share/ca-certificates
+sudo update-ca-certificates
