@@ -53,4 +53,4 @@ mv $deployHome/$appName   $runHome
 echo "============================ Start new package ================================"
 $deployHome/start_service.sh
 
-$SHELL
+sleep 1
