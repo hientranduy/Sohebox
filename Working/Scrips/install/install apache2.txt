@@ -39,8 +39,11 @@ Create folder
 
 Copy source website to this folder
 
+
 # Give permission 
 sudo chmod -R 755 /var/www
+
+
 
 =================== Set up SSL ============================
 
