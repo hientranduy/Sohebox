@@ -4,10 +4,10 @@
 ###                        Setup parameters/inputs                          ###
 ###############################################################################
 soheboxHome="Repository/Sohebox"
-soheboxBackendHome="Develop/Backend"
-soheboxBuildHome="target"
+soheboxFrontendHome="Develop/Frontend"
 
-soheboxDeployHome="Deploy/Backend"
+
+soheboxDeployHome="Deploy/Frontend"
 appName="sohebox-1.0.0.jar"
 javaBinHome="/usr/lib/jvm/java-11-openjdk-amd64/bin"
 
@@ -25,35 +25,13 @@ command -p git pull origin master
 command -p git stash pop
 
 
-cd $soheboxBackendHome
+cd $soheboxFrontendHome
 echo "============================ Go to to backend home ======================"
 command -p pwd
 
 
 echo "============================ Build package =============================="
-command -p mvn clean package -Pjar
-
-
-cd 
-cd $soheboxHome
-cd $soheboxDeployHome
-echo "============================ Go to to deploy home ======================="
-command -p pwd
-
-
-echo "============================ Move package to deploy folder =============="
-mv $HOME/$soheboxHome/$soheboxBackendHome/$soheboxBuildHome/$appName .
-
-
-echo "============================ Update prd properties files ================"
-$javaBinHome/jar uf $appName BOOT-INF/classes
-
-
-echo "============================ Move package to run folder ================="
-mv $appName run/
-
-echo "============================ Start new package =========================="
-$HOME/$soheboxHome/$soheboxDeployHome/restart_service.sh
+ng build --configuration production
 
 
 $SHELL
