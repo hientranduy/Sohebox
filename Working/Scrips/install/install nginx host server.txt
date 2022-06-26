@@ -1,0 +1,70 @@
+# Install 
+sudo apt-get install nginx
+
+# create folder sohebox and give permission
+sudo chown -R $USER:$USER /var/www/sohebox
+sudo chmod -R 755 /var/www
+
+
+
+# Initial config
+sudo cp /etc/nginx/sites-available/default /etc/nginx/sites-available/sohebox
+
+# Edit config
+sudo nano /etc/nginx/sites-available/sohebox
+		server {
+			root /var/www/sohebox;
+			index index.html index.htm index.nginx-debian.html;
+			server_name sohebox.com www.sohebox.com;
+
+			location / {
+				try_files $uri $uri/ /index.html?$args;
+			}
+
+			listen [::]:443 ssl ipv6only=on; # managed by Certbot
+			listen 443 ssl; # managed by Certbot
+			ssl_certificate /etc/letsencrypt/live/sohebox.com/fullchain.pem; # managed by Certbot
+			ssl_certificate_key /etc/letsencrypt/live/sohebox.com/privkey.pem; # managed by Certbot
+			include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+			ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+		}
+
+		server {
+			if ($host = sohebox.com) {
+				return 301 https://$host$request_uri;
+			} # managed by Certbot
+
+			listen 80;
+			listen [::]:80;
+
+			server_name sohebox.com www.sohebox.com;
+			return 404; # managed by Certbot
+		}
+
+# Create symbolic link
+sudo ln -s /etc/nginx/sites-available/sohebox /etc/nginx/sites-enabled/
+
+# Restart
+sudo systemctl reload nginx
+sudo systemctl restart nginx
+
+# Check status
+sudo nginx -t
+
+
+# Install SSL Certificate
+sudo certbot --nginx -d sohebox.com -d www.sohebox.com.
+	/etc/letsencrypt/live/sohebox.com/fullchain.pem
+	/etc/letsencrypt/live/sohebox.com/privkey.pem		
+	This certificate expires on 2022-09-23.
+
+# Check SSL applied
+curl -i https://sohebox.com/foodx.com/food
+
+# Auto renew: 
+The certbot package we installed takes care of renewals by including a renew script to /etc/cron.d, which is managed by a systemctl service called certbot.timer. This script runs twice a day and will automatically renew any certificate that’s within thirty days of expiration.
+sudo systemctl status certbot.timer
+
+# Disable filewall
+sudo ufw disable
+
