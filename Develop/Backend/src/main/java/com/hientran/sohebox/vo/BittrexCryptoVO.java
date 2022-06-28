@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 /**
- * @author hientran
+ * @author hientran1
  */
 @JsonInclude(Include.NON_NULL)
 public class BittrexCryptoVO extends BaseVO {
