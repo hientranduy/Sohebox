@@ -5,8 +5,18 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.net.URL;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.X509Certificate;
 import java.util.Date;
 import java.util.List;
+
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -112,9 +122,12 @@ public class BaseService implements Serializable {
      * Refresh external file
      * 
      * @throws IOException
+     * @throws NoSuchAlgorithmException
+     * @throws KeyManagementException
      *
      */
-    protected void refreshExternalFile(String filePath) throws IOException {
+    protected void refreshExternalFile(String filePath)
+            throws IOException, KeyManagementException, NoSuchAlgorithmException {
 
         if (FileUtils.exist(filePath)) {
             // Check if the file is old
@@ -152,10 +165,46 @@ public class BaseService implements Serializable {
      *
      * @param filePath
      * @throws IOException
+     * @throws NoSuchAlgorithmException
+     * @throws KeyManagementException
      */
-    private void downloadUrlFile(String filePath) throws IOException {
+    private void downloadUrlFile(String filePath) throws IOException, NoSuchAlgorithmException, KeyManagementException {
 
-        // Get url
+        // ========================================================
+        // ==== REMOVE CHECKING CERTIFICATE WHEN DOWNLOAD DATA ====
+        // ========================================================
+        // Create a trust manager that does not validate certificate chains
+        final TrustManager[] trustAllCerts = new TrustManager[] { new X509TrustManager() {
+            @Override
+            public void checkClientTrusted(final X509Certificate[] chain, final String authType) {
+            }
+
+            @Override
+            public void checkServerTrusted(final X509Certificate[] chain, final String authType) {
+            }
+
+            @Override
+            public X509Certificate[] getAcceptedIssuers() {
+                return null;
+            }
+        } };
+
+        // Install the all-trusting trust manager
+        final SSLContext sslContext = SSLContext.getInstance("SSL");
+        sslContext.init(null, trustAllCerts, null);
+
+        // Create an ssl socket factory with our all-trusting manager
+        HttpsURLConnection.setDefaultSSLSocketFactory(sslContext.getSocketFactory());
+        HttpsURLConnection.setDefaultHostnameVerifier(new HostnameVerifier() {
+            public boolean verify(String urlHostName, SSLSession session) {
+                return true;
+            }
+        });
+
+        // ===============================
+        // ==== PROCESS DOWNLOAD DATA ====
+        // ===============================
+        // Prepare URL
         URL url = null;
         switch (new File(filePath).getName()) {
         case DataExternalConstants.REQUEST_DATA_FILE_NAME_VCB:

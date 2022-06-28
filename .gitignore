@@ -3,7 +3,7 @@ Develop/Backend/.project
 Develop/Backend/.settings/
 Develop/Backend/logs/
 Develop/Backend/target/
-Develop/Backend/src/main/resources/dataExternal/vcb.txt
+Develop/Backend/src/main/resources/dataExternal/
 
 Deploy/Backend/run/
 Deploy/Backend/logs/

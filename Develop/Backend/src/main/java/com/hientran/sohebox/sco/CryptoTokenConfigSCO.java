@@ -1,49 +1,28 @@
 package com.hientran.sohebox.sco;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 /**
- * 
- * Search condition
- *
  * @author hientran
  */
+@Data
+@EqualsAndHashCode(callSuper = true)
 public class CryptoTokenConfigSCO extends BaseSCO {
 
-	private static final long serialVersionUID = -68140570073293062L;
+    private static final long serialVersionUID = -68140570073293062L;
 
-	private SearchNumberVO id;
+    private SearchNumberVO id;
 
-	private SearchTextVO tokenCode;
+    private SearchTextVO tokenCode;
 
-	public CryptoTokenConfigSCO() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+    private SearchTextVO tokenName;
 
-	public CryptoTokenConfigSCO(SearchNumberVO id, SearchTextVO tokenCode) {
-		super();
-		this.id = id;
-		this.tokenCode = tokenCode;
-	}
+    private SearchTextVO iconUrl;
 
-	public SearchNumberVO getId() {
-		return id;
-	}
+    private SearchTextVO nodeUrl;
 
-	public void setId(SearchNumberVO id) {
-		this.id = id;
-	}
+    private SearchTextVO denom;
 
-	public SearchTextVO getTokenCode() {
-		return tokenCode;
-	}
-
-	public void setTokenCode(SearchTextVO tokenCode) {
-		this.tokenCode = tokenCode;
-	}
-
-	@Override
-	public String toString() {
-		return "CryptoTokenConfigSCO [id=" + id + ", tokenCode=" + tokenCode + "]";
-	}
-
+    private SearchTextVO addressPrefix;
 }

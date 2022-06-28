@@ -29,3 +29,9 @@ Technical:
 TODO
 - Check unique key AccountTbl
 - API SJC
+
+
+
+
+Entity/VO/SCO ==> Controler ==> Service     ==> Transformer 
+                                Repository  ==> Spec

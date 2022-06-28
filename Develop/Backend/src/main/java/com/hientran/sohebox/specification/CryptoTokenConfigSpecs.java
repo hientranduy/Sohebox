@@ -11,26 +11,40 @@ import com.hientran.sohebox.sco.CryptoTokenConfigSCO;
  * @author hientran
  */
 @Component
-@SuppressWarnings({ "unchecked", "rawtypes", "serial" })
-public class CryptoTokenConfigSpecs extends GenericSpecs {
-	public Specification<CryptoTokenConfigTbl> buildSpecification(CryptoTokenConfigSCO sco) {
-		// Declare result
-		Specification<CryptoTokenConfigTbl> specification = Specification.where(null);
+public class CryptoTokenConfigSpecs extends GenericSpecs<CryptoTokenConfigTbl> {
 
-		// Add criteria
-		if (sco != null) {
-			if (sco.getSearchOr() != null && sco.getSearchOr() == true) {
-				specification = specification.or(buildSearchNumber(CryptoTokenConfigTblEnum.id.name(), sco.getId()));
-				specification = specification
-						.or(buildSearchText(CryptoTokenConfigTblEnum.tokenCode.name(), sco.getTokenCode()));
-			} else {
-				specification = specification.and(buildSearchNumber(CryptoTokenConfigTblEnum.id.name(), sco.getId()));
-				specification = specification
-						.and(buildSearchText(CryptoTokenConfigTblEnum.tokenCode.name(), sco.getTokenCode()));
-			}
-		}
+    private static final long serialVersionUID = 1L;
 
-		// Return result
-		return specification;
-	}
+    public Specification<CryptoTokenConfigTbl> buildSpecification(CryptoTokenConfigSCO sco) {
+        // Declare result
+        Specification<CryptoTokenConfigTbl> specification = Specification.where(null);
+
+        // Add criteria
+        if (sco != null) {
+            if (sco.getSearchOr() != null && sco.getSearchOr() == true) {
+                specification = specification.or(buildSearchNumber(CryptoTokenConfigTblEnum.id.name(), sco.getId()));
+                specification = specification
+                        .or(buildSearchText(CryptoTokenConfigTblEnum.tokenCode.name(), sco.getTokenCode()));
+                specification = specification
+                        .or(buildSearchText(CryptoTokenConfigTblEnum.tokenName.name(), sco.getTokenName()));
+                specification = specification
+                        .or(buildSearchText(CryptoTokenConfigTblEnum.denom.name(), sco.getDenom()));
+                specification = specification
+                        .or(buildSearchText(CryptoTokenConfigTblEnum.addressPrefix.name(), sco.getAddressPrefix()));
+            } else {
+                specification = specification.and(buildSearchNumber(CryptoTokenConfigTblEnum.id.name(), sco.getId()));
+                specification = specification
+                        .and(buildSearchText(CryptoTokenConfigTblEnum.tokenCode.name(), sco.getTokenCode()));
+                specification = specification
+                        .and(buildSearchText(CryptoTokenConfigTblEnum.tokenName.name(), sco.getTokenName()));
+                specification = specification
+                        .and(buildSearchText(CryptoTokenConfigTblEnum.denom.name(), sco.getDenom()));
+                specification = specification
+                        .and(buildSearchText(CryptoTokenConfigTblEnum.addressPrefix.name(), sco.getAddressPrefix()));
+            }
+        }
+
+        // Return result
+        return specification;
+    }
 }

@@ -11,28 +11,38 @@ import com.hientran.sohebox.sco.CryptoPortfolioSCO;
  * @author hientran
  */
 @Component
-@SuppressWarnings({ "unchecked", "rawtypes", "serial" })
-public class CryptoPortfolioSpecs extends GenericSpecs {
-	public Specification<CryptoPortfolioTbl> buildSpecification(CryptoPortfolioSCO sco) {
-		// Declare result
-		Specification<CryptoPortfolioTbl> specification = Specification.where(null);
+public class CryptoPortfolioSpecs extends GenericSpecs<CryptoPortfolioTbl> {
 
-		// Add criteria
-		if (sco != null) {
-			if (sco.getSearchOr() != null && sco.getSearchOr() == true) {
-				specification = specification.or(buildSearchNumber(CryptoPortfolioTblEnum.id.name(), sco.getId()));
-				specification = specification.or(buildSearchNumber(CryptoPortfolioTblEnum.user.name(), sco.getUser()));
-				specification = specification
-						.or(buildSearchNumber(CryptoPortfolioTblEnum.token.name(), sco.getToken()));
-			} else {
-				specification = specification.and(buildSearchNumber(CryptoPortfolioTblEnum.id.name(), sco.getId()));
-				specification = specification.and(buildSearchNumber(CryptoPortfolioTblEnum.user.name(), sco.getUser()));
-				specification = specification
-						.and(buildSearchNumber(CryptoPortfolioTblEnum.token.name(), sco.getToken()));
-			}
-		}
+    private static final long serialVersionUID = 1L;
 
-		// Return result
-		return specification;
-	}
+    public Specification<CryptoPortfolioTbl> buildSpecification(CryptoPortfolioSCO sco) {
+        // Declare result
+        Specification<CryptoPortfolioTbl> specification = Specification.where(null);
+
+        // Add criteria
+        if (sco != null) {
+            if (sco.getSearchOr() != null && sco.getSearchOr() == true) {
+                specification = specification.or(buildSearchNumber(CryptoPortfolioTblEnum.id.name(), sco.getId()));
+                specification = specification.or(buildSearchNumber(CryptoPortfolioTblEnum.user.name(), sco.getUser()));
+                specification = specification
+                        .or(buildSearchNumber(CryptoPortfolioTblEnum.token.name(), sco.getToken()));
+                specification = specification
+                        .or(buildSearchText(CryptoPortfolioTblEnum.wallet.name(), sco.getWallet()));
+                specification = specification
+                        .or(buildSearchText(CryptoPortfolioTblEnum.starname.name(), sco.getStarname()));
+            } else {
+                specification = specification.and(buildSearchNumber(CryptoPortfolioTblEnum.id.name(), sco.getId()));
+                specification = specification.and(buildSearchNumber(CryptoPortfolioTblEnum.user.name(), sco.getUser()));
+                specification = specification
+                        .and(buildSearchNumber(CryptoPortfolioTblEnum.token.name(), sco.getToken()));
+                specification = specification
+                        .and(buildSearchText(CryptoPortfolioTblEnum.wallet.name(), sco.getWallet()));
+                specification = specification
+                        .and(buildSearchText(CryptoPortfolioTblEnum.starname.name(), sco.getStarname()));
+            }
+        }
+
+        // Return result
+        return specification;
+    }
 }

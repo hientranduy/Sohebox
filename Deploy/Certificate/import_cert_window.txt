@@ -1,0 +1,26 @@
+keytool -import -alias www.sjc.com.vn   -keystore "C:\Program Files\Java\jdk-11.0.15\lib\security\cacerts" -file "C:\Hien\svn_checkout\Sohebox\Deploy\Certificate\sjc20220628.cer"
+keytool -import -alias sjc20220628      -keystore "C:\Program Files\Java\jdk-11.0.15\lib\security\cacerts" -file "C:\Hien\svn_checkout\Sohebox\Deploy\Certificate\sjc20220628.cer"
+keytool -import -alias tradingeconomics -keystore "C:\Program Files\Java\jdk-11.0.15\lib\security\cacerts" -file "C:\Hien\svn_checkout\Sohebox\Deploy\Certificate\tradingeconomics.cer"
+keytool -import -alias vietcombank      -keystore "C:\Program Files\Java\jdk-11.0.15\lib\security\cacerts" -file "C:\Hien\svn_checkout\Sohebox\Deploy\Certificate\vietcombank.cer"
+keytool -import -alias www.sjc.com.vn   -keystore "C:\Program Files\Java\jdk-11.0.15\lib\security\cacerts" -file "C:\Hien\svn_checkout\Sohebox\Deploy\Certificate\googleapis.cer"
+
+
+
+# Find 
+keytool -list -v -keystore "C:\Program Files\Java\jdk-11.0.15\lib\security\cacerts" -storepass changeit | findstr "sjc"
+# Delete
+keytool -cacerts -delete -alias sjc20220628 -storepass changeit
+# Add
+keytool -import -alias www.sjc.com.vn   -keystore "C:\Program Files\Java\jdk-11.0.15\lib\security\cacerts" -file "C:\Hien\svn_checkout\Sohebox\Deploy\Certificate\www.sjc.com.vn.cer" -storepass changeit
+
+
+
+
+No subject alternative DNS name matching www.sjc.com.vn found
+
+
+
+
+
+
+

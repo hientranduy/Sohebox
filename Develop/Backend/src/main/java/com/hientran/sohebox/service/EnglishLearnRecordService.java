@@ -111,7 +111,7 @@ public class EnglishLearnRecordService extends BaseService {
                 if (DateUtils.isSameDay(tbl.getUpdatedDate(), new Date())) {
                     tbl.setLearnedToday(tbl.getLearnedToday() + 1);
                 } else {
-                    tbl.setLearnedToday(new Long(1));
+                    tbl.setLearnedToday(Long.valueOf(1));
                 }
 
                 tbl = englishLearnRecordRepository.save(tbl);
@@ -121,8 +121,8 @@ public class EnglishLearnRecordService extends BaseService {
                 tbl = new EnglishLearnRecordTbl();
                 tbl.setUser(userTbl);
                 tbl.setEnglish(englishTbl);
-                tbl.setRecordTimes(new Long(1));
-                tbl.setLearnedToday(new Long(1));
+                tbl.setRecordTimes(Long.valueOf(1));
+                tbl.setLearnedToday(Long.valueOf(1));
                 tbl = englishLearnRecordRepository.save(tbl);
             }
         }

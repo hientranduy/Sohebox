@@ -30,14 +30,12 @@ public class CryptoTokenConfigRestController extends BaseRestController {
     private CryptoTokenConfigService cryptoTokenConfigService;
 
     /**
-     * 
      * Add new
-     *
-     * @param vo
-     * @return
      */
     @PostMapping(ApiPublicConstants.API_CRYPTO_TOKEN_CONFIG)
-    public ResponseEntity<?> create(@Validated @RequestBody CryptoTokenConfigVO vo) {
+    public ResponseEntity<?> create(@Validated
+    @RequestBody
+    CryptoTokenConfigVO vo) {
         // Create Account
         APIResponse<?> result = cryptoTokenConfigService.create(vo);
 
@@ -47,14 +45,12 @@ public class CryptoTokenConfigRestController extends BaseRestController {
     }
 
     /**
-     * 
      * Update
-     *
-     * @param vo
-     * @return
      */
     @PutMapping(ApiPublicConstants.API_CRYPTO_TOKEN_CONFIG)
-    public ResponseEntity<?> update(@Validated @RequestBody CryptoTokenConfigVO vo) {
+    public ResponseEntity<?> update(@Validated
+    @RequestBody
+    CryptoTokenConfigVO vo) {
         APIResponse<?> result = cryptoTokenConfigService.update(vo);
 
         // Return
@@ -63,14 +59,11 @@ public class CryptoTokenConfigRestController extends BaseRestController {
     }
 
     /**
-     * 
      * Search
-     *
-     * @param sco
-     * @return
      */
     @PostMapping(ApiPublicConstants.API_CRYPTO_TOKEN_CONFIG + ApiPublicConstants.SEARCH)
-    public ResponseEntity<?> search(@RequestBody CryptoTokenConfigSCO sco) {
+    public ResponseEntity<?> search(@RequestBody
+    CryptoTokenConfigSCO sco) {
         // Search
         APIResponse<?> result = cryptoTokenConfigService.search(sco);
 
@@ -81,14 +74,11 @@ public class CryptoTokenConfigRestController extends BaseRestController {
     }
 
     /**
-     * 
      * Get by ID
-     *
-     * @param id
-     * @return
      */
     @GetMapping(ApiPublicConstants.API_CRYPTO_TOKEN_CONFIG + ApiPublicConstants.ID)
-    public ResponseEntity<?> getById(@PathVariable(value = "id") Long id) {
+    public ResponseEntity<?> getById(@PathVariable(value = "id")
+    Long id) {
         // Delete
         APIResponse<?> result = cryptoTokenConfigService.getById(id);
 

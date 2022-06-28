@@ -1,7 +1,6 @@
 package com.hientran.sohebox.service;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,7 +48,7 @@ public class DataExternalService extends BaseService {
         // Check and update file
         try {
             refreshExternalFile(filePath);
-        } catch (IOException e) {
+        } catch (Exception e) {
             result = new APIResponse<Object>(HttpStatus.BAD_REQUEST,
                     buildMessage(MessageConstants.ERROR_EXCEPTION, new String[] { e.getMessage() }));
         }
@@ -123,7 +122,7 @@ public class DataExternalService extends BaseService {
         // Check and update file
         try {
             refreshExternalFile(filePath);
-        } catch (IOException e) {
+        } catch (Exception e) {
             result = new APIResponse<Object>(HttpStatus.BAD_REQUEST,
                     buildMessage(MessageConstants.ERROR_EXCEPTION, new String[] { e.getMessage() }));
         }

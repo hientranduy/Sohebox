@@ -31,14 +31,12 @@ public class CryptoPortfolioRestController extends BaseRestController {
     private CryptoPortfolioService cryptoPortfolioService;
 
     /**
-     * 
      * Add new
-     *
-     * @param vo
-     * @return
      */
     @PostMapping(ApiPublicConstants.API_CRYPTO_PORTFOLIO)
-    public ResponseEntity<?> create(@Validated @RequestBody CryptoPortfolioVO vo) {
+    public ResponseEntity<?> create(@Validated
+    @RequestBody
+    CryptoPortfolioVO vo) {
         // Create Account
         APIResponse<?> result = cryptoPortfolioService.create(vo);
 
@@ -48,14 +46,12 @@ public class CryptoPortfolioRestController extends BaseRestController {
     }
 
     /**
-     * 
      * Update
-     *
-     * @param vo
-     * @return
      */
     @PutMapping(ApiPublicConstants.API_CRYPTO_PORTFOLIO)
-    public ResponseEntity<?> update(@Validated @RequestBody CryptoPortfolioVO vo) {
+    public ResponseEntity<?> update(@Validated
+    @RequestBody
+    CryptoPortfolioVO vo) {
         // Update Account
         APIResponse<?> result = cryptoPortfolioService.update(vo);
 
@@ -65,14 +61,11 @@ public class CryptoPortfolioRestController extends BaseRestController {
     }
 
     /**
-     * 
      * Get by ID
-     *
-     * @param id
-     * @return
      */
     @GetMapping(ApiPublicConstants.API_CRYPTO_PORTFOLIO + ApiPublicConstants.ID)
-    public ResponseEntity<?> getById(@PathVariable(value = "id") Long id) {
+    public ResponseEntity<?> getById(@PathVariable(value = "id")
+    Long id) {
         APIResponse<?> result = cryptoPortfolioService.getById(id);
 
         // Return
@@ -81,14 +74,11 @@ public class CryptoPortfolioRestController extends BaseRestController {
     }
 
     /**
-     * 
      * Search
-     *
-     * @param sco
-     * @return
      */
     @PostMapping(ApiPublicConstants.API_CRYPTO_PORTFOLIO + ApiPublicConstants.SEARCH)
-    public ResponseEntity<?> search(@RequestBody CryptoPortfolioSCO sco) {
+    public ResponseEntity<?> search(@RequestBody
+    CryptoPortfolioSCO sco) {
         // Search
         APIResponse<?> result = cryptoPortfolioService.search(sco);
 
@@ -99,14 +89,11 @@ public class CryptoPortfolioRestController extends BaseRestController {
     }
 
     /**
-     * 
      * Delete by ID
-     *
-     * @param id
-     * @return
      */
     @DeleteMapping(ApiPublicConstants.API_CRYPTO_PORTFOLIO + ApiPublicConstants.ID)
-    public ResponseEntity<?> deleteUserById(@PathVariable(value = "id") Long id) {
+    public ResponseEntity<?> deleteUserById(@PathVariable(value = "id")
+    Long id) {
         // Delete
         APIResponse<?> result = cryptoPortfolioService.deleteById(id);
 
