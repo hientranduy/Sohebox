@@ -1,0 +1,3 @@
+
+# Give execute permission
+chmod ug+x .git/hooks/*
