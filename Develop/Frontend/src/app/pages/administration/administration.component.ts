@@ -55,6 +55,11 @@ export class AdministrationComponent implements OnInit {
   get isMediaTypeOpen() {
     return this.selectOpion === 10;
   }
+
+  get isCryptoTokenOpen() {
+    return this.selectOpion === 11;
+  }
+
   selectOpion = 1;
 
   // Width change
@@ -114,5 +119,9 @@ export class AdministrationComponent implements OnInit {
 
   public selectMediaType() {
     this.selectOpion = 10;
+  }
+
+  public selectCryptoToken() {
+    this.selectOpion = 11;
   }
 }

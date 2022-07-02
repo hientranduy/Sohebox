@@ -38,7 +38,7 @@ export class CryptoComponent implements OnInit {
   // Select tab
   selectOpion = 1;
 
-  get isPortfolioOpen() { 
+  get isPortfolioOpen() {
     return this.selectOpion === 1;
   }
 

@@ -1,0 +1,13 @@
+.crypto-token-form {
+    min-width: 150px;
+    max-width: 500px;
+    width: 100%;
+}
+
+.field-full-width {
+    width: 100%;
+}
+
+.field-input-value {
+    color: blue;
+}
