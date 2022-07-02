@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { CryptoTokenConfig } from '@app/pages/crypto/_models';
+import { CryptoTokenSCO } from '@app/pages/crypto/_sco';
 import { CryptoTokenConfigService } from '@app/pages/crypto/_services';
 import { AuthenticationService } from '@app/user/_service';
 import { AlertService } from '@app/_common/alert';
 import { ApiReponse } from '@app/_common/_models';
 import { PageResultVO } from '@app/_common/_models/pageResultVO';
-import { CryptoTokenSCO } from '@app/_common/_sco';
 import { SearchText, Sorter } from '@app/_common/_sco/core_sco';
 import { SpinnerService } from '@app/_common/_services';
 import { ToastrService } from 'ngx-toastr';

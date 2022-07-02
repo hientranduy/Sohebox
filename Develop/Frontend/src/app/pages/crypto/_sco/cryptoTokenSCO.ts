@@ -1,5 +1,5 @@
-import { BaseSCO } from './baseSCO';
-import { SearchNumber, SearchText } from './core_sco';
+import { BaseSCO } from "@app/_common/_sco/baseSCO";
+import { SearchNumber, SearchText } from "@app/_common/_sco/core_sco";
 
 export class CryptoTokenSCO extends BaseSCO {
     id: SearchNumber;

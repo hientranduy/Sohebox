@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { CryptoTokenSCO } from '@app/_common/_sco';
 import { environment } from '@environments/environment';
 import { CryptoTokenConfig } from '../_models';
+import { CryptoTokenSCO } from '../_sco/cryptoTokenSCO';
 
 @Injectable({ providedIn: 'root' })
 export class CryptoTokenConfigService {
