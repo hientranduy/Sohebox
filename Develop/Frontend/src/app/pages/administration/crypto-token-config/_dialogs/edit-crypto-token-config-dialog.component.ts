@@ -1,29 +1,27 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
-import { CryptoTokenService } from '@app/pages/crypto/_services';
+import { CryptoTokenConfig } from '@app/pages/crypto/_models';
+import { CryptoTokenConfigService } from '@app/pages/crypto/_services';
 import { AuthenticationService } from '@app/user/_service';
 import { AlertService } from '@app/_common/alert';
-import { ApiReponse, CryptoToken } from '@app/_common/_models';
-import { CryptoTokenSCO } from '@app/_common/_sco';
-import { SearchText, Sorter } from '@app/_common/_sco/core_sco';
 import { SpinnerService } from '@app/_common/_services';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  selector: 'app-add-crypto-token-dialog',
-  templateUrl: './add-crypto-token-dialog.component.html',
-  styleUrls: ['./add-crypto-token-dialog.component.css']
+  selector: 'app-edit-crypto-token-config-dialog',
+  templateUrl: './edit-crypto-token-config-dialog.component.html',
+  styleUrls: ['./edit-crypto-token-config-dialog.component.css']
 })
-export class AddCryptoTokenDialogComponent implements OnInit {
+export class EditCryptoTokenConfigDialogComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
     private activeModal: NgbActiveModal,
     private alertService: AlertService,
     private authenticationService: AuthenticationService,
-    private cryptoTokenService: CryptoTokenService,
+    private cryptoTokenConfigService: CryptoTokenConfigService,
     private toastr: ToastrService,
     private spinner: SpinnerService
   ) {
@@ -38,6 +36,7 @@ export class AddCryptoTokenDialogComponent implements OnInit {
   @Input() messageError: string;
   @Input() btnOkText: string;
   @Input() btnCancelText: string;
+  @Input() cryptoTokenConfig: CryptoTokenConfig;
 
   // Input value
   tokenCodeValue: string;
@@ -55,7 +54,6 @@ export class AddCryptoTokenDialogComponent implements OnInit {
 
   // tokenCode
   tokenCodeFormControl = new FormControl('', [
-    validTokenCode,
     Validators.required,
   ]);
 
@@ -81,6 +79,13 @@ export class AddCryptoTokenDialogComponent implements OnInit {
   ]);
 
   ngOnInit() {
+    // Set old data
+    this.tokenCodeValue = this.cryptoTokenConfig.tokenCode;
+    this.tokenNameValue = this.cryptoTokenConfig.tokenName;
+    this.iconUrlValue = this.cryptoTokenConfig.iconUrl;
+    this.nodeUrlValue = this.cryptoTokenConfig.nodeUrl;
+    this.denomValue = this.cryptoTokenConfig.denom;
+    this.addressPrefixValue = this.cryptoTokenConfig.addressPrefix;
   }
 
   /////////////////////////////////////
@@ -107,9 +112,10 @@ export class AddCryptoTokenDialogComponent implements OnInit {
   public accept() {
     if (this.isFormValid()) {
 
-      // Prepare form
-      const addForm: FormGroup = this.formBuilder.group({
-        tokenCode: [this.tokenCodeValue],
+      // Prepare adding word form
+      const editForm: FormGroup = this.formBuilder.group({
+        id: [this.cryptoTokenConfig.id],
+        tokenCode: [this.cryptoTokenConfig.tokenCode],
         tokenName: [this.tokenNameValue],
         iconUrl: [this.iconUrlValue],
         nodeUrl: [this.nodeUrlValue],
@@ -122,11 +128,11 @@ export class AddCryptoTokenDialogComponent implements OnInit {
       this.spinner.show();
 
       // Add
-      this.cryptoTokenService.add(addForm.value)
+      this.cryptoTokenConfigService.update(editForm.value)
         .subscribe(
           data => {
             // Send success toast message
-            this.toastr.success('New token ' + this.tokenCodeValue + ' is added successful');
+            this.toastr.success('Token ' + this.tokenCodeValue + ' is updated successful');
 
             // Hide loading
             this.isLoading = false;
@@ -176,37 +182,4 @@ export class AddCryptoTokenDialogComponent implements OnInit {
 
     return result;
   }
-}
-
-
-/**
-* Check inexistence
-*
-*/
-function validTokenCode(control: FormControl) {
-  const tokenCode = control.value;
-
-  // Validate exixtence
-  if (tokenCode) {
-    const tokenCodeSearch = new SearchText();
-    tokenCodeSearch.eq = tokenCode;
-    const sco = new CryptoTokenSCO();
-    sco.tokenCode = tokenCodeSearch;
-
-    this.cryptoTokenService.search(sco)
-      .subscribe(data => {
-        const responseAPi: any = data;
-        const typeResponse: ApiReponse<CryptoToken> = responseAPi;
-        if (typeResponse.data != null) {
-          return {
-            tokenCOdeIsExisted: {
-              parsedUrln: tokenCode
-            }
-          };
-        }
-      }, error => {
-        this.toastr.info('error:' + error);
-      });
-  }
-  return null;
 }

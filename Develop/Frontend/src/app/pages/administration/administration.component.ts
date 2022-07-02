@@ -56,7 +56,7 @@ export class AdministrationComponent implements OnInit {
     return this.selectOpion === 10;
   }
 
-  get isCryptoTokenOpen() {
+  get isCryptoTokenConfigOpen() {
     return this.selectOpion === 11;
   }
 
@@ -121,7 +121,7 @@ export class AdministrationComponent implements OnInit {
     this.selectOpion = 10;
   }
 
-  public selectCryptoToken() {
+  public selectCryptoTokenConfig() {
     this.selectOpion = 11;
   }
 }

@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { CryptoTokenService } from '@app/pages/crypto/_services';
-import { YoutubeChannel } from '@app/pages/media/_models';
+import { CryptoTokenConfig } from '@app/pages/crypto/_models';
+import { CryptoTokenConfigService } from '@app/pages/crypto/_services';
 import { AuthenticationService } from '@app/user/_service';
 import { AlertService } from '@app/_common/alert';
-import { ApiReponse, CryptoToken } from '@app/_common/_models';
+import { ApiReponse } from '@app/_common/_models';
 import { PageResultVO } from '@app/_common/_models/pageResultVO';
 import { CryptoTokenSCO } from '@app/_common/_sco';
 import { SearchText, Sorter } from '@app/_common/_sco/core_sco';
@@ -21,7 +21,7 @@ export class CryptoTokenConfigComponent implements OnInit {
   isLoading: Boolean;
 
   // Table elements
-  pageResult: PageResultVO<CryptoToken>;
+  pageResult: PageResultVO<CryptoTokenConfig>;
   currentSort: Sorter;
   currentFilterValue: string;
 
@@ -33,11 +33,11 @@ export class CryptoTokenConfigComponent implements OnInit {
     private alertService: AlertService,
     private toastr: ToastrService,
     private spinner: SpinnerService,
-    private cryptoTokenService: CryptoTokenService,
+    private cryptoTokenService: CryptoTokenConfigService,
     private cryptoTokenDialogService: CryptoTokenDialogService
   ) {
     // Set default
-    this.pageResult = new PageResultVO<CryptoToken>();
+    this.pageResult = new PageResultVO<CryptoTokenConfig>();
     this.pageResult.currentPage = 0;
     this.pageResult.pageSize = 10;
   }
@@ -158,11 +158,11 @@ export class CryptoTokenConfigComponent implements OnInit {
     this.cryptoTokenService.search(sco).subscribe(
       data => {
         const responseAPi: any = data;
-        const typeResponse: ApiReponse<CryptoToken> = responseAPi;
+        const typeResponse: ApiReponse<CryptoTokenConfig> = responseAPi;
         if (typeResponse.data != null) {
           this.pageResult = typeResponse.data;
         } else {
-          this.pageResult = new PageResultVO<CryptoToken>();
+          this.pageResult = new PageResultVO<CryptoTokenConfig>();
         }
 
         // Hide Loading
@@ -214,7 +214,7 @@ export class CryptoTokenConfigComponent implements OnInit {
   /**
    * Edit chosen
    */
-  public editChoosen(item: YoutubeChannel) {
+  public editChoosen(item: CryptoTokenConfig) {
     this.cryptoTokenDialogService.edit('EDIT', '', item).then(
       result => {
         if (result) {

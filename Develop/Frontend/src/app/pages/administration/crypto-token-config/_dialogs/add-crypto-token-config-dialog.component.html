@@ -1,8 +1,8 @@
-<ngx-spinner *ngIf="isLoading">
+<ngx-spinner type="pacman" *ngIf="isLoading">
     <p class="loading">Adding ...</p>
 </ngx-spinner>
 
-<ngx-spinner *ngIf="isLoadingContent">
+<ngx-spinner type="pacman" *ngIf="isLoadingContent">
     <p class="loading">Loading content ...</p>
 </ngx-spinner>
 
@@ -15,25 +15,24 @@
 
 <div class="modal-body">
     <p><strong>{{ message }}</strong>
-        <strong><span class="text-danger">{{ messageError }}</span></strong></p>
+        <strong><span class="text-danger">{{ messageError }}</span></strong>
+    </p>
 
-    <form class="crypto-token-form">
+    <form class="crypto-token-config-form">
+
         <!-- tokenCode -->
         <mat-form-field class="field-full-width">
-            <input class="field-input-value" readonly matInput type="text" placeholder="Token Code"
+            <input class="field-input-value" matInput type="text" placeholder="Token Code"
                 [formControl]="tokenCodeFormControl" [errorStateMatcher]="matcher" [(ngModel)]="tokenCodeValue">
             <mat-error *ngIf="tokenCodeFormControl.hasError('required')">
                 <strong>Required</strong>
             </mat-error>
-            <mat-error *ngIf="tokenCodeControl.hasError('tokenCodeIsExisted')">
-                <strong>This token is existed</strong>
-            </mat-error>
-        </mat-form-field>        
+        </mat-form-field>
 
         <!-- tokenName -->
         <mat-form-field class="field-full-width">
-            <input class="field-input-value" matInput type="text" placeholder="Token Name" [formControl]="tokenNameFormControl"
-                [errorStateMatcher]="matcher" [(ngModel)]="tokenNameValue">
+            <input class="field-input-value" matInput type="text" placeholder="Token Name"
+                [formControl]="tokenNameFormControl" [errorStateMatcher]="matcher" [(ngModel)]="tokenNameValue">
             <mat-error *ngIf="tokenNameFormControl.hasError('required')">
                 <strong>Required</strong>
             </mat-error>
@@ -52,28 +51,28 @@
         <mat-form-field class="field-full-width">
             <input class="field-input-value" matInput type="text" placeholder="Node URL"
                 [formControl]="nodeUrlFormControl" [errorStateMatcher]="matcher" [(ngModel)]="nodeUrlValue">
-                <mat-error *ngIf="nodeUrlFormControl.hasError('required')">
-                    <strong>Required</strong>
-                </mat-error>                
-        </mat-form-field>    
-        
+            <mat-error *ngIf="nodeUrlFormControl.hasError('required')">
+                <strong>Required</strong>
+            </mat-error>
+        </mat-form-field>
+
         <!-- denom -->
         <mat-form-field class="field-full-width">
-            <input class="field-input-value" matInput type="text" placeholder="Denom"
-                [formControl]="denomFormControl" [errorStateMatcher]="matcher" [(ngModel)]="denomValue">
-                <mat-error *ngIf="denomFormControl.hasError('required')">
-                    <strong>Required</strong>
-                </mat-error>                
-        </mat-form-field>  
+            <input class="field-input-value" matInput type="text" placeholder="Denom" [formControl]="denomFormControl"
+                [errorStateMatcher]="matcher" [(ngModel)]="denomValue">
+            <mat-error *ngIf="denomFormControl.hasError('required')">
+                <strong>Required</strong>
+            </mat-error>
+        </mat-form-field>
 
         <!-- addressPrefix -->
         <mat-form-field class="field-full-width">
             <input class="field-input-value" matInput type="text" placeholder="Address Prefix"
                 [formControl]="addressPrefixFormControl" [errorStateMatcher]="matcher" [(ngModel)]="addressPrefixValue">
-                <mat-error *ngIf="addressPrefixFormControl.hasError('required')">
-                    <strong>Required</strong>
-                </mat-error>                
-        </mat-form-field>   
+            <mat-error *ngIf="addressPrefixFormControl.hasError('required')">
+                <strong>Required</strong>
+            </mat-error>
+        </mat-form-field>
     </form>
 </div>
 

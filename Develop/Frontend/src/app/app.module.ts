@@ -52,6 +52,8 @@ import { AddYoutubeVideoDialogComponent, DeleteYoutubeVideoDialogComponent } fro
 import { CryptoComponent } from './pages/crypto/crypto.component';
 import { PortfolioComponent } from './pages/crypto/portfolio/portfolio.component';
 import { CoinComponent } from './pages/crypto/coin/coin.component';
+import { CryptoTokenConfigComponent } from './pages/administration/crypto-token-config/crypto-token-config.component';
+import { AddCryptoTokenConfigDialogComponent, EditCryptoTokenConfigDialogComponent } from './pages/administration/crypto-token-config/_dialogs';
 
 @NgModule({
     imports: [
@@ -167,9 +169,14 @@ import { CoinComponent } from './pages/crypto/coin/coin.component';
         FinanceOilComponent,
         FinanceCurrencyComponent,
         FinanceStockComponent,
+
+        // Crypto
         CryptoComponent,
         PortfolioComponent,
-        CoinComponent
+        CoinComponent,
+        CryptoTokenConfigComponent,
+        AddCryptoTokenConfigDialogComponent,
+        EditCryptoTokenConfigDialogComponent
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

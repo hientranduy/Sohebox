@@ -1,27 +1,26 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
-import { CryptoTokenService } from '@app/pages/crypto/_services';
+import { CryptoTokenConfigService } from '@app/pages/crypto/_services';
 import { AuthenticationService } from '@app/user/_service';
 import { AlertService } from '@app/_common/alert';
-import { CryptoToken } from '@app/_common/_models';
 import { SpinnerService } from '@app/_common/_services';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  selector: 'app-edit-crypto-token-dialog',
-  templateUrl: './edit-crypto-token-dialog.component.html',
-  styleUrls: ['./edit-crypto-token-dialog.component.css']
+  selector: 'app-add-crypto-token-config-dialog',
+  templateUrl: './add-crypto-token-config-dialog.component.html',
+  styleUrls: ['./add-crypto-token-config-dialog.component.css']
 })
-export class EditCryptoTokenDialogComponent implements OnInit {
+export class AddCryptoTokenConfigDialogComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
     private activeModal: NgbActiveModal,
     private alertService: AlertService,
     private authenticationService: AuthenticationService,
-    private cryptoTokenService: CryptoTokenService,
+    private cryptoTokenConfigService: CryptoTokenConfigService,
     private toastr: ToastrService,
     private spinner: SpinnerService
   ) {
@@ -36,7 +35,6 @@ export class EditCryptoTokenDialogComponent implements OnInit {
   @Input() messageError: string;
   @Input() btnOkText: string;
   @Input() btnCancelText: string;
-  @Input() cryptoToken: CryptoToken;
 
   // Input value
   tokenCodeValue: string;
@@ -79,13 +77,6 @@ export class EditCryptoTokenDialogComponent implements OnInit {
   ]);
 
   ngOnInit() {
-    // Set old data
-    this.tokenCodeValue = this.cryptoToken.tokenCode;
-    this.tokenNameValue = this.cryptoToken.tokenName;
-    this.iconUrlValue = this.cryptoToken.iconUrl;
-    this.nodeUrlValue = this.cryptoToken.nodeUrl;
-    this.denomValue = this.cryptoToken.denom;
-    this.addressPrefixValue = this.cryptoToken.addressPrefix;
   }
 
   /////////////////////////////////////
@@ -112,8 +103,9 @@ export class EditCryptoTokenDialogComponent implements OnInit {
   public accept() {
     if (this.isFormValid()) {
 
-      // Prepare adding word form
-      const editForm: FormGroup = this.formBuilder.group({
+      // Prepare form
+      const addForm: FormGroup = this.formBuilder.group({
+        tokenCode: [this.tokenCodeValue],
         tokenName: [this.tokenNameValue],
         iconUrl: [this.iconUrlValue],
         nodeUrl: [this.nodeUrlValue],
@@ -126,11 +118,11 @@ export class EditCryptoTokenDialogComponent implements OnInit {
       this.spinner.show();
 
       // Add
-      this.cryptoTokenService.update(editForm.value)
+      this.cryptoTokenConfigService.add(addForm.value)
         .subscribe(
           data => {
             // Send success toast message
-            this.toastr.success('Token ' + this.tokenCodeValue + ' is updated successful');
+            this.toastr.success('New token ' + this.tokenCodeValue + ' is added successful');
 
             // Hide loading
             this.isLoading = false;
