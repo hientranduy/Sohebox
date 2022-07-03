@@ -1,1 +1,81 @@
-<p>portfolio works!</p>
+<ngx-spinner type="pacman" *ngIf="isLoading">
+    <p class="loading">Loading page ...</p>
+</ngx-spinner>
+
+<div class="portfolio-container">
+    <mat-toolbar class="mat-toolbar-style">
+        <!-- 1st toolbar row -->
+        <mat-toolbar-row>
+
+            <!-- Add -->
+            <button mat-button class="toolbar-button-style" (click)="add()">
+                <mat-icon>add</mat-icon>
+                <strong>New</strong>
+            </button>
+
+            <!-- Add spaces   -->
+            <span class="toolbar-spacer-style"></span>
+
+            <h1 class="toolbar-title-style" fxHide.xs>LIST WALLETS</h1>
+
+            <!-- Add spaces   -->
+            <span class="toolbar-spacer-style"></span>
+
+            <!-- Refresh -->
+            <button mat-button class="toolbar-button-style" (click)="refresh()">
+                <mat-icon>refresh</mat-icon>
+                <strong>Refresh</strong>
+            </button>
+        </mat-toolbar-row>
+    </mat-toolbar>
+
+    <!-- Table data -->
+    <input matInput class="page-input-filter" (keyup)="onFilter($event)" placeholder="Type to search value...">
+
+    <mat-paginator class="mat-table-paginator-style" [length]="pageResult.totalElement"
+        [pageIndex]="pageResult.currentPage" [pageSize]="pageResult.pageSize" [pageSizeOptions]="[5, 10, 20, 50]"
+        (page)="handlePaginatorEvent($event)" showFirstLastButtons>
+    </mat-paginator>
+
+    <ngx-datatable class="material" [rows]="pageResult.elements" [columnMode]="'force'" [headerHeight]="50"
+        [footerHeight]="50" rowHeight="auto" [externalPaging]="true" [externalSorting]="true"
+        [count]="pageResult.totalElement" [offset]="pageResult.currentPage" [limit]="pageResult.pageSize"
+        (page)="setPage($event)" (sort)="onSort($event)">
+
+        <!-- token -->
+        <ngx-datatable-column name="Token" prop="token">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <img class="img-responsive" src="assets/crypto/{{row.token.iconUrl}}" class="icon__image">
+                {{row.token.tokenCode}}
+            </ng-template>
+        </ngx-datatable-column>
+
+        <!-- starname -->
+        <ngx-datatable-column name="Starname" prop="starname">
+            <ng-template let-value="value" ngx-datatable-cell-template>
+                {{ value }}
+            </ng-template>
+        </ngx-datatable-column>
+
+        <!-- wallet -->
+        <ngx-datatable-column name="Wallet" prop="wallet">
+            <ng-template let-value="value" ngx-datatable-cell-template>
+                {{ value }}
+            </ng-template>
+        </ngx-datatable-column>
+
+        <!-- Edit -->
+        <ngx-datatable-column [sortable]="false">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <button mat-button [matMenuTriggerFor]="menuEdit">
+                    <mat-icon>drag_indicator</mat-icon>
+                </button>
+                <mat-menu #menuEdit="matMenu">
+                    <button mat-menu-item (click)="viewDetailChoose(row)">Detail</button>
+                    <button mat-menu-item (click)="editChoose(row)">Edit</button>
+                    <button mat-menu-item (click)="deleteChoose(row)">Delete</button>
+                </mat-menu>
+            </ng-template>
+        </ngx-datatable-column>
+    </ngx-datatable>
+</div>

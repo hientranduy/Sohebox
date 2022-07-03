@@ -18,6 +18,8 @@ import { AccountComponent } from './pages/account';
 import { AddAccountDialogComponent, DeleteAccountDialogComponent, EditAccountDialogComponent, ShowPasswordDialogComponent, ViewAccountDialogComponent } from './pages/account/_dialogs';
 import { EnglishConfigComponent, EnglishTypeComponent, FoodConfigComponent, FoodTypeComponent, MediaTypeComponent, SettingConfigComponent, SettingTypeComponent, YoutubeChannelConfigComponent } from './pages/administration';
 import { AdministrationComponent } from './pages/administration/administration.component';
+import { CryptoTokenConfigComponent } from './pages/administration/crypto-token-config/crypto-token-config.component';
+import { AddCryptoTokenConfigDialogComponent, EditCryptoTokenConfigDialogComponent } from './pages/administration/crypto-token-config/_dialogs';
 import { AddEnglishTypeDialogComponent, DeleteEnglishTypeDialogComponent, EditEnglishTypeDialogComponent, ViewEnglishTypeDialogComponent } from './pages/administration/english-type/_dialogs';
 import { EnglishUserReportComponent } from './pages/administration/english-user-report/english-user-report.component';
 import { AddFoodTypeDialogComponent, DeleteFoodTypeDialogComponent, EditFoodTypeDialogComponent, ViewFoodTypeDialogComponent } from './pages/administration/food-type/_dialogs';
@@ -26,6 +28,10 @@ import { AddConfigDialogComponent, DeleteConfigDialogComponent, EditConfigDialog
 import { AddTypeDialogComponent, DeleteTypeDialogComponent, EditTypeDialogComponent, ViewTypeDialogComponent } from './pages/administration/setting-type/_dialogs';
 import { UserControlComponent } from './pages/administration/user-control/user-control.component';
 import { AddYoutubeChannelDialogComponent, EditYoutubeChannelDialogComponent } from './pages/administration/youtube-channel-config/_dialogs';
+import { CoinComponent } from './pages/crypto/coin/coin.component';
+import { CryptoComponent } from './pages/crypto/crypto.component';
+import { PortfolioComponent } from './pages/crypto/portfolio/portfolio.component';
+import { AddCryptoFortfolioDialogComponent, DeleteCryptoPortfolioDialogComponent, EditCryptoPortfolioDialogComponent, ViewCryptoPortfolioDialogComponent } from './pages/crypto/_dialogs';
 import { EnglishComponent } from './pages/english';
 import { EnglishReportComponent } from './pages/english-report';
 import { AddWordDialogComponent, DownloadVoiceComponent, EditWordDialogComponent, WordInfoDialogComponent } from './pages/english/_dialogs';
@@ -36,22 +42,21 @@ import { FoodDetailComponent } from './pages/food/food-detail/food-detail.compon
 import { FoodItemComponent } from './pages/food/food-item/food-item.component';
 import { AddFoodDialogComponent, EditFoodDialogComponent } from './pages/food/_dialogs';
 import { HomeComponent } from './pages/home';
-import { MoviePlayerComponent, PhimmoiPlayerComponent, YoutubeChannelComponent, YoutubePlayerComponent, YoutubePlayerChannelComponent } from './pages/media';
+import { MoviePlayerComponent, PhimmoiPlayerComponent, YoutubeChannelComponent, YoutubePlayerChannelComponent, YoutubePlayerComponent } from './pages/media';
 import { MediaComponent } from './pages/media/media.component';
+import { AddYoutubeVideoDialogComponent, DeleteYoutubeVideoDialogComponent } from './pages/media/_dialogs';
 import { ChangePasswordComponent } from './user/change-password';
 import { LoginComponent } from './user/login';
 import { RegisterComponent } from './user/register';
 import { UserSlideBarComponent } from './user/user-slide-bar';
-import { ChangePasswordDialogComponent, DeleteConfirmationDialogComponent, HelpGuestDialogComponent,
-         UpdateEnglishLevelDialogComponent, UpdateInforDialogComponent, ChangePrivateKeyDialogComponent } from './user/_dialogs';
+import {
+    ChangePasswordDialogComponent, ChangePrivateKeyDialogComponent, DeleteConfirmationDialogComponent, HelpGuestDialogComponent,
+    UpdateEnglishLevelDialogComponent, UpdateInforDialogComponent
+} from './user/_dialogs';
 import { AlertComponent } from './_common/alert';
 import { AutoFocusDirective } from './_common/directive';
 import { TimeoutProgressDialogComponent } from './_common/timeout-progress-dialog/timeout-progress-dialog.component';
 import { ErrorInterceptor, JwtInterceptor } from './_common/_helpers';
-import { AddYoutubeVideoDialogComponent, DeleteYoutubeVideoDialogComponent } from './pages/media/_dialogs';
-import { CryptoComponent } from './pages/crypto/crypto.component';
-import { PortfolioComponent } from './pages/crypto/portfolio/portfolio.component';
-import { CoinComponent } from './pages/crypto/coin/coin.component';
 
 @NgModule({
     imports: [
@@ -82,10 +87,12 @@ import { CoinComponent } from './pages/crypto/coin/coin.component';
         TimeoutProgressDialogComponent,
         UserSlideBarComponent,
         HelpGuestDialogComponent,
+
         // Admin
         AdministrationComponent,
         SettingConfigComponent,
         SettingTypeComponent,
+
         // Dialog
         AddTypeDialogComponent,
         EditTypeDialogComponent,
@@ -95,16 +102,19 @@ import { CoinComponent } from './pages/crypto/coin/coin.component';
         EditConfigDialogComponent,
         DeleteConfigDialogComponent,
         ViewConfigDialogComponent,
+
         // User
         LoginComponent,
         RegisterComponent,
         ChangePasswordComponent,
+
         // Dialog
         DeleteConfirmationDialogComponent,
         ChangePasswordDialogComponent,
         UpdateInforDialogComponent,
         UserControlComponent,
         ChangePrivateKeyDialogComponent,
+
         // Account
         AccountComponent,
         // Dialog
@@ -113,6 +123,7 @@ import { CoinComponent } from './pages/crypto/coin/coin.component';
         DeleteAccountDialogComponent,
         ViewAccountDialogComponent,
         ShowPasswordDialogComponent,
+
         // English
         EnglishComponent,
         EnglishConfigComponent,
@@ -122,6 +133,7 @@ import { CoinComponent } from './pages/crypto/coin/coin.component';
         EnglishUserReportComponent,
         EnglishReportComponent,
         EnglishUserReportComponent,
+
         // Dialog
         AddEnglishTypeDialogComponent,
         DeleteEnglishTypeDialogComponent,
@@ -131,12 +143,14 @@ import { CoinComponent } from './pages/crypto/coin/coin.component';
         AddWordDialogComponent,
         EditWordDialogComponent,
         WordInfoDialogComponent,
+
         // Food
         FoodComponent,
         FoodItemComponent,
         FoodConfigComponent,
         FoodTypeComponent,
         FoodDetailComponent,
+
         // Dialog
         AddFoodDialogComponent,
         EditFoodDialogComponent,
@@ -144,6 +158,7 @@ import { CoinComponent } from './pages/crypto/coin/coin.component';
         DeleteFoodTypeDialogComponent,
         EditFoodTypeDialogComponent,
         ViewFoodTypeDialogComponent,
+
         // Media
         MediaComponent,
         MediaTypeComponent,
@@ -153,6 +168,7 @@ import { CoinComponent } from './pages/crypto/coin/coin.component';
         YoutubePlayerChannelComponent,
         MoviePlayerComponent,
         PhimmoiPlayerComponent,
+
         // Dialog
         DeleteMediaTypeDialogComponent,
         EditMediaTypeDialogComponent,
@@ -161,15 +177,27 @@ import { CoinComponent } from './pages/crypto/coin/coin.component';
         EditYoutubeChannelDialogComponent,
         AddYoutubeVideoDialogComponent,
         DeleteYoutubeVideoDialogComponent,
+
         // Finance
         FinanceComponent,
         FinanceGoldComponent,
         FinanceOilComponent,
         FinanceCurrencyComponent,
         FinanceStockComponent,
+
+        // Crypto
         CryptoComponent,
+        CoinComponent,
+
+        CryptoTokenConfigComponent,
+        AddCryptoTokenConfigDialogComponent,
+        EditCryptoTokenConfigDialogComponent,
+
         PortfolioComponent,
-        CoinComponent
+        AddCryptoFortfolioDialogComponent,
+        EditCryptoPortfolioDialogComponent,
+        DeleteCryptoPortfolioDialogComponent,
+        ViewCryptoPortfolioDialogComponent
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

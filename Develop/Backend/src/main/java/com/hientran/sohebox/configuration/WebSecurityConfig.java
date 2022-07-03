@@ -222,6 +222,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/api" + ApiPublicConstants.API_ACCOUNT + ApiPublicConstants.API_ACCOUNT_SHOW_PASSWORD)
                 .hasRole(DBConstants.USER_ROLE_CREATOR)
 
+                // Crypto
+                .antMatchers(HttpMethod.POST, "/api" + ApiPublicConstants.API_CRYPTO_TOKEN_CONFIG)
+                .hasRole(DBConstants.USER_ROLE_CREATOR)
+                .antMatchers(HttpMethod.PUT, "/api" + ApiPublicConstants.API_CRYPTO_TOKEN_CONFIG)
+                .hasRole(DBConstants.USER_ROLE_CREATOR)
+
                 ///////////////////////////////////////////
                 // REQUIRED LOGI - AUTHENTICATION //
                 ///////////////////////////////////////////

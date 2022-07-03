@@ -57,6 +57,15 @@
           <button mat-menu-item (click)="selectMediaType()">Type</button>
         </mat-menu>
       </button>
+
+      <!-- Crypto Token  -->
+      <button mat-button class="toolbar-button-style" [matMenuTriggerFor]="menuCryptoTokenConfig">
+        <mat-icon>currency_bitcoin</mat-icon>
+        <strong>Token</strong>
+        <mat-menu #menuCryptoTokenConfig="matMenu">
+          <button mat-menu-item (click)="selectCryptoTokenConfig()">Config</button>
+        </mat-menu>
+      </button>
     </mat-toolbar-row>
 
     <mat-toolbar-row *ngIf="windownInnerWidth < 550">
@@ -116,6 +125,18 @@
           <button mat-menu-item (click)="selectMediaType()">Type</button>
         </mat-menu>
       </button>
+
+      <!-- Add spaces   -->
+      <span class="toolbar-spacer-style"></span>
+
+      <!-- Crypto Token  -->
+      <button mat-button class="toolbar-button-style" [matMenuTriggerFor]="menuCryptoTokenConfig">
+        <mat-icon>currency_bitcoin</mat-icon>
+        <strong>Token config</strong>
+        <mat-menu #menuCryptoTokenConfig="matMenu">
+          <button mat-menu-item (click)="selectCryptoTokenConfig()">Config</button>
+        </mat-menu>
+      </button>
     </mat-toolbar-row>
 
   </mat-toolbar>
@@ -130,5 +151,5 @@
   <app-food-type *ngIf="isFoodTypeOpen"></app-food-type>
   <app-youtube-channel-config *ngIf="isYoutubeChannelConfigOpen"></app-youtube-channel-config>
   <app-media-type *ngIf="isMediaTypeOpen"></app-media-type>
+  <app-crypto-token-config *ngIf="isCryptoTokenConfigOpen"></app-crypto-token-config>
 </div>
-

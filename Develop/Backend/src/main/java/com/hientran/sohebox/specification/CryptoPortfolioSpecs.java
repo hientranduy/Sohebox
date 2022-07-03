@@ -23,7 +23,6 @@ public class CryptoPortfolioSpecs extends GenericSpecs<CryptoPortfolioTbl> {
         if (sco != null) {
             if (sco.getSearchOr() != null && sco.getSearchOr() == true) {
                 specification = specification.or(buildSearchNumber(CryptoPortfolioTblEnum.id.name(), sco.getId()));
-                specification = specification.or(buildSearchNumber(CryptoPortfolioTblEnum.user.name(), sco.getUser()));
                 specification = specification
                         .or(buildSearchNumber(CryptoPortfolioTblEnum.token.name(), sco.getToken()));
                 specification = specification
@@ -32,13 +31,16 @@ public class CryptoPortfolioSpecs extends GenericSpecs<CryptoPortfolioTbl> {
                         .or(buildSearchText(CryptoPortfolioTblEnum.starname.name(), sco.getStarname()));
             } else {
                 specification = specification.and(buildSearchNumber(CryptoPortfolioTblEnum.id.name(), sco.getId()));
-                specification = specification.and(buildSearchNumber(CryptoPortfolioTblEnum.user.name(), sco.getUser()));
                 specification = specification
                         .and(buildSearchNumber(CryptoPortfolioTblEnum.token.name(), sco.getToken()));
                 specification = specification
                         .and(buildSearchText(CryptoPortfolioTblEnum.wallet.name(), sco.getWallet()));
                 specification = specification
                         .and(buildSearchText(CryptoPortfolioTblEnum.starname.name(), sco.getStarname()));
+            }
+
+            if (sco.getUser() != null) {
+                specification = specification.and(buildSearchNumber(CryptoPortfolioTblEnum.user.name(), sco.getUser()));
             }
         }
 

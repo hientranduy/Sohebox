@@ -36,290 +36,307 @@ import com.hientran.sohebox.vo.PageResultVO;
 @Transactional(readOnly = true)
 public class CryptoPortfolioService extends BaseService {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Autowired
-	private CryptoPortfolioRepository cryptoPortfolioRepository;
+    @Autowired
+    private CryptoPortfolioRepository cryptoPortfolioRepository;
 
-	@Autowired
-	private CryptoPortfolioTransformer cryptoPortfolioTransformer;
+    @Autowired
+    private CryptoPortfolioTransformer cryptoPortfolioTransformer;
 
-	@Autowired
-	private CryptoTokenConfigTransformer cryptoTokenConfigTransformer;
+    @Autowired
+    private CryptoTokenConfigTransformer cryptoTokenConfigTransformer;
 
-	@Autowired
-	private UserService userService;
+    @Autowired
+    private UserService userService;
 
-	/**
-	 * 
-	 * Create
-	 * 
-	 * @param vo
-	 * @return
-	 * @throws IOException
-	 */
-	@Transactional(readOnly = false, rollbackFor = Exception.class)
-	public APIResponse<Long> create(CryptoPortfolioVO vo) {
-		// Declare result
-		APIResponse<Long> result = new APIResponse<Long>();
+    /**
+     * 
+     * Create
+     * 
+     * @param vo
+     * @return
+     * @throws IOException
+     */
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
+    public APIResponse<Long> create(CryptoPortfolioVO vo) {
+        // Declare result
+        APIResponse<Long> result = new APIResponse<Long>();
 
-		// Validate input
-		if (result.getStatus() == null) {
-			List<String> errors = new ArrayList<>();
+        // Validate input
+        if (result.getStatus() == null) {
+            List<String> errors = new ArrayList<>();
 
-			if (vo.getToken() == null) {
-				errors.add(buildMessage(MessageConstants.FILED_EMPTY,
-						new String[] { CryptoPortfolioTblEnum.token.name() }));
-			}
+            if (vo.getToken() == null) {
+                errors.add(buildMessage(MessageConstants.FILED_EMPTY,
+                        new String[] { CryptoPortfolioTblEnum.token.name() }));
+            }
 
-			// Record error
-			if (CollectionUtils.isNotEmpty(errors)) {
-				result = new APIResponse<Long>(HttpStatus.BAD_REQUEST, errors);
-			}
-		}
+            if (StringUtils.isBlank(vo.getWallet())) {
+                errors.add(buildMessage(MessageConstants.FILED_EMPTY,
+                        new String[] { CryptoPortfolioTblEnum.wallet.name() }));
+            }
 
-		// Get logged user
-		UserTbl loggedUser = userService.getCurrentLoginUser();
+            // Record error
+            if (CollectionUtils.isNotEmpty(errors)) {
+                result = new APIResponse<Long>(HttpStatus.BAD_REQUEST, errors);
+            }
+        }
 
-		// Check existence
-		if (result.getStatus() == null) {
-			if (recordIsExisted(loggedUser, vo.getToken())) {
-				result = new APIResponse<Long>(HttpStatus.BAD_REQUEST, buildMessage(MessageConstants.EXISTED_RECORD,
-						new String[] { "token " + vo.getToken().getTokenCode() }));
-			}
-		}
+        // Get logged user
+        UserTbl loggedUser = userService.getCurrentLoginUser();
 
-		/////////////////////
-		// Record new //
-		/////////////////////
-		if (result.getStatus() == null) {
-			// Transform
-			CryptoPortfolioTbl tbl = cryptoPortfolioTransformer.convertToTbl(vo);
+        // Check existence
+        if (result.getStatus() == null) {
+            if (recordIsExisted(loggedUser, vo.getToken())) {
+                result = new APIResponse<Long>(HttpStatus.BAD_REQUEST, buildMessage(MessageConstants.EXISTED_RECORD,
+                        new String[] { "token " + vo.getToken().getTokenCode() }));
+            }
+        }
 
-			// Create
-			tbl = cryptoPortfolioRepository.save(tbl);
+        /////////////////////
+        // Record new //
+        /////////////////////
+        if (result.getStatus() == null) {
+            // Transform
+            CryptoPortfolioTbl tbl = cryptoPortfolioTransformer.convertToTbl(vo);
+            tbl.setUser(loggedUser);
 
-			// Set id return
-			result.setData(tbl.getId());
+            // Create
+            tbl = cryptoPortfolioRepository.save(tbl);
 
-			// Write activity
-			recordUserActivity(DBConstants.USER_ACTIVITY_CRYPTO_PORTFOLIO_CREATE);
-		}
+            // Set id return
+            result.setData(tbl.getId());
 
-		// Return
-		return result;
-	}
+            // Write activity
+            recordUserActivity(DBConstants.USER_ACTIVITY_CRYPTO_PORTFOLIO_CREATE);
+        }
 
-	/**
-	 * 
-	 * Check if record is existed
-	 *
-	 * @return
-	 */
-	private boolean recordIsExisted(UserTbl user, CryptoTokenConfigVO token) {
-		// Declare result
-		Boolean result = false;
+        // Return
+        return result;
+    }
 
-		// Prepare search
-		SearchNumberVO userIdSearch = new SearchNumberVO();
-		userIdSearch.setEq(user.getId().doubleValue());
+    /**
+     * 
+     * Check if record is existed
+     *
+     * @return
+     */
+    private boolean recordIsExisted(UserTbl user, CryptoTokenConfigVO token) {
+        // Declare result
+        Boolean result = false;
 
-		SearchNumberVO tokenIdSearch = new SearchNumberVO();
-		tokenIdSearch.setEq(token.getId().doubleValue());
+        // Prepare search
+        SearchNumberVO userIdSearch = new SearchNumberVO();
+        userIdSearch.setEq(user.getId().doubleValue());
 
-		CryptoPortfolioSCO sco = new CryptoPortfolioSCO();
-		sco.setUser(userIdSearch);
-		sco.setToken(tokenIdSearch);
+        SearchNumberVO tokenIdSearch = new SearchNumberVO();
+        tokenIdSearch.setEq(token.getId().doubleValue());
 
-		// Get data
-		List<CryptoPortfolioTbl> listSearch = cryptoPortfolioRepository.findAll(sco).getContent();
-		if (CollectionUtils.isNotEmpty(listSearch)) {
-			result = true;
-		}
+        CryptoPortfolioSCO sco = new CryptoPortfolioSCO();
+        sco.setUser(userIdSearch);
+        sco.setToken(tokenIdSearch);
 
-		// Return
-		return result;
-	}
+        // Get data
+        List<CryptoPortfolioTbl> listSearch = cryptoPortfolioRepository.findAll(sco).getContent();
+        if (CollectionUtils.isNotEmpty(listSearch)) {
+            result = true;
+        }
 
-	/**
-	 * 
-	 * Update
-	 * 
-	 * @param vo
-	 * @return
-	 */
-	@Transactional(readOnly = false, rollbackFor = Exception.class)
-	public APIResponse<Long> update(CryptoPortfolioVO vo) {
-		// Declare result
-		APIResponse<Long> result = new APIResponse<Long>();
+        // Return
+        return result;
+    }
 
-		// Validate input
-		if (result.getStatus() == null) {
-			List<String> errors = new ArrayList<>();
+    /**
+     * 
+     * Update
+     * 
+     * @param vo
+     * @return
+     */
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
+    public APIResponse<Long> update(CryptoPortfolioVO vo) {
+        // Declare result
+        APIResponse<Long> result = new APIResponse<Long>();
 
-			if (vo.getToken() == null) {
-				errors.add(buildMessage(MessageConstants.FILED_EMPTY,
-						new String[] { CryptoPortfolioTblEnum.token.name() }));
-			}
+        // Validate input
+        if (result.getStatus() == null) {
+            List<String> errors = new ArrayList<>();
 
-			// Record error
-			if (CollectionUtils.isNotEmpty(errors)) {
-				result = new APIResponse<Long>(HttpStatus.BAD_REQUEST, errors);
-			}
-		}
+            if (vo.getToken() == null) {
+                errors.add(buildMessage(MessageConstants.FILED_EMPTY,
+                        new String[] { CryptoPortfolioTblEnum.token.name() }));
+            }
 
-		// Get logged user
-		UserTbl loggedUser = userService.getCurrentLoginUser();
+            if (StringUtils.isBlank(vo.getWallet())) {
+                errors.add(buildMessage(MessageConstants.FILED_EMPTY,
+                        new String[] { CryptoPortfolioTblEnum.wallet.name() }));
+            }
 
-		// Get updated account
-		CryptoPortfolioTbl updateTbl = null;
-		if (result.getStatus() == null) {
-			updateTbl = getTokenPortfolioByUser(loggedUser, vo.getId());
-			if (updateTbl == null) {
-				result = new APIResponse<Long>(HttpStatus.BAD_REQUEST, buildMessage(MessageConstants.INEXISTED_RECORD,
-						new String[] { "portfolio token " + vo.getToken().getTokenCode() }));
-			}
-		}
+            // Record error
+            if (CollectionUtils.isNotEmpty(errors)) {
+                result = new APIResponse<Long>(HttpStatus.BAD_REQUEST, errors);
+            }
+        }
 
-		// Update
-		if (result.getStatus() == null) {
-			if (!StringUtils.equals(vo.getToken().getTokenCode(), updateTbl.getToken().getTokenCode())) {
-				updateTbl.setToken(cryptoTokenConfigTransformer.convertToTbl(vo.getToken()));
-			}
+        // Get logged user
+        UserTbl loggedUser = userService.getCurrentLoginUser();
 
-			cryptoPortfolioRepository.save(updateTbl);
+        // Get updated account
+        CryptoPortfolioTbl updateTbl = getTokenPortfolioByUser(loggedUser, vo.getId());
+        if (updateTbl == null) {
+            result = new APIResponse<Long>(HttpStatus.BAD_REQUEST, buildMessage(MessageConstants.INEXISTED_RECORD,
+                    new String[] { "portfolio token " + vo.getToken().getTokenCode() }));
+        }
 
-			// Write activity
-			recordUserActivity(DBConstants.USER_ACTIVITY_CRYPTO_PORTFOLIO_UPDATE);
-		}
+        // Update
+        if (result.getStatus() == null) {
+            if (!StringUtils.equals(vo.getWallet(), updateTbl.getWallet())) {
+                updateTbl.setWallet(vo.getWallet());
+            }
+            if (!StringUtils.equals(vo.getStarname(), updateTbl.getStarname())) {
+                updateTbl.setStarname(vo.getStarname());
+            }
 
-		// Return
-		return result;
-	}
+            cryptoPortfolioRepository.save(updateTbl);
 
-	/**
-	 * 
-	 * Get account
-	 *
-	 * @param userOwnerId
-	 * @param accountTypeId
-	 * @param accountName
-	 * @return
-	 */
-	private CryptoPortfolioTbl getTokenPortfolioByUser(UserTbl loggedUser, Long tokenId) {
-		// Declare result
-		CryptoPortfolioTbl result = null;
+            // Write activity
+            recordUserActivity(DBConstants.USER_ACTIVITY_CRYPTO_PORTFOLIO_UPDATE);
+        }
 
-		// Prepare search
-		SearchNumberVO userSearch = new SearchNumberVO();
-		userSearch.setEq(loggedUser.getId().doubleValue());
-		SearchNumberVO id = new SearchNumberVO();
-		id.setEq(tokenId.doubleValue());
+        // Return
+        return result;
+    }
 
-		CryptoPortfolioSCO sco = new CryptoPortfolioSCO();
-		sco.setId(id);
-		if (StringUtils.equals(loggedUser.getRole().getRoleName(), DBConstants.USER_ROLE_USER)) {
-			sco.setUser(userSearch);
-		}
+    /**
+     * 
+     * Get account
+     *
+     * @param userOwnerId
+     * @param accountTypeId
+     * @param accountName
+     * @return
+     */
+    private CryptoPortfolioTbl getTokenPortfolioByUser(UserTbl loggedUser, Long tokenId) {
+        // Declare result
+        CryptoPortfolioTbl result = null;
 
-		// Get data
-		List<CryptoPortfolioTbl> listAccount = cryptoPortfolioRepository.findAll(sco).getContent();
-		if (CollectionUtils.isNotEmpty(listAccount)) {
-			result = listAccount.get(0);
-		}
+        // Prepare search
+        SearchNumberVO userSearch = new SearchNumberVO();
+        userSearch.setEq(loggedUser.getId().doubleValue());
+        SearchNumberVO id = new SearchNumberVO();
+        id.setEq(tokenId.doubleValue());
 
-		// Return
-		return result;
-	}
+        CryptoPortfolioSCO sco = new CryptoPortfolioSCO();
+        sco.setId(id);
+        if (StringUtils.equals(loggedUser.getRole().getRoleName(), DBConstants.USER_ROLE_USER)) {
+            sco.setUser(userSearch);
+        }
 
-	/**
-	 * Search
-	 * 
-	 * @param sco
-	 * @return
-	 */
-	@Transactional(readOnly = false, rollbackFor = Exception.class)
-	public APIResponse<Object> search(CryptoPortfolioSCO sco) {
-		// Declare result
-		APIResponse<Object> result = new APIResponse<Object>();
+        // Get data
+        List<CryptoPortfolioTbl> listAccount = cryptoPortfolioRepository.findAll(sco).getContent();
+        if (CollectionUtils.isNotEmpty(listAccount)) {
+            result = listAccount.get(0);
+        }
 
-		// Get data
-		Page<CryptoPortfolioTbl> page = cryptoPortfolioRepository.findAll(sco);
+        // Return
+        return result;
+    }
 
-		// Transformer
-		PageResultVO<CryptoPortfolioVO> data = cryptoPortfolioTransformer.convertToPageReturn(page);
+    /**
+     * Search
+     * 
+     * @param sco
+     * @return
+     */
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
+    public APIResponse<Object> search(CryptoPortfolioSCO sco) {
+        // Declare result
+        APIResponse<Object> result = new APIResponse<Object>();
 
-		// Set data return
-		result.setData(data);
+        // Get logged user
+        UserTbl loggedUser = userService.getCurrentLoginUser();
+        SearchNumberVO userIdSearch = new SearchNumberVO();
+        userIdSearch.setEq(loggedUser.getId().doubleValue());
+        sco.setUser(userIdSearch);
 
-		// Write activity
-		recordUserActivity(DBConstants.USER_ACTIVITY_CRYPTO_TOKEN_CONFIG_ACCESS);
+        // Get data
+        Page<CryptoPortfolioTbl> page = cryptoPortfolioRepository.findAll(sco);
 
-		// Return
-		return result;
-	}
+        // Transformer
+        PageResultVO<CryptoPortfolioVO> data = cryptoPortfolioTransformer.convertToPageReturn(page);
 
-	/**
-	 * Get by id
-	 * 
-	 * @param id
-	 * @return
-	 */
-	public APIResponse<Object> getById(Long id) {
-		// Declare result
-		APIResponse<Object> result = new APIResponse<Object>();
+        // Set data return
+        result.setData(data);
 
-		// Check existence
-		Optional<CryptoPortfolioTbl> CryptoPortfolioTbl = cryptoPortfolioRepository.findById(id);
-		if (CryptoPortfolioTbl.isPresent()) {
-			CryptoPortfolioVO vo = cryptoPortfolioTransformer.convertToVO(CryptoPortfolioTbl.get());
-			result.setData(vo);
-		} else {
-			result = new APIResponse<Object>(HttpStatus.BAD_REQUEST,
-					buildMessage(MessageConstants.INEXISTED_RECORD, new String[] { "token" }));
-		}
+        // Write activity
+        recordUserActivity(DBConstants.USER_ACTIVITY_CRYPTO_TOKEN_CONFIG_ACCESS);
 
-		// Return
-		return result;
-	}
+        // Return
+        return result;
+    }
 
-	/**
-	 * Delete by id
-	 * 
-	 * Only role creator
-	 *
-	 * @param User
-	 * @return
-	 */
-	@Transactional(readOnly = false, rollbackFor = Exception.class)
-	public APIResponse<Object> deleteById(Long id) {
-		// Declare result
-		APIResponse<Object> result = new APIResponse<Object>();
+    /**
+     * Get by id
+     * 
+     * @param id
+     * @return
+     */
+    public APIResponse<Object> getById(Long id) {
+        // Declare result
+        APIResponse<Object> result = new APIResponse<Object>();
 
-		// Check existed
-		Optional<CryptoPortfolioTbl> deleteItemTbl = cryptoPortfolioRepository.findById(id);
-		if (!deleteItemTbl.isPresent()) {
-			result = new APIResponse<Object>(HttpStatus.BAD_REQUEST,
-					buildMessage(MessageConstants.UNAUTHORIZED_DATA, null));
-		}
+        // Check existence
+        Optional<CryptoPortfolioTbl> CryptoPortfolioTbl = cryptoPortfolioRepository.findById(id);
+        if (CryptoPortfolioTbl.isPresent()) {
+            CryptoPortfolioVO vo = cryptoPortfolioTransformer.convertToVO(CryptoPortfolioTbl.get());
+            result.setData(vo);
+        } else {
+            result = new APIResponse<Object>(HttpStatus.BAD_REQUEST,
+                    buildMessage(MessageConstants.INEXISTED_RECORD, new String[] { "token" }));
+        }
 
-		// Check logged user have permission to delete
-		if (result.getStatus() == null && !userService.isDataOwner(deleteItemTbl.get().getUser().getUsername())) {
-			result = new APIResponse<Object>(HttpStatus.BAD_REQUEST,
-					buildMessage(MessageConstants.UNAUTHORIZED_DATA, null));
-		}
+        // Return
+        return result;
+    }
 
-		// Process delete
-		if (result.getStatus() == null) {
-			cryptoPortfolioRepository.delete(deleteItemTbl.get());
-		}
+    /**
+     * Delete by id
+     * 
+     * Only role creator
+     *
+     * @param User
+     * @return
+     */
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
+    public APIResponse<Object> deleteById(Long id) {
+        // Declare result
+        APIResponse<Object> result = new APIResponse<Object>();
 
-		// Write activity type "delete account"
-		if (deleteItemTbl.isPresent()) {
-			recordUserActivity(DBConstants.USER_ACTIVITY_CRYPTO_PORTFOLIO_DELETE);
-		}
+        // Check existed
+        Optional<CryptoPortfolioTbl> deleteItemTbl = cryptoPortfolioRepository.findById(id);
+        if (!deleteItemTbl.isPresent()) {
+            result = new APIResponse<Object>(HttpStatus.BAD_REQUEST,
+                    buildMessage(MessageConstants.UNAUTHORIZED_DATA, null));
+        }
 
-		// Return
-		return result;
-	}
+        // Check logged user have permission to delete
+        if (result.getStatus() == null && !userService.isDataOwner(deleteItemTbl.get().getUser().getUsername())) {
+            result = new APIResponse<Object>(HttpStatus.BAD_REQUEST,
+                    buildMessage(MessageConstants.UNAUTHORIZED_DATA, null));
+        }
+
+        // Process delete
+        if (result.getStatus() == null) {
+            cryptoPortfolioRepository.delete(deleteItemTbl.get());
+        }
+
+        // Write activity type "delete account"
+        if (deleteItemTbl.isPresent()) {
+            recordUserActivity(DBConstants.USER_ACTIVITY_CRYPTO_PORTFOLIO_DELETE);
+        }
+
+        // Return
+        return result;
+    }
 }

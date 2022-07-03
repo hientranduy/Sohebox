@@ -12,4 +12,3 @@ export * from './typeSCO';
 export * from './userSCO';
 export * from './youtubeChannelSCO';
 export * from './youtubeChannelVideoSCO';
-

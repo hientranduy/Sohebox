@@ -1,65 +1,45 @@
-import { Component, HostListener, OnInit } from '@angular/core';
-import { User } from '@app/user/_models';
+import { Component, OnInit } from '@angular/core';
+import { CryptoTokenConfig } from '@app/pages/crypto/_models';
+import { CryptoTokenConfigSCO } from '@app/pages/crypto/_sco';
+import { CryptoTokenConfigService } from '@app/pages/crypto/_services';
 import { AuthenticationService } from '@app/user/_service';
 import { AlertService } from '@app/_common/alert';
 import { ApiReponse } from '@app/_common/_models';
 import { PageResultVO } from '@app/_common/_models/pageResultVO';
 import { SearchText, Sorter } from '@app/_common/_sco/core_sco';
-import { SpinnerService, UtilsService } from '@app/_common/_services';
+import { SpinnerService } from '@app/_common/_services';
 import { ToastrService } from 'ngx-toastr';
-import { CryptoPortfolioDialogService } from '../_dialogs';
-import { CryptoPortfolio } from '../_models';
-import { CryptoPortfolioSCO } from '../_sco';
-import { CryptoPortfolioService } from '../_services';
+import { CryptoTokenDialogService } from './_dialogs';
 
 @Component({
-  selector: 'app-crypto-portfolio',
-  templateUrl: './portfolio.component.html',
-  styleUrls: ['./portfolio.component.css']
+  selector: 'app-crypto-token-config',
+  templateUrl: './crypto-token-config.component.html',
+  styleUrls: ['./crypto-token-config.component.css']
 })
-export class PortfolioComponent implements OnInit {
+export class CryptoTokenConfigComponent implements OnInit {
+  // Loading
+  isLoading: Boolean;
+
+  // Table elements
+  pageResult: PageResultVO<CryptoTokenConfig>;
+  currentSort: Sorter;
+  currentFilterValue: string;
 
   /**
    * Constructor
    */
   constructor(
     private authenticationService: AuthenticationService,
-    private cryptoPortfolioDialogService: CryptoPortfolioDialogService,
-    private cryptoPortfolioService: CryptoPortfolioService,
     private alertService: AlertService,
     private toastr: ToastrService,
     private spinner: SpinnerService,
-    public utilsService: UtilsService
+    private cryptoTokenService: CryptoTokenConfigService,
+    private cryptoTokenDialogService: CryptoTokenDialogService
   ) {
-    // Get user info
-    this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
-
     // Set default
-    this.pageResult = new PageResultVO<CryptoPortfolio>();
+    this.pageResult = new PageResultVO<CryptoTokenConfig>();
     this.pageResult.currentPage = 0;
     this.pageResult.pageSize = 10;
-  }
-
-  // Loading
-  isLoading: Boolean;
-
-  // Logged user
-  currentUser: User;
-
-  // Table elements
-  pageResult: PageResultVO<CryptoPortfolio>;
-  currentSort: Sorter;
-  currentFilterValue: string;
-
-  // Width change
-  windownInnerWidth = window.innerWidth;
-  @HostListener('window:resize', ['$event'])
-  onResize(event) {
-    this.windownInnerWidth = window.innerWidth;
-  }
-  @HostListener('window:orientationchange', ['$event'])
-  onOrientationChange(event) {
-    this.windownInnerWidth = window.innerWidth;
   }
 
   /**
@@ -138,9 +118,10 @@ export class PortfolioComponent implements OnInit {
     filterValue: string
   ) {
     // Prepare search condition
-    const sco = new CryptoPortfolioSCO();
+    const sco = new CryptoTokenConfigSCO();
     sco.pageToGet = pageNumber;
     sco.maxRecordPerPage = pageRecord;
+
     if (sorter) {
       const sorters: Array<Sorter> = [];
       sorters.push(sorter);
@@ -150,18 +131,23 @@ export class PortfolioComponent implements OnInit {
       sorters.push(new Sorter('id', 'ASC'));
       sco.sorters = sorters;
     }
+
     if (filterValue) {
       const tokenCode = new SearchText();
       tokenCode.like = filterValue;
       sco.tokenCode = tokenCode;
 
-      const wallet = new SearchText();
-      wallet.like = filterValue;
-      sco.wallet = wallet;
+      const tokenName = new SearchText();
+      tokenName.like = filterValue;
+      sco.tokenName = tokenName;
 
-      const starname = new SearchText();
-      starname.like = filterValue;
-      sco.starname = starname;
+      const denom = new SearchText();
+      denom.like = filterValue;
+      sco.denom = denom;
+
+      const addressPrefix = new SearchText();
+      addressPrefix.like = filterValue;
+      sco.addressPrefix = addressPrefix;
 
       sco.searchOr = true;
     }
@@ -171,14 +157,14 @@ export class PortfolioComponent implements OnInit {
     this.spinner.show();
 
     // Search
-    this.cryptoPortfolioService.search(sco).subscribe(
+    this.cryptoTokenService.search(sco).subscribe(
       data => {
         const responseAPi: any = data;
-        const typeResponse: ApiReponse<CryptoPortfolio> = responseAPi;
+        const typeResponse: ApiReponse<CryptoTokenConfig> = responseAPi;
         if (typeResponse.data != null) {
           this.pageResult = typeResponse.data;
         } else {
-          this.pageResult = new PageResultVO<CryptoPortfolio>();
+          this.pageResult = new PageResultVO<CryptoTokenConfig>();
         }
 
         // Hide Loading
@@ -202,7 +188,7 @@ export class PortfolioComponent implements OnInit {
    * Add button
    */
   public add() {
-    this.cryptoPortfolioDialogService.add('ADD WALLET', '').then(
+    this.cryptoTokenDialogService.add('Add token', '').then(
       result => {
         if (result) {
           // Refresh table
@@ -228,25 +214,10 @@ export class PortfolioComponent implements OnInit {
   }
 
   /**
-   * View detail chosen
-   */
-  public viewDetailChoose(item: CryptoPortfolio) {
-    this.cryptoPortfolioDialogService.view('DETAIL ACCOUNT', '', item).then(
-      result => {
-        if (result) {
-        }
-      },
-      reason => {
-        console.log('DETAIL reason:' + reason);
-      }
-    );
-  }
-
-  /**
    * Edit chosen
    */
-  public editChoose(item: CryptoPortfolio) {
-    this.cryptoPortfolioDialogService.edit('EDIT WALLET', '', item).then(
+  public editChoosen(item: CryptoTokenConfig) {
+    this.cryptoTokenDialogService.edit('EDIT', '', item).then(
       result => {
         if (result) {
           this.getPageResult(
@@ -261,35 +232,5 @@ export class PortfolioComponent implements OnInit {
         console.log('EDIT reason:' + reason);
       }
     );
-  }
-
-  /**
-   * Delete chosen
-   */
-  public deleteChoose(item: CryptoPortfolio) {
-    this.cryptoPortfolioDialogService
-      .delete(
-        'DELETION',
-        'Are you sure deleting: ' + item.wallet + ' ?',
-        item
-      )
-      .then(
-        result => {
-          if (result) {
-            // Refresh page
-            if (result) {
-              this.getPageResult(
-                this.pageResult.currentPage,
-                this.pageResult.pageSize,
-                this.currentSort,
-                this.currentFilterValue
-              );
-            }
-          }
-        },
-        reason => {
-          console.log('DELETE reason:' + reason);
-        }
-      );
   }
 }
