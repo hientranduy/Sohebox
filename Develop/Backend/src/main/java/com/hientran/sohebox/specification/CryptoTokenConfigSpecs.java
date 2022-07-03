@@ -30,6 +30,8 @@ public class CryptoTokenConfigSpecs extends GenericSpecs<CryptoTokenConfigTbl> {
                 specification = specification
                         .or(buildSearchText(CryptoTokenConfigTblEnum.denom.name(), sco.getDenom()));
                 specification = specification
+                        .or(buildSearchText(CryptoTokenConfigTblEnum.nodeUrl.name(), sco.getNodeUrl()));
+                specification = specification
                         .or(buildSearchText(CryptoTokenConfigTblEnum.addressPrefix.name(), sco.getAddressPrefix()));
             } else {
                 specification = specification.and(buildSearchNumber(CryptoTokenConfigTblEnum.id.name(), sco.getId()));
@@ -39,6 +41,8 @@ public class CryptoTokenConfigSpecs extends GenericSpecs<CryptoTokenConfigTbl> {
                         .and(buildSearchText(CryptoTokenConfigTblEnum.tokenName.name(), sco.getTokenName()));
                 specification = specification
                         .and(buildSearchText(CryptoTokenConfigTblEnum.denom.name(), sco.getDenom()));
+                specification = specification
+                        .and(buildSearchText(CryptoTokenConfigTblEnum.nodeUrl.name(), sco.getNodeUrl()));
                 specification = specification
                         .and(buildSearchText(CryptoTokenConfigTblEnum.addressPrefix.name(), sco.getAddressPrefix()));
             }

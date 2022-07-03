@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { AlertService } from '@app/_common/alert';
 import { ApiReponse } from '@app/_common/_models';
+import { SearchText } from '@app/_common/_sco/core_sco';
 import { RequireMatchForm, SpinnerService } from '@app/_common/_services';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
@@ -70,6 +71,11 @@ export class AddCryptoFortfolioDialogComponent implements OnInit {
   getTokenList() {
     // Prepare search condition
     const sco = new CryptoTokenConfigSCO();
+
+    // Only display if have node URL
+    const nodeUrl = new SearchText();
+    nodeUrl.like = "http";
+    sco.nodeUrl = nodeUrl;
 
     // Show loading
     this.isLoading = true;
