@@ -22,11 +22,11 @@ import com.hientran.sohebox.exception.APIResponse;
 import com.hientran.sohebox.repository.CryptoPortfolioRepository;
 import com.hientran.sohebox.sco.CryptoPortfolioSCO;
 import com.hientran.sohebox.sco.SearchNumberVO;
+import com.hientran.sohebox.sco.SearchTextVO;
 import com.hientran.sohebox.security.UserService;
 import com.hientran.sohebox.transformer.CryptoPortfolioTransformer;
 import com.hientran.sohebox.transformer.CryptoTokenConfigTransformer;
 import com.hientran.sohebox.vo.CryptoPortfolioVO;
-import com.hientran.sohebox.vo.CryptoTokenConfigVO;
 import com.hientran.sohebox.vo.PageResultVO;
 
 /**
@@ -88,9 +88,9 @@ public class CryptoPortfolioService extends BaseService {
 
         // Check existence
         if (result.getStatus() == null) {
-            if (recordIsExisted(loggedUser, vo.getToken())) {
+            if (recordIsExisted(loggedUser, vo)) {
                 result = new APIResponse<Long>(HttpStatus.BAD_REQUEST, buildMessage(MessageConstants.EXISTED_RECORD,
-                        new String[] { "token " + vo.getToken().getTokenCode() }));
+                        new String[] { " wallet " + vo.getWallet() + "<token " + vo.getToken().getTokenCode() + ">" }));
             }
         }
 
@@ -122,7 +122,7 @@ public class CryptoPortfolioService extends BaseService {
      *
      * @return
      */
-    private boolean recordIsExisted(UserTbl user, CryptoTokenConfigVO token) {
+    private boolean recordIsExisted(UserTbl user, CryptoPortfolioVO vo) {
         // Declare result
         Boolean result = false;
 
@@ -131,11 +131,15 @@ public class CryptoPortfolioService extends BaseService {
         userIdSearch.setEq(user.getId().doubleValue());
 
         SearchNumberVO tokenIdSearch = new SearchNumberVO();
-        tokenIdSearch.setEq(token.getId().doubleValue());
+        tokenIdSearch.setEq(vo.getToken().getId().doubleValue());
+
+        SearchTextVO walletSearch = new SearchTextVO();
+        walletSearch.setEq(vo.getWallet());
 
         CryptoPortfolioSCO sco = new CryptoPortfolioSCO();
         sco.setUser(userIdSearch);
         sco.setToken(tokenIdSearch);
+        sco.setWallet(walletSearch);
 
         // Get data
         List<CryptoPortfolioTbl> listSearch = cryptoPortfolioRepository.findAll(sco).getContent();

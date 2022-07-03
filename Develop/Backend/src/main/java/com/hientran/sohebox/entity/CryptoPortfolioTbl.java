@@ -16,7 +16,7 @@ import lombok.Setter;
  */
 @Entity
 @Table(name = "crypto_portfolio_tbl", uniqueConstraints = {
-        @UniqueConstraint(name = "UQ_crypto_portfolio", columnNames = { "user_id", "token_id" }) })
+        @UniqueConstraint(name = "UQ_crypto_portfolio", columnNames = { "user_id", "token_id", "wallet" }) })
 @Getter
 @Setter
 public class CryptoPortfolioTbl extends BaseTbl {
