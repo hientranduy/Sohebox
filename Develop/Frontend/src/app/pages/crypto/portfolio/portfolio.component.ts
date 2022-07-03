@@ -231,7 +231,7 @@ export class PortfolioComponent implements OnInit {
    * View detail chosen
    */
   public viewDetailChoose(item: CryptoPortfolio) {
-    this.cryptoPortfolioDialogService.view('DETAIL ACCOUNT', '', item).then(
+    this.cryptoPortfolioDialogService.view('DETAIL WALLET', '', item).then(
       result => {
         if (result) {
         }

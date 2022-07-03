@@ -55,7 +55,7 @@ export class ViewCryptoPortfolioDialogComponent implements OnInit {
 
   public displayToken(item: CryptoTokenConfig) {
     if (item) {
-      return item.tokenCode;
+      return item.tokenCode + " (" + item.tokenName + ")";
     }
   }
 
