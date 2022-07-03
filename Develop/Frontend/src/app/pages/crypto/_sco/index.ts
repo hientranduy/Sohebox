@@ -1,2 +1,2 @@
-export * from './cryptoTokenSCO';
+export * from './cryptoTokenConfigSCO';
 export * from './cryptoPortfolioSCO';

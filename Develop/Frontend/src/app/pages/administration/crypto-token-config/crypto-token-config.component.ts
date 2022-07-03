@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CryptoTokenConfig } from '@app/pages/crypto/_models';
-import { CryptoTokenSCO } from '@app/pages/crypto/_sco';
+import { CryptoTokenConfigSCO } from '@app/pages/crypto/_sco';
 import { CryptoTokenConfigService } from '@app/pages/crypto/_services';
 import { AuthenticationService } from '@app/user/_service';
 import { AlertService } from '@app/_common/alert';
@@ -118,7 +118,7 @@ export class CryptoTokenConfigComponent implements OnInit {
     filterValue: string
   ) {
     // Prepare search condition
-    const sco = new CryptoTokenSCO();
+    const sco = new CryptoTokenConfigSCO();
     sco.pageToGet = pageNumber;
     sco.maxRecordPerPage = pageRecord;
 

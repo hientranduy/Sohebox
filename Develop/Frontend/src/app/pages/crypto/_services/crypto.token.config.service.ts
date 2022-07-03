@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '@environments/environment';
 import { CryptoTokenConfig } from '../_models';
-import { CryptoTokenSCO } from '../_sco/cryptoTokenSCO';
+import { CryptoTokenConfigSCO } from '../_sco/cryptoTokenConfigSCO';
 
 @Injectable({ providedIn: 'root' })
 export class CryptoTokenConfigService {
@@ -21,7 +21,7 @@ export class CryptoTokenConfigService {
     }
 
     // Search
-    search(sco: CryptoTokenSCO) {
+    search(sco: CryptoTokenConfigSCO) {
         return this.http.post(`${environment.soheboxUrl}/api/cryptoTokenConfig/search`, sco);
     }
 

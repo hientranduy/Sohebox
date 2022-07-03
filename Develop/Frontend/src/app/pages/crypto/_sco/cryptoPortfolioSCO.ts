@@ -5,6 +5,7 @@ export class CryptoPortfolioSCO extends BaseSCO {
     id: SearchNumber;
     user: SearchNumber;
     token: SearchNumber;
+    tokenCode: SearchText;
     wallet: SearchText;
     starname: SearchText;
 }
