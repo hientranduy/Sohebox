@@ -148,6 +148,8 @@ export class CryptoTokenConfigComponent implements OnInit {
       const addressPrefix = new SearchText();
       addressPrefix.like = filterValue;
       sco.addressPrefix = addressPrefix;
+
+      sco.searchOr = true;
     }
 
     // Show Loading
