@@ -1,18 +1,22 @@
 package com.hientran.sohebox.service;
 
 import java.io.IOException;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.http.client.utils.URIBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.hientran.sohebox.constants.CosmosConstants;
 import com.hientran.sohebox.constants.DBConstants;
 import com.hientran.sohebox.constants.MessageConstants;
 import com.hientran.sohebox.constants.enums.CryptoPortfolioTblEnum;
@@ -25,9 +29,15 @@ import com.hientran.sohebox.sco.SearchNumberVO;
 import com.hientran.sohebox.sco.SearchTextVO;
 import com.hientran.sohebox.security.UserService;
 import com.hientran.sohebox.transformer.CryptoPortfolioTransformer;
-import com.hientran.sohebox.transformer.CryptoTokenConfigTransformer;
+import com.hientran.sohebox.utils.ObjectMapperUtil;
+import com.hientran.sohebox.vo.CryptoPortfolioBankAvailableVO;
+import com.hientran.sohebox.vo.CryptoPortfolioBankDelegateVO;
+import com.hientran.sohebox.vo.CryptoPortfolioBankRewardVO;
+import com.hientran.sohebox.vo.CryptoPortfolioOnChainDataVO;
 import com.hientran.sohebox.vo.CryptoPortfolioVO;
+import com.hientran.sohebox.vo.CryptoPortfolioValidatorDelegationVO;
 import com.hientran.sohebox.vo.PageResultVO;
+import com.hientran.sohebox.webservice.CosmosWebService;
 
 /**
  * @author hientran
@@ -45,10 +55,13 @@ public class CryptoPortfolioService extends BaseService {
     private CryptoPortfolioTransformer cryptoPortfolioTransformer;
 
     @Autowired
-    private CryptoTokenConfigTransformer cryptoTokenConfigTransformer;
+    private UserService userService;
 
     @Autowired
-    private UserService userService;
+    private CosmosWebService cosmosWebService;
+
+    @Autowired
+    private ObjectMapperUtil objectMapperUtil;
 
     /**
      * 
@@ -252,6 +265,7 @@ public class CryptoPortfolioService extends BaseService {
      * 
      * @param sco
      * @return
+     * @throws Exception
      */
     @Transactional(readOnly = false, rollbackFor = Exception.class)
     public APIResponse<Object> search(CryptoPortfolioSCO sco) {
@@ -270,6 +284,19 @@ public class CryptoPortfolioService extends BaseService {
         // Transformer
         PageResultVO<CryptoPortfolioVO> data = cryptoPortfolioTransformer.convertToPageReturn(page);
 
+        // Get data on chain
+        for (CryptoPortfolioVO item : data.getElements()) {
+            try {
+                if (StringUtils.isNotEmpty(item.getToken().getNodeUrl())) {
+                    CryptoPortfolioOnChainDataVO onChainData = this.getDataOnChain(item);
+                    data.getElements().get(data.getElements().indexOf(item)).setOnChainData(onChainData);
+                }
+            } catch (Exception e) {
+                return new APIResponse<Object>(HttpStatus.BAD_REQUEST,
+                        buildMessage(MessageConstants.ERROR_EXCEPTION, new String[] { e.getMessage() }));
+            }
+        }
+
         // Set data return
         result.setData(data);
 
@@ -277,6 +304,51 @@ public class CryptoPortfolioService extends BaseService {
         recordUserActivity(DBConstants.USER_ACTIVITY_CRYPTO_TOKEN_CONFIG_ACCESS);
 
         // Return
+        return result;
+    }
+
+    private CryptoPortfolioOnChainDataVO getDataOnChain(CryptoPortfolioVO cryptoPortfolioVO) throws Exception {
+        CryptoPortfolioOnChainDataVO result = new CryptoPortfolioOnChainDataVO();
+        DecimalFormat df = new DecimalFormat("#.####");
+        df.setRoundingMode(RoundingMode.CEILING);
+        URIBuilder builder;
+        String responseString;
+
+        // Get available
+        builder = new URIBuilder(cryptoPortfolioVO.getToken().getNodeUrl() + CosmosConstants.COSMOS_BANK_BALANCES + "/"
+                + cryptoPortfolioVO.getWallet());
+        responseString = cosmosWebService.get(builder);
+        CryptoPortfolioBankAvailableVO bankBalance = objectMapperUtil.readValue(responseString,
+                CryptoPortfolioBankAvailableVO.class);
+        result.setAmtAvailable(Double.parseDouble(df.format(bankBalance.getResult().get(0).getAmount() / 1000000)));
+
+        // Get delegated
+        builder = new URIBuilder(cryptoPortfolioVO.getToken().getNodeUrl() + CosmosConstants.COSMOS_STAKING_DELEGATORS
+                + "/" + cryptoPortfolioVO.getWallet() + CosmosConstants.COSMOS_DELEGATIONS);
+        responseString = cosmosWebService.get(builder);
+        CryptoPortfolioBankDelegateVO bankDelegated = objectMapperUtil.readValue(responseString,
+                CryptoPortfolioBankDelegateVO.class);
+
+        Double amtTotalDelegated = Double.valueOf(0);
+        for (CryptoPortfolioValidatorDelegationVO item : bankDelegated.getResult()) {
+            Double amount = item.getBalance().getAmount();
+            if (amount > 0) {
+                amtTotalDelegated = amtTotalDelegated + Double.parseDouble(df.format(amount / 1000000));
+            }
+        }
+        result.setAmtTotalDelegated(amtTotalDelegated);
+
+        // Get reward
+        builder = new URIBuilder(
+                cryptoPortfolioVO.getToken().getNodeUrl() + CosmosConstants.COSMOS_DISTRIBUTION_DELEGATORS + "/"
+                        + cryptoPortfolioVO.getWallet() + CosmosConstants.COSMOS_REWARDS);
+        responseString = cosmosWebService.get(builder);
+        CryptoPortfolioBankRewardVO bankReward = objectMapperUtil.readValue(responseString,
+                CryptoPortfolioBankRewardVO.class);
+
+        result.setAmtTotalReward(
+                Double.parseDouble(df.format(bankReward.getResult().getTotal().get(0).getAmount() / 1000000)));
+
         return result;
     }
 

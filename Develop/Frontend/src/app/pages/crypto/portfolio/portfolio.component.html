@@ -30,7 +30,7 @@
     </mat-toolbar>
 
     <!-- Table data -->
-    <input matInput class="page-input-filter" (keyup)="onFilter($event)" placeholder="Type to search value...">
+    <!-- <input matInput class="page-input-filter" (keyup)="onFilter($event)" placeholder="Type to search value..."> -->
 
     <mat-paginator class="mat-table-paginator-style" [length]="pageResult.totalElement"
         [pageIndex]="pageResult.currentPage" [pageSize]="pageResult.pageSize" [pageSizeOptions]="[5, 10, 20, 50]"
@@ -59,6 +59,27 @@
 
         <!-- wallet -->
         <ngx-datatable-column name="Wallet" prop="wallet">
+            <ng-template let-value="value" ngx-datatable-cell-template>
+                {{ value }}
+            </ng-template>
+        </ngx-datatable-column>
+
+        <!-- amount available -->
+        <ngx-datatable-column name="Available" prop="onChainData.amtAvailable">
+            <ng-template let-value="value" ngx-datatable-cell-template>
+                {{ value }}
+            </ng-template>
+        </ngx-datatable-column>
+
+        <!-- amount delegated -->
+        <ngx-datatable-column name="Delegated" prop="onChainData.amtTotalDelegated">
+            <ng-template let-value="value" ngx-datatable-cell-template>
+                {{ value }}
+            </ng-template>
+        </ngx-datatable-column>
+
+        <!-- amount reward -->
+        <ngx-datatable-column name="Pending reward" prop="onChainData.amtTotalReward">
             <ng-template let-value="value" ngx-datatable-cell-template>
                 {{ value }}
             </ng-template>
