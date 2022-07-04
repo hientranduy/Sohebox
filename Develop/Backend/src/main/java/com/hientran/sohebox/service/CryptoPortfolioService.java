@@ -285,15 +285,17 @@ public class CryptoPortfolioService extends BaseService {
         PageResultVO<CryptoPortfolioVO> data = cryptoPortfolioTransformer.convertToPageReturn(page);
 
         // Get data on chain
-        for (CryptoPortfolioVO item : data.getElements()) {
-            try {
-                if (StringUtils.isNotEmpty(item.getToken().getNodeUrl())) {
-                    CryptoPortfolioOnChainDataVO onChainData = this.getDataOnChain(item);
-                    data.getElements().get(data.getElements().indexOf(item)).setOnChainData(onChainData);
+        if (CollectionUtils.isNotEmpty(data.getElements())) {
+            for (CryptoPortfolioVO item : data.getElements()) {
+                try {
+                    if (StringUtils.isNotEmpty(item.getToken().getNodeUrl())) {
+                        CryptoPortfolioOnChainDataVO onChainData = this.getDataOnChain(item);
+                        data.getElements().get(data.getElements().indexOf(item)).setOnChainData(onChainData);
+                    }
+                } catch (Exception e) {
+                    return new APIResponse<Object>(HttpStatus.BAD_REQUEST,
+                            buildMessage(MessageConstants.ERROR_EXCEPTION, new String[] { e.getMessage() }));
                 }
-            } catch (Exception e) {
-                return new APIResponse<Object>(HttpStatus.BAD_REQUEST,
-                        buildMessage(MessageConstants.ERROR_EXCEPTION, new String[] { e.getMessage() }));
             }
         }
 
@@ -320,7 +322,9 @@ public class CryptoPortfolioService extends BaseService {
         responseString = cosmosWebService.get(builder);
         CryptoPortfolioBankAvailableVO bankBalance = objectMapperUtil.readValue(responseString,
                 CryptoPortfolioBankAvailableVO.class);
-        result.setAmtAvailable(Double.parseDouble(df.format(bankBalance.getResult().get(0).getAmount() / 1000000)));
+        if (CollectionUtils.isNotEmpty(bankBalance.getResult())) {
+            result.setAmtAvailable(Double.parseDouble(df.format(bankBalance.getResult().get(0).getAmount() / 1000000)));
+        }
 
         // Get delegated
         builder = new URIBuilder(cryptoPortfolioVO.getToken().getNodeUrl() + CosmosConstants.COSMOS_STAKING_DELEGATORS
@@ -330,10 +334,12 @@ public class CryptoPortfolioService extends BaseService {
                 CryptoPortfolioBankDelegateVO.class);
 
         Double amtTotalDelegated = Double.valueOf(0);
-        for (CryptoPortfolioValidatorDelegationVO item : bankDelegated.getResult()) {
-            Double amount = item.getBalance().getAmount();
-            if (amount > 0) {
-                amtTotalDelegated = amtTotalDelegated + Double.parseDouble(df.format(amount / 1000000));
+        if (CollectionUtils.isNotEmpty(bankDelegated.getResult())) {
+            for (CryptoPortfolioValidatorDelegationVO item : bankDelegated.getResult()) {
+                Double amount = item.getBalance().getAmount();
+                if (amount > 0) {
+                    amtTotalDelegated = amtTotalDelegated + Double.parseDouble(df.format(amount / 1000000));
+                }
             }
         }
         result.setAmtTotalDelegated(amtTotalDelegated);
@@ -346,9 +352,10 @@ public class CryptoPortfolioService extends BaseService {
         CryptoPortfolioBankRewardVO bankReward = objectMapperUtil.readValue(responseString,
                 CryptoPortfolioBankRewardVO.class);
 
-        result.setAmtTotalReward(
-                Double.parseDouble(df.format(bankReward.getResult().getTotal().get(0).getAmount() / 1000000)));
-
+        if (bankReward.getResult() != null) {
+            result.setAmtTotalReward(
+                    Double.parseDouble(df.format(bankReward.getResult().getTotal().get(0).getAmount() / 1000000)));
+        }
         return result;
     }
 
