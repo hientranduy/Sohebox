@@ -1,4 +1,5 @@
 import { Component, HostListener, OnInit } from '@angular/core';
+import { AppSettings } from '@app/appSettings';
 import { User } from '@app/user/_models';
 import { AuthenticationService } from '@app/user/_service';
 import { AlertService } from '@app/_common/alert';
@@ -291,5 +292,12 @@ export class PortfolioComponent implements OnInit {
           console.log('DELETE reason:' + reason);
         }
       );
+  }
+
+  /**
+ * View explorer
+ */
+  public viewExplorer(item: CryptoPortfolio) {
+    window.open(AppSettings.CRYPTO_MINTSCAN + item.token.addressPrefix + "/account/" + item.wallet);
   }
 }

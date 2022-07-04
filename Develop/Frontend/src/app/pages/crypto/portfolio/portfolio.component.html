@@ -74,6 +74,9 @@
                     <button mat-menu-item (click)="viewDetailChoose(row)">Detail</button>
                     <button mat-menu-item (click)="editChoose(row)">Edit</button>
                     <button mat-menu-item (click)="deleteChoose(row)">Delete</button>
+                    <button mat-menu-item (click)="viewExplorer(row)" *ngIf="row.token.addressPrefix">View
+                        Explorer
+                    </button>
                 </mat-menu>
             </ng-template>
         </ngx-datatable-column>

@@ -38,4 +38,11 @@ export class AppSettings {
 
     // Google youtube iframe
     public static GOOGLE_YOUTUBE_IFRAME = 'https://www.youtube.com/iframe_api';
+
+    /////////////////////
+    // CRYPTO          //
+    /////////////////////
+
+    // Google youtube iframe
+    public static CRYPTO_MINTSCAN = 'https://www.mintscan.io/';
 }
