@@ -33,7 +33,7 @@
     <!-- <input matInput class="page-input-filter" (keyup)="onFilter($event)" placeholder="Type to search value..."> -->
 
     <mat-paginator class="mat-table-paginator-style" [length]="pageResult.totalElement"
-        [pageIndex]="pageResult.currentPage" [pageSize]="pageResult.pageSize" [pageSizeOptions]="[5, 10, 20, 50]"
+        [pageIndex]="pageResult.currentPage" [pageSize]="pageResult.pageSize" [pageSizeOptions]="[2, 5]"
         (page)="handlePaginatorEvent($event)" showFirstLastButtons>
     </mat-paginator>
 
