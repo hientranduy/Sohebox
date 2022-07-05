@@ -1,4 +1,5 @@
 import { User } from '@app/user/_models';
+import { CryptoPortfolioOnChainData } from './cryptoPortfolioOnChainData';
 import { CryptoTokenConfig } from './cryptoTokenConfig';
 
 export class CryptoPortfolio {
@@ -7,4 +8,5 @@ export class CryptoPortfolio {
     token: CryptoTokenConfig;
     wallet: string;
     starname: string;
+    onChainData: CryptoPortfolioOnChainData;
 }

@@ -22,7 +22,7 @@
       <mat-autocomplete #autoToken="matAutocomplete" [displayWith]="displayToken">
         <mat-option *ngFor="let token of filteredTokens | async" [value]="token">
           <img class="img-responsive" src="assets/crypto/{{token.iconUrl}}" class="icon__image">
-          {{token.tokenCode}}
+          {{token.tokenCode}} ({{token.tokenName}})
         </mat-option>
       </mat-autocomplete>
       <mat-error *ngIf="tokenFormControl.hasError('required')">

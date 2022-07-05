@@ -156,6 +156,7 @@ const appRoutes: Routes = [
     {
         path: 'crypto',
         component: CryptoComponent,
+        canActivate: [AuthGuard],
         data: {
             title: 'S.H Box - Crypto monitor',
             ogUrl: 'https://sohebox.com/crypto',
