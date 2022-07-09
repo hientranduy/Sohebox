@@ -38,7 +38,7 @@ export class PortfolioComponent implements OnInit {
     // Set default
     this.pageResult = new PageResultVO<CryptoPortfolio>();
     this.pageResult.currentPage = 0;
-    this.pageResult.pageSize = 3;
+    this.pageResult.pageSize = 5;
   }
 
   // Loading
@@ -148,7 +148,9 @@ export class PortfolioComponent implements OnInit {
       sco.sorters = sorters;
     } else {
       const sorters: Array<Sorter> = [];
-      sorters.push(new Sorter('id', 'ASC'));
+      // sorters.push(new Sorter('id', 'ASC'));
+      sorters.push(new Sorter('token', 'ASC'));
+      sorters.push(new Sorter('starname', 'ASC'));
       sco.sorters = sorters;
     }
     if (filterValue) {

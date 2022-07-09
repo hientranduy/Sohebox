@@ -21,11 +21,11 @@
             <!-- Add spaces   -->
             <span class="toolbar-spacer-style"></span>
 
-            <!-- Refresh -->
+            <!-- Refresh
             <button mat-button class="toolbar-button-style" (click)="refresh()">
                 <mat-icon>refresh</mat-icon>
                 <strong>Refresh</strong>
-            </button>
+            </button> -->
         </mat-toolbar-row>
     </mat-toolbar>
 
@@ -33,7 +33,7 @@
     <!-- <input matInput class="page-input-filter" (keyup)="onFilter($event)" placeholder="Type to search value..."> -->
 
     <mat-paginator class="mat-table-paginator-style" [length]="pageResult.totalElement"
-        [pageIndex]="pageResult.currentPage" [pageSize]="pageResult.pageSize" [pageSizeOptions]="[3, 5]"
+        [pageIndex]="pageResult.currentPage" [pageSize]="pageResult.pageSize" [pageSizeOptions]="[5,10]"
         (page)="handlePaginatorEvent($event)" showFirstLastButtons>
     </mat-paginator>
 
@@ -58,7 +58,7 @@
         </ngx-datatable-column>
 
         <!-- wallet -->
-        <ngx-datatable-column name="Wallet" prop="wallet">
+        <ngx-datatable-column name="Wallet" prop="wallet" *ngIf="windownInnerWidth >= 550">
             <ng-template let-value="value" ngx-datatable-cell-template>
                 {{ value }}
             </ng-template>

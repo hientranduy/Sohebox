@@ -311,7 +311,7 @@ public class CryptoPortfolioService extends BaseService {
 
     private CryptoPortfolioOnChainDataVO getDataOnChain(CryptoPortfolioVO cryptoPortfolioVO) throws Exception {
         CryptoPortfolioOnChainDataVO result = new CryptoPortfolioOnChainDataVO();
-        DecimalFormat df = new DecimalFormat("#.####");
+        DecimalFormat df = new DecimalFormat("#.###");
         df.setRoundingMode(RoundingMode.CEILING);
         URIBuilder builder;
         String responseString;
