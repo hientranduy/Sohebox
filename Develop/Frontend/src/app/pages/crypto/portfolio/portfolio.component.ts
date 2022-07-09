@@ -41,9 +41,6 @@ export class PortfolioComponent implements OnInit {
     this.pageResult.pageSize = 5;
   }
 
-  // Loading
-  isLoading: Boolean;
-
   // Logged user
   currentUser: User;
 
@@ -138,6 +135,8 @@ export class PortfolioComponent implements OnInit {
     sorter: Sorter,
     filterValue: string
   ) {
+    this.alertService.clear();
+
     // Prepare search condition
     const sco = new CryptoPortfolioSCO();
     sco.pageToGet = pageNumber;
@@ -170,7 +169,6 @@ export class PortfolioComponent implements OnInit {
     }
 
     // Show Loading
-    this.isLoading = true;
     this.spinner.show();
 
     // Search
@@ -186,12 +184,10 @@ export class PortfolioComponent implements OnInit {
 
         // Hide Loading
         this.spinner.hide();
-        this.isLoading = false;
       },
       error => {
         // Hide Loading
         this.spinner.hide();
-        this.isLoading = false;
 
         this.alertService.error(error);
       }
