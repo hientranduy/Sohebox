@@ -33,7 +33,7 @@
     <!-- <input matInput class="page-input-filter" (keyup)="onFilter($event)" placeholder="Type to search value..."> -->
 
     <mat-paginator class="mat-table-paginator-style" [length]="pageResult.totalElement"
-        [pageIndex]="pageResult.currentPage" [pageSize]="pageResult.pageSize" [pageSizeOptions]="[5,10]"
+        [pageIndex]="pageResult.currentPage" [pageSize]="pageResult.pageSize" [pageSizeOptions]="[5,10,15,20]"
         (page)="handlePaginatorEvent($event)" showFirstLastButtons>
     </mat-paginator>
 
@@ -45,17 +45,24 @@
         <!-- token -->
         <ngx-datatable-column name="Token" prop="token">
             <ng-template let-row="row" ngx-datatable-cell-template>
-                <img class="img-responsive" src="assets/crypto/{{row.token.iconUrl}}" class="icon__image">
-                {{row.token.tokenCode}}
+
+                <p *ngIf="windownInnerWidth >= 550">
+                    <img class="img-responsive" src="assets/crypto/{{row.token.iconUrl}}" class="icon__image">
+                    {{row.token.tokenCode}} - {{row.starname}}
+                </p>
+                <p *ngIf="windownInnerWidth < 550">
+                    <img class="img-responsive" src="assets/crypto/{{row.token.iconUrl}}" class="icon__image">
+                    {{row.starname}}
+                </p>
             </ng-template>
         </ngx-datatable-column>
 
         <!-- starname -->
-        <ngx-datatable-column name="Starname" prop="starname">
+        <!-- <ngx-datatable-column name="Starname" prop="starname">
             <ng-template let-value="value" ngx-datatable-cell-template>
                 {{ value }}
             </ng-template>
-        </ngx-datatable-column>
+        </ngx-datatable-column> -->
 
         <!-- wallet -->
         <ngx-datatable-column name="Wallet" prop="wallet" *ngIf="windownInnerWidth >= 550">
@@ -65,21 +72,21 @@
         </ngx-datatable-column>
 
         <!-- amount available -->
-        <ngx-datatable-column name="Available" prop="onChainData.amtAvailable">
+        <ngx-datatable-column name="Available" prop="amtAvailable">
             <ng-template let-value="value" ngx-datatable-cell-template>
                 {{ value }}
             </ng-template>
         </ngx-datatable-column>
 
         <!-- amount delegated -->
-        <ngx-datatable-column name="Delegated" prop="onChainData.amtTotalDelegated">
+        <ngx-datatable-column name="Delegated" prop="amtTotalDelegated">
             <ng-template let-value="value" ngx-datatable-cell-template>
                 {{ value }}
             </ng-template>
         </ngx-datatable-column>
 
         <!-- amount reward -->
-        <ngx-datatable-column name="Pending reward" prop="onChainData.amtTotalReward">
+        <ngx-datatable-column name="Reward" prop="amtTotalReward">
             <ng-template let-value="value" ngx-datatable-cell-template>
                 {{ value }}
             </ng-template>

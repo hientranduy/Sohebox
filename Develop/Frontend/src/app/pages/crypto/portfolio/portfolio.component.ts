@@ -144,6 +144,9 @@ export class PortfolioComponent implements OnInit {
     if (sorter) {
       const sorters: Array<Sorter> = [];
       sorters.push(sorter);
+      if (sorter.property === 'token') {
+        sorters.push(new Sorter('starname', 'ASC'));
+      }
       sco.sorters = sorters;
     } else {
       const sorters: Array<Sorter> = [];

@@ -36,4 +36,16 @@ public class CryptoPortfolioTbl extends BaseTbl {
 
     @Column(name = "starname")
     private String starname;
+
+    @Column(name = "amtAvailable")
+    private Double amtAvailable;
+
+    @Column(name = "amtTotalDelegated")
+    private Double amtTotalDelegated;
+
+    @Column(name = "amtTotalReward")
+    private Double amtTotalReward;
+
+    @Column(name = "amtTotalUnbonding")
+    private Double amtTotalUnbonding;
 }

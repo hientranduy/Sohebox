@@ -56,4 +56,8 @@ public class DataExternalConstants implements Serializable {
 
     public static final String REQUEST_DATA_FILE_PATH_TRADING_MARKET_STOCK_AFRICA = "/dataExternal/tradingMarketStock_AFRICA.txt";
 
+    ////////////
+    // Crypto //
+    ////////////
+    public static final String CRYPTO_PORTFOLIO_SYNC_ONCHAIN_LATE_TIME_SECOND = "CRYPTO_PORTFOLIO_SYNC_ONCHAIN_LATE_TIME_SECOND";
 }

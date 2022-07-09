@@ -1,5 +1,7 @@
 package com.hientran.sohebox.vo;
 
+import java.util.Date;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
@@ -18,6 +20,8 @@ public class CryptoPortfolioVO extends BaseVO {
 
     private Long id;
 
+    private Date updatedDate;
+
     private UserVO user;
 
     private CryptoTokenConfigVO token;
@@ -26,6 +30,12 @@ public class CryptoPortfolioVO extends BaseVO {
 
     private String starname;
 
-    // Other data
-    private CryptoPortfolioOnChainDataVO onChainData;
+    private Double amtAvailable;
+
+    private Double amtTotalDelegated;
+
+    private Double amtTotalReward;
+
+    private Double amtTotalUnbonding;
+
 }
