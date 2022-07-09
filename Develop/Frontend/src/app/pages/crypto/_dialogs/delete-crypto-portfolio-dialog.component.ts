@@ -16,8 +16,6 @@ export class DeleteCryptoPortfolioDialogComponent implements OnInit {
   @Input() btnCancelText: string;
   @Input() cryptoPortfolio: CryptoPortfolio;
 
-  isLoading: Boolean;
-
   constructor(
     private cryptoPortfolioService: CryptoPortfolioService,
     private toastr: ToastrService,
@@ -36,7 +34,6 @@ export class DeleteCryptoPortfolioDialogComponent implements OnInit {
   public accept() {
 
     // Show loading
-    this.isLoading = true;
     this.spinner.show();
 
     const infoData = this.cryptoPortfolio.wallet + '<' + this.cryptoPortfolio.token.tokenCode + '>';
@@ -47,7 +44,6 @@ export class DeleteCryptoPortfolioDialogComponent implements OnInit {
           this.toastr.success('Your wallet ' + infoData + ' is successful deleted');
 
           // Hide loading
-          this.isLoading = false;
           this.spinner.hide();
 
           // Return true
@@ -55,7 +51,6 @@ export class DeleteCryptoPortfolioDialogComponent implements OnInit {
         },
         error => {
           // Hide loading
-          this.isLoading = false;
           this.spinner.hide();
 
           // Send error toast message

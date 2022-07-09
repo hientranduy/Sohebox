@@ -67,8 +67,6 @@ export class EditMediaTypeDialogComponent implements OnInit {
   iconUrlFormControl = new FormControl('', [
   ]);
 
-  isLoading: Boolean;
-
   ngOnInit() {
     // Set current value
     this.typeClass = this.item.typeClass;
@@ -129,7 +127,6 @@ export class EditMediaTypeDialogComponent implements OnInit {
         });
 
         // Show loading
-        this.isLoading = true;
         this.spinner.show();
 
         // Update
@@ -140,7 +137,6 @@ export class EditMediaTypeDialogComponent implements OnInit {
               this.toastr.success('<Type class ' + this.typeClass + ' & type code ' + this.typeCode + '> is updated successful');
 
               // Hide loading
-              this.isLoading = false;
               this.spinner.hide();
 
               // Close dialog
@@ -149,7 +145,6 @@ export class EditMediaTypeDialogComponent implements OnInit {
             },
             error => {
               // Hide loading
-              this.isLoading = false;
               this.spinner.hide();
 
               // Send error toast message

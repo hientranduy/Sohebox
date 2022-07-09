@@ -11,7 +11,6 @@ import { TradingService } from '../_services';
   styleUrls: ['./finance-stock.component.css']
 })
 export class FinanceStockComponent implements OnInit {
-  isLoading: Boolean = false;
 
   stocks: TradingStockPrice;
 
@@ -42,7 +41,6 @@ export class FinanceStockComponent implements OnInit {
   public loadStockPrice() {
     // Show loading
     this.spinner.show();
-    this.isLoading = false;
 
     // Get list
     this.tradingService.getStockPrice()
@@ -56,7 +54,6 @@ export class FinanceStockComponent implements OnInit {
 
         // Hide loading
         this.spinner.hide();
-        this.isLoading = false;
 
       }, error => {
         this.processError(error);
@@ -72,7 +69,6 @@ export class FinanceStockComponent implements OnInit {
   public processError(error: any) {
     // Hide loading
     this.spinner.hide();
-    this.isLoading = false;
 
     this.alertService.error(error);
   }

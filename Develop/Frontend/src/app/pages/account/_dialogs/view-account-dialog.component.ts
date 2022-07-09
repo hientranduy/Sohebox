@@ -25,8 +25,6 @@ export class ViewAccountDialogComponent implements OnInit {
   ) {
   }
 
-  isLoading: Boolean;
-
   // Form value
   @Input() title: string;
   @Input() message: string;

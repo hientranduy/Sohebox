@@ -27,8 +27,6 @@ export class AddAccountDialogComponent implements OnInit {
     private spinner: SpinnerService
   ) { }
 
-  isLoading: Boolean;
-
   // Form value
   @Input() title: string;
   @Input() message: string;
@@ -80,7 +78,6 @@ export class AddAccountDialogComponent implements OnInit {
     typeSCO.typeClass = typeClass;
 
     // Show loading
-    this.isLoading = true;
     this.spinner.show();
 
     // Get list type
@@ -99,12 +96,10 @@ export class AddAccountDialogComponent implements OnInit {
           }
 
           // Hide loading
-          this.isLoading = false;
           this.spinner.hide();
         },
         error => {
           // Hide loading
-          this.isLoading = false;
           this.spinner.hide();
 
           // Show alert message
@@ -135,7 +130,6 @@ export class AddAccountDialogComponent implements OnInit {
   public accept() {
     if (this.isFormValid()) {
       // Show loading
-      this.isLoading = true;
       this.spinner.show();
 
       // Add account
@@ -152,7 +146,6 @@ export class AddAccountDialogComponent implements OnInit {
             this.toastr.success('Account ' + this.accountTypeValue.typeCode + '<' + this.accountNameValue + '>' + ' is added successful');
 
             // Hide loading
-            this.isLoading = false;
             this.spinner.hide();
 
             // Close dialog
@@ -160,7 +153,6 @@ export class AddAccountDialogComponent implements OnInit {
           },
           error => {
             // Hide loading
-            this.isLoading = false;
             this.spinner.hide();
 
             // Send error toast message

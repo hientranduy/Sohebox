@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { AuthenticationService } from '@app/user/_service';
 import { AlertService } from '@app/_common/alert';
 import { ApiReponse, Config } from '@app/_common/_models';
@@ -15,9 +15,6 @@ import { ConfigDialogService } from './_dialogs';
   styleUrls: ['./setting-config.component.css']
 })
 export class SettingConfigComponent implements OnInit {
-  // Loading
-  isLoading: Boolean;
-
   // Table elements
   pageResult: PageResultVO<Config>;
   currentSort: Sorter;
@@ -165,7 +162,6 @@ export class SettingConfigComponent implements OnInit {
     }
 
     // Show Loading
-    this.isLoading = true;
     this.spinner.show();
 
     // Search
@@ -181,12 +177,10 @@ export class SettingConfigComponent implements OnInit {
 
         // Hide Loading
         this.spinner.hide();
-        this.isLoading = false;
       },
       error => {
         // Hide Loading
         this.spinner.hide();
-        this.isLoading = false;
 
         this.alertService.error(error);
       }

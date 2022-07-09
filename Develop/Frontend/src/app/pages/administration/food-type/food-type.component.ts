@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { FoodTypeService } from '@app/pages/food/_services';
 import { AuthenticationService } from '@app/user/_service';
 import { AlertService } from '@app/_common/alert';
@@ -17,8 +17,6 @@ import { FoodTypeDialogService } from './_dialogs';
   styleUrls: ['./food-type.component.css']
 })
 export class FoodTypeComponent implements OnInit {
-  // Loading
-  isLoading: Boolean;
 
   // Table elements
   pageResult: PageResultVO<FoodType>;
@@ -171,7 +169,6 @@ export class FoodTypeComponent implements OnInit {
     }
 
     // Show Loading
-    this.isLoading = true;
     this.spinner.show();
 
     // Search
@@ -187,12 +184,10 @@ export class FoodTypeComponent implements OnInit {
 
         // Hide Loading
         this.spinner.hide();
-        this.isLoading = false;
       },
       error => {
         // Hide Loading
         this.spinner.hide();
-        this.isLoading = false;
 
         this.alertService.error(error);
       }

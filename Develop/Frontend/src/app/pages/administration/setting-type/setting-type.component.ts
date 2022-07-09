@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { AuthenticationService } from '@app/user/_service';
 import { AlertService } from '@app/_common/alert';
 import { ApiReponse } from '@app/_common/_models';
@@ -16,9 +16,6 @@ import { TypeDialogService } from './_dialogs';
   styleUrls: ['./setting-type.component.css']
 })
 export class SettingTypeComponent implements OnInit {
-  // Loading
-  isLoading: Boolean;
-
   // Table elements
   pageResult: PageResultVO<Type>;
   currentSort: Sorter;
@@ -170,7 +167,6 @@ export class SettingTypeComponent implements OnInit {
     }
 
     // Show Loading
-    this.isLoading = true;
     this.spinner.show();
 
     // Search
@@ -186,12 +182,10 @@ export class SettingTypeComponent implements OnInit {
 
         // Hide Loading
         this.spinner.hide();
-        this.isLoading = false;
       },
       error => {
         // Hide Loading
         this.spinner.hide();
-        this.isLoading = false;
 
         this.alertService.error(error);
       }

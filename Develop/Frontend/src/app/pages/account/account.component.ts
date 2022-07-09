@@ -41,9 +41,6 @@ export class AccountComponent implements OnInit {
     this.pageResult.pageSize = 10;
   }
 
-  // Loading
-  isLoading: Boolean;
-
   // Logged user
   currentUser: User;
 
@@ -176,7 +173,6 @@ export class AccountComponent implements OnInit {
     }
 
     // Show Loading
-    this.isLoading = true;
     this.spinner.show();
 
     // Search
@@ -192,12 +188,10 @@ export class AccountComponent implements OnInit {
 
         // Hide Loading
         this.spinner.hide();
-        this.isLoading = false;
       },
       error => {
         // Hide Loading
         this.spinner.hide();
-        this.isLoading = false;
 
         this.alertService.error(error);
       }

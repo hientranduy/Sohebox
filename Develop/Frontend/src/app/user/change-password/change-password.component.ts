@@ -16,7 +16,6 @@ export class ChangePasswordComponent implements OnInit {
     submitted = false;
     returnUrl: string;
     changePasswordRequestForm: FormGroup;
-    isLoadingChangePass: Boolean;
 
     constructor(
         private formBuilder: FormBuilder,
@@ -61,7 +60,6 @@ export class ChangePasswordComponent implements OnInit {
         }
 
         // Show loading
-        this.isLoadingChangePass = true;
         this.spinner.show();
 
         // Process change password
@@ -70,7 +68,6 @@ export class ChangePasswordComponent implements OnInit {
             .subscribe(
                 data => {
                     // Hide loading
-                    this.isLoadingChangePass = false;
                     this.spinner.hide();
 
                     // Send toast success
@@ -81,7 +78,6 @@ export class ChangePasswordComponent implements OnInit {
                 },
                 error => {
                     // Hide loading
-                    this.isLoadingChangePass = false;
                     this.spinner.hide();
 
                     // Remove user from local storage to log user out

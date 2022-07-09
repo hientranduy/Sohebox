@@ -21,8 +21,6 @@ export class AddYoutubeVideoDialogComponent implements OnInit {
   ) {
   }
 
-  isLoading: Boolean;
-
   // Form value
   @Input() title: string;
   @Input() message: string;
@@ -65,7 +63,6 @@ export class AddYoutubeVideoDialogComponent implements OnInit {
     if (this.isFormValid()) {
       if (this.isVideoValid()) {
         // Show loading
-        this.isLoading = true;
         this.spinner.show();
 
         const video: YoutubeVideo = new YoutubeVideo();
@@ -79,7 +76,6 @@ export class AddYoutubeVideoDialogComponent implements OnInit {
               this.toastr.success('New video ' + this.videoIdFormControl.value + ' is added successful');
 
               // Hide loading
-              this.isLoading = false;
               this.spinner.hide();
 
               // Close dialog
@@ -87,7 +83,6 @@ export class AddYoutubeVideoDialogComponent implements OnInit {
             },
             error => {
               // Hide loading
-              this.isLoading = false;
               this.spinner.hide();
 
               // Send error message to dialog

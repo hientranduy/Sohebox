@@ -17,9 +17,6 @@ import { YoutubeChannelDialogService } from './_dialogs';
   styleUrls: ['./youtube-channel-config.component.css']
 })
 export class YoutubeChannelConfigComponent implements OnInit {
-  // Loading
-  isLoading: Boolean;
-
   // Table elements
   pageResult: PageResultVO<YoutubeChannel>;
   currentSort: Sorter;
@@ -147,7 +144,6 @@ export class YoutubeChannelConfigComponent implements OnInit {
     }
 
     // Show Loading
-    this.isLoading = true;
     this.spinner.show();
 
     // Search
@@ -163,12 +159,10 @@ export class YoutubeChannelConfigComponent implements OnInit {
 
         // Hide Loading
         this.spinner.hide();
-        this.isLoading = false;
       },
       error => {
         // Hide Loading
         this.spinner.hide();
-        this.isLoading = false;
 
         this.alertService.error(error);
       }

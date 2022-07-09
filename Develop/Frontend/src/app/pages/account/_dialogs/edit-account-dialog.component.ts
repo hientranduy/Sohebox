@@ -28,8 +28,6 @@ export class EditAccountDialogComponent implements OnInit {
   ) {
   }
 
-  isLoading: Boolean;
-
   // Form value
   @Input() title: string;
   @Input() message: string;
@@ -88,7 +86,6 @@ export class EditAccountDialogComponent implements OnInit {
     typeSCO.typeClass = typeClass;
 
     // Show loading
-    this.isLoading = true;
     this.spinner.show();
 
     // Get list type
@@ -107,12 +104,10 @@ export class EditAccountDialogComponent implements OnInit {
           }
 
           // Hide loading
-          this.isLoading = false;
           this.spinner.hide();
         },
         error => {
           // Hide loading
-          this.isLoading = false;
           this.spinner.hide();
 
           // Show alert message
@@ -168,7 +163,6 @@ export class EditAccountDialogComponent implements OnInit {
         }
 
         // Show loading
-        this.isLoading = true;
         this.spinner.show();
 
         // Edit account
@@ -179,7 +173,6 @@ export class EditAccountDialogComponent implements OnInit {
               this.toastr.success('Account ' + this.accountTypeValue.typeCode + '<' + this.accountNameValue + '>' + ' is updated successful');
 
               // Hide loading
-              this.isLoading = false;
               this.spinner.hide();
 
               // Close dialog
@@ -187,7 +180,6 @@ export class EditAccountDialogComponent implements OnInit {
             },
             error => {
               // Hide loading
-              this.isLoading = false;
               this.spinner.hide();
 
               // Send error

@@ -18,7 +18,6 @@ import { EnglishService } from '../english/_services';
   styleUrls: ['./english-report.component.css']
 })
 export class EnglishReportComponent implements OnInit {
-  isLoading: Boolean = false;
   userId: number;
   today: Date = new Date();
   currentSortLearnReport: Sorter;
@@ -128,7 +127,6 @@ export class EnglishReportComponent implements OnInit {
     sco.sorters = sorters;
 
     // Show Loading
-    this.isLoading = true;
     this.spinner.show();
 
     // Search
@@ -143,12 +141,10 @@ export class EnglishReportComponent implements OnInit {
 
         // Hide Loading
         this.spinner.hide();
-        this.isLoading = false;
       },
       error => {
         // Hide Loading
         this.spinner.hide();
-        this.isLoading = false;
       }
     );
   }
@@ -217,7 +213,6 @@ export class EnglishReportComponent implements OnInit {
     sco.sorters = sorters;
 
     // Show Loading
-    this.isLoading = true;
     this.spinner.show();
 
     // Search
@@ -232,12 +227,10 @@ export class EnglishReportComponent implements OnInit {
 
         // Hide Loading
         this.spinner.hide();
-        this.isLoading = false;
       },
       error => {
         // Hide Loading
         this.spinner.hide();
-        this.isLoading = false;
 
         // Process error
         this.toastr.error(error);
@@ -275,7 +268,6 @@ export class EnglishReportComponent implements OnInit {
     sco.userId = userIdSearch;
 
     // Show Loading
-    this.isLoading = true;
     this.spinner.show();
 
     // Search
@@ -301,7 +293,6 @@ export class EnglishReportComponent implements OnInit {
       error => {
         // Hide Loading
         this.spinner.hide();
-        this.isLoading = false;
 
         // Process error
         this.toastr.error(error);

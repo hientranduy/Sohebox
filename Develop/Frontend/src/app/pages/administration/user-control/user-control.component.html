@@ -1,5 +1,5 @@
-<ngx-spinner *ngIf="isLoadingUserControl">
-  <p class="loading">Loading user ...</p>
+<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-atom" [fullScreen]="true">
+  <p style="color: white"> Loading... </p>
 </ngx-spinner>
 
 <div>
@@ -9,32 +9,18 @@
 
   <br>
   <br>
-  <input matInput class="page-input-filter" (keyup)="onFilter($event)" placeholder="Type to filter the username column...">
+  <input matInput class="page-input-filter" (keyup)="onFilter($event)"
+    placeholder="Type to filter the username column...">
 
-  <mat-paginator 
-      class="mat-table-paginator-style" 
-      [length]="pageResult.totalElement" 
-      [pageIndex]="pageResult.currentPage" 
-      [pageSize]="pageResult.pageSize" 
-      [pageSizeOptions]="[5, 10, 20, 50]"
-      (page)="handlePaginatorEvent($event)" 
-      showFirstLastButtons>
+  <mat-paginator class="mat-table-paginator-style" [length]="pageResult.totalElement"
+    [pageIndex]="pageResult.currentPage" [pageSize]="pageResult.pageSize" [pageSizeOptions]="[5, 10, 20, 50]"
+    (page)="handlePaginatorEvent($event)" showFirstLastButtons>
   </mat-paginator>
 
-  <ngx-datatable 
-      class="material" 
-      [rows]="pageResult.elements" 
-      [columnMode]="'flex'" 
-      [headerHeight]="50"
-      [footerHeight]="50" 
-      rowHeight="auto" 
-      [externalPaging]="true" 
-      [externalSorting]="true"
-      [count]="pageResult.totalElement" 
-      [offset]="pageResult.currentPage"   
-      [limit]="pageResult.pageSize"
-      (page)="setPage($event)" 
-      (sort)="onSort($event)">
+  <ngx-datatable class="material" [rows]="pageResult.elements" [columnMode]="'flex'" [headerHeight]="50"
+    [footerHeight]="50" rowHeight="auto" [externalPaging]="true" [externalSorting]="true"
+    [count]="pageResult.totalElement" [offset]="pageResult.currentPage" [limit]="pageResult.pageSize"
+    (page)="setPage($event)" (sort)="onSort($event)">
 
     <ngx-datatable-column name="Full Name" prop="firstName" [flexGrow]="1">
       <ng-template let-row="row" ngx-datatable-cell-template>
@@ -54,7 +40,7 @@
       </ng-template>
     </ngx-datatable-column>
 
-    <ngx-datatable-column name="Status" [sortable]="false" [flexGrow]="4"> 
+    <ngx-datatable-column name="Status" [sortable]="false" [flexGrow]="4">
       <ng-template let-row="row" ngx-datatable-cell-template>
         {{row.status}} {{row.durationTime}} ago
       </ng-template>

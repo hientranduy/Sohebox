@@ -1,6 +1,6 @@
 <!-- Loading spinner -->
-<ngx-spinner *ngIf="isLoading">
-    <p class="loading">Loading image ...</p>
+<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-atom" [fullScreen]="true">
+    <p style="color: white"> Loading... </p>
 </ngx-spinner>
 
 <div class="row nopadding" style="background-color: transparent;font-size: 0.9em;">
@@ -13,7 +13,8 @@
                 class="placeholder">Type or select your favourite
                 youtube channel</mat-placeholder>
             <mat-autocomplete #autoChannel="matAutocomplete" [displayWith]="displayChannel">
-                <mat-option *ngFor="let channel of filteredChannels | async" [value]="channel" (onSelectionChange)="searchMovieByChannel(channel)">
+                <mat-option *ngFor="let channel of filteredChannels | async" [value]="channel"
+                    (onSelectionChange)="searchMovieByChannel(channel)">
                     {{channel.name}}
                 </mat-option>
             </mat-autocomplete>

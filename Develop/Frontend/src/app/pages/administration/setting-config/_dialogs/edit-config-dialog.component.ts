@@ -38,8 +38,6 @@ export class EditConfigDialogComponent implements OnInit {
   configValue: string;
   description: string;
 
-  isLoadingConfigEdit: Boolean;
-
   /////////////////////////////////////
   // FORM FIELD VALIDATION           //
   /////////////////////////////////////
@@ -115,7 +113,6 @@ export class EditConfigDialogComponent implements OnInit {
         });
 
         // Show loading
-        this.isLoadingConfigEdit = true;
         this.spinner.show();
 
         // Update
@@ -126,7 +123,6 @@ export class EditConfigDialogComponent implements OnInit {
               this.toastr.success('<Config Key ' + this.item.configKey + '> is updated successful');
 
               // Hide loading
-              this.isLoadingConfigEdit = false;
               this.spinner.hide();
 
               // Close dialog
@@ -135,7 +131,6 @@ export class EditConfigDialogComponent implements OnInit {
             },
             error => {
               // Hide loading
-              this.isLoadingConfigEdit = false;
               this.spinner.hide();
 
               // Send error toast message

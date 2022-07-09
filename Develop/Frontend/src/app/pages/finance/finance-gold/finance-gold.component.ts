@@ -11,7 +11,6 @@ import { FinanceService } from '../_services';
   styleUrls: ['./finance-gold.component.css']
 })
 export class FinanceGoldComponent implements OnInit {
-  isLoading: Boolean = false;
   goldSjc: GoldSjc;
 
   constructor(
@@ -30,7 +29,6 @@ export class FinanceGoldComponent implements OnInit {
   public loadGoldSjc() {
     // Show loading
     this.spinner.show();
-    this.isLoading = false;
 
     // Get list
     this.financeService.getGoldSjcPrice()
@@ -46,7 +44,6 @@ export class FinanceGoldComponent implements OnInit {
 
         // Hide loading
         this.spinner.hide();
-        this.isLoading = false;
 
       }, error => {
         this.processError(error);
@@ -62,7 +59,6 @@ export class FinanceGoldComponent implements OnInit {
   public processError(error: any) {
     // Hide loading
     this.spinner.hide();
-    this.isLoading = false;
 
     this.alertService.error(error);
   }

@@ -71,8 +71,6 @@ export class EditTypeDialogComponent implements OnInit {
   urlFormControl = new FormControl('', [
   ]);
 
-  isLoadingTypeEdit: Boolean;
-
   ngOnInit() {
     // Set current value
     this.typeClass = this.type.typeClass;
@@ -135,7 +133,6 @@ export class EditTypeDialogComponent implements OnInit {
         });
 
         // Show loading
-        this.isLoadingTypeEdit = true;
         this.spinner.show();
 
         // Update
@@ -146,7 +143,6 @@ export class EditTypeDialogComponent implements OnInit {
               this.toastr.success('<Type class ' + this.typeClass + ' & type code ' + this.typeCode + '> is updated successful');
 
               // Hide loading
-              this.isLoadingTypeEdit = false;
               this.spinner.hide();
 
               // Close dialog
@@ -155,7 +151,6 @@ export class EditTypeDialogComponent implements OnInit {
             },
             error => {
               // Hide loading
-              this.isLoadingTypeEdit = false;
               this.spinner.hide();
 
               // Send error toast message

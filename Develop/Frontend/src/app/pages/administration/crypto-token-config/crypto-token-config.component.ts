@@ -17,8 +17,6 @@ import { CryptoTokenDialogService } from './_dialogs';
   styleUrls: ['./crypto-token-config.component.css']
 })
 export class CryptoTokenConfigComponent implements OnInit {
-  // Loading
-  isLoading: Boolean;
 
   // Table elements
   pageResult: PageResultVO<CryptoTokenConfig>;
@@ -153,7 +151,6 @@ export class CryptoTokenConfigComponent implements OnInit {
     }
 
     // Show Loading
-    this.isLoading = true;
     this.spinner.show();
 
     // Search
@@ -169,12 +166,10 @@ export class CryptoTokenConfigComponent implements OnInit {
 
         // Hide Loading
         this.spinner.hide();
-        this.isLoading = false;
       },
       error => {
         // Hide Loading
         this.spinner.hide();
-        this.isLoading = false;
 
         this.alertService.error(error);
       }

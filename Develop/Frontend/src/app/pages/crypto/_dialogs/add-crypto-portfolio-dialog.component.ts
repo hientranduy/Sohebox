@@ -27,8 +27,6 @@ export class AddCryptoFortfolioDialogComponent implements OnInit {
     private spinner: SpinnerService
   ) { }
 
-  isLoading: Boolean;
-
   // Form value
   @Input() title: string;
   @Input() message: string;
@@ -78,7 +76,6 @@ export class AddCryptoFortfolioDialogComponent implements OnInit {
     sco.nodeUrl = nodeUrl;
 
     // Show loading
-    this.isLoading = true;
     this.spinner.show();
 
     // Get list type
@@ -97,12 +94,10 @@ export class AddCryptoFortfolioDialogComponent implements OnInit {
           }
 
           // Hide loading
-          this.isLoading = false;
           this.spinner.hide();
         },
         error => {
           // Hide loading
-          this.isLoading = false;
           this.spinner.hide();
 
           // Show alert message
@@ -133,7 +128,6 @@ export class AddCryptoFortfolioDialogComponent implements OnInit {
   public accept() {
     if (this.isFormValid()) {
       // Show loading
-      this.isLoading = true;
       this.spinner.show();
 
       // Add 
@@ -149,7 +143,6 @@ export class AddCryptoFortfolioDialogComponent implements OnInit {
             this.toastr.success('Wallet ' + this.walletValue + '<' + this.tokenValue.tokenCode + '>' + ' is added successful');
 
             // Hide loading
-            this.isLoading = false;
             this.spinner.hide();
 
             // Close dialog
@@ -157,7 +150,6 @@ export class AddCryptoFortfolioDialogComponent implements OnInit {
           },
           error => {
             // Hide loading
-            this.isLoading = false;
             this.spinner.hide();
 
             // Send error toast message

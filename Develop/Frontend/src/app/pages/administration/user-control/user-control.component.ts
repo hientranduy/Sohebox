@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, HostListener } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { UserStatus } from '@app/user/_models';
 import { UserService } from '@app/user/_service';
 import { AlertService } from '@app/_common/alert';
@@ -15,7 +15,6 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./user-control.component.css']
 })
 export class UserControlComponent implements OnInit, OnDestroy {
-  isLoadingUserControl: Boolean = false;
   pageResult: PageResultVO<UserStatus>;
 
   currentSort: Sorter;
@@ -137,7 +136,6 @@ export class UserControlComponent implements OnInit, OnDestroy {
     }
 
     // Show Loading
-    this.isLoadingUserControl = true;
     this.spinner.show();
 
     // Search
@@ -154,12 +152,10 @@ export class UserControlComponent implements OnInit, OnDestroy {
 
         // Hide Loading
         this.spinner.hide();
-        this.isLoadingUserControl = false;
 
       }, error => {
         // Hide Loading
         this.spinner.hide();
-        this.isLoadingUserControl = false;
 
         this.alertService.error(error);
       });
@@ -175,7 +171,6 @@ export class UserControlComponent implements OnInit, OnDestroy {
     sco.maxRecordPerPage = pageRecord;
 
     // Show Loading
-    this.isLoadingUserControl = true;
     this.spinner.show();
 
     // Search
@@ -190,12 +185,10 @@ export class UserControlComponent implements OnInit, OnDestroy {
 
         // Hide Loading
         this.spinner.hide();
-        this.isLoadingUserControl = false;
 
       }, error => {
         // Hide Loading
         this.spinner.hide();
-        this.isLoadingUserControl = false;
 
         this.alertService.error(error);
       });

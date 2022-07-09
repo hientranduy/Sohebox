@@ -26,9 +26,6 @@ export class AddCryptoTokenConfigDialogComponent implements OnInit {
   ) {
   }
 
-  isLoading: Boolean;
-  isLoadingContent: Boolean;
-
   // Form value
   @Input() title: string;
   @Input() message: string;
@@ -114,7 +111,6 @@ export class AddCryptoTokenConfigDialogComponent implements OnInit {
       });
 
       // Show loading
-      this.isLoading = true;
       this.spinner.show();
 
       // Add
@@ -125,7 +121,6 @@ export class AddCryptoTokenConfigDialogComponent implements OnInit {
             this.toastr.success('New token ' + this.tokenCodeValue + ' is added successful');
 
             // Hide loading
-            this.isLoading = false;
             this.spinner.hide();
 
             // Close dialog
@@ -134,7 +129,6 @@ export class AddCryptoTokenConfigDialogComponent implements OnInit {
           },
           error => {
             // Hide loading
-            this.isLoading = false;
             this.spinner.hide();
 
             // Send error message to dialog

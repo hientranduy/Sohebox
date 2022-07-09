@@ -34,7 +34,6 @@ export class UpdateEnglishLevelDialogComponent implements OnInit {
     this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
   }
 
-  isLoading: Boolean;
   currentUser: User;
   englishUserGrade: EnglishUserGrade;
 
@@ -96,7 +95,6 @@ export class UpdateEnglishLevelDialogComponent implements OnInit {
     typeSCO.sorters = sorters;
 
     // Show loading
-    this.isLoading = true;
     this.spinner.show();
 
     // Get list type
@@ -114,11 +112,9 @@ export class UpdateEnglishLevelDialogComponent implements OnInit {
         }
 
         // Hide loading
-        this.isLoading = false;
         this.spinner.hide();
       }, error => {
         // Hide loading
-        this.isLoading = false;
         this.spinner.hide();
 
         this.alertService.error(error);
@@ -136,7 +132,6 @@ export class UpdateEnglishLevelDialogComponent implements OnInit {
     englishTypeSCO.typeClass = typeClass;
 
     // Show loading
-    this.isLoading = true;
     this.spinner.show();
 
     // Get list type
@@ -154,11 +149,9 @@ export class UpdateEnglishLevelDialogComponent implements OnInit {
         }
 
         // Hide loading
-        this.isLoading = false;
         this.spinner.hide();
       }, error => {
         // Hide loading
-        this.isLoading = false;
         this.spinner.hide();
 
         this.alertService.error(error);
@@ -176,7 +169,6 @@ export class UpdateEnglishLevelDialogComponent implements OnInit {
     const englishUserGradeSCO = new EnglishUserGradeSCO();
     englishUserGradeSCO.userId = userId;
 
-    this.isLoading = true;
     this.spinner.show();
 
     // Search
@@ -193,11 +185,9 @@ export class UpdateEnglishLevelDialogComponent implements OnInit {
         }
 
         // Hide loading
-        this.isLoading = false;
         this.spinner.hide();
       }, error => {
         // Hide loading
-        this.isLoading = false;
         this.spinner.hide();
 
         this.alertService.error(error);
@@ -256,7 +246,6 @@ export class UpdateEnglishLevelDialogComponent implements OnInit {
         englishUserGrade.learnDay = learnDayTypeVO;
 
         // Show loading
-        this.isLoading = true;
         this.spinner.show();
 
         // Edit word
@@ -267,7 +256,6 @@ export class UpdateEnglishLevelDialogComponent implements OnInit {
               this.toastr.success('Your new level is updated successful');
 
               // Hide loading
-              this.isLoading = false;
               this.spinner.hide();
 
               // Close dialog
@@ -278,7 +266,6 @@ export class UpdateEnglishLevelDialogComponent implements OnInit {
               this.toastr.error(error);
 
               // Hide loading
-              this.isLoading = false;
               this.spinner.hide();
 
               // Close dialog

@@ -1,5 +1,5 @@
-<ngx-spinner *ngIf="isLoading">
-    <p class="loading">Loading page ...</p>
+<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-atom" [fullScreen]="true">
+    <p style="color: white"> Loading... </p>
 </ngx-spinner>
 
 <div class="account-container">
@@ -32,9 +32,9 @@
     <!-- Table data -->
     <input matInput class="page-input-filter" (keyup)="onFilter($event)" placeholder="Type to search value...">
 
-    <mat-paginator class="mat-table-paginator-style" [length]="pageResult.totalElement" [pageIndex]="pageResult.currentPage"
-        [pageSize]="pageResult.pageSize" [pageSizeOptions]="[5, 10, 20, 50]" (page)="handlePaginatorEvent($event)"
-        showFirstLastButtons>
+    <mat-paginator class="mat-table-paginator-style" [length]="pageResult.totalElement"
+        [pageIndex]="pageResult.currentPage" [pageSize]="pageResult.pageSize" [pageSizeOptions]="[5, 10, 20, 50]"
+        (page)="handlePaginatorEvent($event)" showFirstLastButtons>
     </mat-paginator>
 
     <ngx-datatable class="material" [rows]="pageResult.elements" [columnMode]="'force'" [headerHeight]="50"

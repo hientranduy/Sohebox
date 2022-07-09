@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { SpinnerService } from '@app/_common/_services';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   templateUrl: 'delete-type-dialog.component.html',
@@ -12,8 +12,6 @@ export class DeleteTypeDialogComponent implements OnInit {
   @Input() message: string;
   @Input() btnOkText: string;
   @Input() btnCancelText: string;
-
-  isLoadingTypeDelete: Boolean;
 
   constructor(
     private activeModal: NgbActiveModal,

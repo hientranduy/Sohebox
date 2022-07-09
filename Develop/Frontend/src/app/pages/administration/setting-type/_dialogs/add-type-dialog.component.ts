@@ -11,8 +11,6 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./add-type-dialog.component.css']
 })
 export class AddTypeDialogComponent implements OnInit {
-  isLoading: Boolean;
-
   // Form value
   @Input() title: string;
   @Input() message: string;
@@ -113,7 +111,6 @@ export class AddTypeDialogComponent implements OnInit {
         });
 
         // Show loading
-        this.isLoading = true;
         this.spinner.show();
 
         // Create
@@ -124,7 +121,6 @@ export class AddTypeDialogComponent implements OnInit {
               this.toastr.success('<Type class ' + this.typeClass + ' & type code ' + this.typeCode + '> is updated successful');
 
               // Hide loading
-              this.isLoading = false;
               this.spinner.hide();
 
               // Close dialog
@@ -133,7 +129,6 @@ export class AddTypeDialogComponent implements OnInit {
             },
             error => {
               // Hide loading
-              this.isLoading = false;
               this.spinner.hide();
 
               // Send error toast message

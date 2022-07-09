@@ -57,9 +57,6 @@ export class AddWordDialogComponent implements OnInit {
   // Filter learn day
   filteredLearnDays: Observable<EnglishType[]>;
 
-  isLoadingEnglishAdd: Boolean;
-  isLoadingContent: Boolean;
-
   /////////////////////////////////////
   // FORM FIELD VALIDATION           //
   /////////////////////////////////////
@@ -105,7 +102,6 @@ export class AddWordDialogComponent implements OnInit {
     typeSCO.sorters = sorters;
 
     // Show loading
-    this.isLoadingContent = true;
     this.spinner.show();
 
     // Get list type
@@ -127,12 +123,10 @@ export class AddWordDialogComponent implements OnInit {
         }
 
         // Hide loading
-        this.isLoadingContent = false;
         this.spinner.hide();
       },
       error => {
         // Hide loading
-        this.isLoadingContent = false;
         this.spinner.hide();
 
         this.alertService.error(error);
@@ -145,7 +139,6 @@ export class AddWordDialogComponent implements OnInit {
    */
   getFilterCategories() {
     // Show loading
-    this.isLoadingContent = true;
     this.spinner.show();
 
     // Prepare search condition
@@ -175,12 +168,10 @@ export class AddWordDialogComponent implements OnInit {
         }
 
         // Hide loading
-        this.isLoadingContent = false;
         this.spinner.hide();
       },
       error => {
         // Hide loading
-        this.isLoadingContent = false;
         this.spinner.hide();
 
         this.alertService.error(error);
@@ -200,7 +191,6 @@ export class AddWordDialogComponent implements OnInit {
     englishTypeSCO.deleteFlag = false;
 
     // Show loading
-    this.isLoadingContent = true;
     this.spinner.show();
 
     // Get list type
@@ -223,12 +213,10 @@ export class AddWordDialogComponent implements OnInit {
         }
 
         // Hide loading
-        this.isLoadingContent = false;
         this.spinner.hide();
       },
       error => {
         // Hide loading
-        this.isLoadingContent = false;
         this.spinner.hide();
 
         this.alertService.error(error);
@@ -316,7 +304,6 @@ export class AddWordDialogComponent implements OnInit {
       });
 
       // Show loading
-      this.isLoadingEnglishAdd = true;
       this.spinner.show();
 
       // Add account
@@ -328,7 +315,6 @@ export class AddWordDialogComponent implements OnInit {
           );
 
           // Hide loading
-          this.isLoadingEnglishAdd = false;
           this.spinner.hide();
 
           // Close dialog
@@ -336,7 +322,6 @@ export class AddWordDialogComponent implements OnInit {
         },
         error => {
           // Hide loading
-          this.isLoadingEnglishAdd = false;
           this.spinner.hide();
 
           // Send error message to dialog

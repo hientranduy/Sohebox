@@ -25,9 +25,6 @@ export class YoutubePlayerChannelComponent implements OnInit {
   videoWidth;
   player;
 
-  // Loading
-  isLoading: Boolean;
-
   // Video list
   videos: Array<YoutubeVideo>;
 
@@ -81,7 +78,6 @@ export class YoutubePlayerChannelComponent implements OnInit {
 
     // Show loading
     this.spinner.show();
-    this.isLoading = false;
 
     // Get list
     this.youtubeService.searchChannelVideo(sco)
@@ -101,7 +97,6 @@ export class YoutubePlayerChannelComponent implements OnInit {
 
         // Hide loading
         this.spinner.hide();
-        this.isLoading = false;
 
       }, error => {
         this.processError(error);
@@ -114,7 +109,6 @@ export class YoutubePlayerChannelComponent implements OnInit {
   public getPrivateVideos() {
     // Show loading
     this.spinner.show();
-    this.isLoading = false;
 
     // Get list
     this.youtubeService.getPrivateVideo()
@@ -133,7 +127,6 @@ export class YoutubePlayerChannelComponent implements OnInit {
 
         // Hide loading
         this.spinner.hide();
-        this.isLoading = false;
 
       }, error => {
         this.processError(error);
@@ -203,7 +196,6 @@ export class YoutubePlayerChannelComponent implements OnInit {
   public processError(error: any) {
     // Hide loading
     this.spinner.hide();
-    this.isLoading = false;
 
     this.alertService.error(error);
   }

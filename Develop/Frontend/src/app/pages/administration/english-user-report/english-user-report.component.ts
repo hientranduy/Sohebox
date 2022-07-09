@@ -16,9 +16,6 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./english-user-report.component.css']
 })
 export class EnglishUserReportComponent implements OnInit {
-  // Loading
-  isLoading: Boolean;
-
   // Table elements
   pageResult: PageResultVO<EnglishLearnReport>;
 
@@ -49,7 +46,6 @@ export class EnglishUserReportComponent implements OnInit {
    */
   public getPageResult() {
     // Show Loading
-    this.isLoading = true;
     this.spinner.show();
 
     // Search
@@ -65,12 +61,10 @@ export class EnglishUserReportComponent implements OnInit {
 
         // Hide Loading
         this.spinner.hide();
-        this.isLoading = false;
       },
       error => {
         // Hide Loading
         this.spinner.hide();
-        this.isLoading = false;
 
         this.alertService.error(error);
       }

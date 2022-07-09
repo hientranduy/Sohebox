@@ -12,7 +12,6 @@ import { FoodService } from '../_services';
   styleUrls: ['./food-detail.component.css']
 })
 export class FoodDetailComponent implements OnInit {
-  isLoadingFood: Boolean = false;
   food: Food;
   displayImageUrl: string;
 
@@ -25,7 +24,6 @@ export class FoodDetailComponent implements OnInit {
 
   ngOnInit() {
     // Show loading
-    this.isLoadingFood = true;
     this.spinner.show();
 
     // Get food id from parameters
@@ -46,12 +44,10 @@ export class FoodDetailComponent implements OnInit {
           this.displayImageUrl = AppSettings.FOOD_IMAGE_PATH + this.food.imageName;
 
           // Hide loading
-          this.isLoadingFood = false;
           this.spinner.hide();
         },
         error => {
           // Hide loading
-          this.isLoadingFood = false;
           this.spinner.hide();
 
           this.alertService.error(error);

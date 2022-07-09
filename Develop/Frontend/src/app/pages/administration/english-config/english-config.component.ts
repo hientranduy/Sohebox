@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { AppSettings } from '@app/appSettings';
 import { EnglishDialogService } from '@app/pages/english/_dialogs';
 import { English } from '@app/pages/english/_model';
@@ -18,8 +18,6 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./english-config.component.css']
 })
 export class EnglishConfigComponent implements OnInit {
-  // Loading
-  isLoading: Boolean;
 
   // Table elements
   pageResult: PageResultVO<English>;
@@ -149,7 +147,6 @@ export class EnglishConfigComponent implements OnInit {
     }
 
     // Show Loading
-    this.isLoading = true;
     this.spinner.show();
 
     // Search
@@ -165,12 +162,10 @@ export class EnglishConfigComponent implements OnInit {
 
         // Hide Loading
         this.spinner.hide();
-        this.isLoading = false;
       },
       error => {
         // Hide Loading
         this.spinner.hide();
-        this.isLoading = false;
 
         this.alertService.error(error);
       }

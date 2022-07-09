@@ -14,7 +14,6 @@ export class LoginComponent implements OnInit {
     loginForm: FormGroup;
     submitted = false;
     returnUrl: string;
-    isLoadingLogin: Boolean;
 
     accountDisplay: string;
     passwordDisplay: string;
@@ -59,7 +58,6 @@ export class LoginComponent implements OnInit {
         }
 
         // Show loading
-        this.isLoadingLogin = true;
         this.spinner.show();
 
         // Authenticate
@@ -68,7 +66,6 @@ export class LoginComponent implements OnInit {
             .subscribe(
                 data => {
                     // Hide loading
-                    this.isLoadingLogin = false;
                     this.spinner.hide();
 
                     // Navigate to page "/"
@@ -76,7 +73,6 @@ export class LoginComponent implements OnInit {
                 },
                 error => {
                     // Hide loading
-                    this.isLoadingLogin = false;
                     this.spinner.hide();
 
                     // Alert error message

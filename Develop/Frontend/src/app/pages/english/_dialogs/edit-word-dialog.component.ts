@@ -51,9 +51,6 @@ export class EditWordDialogComponent implements OnInit {
   imageExtention: String;
   gradeValue: string;
 
-  isLoadingEnglishEdit: Boolean;
-  isLoadingContent: Boolean;
-
   // Filter grade
   filteredGrades: Observable<EnglishType[]>;
 
@@ -133,7 +130,6 @@ export class EditWordDialogComponent implements OnInit {
     typeSCO.sorters = sorters;
 
     // Show loading
-    this.isLoadingContent = true;
     this.spinner.show();
 
     // Get list type
@@ -151,11 +147,9 @@ export class EditWordDialogComponent implements OnInit {
         }
 
         // Hide loading
-        this.isLoadingContent = false;
         this.spinner.hide();
       }, error => {
         // Hide loading
-        this.isLoadingContent = false;
         this.spinner.hide();
 
         this.alertService.error(error);
@@ -174,7 +168,6 @@ export class EditWordDialogComponent implements OnInit {
     typeSCO.deleteFlag = false;
 
     // Show loading
-    this.isLoadingContent = true;
     this.spinner.show();
 
     // Get list type
@@ -193,11 +186,9 @@ export class EditWordDialogComponent implements OnInit {
         }
 
         // Hide loading
-        this.isLoadingContent = false;
         this.spinner.hide();
       }, error => {
         // Hide loading
-        this.isLoadingContent = false;
         this.spinner.hide();
 
         this.alertService.error(error);
@@ -216,7 +207,6 @@ export class EditWordDialogComponent implements OnInit {
     englishTypeSCO.deleteFlag = false;
 
     // Show loading
-    this.isLoadingContent = true;
     this.spinner.show();
 
     // Get list type
@@ -235,11 +225,9 @@ export class EditWordDialogComponent implements OnInit {
         }
 
         // Hide loading
-        this.isLoadingContent = false;
         this.spinner.hide();
       }, error => {
         // Hide loading
-        this.isLoadingContent = false;
         this.spinner.hide();
 
         this.alertService.error(error);
@@ -356,7 +344,6 @@ export class EditWordDialogComponent implements OnInit {
         }
 
         // Show loading
-        this.isLoadingEnglishEdit = true;
         this.spinner.show();
 
         // Edit word
@@ -367,7 +354,6 @@ export class EditWordDialogComponent implements OnInit {
               this.toastr.success('The Word ' + this.keyWord + ' is updated successful');
 
               // Hide loading
-              this.isLoadingEnglishEdit = false;
               this.spinner.hide();
 
               // Close dialog
@@ -378,7 +364,6 @@ export class EditWordDialogComponent implements OnInit {
               this.toastr.error(error);
 
               // Hide loading
-              this.isLoadingEnglishEdit = false;
               this.spinner.hide();
 
               // Close dialog

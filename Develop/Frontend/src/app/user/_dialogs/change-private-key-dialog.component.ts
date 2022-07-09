@@ -17,7 +17,6 @@ export class ChangePrivateKeyDialogComponent implements OnInit {
   @Input() btnOkText: string;
   @Input() btnCancelText: string;
 
-  isLoading = false;
   currentUser: User;
 
   oldPrivateKey: string;
@@ -60,7 +59,6 @@ export class ChangePrivateKeyDialogComponent implements OnInit {
 
     if (this.validData) {
       // Show loading
-      this.isLoading = true;
       this.spinner.show();
 
       // Change private key
@@ -73,14 +71,12 @@ export class ChangePrivateKeyDialogComponent implements OnInit {
           data => {
             this.alertService.success('Private key change successful', true);
 
-            this.isLoading = false;
             this.spinner.hide();
 
             // Close dialog
             this.activeModal.close(true);
           },
           error => {
-            this.isLoading = false;
             this.spinner.hide();
 
             this.messageError = error;

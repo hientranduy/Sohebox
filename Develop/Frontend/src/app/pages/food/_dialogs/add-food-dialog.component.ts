@@ -63,9 +63,6 @@ export class AddFoodDialogComponent implements OnInit {
   // Filter category
   filteredCategories: Observable<FoodType[]>;
 
-  isLoadingFoodAdd: Boolean;
-  isLoadingContent: Boolean;
-
   /////////////////////////////////////
   // FORM FIELD VALIDATION           //
   /////////////////////////////////////
@@ -133,7 +130,6 @@ export class AddFoodDialogComponent implements OnInit {
     sco.sorters = sorters;
 
     // Show loading
-    this.isLoadingContent = true;
     this.spinner.show();
 
     // Get list
@@ -151,11 +147,9 @@ export class AddFoodDialogComponent implements OnInit {
         }
 
         // Hide loading
-        this.isLoadingContent = false;
         this.spinner.hide();
       }, error => {
         // Hide loading
-        this.isLoadingContent = false;
         this.spinner.hide();
 
         this.alertService.error(error);
@@ -167,7 +161,6 @@ export class AddFoodDialogComponent implements OnInit {
    */
   getFilterCategories() {
     // Show loading
-    this.isLoadingContent = true;
     this.spinner.show();
 
     // Prepare search condition
@@ -196,11 +189,9 @@ export class AddFoodDialogComponent implements OnInit {
         }
 
         // Hide loading
-        this.isLoadingContent = false;
         this.spinner.hide();
       }, error => {
         // Hide loading
-        this.isLoadingContent = false;
         this.spinner.hide();
 
         this.alertService.error(error);
@@ -288,7 +279,6 @@ export class AddFoodDialogComponent implements OnInit {
       });
 
       // Show loading
-      this.isLoadingFoodAdd = true;
       this.spinner.show();
 
       // Add
@@ -299,7 +289,6 @@ export class AddFoodDialogComponent implements OnInit {
             this.toastr.success('New Food ' + this.nameValue + ' is added successful');
 
             // Hide loading
-            this.isLoadingFoodAdd = false;
             this.spinner.hide();
 
             // Close dialog
@@ -308,7 +297,6 @@ export class AddFoodDialogComponent implements OnInit {
           },
           error => {
             // Hide loading
-            this.isLoadingFoodAdd = false;
             this.spinner.hide();
 
             // Send error message to dialog

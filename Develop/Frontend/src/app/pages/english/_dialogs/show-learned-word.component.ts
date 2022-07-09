@@ -41,9 +41,6 @@ export class ShowLearnedWordComponent implements OnInit {
   @Input() message: string;
   @Input() btnCancelText: string;
 
-  // Working field
-  isLoadingLearnedWord: Boolean;
-
   ngOnInit() {
   }
 
@@ -61,7 +58,6 @@ export class ShowLearnedWordComponent implements OnInit {
     sco.userId = userIdSearch;
 
     // Show Loading
-    this.isLoadingLearnedWord = true;
     this.spinner.show();
 
     // Search
@@ -76,7 +72,6 @@ export class ShowLearnedWordComponent implements OnInit {
 
         // Hide Loading
         this.spinner.hide();
-        this.isLoadingLearnedWord = false;
       }, error => {
         this.processError(error);
       });
@@ -88,7 +83,6 @@ export class ShowLearnedWordComponent implements OnInit {
   public processError(error: any) {
     // Hide Loading
     this.spinner.hide();
-    this.isLoadingLearnedWord = false;
 
     // Close dialog
     this.activeModal.close(false);

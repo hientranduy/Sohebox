@@ -32,8 +32,6 @@ export class AddConfigDialogComponent implements OnInit {
   configValue: string;
   description: string;
 
-  isLoadingConfigAdd: Boolean;
-
   /////////////////////////////////////
   // FORM FIELD VALIDATION           //
   /////////////////////////////////////
@@ -96,7 +94,6 @@ export class AddConfigDialogComponent implements OnInit {
         });
 
         // Show loading
-        this.isLoadingConfigAdd = true;
         this.spinner.show();
 
         // Update
@@ -107,7 +104,6 @@ export class AddConfigDialogComponent implements OnInit {
               this.toastr.success('<Config Key ' + this.configKey + '> is created successful');
 
               // Hide loading
-              this.isLoadingConfigAdd = false;
               this.spinner.hide();
 
               // Close dialog
@@ -116,7 +112,6 @@ export class AddConfigDialogComponent implements OnInit {
             },
             error => {
               // Hide loading
-              this.isLoadingConfigAdd = false;
               this.spinner.hide();
 
               // Send error toast message

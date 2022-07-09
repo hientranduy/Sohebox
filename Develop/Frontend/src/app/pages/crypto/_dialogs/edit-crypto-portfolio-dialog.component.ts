@@ -27,8 +27,6 @@ export class EditCryptoPortfolioDialogComponent implements OnInit {
   ) {
   }
 
-  isLoading: Boolean;
-
   // Form value
   @Input() title: string;
   @Input() message: string;
@@ -80,7 +78,6 @@ export class EditCryptoPortfolioDialogComponent implements OnInit {
     const sco = new CryptoTokenConfigSCO();
 
     // Show loading
-    this.isLoading = true;
     this.spinner.show();
 
     // Get list type
@@ -99,12 +96,10 @@ export class EditCryptoPortfolioDialogComponent implements OnInit {
           }
 
           // Hide loading
-          this.isLoading = false;
           this.spinner.hide();
         },
         error => {
           // Hide loading
-          this.isLoading = false;
           this.spinner.hide();
 
           // Show alert message
@@ -155,7 +150,6 @@ export class EditCryptoPortfolioDialogComponent implements OnInit {
         updateItem.starname = this.starnameValue;
 
         // Show loading
-        this.isLoading = true;
         this.spinner.show();
 
         // Edit account
@@ -166,7 +160,6 @@ export class EditCryptoPortfolioDialogComponent implements OnInit {
               this.toastr.success('Wallet ' + this.walletValue + '<' + this.tokenValue.tokenCode + '>' + ' is updated successful');
 
               // Hide loading
-              this.isLoading = false;
               this.spinner.hide();
 
               // Close dialog
@@ -174,7 +167,6 @@ export class EditCryptoPortfolioDialogComponent implements OnInit {
             },
             error => {
               // Hide loading
-              this.isLoading = false;
               this.spinner.hide();
 
               // Send error

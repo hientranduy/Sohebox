@@ -1,5 +1,5 @@
-<ngx-spinner *ngIf="isLoading">
-    <p class="loading">Loading page ...</p>
+<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-atom" [fullScreen]="true">
+    <p style="color: white"> Loading... </p>
 </ngx-spinner>
 
 <button mat-button class="page-title-button">
@@ -8,14 +8,8 @@
 
 <br>
 <br>
-<ngx-datatable 
-    class="material" 
-    [rows]="pageResult.elements" 
-    [columnMode]="'force'" 
-    [headerHeight]="50"
-    [footerHeight]="50" 
-    rowHeight="auto" 
-    [limit]="10">
+<ngx-datatable class="material" [rows]="pageResult.elements" [columnMode]="'force'" [headerHeight]="50"
+    [footerHeight]="50" rowHeight="auto" [limit]="10">
 
     <!-- User name -->
     <ngx-datatable-column name="Username" prop="user">
@@ -23,7 +17,7 @@
             <div (click)="navigateEDashboard(row)" class="english-learn-report-info">
                 {{row.user.username}}
             </div>
-        </ng-template>        
+        </ng-template>
     </ngx-datatable-column>
 
     <!-- Learn Day -->

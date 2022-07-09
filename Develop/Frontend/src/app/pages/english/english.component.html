@@ -1,7 +1,7 @@
 <div class="english-container" id=englishFunction>
     <!-- Loading spinner -->
-    <ngx-spinner *ngIf="isLoadingContent">
-        <p class="loading">Loading image ...</p>
+    <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-atom" [fullScreen]="true">
+        <p style="color: white"> Loading... </p>
     </ngx-spinner>
 
     <!-- Toolbar -->
@@ -162,8 +162,9 @@
                 <!-- Content of answer -->
                 <div style="margin-left: 15px;">
                     <form>
-                        <input #inputTypeWord (blur)="onSubmitTypeWord(inputTypeWord.value)" (keyup.enter)="onSubmitTypeWord(inputTypeWord.value)" class="input_answer"
-                            type="text" placeholder="Type the word here.">
+                        <input #inputTypeWord (blur)="onSubmitTypeWord(inputTypeWord.value)"
+                            (keyup.enter)="onSubmitTypeWord(inputTypeWord.value)" class="input_answer" type="text"
+                            placeholder="Type the word here.">
                     </form>
                 </div>
             </div>

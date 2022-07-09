@@ -15,8 +15,6 @@ export class DeleteMediaTypeDialogComponent implements OnInit {
   @Input() btnOkText: string;
   @Input() btnCancelText: string;
 
-  isLoading: Boolean;
-
   constructor(
     private activeModal: NgbActiveModal,
     private spinner: SpinnerService

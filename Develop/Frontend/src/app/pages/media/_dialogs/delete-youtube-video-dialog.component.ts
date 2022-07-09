@@ -16,8 +16,6 @@ export class DeleteYoutubeVideoDialogComponent implements OnInit {
   @Input() btnCancelText: string;
   @Input() video: YoutubeVideo;
 
-  isLoading: Boolean;
-
   constructor(
     private youtubeService: YoutubeService,
     private toastr: ToastrService,
@@ -36,7 +34,6 @@ export class DeleteYoutubeVideoDialogComponent implements OnInit {
   public accept() {
 
     // Show loading
-    this.isLoading = true;
     this.spinner.show();
 
     this.youtubeService.deletePrivateVideo(this.video.videoId)
@@ -46,7 +43,6 @@ export class DeleteYoutubeVideoDialogComponent implements OnInit {
           this.toastr.success('Your video ' + this.video.videoId + ' is successful deleted');
 
           // Hide loading
-          this.isLoading = false;
           this.spinner.hide();
 
           // Return true
@@ -54,7 +50,6 @@ export class DeleteYoutubeVideoDialogComponent implements OnInit {
         },
         error => {
           // Hide loading
-          this.isLoading = false;
           this.spinner.hide();
 
           // Send error toast message

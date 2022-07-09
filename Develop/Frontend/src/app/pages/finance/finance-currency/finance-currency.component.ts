@@ -11,7 +11,6 @@ import { FinanceService } from '../_services';
   styleUrls: ['./finance-currency.component.css']
 })
 export class FinanceCurrencyComponent implements OnInit {
-  isLoading: Boolean = false;
   currencyVCB: CurrencyVietcombank;
 
   // Width change
@@ -41,7 +40,6 @@ export class FinanceCurrencyComponent implements OnInit {
   public loadCurrencyVcb() {
     // Show loading
     this.spinner.show();
-    this.isLoading = false;
 
     // Get list
     this.financeService.getCurrencyVcbRate()
@@ -57,7 +55,6 @@ export class FinanceCurrencyComponent implements OnInit {
 
         // Hide loading
         this.spinner.hide();
-        this.isLoading = false;
 
       }, error => {
         this.processError(error);
@@ -73,7 +70,6 @@ export class FinanceCurrencyComponent implements OnInit {
   public processError(error: any) {
     // Hide loading
     this.spinner.hide();
-    this.isLoading = false;
 
     this.alertService.error(error);
   }

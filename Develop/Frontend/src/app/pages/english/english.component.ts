@@ -22,7 +22,6 @@ import { EnglishService, EnglishTypeService } from './_services';
   styleUrls: ['./english.component.css']
 })
 export class EnglishComponent implements OnInit {
-  isLoadingContent: Boolean = false;
   @ViewChild('searchButtonEnglish') public searchButton: any;
 
   // Current user
@@ -273,7 +272,6 @@ export class EnglishComponent implements OnInit {
     englishUserGradeSCO.userId = userId;
 
     // Show loading
-    this.isLoadingContent = true;
     this.spinner.show();
 
     // Search
@@ -289,13 +287,11 @@ export class EnglishComponent implements OnInit {
         }
 
         // Hide loading
-        this.isLoadingContent = false;
         this.spinner.hide();
 
         this.generateWord();
       }, error => {
         // Hide loading
-        this.isLoadingContent = false;
         this.spinner.hide();
 
         this.alertService.error(error);
@@ -367,7 +363,6 @@ export class EnglishComponent implements OnInit {
     englishSCO.maxRecordPerPage = 50;
 
     // Show loading
-    this.isLoadingContent = true;
     this.spinner.show();
 
     // Get list word
@@ -405,7 +400,6 @@ export class EnglishComponent implements OnInit {
 
         // Hide loading
         this.spinner.hide();
-        this.isLoadingContent = false;
       }, error => {
         this.processError(error);
       });
@@ -662,7 +656,7 @@ export class EnglishComponent implements OnInit {
       if (inputWord.toUpperCase() === this.displayWord.keyWord.toUpperCase()) {
         // Show success message
         this.toastr.success(inputWord + " is the corrected word");
-        
+
         // Check click image to true
         this.isClickImage = true;
 
@@ -686,7 +680,6 @@ export class EnglishComponent implements OnInit {
   public processError(error: any) {
     // Hide loading
     this.spinner.hide();
-    this.isLoadingContent = false;
   }
 
   /**

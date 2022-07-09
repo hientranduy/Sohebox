@@ -17,9 +17,6 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./food-config.component.css']
 })
 export class FoodConfigComponent implements OnInit {
-  // Loading
-  isLoading: Boolean;
-
   // Table elements
   pageResult: PageResultVO<Food>;
   currentSort: Sorter;
@@ -137,7 +134,6 @@ export class FoodConfigComponent implements OnInit {
     }
 
     // Show Loading
-    this.isLoading = true;
     this.spinner.show();
 
     // Search
@@ -153,12 +149,10 @@ export class FoodConfigComponent implements OnInit {
 
         // Hide Loading
         this.spinner.hide();
-        this.isLoading = false;
       },
       error => {
         // Hide Loading
         this.spinner.hide();
-        this.isLoading = false;
 
         this.alertService.error(error);
       }

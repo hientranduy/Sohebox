@@ -15,7 +15,6 @@ import { FoodService } from './_services';
 })
 export class FoodComponent implements OnInit {
 
-  isLoadingFood: Boolean;
   foods: Array<Food>;
 
   constructor(
@@ -40,7 +39,6 @@ export class FoodComponent implements OnInit {
    */
   public refreshAllFood() {
     // Show loading
-    this.isLoadingFood = true;
     this.spinner.show();
 
     // Get all
@@ -61,12 +59,10 @@ export class FoodComponent implements OnInit {
           }
 
           // Hide loading
-          this.isLoadingFood = false;
           this.spinner.hide();
         },
         error => {
           // Hide loading
-          this.isLoadingFood = false;
           this.spinner.hide();
 
           this.alertService.error(error);

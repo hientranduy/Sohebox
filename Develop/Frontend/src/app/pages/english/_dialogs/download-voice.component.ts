@@ -57,8 +57,6 @@ export class DownloadVoiceComponent implements OnInit {
     urlUsVoice
   ]);
 
-  isLoadingEnglishDownloadVoice: Boolean;
-
   ngOnInit() {
   }
 
@@ -124,7 +122,6 @@ export class DownloadVoiceComponent implements OnInit {
           });
 
           // Show loading
-          this.isLoadingEnglishDownloadVoice = true;
           this.spinner.show();
 
           // Download
@@ -135,12 +132,10 @@ export class DownloadVoiceComponent implements OnInit {
                 this.toastr.success('UK Voice of word <' + this.english.keyWord + '> is downloaded successfull');
 
                 // Hide loading
-                this.isLoadingEnglishDownloadVoice = false;
                 this.spinner.hide();
               },
               error => {
                 // Hide loading
-                this.isLoadingEnglishDownloadVoice = false;
                 this.spinner.hide();
 
                 // Send error toast message
@@ -152,7 +147,7 @@ export class DownloadVoiceComponent implements OnInit {
         // Download US Voice
         if (this.usVoiceUrlValue != null) {
           voiceUsFileName = this.english.imageName.split('.').slice(0, -1).join('.') + '_us.mp3';
-          
+
           if (this.usVoiceUrlValue.includes(this.cambridgeDictionaryUrl)) {
             downloadVoiceFullUrl = this.usVoiceUrlValue;
           } else {
@@ -166,7 +161,6 @@ export class DownloadVoiceComponent implements OnInit {
           });
 
           // Show loading
-          this.isLoadingEnglishDownloadVoice = true;
           this.spinner.show();
 
           // Download
@@ -177,12 +171,10 @@ export class DownloadVoiceComponent implements OnInit {
                 this.toastr.success('US Voice of word <' + this.english.keyWord + '> is downloaded successfull');
 
                 // Hide loading
-                this.isLoadingEnglishDownloadVoice = false;
                 this.spinner.hide();
               },
               error => {
                 // Hide loading
-                this.isLoadingEnglishDownloadVoice = false;
                 this.spinner.hide();
 
                 // Send error toast message
@@ -201,14 +193,12 @@ export class DownloadVoiceComponent implements OnInit {
         }
 
         // Show loading
-        this.isLoadingEnglishDownloadVoice = true;
         this.spinner.show();
 
         this.englishService.updateWord(englishUpdate)
           .subscribe(
             data => {
               // Hide loading
-              this.isLoadingEnglishDownloadVoice = false;
               this.spinner.hide();
 
               // Close dialog
@@ -216,7 +206,6 @@ export class DownloadVoiceComponent implements OnInit {
             },
             error => {
               // Hide loading
-              this.isLoadingEnglishDownloadVoice = false;
               this.spinner.hide();
 
               // Send error toast message

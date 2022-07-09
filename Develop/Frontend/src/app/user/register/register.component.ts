@@ -14,7 +14,6 @@ import { AuthenticationService, UserService } from '../_service';
 export class RegisterComponent implements OnInit {
     registerForm: FormGroup;
     submitted = false;
-    isLoadingRegister: Boolean;
 
     constructor(
         private formBuilder: FormBuilder,
@@ -57,7 +56,6 @@ export class RegisterComponent implements OnInit {
         }
 
         // Show loading
-        this.isLoadingRegister = true;
         this.spinner.show();
 
         // Register
@@ -66,7 +64,6 @@ export class RegisterComponent implements OnInit {
             .subscribe(
                 data => {
                     // Hide loading
-                    this.isLoadingRegister = false;
                     this.spinner.hide();
 
                     // Send toast success
@@ -77,7 +74,6 @@ export class RegisterComponent implements OnInit {
                 },
                 error => {
                     // Hide loading
-                    this.isLoadingRegister = false;
                     this.spinner.hide();
 
                     // Alert error message

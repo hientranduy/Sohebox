@@ -38,7 +38,6 @@ export class YoutubeChannelComponent implements OnInit {
     this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
   }
   // Loading
-  isLoading: Boolean = false;
   isPrivateChannel: Boolean = false;
   isHavePrivateVideo: Boolean = false;
 
@@ -189,7 +188,6 @@ export class YoutubeChannelComponent implements OnInit {
 
     // Show loading
     this.spinner.show();
-    this.isLoading = false;
 
     // Get list
     this.youTubeService.searchMyChannel(sco)
@@ -207,7 +205,6 @@ export class YoutubeChannelComponent implements OnInit {
 
         // Hide loading
         this.spinner.hide();
-        this.isLoading = false;
       }, error => {
         this.processError(error);
       });
@@ -227,7 +224,6 @@ export class YoutubeChannelComponent implements OnInit {
 
     // Show loading
     this.spinner.show();
-    this.isLoading = false;
 
     // Get list
     this.youTubeService.searchChannelVideo(sco)
@@ -249,7 +245,6 @@ export class YoutubeChannelComponent implements OnInit {
 
         // Hide loading
         this.spinner.hide();
-        this.isLoading = false;
 
       }, error => {
         this.processError(error);
@@ -262,7 +257,6 @@ export class YoutubeChannelComponent implements OnInit {
   public getPrivateVideo() {
     // Show loading
     this.spinner.show();
-    this.isLoading = false;
 
     // Get list
     this.youTubeService.getPrivateVideo()
@@ -283,7 +277,6 @@ export class YoutubeChannelComponent implements OnInit {
 
         // Hide loading
         this.spinner.hide();
-        this.isLoading = false;
 
       }, error => {
         this.processError(error);
@@ -311,7 +304,6 @@ export class YoutubeChannelComponent implements OnInit {
   public processError(error: any) {
     // Hide loading
     this.spinner.hide();
-    this.isLoading = false;
 
     this.alertService.error(error);
   }

@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { AlertService } from '@app/_common/alert';
 import { ApiReponse } from '@app/_common/_models';
 import { SpinnerService } from '@app/_common/_services';
+import { ToastrService } from 'ngx-toastr';
 import { TradingOilPrice } from '../_models';
 import { TradingService } from '../_services';
-import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-finance-oil',
@@ -12,7 +12,6 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./finance-oil.component.css']
 })
 export class FinanceOilComponent implements OnInit {
-  isLoading: Boolean = false;
   selectWTICrudeOil = '1m';
   selectBrentCrudeOil = '1m';
   selectNatureGas = '1m';
@@ -43,7 +42,6 @@ export class FinanceOilComponent implements OnInit {
   public loadOilPrice() {
     // Show loading
     this.spinner.show();
-    this.isLoading = false;
 
     // Get list
     this.tradingService.getOilPrice()
@@ -65,7 +63,6 @@ export class FinanceOilComponent implements OnInit {
 
         // Hide loading
         this.spinner.hide();
-        this.isLoading = false;
 
       }, error => {
         this.processError(error);
@@ -138,7 +135,6 @@ export class FinanceOilComponent implements OnInit {
   public processError(error: any) {
     // Hide loading
     this.spinner.hide();
-    this.isLoading = false;
 
     this.alertService.error(error);
   }

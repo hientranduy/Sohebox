@@ -17,8 +17,6 @@ import { MediaTypeDialogService } from './_dialogs';
   styleUrls: ['./media-type.component.css']
 })
 export class MediaTypeComponent implements OnInit {
-  // Loading
-  isLoading: Boolean;
 
   // Table elements
   pageResult: PageResultVO<MediaType>;
@@ -171,7 +169,6 @@ export class MediaTypeComponent implements OnInit {
     }
 
     // Show Loading
-    this.isLoading = true;
     this.spinner.show();
 
     // Search
@@ -187,12 +184,10 @@ export class MediaTypeComponent implements OnInit {
 
         // Hide Loading
         this.spinner.hide();
-        this.isLoading = false;
       },
       error => {
         // Hide Loading
         this.spinner.hide();
-        this.isLoading = false;
 
         this.alertService.error(error);
       }

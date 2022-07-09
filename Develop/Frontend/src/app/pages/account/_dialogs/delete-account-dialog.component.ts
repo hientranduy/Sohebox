@@ -16,8 +16,6 @@ export class DeleteAccountDialogComponent implements OnInit {
   @Input() btnCancelText: string;
   @Input() account: Account;
 
-  isLoading: Boolean;
-
   constructor(
     private accountService: AccountService,
     private toastr: ToastrService,
@@ -36,7 +34,6 @@ export class DeleteAccountDialogComponent implements OnInit {
   public accept() {
 
     // Show loading
-    this.isLoading = true;
     this.spinner.show();
 
     const accountInfo = this.account.accountType.typeCode + '<' + this.account.accountName + '>';
@@ -47,7 +44,6 @@ export class DeleteAccountDialogComponent implements OnInit {
           this.toastr.success('Your account ' + accountInfo + ' is successful deleted');
 
           // Hide loading
-          this.isLoading = false;
           this.spinner.hide();
 
           // Return true
@@ -55,7 +51,6 @@ export class DeleteAccountDialogComponent implements OnInit {
         },
         error => {
           // Hide loading
-          this.isLoading = false;
           this.spinner.hide();
 
           // Send error toast message

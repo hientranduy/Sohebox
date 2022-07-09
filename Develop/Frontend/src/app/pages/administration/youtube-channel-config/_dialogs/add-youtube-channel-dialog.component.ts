@@ -33,9 +33,6 @@ export class AddYoutubeChannelDialogComponent implements OnInit {
   ) {
   }
 
-  isLoading: Boolean;
-  isLoadingContent: Boolean;
-
   // Form value
   @Input() title: string;
   @Input() message: string;
@@ -89,7 +86,6 @@ export class AddYoutubeChannelDialogComponent implements OnInit {
    */
   getFilterCategories() {
     // Show loading
-    this.isLoadingContent = true;
     this.spinner.show();
 
     // Prepare search condition
@@ -118,11 +114,9 @@ export class AddYoutubeChannelDialogComponent implements OnInit {
         }
 
         // Hide loading
-        this.isLoadingContent = false;
         this.spinner.hide();
       }, error => {
         // Hide loading
-        this.isLoadingContent = false;
         this.spinner.hide();
 
         this.alertService.error(error);
@@ -164,7 +158,6 @@ export class AddYoutubeChannelDialogComponent implements OnInit {
       });
 
       // Show loading
-      this.isLoading = true;
       this.spinner.show();
 
       // Add
@@ -175,7 +168,6 @@ export class AddYoutubeChannelDialogComponent implements OnInit {
             this.toastr.success('New channel ' + this.nameValue + ' is added successful');
 
             // Hide loading
-            this.isLoading = false;
             this.spinner.hide();
 
             // Close dialog
@@ -184,7 +176,6 @@ export class AddYoutubeChannelDialogComponent implements OnInit {
           },
           error => {
             // Hide loading
-            this.isLoading = false;
             this.spinner.hide();
 
             // Send error message to dialog

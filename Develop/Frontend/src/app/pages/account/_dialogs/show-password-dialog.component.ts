@@ -12,9 +12,6 @@ import { AccountService } from '../_services';
 })
 export class ShowPasswordDialogComponent implements OnInit {
 
-  // Loading
-  isLoading: Boolean;
-
   constructor(
     private activeModal: NgbActiveModal,
     private toastr: ToastrService,
@@ -50,7 +47,6 @@ export class ShowPasswordDialogComponent implements OnInit {
       this.account.user.privateKey = this.privateKey;
 
       // Show Loading
-      this.isLoading = true;
       this.spinner.show();
 
       this.accountService.showPassword(this.account)
@@ -72,12 +68,10 @@ export class ShowPasswordDialogComponent implements OnInit {
 
           // Hide Loading
           this.spinner.hide();
-          this.isLoading = false;
         }, error => {
 
           // Hide Loading
           this.spinner.hide();
-          this.isLoading = false;
         });
     } else {
       this.messageError = 'Input missing';
