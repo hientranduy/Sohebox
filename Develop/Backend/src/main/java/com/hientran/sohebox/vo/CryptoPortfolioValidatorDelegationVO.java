@@ -18,6 +18,6 @@ public class CryptoPortfolioValidatorDelegationVO extends BaseVO {
 
     private CryptoPortfolioValidatorDelegationDetailVO delegation;
 
-    private CryptoPortfolioCoinVO balance;
+    private CryptoPortfolioCoinAmountVO balance;
 
 }

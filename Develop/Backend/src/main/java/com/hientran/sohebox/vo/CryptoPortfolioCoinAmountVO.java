@@ -12,12 +12,12 @@ import lombok.EqualsAndHashCode;
 @JsonInclude(Include.NON_NULL)
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class CryptoPortfolioBankRewardVO extends BaseVO {
+public class CryptoPortfolioCoinAmountVO extends BaseVO {
 
     private static final long serialVersionUID = 1L;
 
-    private Long height;
+    private String denom;
 
-    private CryptoPortfolioBankRewardDetailVO result;
+    private Double amount;
 
 }

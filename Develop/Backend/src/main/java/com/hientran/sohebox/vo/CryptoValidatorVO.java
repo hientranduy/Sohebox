@@ -1,6 +1,6 @@
 package com.hientran.sohebox.vo;
 
-import java.util.List;
+import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -14,12 +14,22 @@ import lombok.EqualsAndHashCode;
 @JsonInclude(Include.NON_NULL)
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class CryptoPortfolioBankRewardDetailVO extends BaseVO {
+public class CryptoValidatorVO extends BaseVO {
 
     private static final long serialVersionUID = 1L;
 
-    private List<CryptoPortfolioValidatorRewardVO> rewards;
+    private Long id;
 
-    private List<CryptoPortfolioCoinVO> total;
+    private Date updatedDate;
+
+    private String validatorAddress;
+
+    private String validatorName;
+
+    private String validatorWebsite;
+
+    private Double commissionRate;
+
+    private Double totalDeligated;
 
 }

@@ -38,4 +38,6 @@ public class CryptoPortfolioVO extends BaseVO {
 
     private Double amtTotalUnbonding;
 
+    private CryptoValidatorVO validator;
+
 }

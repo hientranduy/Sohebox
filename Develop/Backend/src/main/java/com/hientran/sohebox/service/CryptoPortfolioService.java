@@ -17,6 +17,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.hazelcast.org.json.JSONObject;
 import com.hientran.sohebox.cache.ConfigCache;
 import com.hientran.sohebox.constants.CosmosConstants;
 import com.hientran.sohebox.constants.DBConstants;
@@ -32,10 +34,8 @@ import com.hientran.sohebox.sco.SearchNumberVO;
 import com.hientran.sohebox.sco.SearchTextVO;
 import com.hientran.sohebox.security.UserService;
 import com.hientran.sohebox.transformer.CryptoPortfolioTransformer;
+import com.hientran.sohebox.transformer.CryptoValidatorTransformer;
 import com.hientran.sohebox.utils.ObjectMapperUtil;
-import com.hientran.sohebox.vo.CryptoPortfolioBankAvailableVO;
-import com.hientran.sohebox.vo.CryptoPortfolioBankDelegateVO;
-import com.hientran.sohebox.vo.CryptoPortfolioBankRewardVO;
 import com.hientran.sohebox.vo.CryptoPortfolioVO;
 import com.hientran.sohebox.vo.CryptoPortfolioValidatorDelegationVO;
 import com.hientran.sohebox.vo.PageResultVO;
@@ -57,6 +57,9 @@ public class CryptoPortfolioService extends BaseService {
     private CryptoPortfolioTransformer cryptoPortfolioTransformer;
 
     @Autowired
+    private CryptoValidatorTransformer cryptoValidatorTransformer;
+
+    @Autowired
     private UserService userService;
 
     @Autowired
@@ -67,6 +70,9 @@ public class CryptoPortfolioService extends BaseService {
 
     @Autowired
     private ConfigCache configCache;
+
+    @Autowired
+    private CryptoValidatorService cryptoValidatorService;
 
     /**
      * 
@@ -126,8 +132,6 @@ public class CryptoPortfolioService extends BaseService {
             // Set id return
             result.setData(tbl.getId());
 
-            // Write activity
-            recordUserActivity(DBConstants.USER_ACTIVITY_CRYPTO_PORTFOLIO_CREATE);
         }
 
         // Return
@@ -236,10 +240,11 @@ public class CryptoPortfolioService extends BaseService {
                 updateTbl.setAmtTotalUnbonding(vo.getAmtTotalUnbonding());
             }
 
-            cryptoPortfolioRepository.save(updateTbl);
+            if (vo.getValidator() != null) {
+                updateTbl.setValidator(cryptoValidatorTransformer.convertToTbl(vo.getValidator()));
+            }
 
-            // Write activity
-            recordUserActivity(DBConstants.USER_ACTIVITY_CRYPTO_PORTFOLIO_UPDATE);
+            cryptoPortfolioRepository.save(updateTbl);
         }
 
         // Return
@@ -332,9 +337,6 @@ public class CryptoPortfolioService extends BaseService {
         // Set data return
         result.setData(data);
 
-        // Write activity
-        recordUserActivity(DBConstants.USER_ACTIVITY_CRYPTO_TOKEN_CONFIG_ACCESS);
-
         // Return
         return result;
     }
@@ -343,48 +345,60 @@ public class CryptoPortfolioService extends BaseService {
         DecimalFormat df = new DecimalFormat("#.###");
         df.setRoundingMode(RoundingMode.CEILING);
         URIBuilder builder;
-        String responseString;
+        JSONObject jsonObject;
 
         // Get available
         builder = new URIBuilder(cryptoPortfolioVO.getToken().getNodeUrl() + CosmosConstants.COSMOS_BANK_BALANCES + "/"
                 + cryptoPortfolioVO.getWallet());
-        responseString = cosmosWebService.get(builder);
-        CryptoPortfolioBankAvailableVO bankBalance = objectMapperUtil.readValue(responseString,
-                CryptoPortfolioBankAvailableVO.class);
-        if (CollectionUtils.isNotEmpty(bankBalance.getResult())) {
-            cryptoPortfolioVO.setAmtAvailable(
-                    Double.parseDouble(df.format(bankBalance.getResult().get(0).getAmount() / 1000000)));
-        }
+        jsonObject = new JSONObject(cosmosWebService.get(builder));
 
-        // Get delegated
-        builder = new URIBuilder(cryptoPortfolioVO.getToken().getNodeUrl() + CosmosConstants.COSMOS_STAKING_DELEGATORS
-                + "/" + cryptoPortfolioVO.getWallet() + CosmosConstants.COSMOS_DELEGATIONS);
-        responseString = cosmosWebService.get(builder);
-        CryptoPortfolioBankDelegateVO bankDelegated = objectMapperUtil.readValue(responseString,
-                CryptoPortfolioBankDelegateVO.class);
-
-        Double amtTotalDelegated = Double.valueOf(0);
-        if (CollectionUtils.isNotEmpty(bankDelegated.getResult())) {
-            for (CryptoPortfolioValidatorDelegationVO item : bankDelegated.getResult()) {
-                Double amount = item.getBalance().getAmount();
-                if (amount > 0) {
-                    amtTotalDelegated = amtTotalDelegated + Double.parseDouble(df.format(amount / 1000000));
-                }
-            }
+        if (jsonObject.getJSONArray("result").length() > 0) {
+            cryptoPortfolioVO.setAmtAvailable(Double.parseDouble(
+                    df.format(jsonObject.getJSONArray("result").getJSONObject(0).getDouble("amount") / 1000000)));
         }
-        cryptoPortfolioVO.setAmtTotalDelegated(amtTotalDelegated);
 
         // Get reward
         builder = new URIBuilder(
                 cryptoPortfolioVO.getToken().getNodeUrl() + CosmosConstants.COSMOS_DISTRIBUTION_DELEGATORS + "/"
                         + cryptoPortfolioVO.getWallet() + CosmosConstants.COSMOS_REWARDS);
-        responseString = cosmosWebService.get(builder);
-        CryptoPortfolioBankRewardVO bankReward = objectMapperUtil.readValue(responseString,
-                CryptoPortfolioBankRewardVO.class);
+        jsonObject = new JSONObject(cosmosWebService.get(builder));
 
-        if (bankReward.getResult() != null) {
-            cryptoPortfolioVO.setAmtTotalReward(
-                    Double.parseDouble(df.format(bankReward.getResult().getTotal().get(0).getAmount() / 1000000)));
+        if (jsonObject.getJSONObject("result") != null) {
+            cryptoPortfolioVO.setAmtTotalReward(Double.parseDouble(df.format(
+                    jsonObject.getJSONObject("result").getJSONArray("total").getJSONObject(0).getDouble("amount")
+                            / 1000000)));
+        }
+
+        // Get delegated
+        builder = new URIBuilder(cryptoPortfolioVO.getToken().getNodeUrl() + CosmosConstants.COSMOS_STAKING_DELEGATORS
+                + "/" + cryptoPortfolioVO.getWallet() + CosmosConstants.COSMOS_DELEGATIONS);
+        jsonObject = new JSONObject(cosmosWebService.get(builder));
+
+        List<CryptoPortfolioValidatorDelegationVO> validatorDelegation = objectMapperUtil.readValue(
+                jsonObject.getJSONArray("result").toString(),
+                new TypeReference<List<CryptoPortfolioValidatorDelegationVO>>() {
+                });
+
+        Double amtTotalDelegated = Double.valueOf(0);
+        String validatorAddress = null;
+        if (CollectionUtils.isNotEmpty(validatorDelegation)) {
+            Double maxAmount = Double.valueOf(0);
+            for (CryptoPortfolioValidatorDelegationVO item : validatorDelegation) {
+                Double amount = item.getBalance().getAmount();
+                if (amount > 0) {
+                    amtTotalDelegated = amtTotalDelegated + Double.parseDouble(df.format(amount / 1000000));
+                    if (amount > maxAmount) {
+                        maxAmount = amount;
+                        validatorAddress = item.getDelegation().getValidator_address();
+                    }
+                }
+            }
+        }
+        cryptoPortfolioVO.setAmtTotalDelegated(amtTotalDelegated);
+
+        // Get validator info
+        if (validatorAddress != null) {
+            cryptoPortfolioVO.setValidator(cryptoValidatorService.getValidator(validatorAddress, cryptoPortfolioVO));
         }
     }
 
@@ -441,11 +455,6 @@ public class CryptoPortfolioService extends BaseService {
         // Process delete
         if (result.getStatus() == null) {
             cryptoPortfolioRepository.delete(deleteItemTbl.get());
-        }
-
-        // Write activity type "delete account"
-        if (deleteItemTbl.isPresent()) {
-            recordUserActivity(DBConstants.USER_ACTIVITY_CRYPTO_PORTFOLIO_DELETE);
         }
 
         // Return

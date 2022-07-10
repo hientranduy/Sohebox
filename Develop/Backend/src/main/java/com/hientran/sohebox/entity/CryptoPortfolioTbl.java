@@ -48,4 +48,8 @@ public class CryptoPortfolioTbl extends BaseTbl {
 
     @Column(name = "amtTotalUnbonding")
     private Double amtTotalUnbonding;
+
+    @ManyToOne
+    @JoinColumn(foreignKey = @ForeignKey(name = "FK_CryptoPorfolioTbl_CryptoValidatorTbl_validator"))
+    private CryptoValidatorTbl validator;
 }

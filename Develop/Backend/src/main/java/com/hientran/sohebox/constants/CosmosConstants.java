@@ -26,4 +26,6 @@ public class CosmosConstants implements Serializable {
 
     public static final String COSMOS_DISTRIBUTION_DELEGATORS = "/distribution/delegators";
 
+    public static final String COSMOS_STAKING_VALIDATORS = "/staking/validators";
+
 }
