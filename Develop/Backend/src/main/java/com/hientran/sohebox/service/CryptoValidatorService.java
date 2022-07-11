@@ -256,21 +256,16 @@ public class CryptoValidatorService extends BaseService {
             throws Exception {
         // Declare result
         CryptoValidatorVO result = new CryptoValidatorVO();
+
+        // Check if need sync
         Boolean isSyncValidator = false;
-        Boolean isFoundInDB = false;
-
-        // Search DB
-        SearchTextVO validatorAddressSearch = new SearchTextVO();
-        validatorAddressSearch.setEq(validatorAddress);
-        CryptoValidatorSCO sco = new CryptoValidatorSCO();
-        sco.setValidatorAddress(validatorAddressSearch);
-
-        List<CryptoValidatorTbl> listTbl = cryptoValidatorRepository.findAll(sco).getContent();
-        if (CollectionUtils.isNotEmpty(listTbl)) {
-            isFoundInDB = true;
+        Boolean isHaveDB = false;
+        if (cryptoPortfolioVO.getValidator() != null) {
+            isHaveDB = true;
             int lateTimeSecond = Integer.parseInt(
                     configCache.getValueByKey(DataExternalConstants.CRYPTO_PORTFOLIO_SYNC_VALIDATOR_LATE_TIME_SECOND));
-            long diffInSecond = (new Date().getTime() - listTbl.get(0).getUpdatedDate().getTime()) / 1000;
+            long diffInSecond = (new Date().getTime() - cryptoPortfolioVO.getValidator().getUpdatedDate().getTime())
+                    / 1000;
             if (diffInSecond > lateTimeSecond) {
                 isSyncValidator = true;
             }
@@ -278,16 +273,21 @@ public class CryptoValidatorService extends BaseService {
             isSyncValidator = true;
         }
 
-        if (isSyncValidator == false) {
-            result = cryptoValidatorTransformer.convertToVO(listTbl.get(0));
-        } else {
+        // Process if have sync flag
+        if (isSyncValidator) {
+            if (isHaveDB) {
+                result = cryptoPortfolioVO.getValidator();
+            } else {
+                result = new CryptoValidatorVO();
+                result.setValidatorAddress(validatorAddress);
+            }
+
             // Get new infos
             URIBuilder builder = new URIBuilder(cryptoPortfolioVO.getToken().getNodeUrl()
                     + CosmosConstants.COSMOS_STAKING_VALIDATORS + "/" + validatorAddress);
             String responseString = cosmosWebService.get(builder);
             JSONObject jsonObject = new JSONObject(responseString);
 
-            result.setValidatorAddress(validatorAddress);
             result.setValidatorName(
                     jsonObject.getJSONObject("result").getJSONObject("description").get("moniker").toString());
             result.setValidatorWebsite(
@@ -296,13 +296,14 @@ public class CryptoValidatorService extends BaseService {
             result.setCommissionRate(jsonObject.getJSONObject("result").getJSONObject("commission")
                     .getJSONObject("commission_rates").getDouble("rate"));
 
-            if (isFoundInDB) {
+            // Update DB
+            if (isHaveDB) {
                 update(result);
             } else {
-                Long createdID = create(result).getData();
-                CryptoValidatorTbl tbl = cryptoValidatorRepository.findById(createdID).get();
-                result = cryptoValidatorTransformer.convertToVO(tbl);
+                create(result);
             }
+        } else {
+            result = cryptoPortfolioVO.getValidator();
         }
 
         // Return

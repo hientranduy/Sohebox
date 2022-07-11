@@ -223,7 +223,7 @@ export class YoutubeChannelComponent implements OnInit {
     sco.maxRecordPerPage = 20;
 
     // Show loading
-    this.spinner.show();
+    // this.spinner.show();
 
     // Get list
     this.youTubeService.searchChannelVideo(sco)
