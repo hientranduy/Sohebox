@@ -181,11 +181,11 @@ public class CryptoValidatorService extends BaseService {
         // Update
         if (result.getStatus() == null) {
             if (!StringUtils.equals(vo.getValidatorName(), updateTbl.getValidatorName())) {
-                updateTbl.setValidatorName(null);
+                updateTbl.setValidatorName(vo.getValidatorName());
             }
 
             if (!StringUtils.equals(vo.getValidatorWebsite(), updateTbl.getValidatorWebsite())) {
-                updateTbl.setValidatorWebsite(null);
+                updateTbl.setValidatorWebsite(vo.getValidatorWebsite());
             }
 
             if (vo.getCommissionRate() != null) {
