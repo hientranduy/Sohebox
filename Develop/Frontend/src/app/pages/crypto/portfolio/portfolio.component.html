@@ -48,7 +48,7 @@
 
                 <p *ngIf="windownInnerWidth >= 550">
                     <img class="img-responsive" src="assets/crypto/{{row.token.iconUrl}}" class="icon__image">
-                    {{row.token.tokenCode}} - {{row.starname}}
+                    {{row.token.tokenCode}} {{row.starname}}
                 </p>
                 <p *ngIf="windownInnerWidth < 550">
                     <img class="img-responsive" src="assets/crypto/{{row.token.iconUrl}}" class="icon__image">
@@ -65,7 +65,7 @@
         </ngx-datatable-column> -->
 
         <!-- wallet -->
-        <ngx-datatable-column name="Wallet" prop="wallet" *ngIf="windownInnerWidth >= 550">
+        <ngx-datatable-column name="Wallet" prop="wallet" *ngIf="windownInnerWidth >= 850">
             <ng-template let-value="value" ngx-datatable-cell-template>
                 {{ value }}
             </ng-template>
@@ -89,6 +89,20 @@
         <ngx-datatable-column name="Reward" prop="amtTotalReward">
             <ng-template let-value="value" ngx-datatable-cell-template>
                 {{ value }}
+            </ng-template>
+        </ngx-datatable-column>
+
+        <!-- validator name -->
+        <ngx-datatable-column name="Validator name" prop="validator.validatorName" *ngIf="windownInnerWidth >= 550">
+            <ng-template let-value="value" ngx-datatable-cell-template>
+                {{ value }}
+            </ng-template>
+        </ngx-datatable-column>
+
+        <!-- validator commission -->
+        <ngx-datatable-column name="Com" prop="validator.commissionRate" *ngIf="windownInnerWidth >= 550">
+            <ng-template let-value="value" ngx-datatable-cell-template>
+                {{ value * 100 }}%
             </ng-template>
         </ngx-datatable-column>
 
