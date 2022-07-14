@@ -13,6 +13,22 @@
                 <strong>New</strong>
             </button>
 
+            <!-- View mode -->
+            <button mat-button class="toolbar-button-style" [matMenuTriggerFor]="menuMode">
+                <mat-icon>swipe</mat-icon>
+                <strong>Mode</strong>
+            </button>
+            <mat-menu #menuMode="matMenu">
+                <button mat-menu-item (click)="selectDeligatorMode()">
+                    Deligator
+                    <mat-icon *ngIf="isDeligatorMode">check_circle</mat-icon>
+                </button>
+                <button mat-menu-item (click)="selectValidatorMode()">
+                    Validator
+                    <mat-icon *ngIf="isValidatorMode">check_circle</mat-icon>
+                </button>
+            </mat-menu>
+
             <!-- Add spaces   -->
             <span class="toolbar-spacer-style"></span>
 
@@ -20,18 +36,10 @@
 
             <!-- Add spaces   -->
             <span class="toolbar-spacer-style"></span>
-
-            <!-- Refresh
-            <button mat-button class="toolbar-button-style" (click)="refresh()">
-                <mat-icon>refresh</mat-icon>
-                <strong>Refresh</strong>
-            </button> -->
         </mat-toolbar-row>
     </mat-toolbar>
 
     <!-- Table data -->
-    <!-- <input matInput class="page-input-filter" (keyup)="onFilter($event)" placeholder="Type to search value..."> -->
-
     <mat-paginator class="mat-table-paginator-style" [length]="pageResult.totalElement"
         [pageIndex]="pageResult.currentPage" [pageSize]="pageResult.pageSize" [pageSizeOptions]="[5,10,15,20]"
         (page)="handlePaginatorEvent($event)" showLastButtons>
@@ -57,13 +65,6 @@
             </ng-template>
         </ngx-datatable-column>
 
-        <!-- starname -->
-        <!-- <ngx-datatable-column name="Starname" prop="starname">
-            <ng-template let-value="value" ngx-datatable-cell-template>
-                {{ value }}
-            </ng-template>
-        </ngx-datatable-column> -->
-
         <!-- wallet -->
         <ngx-datatable-column name="Wallet" prop="wallet" *ngIf="windownInnerWidth >= 850">
             <ng-template let-value="value" ngx-datatable-cell-template>
@@ -72,35 +73,35 @@
         </ngx-datatable-column>
 
         <!-- amount available -->
-        <ngx-datatable-column name="Available" prop="amtAvailable">
+        <ngx-datatable-column name="Available" prop="amtAvailable" *ngIf="isDeligatorMode">
             <ng-template let-value="value" ngx-datatable-cell-template>
                 {{ value }}
             </ng-template>
         </ngx-datatable-column>
 
         <!-- amount delegated -->
-        <ngx-datatable-column name="Delegated" prop="amtTotalDelegated">
+        <ngx-datatable-column name="Delegated" prop="amtTotalDelegated" *ngIf="isDeligatorMode">
             <ng-template let-value="value" ngx-datatable-cell-template>
                 {{ value }}
             </ng-template>
         </ngx-datatable-column>
 
         <!-- amount reward -->
-        <ngx-datatable-column name="Reward" prop="amtTotalReward">
+        <ngx-datatable-column name="Reward" prop="amtTotalReward" *ngIf="isDeligatorMode">
             <ng-template let-value="value" ngx-datatable-cell-template>
                 {{ value }}
             </ng-template>
         </ngx-datatable-column>
 
         <!-- validator name -->
-        <ngx-datatable-column name="Validator name" prop="validator.validatorName" *ngIf="windownInnerWidth >= 550">
+        <ngx-datatable-column name="Validator name" prop="validator.validatorName" *ngIf="isValidatorMode">
             <ng-template let-value="value" ngx-datatable-cell-template>
                 {{ value }}
             </ng-template>
         </ngx-datatable-column>
 
         <!-- validator commission -->
-        <ngx-datatable-column name="Com" prop="validator.commissionRate" *ngIf="windownInnerWidth >= 550">
+        <ngx-datatable-column name="Com" prop="validator.commissionRate" *ngIf="isValidatorMode">
             <ng-template let-value="value" ngx-datatable-cell-template>
                 {{ value * 100 }}%
             </ng-template>

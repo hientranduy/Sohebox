@@ -44,6 +44,10 @@ export class PortfolioComponent implements OnInit {
   // Logged user
   currentUser: User;
 
+  // Select mode
+  isDeligatorMode: Boolean = true;
+  isValidatorMode: Boolean = false;
+
   // Table elements
   pageResult: PageResultVO<CryptoPortfolio>;
   currentSort: Sorter;
@@ -296,9 +300,22 @@ export class PortfolioComponent implements OnInit {
   }
 
   /**
- * View explorer
- */
+  * View explorer
+  */
   public viewExplorer(item: CryptoPortfolio) {
     window.open(AppSettings.CRYPTO_MINTSCAN + item.token.addressPrefix + "/account/" + item.wallet);
+  }
+
+  /**
+  * Select view mode
+  */
+  public selectDeligatorMode() {
+    this.isDeligatorMode = true;
+    this.isValidatorMode = false;
+  }
+
+  public selectValidatorMode() {
+    this.isDeligatorMode = false;
+    this.isValidatorMode = true;
   }
 }
