@@ -355,6 +355,8 @@ public class CryptoPortfolioService extends BaseService {
         if (jsonObject.getJSONArray("result").length() > 0) {
             cryptoPortfolioVO.setAmtAvailable(Double.parseDouble(
                     df.format(jsonObject.getJSONArray("result").getJSONObject(0).getDouble("amount") / 1000000)));
+        } else {
+            cryptoPortfolioVO.setAmtAvailable(Double.valueOf(0));
         }
 
         // Get reward
@@ -363,10 +365,12 @@ public class CryptoPortfolioService extends BaseService {
                         + cryptoPortfolioVO.getWallet() + CosmosConstants.COSMOS_REWARDS);
         jsonObject = new JSONObject(cosmosWebService.get(builder));
 
-        if (jsonObject.getJSONObject("result") != null) {
+        if (jsonObject.getJSONObject("result").getJSONArray("total").length() > 0) {
             cryptoPortfolioVO.setAmtTotalReward(Double.parseDouble(df.format(
                     jsonObject.getJSONObject("result").getJSONArray("total").getJSONObject(0).getDouble("amount")
                             / 1000000)));
+        } else {
+            cryptoPortfolioVO.setAmtTotalReward(Double.valueOf(0));
         }
 
         // Get delegated
