@@ -358,9 +358,9 @@ public class CryptoPortfolioService extends BaseService {
 //        } else {
 //            cryptoPortfolioVO.setAmtAvailable(Double.valueOf(0));
 //        }
-        
-        builder = new URIBuilder(cryptoPortfolioVO.getToken().getNodeUrl() + CosmosConstants.COSMOS_BANK_V1BETA1_BALANCES + "/"
-                + cryptoPortfolioVO.getWallet());
+
+        builder = new URIBuilder(cryptoPortfolioVO.getToken().getNodeUrl()
+                + CosmosConstants.COSMOS_BANK_V1BETA1_BALANCES + "/" + cryptoPortfolioVO.getWallet());
         jsonObject = new JSONObject(cosmosWebService.get(builder));
 
         if (jsonObject.getJSONArray("balances").length() > 0) {
@@ -389,9 +389,8 @@ public class CryptoPortfolioService extends BaseService {
         jsonObject = new JSONObject(cosmosWebService.get(builder));
 
         if (jsonObject.getJSONArray("total").length() > 0) {
-            cryptoPortfolioVO.setAmtTotalReward(Double.parseDouble(df.format(
-                    jsonObject.getJSONArray("total").getJSONObject(0).getDouble("amount")
-                            / 1000000)));
+            cryptoPortfolioVO.setAmtTotalReward(Double.parseDouble(
+                    df.format(jsonObject.getJSONArray("total").getJSONObject(0).getDouble("amount") / 1000000)));
         } else {
             cryptoPortfolioVO.setAmtTotalReward(Double.valueOf(0));
         }
@@ -422,8 +421,8 @@ public class CryptoPortfolioService extends BaseService {
 //            }
 //        }
 //        cryptoPortfolioVO.setAmtTotalDelegated(amtTotalDelegated);
-        builder = new URIBuilder(cryptoPortfolioVO.getToken().getNodeUrl() + CosmosConstants.COSMOS_STAKING_V1BETA1_DELEGATION
-                + "/" + cryptoPortfolioVO.getWallet());
+        builder = new URIBuilder(cryptoPortfolioVO.getToken().getNodeUrl()
+                + CosmosConstants.COSMOS_STAKING_V1BETA1_DELEGATION + "/" + cryptoPortfolioVO.getWallet());
         jsonObject = new JSONObject(cosmosWebService.get(builder));
 
         List<CryptoPortfolioValidatorDelegationVO> validatorDelegation = objectMapperUtil.readValue(
@@ -449,7 +448,7 @@ public class CryptoPortfolioService extends BaseService {
         cryptoPortfolioVO.setAmtTotalDelegated(amtTotalDelegated);
 
         // Get validator info
-        if (validatorAddress != null) {
+        if (validatorAddress != null && cryptoPortfolioVO.getAmtTotalDelegated() > 0) {
             cryptoPortfolioVO.setValidator(cryptoValidatorService.getValidator(validatorAddress, cryptoPortfolioVO));
         }
     }
