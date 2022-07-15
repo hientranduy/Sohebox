@@ -283,17 +283,29 @@ public class CryptoValidatorService extends BaseService {
             }
 
             // Get new infos
+//            URIBuilder builder = new URIBuilder(cryptoPortfolioVO.getToken().getNodeUrl()
+//                    + CosmosConstants.COSMOS_STAKING_VALIDATORS + "/" + validatorAddress);
+//            String responseString = cosmosWebService.get(builder);
+//            JSONObject jsonObject = new JSONOb-ject(responseString);
+//
+//            result.setValidatorName(
+//                    jsonObject.getJSONObject("result").getJSONObject("description").get("moniker").toString());
+//            result.setValidatorWebsite(
+//                    jsonObject.getJSONObject("result").getJSONObject("description").get("website").toString());
+//            result.setTotalDeligated(jsonObject.getJSONObject("result").getDouble("tokens") / 1000000);
+//            result.setCommissionRate(jsonObject.getJSONObject("result").getJSONObject("commission")
+//                    .getJSONObject("commission_rates").getDouble("rate"));
             URIBuilder builder = new URIBuilder(cryptoPortfolioVO.getToken().getNodeUrl()
-                    + CosmosConstants.COSMOS_STAKING_VALIDATORS + "/" + validatorAddress);
+                    + CosmosConstants.COSMOS_STAKING_V1BETA1_VALIDATORS + "/" + validatorAddress);
             String responseString = cosmosWebService.get(builder);
             JSONObject jsonObject = new JSONObject(responseString);
 
             result.setValidatorName(
-                    jsonObject.getJSONObject("result").getJSONObject("description").get("moniker").toString());
+                    jsonObject.getJSONObject("validator").getJSONObject("description").get("moniker").toString());
             result.setValidatorWebsite(
-                    jsonObject.getJSONObject("result").getJSONObject("description").get("website").toString());
-            result.setTotalDeligated(jsonObject.getJSONObject("result").getDouble("tokens") / 1000000);
-            result.setCommissionRate(jsonObject.getJSONObject("result").getJSONObject("commission")
+                    jsonObject.getJSONObject("validator").getJSONObject("description").get("website").toString());
+            result.setTotalDeligated(jsonObject.getJSONObject("validator").getDouble("tokens") / 1000000);
+            result.setCommissionRate(jsonObject.getJSONObject("validator").getJSONObject("commission")
                     .getJSONObject("commission_rates").getDouble("rate"));
 
             // Update DB
