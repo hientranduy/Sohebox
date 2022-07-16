@@ -448,7 +448,7 @@ public class CryptoPortfolioService extends BaseService {
         cryptoPortfolioVO.setAmtTotalDelegated(amtTotalDelegated);
 
         // Get validator info
-        if (validatorAddress != null && cryptoPortfolioVO.getAmtTotalDelegated() > 0) {
+        if (validatorAddress != null) {
             cryptoPortfolioVO.setValidator(cryptoValidatorService.getValidator(validatorAddress, cryptoPortfolioVO));
         }
     }

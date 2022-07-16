@@ -28,6 +28,11 @@ public class SearchTextVO implements Serializable {
         super();
     }
 
+    public SearchTextVO(String eq) {
+        super();
+        this.eq = eq;
+    }
+
     /**
      * Get eq
      *
