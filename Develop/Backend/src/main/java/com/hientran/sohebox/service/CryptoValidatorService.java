@@ -277,15 +277,16 @@ public class CryptoValidatorService extends BaseService {
 //            URIBuilder builder = new URIBuilder(cryptoPortfolioVO.getToken().getNodeUrl()
 //                    + CosmosConstants.COSMOS_STAKING_VALIDATORS + "/" + validatorAddress);
 //            String responseString = cosmosWebService.get(builder);
-//            JSONObject jsonObject = new JSONOb-ject(responseString);
+//            JSONObject jsonObject = new JSONObject(responseString);
 //
-//            result.setValidatorName(
-//                    jsonObject.getJSONObject("result").getJSONObject("description").get("moniker").toString());
-//            result.setValidatorWebsite(
-//                    jsonObject.getJSONObject("result").getJSONObject("description").get("website").toString());
-//            result.setTotalDeligated(jsonObject.getJSONObject("result").getDouble("tokens") / 1000000);
-//            result.setCommissionRate(jsonObject.getJSONObject("result").getJSONObject("commission")
-//                    .getJSONObject("commission_rates").getDouble("rate"));
+//            String validatorName = jsonObject.getJSONObject("result").getJSONObject("description").get("moniker")
+//                    .toString();
+//            String validatorWebsite = jsonObject.getJSONObject("result").getJSONObject("description").get("website")
+//                    .toString();
+//            Double totalDeligated = jsonObject.getJSONObject("result").getDouble("tokens") / 1000000;
+//            Double commissionRate = jsonObject.getJSONObject("result").getJSONObject("commission")
+//                    .getJSONObject("commission_rates").getDouble("rate");
+
             URIBuilder builder = new URIBuilder(cryptoPortfolioVO.getToken().getNodeUrl()
                     + CosmosConstants.COSMOS_STAKING_V1BETA1_VALIDATORS + "/" + validatorAddress);
             String responseString = cosmosWebService.get(builder);
@@ -310,7 +311,7 @@ public class CryptoValidatorService extends BaseService {
                 if (CollectionUtils.isNotEmpty(listSearch)) {
                     result = cryptoValidatorTransformer.convertToVO(listSearch.get(0));
                 } else {
-                    isNewValidator = false;
+                    isNewValidator = true;
                     result = new CryptoValidatorVO();
                     result.setValidatorAddress(validatorAddress);
                 }
@@ -322,7 +323,8 @@ public class CryptoValidatorService extends BaseService {
 
             // Update DB
             if (isNewValidator) {
-                create(result);
+                Long idResult = create(result).getData();
+                result = cryptoValidatorTransformer.convertToVO(cryptoValidatorRepository.findById(idResult).get());
             } else {
                 update(result);
             }
