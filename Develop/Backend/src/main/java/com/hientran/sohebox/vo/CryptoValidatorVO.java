@@ -32,4 +32,5 @@ public class CryptoValidatorVO extends BaseVO {
 
     private Double totalDeligated;
 
+    private Date syncDate;
 }

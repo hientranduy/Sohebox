@@ -40,4 +40,5 @@ public class CryptoPortfolioVO extends BaseVO {
 
     private CryptoValidatorVO validator;
 
+    private Date syncDate;
 }

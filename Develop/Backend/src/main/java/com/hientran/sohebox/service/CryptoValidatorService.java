@@ -100,6 +100,7 @@ public class CryptoValidatorService extends BaseService {
         if (result.getStatus() == null) {
             // Transform
             CryptoValidatorTbl tbl = cryptoValidatorTransformer.convertToTbl(vo);
+            tbl.setSyncDate(new Date());
 
             // Create
             tbl = cryptoValidatorRepository.save(tbl);
@@ -195,6 +196,8 @@ public class CryptoValidatorService extends BaseService {
             if (vo.getTotalDeligated() != null) {
                 updateTbl.setTotalDeligated(vo.getTotalDeligated());
             }
+
+            updateTbl.setSyncDate(new Date());
 
             cryptoValidatorRepository.save(updateTbl);
         }

@@ -1,8 +1,12 @@
 package com.hientran.sohebox.entity;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 
 import lombok.Getter;
@@ -34,4 +38,8 @@ public class CryptoValidatorTbl extends BaseTbl {
 
     @Column(name = "totalDeligated")
     private Double totalDeligated;
+
+    @Column(name = "syncDate", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date syncDate;
 }

@@ -1,11 +1,15 @@
 package com.hientran.sohebox.entity;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ForeignKey;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 
 import lombok.Getter;
@@ -52,4 +56,8 @@ public class CryptoPortfolioTbl extends BaseTbl {
     @ManyToOne
     @JoinColumn(foreignKey = @ForeignKey(name = "FK_CryptoPorfolioTbl_CryptoValidatorTbl_validator"))
     private CryptoValidatorTbl validator;
+
+    @Column(name = "syncDate", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date syncDate;
 }

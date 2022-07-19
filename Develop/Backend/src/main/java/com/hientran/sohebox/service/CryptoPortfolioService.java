@@ -244,6 +244,8 @@ public class CryptoPortfolioService extends BaseService {
                 updateTbl.setValidator(cryptoValidatorTransformer.convertToTbl(vo.getValidator()));
             }
 
+            updateTbl.setSyncDate(new Date());
+
             cryptoPortfolioRepository.save(updateTbl);
         }
 
