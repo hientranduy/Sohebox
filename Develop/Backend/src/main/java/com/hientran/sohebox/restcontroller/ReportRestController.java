@@ -30,7 +30,9 @@ public class ReportRestController extends BaseRestController {
      * @return
      */
     @PostMapping(ApiPublicConstants.API_REPORT_SUMMARY)
-    public ResponseEntity<?> createListSummaryReport(@Validated @RequestBody ReportSummaryVO vo) {
+    public ResponseEntity<?> createListSummaryReport(@Validated
+    @RequestBody
+    ReportSummaryVO vo) {
         reportService.createListSummaryReport(vo);
         return ResponseEntity.ok().build();
     }

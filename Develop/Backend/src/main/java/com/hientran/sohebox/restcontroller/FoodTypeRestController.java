@@ -37,7 +37,8 @@ public class FoodTypeRestController extends BaseRestController {
      * @return
      */
     @PostMapping(ApiPublicConstants.API_FOOD_TYPE + ApiPublicConstants.SEARCH)
-    public ResponseEntity<?> search(@RequestBody FoodTypeSCO sco) {
+    public ResponseEntity<?> search(@RequestBody
+    FoodTypeSCO sco) {
         // Search
         APIResponse<?> result = typeCache.search(sco);
 
@@ -71,7 +72,9 @@ public class FoodTypeRestController extends BaseRestController {
      * @return
      */
     @PutMapping(ApiPublicConstants.API_FOOD_TYPE)
-    public ResponseEntity<?> update(@Validated @RequestBody FoodTypeVO vo) {
+    public ResponseEntity<?> update(@Validated
+    @RequestBody
+    FoodTypeVO vo) {
         APIResponse<?> result = typeCache.updateType(vo);
 
         // Return
@@ -87,7 +90,8 @@ public class FoodTypeRestController extends BaseRestController {
      * @return
      */
     @GetMapping(ApiPublicConstants.API_FOOD_TYPE + ApiPublicConstants.ID)
-    public ResponseEntity<?> getById(@PathVariable(value = "id") Long id) {
+    public ResponseEntity<?> getById(@PathVariable(value = "id")
+    Long id) {
         // Delete
         APIResponse<?> result = typeCache.getById(id);
 

@@ -21,17 +21,27 @@ public class EnglishTypeSpecs extends GenericSpecs {
         // Add criteria
         if (sco != null) {
             if (sco.getSearchOr() != null && sco.getSearchOr() == true) {
-            specification = specification.or(buildSearchText(EnglishTypeTblEnum.typeClass.name(), sco.getTypeClass()));
-            specification = specification.or(buildSearchText(EnglishTypeTblEnum.typeCode.name(), sco.getTypeCode()));
-            specification = specification.or(buildSearchText(EnglishTypeTblEnum.typeName.name(), sco.getTypeName()));
-            specification = specification.or(buildSearchText(EnglishTypeTblEnum.description.name(), sco.getDescription()));
-            specification = specification.or(buildSearchBoolean(EnglishTypeTblEnum.deleteFlag.name(), sco.getDeleteFlag()));
+                specification = specification
+                        .or(buildSearchText(EnglishTypeTblEnum.typeClass.name(), sco.getTypeClass()));
+                specification = specification
+                        .or(buildSearchText(EnglishTypeTblEnum.typeCode.name(), sco.getTypeCode()));
+                specification = specification
+                        .or(buildSearchText(EnglishTypeTblEnum.typeName.name(), sco.getTypeName()));
+                specification = specification
+                        .or(buildSearchText(EnglishTypeTblEnum.description.name(), sco.getDescription()));
+                specification = specification
+                        .or(buildSearchBoolean(EnglishTypeTblEnum.deleteFlag.name(), sco.getDeleteFlag()));
             } else {
-            specification = specification.and(buildSearchText(EnglishTypeTblEnum.typeClass.name(), sco.getTypeClass()));
-            specification = specification.and(buildSearchText(EnglishTypeTblEnum.typeCode.name(), sco.getTypeCode()));
-            specification = specification.and(buildSearchText(EnglishTypeTblEnum.typeName.name(), sco.getTypeName()));
-            specification = specification.and(buildSearchText(EnglishTypeTblEnum.description.name(), sco.getDescription()));
-            specification = specification.and(buildSearchBoolean(EnglishTypeTblEnum.deleteFlag.name(), sco.getDeleteFlag()));
+                specification = specification
+                        .and(buildSearchText(EnglishTypeTblEnum.typeClass.name(), sco.getTypeClass()));
+                specification = specification
+                        .and(buildSearchText(EnglishTypeTblEnum.typeCode.name(), sco.getTypeCode()));
+                specification = specification
+                        .and(buildSearchText(EnglishTypeTblEnum.typeName.name(), sco.getTypeName()));
+                specification = specification
+                        .and(buildSearchText(EnglishTypeTblEnum.description.name(), sco.getDescription()));
+                specification = specification
+                        .and(buildSearchBoolean(EnglishTypeTblEnum.deleteFlag.name(), sco.getDeleteFlag()));
             }
         }
 

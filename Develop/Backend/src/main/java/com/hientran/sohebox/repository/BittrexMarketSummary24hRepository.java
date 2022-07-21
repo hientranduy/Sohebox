@@ -21,8 +21,8 @@ import com.hientran.sohebox.specification.BittrexMarketSummary24hSpecs;
 /**
  * @author hientran
  */
-public interface BittrexMarketSummary24hRepository
-        extends JpaRepository<BittrexMarketSummary24hTbl, Long>, JpaSpecificationExecutor<BittrexMarketSummary24hTbl>, BaseRepository {
+public interface BittrexMarketSummary24hRepository extends JpaRepository<BittrexMarketSummary24hTbl, Long>,
+        JpaSpecificationExecutor<BittrexMarketSummary24hTbl>, BaseRepository {
 
     BittrexMarketSummary24hSpecs specs = new BittrexMarketSummary24hSpecs();
 
@@ -41,7 +41,8 @@ public interface BittrexMarketSummary24hRepository
         Specification<BittrexMarketSummary24hTbl> specific = specs.buildSpecification(sco);
 
         // Create page able
-        Pageable pageable = createPageable(sco.getPageToGet(), sco.getMaxRecordPerPage(), sco.getSorters(), sco.getReportFlag());
+        Pageable pageable = createPageable(sco.getPageToGet(), sco.getMaxRecordPerPage(), sco.getSorters(),
+                sco.getReportFlag());
 
         // Get data
         Page<BittrexMarketSummary24hTbl> pageData = findAll(specific, pageable);

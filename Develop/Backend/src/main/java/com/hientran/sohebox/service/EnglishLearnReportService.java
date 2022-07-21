@@ -75,7 +75,7 @@ public class EnglishLearnReportService extends BaseService {
     public APIResponse<Object> search(EnglishLearnReportSCO sco) {
         // Declare result
         APIResponse<Object> result = new APIResponse<Object>();
-        
+
         // Check data authentication
         result = isDataAuthentication(sco.getUserId().getEq().longValue());
 

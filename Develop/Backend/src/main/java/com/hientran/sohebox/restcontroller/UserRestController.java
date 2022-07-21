@@ -42,7 +42,9 @@ public class UserRestController implements Serializable {
      * @return
      */
     @PostMapping(ApiPublicConstants.API_USER)
-    public ResponseEntity<?> createUser(@Validated @RequestBody UserVO vo) {
+    public ResponseEntity<?> createUser(@Validated
+    @RequestBody
+    UserVO vo) {
         // Create User
         APIResponse<?> result = userService.create(vo);
 
@@ -59,7 +61,9 @@ public class UserRestController implements Serializable {
      * @return
      */
     @PutMapping(ApiPublicConstants.API_USER + ApiPublicConstants.CHANGE_PASSWORD)
-    public ResponseEntity<?> changePassword(@Validated @RequestBody ChangePasswordVO vo) {
+    public ResponseEntity<?> changePassword(@Validated
+    @RequestBody
+    ChangePasswordVO vo) {
         // Change password
         APIResponse<?> result = userService.changePassword(vo);
 
@@ -76,7 +80,9 @@ public class UserRestController implements Serializable {
      * @return
      */
     @PutMapping(ApiPublicConstants.API_USER + ApiPublicConstants.CHANGE_PASSWORD_LOGGED_USER)
-    public ResponseEntity<?> changePasswordLoggedUser(@Validated @RequestBody ChangePasswordVO vo) {
+    public ResponseEntity<?> changePasswordLoggedUser(@Validated
+    @RequestBody
+    ChangePasswordVO vo) {
         // Change password
         APIResponse<?> result = userService.changePassword(vo);
 
@@ -109,7 +115,9 @@ public class UserRestController implements Serializable {
      * @return
      */
     @PutMapping(ApiPublicConstants.API_USER)
-    public ResponseEntity<?> updateUser(@Validated @RequestBody UserVO vo) {
+    public ResponseEntity<?> updateUser(@Validated
+    @RequestBody
+    UserVO vo) {
         // Update User
         APIResponse<?> result = userService.update(vo);
 
@@ -126,7 +134,8 @@ public class UserRestController implements Serializable {
      * @return
      */
     @PostMapping(ApiPublicConstants.API_USER + ApiPublicConstants.API_USER_STATUS)
-    public ResponseEntity<?> searchStatus(@RequestBody UserSCO sco) {
+    public ResponseEntity<?> searchStatus(@RequestBody
+    UserSCO sco) {
         // Get all User
         APIResponse<?> result = userService.searchUserStatus(sco);
 
@@ -143,7 +152,8 @@ public class UserRestController implements Serializable {
      * @return
      */
     @PostMapping(ApiPublicConstants.API_USER + ApiPublicConstants.API_ACTIVE_USER)
-    public ResponseEntity<?> searchActiveUser(@RequestBody UserSCO sco) {
+    public ResponseEntity<?> searchActiveUser(@RequestBody
+    UserSCO sco) {
         // Get all User
         APIResponse<?> result = userService.searchActiveUser(sco);
 
@@ -160,7 +170,8 @@ public class UserRestController implements Serializable {
      * @return
      */
     @GetMapping(ApiPublicConstants.API_USER + ApiPublicConstants.ID)
-    public ResponseEntity<?> getUserById(@PathVariable(value = "id") Long id) {
+    public ResponseEntity<?> getUserById(@PathVariable(value = "id")
+    Long id) {
         // Get User by ID
         APIResponse<?> result = userService.getById(id);
 
@@ -177,7 +188,8 @@ public class UserRestController implements Serializable {
      * @return
      */
     @PostMapping(ApiPublicConstants.API_USER + ApiPublicConstants.SEARCH)
-    public ResponseEntity<?> search(@RequestBody UserSCO sco) {
+    public ResponseEntity<?> search(@RequestBody
+    UserSCO sco) {
         // Search User
         APIResponse<?> result = userService.search(sco);
 
@@ -195,7 +207,8 @@ public class UserRestController implements Serializable {
      * @return
      */
     @DeleteMapping(ApiPublicConstants.API_USER + ApiPublicConstants.ID)
-    public ResponseEntity<?> deleteUserById(@PathVariable(value = "id") Long id) {
+    public ResponseEntity<?> deleteUserById(@PathVariable(value = "id")
+    Long id) {
         // Delete
         APIResponse<?> result = userService.deleteById(id);
 
@@ -212,7 +225,9 @@ public class UserRestController implements Serializable {
      * @return
      */
     @PostMapping(ApiPublicConstants.API_USER + ApiPublicConstants.LOGOUT)
-    public ResponseEntity<?> logout(@Validated @RequestBody UserVO vo) {
+    public ResponseEntity<?> logout(@Validated
+    @RequestBody
+    UserVO vo) {
         // Create Account
         APIResponse<?> result = userService.logout(vo);
 
@@ -229,7 +244,9 @@ public class UserRestController implements Serializable {
      * @return
      */
     @PutMapping(ApiPublicConstants.API_USER + ApiPublicConstants.CHANGE_PRIVATE_KEY)
-    public ResponseEntity<?> changePrivateKey(@Validated @RequestBody ChangePrivateKeyVO vo) {
+    public ResponseEntity<?> changePrivateKey(@Validated
+    @RequestBody
+    ChangePrivateKeyVO vo) {
         // Change password
         APIResponse<?> result = userService.changePrivateKey(vo);
 

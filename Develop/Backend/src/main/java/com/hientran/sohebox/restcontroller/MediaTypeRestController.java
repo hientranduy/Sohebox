@@ -37,7 +37,8 @@ public class MediaTypeRestController extends BaseRestController {
      * @return
      */
     @PostMapping(ApiPublicConstants.API_MEDIA_TYPE + ApiPublicConstants.SEARCH)
-    public ResponseEntity<?> search(@RequestBody MediaTypeSCO sco) {
+    public ResponseEntity<?> search(@RequestBody
+    MediaTypeSCO sco) {
         // Search
         APIResponse<?> result = typeCache.search(sco);
 
@@ -71,7 +72,9 @@ public class MediaTypeRestController extends BaseRestController {
      * @return
      */
     @PutMapping(ApiPublicConstants.API_MEDIA_TYPE)
-    public ResponseEntity<?> update(@Validated @RequestBody MediaTypeVO vo) {
+    public ResponseEntity<?> update(@Validated
+    @RequestBody
+    MediaTypeVO vo) {
         APIResponse<?> result = typeCache.updateType(vo);
 
         // Return
@@ -87,7 +90,8 @@ public class MediaTypeRestController extends BaseRestController {
      * @return
      */
     @GetMapping(ApiPublicConstants.API_MEDIA_TYPE + ApiPublicConstants.ID)
-    public ResponseEntity<?> getById(@PathVariable(value = "id") Long id) {
+    public ResponseEntity<?> getById(@PathVariable(value = "id")
+    Long id) {
         // Delete
         APIResponse<?> result = typeCache.getById(id);
 

@@ -37,7 +37,8 @@ public class TypeRestController extends BaseRestController {
      * @return
      */
     @PostMapping(ApiPublicConstants.API_TYPE + ApiPublicConstants.SEARCH)
-    public ResponseEntity<?> search(@RequestBody TypeSCO sco) {
+    public ResponseEntity<?> search(@RequestBody
+    TypeSCO sco) {
         // Search
         APIResponse<?> result = typeCache.search(sco);
 
@@ -71,7 +72,9 @@ public class TypeRestController extends BaseRestController {
      * @return
      */
     @PutMapping(ApiPublicConstants.API_TYPE)
-    public ResponseEntity<?> update(@Validated @RequestBody TypeVO vo) {
+    public ResponseEntity<?> update(@Validated
+    @RequestBody
+    TypeVO vo) {
         APIResponse<?> result = typeCache.updateType(vo);
 
         // Return
@@ -87,7 +90,8 @@ public class TypeRestController extends BaseRestController {
      * @return
      */
     @GetMapping(ApiPublicConstants.API_TYPE + ApiPublicConstants.ID)
-    public ResponseEntity<?> getById(@PathVariable(value = "id") Long id) {
+    public ResponseEntity<?> getById(@PathVariable(value = "id")
+    Long id) {
         // Delete
         APIResponse<?> result = typeCache.getById(id);
 
@@ -104,7 +108,9 @@ public class TypeRestController extends BaseRestController {
      * @return
      */
     @PostMapping(ApiPublicConstants.API_TYPE)
-    public ResponseEntity<?> create(@Validated @RequestBody TypeVO vo) {
+    public ResponseEntity<?> create(@Validated
+    @RequestBody
+    TypeVO vo) {
         // Create Account
         APIResponse<?> result = typeCache.create(vo);
 

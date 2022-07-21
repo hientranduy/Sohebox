@@ -15,7 +15,8 @@ import com.hientran.sohebox.specification.BittrexCryptoSpecs;
 /**
  * @author hientran
  */
-public interface BittrexCryptoRepository extends JpaRepository<BittrexCryptoTbl, Long>, JpaSpecificationExecutor<BittrexCryptoTbl>, BaseRepository {
+public interface BittrexCryptoRepository
+        extends JpaRepository<BittrexCryptoTbl, Long>, JpaSpecificationExecutor<BittrexCryptoTbl>, BaseRepository {
 
     BittrexCryptoSpecs specs = new BittrexCryptoSpecs();
 
@@ -34,7 +35,8 @@ public interface BittrexCryptoRepository extends JpaRepository<BittrexCryptoTbl,
         Specification<BittrexCryptoTbl> specific = specs.buildSpecification(sco);
 
         // Create page able
-        Pageable pageable = createPageable(sco.getPageToGet(), sco.getMaxRecordPerPage(), sco.getSorters(), sco.getReportFlag());
+        Pageable pageable = createPageable(sco.getPageToGet(), sco.getMaxRecordPerPage(), sco.getSorters(),
+                sco.getReportFlag());
 
         // Get data
         Page<BittrexCryptoTbl> pageData = findAll(specific, pageable);

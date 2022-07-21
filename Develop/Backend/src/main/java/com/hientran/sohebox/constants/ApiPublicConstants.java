@@ -23,7 +23,7 @@ public class ApiPublicConstants implements Serializable {
     public static final String CHANGE_PRIVATE_KEY = "/changePrivateKey";
 
     public static final String SEARCH = "/search";
-    
+
     public static final String SEARCH_BY_CHANNEL = "/searchByChannel";
 
     public static final String SEARCH_MY_OWNER = "/searchMyOwner";
@@ -61,9 +61,9 @@ public class ApiPublicConstants implements Serializable {
     public static final String API_TYPE_CLASS = "/typeclass";
 
     public static final String API_ENGLISH = "/english";
-    
+
     public static final String API_CRYPTO_TOKEN_CONFIG = "/cryptoTokenConfig";
-    
+
     public static final String API_CRYPTO_PORTFOLIO = "/cryptoPortfolio";
 
     public static final String API_YOUTUBE_CHANNEL = "/youtubeChannel";

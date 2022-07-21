@@ -38,7 +38,9 @@ public class AccountRestController extends BaseRestController {
      * @return
      */
     @PostMapping(ApiPublicConstants.API_ACCOUNT)
-    public ResponseEntity<?> create(@Validated @RequestBody AccountVO vo) {
+    public ResponseEntity<?> create(@Validated
+    @RequestBody
+    AccountVO vo) {
         // Create Account
         APIResponse<?> result = accountService.create(vo);
 
@@ -55,7 +57,8 @@ public class AccountRestController extends BaseRestController {
      * @return
      */
     @PostMapping(ApiPublicConstants.API_ACCOUNT + ApiPublicConstants.SEARCH)
-    public ResponseEntity<?> search(@RequestBody AccountSCO sco) {
+    public ResponseEntity<?> search(@RequestBody
+    AccountSCO sco) {
         // Search
         APIResponse<?> result = accountService.search(sco);
 
@@ -73,7 +76,8 @@ public class AccountRestController extends BaseRestController {
      * @return
      */
     @DeleteMapping(ApiPublicConstants.API_ACCOUNT + ApiPublicConstants.ID)
-    public ResponseEntity<?> deleteUserById(@PathVariable(value = "id") Long id) {
+    public ResponseEntity<?> deleteUserById(@PathVariable(value = "id")
+    Long id) {
         // Delete
         APIResponse<?> result = accountService.deleteById(id);
 
@@ -90,7 +94,9 @@ public class AccountRestController extends BaseRestController {
      * @return
      */
     @PutMapping(ApiPublicConstants.API_ACCOUNT)
-    public ResponseEntity<?> update(@Validated @RequestBody AccountVO vo) {
+    public ResponseEntity<?> update(@Validated
+    @RequestBody
+    AccountVO vo) {
         // Update Account
         APIResponse<?> result = accountService.update(vo);
 
@@ -107,7 +113,8 @@ public class AccountRestController extends BaseRestController {
      * @return
      */
     @GetMapping(ApiPublicConstants.API_ACCOUNT + ApiPublicConstants.ID)
-    public ResponseEntity<?> getUserById(@PathVariable(value = "id") Long id) {
+    public ResponseEntity<?> getUserById(@PathVariable(value = "id")
+    Long id) {
         APIResponse<?> result = accountService.getById(id);
 
         // Return
@@ -123,7 +130,8 @@ public class AccountRestController extends BaseRestController {
      * @return
      */
     @PostMapping(ApiPublicConstants.API_ACCOUNT + ApiPublicConstants.API_ACCOUNT_SHOW_PASSWORD)
-    public ResponseEntity<?> showPassword(@RequestBody AccountVO vo) {
+    public ResponseEntity<?> showPassword(@RequestBody
+    AccountVO vo) {
         APIResponse<?> result = accountService.showPassword(vo);
 
         // Return

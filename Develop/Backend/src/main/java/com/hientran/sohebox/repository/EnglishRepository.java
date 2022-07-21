@@ -119,7 +119,7 @@ public interface EnglishRepository
         // Return
         return result;
     }
-    
+
     /**
      * 
      * Get top learn
@@ -147,5 +147,5 @@ public interface EnglishRepository
 
         // Return
         return result;
-    }    
+    }
 }

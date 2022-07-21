@@ -32,9 +32,21 @@ public class CryptoTokenConfigTbl extends BaseTbl {
     @Column(name = "nodeUrl")
     private String nodeUrl;
 
+    @Column(name = "rpcUrl")
+    private String rpcUrl;
+
     @Column(name = "denom")
     private String denom;
 
+    @Column(name = "decimalExponent")
+    private Long decimalExponent;
+
     @Column(name = "addressPrefix")
     private String addressPrefix;
+
+    @Column(name = "mintscanPrefix")
+    private String mintscanPrefix;
+
+    @Column(name = "deligateUrl")
+    private String deligateUrl;
 }

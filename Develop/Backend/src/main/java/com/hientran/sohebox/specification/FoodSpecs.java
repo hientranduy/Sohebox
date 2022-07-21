@@ -21,15 +21,17 @@ public class FoodSpecs extends GenericSpecs {
         // Add criteria
         if (sco != null) {
             if (sco.getSearchOr() != null && sco.getSearchOr() == true) {
-            specification = specification.or(buildSearchText(FoodTblEnum.name.name(), sco.getName()));
-            specification = specification.or(buildSearchNumber(FoodTblEnum.type.name(), sco.getTypeId()));
-            specification = specification.or(buildSearchNumber(FoodTblEnum.category.name(), sco.getCategoryId()));
-            specification = specification.or(buildSearchBoolean(FoodTblEnum.isFastFood.name(), sco.getIsFastFood()));
+                specification = specification.or(buildSearchText(FoodTblEnum.name.name(), sco.getName()));
+                specification = specification.or(buildSearchNumber(FoodTblEnum.type.name(), sco.getTypeId()));
+                specification = specification.or(buildSearchNumber(FoodTblEnum.category.name(), sco.getCategoryId()));
+                specification = specification
+                        .or(buildSearchBoolean(FoodTblEnum.isFastFood.name(), sco.getIsFastFood()));
             } else {
-            specification = specification.and(buildSearchText(FoodTblEnum.name.name(), sco.getName()));
-            specification = specification.and(buildSearchNumber(FoodTblEnum.type.name(), sco.getTypeId()));
-            specification = specification.and(buildSearchNumber(FoodTblEnum.category.name(), sco.getCategoryId()));
-            specification = specification.and(buildSearchBoolean(FoodTblEnum.isFastFood.name(), sco.getIsFastFood()));
+                specification = specification.and(buildSearchText(FoodTblEnum.name.name(), sco.getName()));
+                specification = specification.and(buildSearchNumber(FoodTblEnum.type.name(), sco.getTypeId()));
+                specification = specification.and(buildSearchNumber(FoodTblEnum.category.name(), sco.getCategoryId()));
+                specification = specification
+                        .and(buildSearchBoolean(FoodTblEnum.isFastFood.name(), sco.getIsFastFood()));
             }
         }
 

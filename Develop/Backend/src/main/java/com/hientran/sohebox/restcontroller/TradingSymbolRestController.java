@@ -33,7 +33,9 @@ public class TradingSymbolRestController extends BaseRestController {
      * @return
      */
     @PostMapping(ApiPublicConstants.API_TRADING_SYMBOL)
-    public ResponseEntity<?> create(@Validated @RequestBody TradingSymbolVO vo) {
+    public ResponseEntity<?> create(@Validated
+    @RequestBody
+    TradingSymbolVO vo) {
         // Create TradingSymbol
         APIResponse<?> result = tradingSymbolService.create(vo);
 

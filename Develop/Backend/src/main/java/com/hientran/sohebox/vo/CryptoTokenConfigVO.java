@@ -26,7 +26,15 @@ public class CryptoTokenConfigVO extends BaseVO {
 
     private String nodeUrl;
 
+    private String rpcUrl;
+
     private String denom;
 
+    private Long decimalExponent;
+
     private String addressPrefix;
+
+    private String mintscanPrefix;
+
+    private String deligateUrl;
 }

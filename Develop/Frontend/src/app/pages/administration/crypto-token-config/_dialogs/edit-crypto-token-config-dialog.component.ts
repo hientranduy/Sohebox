@@ -40,8 +40,12 @@ export class EditCryptoTokenConfigDialogComponent implements OnInit {
   tokenNameValue: string;
   iconUrlValue: string;
   nodeUrlValue: string;
+  rpcUrlValue: string;
   denomValue: string;
+  decimalExponentValue: Number;
   addressPrefixValue: string;
+  mintscanPrefixValue: string;
+  deligateUrlValue: string;
 
 
   /////////////////////////////////////
@@ -67,12 +71,28 @@ export class EditCryptoTokenConfigDialogComponent implements OnInit {
   nodeUrlFormControl = new FormControl('', [
   ]);
 
+  // rpcUrl
+  rpcUrlFormControl = new FormControl('', [
+  ]);
+
   // denom
   denomFormControl = new FormControl('', [
   ]);
 
+  // decimalExponent
+  decimalExponentFormControl = new FormControl('', [
+  ]);
+
   // addressPrefix
   addressPrefixFormControl = new FormControl('', [
+  ]);
+
+  // mintscanPrefix
+  mintscanPrefixFormControl = new FormControl('', [
+  ]);
+
+  // deligateUrl
+  deligateUrlFormControl = new FormControl('', [
   ]);
 
   ngOnInit() {
@@ -81,8 +101,12 @@ export class EditCryptoTokenConfigDialogComponent implements OnInit {
     this.tokenNameValue = this.cryptoTokenConfig.tokenName;
     this.iconUrlValue = this.cryptoTokenConfig.iconUrl;
     this.nodeUrlValue = this.cryptoTokenConfig.nodeUrl;
+    this.rpcUrlValue = this.cryptoTokenConfig.rpcUrl;
     this.denomValue = this.cryptoTokenConfig.denom;
+    this.decimalExponentValue = this.cryptoTokenConfig.decimalExponent;
     this.addressPrefixValue = this.cryptoTokenConfig.addressPrefix;
+    this.mintscanPrefixValue = this.cryptoTokenConfig.mintscanPrefix;
+    this.deligateUrlValue = this.cryptoTokenConfig.deligateUrl;
   }
 
   /////////////////////////////////////
@@ -116,8 +140,12 @@ export class EditCryptoTokenConfigDialogComponent implements OnInit {
         tokenName: [this.tokenNameValue],
         iconUrl: [this.iconUrlValue],
         nodeUrl: [this.nodeUrlValue],
+        rpcUrl: [this.rpcUrlValue],
         denom: [this.denomValue],
-        addressPrefix: [this.addressPrefixValue]
+        decimalExponent: [this.decimalExponentValue],
+        addressPrefix: [this.addressPrefixValue],
+        mintscanPrefix: [this.mintscanPrefixValue],
+        deligateUrl: [this.deligateUrlValue]
       });
 
       // Show loading
@@ -167,10 +195,22 @@ export class EditCryptoTokenConfigDialogComponent implements OnInit {
     if (this.nodeUrlFormControl.status === 'INVALID') {
       result = false;
     }
+    if (this.rpcUrlFormControl.status === 'INVALID') {
+      result = false;
+    }
     if (this.denomFormControl.status === 'INVALID') {
       result = false;
     }
+    if (this.decimalExponentFormControl.status === 'INVALID') {
+      result = false;
+    }
     if (this.addressPrefixFormControl.status === 'INVALID') {
+      result = false;
+    }
+    if (this.mintscanPrefixFormControl.status === 'INVALID') {
+      result = false;
+    }
+    if (this.mintscanPrefixFormControl.status === 'INVALID') {
       result = false;
     }
 

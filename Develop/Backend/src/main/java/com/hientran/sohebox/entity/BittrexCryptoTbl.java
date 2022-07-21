@@ -12,8 +12,9 @@ import javax.persistence.UniqueConstraint;
  * @author hientran
  */
 @Entity
-@Table(name = "bittrex_crypto_tbl", uniqueConstraints = { @UniqueConstraint(name = "UQ_bittrex_crypto", columnNames = { "currency" }) }, indexes = {
-        @Index(name = "IDX_bittrex_crypto", columnList = "active, restricted , coinType ") })
+@Table(name = "bittrex_crypto_tbl", uniqueConstraints = {
+        @UniqueConstraint(name = "UQ_bittrex_crypto", columnNames = { "currency" }) }, indexes = {
+                @Index(name = "IDX_bittrex_crypto", columnList = "active, restricted , coinType ") })
 public class BittrexCryptoTbl extends BaseTbl {
     private static final long serialVersionUID = 1L;
 

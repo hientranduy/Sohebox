@@ -94,7 +94,8 @@
         </ngx-datatable-column>
 
         <!-- validator name -->
-        <ngx-datatable-column name="Validator name" prop="validator.validatorName" *ngIf="isValidatorMode" [flexGrow]="1.8">
+        <ngx-datatable-column name="Validator name" prop="validator.validatorName" *ngIf="isValidatorMode"
+            [flexGrow]="1.8">
             <ng-template let-value="value" ngx-datatable-cell-template>
                 {{ value }}
             </ng-template>
@@ -117,8 +118,11 @@
                     <button mat-menu-item (click)="viewDetailChoose(row)">Detail</button>
                     <button mat-menu-item (click)="editChoose(row)">Edit</button>
                     <button mat-menu-item (click)="deleteChoose(row)">Delete</button>
-                    <button mat-menu-item (click)="viewExplorer(row)" *ngIf="row.token.addressPrefix">View
-                        Explorer
+                    <button mat-menu-item (click)="viewExplorer(row)" *ngIf="row.token.mintscanPrefix">
+                        View Explorer
+                    </button>
+                    <button mat-menu-item (click)="deligatePage(row)" *ngIf="row.token.deligateUrl">
+                        Go Staking
                     </button>
                 </mat-menu>
             </ng-template>

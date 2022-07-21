@@ -303,7 +303,14 @@ export class PortfolioComponent implements OnInit {
   * View explorer
   */
   public viewExplorer(item: CryptoPortfolio) {
-    window.open(AppSettings.CRYPTO_MINTSCAN + item.token.addressPrefix + "/account/" + item.wallet);
+    window.open(AppSettings.CRYPTO_MINTSCAN + item.token.mintscanPrefix + "/account/" + item.wallet);
+  }
+
+  /**
+  * Go deligate
+  */
+  public deligatePage(item: CryptoPortfolio) {
+    window.open(item.token.deligateUrl);
   }
 
   /**

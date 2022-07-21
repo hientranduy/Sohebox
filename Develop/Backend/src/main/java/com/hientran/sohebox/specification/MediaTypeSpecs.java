@@ -21,17 +21,23 @@ public class MediaTypeSpecs extends GenericSpecs {
         // Add criteria
         if (sco != null) {
             if (sco.getSearchOr() != null && sco.getSearchOr() == true) {
-                specification = specification.or(buildSearchText(MediaTypeTblEnum.typeClass.name(), sco.getTypeClass()));
+                specification = specification
+                        .or(buildSearchText(MediaTypeTblEnum.typeClass.name(), sco.getTypeClass()));
                 specification = specification.or(buildSearchText(MediaTypeTblEnum.typeCode.name(), sco.getTypeCode()));
                 specification = specification.or(buildSearchText(MediaTypeTblEnum.typeName.name(), sco.getTypeName()));
-                specification = specification.or(buildSearchText(MediaTypeTblEnum.description.name(), sco.getDescription()));
-                specification = specification.or(buildSearchBoolean(MediaTypeTblEnum.deleteFlag.name(), sco.getDeleteFlag()));
+                specification = specification
+                        .or(buildSearchText(MediaTypeTblEnum.description.name(), sco.getDescription()));
+                specification = specification
+                        .or(buildSearchBoolean(MediaTypeTblEnum.deleteFlag.name(), sco.getDeleteFlag()));
             } else {
-                specification = specification.and(buildSearchText(MediaTypeTblEnum.typeClass.name(), sco.getTypeClass()));
+                specification = specification
+                        .and(buildSearchText(MediaTypeTblEnum.typeClass.name(), sco.getTypeClass()));
                 specification = specification.and(buildSearchText(MediaTypeTblEnum.typeCode.name(), sco.getTypeCode()));
                 specification = specification.and(buildSearchText(MediaTypeTblEnum.typeName.name(), sco.getTypeName()));
-                specification = specification.and(buildSearchText(MediaTypeTblEnum.description.name(), sco.getDescription()));
-                specification = specification.and(buildSearchBoolean(MediaTypeTblEnum.deleteFlag.name(), sco.getDeleteFlag()));
+                specification = specification
+                        .and(buildSearchText(MediaTypeTblEnum.description.name(), sco.getDescription()));
+                specification = specification
+                        .and(buildSearchBoolean(MediaTypeTblEnum.deleteFlag.name(), sco.getDeleteFlag()));
             }
         }
 

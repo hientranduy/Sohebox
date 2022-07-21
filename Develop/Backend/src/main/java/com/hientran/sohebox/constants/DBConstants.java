@@ -110,19 +110,19 @@ public class DBConstants implements Serializable {
     public static final String USER_ACTIVITY_FOOD_CREATE = "food create";
 
     public static final String USER_ACTIVITY_FOOD_UPDATE = "food update";
-    
+
     public static final String USER_ACTIVITY_CRYPTO_TOKEN_CONFIG_CREATE = "token create";
 
     public static final String USER_ACTIVITY_CRYPTO_TOKEN_CONFIG_UPDATE = "token update";
-    
+
     public static final String USER_ACTIVITY_CRYPTO_TOKEN_CONFIG_ACCESS = "token access";
-    
+
     public static final String USER_ACTIVITY_CRYPTO_PORTFOLIO_CREATE = "portfolio create";
 
     public static final String USER_ACTIVITY_CRYPTO_PORTFOLIO_UPDATE = "portfolio update";
-    
+
     public static final String USER_ACTIVITY_CRYPTO_PORTFOLIO_ACCESS = "portfolio access";
-    
+
     public static final String USER_ACTIVITY_CRYPTO_PORTFOLIO_DELETE = "portfolio delete";
 
     public static final String USER_ACTIVITY_MEDIA_YOUTUBE_CHANNEL_ACCESS = "media youtube channel access";

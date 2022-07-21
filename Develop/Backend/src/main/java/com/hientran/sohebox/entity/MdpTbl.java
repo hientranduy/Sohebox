@@ -23,7 +23,7 @@ public class MdpTbl extends GenericTbl {
 
     private static final long serialVersionUID = 1L;
 
-    @Column(name = "createdDate", nullable = false, updatable = false, columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    @Column(name = "createdDate", nullable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     @Temporal(TemporalType.TIMESTAMP)
     @CreatedDate
     private Date createdDate;

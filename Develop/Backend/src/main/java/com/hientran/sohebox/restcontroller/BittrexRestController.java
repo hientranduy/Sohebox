@@ -44,7 +44,9 @@ public class BittrexRestController extends BaseRestController {
      * @return
      */
     @PutMapping(ApiPublicConstants.API_BITTREX_PAIR_EXTRACT)
-    public ResponseEntity<?> updateExtractionPairs(@Validated @RequestBody List<BittrexPairTbl> pairs) {
+    public ResponseEntity<?> updateExtractionPairs(@Validated
+    @RequestBody
+    List<BittrexPairTbl> pairs) {
         bittrexService.updateExtractionPairs(pairs);
         return ResponseEntity.ok().build();
     }

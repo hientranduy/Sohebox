@@ -13,7 +13,8 @@ import javax.persistence.UniqueConstraint;
  * @author hientran
  */
 @Entity
-@Table(name = "image_tbl", uniqueConstraints = { @UniqueConstraint(name = "UQ_image", columnNames = { "captureDate" }) })
+@Table(name = "image_tbl", uniqueConstraints = {
+        @UniqueConstraint(name = "UQ_image", columnNames = { "captureDate" }) })
 public class ImageTbl extends BaseTbl {
 
     private static final long serialVersionUID = 1L;

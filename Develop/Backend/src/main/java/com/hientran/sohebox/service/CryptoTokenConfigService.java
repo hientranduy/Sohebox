@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.hientran.sohebox.constants.CosmosConstants;
 import com.hientran.sohebox.constants.DBConstants;
 import com.hientran.sohebox.constants.MessageConstants;
 import com.hientran.sohebox.constants.enums.CryptoTokenConfigTblEnum;
@@ -91,6 +92,11 @@ public class CryptoTokenConfigService extends BaseService {
             // Create
             tbl = cryptoTokenConfigRepository.save(tbl);
 
+            // Set default
+            if (tbl.getDecimalExponent() <= 0) {
+                tbl.setDecimalExponent(Long.valueOf(CosmosConstants.COSMOS_DECIMAL_EXPONENT));
+            }
+
             // Set id return
             result.setData(tbl.getId());
 
@@ -156,12 +162,28 @@ public class CryptoTokenConfigService extends BaseService {
                 updateTbl.setNodeUrl(vo.getNodeUrl());
             }
 
+            if (vo.getRpcUrl() != null) {
+                updateTbl.setRpcUrl(vo.getRpcUrl());
+            }
+
             if (vo.getDenom() != null) {
                 updateTbl.setDenom(vo.getDenom());
             }
 
+            if (vo.getDecimalExponent() != null && vo.getDecimalExponent() > 0) {
+                updateTbl.setDecimalExponent(vo.getDecimalExponent());
+            }
+
             if (vo.getAddressPrefix() != null) {
                 updateTbl.setAddressPrefix(vo.getAddressPrefix());
+            }
+
+            if (vo.getMintscanPrefix() != null) {
+                updateTbl.setMintscanPrefix(vo.getMintscanPrefix());
+            }
+
+            if (vo.getDeligateUrl() != null) {
+                updateTbl.setDeligateUrl(vo.getDeligateUrl());
             }
 
             // Update

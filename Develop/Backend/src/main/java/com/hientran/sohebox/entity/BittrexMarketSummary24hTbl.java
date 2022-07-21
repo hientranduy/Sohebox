@@ -17,7 +17,8 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
  * @author hientran
  */
 @Entity
-@Table(name = "bittrex_market_summary_24h_tbl", indexes = { @Index(name = "IDX_bittrex_market_summary", columnList = "marketName, timeStamp") })
+@Table(name = "bittrex_market_summary_24h_tbl", indexes = {
+        @Index(name = "IDX_bittrex_market_summary", columnList = "marketName, timeStamp") })
 @EntityListeners(AuditingEntityListener.class)
 public class BittrexMarketSummary24hTbl extends GenericTbl {
 

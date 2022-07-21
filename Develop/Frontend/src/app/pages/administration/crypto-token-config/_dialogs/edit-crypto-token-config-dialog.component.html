@@ -51,11 +51,29 @@
             </mat-error>
         </mat-form-field>
 
+        <!-- rpcUrl -->
+        <mat-form-field class="field-full-width">
+            <input class="field-input-value" matInput type="text" placeholder="RPC URL"
+                [formControl]="rpcUrlFormControl" [errorStateMatcher]="matcher" [(ngModel)]="rpcUrlValue">
+            <mat-error *ngIf="rpcUrlFormControl.hasError('required')">
+                <strong>Required</strong>
+            </mat-error>
+        </mat-form-field>
+
         <!-- denom -->
         <mat-form-field class="field-full-width">
             <input class="field-input-value" matInput type="text" placeholder="Denom" [formControl]="denomFormControl"
                 [errorStateMatcher]="matcher" [(ngModel)]="denomValue">
             <mat-error *ngIf="denomFormControl.hasError('required')">
+                <strong>Required</strong>
+            </mat-error>
+        </mat-form-field>
+        <!-- decimalExponent -->
+        <mat-form-field class="field-full-width">
+            <input class="field-input-value" matInput type="number" placeholder="Exponent"
+                [formControl]="decimalExponentFormControl" [errorStateMatcher]="matcher"
+                [(ngModel)]="decimalExponentValue">
+            <mat-error *ngIf="decimalExponentFormControl.hasError('required')">
                 <strong>Required</strong>
             </mat-error>
         </mat-form-field>
@@ -65,6 +83,25 @@
             <input class="field-input-value" matInput type="text" placeholder="Address Prefix"
                 [formControl]="addressPrefixFormControl" [errorStateMatcher]="matcher" [(ngModel)]="addressPrefixValue">
             <mat-error *ngIf="addressPrefixFormControl.hasError('required')">
+                <strong>Required</strong>
+            </mat-error>
+        </mat-form-field>
+
+        <!-- mintscanPrefix -->
+        <mat-form-field class="field-full-width">
+            <input class="field-input-value" matInput type="text" placeholder="Mintscan Prefix"
+                [formControl]="mintscanPrefixFormControl" [errorStateMatcher]="matcher"
+                [(ngModel)]="mintscanPrefixValue">
+            <mat-error *ngIf="mintscanPrefixFormControl.hasError('required')">
+                <strong>Required</strong>
+            </mat-error>
+        </mat-form-field>
+
+        <!-- deligateUrl -->
+        <mat-form-field class="field-full-width">
+            <input class="field-input-value" matInput type="text" placeholder="Delicate URL"
+                [formControl]="deligateUrlFormControl" [errorStateMatcher]="matcher" [(ngModel)]="deligateUrlValue">
+            <mat-error *ngIf="deligateUrlFormControl.hasError('required')">
                 <strong>Required</strong>
             </mat-error>
         </mat-form-field>

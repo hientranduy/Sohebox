@@ -22,11 +22,14 @@ public class TradingSymbolSpecs extends GenericSpecs {
         if (sco != null) {
             specification = specification.and(buildSearchText(TradingSymbolTblEnum.symbol.name(), sco.getSymbol()));
             specification = specification.and(buildSearchText(TradingSymbolTblEnum.name.name(), sco.getName()));
-            specification = specification.and(buildSearchNumber(TradingSymbolTblEnum.symbolType.name(), sco.getSymbolType()));
+            specification = specification
+                    .and(buildSearchNumber(TradingSymbolTblEnum.symbolType.name(), sco.getSymbolType()));
             specification = specification.and(buildSearchNumber(TradingSymbolTblEnum.zone.name(), sco.getZone()));
             specification = specification.and(buildSearchNumber(TradingSymbolTblEnum.country.name(), sco.getCountry()));
-            specification = specification.and(buildSearchText(TradingSymbolTblEnum.description.name(), sco.getDescription()));
-            specification = specification.and(buildSearchBoolean(TradingSymbolTblEnum.deleteFlag.name(), sco.getDeleteFlag()));
+            specification = specification
+                    .and(buildSearchText(TradingSymbolTblEnum.description.name(), sco.getDescription()));
+            specification = specification
+                    .and(buildSearchBoolean(TradingSymbolTblEnum.deleteFlag.name(), sco.getDeleteFlag()));
         }
 
         // Return result

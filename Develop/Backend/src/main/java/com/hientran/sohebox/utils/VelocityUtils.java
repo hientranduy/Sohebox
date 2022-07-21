@@ -35,7 +35,8 @@ public class VelocityUtils implements Serializable {
      * @return
      * @throws JsonProcessingException
      */
-    public String getTextByVmTemplate(String templatePath, Map<String, String> parameters) throws JsonProcessingException {
+    public String getTextByVmTemplate(String templatePath, Map<String, String> parameters)
+            throws JsonProcessingException {
         // Declare result
         String result = null;
 

@@ -21,17 +21,24 @@ public class YoutubeChannelSpecs extends GenericSpecs {
         // Add criteria
         if (sco != null) {
             if (sco.getSearchOr() != null && sco.getSearchOr() == true) {
-                specification = specification.or(buildSearchText(YoutubeChannelTblEnum.channelId.name(), sco.getChannelId()));
+                specification = specification
+                        .or(buildSearchText(YoutubeChannelTblEnum.channelId.name(), sco.getChannelId()));
                 specification = specification.or(buildSearchText(YoutubeChannelTblEnum.name.name(), sco.getName()));
-                specification = specification.or(buildSearchText(YoutubeChannelTblEnum.description.name(), sco.getDescription()));
-                specification = specification.or(buildSearchNumber(YoutubeChannelTblEnum.category.name(), sco.getCategoryId()));
+                specification = specification
+                        .or(buildSearchText(YoutubeChannelTblEnum.description.name(), sco.getDescription()));
+                specification = specification
+                        .or(buildSearchNumber(YoutubeChannelTblEnum.category.name(), sco.getCategoryId()));
                 specification = specification.or(buildSearchNumber(YoutubeChannelTblEnum.user.name(), sco.getUserId()));
             } else {
-                specification = specification.and(buildSearchText(YoutubeChannelTblEnum.channelId.name(), sco.getChannelId()));
+                specification = specification
+                        .and(buildSearchText(YoutubeChannelTblEnum.channelId.name(), sco.getChannelId()));
                 specification = specification.and(buildSearchText(YoutubeChannelTblEnum.name.name(), sco.getName()));
-                specification = specification.and(buildSearchText(YoutubeChannelTblEnum.description.name(), sco.getDescription()));
-                specification = specification.and(buildSearchNumber(YoutubeChannelTblEnum.category.name(), sco.getCategoryId()));
-                specification = specification.and(buildSearchNumber(YoutubeChannelTblEnum.user.name(), sco.getUserId()));
+                specification = specification
+                        .and(buildSearchText(YoutubeChannelTblEnum.description.name(), sco.getDescription()));
+                specification = specification
+                        .and(buildSearchNumber(YoutubeChannelTblEnum.category.name(), sco.getCategoryId()));
+                specification = specification
+                        .and(buildSearchNumber(YoutubeChannelTblEnum.user.name(), sco.getUserId()));
             }
         }
 

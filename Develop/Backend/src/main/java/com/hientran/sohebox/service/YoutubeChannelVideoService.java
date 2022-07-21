@@ -274,7 +274,8 @@ public class YoutubeChannelVideoService extends BaseService {
      * @return
      */
     @Transactional(readOnly = false, rollbackFor = Exception.class)
-    public APIResponse<?> addPrivateVideo(@Validated YoutubeVideoIdVO vo) {
+    public APIResponse<?> addPrivateVideo(@Validated
+    YoutubeVideoIdVO vo) {
         // Declare result
         APIResponse<YoutubeChannelVideoTbl> result = new APIResponse<YoutubeChannelVideoTbl>();
 

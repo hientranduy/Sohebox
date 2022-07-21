@@ -286,7 +286,7 @@ public class CryptoValidatorService extends BaseService {
 //                    .toString();
 //            String validatorWebsite = jsonObject.getJSONObject("result").getJSONObject("description").get("website")
 //                    .toString();
-//            Double totalDeligated = jsonObject.getJSONObject("result").getDouble("tokens") / 1000000;
+//            Double totalDeligated = jsonObject.getJSONObject("result").getDouble("tokens") / cryptoPortfolioVO.getToken().getDecimalExponent();
 //            Double commissionRate = jsonObject.getJSONObject("result").getJSONObject("commission")
 //                    .getJSONObject("commission_rates").getDouble("rate");
 
@@ -299,7 +299,8 @@ public class CryptoValidatorService extends BaseService {
                     .toString();
             String validatorWebsite = jsonObject.getJSONObject("validator").getJSONObject("description").get("website")
                     .toString();
-            Double totalDeligated = jsonObject.getJSONObject("validator").getDouble("tokens") / 1000000;
+            Double totalDeligated = jsonObject.getJSONObject("validator").getDouble("tokens")
+                    / cryptoPortfolioVO.getToken().getDecimalExponent();
             Double commissionRate = jsonObject.getJSONObject("validator").getJSONObject("commission")
                     .getJSONObject("commission_rates").getDouble("rate");
 

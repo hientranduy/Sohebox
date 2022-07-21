@@ -37,7 +37,9 @@ public class FoodRestController extends BaseRestController {
      * @return
      */
     @PostMapping(ApiPublicConstants.API_FOOD)
-    public ResponseEntity<?> create(@Validated @RequestBody FoodVO vo) {
+    public ResponseEntity<?> create(@Validated
+    @RequestBody
+    FoodVO vo) {
         // Create Food
         APIResponse<?> result = foodService.create(vo);
 
@@ -54,7 +56,9 @@ public class FoodRestController extends BaseRestController {
      * @return
      */
     @PutMapping(ApiPublicConstants.API_FOOD)
-    public ResponseEntity<?> update(@Validated @RequestBody FoodVO vo) {
+    public ResponseEntity<?> update(@Validated
+    @RequestBody
+    FoodVO vo) {
         // Update Account
         APIResponse<?> result = foodService.update(vo);
 
@@ -71,7 +75,8 @@ public class FoodRestController extends BaseRestController {
      * @return
      */
     @PostMapping(ApiPublicConstants.API_FOOD + ApiPublicConstants.SEARCH)
-    public ResponseEntity<?> search(@RequestBody FoodSCO sco) {
+    public ResponseEntity<?> search(@RequestBody
+    FoodSCO sco) {
         // Search
         APIResponse<?> result = foodService.search(sco);
 
@@ -89,7 +94,8 @@ public class FoodRestController extends BaseRestController {
      * @return
      */
     @GetMapping(ApiPublicConstants.API_FOOD + ApiPublicConstants.ID)
-    public ResponseEntity<?> getById(@PathVariable(value = "id") Long id) {
+    public ResponseEntity<?> getById(@PathVariable(value = "id")
+    Long id) {
         // Delete
         APIResponse<?> result = foodService.getById(id);
 

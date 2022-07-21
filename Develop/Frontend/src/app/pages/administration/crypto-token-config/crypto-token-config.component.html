@@ -65,7 +65,7 @@
     </ngx-datatable-column>
 
     <!-- Node URL -->
-    <ngx-datatable-column name="NodeURL" prop="nodeUrl">
+    <ngx-datatable-column name="Node URL" prop="nodeUrl">
         <ng-template let-value="value" ngx-datatable-cell-template>
             <div style="text-transform: capitalize">
                 {{ value }}
@@ -82,14 +82,23 @@
         </ng-template>
     </ngx-datatable-column>
 
-    <!-- Addres prefix -->
-    <ngx-datatable-column name="AddresPrefix" prop="addressPrefix">
+    <!-- mintscan prefix -->
+    <ngx-datatable-column name="Mintscan" prop="mintscanPrefix">
         <ng-template let-value="value" ngx-datatable-cell-template>
             <div style="text-transform: capitalize">
                 {{ value }}
             </div>
         </ng-template>
     </ngx-datatable-column>
+
+    <!-- Deligate Url -->
+    <ngx-datatable-column name="Deligate URL" prop="deligateUrl">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+            <div style="text-transform: capitalize">
+                {{ value }}
+            </div>
+        </ng-template>
+    </ngx-datatable-column>    
 
     <!-- Edit Column -->
     <ngx-datatable-column [sortable]="false">

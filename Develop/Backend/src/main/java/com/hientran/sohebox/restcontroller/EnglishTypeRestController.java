@@ -37,7 +37,8 @@ public class EnglishTypeRestController extends BaseRestController {
      * @return
      */
     @PostMapping(ApiPublicConstants.API_ENGLISH_TYPE + ApiPublicConstants.SEARCH)
-    public ResponseEntity<?> search(@RequestBody EnglishTypeSCO sco) {
+    public ResponseEntity<?> search(@RequestBody
+    EnglishTypeSCO sco) {
         // Search
         APIResponse<?> result = typeCache.search(sco);
 
@@ -71,7 +72,9 @@ public class EnglishTypeRestController extends BaseRestController {
      * @return
      */
     @PutMapping(ApiPublicConstants.API_ENGLISH_TYPE)
-    public ResponseEntity<?> update(@Validated @RequestBody EnglishTypeVO vo) {
+    public ResponseEntity<?> update(@Validated
+    @RequestBody
+    EnglishTypeVO vo) {
         APIResponse<?> result = typeCache.updateType(vo);
 
         // Return
@@ -87,7 +90,8 @@ public class EnglishTypeRestController extends BaseRestController {
      * @return
      */
     @GetMapping(ApiPublicConstants.API_ENGLISH_TYPE + ApiPublicConstants.ID)
-    public ResponseEntity<?> getById(@PathVariable(value = "id") Long id) {
+    public ResponseEntity<?> getById(@PathVariable(value = "id")
+    Long id) {
         // Delete
         APIResponse<?> result = typeCache.getById(id);
 

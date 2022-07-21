@@ -28,7 +28,8 @@ public class UserSpecs extends GenericSpecs {
                 specification = specification.and(buildSearchText(UserTblEnum.username.name(), sco.getUserName()));
                 specification = specification.and(buildSearchText(UserTblEnum.firstName.name(), sco.getFirstName()));
                 specification = specification.and(buildSearchText(UserTblEnum.lastName.name(), sco.getLastName()));
-                specification = specification.and(buildSearchBoolean(UserTblEnum.deleteFlag.name(), sco.getDeleteFlag()));
+                specification = specification
+                        .and(buildSearchBoolean(UserTblEnum.deleteFlag.name(), sco.getDeleteFlag()));
             }
         }
 

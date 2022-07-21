@@ -28,12 +28,12 @@ public class EnglishTbl extends GenericTbl {
 
     private static final long serialVersionUID = 1L;
 
-    @Column(name = "createdDate", nullable = false, updatable = false, columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    @Column(name = "createdDate", nullable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     @Temporal(TemporalType.TIMESTAMP)
     @CreatedDate
     private Date createdDate;
 
-    @Column(name = "updatedDate", nullable = false, columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    @Column(name = "updatedDate", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     @Temporal(TemporalType.TIMESTAMP)
     @LastModifiedDate
     private Date updatedDate;

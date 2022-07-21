@@ -356,7 +356,7 @@ public class CryptoPortfolioService extends BaseService {
 //
 //        if (jsonObject.getJSONArray("result").length() > 0) {
 //            cryptoPortfolioVO.setAmtAvailable(Double.parseDouble(
-//                    df.format(jsonObject.getJSONArray("result").getJSONObject(0).getDouble("amount") / 1000000)));
+//                    df.format(jsonObject.getJSONArray("result").getJSONObject(0).getDouble("amount") / cryptoPortfolioVO.getToken().getDecimalExponent())));
 //        } else {
 //            cryptoPortfolioVO.setAmtAvailable(Double.valueOf(0));
 //        }
@@ -366,8 +366,9 @@ public class CryptoPortfolioService extends BaseService {
         jsonObject = new JSONObject(cosmosWebService.get(builder));
 
         if (jsonObject.getJSONArray("balances").length() > 0) {
-            cryptoPortfolioVO.setAmtAvailable(Double.parseDouble(
-                    df.format(jsonObject.getJSONArray("balances").getJSONObject(0).getDouble("amount") / 1000000)));
+            cryptoPortfolioVO.setAmtAvailable(Double
+                    .parseDouble(df.format(jsonObject.getJSONArray("balances").getJSONObject(0).getDouble("amount")
+                            / cryptoPortfolioVO.getToken().getDecimalExponent())));
         } else {
             cryptoPortfolioVO.setAmtAvailable(Double.valueOf(0));
         }
@@ -381,7 +382,7 @@ public class CryptoPortfolioService extends BaseService {
 //        if (jsonObject.getJSONObject("result").getJSONArray("total").length() > 0) {
 //            cryptoPortfolioVO.setAmtTotalReward(Double.parseDouble(df.format(
 //                    jsonObject.getJSONObject("result").getJSONArray("total").getJSONObject(0).getDouble("amount")
-//                            / 1000000)));
+//                            / cryptoPortfolioVO.getToken().getDecimalExponent())));
 //        } else {
 //            cryptoPortfolioVO.setAmtTotalReward(Double.valueOf(0));
 //        }
@@ -391,8 +392,9 @@ public class CryptoPortfolioService extends BaseService {
         jsonObject = new JSONObject(cosmosWebService.get(builder));
 
         if (jsonObject.getJSONArray("total").length() > 0) {
-            cryptoPortfolioVO.setAmtTotalReward(Double.parseDouble(
-                    df.format(jsonObject.getJSONArray("total").getJSONObject(0).getDouble("amount") / 1000000)));
+            cryptoPortfolioVO.setAmtTotalReward(
+                    Double.parseDouble(df.format(jsonObject.getJSONArray("total").getJSONObject(0).getDouble("amount")
+                            / cryptoPortfolioVO.getToken().getDecimalExponent())));
         } else {
             cryptoPortfolioVO.setAmtTotalReward(Double.valueOf(0));
         }
@@ -414,7 +416,7 @@ public class CryptoPortfolioService extends BaseService {
 //            for (CryptoPortfolioValidatorDelegationVO item : validatorDelegation) {
 //                Double amount = item.getBalance().getAmount();
 //                if (amount > 0) {
-//                    amtTotalDelegated = amtTotalDelegated + Double.parseDouble(df.format(amount / 1000000));
+//                    amtTotalDelegated = amtTotalDelegated + Double.parseDouble(df.format(amount / cryptoPortfolioVO.getToken().getDecimalExponent()));
 //                    if (amount > maxAmount) {
 //                        maxAmount = amount;
 //                        validatorAddress = item.getDelegation().getValidator_address();
@@ -439,7 +441,8 @@ public class CryptoPortfolioService extends BaseService {
             for (CryptoPortfolioValidatorDelegationVO item : validatorDelegation) {
                 Double amount = item.getBalance().getAmount();
                 if (amount > 0) {
-                    amtTotalDelegated = amtTotalDelegated + Double.parseDouble(df.format(amount / 1000000));
+                    amtTotalDelegated = amtTotalDelegated
+                            + Double.parseDouble(df.format(amount / cryptoPortfolioVO.getToken().getDecimalExponent()));
                     if (amount > maxAmount) {
                         maxAmount = amount;
                         validatorAddress = item.getDelegation().getValidator_address();

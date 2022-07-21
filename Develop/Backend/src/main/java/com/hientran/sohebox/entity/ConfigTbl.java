@@ -9,7 +9,8 @@ import javax.persistence.UniqueConstraint;
  * @author hientran
  */
 @Entity
-@Table(name = "config_tbl", uniqueConstraints = { @UniqueConstraint(name = "UQ_config", columnNames = { "configKey" }) })
+@Table(name = "config_tbl", uniqueConstraints = {
+        @UniqueConstraint(name = "UQ_config", columnNames = { "configKey" }) })
 public class ConfigTbl extends BaseTbl {
 
     private static final long serialVersionUID = 1L;

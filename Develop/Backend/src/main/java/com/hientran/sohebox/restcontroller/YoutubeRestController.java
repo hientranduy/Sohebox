@@ -48,7 +48,9 @@ public class YoutubeRestController extends BaseRestController {
      * @return
      */
     @PostMapping(ApiPublicConstants.API_YOUTUBE_CHANNEL)
-    public ResponseEntity<?> create(@Validated @RequestBody YoutubeChannelVO vo) {
+    public ResponseEntity<?> create(@Validated
+    @RequestBody
+    YoutubeChannelVO vo) {
         APIResponse<?> result = youtubeChannelService.create(vo);
 
         return new ResponseEntity<>(result, new HttpHeaders(),
@@ -63,7 +65,8 @@ public class YoutubeRestController extends BaseRestController {
      * @return
      */
     @PostMapping(ApiPublicConstants.API_YOUTUBE_CHANNEL + ApiPublicConstants.SEARCH)
-    public ResponseEntity<?> search(@RequestBody YoutubeChannelSCO sco) {
+    public ResponseEntity<?> search(@RequestBody
+    YoutubeChannelSCO sco) {
         APIResponse<?> result = youtubeChannelService.search(sco);
 
         return new ResponseEntity<>(result, new HttpHeaders(),
@@ -79,7 +82,8 @@ public class YoutubeRestController extends BaseRestController {
      * @return
      */
     @PostMapping(ApiPublicConstants.API_YOUTUBE_CHANNEL + ApiPublicConstants.SEARCH_MY_OWNER)
-    public ResponseEntity<?> searchMyChannel(@RequestBody YoutubeChannelSCO sco) {
+    public ResponseEntity<?> searchMyChannel(@RequestBody
+    YoutubeChannelSCO sco) {
         APIResponse<?> result = youtubeChannelService.searchMyChannel(sco);
 
         return new ResponseEntity<>(result, new HttpHeaders(),
@@ -95,7 +99,9 @@ public class YoutubeRestController extends BaseRestController {
      * @return
      */
     @PutMapping(ApiPublicConstants.API_YOUTUBE_CHANNEL)
-    public ResponseEntity<?> update(@Validated @RequestBody YoutubeChannelVO vo) {
+    public ResponseEntity<?> update(@Validated
+    @RequestBody
+    YoutubeChannelVO vo) {
         APIResponse<?> result = youtubeChannelService.update(vo);
 
         return new ResponseEntity<>(result, new HttpHeaders(),
@@ -110,7 +116,8 @@ public class YoutubeRestController extends BaseRestController {
      * @return
      */
     @PostMapping(ApiPublicConstants.API_YOUTUBE_VIDEO + ApiPublicConstants.SEARCH_BY_CHANNEL)
-    public ResponseEntity<?> search(@RequestBody YoutubeChannelVideoSCO sco) {
+    public ResponseEntity<?> search(@RequestBody
+    YoutubeChannelVideoSCO sco) {
         APIResponse<?> result = youtubeService.searchChannelVideo(sco);
 
         return new ResponseEntity<>(result, new HttpHeaders(),
@@ -126,7 +133,9 @@ public class YoutubeRestController extends BaseRestController {
      * @return
      */
     @PostMapping(ApiPublicConstants.API_YOUTUBE_VIDEO + ApiPublicConstants.API_YOUTUBE_PRIVATE_VIDEO)
-    public ResponseEntity<?> addPrivateVideo(@Validated @RequestBody YoutubeVideoIdVO vo) {
+    public ResponseEntity<?> addPrivateVideo(@Validated
+    @RequestBody
+    YoutubeVideoIdVO vo) {
         APIResponse<?> result = youtubeChannelVideoService.addPrivateVideo(vo);
 
         return new ResponseEntity<>(result, new HttpHeaders(),
@@ -157,7 +166,8 @@ public class YoutubeRestController extends BaseRestController {
      */
     @DeleteMapping(ApiPublicConstants.API_YOUTUBE_VIDEO + ApiPublicConstants.API_YOUTUBE_PRIVATE_VIDEO
             + ApiPublicConstants.ID)
-    public ResponseEntity<?> deleteUserById(@PathVariable(value = "id") String id) {
+    public ResponseEntity<?> deleteUserById(@PathVariable(value = "id")
+    String id) {
         // Delete
         APIResponse<?> result = youtubeChannelVideoService.removeVideo(id);
 

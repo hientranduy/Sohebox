@@ -55,7 +55,9 @@ public class EnglishRestController extends BaseRestController {
      * @return
      */
     @PostMapping(ApiPublicConstants.API_ENGLISH)
-    public ResponseEntity<?> create(@Validated @RequestBody EnglishVO vo) {
+    public ResponseEntity<?> create(@Validated
+    @RequestBody
+    EnglishVO vo) {
         // Create English
         APIResponse<?> result = englishService.create(vo);
 
@@ -72,7 +74,8 @@ public class EnglishRestController extends BaseRestController {
      * @return
      */
     @PostMapping(ApiPublicConstants.API_ENGLISH + ApiPublicConstants.SEARCH)
-    public ResponseEntity<?> search(@RequestBody EnglishSCO sco) {
+    public ResponseEntity<?> search(@RequestBody
+    EnglishSCO sco) {
         // Search
         APIResponse<?> result = englishService.search(sco);
 
@@ -90,7 +93,8 @@ public class EnglishRestController extends BaseRestController {
      * @return
      */
     @PostMapping(ApiPublicConstants.API_ENGLISH + ApiPublicConstants.SEARCH_LOW_LEARN)
-    public ResponseEntity<?> searchLowLearn(@RequestBody EnglishSCO sco) {
+    public ResponseEntity<?> searchLowLearn(@RequestBody
+    EnglishSCO sco) {
         // Search
         APIResponse<?> result = englishService.searchLowLearn(sco);
 
@@ -108,7 +112,9 @@ public class EnglishRestController extends BaseRestController {
      * @return
      */
     @PutMapping(ApiPublicConstants.API_ENGLISH)
-    public ResponseEntity<?> update(@Validated @RequestBody EnglishVO vo) {
+    public ResponseEntity<?> update(@Validated
+    @RequestBody
+    EnglishVO vo) {
         // Update Account
         APIResponse<?> result = englishService.update(vo);
 
@@ -125,7 +131,8 @@ public class EnglishRestController extends BaseRestController {
      * @return
      */
     @GetMapping(ApiPublicConstants.API_ENGLISH + ApiPublicConstants.ID)
-    public ResponseEntity<?> getById(@PathVariable(value = "id") Long id) {
+    public ResponseEntity<?> getById(@PathVariable(value = "id")
+    Long id) {
         // Delete
         APIResponse<?> result = englishService.getById(id);
 
@@ -142,7 +149,9 @@ public class EnglishRestController extends BaseRestController {
      * @return
      */
     @PutMapping(ApiPublicConstants.API_ENGLISH + ApiPublicConstants.API_ENGLISH_LEARN_RECORD + ApiPublicConstants.ADD)
-    public ResponseEntity<?> addLearn(@Validated @RequestBody EnglishLearnRecordVO vo) {
+    public ResponseEntity<?> addLearn(@Validated
+    @RequestBody
+    EnglishLearnRecordVO vo) {
         // Update Account
         APIResponse<?> result = englishLearnRecordService.addLearn(vo);
 
@@ -160,7 +169,8 @@ public class EnglishRestController extends BaseRestController {
      */
     @PostMapping(ApiPublicConstants.API_ENGLISH + ApiPublicConstants.API_ENGLISH_LEARN_RECORD
             + ApiPublicConstants.SEARCH)
-    public ResponseEntity<?> search(@RequestBody EnglishLearnRecordSCO sco) {
+    public ResponseEntity<?> search(@RequestBody
+    EnglishLearnRecordSCO sco) {
         // Search
         APIResponse<?> result = englishLearnRecordService.search(sco);
 
@@ -177,7 +187,8 @@ public class EnglishRestController extends BaseRestController {
      * @return
      */
     @PostMapping(ApiPublicConstants.API_ENGLISH + ApiPublicConstants.API_ENGLISH_DOWNLOAD_FILE_MP3)
-    public ResponseEntity<?> downloadFileMp3(@RequestBody DownloadFileVO vo) {
+    public ResponseEntity<?> downloadFileMp3(@RequestBody
+    DownloadFileVO vo) {
         // Search
         APIResponse<?> result = englishService.downloadFileMp3(vo);
 
@@ -194,7 +205,9 @@ public class EnglishRestController extends BaseRestController {
      * @return
      */
     @PutMapping(ApiPublicConstants.API_ENGLISH + ApiPublicConstants.API_ENGLISH_USER_GRADE + ApiPublicConstants.SET)
-    public ResponseEntity<?> setEnglishUserGrade(@Validated @RequestBody EnglishUserGradeVO vo) {
+    public ResponseEntity<?> setEnglishUserGrade(@Validated
+    @RequestBody
+    EnglishUserGradeVO vo) {
         // Update Account
         APIResponse<?> result = englishUserGradeService.setEnglishUserGrade(vo);
 
@@ -211,7 +224,8 @@ public class EnglishRestController extends BaseRestController {
      * @return
      */
     @PostMapping(ApiPublicConstants.API_ENGLISH + ApiPublicConstants.API_ENGLISH_USER_GRADE + ApiPublicConstants.SEARCH)
-    public ResponseEntity<?> search(@RequestBody EnglishUserGradeSCO sco) {
+    public ResponseEntity<?> search(@RequestBody
+    EnglishUserGradeSCO sco) {
         // Search
         APIResponse<?> result = englishUserGradeService.search(sco);
 
@@ -229,7 +243,8 @@ public class EnglishRestController extends BaseRestController {
      */
     @PostMapping(ApiPublicConstants.API_ENGLISH + ApiPublicConstants.API_ENGLISH_LEARN_REPORT
             + ApiPublicConstants.SEARCH)
-    public ResponseEntity<?> search(@RequestBody EnglishLearnReportSCO sco) {
+    public ResponseEntity<?> search(@RequestBody
+    EnglishLearnReportSCO sco) {
         // Search
         APIResponse<?> result = englishLearnReportService.search(sco);
 
@@ -246,7 +261,8 @@ public class EnglishRestController extends BaseRestController {
      * @return
      */
     @PostMapping(ApiPublicConstants.API_ENGLISH + ApiPublicConstants.ENGLISH_TOP_LEARN)
-    public ResponseEntity<?> searchEnglishTopLearn(@RequestBody EnglishLearnReportSCO sco) {
+    public ResponseEntity<?> searchEnglishTopLearn(@RequestBody
+    EnglishLearnReportSCO sco) {
         // Search
         APIResponse<?> result = englishService.searchTopLearn((long) 50);
 

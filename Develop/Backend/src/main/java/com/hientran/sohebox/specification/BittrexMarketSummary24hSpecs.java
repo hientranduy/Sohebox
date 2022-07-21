@@ -20,8 +20,10 @@ public class BittrexMarketSummary24hSpecs extends GenericSpecs {
 
         // Add criteria
         if (sco != null) {
-            specification = specification.and(buildSearchText(BittrexMarketSummary24hTblEnum.marketName.name(), sco.getMarketName()));
-            specification = specification.and(buildSearchDate(BittrexMarketSummary24hTblEnum.timeStamp.name(), sco.getTimeStamp(), true));
+            specification = specification
+                    .and(buildSearchText(BittrexMarketSummary24hTblEnum.marketName.name(), sco.getMarketName()));
+            specification = specification
+                    .and(buildSearchDate(BittrexMarketSummary24hTblEnum.timeStamp.name(), sco.getTimeStamp(), true));
         }
 
         // Return result

@@ -20,20 +20,31 @@ public class BittrexPairSpecs extends GenericSpecs {
 
         // Add criteria
         if (sco != null) {
-            specification = specification.and(buildSearchText(BittrexPairTblEnum.marketCurrency.name(), sco.getMarketCurrency()));
-            specification = specification.and(buildSearchText(BittrexPairTblEnum.baseCurrency.name(), sco.getBaseCurrency()));
-            specification = specification.and(buildSearchText(BittrexPairTblEnum.marketCurrencyLong.name(), sco.getMarketCurrencyLong()));
-            specification = specification.and(buildSearchText(BittrexPairTblEnum.baseCurrencyLong.name(), sco.getBaseCurrencyLong()));
-            specification = specification.and(buildSearchNumber(BittrexPairTblEnum.minTradeSize.name(), sco.getMinTradeSize()));
-            specification = specification.and(buildSearchText(BittrexPairTblEnum.marketName.name(), sco.getMarketName()));
+            specification = specification
+                    .and(buildSearchText(BittrexPairTblEnum.marketCurrency.name(), sco.getMarketCurrency()));
+            specification = specification
+                    .and(buildSearchText(BittrexPairTblEnum.baseCurrency.name(), sco.getBaseCurrency()));
+            specification = specification
+                    .and(buildSearchText(BittrexPairTblEnum.marketCurrencyLong.name(), sco.getMarketCurrencyLong()));
+            specification = specification
+                    .and(buildSearchText(BittrexPairTblEnum.baseCurrencyLong.name(), sco.getBaseCurrencyLong()));
+            specification = specification
+                    .and(buildSearchNumber(BittrexPairTblEnum.minTradeSize.name(), sco.getMinTradeSize()));
+            specification = specification
+                    .and(buildSearchText(BittrexPairTblEnum.marketName.name(), sco.getMarketName()));
             specification = specification.and(buildSearchBoolean(BittrexPairTblEnum.active.name(), sco.getActive()));
-            specification = specification.and(buildSearchBoolean(BittrexPairTblEnum.restricted.name(), sco.getRestricted()));
-            specification = specification.and(buildSearchDate(BittrexPairTblEnum.created.name(), sco.getCreated(), true));
+            specification = specification
+                    .and(buildSearchBoolean(BittrexPairTblEnum.restricted.name(), sco.getRestricted()));
+            specification = specification
+                    .and(buildSearchDate(BittrexPairTblEnum.created.name(), sco.getCreated(), true));
             specification = specification.and(buildSearchText(BittrexPairTblEnum.notice.name(), sco.getNotice()));
-            specification = specification.and(buildSearchBoolean(BittrexPairTblEnum.sponsored.name(), sco.getSponsored()));
+            specification = specification
+                    .and(buildSearchBoolean(BittrexPairTblEnum.sponsored.name(), sco.getSponsored()));
             specification = specification.and(buildSearchText(BittrexPairTblEnum.logoUrl.name(), sco.getLogoUrl()));
-            specification = specification.and(buildSearchBoolean(BittrexPairTblEnum.extractDataFlag.name(), sco.getExtractDataFlag()));
-            specification = specification.and(buildSearchBoolean(BittrexPairTblEnum.deleteFlag.name(), sco.getDeleteFlag()));
+            specification = specification
+                    .and(buildSearchBoolean(BittrexPairTblEnum.extractDataFlag.name(), sco.getExtractDataFlag()));
+            specification = specification
+                    .and(buildSearchBoolean(BittrexPairTblEnum.deleteFlag.name(), sco.getDeleteFlag()));
         }
 
         // Return result

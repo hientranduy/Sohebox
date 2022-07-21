@@ -15,8 +15,9 @@ import javax.persistence.UniqueConstraint;
  * @author hientran
  */
 @Entity
-@Table(name = "bittrex_pair_tbl", uniqueConstraints = { @UniqueConstraint(name = "UQ_bittrex_pair", columnNames = { "marketName" }) }, indexes = {
-        @Index(name = "IDX_bittrex_pair", columnList = "marketCurrency, baseCurrency, active, restricted, sponsored, extractDataFlag") })
+@Table(name = "bittrex_pair_tbl", uniqueConstraints = {
+        @UniqueConstraint(name = "UQ_bittrex_pair", columnNames = { "marketName" }) }, indexes = {
+                @Index(name = "IDX_bittrex_pair", columnList = "marketCurrency, baseCurrency, active, restricted, sponsored, extractDataFlag") })
 public class BittrexPairTbl extends BaseTbl {
 
     private static final long serialVersionUID = 1L;

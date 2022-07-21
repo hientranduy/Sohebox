@@ -37,7 +37,8 @@ public class ConfigRestController extends BaseRestController {
      * @return
      */
     @PostMapping(ApiPublicConstants.API_CONFIG + ApiPublicConstants.SEARCH)
-    public ResponseEntity<?> search(@RequestBody ConfigSCO sco) {
+    public ResponseEntity<?> search(@RequestBody
+    ConfigSCO sco) {
         // Search
         APIResponse<?> result = configCache.search(sco);
 
@@ -55,7 +56,9 @@ public class ConfigRestController extends BaseRestController {
      * @return
      */
     @PutMapping(ApiPublicConstants.API_CONFIG)
-    public ResponseEntity<?> update(@Validated @RequestBody ConfigVO vo) {
+    public ResponseEntity<?> update(@Validated
+    @RequestBody
+    ConfigVO vo) {
         APIResponse<?> result = configCache.update(vo);
 
         // Return
@@ -71,7 +74,8 @@ public class ConfigRestController extends BaseRestController {
      * @return
      */
     @GetMapping(ApiPublicConstants.API_CONFIG + ApiPublicConstants.ID)
-    public ResponseEntity<?> getById(@PathVariable(value = "id") Long id) {
+    public ResponseEntity<?> getById(@PathVariable(value = "id")
+    Long id) {
         // Delete
         APIResponse<?> result = configCache.getById(id);
 
@@ -88,7 +92,9 @@ public class ConfigRestController extends BaseRestController {
      * @return
      */
     @PostMapping(ApiPublicConstants.API_CONFIG)
-    public ResponseEntity<?> create(@Validated @RequestBody ConfigVO vo) {
+    public ResponseEntity<?> create(@Validated
+    @RequestBody
+    ConfigVO vo) {
         // Create Account
         APIResponse<?> result = configCache.create(vo);
 

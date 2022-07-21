@@ -38,9 +38,12 @@ export class AddCryptoTokenConfigDialogComponent implements OnInit {
   tokenNameValue: string;
   iconUrlValue: string;
   nodeUrlValue: string;
+  rpcUrlValue: string;
   denomValue: string;
+  decimalExponentValue: Number;
   addressPrefixValue: string;
-
+  mintscanPrefixValue: string;
+  deligateUrlValue: string;
 
   /////////////////////////////////////
   // FORM FIELD VALIDATION           //
@@ -65,12 +68,28 @@ export class AddCryptoTokenConfigDialogComponent implements OnInit {
   nodeUrlFormControl = new FormControl('', [
   ]);
 
+  // rpcUrl
+  rpcUrlFormControl = new FormControl('', [
+  ]);
+
   // denom
   denomFormControl = new FormControl('', [
   ]);
 
+  // decimalExponent
+  decimalExponentFormControl = new FormControl('', [
+  ]);
+
   // addressPrefix
   addressPrefixFormControl = new FormControl('', [
+  ]);
+
+  // mintscanPrefix
+  mintscanPrefixFormControl = new FormControl('', [
+  ]);
+
+  // deligateUrl
+  deligateUrlFormControl = new FormControl('', [
   ]);
 
   ngOnInit() {
@@ -106,8 +125,12 @@ export class AddCryptoTokenConfigDialogComponent implements OnInit {
         tokenName: [this.tokenNameValue],
         iconUrl: [this.iconUrlValue],
         nodeUrl: [this.nodeUrlValue],
+        rpcUrl: [this.rpcUrlValue],
         denom: [this.denomValue],
-        addressPrefix: [this.addressPrefixValue]
+        decimalExponent: [this.decimalExponentValue],
+        addressPrefix: [this.addressPrefixValue],
+        mintscanPrefix: [this.mintscanPrefixValue],
+        deligateUrl: [this.deligateUrlValue]
       });
 
       // Show loading
@@ -157,10 +180,22 @@ export class AddCryptoTokenConfigDialogComponent implements OnInit {
     if (this.nodeUrlFormControl.status === 'INVALID') {
       result = false;
     }
+    if (this.rpcUrlFormControl.status === 'INVALID') {
+      result = false;
+    }
     if (this.denomFormControl.status === 'INVALID') {
       result = false;
     }
+    if (this.decimalExponentFormControl.status === 'INVALID') {
+      result = false;
+    }
     if (this.addressPrefixFormControl.status === 'INVALID') {
+      result = false;
+    }
+    if (this.mintscanPrefixFormControl.status === 'INVALID') {
+      result = false;
+    }
+    if (this.mintscanPrefixFormControl.status === 'INVALID') {
       result = false;
     }
 

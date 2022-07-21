@@ -20,9 +20,12 @@ public class BittrexMarketHistorySpecs extends GenericSpecs {
 
         // Add criteria
         if (sco != null) {
-            specification = specification.and(buildSearchText(BittrexMarketHistoryTblEnum.marketName.name(), sco.getMarketName()));
-            specification = specification.and(buildSearchDate(BittrexMarketHistoryTblEnum.timeStamp.name(), sco.getTimeStamp(), true));
-            specification = specification.and(buildSearchText(BittrexMarketHistoryTblEnum.orderType.name(), sco.getOrderType()));
+            specification = specification
+                    .and(buildSearchText(BittrexMarketHistoryTblEnum.marketName.name(), sco.getMarketName()));
+            specification = specification
+                    .and(buildSearchDate(BittrexMarketHistoryTblEnum.timeStamp.name(), sco.getTimeStamp(), true));
+            specification = specification
+                    .and(buildSearchText(BittrexMarketHistoryTblEnum.orderType.name(), sco.getOrderType()));
         }
 
         // Return result

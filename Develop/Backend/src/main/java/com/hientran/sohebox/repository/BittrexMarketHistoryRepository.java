@@ -21,8 +21,8 @@ import com.hientran.sohebox.specification.BittrexMarketHistorySpecs;
 /**
  * @author hientran
  */
-public interface BittrexMarketHistoryRepository
-        extends JpaRepository<BittrexMarketHistoryTbl, Long>, JpaSpecificationExecutor<BittrexMarketHistoryTbl>, BaseRepository {
+public interface BittrexMarketHistoryRepository extends JpaRepository<BittrexMarketHistoryTbl, Long>,
+        JpaSpecificationExecutor<BittrexMarketHistoryTbl>, BaseRepository {
 
     BittrexMarketHistorySpecs specs = new BittrexMarketHistorySpecs();
 
@@ -41,7 +41,8 @@ public interface BittrexMarketHistoryRepository
         Specification<BittrexMarketHistoryTbl> specific = specs.buildSpecification(sco);
 
         // Create page able
-        Pageable pageable = createPageable(sco.getPageToGet(), sco.getMaxRecordPerPage(), sco.getSorters(), sco.getReportFlag());
+        Pageable pageable = createPageable(sco.getPageToGet(), sco.getMaxRecordPerPage(), sco.getSorters(),
+                sco.getReportFlag());
 
         // Get data
         Page<BittrexMarketHistoryTbl> pageData = findAll(specific, pageable);
