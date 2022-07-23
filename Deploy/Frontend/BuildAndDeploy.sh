@@ -38,5 +38,3 @@ sleep 1
 echo "============================ Deploy copy ================================"
 command -p sudo cp -a $soheboxHome/$soheboxDevelopFrontendHome/$frontendSourcePath/. $frontendDeployPath
 sleep 1
-
-$SHELL
