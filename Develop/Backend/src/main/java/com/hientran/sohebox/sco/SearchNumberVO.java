@@ -35,6 +35,11 @@ public class SearchNumberVO implements Serializable {
         super();
     }
 
+    public SearchNumberVO(Double eq) {
+        super();
+        this.eq = eq;
+    }
+
     /**
      * Get le
      *

@@ -73,4 +73,15 @@ public class Scheduler implements Serializable {
     public void englishExtendLearnReport() throws Exception {
         schedulerService.englishExtendLearnReport();
     }
+
+    /**
+     * 
+     * CRON schedule_ Calculate crypto portfolio total
+     *
+     * @throws Exception
+     */
+    @Scheduled(cron = "${schedule.english.learn.report}")
+    public void cronjobCalculTotalPortfolio() throws Exception {
+        schedulerService.cronjobCalculTotalPortfolio();
+    }
 }

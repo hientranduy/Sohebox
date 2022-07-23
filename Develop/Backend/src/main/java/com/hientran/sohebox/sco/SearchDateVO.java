@@ -34,6 +34,11 @@ public class SearchDateVO implements Serializable {
         super();
     }
 
+    public SearchDateVO(Date eq) {
+        super();
+        this.eq = eq;
+    }
+
     /**
      * Get lt
      *

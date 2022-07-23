@@ -17,6 +17,9 @@ public class SchedulerService extends BaseService {
     @Autowired
     private EnglishLearnReportService englishLearnReportService;
 
+    @Autowired
+    private CryptoPortfolioHistoryService cryptoPortfolioHistoryService;
+
     /**
      * Get update data master from BITTREX
      * 
@@ -62,5 +65,13 @@ public class SchedulerService extends BaseService {
      */
     public void englishExtendLearnReport() {
         englishLearnReportService.fillDailyEnglishLearn();
+    }
+
+    /**
+     * Calculate crypto portfolio total
+     *
+     */
+    public void cronjobCalculTotalPortfolio() {
+        cryptoPortfolioHistoryService.cronjobCalculTotalPortfolio();
     }
 }

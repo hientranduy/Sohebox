@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.hientran.sohebox.constants.ApiPublicConstants;
 import com.hientran.sohebox.exception.APIResponse;
 import com.hientran.sohebox.sco.CryptoPortfolioSCO;
+import com.hientran.sohebox.service.CryptoPortfolioHistoryService;
 import com.hientran.sohebox.service.CryptoPortfolioService;
 import com.hientran.sohebox.vo.CryptoPortfolioVO;
 
@@ -29,6 +30,9 @@ public class CryptoPortfolioRestController extends BaseRestController {
 
     @Autowired
     private CryptoPortfolioService cryptoPortfolioService;
+
+    @Autowired
+    private CryptoPortfolioHistoryService cryptoPortfolioHistoryService;
 
     /**
      * Add new
@@ -96,6 +100,18 @@ public class CryptoPortfolioRestController extends BaseRestController {
     Long id) {
         // Delete
         APIResponse<?> result = cryptoPortfolioService.deleteById(id);
+
+        // Return
+        return new ResponseEntity<>(result, new HttpHeaders(),
+                result.getStatus() != null ? result.getStatus() : HttpStatus.OK);
+    }
+
+    /**
+     * Get total portfolio
+     */
+    @GetMapping(ApiPublicConstants.API_CRYPTO_PORTFOLIO)
+    public ResponseEntity<?> getTotalPortfolio() {
+        APIResponse<?> result = cryptoPortfolioHistoryService.getTotalPortfolio();
 
         // Return
         return new ResponseEntity<>(result, new HttpHeaders(),
