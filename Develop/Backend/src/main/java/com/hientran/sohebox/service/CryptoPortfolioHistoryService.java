@@ -1,5 +1,6 @@
 package com.hientran.sohebox.service;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -46,6 +47,8 @@ public class CryptoPortfolioHistoryService extends BaseService {
 
     @Autowired
     private UserService userService;
+
+    DecimalFormat df = new DecimalFormat("#.###");
 
     @Transactional(readOnly = false, rollbackFor = Exception.class)
     public void cronjobCalculTotalPortfolio() {
@@ -128,6 +131,12 @@ public class CryptoPortfolioHistoryService extends BaseService {
                 // Loop token to write
                 for (CryptoTokenConfigTbl token : mapToken.keySet()) {
                     CryptoPortfolioHistoryTbl tbl = mapToken.get(token);
+
+                    // Rounding
+                    tbl.setTotalAvailable(Double.parseDouble(df.format(tbl.getTotalAvailable())));
+                    tbl.setTotalDelegated(Double.parseDouble(df.format(tbl.getTotalDelegated())));
+                    tbl.setTotalReward(Double.parseDouble(df.format(tbl.getTotalReward())));
+                    tbl.setTotalUnbonding(Double.parseDouble(df.format(tbl.getTotalUnbonding())));
 
                     // Get last record
                     CryptoPortfolioHistoryTbl lastItem = cryptoPortfolioHistoryRepository
