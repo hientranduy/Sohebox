@@ -1,6 +1,7 @@
 package com.hientran.sohebox.service;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -52,6 +53,8 @@ public class CryptoValidatorService extends BaseService {
 
     @Autowired
     private CosmosWebService cosmosWebService;
+
+    DecimalFormat df = new DecimalFormat("#.#");
 
     /**
      * 
@@ -301,8 +304,8 @@ public class CryptoValidatorService extends BaseService {
                     .toString();
             Double totalDeligated = jsonObject.getJSONObject("validator").getDouble("tokens")
                     / cryptoPortfolioVO.getToken().getDecimalExponent();
-            Double commissionRate = jsonObject.getJSONObject("validator").getJSONObject("commission")
-                    .getJSONObject("commission_rates").getDouble("rate");
+            Double commissionRate = Double.parseDouble(df.format(jsonObject.getJSONObject("validator")
+                    .getJSONObject("commission").getJSONObject("commission_rates").getDouble("rate")));
 
             Boolean isNewValidator = false;
             if (cryptoPortfolioVO.getValidator() != null) {
