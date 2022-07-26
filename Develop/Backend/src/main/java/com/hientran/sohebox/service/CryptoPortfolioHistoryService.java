@@ -99,6 +99,7 @@ public class CryptoPortfolioHistoryService extends BaseService {
                         history.setTimeStamp(new Date());
                         history.setUser(user);
                         history.setToken(token);
+                        history.setLastSyncDate(portfolio.getSyncDate());
 
                         if (portfolio.getAmtAvailable() != null) {
                             history.setTotalAvailable(portfolio.getAmtAvailable());
@@ -184,7 +185,7 @@ public class CryptoPortfolioHistoryService extends BaseService {
         return result;
     }
 
-    public APIResponse<Object> getTotalPortfolio() {
+    public APIResponse<Object> getPortfolioSummary(CryptoPortfolioHistorySCO sco) {
         // Declare result
         APIResponse<Object> result = new APIResponse<Object>();
 
@@ -197,7 +198,6 @@ public class CryptoPortfolioHistoryService extends BaseService {
         // Get Date
         if (latestReportDate != null) {
             // Prepare search
-            CryptoPortfolioHistorySCO sco = new CryptoPortfolioHistorySCO();
             SearchNumberVO userIdSearch = new SearchNumberVO(loggedUser.getId().doubleValue());
             sco.setUser(userIdSearch);
 

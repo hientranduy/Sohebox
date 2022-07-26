@@ -53,4 +53,7 @@ public class CryptoPortfolioHistoryTbl extends GenericTbl {
 
     @Column(name = "totalIncrease")
     private Double totalIncrease;
+
+    @Column(name = "lastSyncDate")
+    private Date lastSyncDate;
 }

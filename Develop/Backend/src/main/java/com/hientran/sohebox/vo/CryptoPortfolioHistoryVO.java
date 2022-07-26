@@ -33,4 +33,6 @@ public class CryptoPortfolioHistoryVO extends BaseVO {
     private Double totalUnbonding;
 
     private Double totalIncrease;
+
+    private Date lastSyncDate;
 }

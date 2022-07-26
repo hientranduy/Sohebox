@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { CryptoPortfolioSCO } from '@app/pages/crypto/_sco/cryptoPortfolioSCO';
 import { environment } from '@environments/environment';
 import { CryptoPortfolio } from '../_models';
+import { CryptoPortfolioHistorySCO } from '../_sco';
 
 @Injectable({ providedIn: 'root' })
 export class CryptoPortfolioService {
@@ -33,5 +34,10 @@ export class CryptoPortfolioService {
     // Get by ID
     getById(id: number) {
         return this.http.get(`${environment.soheboxUrl}/api/cryptoPortfolio/${id}`);
+    }
+
+    // Portfolio Summary
+    getPortfolioSummary(sco: CryptoPortfolioHistorySCO) {
+        return this.http.post(`${environment.soheboxUrl}/api/cryptoPortfolioHistory`, sco);
     }
 }

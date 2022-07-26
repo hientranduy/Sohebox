@@ -7,10 +7,9 @@ import { ApiReponse } from '@app/_common/_models';
 import { PageResultVO } from '@app/_common/_models/pageResultVO';
 import { SearchText, Sorter } from '@app/_common/_sco/core_sco';
 import { SpinnerService, UtilsService } from '@app/_common/_services';
-import { ToastrService } from 'ngx-toastr';
 import { CryptoPortfolioDialogService } from '../_dialogs';
-import { CryptoPortfolio } from '../_models';
-import { CryptoPortfolioSCO } from '../_sco';
+import { CryptoPortfolio, CryptoPortfolioHistory } from '../_models';
+import { CryptoPortfolioHistorySCO, CryptoPortfolioSCO } from '../_sco';
 import { CryptoPortfolioService } from '../_services';
 
 @Component({
@@ -28,7 +27,6 @@ export class PortfolioComponent implements OnInit {
     private cryptoPortfolioDialogService: CryptoPortfolioDialogService,
     private cryptoPortfolioService: CryptoPortfolioService,
     private alertService: AlertService,
-    private toastr: ToastrService,
     private spinner: SpinnerService,
     public utilsService: UtilsService
   ) {
@@ -39,6 +37,11 @@ export class PortfolioComponent implements OnInit {
     this.pageResult = new PageResultVO<CryptoPortfolio>();
     this.pageResult.currentPage = 0;
     this.pageResult.pageSize = 5;
+
+    // Set default history
+    this.pageResultSummary = new PageResultVO<CryptoPortfolioHistory>();
+    this.pageResultSummary.currentPage = 0;
+    this.pageResultSummary.pageSize = 5;
   }
 
   // Logged user
@@ -47,11 +50,15 @@ export class PortfolioComponent implements OnInit {
   // Select mode
   isDeligatorMode: Boolean = true;
   isValidatorMode: Boolean = false;
+  isSummaryMode: Boolean = false;
 
   // Table elements
   pageResult: PageResultVO<CryptoPortfolio>;
   currentSort: Sorter;
   currentFilterValue: string;
+
+  pageResultSummary: PageResultVO<CryptoPortfolioHistory>;
+  currentSummarySort: Sorter;
 
   // Width change
   windownInnerWidth = window.innerWidth;
@@ -73,6 +80,12 @@ export class PortfolioComponent implements OnInit {
       this.pageResult.pageSize,
       this.currentSort,
       this.currentFilterValue
+    );
+
+    this.getPageResultSummary(
+      this.pageResultSummary.currentPage,
+      this.pageResultSummary.pageSize,
+      this.currentSummarySort,
     );
   }
 
@@ -107,6 +120,19 @@ export class PortfolioComponent implements OnInit {
   }
 
   /**
+ * Handle sort event summary
+ */
+  onSortSummary(event) {
+    const sort = event.sorts[0];
+    this.currentSummarySort = new Sorter(sort.prop, sort.dir);
+    this.getPageResultSummary(
+      0,
+      this.pageResultSummary.pageSize,
+      this.currentSummarySort
+    );
+  }
+
+  /**
    * Handle paginator event
    */
   handlePaginatorEvent(e: any) {
@@ -119,6 +145,17 @@ export class PortfolioComponent implements OnInit {
   }
 
   /**
+ * Handle paginator event summary
+ */
+  handleSummaryPaginatorEvent(e: any) {
+    this.getPageResultSummary(
+      e.pageIndex,
+      e.pageSize,
+      this.currentSummarySort,
+    );
+  }
+
+  /**
    * Handle select page event
    */
   setPage(pageInfo) {
@@ -127,6 +164,17 @@ export class PortfolioComponent implements OnInit {
       this.pageResult.pageSize,
       this.currentSort,
       this.currentFilterValue
+    );
+  }
+
+  /**
+   * Handle select page event summary
+   */
+  setPageSummary(pageInfo) {
+    this.getPageResultSummary(
+      pageInfo.offset,
+      this.pageResultSummary.pageSize,
+      this.currentSummarySort
     );
   }
 
@@ -187,6 +235,56 @@ export class PortfolioComponent implements OnInit {
           this.pageResult = typeResponse.data;
         } else {
           this.pageResult = new PageResultVO<CryptoPortfolio>();
+        }
+
+        // Hide Loading
+        this.spinner.hide();
+      },
+      error => {
+        // Hide Loading
+        this.spinner.hide();
+
+        this.alertService.error(error);
+      }
+    );
+  }
+
+  /**
+   * Get page result summary
+   */
+  public getPageResultSummary(
+    pageNumber: number,
+    pageRecord: number,
+    sorter: Sorter,
+  ) {
+    this.alertService.clear();
+
+    // Prepare search condition
+    const sco = new CryptoPortfolioHistorySCO();
+    sco.pageToGet = pageNumber;
+    sco.maxRecordPerPage = pageRecord;
+    if (sorter) {
+      const sorters: Array<Sorter> = [];
+      sorters.push(sorter);
+      sco.sorters = sorters;
+    } else {
+      const sorters: Array<Sorter> = [];
+      sorters.push(new Sorter('token', 'ASC'));
+      sco.sorters = sorters;
+    }
+
+    // Show Loading
+    this.spinner.show();
+
+    // Search
+    this.cryptoPortfolioService.getPortfolioSummary(sco).subscribe(
+      data => {
+        const responseAPi: any = data;
+        const typeResponse: ApiReponse<CryptoPortfolioHistory> = responseAPi;
+        if (typeResponse.data != null) {
+          this.pageResultSummary = typeResponse.data;
+        } else {
+          this.pageResultSummary = new PageResultVO<CryptoPortfolioHistory>();
         }
 
         // Hide Loading
@@ -319,10 +417,18 @@ export class PortfolioComponent implements OnInit {
   public selectDeligatorMode() {
     this.isDeligatorMode = true;
     this.isValidatorMode = false;
+    this.isSummaryMode = false;
   }
 
   public selectValidatorMode() {
     this.isDeligatorMode = false;
     this.isValidatorMode = true;
+    this.isSummaryMode = false;
+  }
+
+  public selectSummaryMode() {
+    this.isDeligatorMode = false;
+    this.isValidatorMode = false;
+    this.isSummaryMode = true;
   }
 }

@@ -66,6 +66,8 @@ public class ApiPublicConstants implements Serializable {
 
     public static final String API_CRYPTO_PORTFOLIO = "/cryptoPortfolio";
 
+    public static final String API_CRYPTO_PORTFOLIO_HISTORY = "/cryptoPortfolioHistory";
+
     public static final String API_YOUTUBE_CHANNEL = "/youtubeChannel";
 
     public static final String API_YOUTUBE_VIDEO = "/youtubeVideo";
