@@ -151,6 +151,7 @@ public class CryptoPortfolioHistoryService extends BaseService {
                         tbl.setTotalIncrease(tbl.getTotalAvailable() + tbl.getTotalDelegated() + tbl.getTotalReward()
                                 + tbl.getTotalUnbonding());
                     }
+                    tbl.setTotalIncrease(Double.parseDouble(df.format(tbl.getTotalIncrease())));
 
                     cryptoPortfolioHistoryRepository.save(tbl);
                 }
