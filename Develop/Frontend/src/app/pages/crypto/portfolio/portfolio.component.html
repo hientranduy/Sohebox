@@ -155,17 +155,10 @@
                 </ng-template>
             </ngx-datatable-column>
 
-            <!-- Date -->
-            <ngx-datatable-column name="Date" prop="timeStamp" [flexGrow]="0.8">
-                <ng-template let-value="value" ngx-datatable-cell-template>
-                    {{ value | date : "mediumDate"}}
-                </ng-template>
-            </ngx-datatable-column>
-
             <!-- Last sync Date -->
             <ngx-datatable-column name="Sync Time" prop="lastSyncDate" [flexGrow]="1">
                 <ng-template let-value="value" ngx-datatable-cell-template>
-                    {{ value | date : "medium"}}
+                    {{ value | date : "MMM d y, H:mm:ss"}}
                 </ng-template>
             </ngx-datatable-column>
 

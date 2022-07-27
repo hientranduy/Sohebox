@@ -273,9 +273,6 @@ export class PortfolioComponent implements OnInit {
       sco.sorters = sorters;
     }
 
-    // Show Loading
-    this.spinner.show();
-
     // Search
     this.cryptoPortfolioService.getPortfolioSummary(sco).subscribe(
       data => {
@@ -286,9 +283,6 @@ export class PortfolioComponent implements OnInit {
         } else {
           this.pageResultSummary = new PageResultVO<CryptoPortfolioHistory>();
         }
-
-        // Hide Loading
-        this.spinner.hide();
       },
       error => {
         // Hide Loading
