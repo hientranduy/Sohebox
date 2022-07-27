@@ -54,7 +54,7 @@ public class CryptoValidatorService extends BaseService {
     @Autowired
     private CosmosWebService cosmosWebService;
 
-    DecimalFormat df = new DecimalFormat("#.#");
+    DecimalFormat df = new DecimalFormat("#.###");
 
     /**
      * 
