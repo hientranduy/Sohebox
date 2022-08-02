@@ -41,16 +41,16 @@ export class PortfolioComponent implements OnInit {
     // Set default history
     this.pageResultSummary = new PageResultVO<CryptoPortfolioHistory>();
     this.pageResultSummary.currentPage = 0;
-    this.pageResultSummary.pageSize = 5;
+    this.pageResultSummary.pageSize = 10;
   }
 
   // Logged user
   currentUser: User;
 
   // Select mode
-  isDeligatorMode: Boolean = true;
+  isDeligatorMode: Boolean = false;
   isValidatorMode: Boolean = false;
-  isSummaryMode: Boolean = false;
+  isSummaryMode: Boolean = true;
 
   // Table elements
   pageResult: PageResultVO<CryptoPortfolio>;
@@ -223,9 +223,6 @@ export class PortfolioComponent implements OnInit {
       sco.searchOr = true;
     }
 
-    // Show Loading
-    this.spinner.show();
-
     // Search
     this.cryptoPortfolioService.search(sco).subscribe(
       data => {
@@ -237,8 +234,6 @@ export class PortfolioComponent implements OnInit {
           this.pageResult = new PageResultVO<CryptoPortfolio>();
         }
 
-        // Hide Loading
-        this.spinner.hide();
       },
       error => {
         // Hide Loading
