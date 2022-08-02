@@ -30,6 +30,7 @@ Sohebox Website powered by Angular
 - Check and fix format       ==> ng lint --fix
 - Audit                      ==> npm audit fix
 - Check package outupdate    ==> npm outdated 
+- Check unused dependency    ==> depcheck or npm-check
 
 
 - Create web icon by using https://icoconvert.com/
