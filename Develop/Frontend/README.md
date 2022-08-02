@@ -30,7 +30,7 @@ Sohebox Website powered by Angular
 - Check and fix format       ==> ng lint --fix
 - Audit                      ==> npm audit fix
 - Check package outupdate    ==> npm outdated 
-- Push change to AWS Amplify ==> amplify publish
+
 
 - Create web icon by using https://icoconvert.com/
 ---------
