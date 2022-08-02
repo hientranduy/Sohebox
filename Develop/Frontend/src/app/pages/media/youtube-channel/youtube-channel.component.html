@@ -38,7 +38,7 @@
 <div class="video-container">
     <div *ngFor="let video of videos">
         <div class="video-card" style="width: {{videoCardWidth}}">
-            <button mat-button *ngIf="isPrivateChannel==true" class="card-body-video" style="width: {{videoCardWidth}}">
+            <button mat-button *ngIf="isPrivateChannel===true" class="card-body-video" style="width: {{videoCardWidth}}">
                 <mat-icon (click)="onClickDelete(video)">tv_off</mat-icon>
             </button>
             <img [src]="video.thumbnailMediumtUrl" class="card-img-top" alt="..." (click)="onClickVideo(video)">

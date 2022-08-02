@@ -91,11 +91,11 @@
         <!-- State -->
         <ngx-datatable-column name="State" prop="state" [flexGrow]="2" *ngIf="windownInnerWidth >= 650">
             <ng-template let-value="value" ngx-datatable-cell-template>
-                <span *ngIf="value.trim() == 'CLOSED'"
+                <span *ngIf="value.trim() === 'CLOSED'"
                     style="font-size: 12px; font-weight: bold; background: red;color: aliceblue;">
                     {{value}}
                 </span>
-                <span *ngIf="value.trim() == 'OPEN'"
+                <span *ngIf="value.trim() === 'OPEN'"
                     style="font-size: 12px; font-weight: bold; background: green;color: aliceblue">
                     {{value}}
                 </span>
@@ -191,11 +191,11 @@
         <!-- State -->
         <ngx-datatable-column name="State" prop="state" [flexGrow]="2" *ngIf="windownInnerWidth >= 650">
             <ng-template let-value="value" ngx-datatable-cell-template>
-                <span *ngIf="value.trim() == 'CLOSED'"
+                <span *ngIf="value.trim() === 'CLOSED'"
                     style="font-size: 12px; font-weight: bold; background: red;color: aliceblue;">
                     {{value}}
                 </span>
-                <span *ngIf="value.trim() == 'OPEN'"
+                <span *ngIf="value.trim() === 'OPEN'"
                     style="font-size: 12px; font-weight: bold; background: green;color: aliceblue">
                     {{value}}
                 </span>
@@ -291,11 +291,11 @@
         <!-- State -->
         <ngx-datatable-column name="State" prop="state" [flexGrow]="2" *ngIf="windownInnerWidth >= 650">
             <ng-template let-value="value" ngx-datatable-cell-template>
-                <span *ngIf="value.trim() == 'CLOSED'"
+                <span *ngIf="value.trim() === 'CLOSED'"
                     style="font-size: 12px; font-weight: bold; background: red;color: aliceblue;">
                     {{value}}
                 </span>
-                <span *ngIf="value.trim() == 'OPEN'"
+                <span *ngIf="value.trim() === 'OPEN'"
                     style="font-size: 12px; font-weight: bold; background: green;color: aliceblue">
                     {{value}}
                 </span>

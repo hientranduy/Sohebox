@@ -86,9 +86,9 @@
 
         <!-- Field : Is fast food -->
         <div class="field-full-width">
-            <img *ngIf="isFastFoodValue == true" class="img-responsive" src="assets/food/function/isFastFood.jpg"
+            <img *ngIf="isFastFoodValue === true" class="img-responsive" src="assets/food/function/isFastFood.jpg"
                 style="max-width: 1.4rem;">
-            <img *ngIf="isFastFoodValue == false" class="img-responsive" src="assets/food/function/isNotFastFood.jpg"
+            <img *ngIf="isFastFoodValue === false" class="img-responsive" src="assets/food/function/isNotFastFood.jpg"
                 style="max-width: 1.4rem;">
             <mat-label class="field-is-fast-food">Is fastfood? </mat-label>
             <mat-checkbox class="amateur" color="primary" (change)="onChangeIsFastFood($event)"></mat-checkbox>

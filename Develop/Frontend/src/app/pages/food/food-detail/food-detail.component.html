@@ -10,9 +10,9 @@
             class="icon-food-type" matTooltip={{food.type.typeName}}> &nbsp;
         <img *ngIf="food.category.iconUrl" class="img-responsive" src="assets/food/function/{{food.category.iconUrl}}"
             class="icon-food-type" matTooltip={{food.category.typeName}}> &nbsp;
-        <img *ngIf="food.isFastFood == true" class="img-responsive" src="assets/food/function/isFastFood.jpg"
+        <img *ngIf="food.isFastFood === true" class="img-responsive" src="assets/food/function/isFastFood.jpg"
             class="icon-food-type" matTooltip="Fast Food">
-        <img *ngIf="food.isFastFood == false" class="img-responsive" src="assets/food/function/isNotFastFood.jpg"
+        <img *ngIf="food.isFastFood === false" class="img-responsive" src="assets/food/function/isNotFastFood.jpg"
             class="icon-food-type" matTooltip="Non Fast Food">
     </div>
 
