@@ -4,6 +4,7 @@ import { ErrorStateMatcher } from '@angular/material/core';
 import { AppSettings } from '@app/appSettings';
 import { AuthenticationService } from '@app/user/_service';
 import { SpinnerService } from '@app/_common/_services';
+import { environment } from '@environments/environment';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { English } from '../_model';
@@ -26,7 +27,7 @@ export class DownloadVoiceComponent implements OnInit {
   ) {
   }
   cambridgeDictionaryUrl = AppSettings.CAMBRIDGE_DICTIONATY_URL;
-  englishAccessSoundPath = AppSettings.SOHEBOX_PATH + AppSettings.SOHEBOX_WEB_SRC_PATH + AppSettings.ENGLISH_SOUND_PATH;
+  englishAccessSoundPath = environment.soheboxRepo + AppSettings.SOHEBOX_WEB_SRC_PATH + AppSettings.ENGLISH_SOUND_PATH;
 
   // Form value
   @Input() title: string;

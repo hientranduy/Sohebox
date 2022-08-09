@@ -1,6 +1,5 @@
 export class AppSettings {
     // Path
-    public static SOHEBOX_PATH = '/home/hientran/Repository/Sohebox';
     public static SOHEBOX_WEB_SRC_PATH = 'Develop/Frontend/src/';
 
     // English path
