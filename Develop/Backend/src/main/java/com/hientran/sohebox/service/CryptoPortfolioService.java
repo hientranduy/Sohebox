@@ -41,11 +41,14 @@ import com.hientran.sohebox.vo.CryptoPortfolioValidatorDelegationVO;
 import com.hientran.sohebox.vo.PageResultVO;
 import com.hientran.sohebox.webservice.CosmosWebService;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * @author hientran
  */
 @Service
 @Transactional(readOnly = true)
+@Slf4j
 public class CryptoPortfolioService extends BaseService {
 
     private static final long serialVersionUID = 1L;
@@ -343,7 +346,7 @@ public class CryptoPortfolioService extends BaseService {
         return result;
     }
 
-    private void setDataOnChain(CryptoPortfolioVO cryptoPortfolioVO) throws Exception {
+    private void setDataOnChain(CryptoPortfolioVO cryptoPortfolioVO) {
         DecimalFormat df = new DecimalFormat("#.###");
         df.setRoundingMode(RoundingMode.CEILING);
         URIBuilder builder;
@@ -361,16 +364,21 @@ public class CryptoPortfolioService extends BaseService {
 //            cryptoPortfolioVO.setAmtAvailable(Double.valueOf(0));
 //        }
 
-        builder = new URIBuilder(cryptoPortfolioVO.getToken().getNodeUrl()
-                + CosmosConstants.COSMOS_BANK_V1BETA1_BALANCES + "/" + cryptoPortfolioVO.getWallet());
-        jsonObject = new JSONObject(cosmosWebService.get(builder));
+        try {
+            builder = new URIBuilder(cryptoPortfolioVO.getToken().getNodeUrl()
+                    + CosmosConstants.COSMOS_BANK_V1BETA1_BALANCES + "/" + cryptoPortfolioVO.getWallet());
+            jsonObject = new JSONObject(cosmosWebService.get(builder));
 
-        if (jsonObject.getJSONArray("balances").length() > 0) {
-            cryptoPortfolioVO.setAmtAvailable(Double
-                    .parseDouble(df.format(jsonObject.getJSONArray("balances").getJSONObject(0).getDouble("amount")
-                            / cryptoPortfolioVO.getToken().getDecimalExponent())));
-        } else {
-            cryptoPortfolioVO.setAmtAvailable(Double.valueOf(0));
+            if (jsonObject.getJSONArray("balances").length() > 0) {
+                cryptoPortfolioVO.setAmtAvailable(Double
+                        .parseDouble(df.format(jsonObject.getJSONArray("balances").getJSONObject(0).getDouble("amount")
+                                / cryptoPortfolioVO.getToken().getDecimalExponent())));
+            } else {
+                cryptoPortfolioVO.setAmtAvailable(Double.valueOf(0));
+            }
+        } catch (Exception e) {
+            log.error("setDataOnChain AmtAvailable Error Message: {}", e.getMessage());
+            e.printStackTrace();
         }
 
         // Get reward
@@ -386,17 +394,23 @@ public class CryptoPortfolioService extends BaseService {
 //        } else {
 //            cryptoPortfolioVO.setAmtTotalReward(Double.valueOf(0));
 //        }
-        builder = new URIBuilder(
-                cryptoPortfolioVO.getToken().getNodeUrl() + CosmosConstants.COSMOS_DISTRIBUTION_V1BETA1_DELEGATORS + "/"
-                        + cryptoPortfolioVO.getWallet() + CosmosConstants.COSMOS_REWARDS);
-        jsonObject = new JSONObject(cosmosWebService.get(builder));
 
-        if (jsonObject.getJSONArray("total").length() > 0) {
-            cryptoPortfolioVO.setAmtTotalReward(
-                    Double.parseDouble(df.format(jsonObject.getJSONArray("total").getJSONObject(0).getDouble("amount")
-                            / cryptoPortfolioVO.getToken().getDecimalExponent())));
-        } else {
-            cryptoPortfolioVO.setAmtTotalReward(Double.valueOf(0));
+        try {
+            builder = new URIBuilder(
+                    cryptoPortfolioVO.getToken().getNodeUrl() + CosmosConstants.COSMOS_DISTRIBUTION_V1BETA1_DELEGATORS
+                            + "/" + cryptoPortfolioVO.getWallet() + CosmosConstants.COSMOS_REWARDS);
+            jsonObject = new JSONObject(cosmosWebService.get(builder));
+
+            if (jsonObject.getJSONArray("total").length() > 0) {
+                cryptoPortfolioVO.setAmtTotalReward(Double
+                        .parseDouble(df.format(jsonObject.getJSONArray("total").getJSONObject(0).getDouble("amount")
+                                / cryptoPortfolioVO.getToken().getDecimalExponent())));
+            } else {
+                cryptoPortfolioVO.setAmtTotalReward(Double.valueOf(0));
+            }
+        } catch (Exception e) {
+            log.error("setDataOnChain AmtTotalReward Error Message: {}", e.getMessage());
+            e.printStackTrace();
         }
 
         // Get delegated
@@ -425,36 +439,43 @@ public class CryptoPortfolioService extends BaseService {
 //            }
 //        }
 //        cryptoPortfolioVO.setAmtTotalDelegated(amtTotalDelegated);
-        builder = new URIBuilder(cryptoPortfolioVO.getToken().getNodeUrl()
-                + CosmosConstants.COSMOS_STAKING_V1BETA1_DELEGATION + "/" + cryptoPortfolioVO.getWallet());
-        jsonObject = new JSONObject(cosmosWebService.get(builder));
 
-        List<CryptoPortfolioValidatorDelegationVO> validatorDelegation = objectMapperUtil.readValue(
-                jsonObject.getJSONArray("delegation_responses").toString(),
-                new TypeReference<List<CryptoPortfolioValidatorDelegationVO>>() {
-                });
+        try {
+            builder = new URIBuilder(cryptoPortfolioVO.getToken().getNodeUrl()
+                    + CosmosConstants.COSMOS_STAKING_V1BETA1_DELEGATION + "/" + cryptoPortfolioVO.getWallet());
+            jsonObject = new JSONObject(cosmosWebService.get(builder));
 
-        Double amtTotalDelegated = Double.valueOf(0);
-        String validatorAddress = null;
-        if (CollectionUtils.isNotEmpty(validatorDelegation)) {
-            Double maxAmount = Double.valueOf(0);
-            for (CryptoPortfolioValidatorDelegationVO item : validatorDelegation) {
-                Double amount = item.getBalance().getAmount();
-                if (amount > 0) {
-                    amtTotalDelegated = amtTotalDelegated
-                            + Double.parseDouble(df.format(amount / cryptoPortfolioVO.getToken().getDecimalExponent()));
-                    if (amount > maxAmount) {
-                        maxAmount = amount;
-                        validatorAddress = item.getDelegation().getValidator_address();
+            List<CryptoPortfolioValidatorDelegationVO> validatorDelegation = objectMapperUtil.readValue(
+                    jsonObject.getJSONArray("delegation_responses").toString(),
+                    new TypeReference<List<CryptoPortfolioValidatorDelegationVO>>() {
+                    });
+
+            Double amtTotalDelegated = Double.valueOf(0);
+            String validatorAddress = null;
+            if (CollectionUtils.isNotEmpty(validatorDelegation)) {
+                Double maxAmount = Double.valueOf(0);
+                for (CryptoPortfolioValidatorDelegationVO item : validatorDelegation) {
+                    Double amount = item.getBalance().getAmount();
+                    if (amount > 0) {
+                        amtTotalDelegated = amtTotalDelegated + Double
+                                .parseDouble(df.format(amount / cryptoPortfolioVO.getToken().getDecimalExponent()));
+                        if (amount > maxAmount) {
+                            maxAmount = amount;
+                            validatorAddress = item.getDelegation().getValidator_address();
+                        }
                     }
                 }
             }
-        }
-        cryptoPortfolioVO.setAmtTotalDelegated(amtTotalDelegated);
+            cryptoPortfolioVO.setAmtTotalDelegated(amtTotalDelegated);
 
-        // Get validator info
-        if (validatorAddress != null) {
-            cryptoPortfolioVO.setValidator(cryptoValidatorService.getValidator(validatorAddress, cryptoPortfolioVO));
+            // Get validator info
+            if (validatorAddress != null) {
+                cryptoPortfolioVO
+                        .setValidator(cryptoValidatorService.getValidator(validatorAddress, cryptoPortfolioVO));
+            }
+        } catch (Exception e) {
+            log.error("setDataOnChain AmtTotalDelegated Error Message: {}", e.getMessage());
+            e.printStackTrace();
         }
     }
 

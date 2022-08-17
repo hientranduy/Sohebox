@@ -33,11 +33,14 @@ import com.hientran.sohebox.vo.CryptoValidatorVO;
 import com.hientran.sohebox.vo.PageResultVO;
 import com.hientran.sohebox.webservice.CosmosWebService;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * @author hientran
  */
 @Service
 @Transactional(readOnly = true)
+@Slf4j
 public class CryptoValidatorService extends BaseService {
 
     private static final long serialVersionUID = 1L;
@@ -258,18 +261,30 @@ public class CryptoValidatorService extends BaseService {
         return result;
     }
 
-    public CryptoValidatorVO getValidator(String validatorAddress, CryptoPortfolioVO cryptoPortfolioVO)
-            throws Exception {
+    public CryptoValidatorVO getValidator(String validatorAddress, CryptoPortfolioVO cryptoPortfolioVO) {
         // Declare result
-        CryptoValidatorVO result = new CryptoValidatorVO();
+        CryptoValidatorVO returnValidator = null;
+        Boolean isNewValidator = false;
+
+        // Get current validator info
+        if (cryptoPortfolioVO.getValidator() != null
+                && StringUtils.equals(validatorAddress, cryptoPortfolioVO.getValidator().getValidatorAddress())) {
+            returnValidator = cryptoPortfolioVO.getValidator();
+        } else {
+            CryptoValidatorTbl tbl = cryptoValidatorRepository.findByValidatorAddress(validatorAddress);
+            if (tbl != null) {
+                returnValidator = cryptoValidatorTransformer.convertToVO(tbl);
+            } else {
+                isNewValidator = true;
+            }
+        }
 
         // Check if need sync
         Boolean isSyncValidator = false;
-        if (cryptoPortfolioVO.getValidator() != null) {
+        if (returnValidator != null) {
             int lateTimeSecond = Integer.parseInt(
                     configCache.getValueByKey(DataExternalConstants.CRYPTO_PORTFOLIO_SYNC_VALIDATOR_LATE_TIME_SECOND));
-            long diffInSecond = (new Date().getTime() - cryptoPortfolioVO.getValidator().getUpdatedDate().getTime())
-                    / 1000;
+            long diffInSecond = (new Date().getTime() - returnValidator.getUpdatedDate().getTime()) / 1000;
             if (diffInSecond > lateTimeSecond) {
                 isSyncValidator = true;
             }
@@ -293,53 +308,49 @@ public class CryptoValidatorService extends BaseService {
 //            Double commissionRate = jsonObject.getJSONObject("result").getJSONObject("commission")
 //                    .getJSONObject("commission_rates").getDouble("rate");
 
-            URIBuilder builder = new URIBuilder(cryptoPortfolioVO.getToken().getNodeUrl()
-                    + CosmosConstants.COSMOS_STAKING_V1BETA1_VALIDATORS + "/" + validatorAddress);
-            String responseString = cosmosWebService.get(builder);
-            JSONObject jsonObject = new JSONObject(responseString);
+            // Sync new value
+            try {
+                URIBuilder builder = new URIBuilder(cryptoPortfolioVO.getToken().getNodeUrl()
+                        + CosmosConstants.COSMOS_STAKING_V1BETA1_VALIDATORS + "/" + validatorAddress);
+                String responseString = cosmosWebService.get(builder);
+                JSONObject jsonObject = new JSONObject(responseString);
 
-            String validatorName = jsonObject.getJSONObject("validator").getJSONObject("description").get("moniker")
-                    .toString();
-            String validatorWebsite = jsonObject.getJSONObject("validator").getJSONObject("description").get("website")
-                    .toString();
-            Double totalDeligated = jsonObject.getJSONObject("validator").getDouble("tokens")
-                    / cryptoPortfolioVO.getToken().getDecimalExponent();
-            Double commissionRate = Double.parseDouble(df.format(jsonObject.getJSONObject("validator")
-                    .getJSONObject("commission").getJSONObject("commission_rates").getDouble("rate")));
+                String validatorName = jsonObject.getJSONObject("validator").getJSONObject("description").get("moniker")
+                        .toString();
+                String validatorWebsite = jsonObject.getJSONObject("validator").getJSONObject("description")
+                        .get("website").toString();
+                Double totalDeligated = jsonObject.getJSONObject("validator").getDouble("tokens")
+                        / cryptoPortfolioVO.getToken().getDecimalExponent();
+                Double commissionRate = Double.parseDouble(df.format(jsonObject.getJSONObject("validator")
+                        .getJSONObject("commission").getJSONObject("commission_rates").getDouble("rate")));
 
-            Boolean isNewValidator = false;
-            if (cryptoPortfolioVO.getValidator() != null) {
-                result = cryptoPortfolioVO.getValidator();
-            } else {
-                // Search DB
-                CryptoValidatorSCO sco = new CryptoValidatorSCO();
-                sco.setValidatorAddress(new SearchTextVO(validatorAddress));
-                List<CryptoValidatorTbl> listSearch = cryptoValidatorRepository.findAll(sco).getContent();
-                if (CollectionUtils.isNotEmpty(listSearch)) {
-                    result = cryptoValidatorTransformer.convertToVO(listSearch.get(0));
+                // Record DB
+                if (isNewValidator) {
+                    returnValidator = new CryptoValidatorVO();
+                    returnValidator.setValidatorAddress(validatorAddress);
+                    returnValidator.setValidatorName(validatorName);
+                    returnValidator.setValidatorWebsite(validatorWebsite);
+                    returnValidator.setTotalDeligated(totalDeligated);
+                    returnValidator.setCommissionRate(commissionRate);
+
+                    Long idResult = create(returnValidator).getData();
+                    returnValidator = cryptoValidatorTransformer
+                            .convertToVO(cryptoValidatorRepository.findById(idResult).get());
                 } else {
-                    isNewValidator = true;
-                    result = new CryptoValidatorVO();
-                    result.setValidatorAddress(validatorAddress);
+                    returnValidator.setValidatorName(validatorName);
+                    returnValidator.setValidatorWebsite(validatorWebsite);
+                    returnValidator.setTotalDeligated(totalDeligated);
+                    returnValidator.setCommissionRate(commissionRate);
+                    update(returnValidator);
                 }
+            } catch (Exception e) {
+                returnValidator = cryptoPortfolioVO.getValidator();
+                log.error("getValidator syncData onchain Error Message: {}", e.getMessage());
+                e.printStackTrace();
             }
-            result.setValidatorName(validatorName);
-            result.setValidatorWebsite(validatorWebsite);
-            result.setTotalDeligated(totalDeligated);
-            result.setCommissionRate(commissionRate);
-
-            // Update DB
-            if (isNewValidator) {
-                Long idResult = create(result).getData();
-                result = cryptoValidatorTransformer.convertToVO(cryptoValidatorRepository.findById(idResult).get());
-            } else {
-                update(result);
-            }
-        } else {
-            result = cryptoPortfolioVO.getValidator();
         }
 
         // Return
-        return result;
+        return returnValidator;
     }
 }
