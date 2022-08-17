@@ -126,6 +126,9 @@
                         <button mat-menu-item (click)="viewExplorer(row)" *ngIf="row.token.mintscanPrefix">
                             View Explorer
                         </button>
+                        <button mat-menu-item (click)="viewValidator(row)" *ngIf="row.token.mintscanPrefix">
+                            View Validator
+                        </button>
                         <button mat-menu-item (click)="deligatePage(row)" *ngIf="row.token.deligateUrl">
                             Go Staking
                         </button>

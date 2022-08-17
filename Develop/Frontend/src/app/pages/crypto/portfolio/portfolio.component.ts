@@ -394,6 +394,13 @@ export class PortfolioComponent implements OnInit {
   }
 
   /**
+  * View validator
+  */
+     public viewValidator(item: CryptoPortfolio) {
+      window.open(AppSettings.CRYPTO_MINTSCAN + item.token.mintscanPrefix + "/validators/" + item.validator.validatorAddress);
+    }
+
+  /**
   * Go deligate
   */
   public deligatePage(item: CryptoPortfolio) {
