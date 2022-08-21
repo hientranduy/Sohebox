@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
@@ -219,7 +220,11 @@ public class BaseService implements Serializable {
 
         // Download
         if (url != null) {
-            InputStream inputStream = url.openStream();
+            // fool connection to avoid 403
+            HttpURLConnection httpcon = (HttpURLConnection) url.openConnection();
+            httpcon.addRequestProperty("User-Agent", "Mozilla/4.0");
+            InputStream inputStream = httpcon.getInputStream();
+
             FileUtils.writeFile(inputStream, new File(filePath));
         }
     }
