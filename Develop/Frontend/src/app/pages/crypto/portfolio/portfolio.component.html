@@ -46,7 +46,7 @@
     <div *ngIf="isDeligatorMode || isValidatorMode">
         <!-- Table data -->
         <mat-paginator class="mat-table-paginator-style" [length]="pageResult.totalElement"
-            [pageIndex]="pageResult.currentPage" [pageSize]="pageResult.pageSize" [pageSizeOptions]="[5,10,15,20]"
+            [pageIndex]="pageResult.currentPage" [pageSize]="pageResult.pageSize" [pageSizeOptions]="[5,10,15,20,50]"
             (page)="handlePaginatorEvent($event)" showLastButtons>
         </mat-paginator>
 

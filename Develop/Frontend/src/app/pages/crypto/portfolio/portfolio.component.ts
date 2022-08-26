@@ -36,7 +36,7 @@ export class PortfolioComponent implements OnInit {
     // Set default
     this.pageResult = new PageResultVO<CryptoPortfolio>();
     this.pageResult.currentPage = 0;
-    this.pageResult.pageSize = 5;
+    this.pageResult.pageSize = 20;
 
     // Set default history
     this.pageResultSummary = new PageResultVO<CryptoPortfolioHistory>();
