@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.hazelcast.org.json.JSONArray;
 import com.hazelcast.org.json.JSONObject;
 import com.hientran.sohebox.cache.ConfigCache;
 import com.hientran.sohebox.constants.CosmosConstants;
@@ -370,9 +371,17 @@ public class CryptoPortfolioService extends BaseService {
             jsonObject = new JSONObject(cosmosWebService.get(builder));
 
             if (jsonObject.getJSONArray("balances").length() > 0) {
-                cryptoPortfolioVO.setAmtAvailable(Double
-                        .parseDouble(df.format(jsonObject.getJSONArray("balances").getJSONObject(0).getDouble("amount")
-                                / cryptoPortfolioVO.getToken().getDecimalExponent())));
+                JSONArray listObject = jsonObject.getJSONArray("balances");
+
+                for (int i = 0; i < listObject.length(); i++) {
+                    String demon = listObject.getJSONObject(i).getString("denom");
+                    if (!demon.contains("ibc")) {
+                        cryptoPortfolioVO.setAmtAvailable(
+                                Double.parseDouble(df.format(listObject.getJSONObject(i).getDouble("amount")
+                                        / cryptoPortfolioVO.getToken().getDecimalExponent())));
+                        break;
+                    }
+                }
             } else {
                 cryptoPortfolioVO.setAmtAvailable(Double.valueOf(0));
             }
