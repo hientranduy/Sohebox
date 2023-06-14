@@ -3,8 +3,8 @@ package com.hientran.sohebox.configuration;
 import java.io.Serializable;
 import java.util.Properties;
 
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+import org.apache.hc.client5.http.impl.classic.HttpClients;
 import org.apache.velocity.app.VelocityEngine;
 import org.dozer.DozerBeanMapper;
 import org.dozer.Mapper;

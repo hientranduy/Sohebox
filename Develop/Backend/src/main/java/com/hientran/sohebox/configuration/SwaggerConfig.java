@@ -1,34 +1,38 @@
 package com.hientran.sohebox.configuration;
 
-import java.util.Collections;
-
+import org.springdoc.core.models.GroupedOpenApi;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import springfox.documentation.builders.PathSelectors;
-import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.service.ApiInfo;
-import springfox.documentation.service.Contact;
-import springfox.documentation.spi.DocumentationType;
-import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.info.License;
 
-/**
- *
- * @author hientran
- */
 @Configuration
-@EnableSwagger2
 public class SwaggerConfig {
-    @Bean
-    public Docket api() {
-        return new Docket(DocumentationType.OAS_30).select().apis(RequestHandlerSelectors.any())
-                .paths(PathSelectors.any()).build().apiInfo(apiInfo());
-    }
 
-    private ApiInfo apiInfo() {
-        Contact contact = new Contact("Sohebox", "www.sohebox.com", "hientranduy@gmail.com");
-        return new ApiInfo("Sohebox REST API", "Contact Information.", "1.0.0", null, contact, "", "",
-                Collections.emptyList());
-    }
+//	@Bean
+//	public OpenAPI customOpenAPI(@Value("${server.servlet.context-path}") String contextPath,
+//			@Value("${application.description}") String appDesciption,
+//			@Value("${application.version}") String appVersion, @Value("${build.date}") String buildDate) {
+//		OpenAPI openAPI = new OpenAPI().info(new Info().title("Application Experience Rest API").version(appVersion)
+//				.description(appDesciption.concat(" [").concat(buildDate).concat("]"))
+//				.termsOfService("http://swagger.io/terms/")
+//				.license(new License().name("Apache 2.0").url("http://springdoc.org")));
+//
+//		return openAPI;
+//	}
+
+	@Bean
+	public GroupedOpenApi publicApi() {
+		return GroupedOpenApi.builder().group("Publish")
+				.packagesToScan("com.hientran.sohebox.restcontroller").pathsToMatch("/**").build();
+	}
+
+	@Bean
+	public GroupedOpenApi actuatorApi() {
+		return GroupedOpenApi.builder().group("Internal")
+				.packagesToScan("com.hientran.sohebox.restcontroller.internal").pathsToMatch("/**").build();
+	}
 }

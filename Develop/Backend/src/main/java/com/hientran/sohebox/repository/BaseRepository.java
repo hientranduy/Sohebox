@@ -3,9 +3,9 @@ package com.hientran.sohebox.repository;
 import java.util.List;
 import java.util.Properties;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -29,14 +29,14 @@ public interface BaseRepository {
         Properties props = new Properties();
         props.setProperty("hibernate.dialect",
                 SoheboxProperties.getPropertyApplication("spring.jpa.properties.hibernate.dialect"));
-        props.setProperty("javax.persistence.jdbc.driver", "com.mysql.cj.jdbc.Driver");
+        props.setProperty("jakarta.persistence.jdbc.driver", "com.mysql.cj.jdbc.Driver");
 
-        props.setProperty("javax.persistence.jdbc.url",
+        props.setProperty("jakarta.persistence.jdbc.url",
                 SoheboxProperties.getPropertyApplication("spring.datasource.url.database"));
-        props.setProperty("javax.persistence.jdbc.useSSL", "false");
-        props.setProperty("javax.persistence.jdbc.user",
+        props.setProperty("jakarta.persistence.jdbc.useSSL", "false");
+        props.setProperty("jakarta.persistence.jdbc.user",
                 SoheboxProperties.getPropertyApplication("spring.datasource.username"));
-        props.setProperty("javax.persistence.jdbc.password",
+        props.setProperty("jakarta.persistence.jdbc.password",
                 SoheboxProperties.getPropertyApplication("spring.datasource.password"));
         return Persistence.createEntityManagerFactory("com.hientran.sohebox", props);
     }

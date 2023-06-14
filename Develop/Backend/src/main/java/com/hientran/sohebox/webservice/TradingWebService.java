@@ -4,10 +4,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.utils.URIBuilder;
-import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.hc.client5.http.classic.methods.HttpGet;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
+import org.apache.hc.core5.net.URIBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -67,7 +67,7 @@ public class TradingWebService extends BaseWebService {
         HttpGet httpGet = createHttpGet(builder);
 
         // Get data
-        if (dataIsOutUpdate(httpGet.getURI().toString(), lateTimeSecond)) {
+        if (dataIsOutUpdate(httpGet.getUri().toString(), lateTimeSecond)) {
             // Execute and check status
             CloseableHttpResponse responseBody = httpClient.execute(httpGet);
             result = checkAndGetResult(httpGet, responseBody);
@@ -77,7 +77,7 @@ public class TradingWebService extends BaseWebService {
             }
 
             // Record external request
-            recordRequestExternal(httpGet.getURI().toString(), DBConstants.REQUEST_EXTERNAL_TYPE_DATA,
+            recordRequestExternal(httpGet.getUri().toString(), DBConstants.REQUEST_EXTERNAL_TYPE_DATA,
                     this.getClass().getSimpleName() + "." + new Object() {
                     }.getClass().getEnclosingMethod().getName());
         } else {

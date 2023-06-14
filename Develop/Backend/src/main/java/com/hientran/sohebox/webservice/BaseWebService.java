@@ -8,13 +8,14 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.http.HttpStatus;
-import org.apache.http.ParseException;
-import org.apache.http.client.config.RequestConfig;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.utils.URIBuilder;
-import org.apache.http.util.EntityUtils;
+import org.apache.hc.client5.http.classic.methods.HttpGet;
+import org.apache.hc.client5.http.config.RequestConfig;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
+import org.apache.hc.core5.http.HttpStatus;
+import org.apache.hc.core5.http.ParseException;
+import org.apache.hc.core5.http.io.entity.EntityUtils;
+import org.apache.hc.core5.net.URIBuilder;
+import org.apache.hc.core5.util.Timeout;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
@@ -58,15 +59,14 @@ public class BaseWebService implements Serializable {
     protected HttpGet createHttpGet(URIBuilder builder) throws URISyntaxException {
         // Configured get HTTP request
         RequestConfig.Builder requestConfig = RequestConfig.custom();
-        requestConfig.setConnectTimeout(timeOut);
-        requestConfig.setConnectionRequestTimeout(timeOut);
-        requestConfig.setSocketTimeout(timeOut);
+        requestConfig.setConnectTimeout(Timeout.ofMilliseconds(Long.valueOf(timeOut)));
+        requestConfig.setConnectionRequestTimeout(Timeout.ofMilliseconds(Long.valueOf(timeOut)));
 
         // Create httpGet
-        HttpGet httpGet = new HttpGet();
+        HttpGet httpGet = new HttpGet(builder.build());
         httpGet.addHeader("Accept", "application/json");
         httpGet.addHeader("Accept-Charset", "utf-8");
-        httpGet.setURI(builder.build());
+        httpGet.setUri(builder.build());
         httpGet.setConfig(requestConfig.build());
         return httpGet;
     }
@@ -82,15 +82,14 @@ public class BaseWebService implements Serializable {
     protected HttpGet createHttpGet(URI uri) throws URISyntaxException {
         // Configured get HTTP request
         RequestConfig.Builder requestConfig = RequestConfig.custom();
-        requestConfig.setConnectTimeout(timeOut);
-        requestConfig.setConnectionRequestTimeout(timeOut);
-        requestConfig.setSocketTimeout(timeOut);
+        requestConfig.setConnectTimeout(Timeout.ofMilliseconds(Long.valueOf(timeOut)));
+        requestConfig.setConnectionRequestTimeout(Timeout.ofMilliseconds(Long.valueOf(timeOut)));
 
         // Create httpGet
-        HttpGet httpGet = new HttpGet();
+        HttpGet httpGet = new HttpGet(uri);
         httpGet.addHeader("Accept", "application/json");
         httpGet.addHeader("Accept-Charset", "utf-8");
-        httpGet.setURI(uri);
+        httpGet.setUri(uri);
         httpGet.setConfig(requestConfig.build());
         return httpGet;
     }
@@ -113,7 +112,7 @@ public class BaseWebService implements Serializable {
 
         // Check status
         String errorLabel = "This call Web Services failed and returned an HTTP status of %d. That means: %s.";
-        int httpStatus = responseBody.getStatusLine().getStatusCode();
+        int httpStatus = responseBody.getCode();
         result = EntityUtils.toString(responseBody.getEntity());
 
         switch (httpStatus) {
