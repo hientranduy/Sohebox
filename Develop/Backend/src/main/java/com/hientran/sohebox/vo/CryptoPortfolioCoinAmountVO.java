@@ -1,23 +1,20 @@
 package com.hientran.sohebox.vo;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
-/**
- * @author hientran
- */
-@JsonInclude(Include.NON_NULL)
 @Data
+@ToString
+@AllArgsConstructor
+@NoArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @EqualsAndHashCode(callSuper = true)
 public class CryptoPortfolioCoinAmountVO extends BaseVO {
-
-    private static final long serialVersionUID = 1L;
-
-    private String denom;
-
-    private Double amount;
-
+	private String denom;
+	private Double amount;
 }

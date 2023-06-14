@@ -4,13 +4,13 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
 import com.hientran.sohebox.entity.FoodTbl;
 import com.hientran.sohebox.vo.FoodVO;
@@ -40,7 +40,7 @@ public class FoodTransformer extends BaseTransformer {
         PageResultVO<FoodVO> result = new PageResultVO<FoodVO>();
 
         // Convert data
-        if (CollectionUtils.isNotEmpty(pageTbl.getContent())) {
+        if (!CollectionUtils.isEmpty(pageTbl.getContent())) {
             List<FoodVO> listVO = new ArrayList<>();
             for (FoodTbl tbl : pageTbl.getContent()) {
                 listVO.add(convertToVO(tbl));

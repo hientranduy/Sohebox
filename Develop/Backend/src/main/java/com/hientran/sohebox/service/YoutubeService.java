@@ -5,12 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.collections4.CollectionUtils;
 import org.apache.hc.core5.net.URIBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.hientran.sohebox.cache.ConfigCache;
@@ -127,7 +127,7 @@ public class YoutubeService extends BaseService {
             } else {
                 // Get video from local DB
                 List<YoutubeChannelVideoTbl> videos = youtubeChannelVideoService.search(sco);
-                if (CollectionUtils.isNotEmpty(videos)) {
+                if (!CollectionUtils.isEmpty(videos)) {
                     videoSends = new ArrayList<YoutubeVideoSendVO>();
                     for (YoutubeChannelVideoTbl videoList : videos) {
                         YoutubeVideoSendVO videoSend = new YoutubeVideoSendVO();

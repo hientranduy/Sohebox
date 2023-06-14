@@ -2,6 +2,10 @@ package com.hientran.sohebox.entity;
 
 import java.util.Date;
 
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
@@ -12,160 +16,57 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import jakarta.persistence.UniqueConstraint;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
-/**
- * @author hientran
- */
+@Data
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "english_tbl", uniqueConstraints = {
-        @UniqueConstraint(name = "UQ_english", columnNames = { "keyWord" }) })
+		@UniqueConstraint(name = "UQ_english", columnNames = { "keyWord" }) })
 @EntityListeners(AuditingEntityListener.class)
 public class EnglishTbl extends GenericTbl {
+	@Column(name = "createdDate", nullable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+	@Temporal(TemporalType.TIMESTAMP)
+	@CreatedDate
+	private Date createdDate;
 
-    private static final long serialVersionUID = 1L;
+	@Column(name = "updatedDate", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+	@Temporal(TemporalType.TIMESTAMP)
+	@LastModifiedDate
+	private Date updatedDate;
 
-    @Column(name = "createdDate", nullable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-    @Temporal(TemporalType.TIMESTAMP)
-    @CreatedDate
-    private Date createdDate;
+	@Column(name = "keyWord")
+	private String keyWord;
 
-    @Column(name = "updatedDate", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-    @Temporal(TemporalType.TIMESTAMP)
-    @LastModifiedDate
-    private Date updatedDate;
+	@ManyToOne
+	@JoinColumn(foreignKey = @ForeignKey(name = "FK_EnglishTbl_EnglishTypeTbl_wordLevel"))
+	private EnglishTypeTbl wordLevel;
 
-    @Column(name = "keyWord")
-    private String keyWord;
+	@ManyToOne
+	@JoinColumn(foreignKey = @ForeignKey(name = "FK_EnglishTbl_EnglishTypeTbl_category"))
+	private EnglishTypeTbl category;
 
-    @ManyToOne
-    @JoinColumn(foreignKey = @ForeignKey(name = "FK_EnglishTbl_EnglishTypeTbl_wordLevel"))
-    private EnglishTypeTbl wordLevel;
+	@ManyToOne
+	@JoinColumn(foreignKey = @ForeignKey(name = "FK_EnglishTbl_EnglishTypeTbl_learnDay"))
+	private EnglishTypeTbl learnDay;
 
-    @ManyToOne
-    @JoinColumn(foreignKey = @ForeignKey(name = "FK_EnglishTbl_EnglishTypeTbl_category"))
-    private EnglishTypeTbl category;
+	@Column(name = "imageName", nullable = false)
+	private String imageName;
 
-    @ManyToOne
-    @JoinColumn(foreignKey = @ForeignKey(name = "FK_EnglishTbl_EnglishTypeTbl_learnDay"))
-    private EnglishTypeTbl learnDay;
+	@Column(name = "explanationEn")
+	private String explanationEn;
 
-    @Column(name = "imageName", nullable = false)
-    private String imageName;
+	@Column(name = "explanationVn")
+	private String explanationVn;
 
-    @Column(name = "explanationEn")
-    private String explanationEn;
+	@Column(name = "voiceUkFile")
+	private String voiceUkFile;
 
-    @Column(name = "explanationVn")
-    private String explanationVn;
+	@Column(name = "voiceUsFile")
+	private String voiceUsFile;
 
-    @Column(name = "voiceUkFile")
-    private String voiceUkFile;
-
-    @Column(name = "voiceUsFile")
-    private String voiceUsFile;
-
-    @ManyToOne
-    @JoinColumn(foreignKey = @ForeignKey(name = "FK_EnglishTbl_EnglishTypeTbl_vusGrade"))
-    private EnglishTypeTbl vusGrade;
-
-    public Date getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    public Date getUpdatedDate() {
-        return updatedDate;
-    }
-
-    public void setUpdatedDate(Date updatedDate) {
-        this.updatedDate = updatedDate;
-    }
-
-    public String getKeyWord() {
-        return keyWord;
-    }
-
-    public void setKeyWord(String keyWord) {
-        this.keyWord = keyWord;
-    }
-
-    public EnglishTypeTbl getWordLevel() {
-        return wordLevel;
-    }
-
-    public void setWordLevel(EnglishTypeTbl wordLevel) {
-        this.wordLevel = wordLevel;
-    }
-
-    public EnglishTypeTbl getCategory() {
-        return category;
-    }
-
-    public void setCategory(EnglishTypeTbl category) {
-        this.category = category;
-    }
-
-    public EnglishTypeTbl getLearnDay() {
-        return learnDay;
-    }
-
-    public void setLearnDay(EnglishTypeTbl learnDay) {
-        this.learnDay = learnDay;
-    }
-
-    public String getImageName() {
-        return imageName;
-    }
-
-    public void setImageName(String imageName) {
-        this.imageName = imageName;
-    }
-
-    public String getExplanationEn() {
-        return explanationEn;
-    }
-
-    public void setExplanationEn(String explanationEn) {
-        this.explanationEn = explanationEn;
-    }
-
-    public String getExplanationVn() {
-        return explanationVn;
-    }
-
-    public void setExplanationVn(String explanationVn) {
-        this.explanationVn = explanationVn;
-    }
-
-    public String getVoiceUkFile() {
-        return voiceUkFile;
-    }
-
-    public void setVoiceUkFile(String voiceUkFile) {
-        this.voiceUkFile = voiceUkFile;
-    }
-
-    public String getVoiceUsFile() {
-        return voiceUsFile;
-    }
-
-    public void setVoiceUsFile(String voiceUsFile) {
-        this.voiceUsFile = voiceUsFile;
-    }
-
-    public EnglishTypeTbl getVusGrade() {
-        return vusGrade;
-    }
-
-    public void setVusGrade(EnglishTypeTbl vusGrade) {
-        this.vusGrade = vusGrade;
-    }
-
+	@ManyToOne
+	@JoinColumn(foreignKey = @ForeignKey(name = "FK_EnglishTbl_EnglishTypeTbl_vusGrade"))
+	private EnglishTypeTbl vusGrade;
 }

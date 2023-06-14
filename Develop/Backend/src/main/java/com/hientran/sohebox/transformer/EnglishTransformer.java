@@ -4,12 +4,12 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.collections4.CollectionUtils;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
 import com.hientran.sohebox.entity.EnglishTbl;
 import com.hientran.sohebox.vo.EnglishTypeVO;
@@ -40,7 +40,7 @@ public class EnglishTransformer extends BaseTransformer {
         PageResultVO<EnglishVO> result = new PageResultVO<EnglishVO>();
 
         // Convert data
-        if (CollectionUtils.isNotEmpty(pageTbl.getContent())) {
+        if (!CollectionUtils.isEmpty(pageTbl.getContent())) {
             List<EnglishVO> listVO = new ArrayList<>();
             for (EnglishTbl tbl : pageTbl.getContent()) {
                 listVO.add(convertToVO(tbl));

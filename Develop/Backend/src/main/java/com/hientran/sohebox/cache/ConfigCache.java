@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import com.hazelcast.core.HazelcastInstance;
 import com.hientran.sohebox.constants.MessageConstants;
@@ -161,7 +161,7 @@ public class ConfigCache extends BaseCache {
             }
 
             // Record error
-            if (CollectionUtils.isNotEmpty(errors)) {
+            if (!CollectionUtils.isEmpty(errors)) {
                 result = new APIResponse<Long>(HttpStatus.BAD_REQUEST, errors);
             }
         }
@@ -252,7 +252,7 @@ public class ConfigCache extends BaseCache {
             }
 
             // Record error
-            if (CollectionUtils.isNotEmpty(errors)) {
+            if (!CollectionUtils.isEmpty(errors)) {
                 result = new APIResponse<Long>(HttpStatus.BAD_REQUEST, errors);
             }
         }

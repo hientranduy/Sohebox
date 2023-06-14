@@ -37,7 +37,7 @@ import com.hientran.sohebox.security.UserService;
 @Configuration
 @EnableWebSecurity
 @ComponentScan("com.hientran.sohebox")
-public class WebSecurityConfig {
+public class SecurityConfig {
 
 	@Autowired
 	private UserService userService;
@@ -87,7 +87,7 @@ public class WebSecurityConfig {
 				//////////////////////
 
 				// Swagger
-				.requestMatchers("/v2/api-docs", "/v3/api-docs", "/swagger-ui/**", "/swagger-ui/", "/swagger-ui.html",
+				.requestMatchers("/v2/api-docs/**", "/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html",
 						"/swagger-resources/**")
 				.permitAll()
 

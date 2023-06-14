@@ -7,11 +7,11 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 
-import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.util.CollectionUtils;
 
 import com.hientran.sohebox.configuration.SoheboxProperties;
 import com.hientran.sohebox.constants.DBConstants;
@@ -68,7 +68,7 @@ public interface BaseRepository {
 
         // Prepare Sort
         Sort sort = null;
-        if (CollectionUtils.isNotEmpty(sorters)) {
+        if (!CollectionUtils.isEmpty(sorters)) {
             for (Sorter sorter : sorters) {
                 if (sorter.getProperty() != null) {
                     // Create sort

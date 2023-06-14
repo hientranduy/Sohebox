@@ -3,12 +3,12 @@ package com.hientran.sohebox.transformer;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.collections4.CollectionUtils;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
 import com.hientran.sohebox.entity.EnglishLearnRecordTbl;
 import com.hientran.sohebox.vo.EnglishLearnRecordVO;
@@ -38,7 +38,7 @@ public class EnglishLearnRecordTransformer extends BaseTransformer {
         PageResultVO<EnglishLearnRecordVO> result = new PageResultVO<EnglishLearnRecordVO>();
 
         // Convert data
-        if (CollectionUtils.isNotEmpty(pageTbl.getContent())) {
+        if (!CollectionUtils.isEmpty(pageTbl.getContent())) {
             List<EnglishLearnRecordVO> listVO = new ArrayList<>();
             for (EnglishLearnRecordTbl tbl : pageTbl.getContent()) {
                 listVO.add(convertToVO(tbl));

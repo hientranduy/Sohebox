@@ -3,12 +3,12 @@ package com.hientran.sohebox.transformer;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.collections4.CollectionUtils;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
 import com.hientran.sohebox.entity.FoodTypeTbl;
 import com.hientran.sohebox.vo.FoodTypeVO;
@@ -38,7 +38,7 @@ public class FoodTypeTransformer extends BaseTransformer {
         PageResultVO<FoodTypeVO> result = new PageResultVO<FoodTypeVO>();
 
         // Convert data
-        if (CollectionUtils.isNotEmpty(pageTbl.getContent())) {
+        if (!CollectionUtils.isEmpty(pageTbl.getContent())) {
             List<FoodTypeVO> listVO = new ArrayList<>();
             for (FoodTypeTbl tbl : pageTbl.getContent()) {
                 listVO.add(convertToFoodTypeVO(tbl));

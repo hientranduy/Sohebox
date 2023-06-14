@@ -42,7 +42,6 @@
 		<springdoc-openapi.version>2.0.0</springdoc-openapi.version>
 		<dozer.version>5.5.1</dozer.version>
 		<velocity.version>1.4.7.RELEASE</velocity.version>
-		<poi.version>4.0.1</poi.version>
 		<jjwt.version>0.9.1</jjwt.version>
 	</properties>
 
@@ -150,14 +149,9 @@
 		</dependency>		
 		
 	
+	
 
 
-		<!-- Excel -->
-		<dependency>
-			<groupId>org.apache.poi</groupId>
-			<artifactId>poi-ooxml</artifactId>
-			<version>${poi.version}</version>
-		</dependency>
 
 		<!-- ========== -->
 		<!-- Hazel cast -->
@@ -170,23 +164,6 @@
 			<groupId>com.hazelcast</groupId>
 			<artifactId>hazelcast-spring</artifactId>
 		</dependency>
-
-		<!-- ======================================= -->
-		<!-- AOP - Aspect; for auto log before/after -->
-		<!-- ======================================= -->
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-aop</artifactId>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.aspectj</groupId>
-			<artifactId>aspectjweaver</artifactId>
-			<scope>compile</scope>
-		</dependency>
-
-
-
 
 		<!-- =================== -->
 		<!-- Dozer object mapper -->

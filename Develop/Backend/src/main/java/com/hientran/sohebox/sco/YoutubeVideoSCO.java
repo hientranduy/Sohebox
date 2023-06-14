@@ -1,50 +1,19 @@
 package com.hientran.sohebox.sco;
 
-/**
- * 
- * Search condition
- *
- * @author hientran
- */
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+
+@Data
+@ToString
+@AllArgsConstructor
+@NoArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@EqualsAndHashCode(callSuper = true)
 public class YoutubeVideoSCO extends BaseSCO {
-
-    private static final long serialVersionUID = -68140570073293062L;
-
-    private SearchTextVO videoId;
-
-    /**
-     * Set default constructor
-     *
-     */
-    public YoutubeVideoSCO() {
-        super();
-    }
-
-    /**
-     * Get videoId
-     *
-     * @return videoId
-     */
-    public SearchTextVO getVideoId() {
-        return videoId;
-    }
-
-    /**
-     * Set videoId
-     *
-     * @param videoId
-     *            the videoId to set
-     */
-    public void setVideoId(SearchTextVO videoId) {
-        this.videoId = videoId;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String toString() {
-        return "YoutubeVideoSCO [videoId=" + videoId + "]";
-    }
-
+	private SearchTextVO videoId;
 }

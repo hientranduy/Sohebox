@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import com.hazelcast.core.HazelcastInstance;
 import com.hientran.sohebox.constants.DBConstants;
@@ -86,7 +86,7 @@ public class TypeCache extends BaseCache {
             sco.setTypeCode(typeCodeSearch);
 
             Page<TypeTbl> pageTbl = typeRepository.findAll(sco);
-            if (CollectionUtils.isNotEmpty(pageTbl.getContent())) {
+            if (!CollectionUtils.isEmpty(pageTbl.getContent())) {
                 result = typeTransformer.convertToTypeVO(pageTbl.getContent().get(0));
 
             } else {
@@ -231,7 +231,7 @@ public class TypeCache extends BaseCache {
         Page<TypeTbl> page = typeRepository.findAll(sco);
 
         // Transformer
-        if (CollectionUtils.isNotEmpty(page.getContent())) {
+        if (!CollectionUtils.isEmpty(page.getContent())) {
             for (TypeTbl tbl : page.getContent()) {
                 result.add(tbl);
             }
@@ -255,7 +255,7 @@ public class TypeCache extends BaseCache {
         List<Object[]> searchResult = typeRepository.getAllTypeClass();
 
         // Transformer
-        if (CollectionUtils.isNotEmpty(searchResult)) {
+        if (!CollectionUtils.isEmpty(searchResult)) {
             // Prepare item list
             List<String> listElement = new ArrayList<>();
             for (Object[] objects : searchResult) {
@@ -309,7 +309,7 @@ public class TypeCache extends BaseCache {
             }
 
             // Record error
-            if (CollectionUtils.isNotEmpty(errors)) {
+            if (!CollectionUtils.isEmpty(errors)) {
                 result = new APIResponse<Long>(HttpStatus.BAD_REQUEST, errors);
             }
         }
@@ -380,7 +380,7 @@ public class TypeCache extends BaseCache {
             }
 
             // Record error
-            if (CollectionUtils.isNotEmpty(errors)) {
+            if (!CollectionUtils.isEmpty(errors)) {
                 result = new APIResponse<Long>(HttpStatus.BAD_REQUEST, errors);
             }
         }
@@ -397,7 +397,7 @@ public class TypeCache extends BaseCache {
             sco.setTypeCode(typeCodeSearch);
 
             List<TypeTbl> lists = searchList(sco);
-            if (CollectionUtils.isNotEmpty(lists)) {
+            if (!CollectionUtils.isEmpty(lists)) {
                 result = new APIResponse<Long>(HttpStatus.BAD_REQUEST,
                         buildMessage(MessageConstants.EXISTED_RECORD, new String[] { "type" }));
             }

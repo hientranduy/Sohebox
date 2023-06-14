@@ -3,12 +3,12 @@ package com.hientran.sohebox.transformer;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.collections4.CollectionUtils;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
 import com.hientran.sohebox.entity.CryptoPortfolioTbl;
 import com.hientran.sohebox.vo.CryptoPortfolioVO;
@@ -35,7 +35,7 @@ public class CryptoPortfolioTransformer extends BaseTransformer {
         PageResultVO<CryptoPortfolioVO> result = new PageResultVO<CryptoPortfolioVO>();
 
         // Convert data
-        if (CollectionUtils.isNotEmpty(pageTbl.getContent())) {
+        if (!CollectionUtils.isEmpty(pageTbl.getContent())) {
             List<CryptoPortfolioVO> listVO = new ArrayList<>();
             for (CryptoPortfolioTbl tbl : pageTbl.getContent()) {
                 listVO.add(convertToVO(tbl));

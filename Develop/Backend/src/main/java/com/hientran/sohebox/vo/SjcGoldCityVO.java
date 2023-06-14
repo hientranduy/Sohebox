@@ -3,64 +3,20 @@ package com.hientran.sohebox.vo;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
-/**
- * @author hientran
- */
-@JsonInclude(Include.NON_NULL)
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+
+@Data
+@ToString
+@AllArgsConstructor
+@NoArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@EqualsAndHashCode(callSuper = true)
 public class SjcGoldCityVO extends BaseVO {
-
-    private static final long serialVersionUID = 1L;
-
-    private String cityName;
-
-    private List<SjcGoldItemVO> items;
-
-    /**
-     * Constructor
-     *
-     */
-    public SjcGoldCityVO() {
-        super();
-    }
-
-    /**
-     * Get cityName
-     *
-     * @return cityName
-     */
-    public String getCityName() {
-        return cityName;
-    }
-
-    /**
-     * Set cityName
-     *
-     * @param cityName
-     *            the cityName to set
-     */
-    public void setCityName(String cityName) {
-        this.cityName = cityName;
-    }
-
-    /**
-     * Get items
-     *
-     * @return items
-     */
-    public List<SjcGoldItemVO> getItems() {
-        return items;
-    }
-
-    /**
-     * Set items
-     *
-     * @param items
-     *            the items to set
-     */
-    public void setItems(List<SjcGoldItemVO> items) {
-        this.items = items;
-    }
-
+	private String cityName;
+	private List<SjcGoldItemVO> items;
 }

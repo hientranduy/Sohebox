@@ -1,50 +1,19 @@
 package com.hientran.sohebox.sco;
 
-/**
- * 
- * Search condition
- *
- * @author hientran
- */
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+
+@Data
+@ToString
+@AllArgsConstructor
+@NoArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@EqualsAndHashCode(callSuper = true)
 public class MdpSCO extends BaseSCO {
-
-    private static final long serialVersionUID = -68140570073293062L;
-
-    private SearchTextVO mdp;
-
-    /**
-     * Set default constructor
-     *
-     */
-    public MdpSCO() {
-        super();
-    }
-
-    /**
-     * Get mdp
-     *
-     * @return mdp
-     */
-    public SearchTextVO getMdp() {
-        return mdp;
-    }
-
-    /**
-     * Set mdp
-     *
-     * @param mdp
-     *            the mdp to set
-     */
-    public void setMdp(SearchTextVO mdp) {
-        this.mdp = mdp;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String toString() {
-        return "MdpSCO [mdp=" + mdp + "]";
-    }
-
+	private SearchTextVO mdp;
 }

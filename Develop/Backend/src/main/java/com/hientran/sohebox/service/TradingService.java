@@ -8,13 +8,13 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.codec.binary.StringUtils;
-import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.hientran.sohebox.cache.ConfigCache;
@@ -287,7 +287,7 @@ public class TradingService extends BaseService {
         Page<TradingSymbolTbl> symbolTbls = tradingSymbolRepository.findAll(sco);
 
         List<String> symbols = new ArrayList<>();
-        if (CollectionUtils.isNotEmpty(symbolTbls.getContent())) {
+        if (!CollectionUtils.isEmpty(symbolTbls.getContent())) {
             for (TradingSymbolTbl item : symbolTbls.getContent()) {
                 symbols.add(item.getSymbol());
             }
@@ -296,7 +296,7 @@ public class TradingService extends BaseService {
         //////////////
         // Get data //
         //////////////
-        if (CollectionUtils.isNotEmpty(symbols)) {
+        if (!CollectionUtils.isEmpty(symbols)) {
             result = new ArrayList<>();
 
             // Prepare parameter

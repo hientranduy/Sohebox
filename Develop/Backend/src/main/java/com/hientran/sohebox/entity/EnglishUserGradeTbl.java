@@ -6,51 +6,24 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-/**
- * @author hientran
- */
+@Data
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "english_user_grade_tbl", uniqueConstraints = {
-        @UniqueConstraint(name = "UQ_english_user_grade", columnNames = { "user_id" }) })
+		@UniqueConstraint(name = "UQ_english_user_grade", columnNames = { "user_id" }) })
 public class EnglishUserGradeTbl extends BaseTbl {
+	@ManyToOne
+	@JoinColumn(foreignKey = @ForeignKey(name = "FK_EnglishUserGradeTbl_UserTbl_user"))
+	private UserTbl user;
 
-    private static final long serialVersionUID = 1L;
+	@ManyToOne
+	@JoinColumn(foreignKey = @ForeignKey(name = "FK_EnglishUserGradeTbl_EnglishTypeTbl_vusGrade"))
+	private EnglishTypeTbl vusGrade;
 
-    @ManyToOne
-    @JoinColumn(foreignKey = @ForeignKey(name = "FK_EnglishUserGradeTbl_UserTbl_user"))
-    private UserTbl user;
-
-    @ManyToOne
-    @JoinColumn(foreignKey = @ForeignKey(name = "FK_EnglishUserGradeTbl_EnglishTypeTbl_vusGrade"))
-    private EnglishTypeTbl vusGrade;
-
-    @ManyToOne
-    @JoinColumn(foreignKey = @ForeignKey(name = "FK_EnglishUserGradeTbl_EnglishTypeTbl_learnDay"))
-    private EnglishTypeTbl learnDay;
-
-    public UserTbl getUser() {
-        return user;
-    }
-
-    public void setUser(UserTbl user) {
-        this.user = user;
-    }
-
-    public EnglishTypeTbl getVusGrade() {
-        return vusGrade;
-    }
-
-    public void setVusGrade(EnglishTypeTbl vusGrade) {
-        this.vusGrade = vusGrade;
-    }
-
-    public EnglishTypeTbl getLearnDay() {
-        return learnDay;
-    }
-
-    public void setLearnDay(EnglishTypeTbl learnDay) {
-        this.learnDay = learnDay;
-    }
-
+	@ManyToOne
+	@JoinColumn(foreignKey = @ForeignKey(name = "FK_EnglishUserGradeTbl_EnglishTypeTbl_learnDay"))
+	private EnglishTypeTbl learnDay;
 }
