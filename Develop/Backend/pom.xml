@@ -148,11 +148,6 @@
 			<artifactId>httpclient5</artifactId>
 		</dependency>		
 		
-	
-	
-
-
-
 		<!-- ========== -->
 		<!-- Hazel cast -->
 		<!-- ========== -->
@@ -164,6 +159,11 @@
 			<groupId>com.hazelcast</groupId>
 			<artifactId>hazelcast-spring</artifactId>
 		</dependency>
+		
+		
+		
+		
+		
 
 		<!-- =================== -->
 		<!-- Dozer object mapper -->
@@ -182,7 +182,6 @@
 			<artifactId>jjwt</artifactId>
 			<version>${jjwt.version}</version>
 		</dependency>
-
 	</dependencies>
 
 	<build>
