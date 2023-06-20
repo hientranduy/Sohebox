@@ -161,9 +161,12 @@
 			<artifactId>hazelcast-spring</artifactId>
 		</dependency>
 		
-		
-		
-		
+		<!-- Token auth -->
+		<dependency>
+			<groupId>com.auth0</groupId>
+			<artifactId>java-jwt</artifactId>
+			<version>4.2.1</version>
+		</dependency>		
 		
 
 		<!-- =================== -->
@@ -175,14 +178,6 @@
 			<version>${dozer.version}</version>
 		</dependency>
 
-		<!-- ===== -->
-		<!-- Token -->
-		<!-- ===== -->
-		<dependency>
-			<groupId>io.jsonwebtoken</groupId>
-			<artifactId>jjwt</artifactId>
-			<version>${jjwt.version}</version>
-		</dependency>
 	</dependencies>
 
 	<build>

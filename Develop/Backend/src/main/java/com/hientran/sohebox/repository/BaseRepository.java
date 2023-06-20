@@ -28,16 +28,16 @@ public interface BaseRepository {
     public default EntityManagerFactory emFactory() {
         Properties props = new Properties();
         props.setProperty("hibernate.dialect",
-                SoheboxProperties.getPropertyApplication("spring.jpa.properties.hibernate.dialect"));
+                SoheboxProperties.getProperty("spring.jpa.properties.hibernate.dialect"));
         props.setProperty("jakarta.persistence.jdbc.driver", "com.mysql.cj.jdbc.Driver");
 
         props.setProperty("jakarta.persistence.jdbc.url",
-                SoheboxProperties.getPropertyApplication("spring.datasource.url.database"));
+                SoheboxProperties.getProperty("spring.datasource.url.database"));
         props.setProperty("jakarta.persistence.jdbc.useSSL", "false");
         props.setProperty("jakarta.persistence.jdbc.user",
-                SoheboxProperties.getPropertyApplication("spring.datasource.username"));
+                SoheboxProperties.getProperty("spring.datasource.username"));
         props.setProperty("jakarta.persistence.jdbc.password",
-                SoheboxProperties.getPropertyApplication("spring.datasource.password"));
+                SoheboxProperties.getProperty("spring.datasource.password"));
         return Persistence.createEntityManagerFactory("com.hientran.sohebox", props);
     }
 

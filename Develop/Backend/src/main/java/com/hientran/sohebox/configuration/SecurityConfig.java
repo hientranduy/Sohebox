@@ -10,6 +10,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.DefaultAuthenticationEventPublisher;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -63,6 +64,11 @@ public class SecurityConfig {
 	public DefaultAuthenticationEventPublisher authenticationEventPublisher() {
 		return new DefaultAuthenticationEventPublisher();
 	}
+	
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+        return authenticationConfiguration.getAuthenticationManager();
+    }	
 
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -225,7 +231,7 @@ public class SecurityConfig {
 				// Login by user name/password
 				.addFilterAfter(
 						new JWTLoginFilter(ApiPublicConstants.API_USER + ApiPublicConstants.AUTHENTICATE,
-								http.getSharedObject(AuthenticationManager.class), tokenAuthenticationService),
+								authenticationManager(http.getSharedObject(AuthenticationConfiguration.class)), tokenAuthenticationService),
 						UsernamePasswordAuthenticationFilter.class)
 
 				// Login by token bearer

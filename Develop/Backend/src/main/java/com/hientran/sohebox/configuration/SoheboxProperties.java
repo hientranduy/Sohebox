@@ -14,7 +14,6 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
  * @author hientran
  */
 @Configuration
-@PropertySource("classpath:sohebox.properties")
 public class SoheboxProperties implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -38,23 +37,6 @@ public class SoheboxProperties implements Serializable {
      * @return
      */
     public static String getProperty(String inputKey) {
-        Properties properties = new Properties();
-        try {
-            properties.load(SoheboxProperties.class.getClassLoader().getResourceAsStream("sohebox.properties"));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return (String) properties.get(inputKey);
-    }
-
-    /**
-     * 
-     * Get a configuration value by key from file application.properties
-     *
-     * @param inputKey
-     * @return
-     */
-    public static String getPropertyApplication(String inputKey) {
         Properties properties = new Properties();
         try {
             properties.load(SoheboxProperties.class.getClassLoader().getResourceAsStream("application.properties"));
