@@ -1,0 +1,12 @@
+spring:
+  profiles.active: runtime
+  
+MYSQL_HOST_SCHEMA: localhost:3306/sohebox_test
+MYSQL_USERNAME: admin
+MYSQL_PASSWORD: admin
+
+MAIL_USERNAME: admin
+MAIL_PASSWORD: admin
+
+JWT_SECRET: xxxxxx
+CERT_PASSWORD: xxxxxx

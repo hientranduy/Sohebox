@@ -39,8 +39,11 @@ public class BaseWebService implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @Value("${bittrex.service.timeout}")
-    private int timeOut;
+    @Value("${rest.template.timeout.read}")
+    private int timeOutRead;
+    
+    @Value("${rest.template.timeout.connect}")
+    private int timeOutConnect;    
 
     @Autowired
     private RequestExternalService requestExternalService;
@@ -59,8 +62,8 @@ public class BaseWebService implements Serializable {
     protected HttpGet createHttpGet(URIBuilder builder) throws URISyntaxException {
         // Configured get HTTP request
         RequestConfig.Builder requestConfig = RequestConfig.custom();
-        requestConfig.setConnectTimeout(Timeout.ofMilliseconds(Long.valueOf(timeOut)));
-        requestConfig.setConnectionRequestTimeout(Timeout.ofMilliseconds(Long.valueOf(timeOut)));
+        requestConfig.setConnectTimeout(Timeout.ofMilliseconds(Long.valueOf(timeOutConnect)));
+        requestConfig.setConnectionRequestTimeout(Timeout.ofMilliseconds(Long.valueOf(timeOutConnect)));
 
         // Create httpGet
         HttpGet httpGet = new HttpGet(builder.build());
@@ -82,8 +85,8 @@ public class BaseWebService implements Serializable {
     protected HttpGet createHttpGet(URI uri) throws URISyntaxException {
         // Configured get HTTP request
         RequestConfig.Builder requestConfig = RequestConfig.custom();
-        requestConfig.setConnectTimeout(Timeout.ofMilliseconds(Long.valueOf(timeOut)));
-        requestConfig.setConnectionRequestTimeout(Timeout.ofMilliseconds(Long.valueOf(timeOut)));
+        requestConfig.setConnectTimeout(Timeout.ofMilliseconds(Long.valueOf(timeOutConnect)));
+        requestConfig.setConnectionRequestTimeout(Timeout.ofMilliseconds(Long.valueOf(timeOutConnect)));
 
         // Create httpGet
         HttpGet httpGet = new HttpGet(uri);

@@ -10,6 +10,8 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 
+import lombok.RequiredArgsConstructor;
+
 /**
  * Mails properties
  *
@@ -17,6 +19,7 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
  */
 @Configuration
 @PropertySource("classpath:mail.properties")
+@RequiredArgsConstructor
 public class MailProperties implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -26,7 +29,7 @@ public class MailProperties implements Serializable {
 
     @Value("${spring.mail.port}")
     private String mailPort;
-
+	
     @Value("${spring.mail.username}")
     private String mailUsername;
 

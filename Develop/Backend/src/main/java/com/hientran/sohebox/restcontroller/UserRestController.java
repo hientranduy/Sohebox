@@ -1,7 +1,5 @@
 package com.hientran.sohebox.restcontroller;
 
-import java.io.Serializable;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -27,231 +25,212 @@ import com.hientran.sohebox.vo.UserVO;
  * @author hientran
  */
 @RestController
-public class UserRestController implements Serializable {
+public class UserRestController {
 
-    private static final long serialVersionUID = 1L;
+	@Autowired
+	private UserService userService;
 
-    @Autowired
-    private UserService userService;
+	/**
+	 * 
+	 * Add new
+	 *
+	 * @param vo
+	 * @return
+	 */
+	@PostMapping(ApiPublicConstants.API_USER)
+	public ResponseEntity<?> createUser(@Validated @RequestBody UserVO vo) {
+		// Create User
+		APIResponse<?> result = userService.create(vo);
 
-    /**
-     * 
-     * Add new
-     *
-     * @param vo
-     * @return
-     */
-    @PostMapping(ApiPublicConstants.API_USER)
-    public ResponseEntity<?> createUser(@Validated
-    @RequestBody
-    UserVO vo) {
-        // Create User
-        APIResponse<?> result = userService.create(vo);
+		// Return
+		return new ResponseEntity<>(result, new HttpHeaders(),
+				result.getStatus() != null ? result.getStatus() : HttpStatus.OK);
+	}
 
-        // Return
-        return new ResponseEntity<>(result, new HttpHeaders(),
-                result.getStatus() != null ? result.getStatus() : HttpStatus.OK);
-    }
+	/**
+	 * 
+	 * Change password by username
+	 *
+	 * @param vo
+	 * @return
+	 */
+	@PutMapping(ApiPublicConstants.API_USER + ApiPublicConstants.CHANGE_PASSWORD)
+	public ResponseEntity<?> changePassword(@Validated @RequestBody ChangePasswordVO vo) {
+		// Change password
+		APIResponse<?> result = userService.changePassword(vo);
 
-    /**
-     * 
-     * Change password by username
-     *
-     * @param vo
-     * @return
-     */
-    @PutMapping(ApiPublicConstants.API_USER + ApiPublicConstants.CHANGE_PASSWORD)
-    public ResponseEntity<?> changePassword(@Validated
-    @RequestBody
-    ChangePasswordVO vo) {
-        // Change password
-        APIResponse<?> result = userService.changePassword(vo);
+		// Return
+		return new ResponseEntity<>(result, new HttpHeaders(),
+				result.getStatus() != null ? result.getStatus() : HttpStatus.OK);
+	}
 
-        // Return
-        return new ResponseEntity<>(result, new HttpHeaders(),
-                result.getStatus() != null ? result.getStatus() : HttpStatus.OK);
-    }
+	/**
+	 * 
+	 * Change password by logged user
+	 *
+	 * @param vo
+	 * @return
+	 */
+	@PutMapping(ApiPublicConstants.API_USER + ApiPublicConstants.CHANGE_PASSWORD_LOGGED_USER)
+	public ResponseEntity<?> changePasswordLoggedUser(@Validated @RequestBody ChangePasswordVO vo) {
+		// Change password
+		APIResponse<?> result = userService.changePassword(vo);
 
-    /**
-     * 
-     * Change password by logged user
-     *
-     * @param vo
-     * @return
-     */
-    @PutMapping(ApiPublicConstants.API_USER + ApiPublicConstants.CHANGE_PASSWORD_LOGGED_USER)
-    public ResponseEntity<?> changePasswordLoggedUser(@Validated
-    @RequestBody
-    ChangePasswordVO vo) {
-        // Change password
-        APIResponse<?> result = userService.changePassword(vo);
+		// Return
+		return new ResponseEntity<>(result, new HttpHeaders(),
+				result.getStatus() != null ? result.getStatus() : HttpStatus.OK);
+	}
 
-        // Return
-        return new ResponseEntity<>(result, new HttpHeaders(),
-                result.getStatus() != null ? result.getStatus() : HttpStatus.OK);
-    }
+	/**
+	 * 
+	 * Delete logged user
+	 *
+	 * @return
+	 */
+	@DeleteMapping(ApiPublicConstants.API_USER)
+	public ResponseEntity<?> deleteLoggedUser() {
+		// Change password
+		APIResponse<?> result = userService.deleteLoggedUser();
 
-    /**
-     * 
-     * Delete logged user
-     *
-     * @return
-     */
-    @DeleteMapping(ApiPublicConstants.API_USER)
-    public ResponseEntity<?> deleteLoggedUser() {
-        // Change password
-        APIResponse<?> result = userService.deleteLoggedUser();
+		// Return
+		return new ResponseEntity<>(result, new HttpHeaders(),
+				result.getStatus() != null ? result.getStatus() : HttpStatus.OK);
+	}
 
-        // Return
-        return new ResponseEntity<>(result, new HttpHeaders(),
-                result.getStatus() != null ? result.getStatus() : HttpStatus.OK);
-    }
+	/**
+	 * 
+	 * Update info
+	 *
+	 * @param vo
+	 * @return
+	 */
+	@PutMapping(ApiPublicConstants.API_USER)
+	public ResponseEntity<?> updateUser(@Validated @RequestBody UserVO vo) {
+		// Update User
+		APIResponse<?> result = userService.update(vo);
 
-    /**
-     * 
-     * Update info
-     *
-     * @param vo
-     * @return
-     */
-    @PutMapping(ApiPublicConstants.API_USER)
-    public ResponseEntity<?> updateUser(@Validated
-    @RequestBody
-    UserVO vo) {
-        // Update User
-        APIResponse<?> result = userService.update(vo);
+		// Return
+		return new ResponseEntity<>(result, new HttpHeaders(),
+				result.getStatus() != null ? result.getStatus() : HttpStatus.OK);
+	}
 
-        // Return
-        return new ResponseEntity<>(result, new HttpHeaders(),
-                result.getStatus() != null ? result.getStatus() : HttpStatus.OK);
-    }
+	/**
+	 * 
+	 * Search
+	 *
+	 * @param sco
+	 * @return
+	 */
+	@PostMapping(ApiPublicConstants.API_USER + ApiPublicConstants.API_USER_STATUS)
+	public ResponseEntity<?> searchStatus(@RequestBody UserSCO sco) {
+		// Get all User
+		APIResponse<?> result = userService.searchUserStatus(sco);
 
-    /**
-     * 
-     * Search
-     *
-     * @param sco
-     * @return
-     */
-    @PostMapping(ApiPublicConstants.API_USER + ApiPublicConstants.API_USER_STATUS)
-    public ResponseEntity<?> searchStatus(@RequestBody
-    UserSCO sco) {
-        // Get all User
-        APIResponse<?> result = userService.searchUserStatus(sco);
+		// Return
+		return new ResponseEntity<>(result, new HttpHeaders(),
+				result.getStatus() != null ? result.getStatus() : HttpStatus.OK);
+	}
 
-        // Return
-        return new ResponseEntity<>(result, new HttpHeaders(),
-                result.getStatus() != null ? result.getStatus() : HttpStatus.OK);
-    }
+	/**
+	 * 
+	 * Search
+	 *
+	 * @param sco
+	 * @return
+	 */
+	@PostMapping(ApiPublicConstants.API_USER + ApiPublicConstants.API_ACTIVE_USER)
+	public ResponseEntity<?> searchActiveUser(@RequestBody UserSCO sco) {
+		// Get all User
+		APIResponse<?> result = userService.searchActiveUser(sco);
 
-    /**
-     * 
-     * Search
-     *
-     * @param sco
-     * @return
-     */
-    @PostMapping(ApiPublicConstants.API_USER + ApiPublicConstants.API_ACTIVE_USER)
-    public ResponseEntity<?> searchActiveUser(@RequestBody
-    UserSCO sco) {
-        // Get all User
-        APIResponse<?> result = userService.searchActiveUser(sco);
+		// Return
+		return new ResponseEntity<>(result, new HttpHeaders(),
+				result.getStatus() != null ? result.getStatus() : HttpStatus.OK);
+	}
 
-        // Return
-        return new ResponseEntity<>(result, new HttpHeaders(),
-                result.getStatus() != null ? result.getStatus() : HttpStatus.OK);
-    }
+	/**
+	 * 
+	 * Get by ID
+	 *
+	 * @param id
+	 * @return
+	 */
+	@GetMapping(ApiPublicConstants.API_USER + ApiPublicConstants.ID)
+	public ResponseEntity<?> getUserById(@PathVariable(value = "id") Long id) {
+		// Get User by ID
+		APIResponse<?> result = userService.getById(id);
 
-    /**
-     * 
-     * Get by ID
-     *
-     * @param id
-     * @return
-     */
-    @GetMapping(ApiPublicConstants.API_USER + ApiPublicConstants.ID)
-    public ResponseEntity<?> getUserById(@PathVariable(value = "id")
-    Long id) {
-        // Get User by ID
-        APIResponse<?> result = userService.getById(id);
+		// Return
+		return new ResponseEntity<>(result, new HttpHeaders(),
+				result.getStatus() != null ? result.getStatus() : HttpStatus.OK);
+	}
 
-        // Return
-        return new ResponseEntity<>(result, new HttpHeaders(),
-                result.getStatus() != null ? result.getStatus() : HttpStatus.OK);
-    }
+	/**
+	 * 
+	 * Search
+	 *
+	 * @param sco
+	 * @return
+	 */
+	@PostMapping(ApiPublicConstants.API_USER + ApiPublicConstants.SEARCH)
+	public ResponseEntity<?> search(@RequestBody UserSCO sco) {
+		// Search User
+		APIResponse<?> result = userService.search(sco);
 
-    /**
-     * 
-     * Search
-     *
-     * @param sco
-     * @return
-     */
-    @PostMapping(ApiPublicConstants.API_USER + ApiPublicConstants.SEARCH)
-    public ResponseEntity<?> search(@RequestBody
-    UserSCO sco) {
-        // Search User
-        APIResponse<?> result = userService.search(sco);
+		// Return
+		return new ResponseEntity<>(result, new HttpHeaders(),
+				result.getStatus() != null ? result.getStatus() : HttpStatus.OK);
 
-        // Return
-        return new ResponseEntity<>(result, new HttpHeaders(),
-                result.getStatus() != null ? result.getStatus() : HttpStatus.OK);
+	}
 
-    }
+	/**
+	 * 
+	 * Delete by ID
+	 *
+	 * @param id
+	 * @return
+	 */
+	@DeleteMapping(ApiPublicConstants.API_USER + ApiPublicConstants.ID)
+	public ResponseEntity<?> deleteUserById(@PathVariable(value = "id") Long id) {
+		// Delete
+		APIResponse<?> result = userService.deleteById(id);
 
-    /**
-     * 
-     * Delete by ID
-     *
-     * @param id
-     * @return
-     */
-    @DeleteMapping(ApiPublicConstants.API_USER + ApiPublicConstants.ID)
-    public ResponseEntity<?> deleteUserById(@PathVariable(value = "id")
-    Long id) {
-        // Delete
-        APIResponse<?> result = userService.deleteById(id);
+		// Return
+		return new ResponseEntity<>(result, new HttpHeaders(),
+				result.getStatus() != null ? result.getStatus() : HttpStatus.OK);
+	}
 
-        // Return
-        return new ResponseEntity<>(result, new HttpHeaders(),
-                result.getStatus() != null ? result.getStatus() : HttpStatus.OK);
-    }
+	/**
+	 * 
+	 * Logout
+	 *
+	 * @param vo
+	 * @return
+	 */
+	@PostMapping(ApiPublicConstants.API_USER + ApiPublicConstants.LOGOUT)
+	public ResponseEntity<?> logout(@Validated @RequestBody UserVO vo) {
+		// Create Account
+		APIResponse<?> result = userService.logout(vo);
 
-    /**
-     * 
-     * Logout
-     *
-     * @param vo
-     * @return
-     */
-    @PostMapping(ApiPublicConstants.API_USER + ApiPublicConstants.LOGOUT)
-    public ResponseEntity<?> logout(@Validated
-    @RequestBody
-    UserVO vo) {
-        // Create Account
-        APIResponse<?> result = userService.logout(vo);
+		// Return
+		return new ResponseEntity<>(result, new HttpHeaders(),
+				result.getStatus() != null ? result.getStatus() : HttpStatus.OK);
+	}
 
-        // Return
-        return new ResponseEntity<>(result, new HttpHeaders(),
-                result.getStatus() != null ? result.getStatus() : HttpStatus.OK);
-    }
+	/**
+	 * 
+	 * Change password by username
+	 *
+	 * @param vo
+	 * @return
+	 */
+	@PutMapping(ApiPublicConstants.API_USER + ApiPublicConstants.CHANGE_PRIVATE_KEY)
+	public ResponseEntity<?> changePrivateKey(@Validated @RequestBody ChangePrivateKeyVO vo) {
+		// Change password
+		APIResponse<?> result = userService.changePrivateKey(vo);
 
-    /**
-     * 
-     * Change password by username
-     *
-     * @param vo
-     * @return
-     */
-    @PutMapping(ApiPublicConstants.API_USER + ApiPublicConstants.CHANGE_PRIVATE_KEY)
-    public ResponseEntity<?> changePrivateKey(@Validated
-    @RequestBody
-    ChangePrivateKeyVO vo) {
-        // Change password
-        APIResponse<?> result = userService.changePrivateKey(vo);
-
-        // Return
-        return new ResponseEntity<>(result, new HttpHeaders(),
-                result.getStatus() != null ? result.getStatus() : HttpStatus.OK);
-    }
+		// Return
+		return new ResponseEntity<>(result, new HttpHeaders(),
+				result.getStatus() != null ? result.getStatus() : HttpStatus.OK);
+	}
 }

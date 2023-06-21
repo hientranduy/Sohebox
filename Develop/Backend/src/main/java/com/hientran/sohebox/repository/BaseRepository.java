@@ -13,9 +13,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.util.CollectionUtils;
 
-import com.hientran.sohebox.configuration.SoheboxProperties;
 import com.hientran.sohebox.constants.DBConstants;
 import com.hientran.sohebox.sco.Sorter;
+import com.hientran.sohebox.utils.PropertiesUtil;
 
 /**
  * @author hientran
@@ -28,16 +28,16 @@ public interface BaseRepository {
     public default EntityManagerFactory emFactory() {
         Properties props = new Properties();
         props.setProperty("hibernate.dialect",
-                SoheboxProperties.getProperty("spring.jpa.properties.hibernate.dialect"));
+                PropertiesUtil.getProperty("spring.jpa.properties.hibernate.dialect"));
         props.setProperty("jakarta.persistence.jdbc.driver", "com.mysql.cj.jdbc.Driver");
 
         props.setProperty("jakarta.persistence.jdbc.url",
-                SoheboxProperties.getProperty("spring.datasource.url.database"));
+                PropertiesUtil.getProperty("spring.datasource.url.database"));
         props.setProperty("jakarta.persistence.jdbc.useSSL", "false");
         props.setProperty("jakarta.persistence.jdbc.user",
-                SoheboxProperties.getProperty("spring.datasource.username"));
+                PropertiesUtil.getProperty("spring.datasource.username"));
         props.setProperty("jakarta.persistence.jdbc.password",
-                SoheboxProperties.getProperty("spring.datasource.password"));
+                PropertiesUtil.getProperty("spring.datasource.password"));
         return Persistence.createEntityManagerFactory("com.hientran.sohebox", props);
     }
 
@@ -91,8 +91,8 @@ public interface BaseRepository {
 
         // Get default configuration
         int dataReturnMaxRecordPerPage = Integer
-                .valueOf(SoheboxProperties.getProperty("data.return.max.record.per.page"));
-        int dataReturnFirstPage = Integer.valueOf(SoheboxProperties.getProperty("data.return.first.page"));
+                .valueOf(PropertiesUtil.getProperty("data.return.max_record_per_page"));
+        int dataReturnFirstPage = Integer.valueOf(PropertiesUtil.getProperty("data.return.first_page"));
 
         // Calculate max record per page
         if (maxRecordPerPage == null || maxRecordPerPage > dataReturnMaxRecordPerPage) {

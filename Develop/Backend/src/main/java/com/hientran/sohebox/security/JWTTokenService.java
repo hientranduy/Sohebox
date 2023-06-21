@@ -82,8 +82,6 @@ public class JWTTokenService {
 		res.setCharacterEncoding("UTF-8");
 		res.getWriter().write(objectMapper.writeValueAsString(userVO));
 
-		System.out.println("Authorization String=" + res.getHeader(HEADER));
-
 		// Record activity "LOGIN"
 		userActivityService.recordUserActivity(userVO, DBConstants.USER_ACTIVITY_LOGIN);
 	}
@@ -126,7 +124,7 @@ public class JWTTokenService {
 	public boolean validateToken(String token) {
 		try {
 			JWTVerifier verifier = JWT.require(Algorithm.HMAC256(SECRET)).withIssuer("Sohebox").build();
-			DecodedJWT decodedJWT = verifier.verify(token);
+			verifier.verify(token);
 			return true;
 		} catch (JWTVerificationException e) {
 			System.out.println(e.getMessage());

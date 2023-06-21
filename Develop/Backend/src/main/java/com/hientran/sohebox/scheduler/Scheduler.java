@@ -19,49 +19,6 @@ public class Scheduler implements Serializable {
     @Autowired
     private SchedulerService schedulerService;
 
-    /**
-     * 
-     * CRON schedule_ Update BITTREX data master
-     *
-     * @throws Exception
-     */
-//    @Scheduled(cron = "${schedule.bittrex.master}")
-//    public void bittrexUpdateDataMaster() throws Exception {
-//        schedulerService.bittrexGetUpdateDataMaster();
-//    }
-
-    /**
-     * 
-     * Delay schedule_ Update BITTREX market summary all pair
-     *
-     * @throws Exception
-     */
-//    @Scheduled(fixedDelayString = "${schedule.bittrex.summary.all}")
-//    public void bittrexUpdateMarketSummaryAll() throws Exception {
-//        schedulerService.bittrexUpdateMarketSummaryAll();
-//    }
-
-    /**
-     * 
-     * Delay schedule_ Update BITTREX market summary by selected pairs
-     *
-     * @throws Exception
-     */
-//    @Scheduled(fixedDelayString = "${schedule.bittrex.summary.pair}")
-//    public void bittrexUpdateMarketSummaryPair() throws Exception {
-//        schedulerService.bittrexUpdateMarketSummaryPair();
-//    }
-
-    /**
-     * 
-     * Delay schedule_ Update BITTREX market history
-     *
-     * @throws Exception
-     */
-//    @Scheduled(fixedDelayString = "${schedule.bittrex.history}")
-//    public void bittrexUpdateMarketHistory() throws Exception {
-//        schedulerService.bittrexUpdateMarketHistory();
-//    }
 
     /**
      * 
@@ -69,7 +26,7 @@ public class Scheduler implements Serializable {
      *
      * @throws Exception
      */
-    @Scheduled(cron = "${schedule.english.learn.report}")
+    @Scheduled(cron = "${schedule.english.learn_report}")
     public void englishExtendLearnReport() throws Exception {
         schedulerService.englishExtendLearnReport();
     }
@@ -80,7 +37,7 @@ public class Scheduler implements Serializable {
      *
      * @throws Exception
      */
-    @Scheduled(cron = "${schedule.english.learn.report}")
+    @Scheduled(cron = "${schedule.english.learn_report}")
     public void cronjobCalculTotalPortfolio() throws Exception {
         schedulerService.cronjobCalculTotalPortfolio();
     }

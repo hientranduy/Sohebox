@@ -23,7 +23,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
  */
 @Configuration
 @EnableScheduling
-public class ApplicationConfig implements Serializable {
+public class BeanConfig implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
