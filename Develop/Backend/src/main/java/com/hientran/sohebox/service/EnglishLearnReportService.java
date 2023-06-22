@@ -29,8 +29,6 @@ import com.hientran.sohebox.vo.PageResultVO;
 @Transactional(readOnly = true)
 public class EnglishLearnReportService extends BaseService {
 
-    private static final long serialVersionUID = 1L;
-
     @Autowired
     private EnglishLearnReportRepository englishLearnReportRepository;
 
@@ -102,7 +100,7 @@ public class EnglishLearnReportService extends BaseService {
     @Transactional(readOnly = false, rollbackFor = Exception.class)
     public void fillDailyEnglishLearn() {
         // Get data
-        List<Object[]> searchResult = englishLearnReportRepository.findDailyLearn();
+        List<Object[]> searchResult = englishLearnReportRepository.findDailyLearn(entityManager);
 
         // Insert
         if (CollectionUtils.isNotEmpty(searchResult)) {

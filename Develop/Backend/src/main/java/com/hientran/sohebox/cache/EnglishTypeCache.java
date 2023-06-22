@@ -37,8 +37,6 @@ import com.hientran.sohebox.vo.PageResultVO;
 @Service
 public class EnglishTypeCache extends BaseCache {
 
-    private static final long serialVersionUID = 1L;
-
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
@@ -225,7 +223,7 @@ public class EnglishTypeCache extends BaseCache {
         APIResponse<Object> result = new APIResponse<Object>();
 
         // Get list type class
-        List<Object[]> searchResult = typeRepository.getAllTypeClass();
+        List<Object[]> searchResult = typeRepository.getAllTypeClass(entityManager);
 
         // Transformer
         if (!CollectionUtils.isEmpty(searchResult)) {

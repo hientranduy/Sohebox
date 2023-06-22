@@ -28,6 +28,7 @@ import com.hientran.sohebox.repository.CryptoValidatorRepository;
 import com.hientran.sohebox.sco.CryptoValidatorSCO;
 import com.hientran.sohebox.sco.SearchTextVO;
 import com.hientran.sohebox.transformer.CryptoValidatorTransformer;
+import com.hientran.sohebox.utils.MessageUtil;
 import com.hientran.sohebox.vo.CryptoPortfolioVO;
 import com.hientran.sohebox.vo.CryptoValidatorVO;
 import com.hientran.sohebox.vo.PageResultVO;
@@ -42,8 +43,6 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional(readOnly = true)
 @Slf4j
 public class CryptoValidatorService extends BaseService {
-
-    private static final long serialVersionUID = 1L;
 
     @Autowired
     private CryptoValidatorRepository cryptoValidatorRepository;
@@ -77,12 +76,12 @@ public class CryptoValidatorService extends BaseService {
             List<String> errors = new ArrayList<>();
 
             if (vo.getValidatorAddress() == null) {
-                errors.add(buildMessage(MessageConstants.FILED_EMPTY,
+                errors.add(MessageUtil.buildMessage(MessageConstants.FILED_EMPTY,
                         new String[] { CryptoValidatorTblEnum.validatorAddress.name() }));
             }
 
             if (StringUtils.isBlank(vo.getValidatorName())) {
-                errors.add(buildMessage(MessageConstants.FILED_EMPTY,
+                errors.add(MessageUtil.buildMessage(MessageConstants.FILED_EMPTY,
                         new String[] { CryptoValidatorTblEnum.validatorName.name() }));
             }
 
@@ -95,7 +94,7 @@ public class CryptoValidatorService extends BaseService {
         // Check existence
         if (result.getStatus() == null) {
             if (recordIsExisted(vo)) {
-                result = new APIResponse<Long>(HttpStatus.BAD_REQUEST, buildMessage(MessageConstants.EXISTED_RECORD,
+                result = new APIResponse<Long>(HttpStatus.BAD_REQUEST, MessageUtil.buildMessage(MessageConstants.EXISTED_RECORD,
                         new String[] { " validator address " + vo.getValidatorAddress() }));
             }
         }
@@ -163,12 +162,12 @@ public class CryptoValidatorService extends BaseService {
             List<String> errors = new ArrayList<>();
 
             if (vo.getValidatorAddress() == null) {
-                errors.add(buildMessage(MessageConstants.FILED_EMPTY,
+                errors.add(MessageUtil.buildMessage(MessageConstants.FILED_EMPTY,
                         new String[] { CryptoValidatorTblEnum.validatorAddress.name() }));
             }
 
             if (StringUtils.isBlank(vo.getValidatorName())) {
-                errors.add(buildMessage(MessageConstants.FILED_EMPTY,
+                errors.add(MessageUtil.buildMessage(MessageConstants.FILED_EMPTY,
                         new String[] { CryptoValidatorTblEnum.validatorName.name() }));
             }
 
@@ -181,7 +180,7 @@ public class CryptoValidatorService extends BaseService {
         // Get updated item
         CryptoValidatorTbl updateTbl = cryptoValidatorRepository.findById(vo.getId()).get();
         if (updateTbl == null) {
-            result = new APIResponse<Long>(HttpStatus.BAD_REQUEST, buildMessage(MessageConstants.INEXISTED_RECORD,
+            result = new APIResponse<Long>(HttpStatus.BAD_REQUEST, MessageUtil.buildMessage(MessageConstants.INEXISTED_RECORD,
                     new String[] { "Validator wallet " + vo.getValidatorAddress() }));
         }
 
@@ -254,7 +253,7 @@ public class CryptoValidatorService extends BaseService {
             result.setData(vo);
         } else {
             result = new APIResponse<Object>(HttpStatus.BAD_REQUEST,
-                    buildMessage(MessageConstants.INEXISTED_RECORD, new String[] { "token" }));
+                    MessageUtil.buildMessage(MessageConstants.INEXISTED_RECORD, new String[] { "token" }));
         }
 
         // Return

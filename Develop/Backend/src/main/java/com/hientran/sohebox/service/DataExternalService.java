@@ -18,6 +18,7 @@ import org.w3c.dom.NodeList;
 import com.hientran.sohebox.constants.DataExternalConstants;
 import com.hientran.sohebox.constants.MessageConstants;
 import com.hientran.sohebox.exception.APIResponse;
+import com.hientran.sohebox.utils.MessageUtil;
 import com.hientran.sohebox.vo.PageResultVO;
 import com.hientran.sohebox.vo.SjcGoldCityVO;
 import com.hientran.sohebox.vo.SjcGoldItemVO;
@@ -30,8 +31,6 @@ import com.hientran.sohebox.vo.VcbCurrencyVO;
  */
 @Service
 public class DataExternalService extends BaseService {
-
-    private static final long serialVersionUID = 1L;
 
     @Value("${resource.path}")
     private String resourcePath;
@@ -50,7 +49,7 @@ public class DataExternalService extends BaseService {
             refreshExternalFile(filePath);
         } catch (Exception e) {
             result = new APIResponse<Object>(HttpStatus.BAD_REQUEST,
-                    buildMessage(MessageConstants.ERROR_EXCEPTION, new String[] { e.getMessage() }));
+                    MessageUtil.buildMessage(MessageConstants.ERROR_EXCEPTION, new String[] { e.getMessage() }));
         }
 
         // Get data from a file
@@ -124,7 +123,7 @@ public class DataExternalService extends BaseService {
             refreshExternalFile(filePath);
         } catch (Exception e) {
             result = new APIResponse<Object>(HttpStatus.BAD_REQUEST,
-                    buildMessage(MessageConstants.ERROR_EXCEPTION, new String[] { e.getMessage() }));
+                    MessageUtil.buildMessage(MessageConstants.ERROR_EXCEPTION, new String[] { e.getMessage() }));
         }
 
         // Get data from a file

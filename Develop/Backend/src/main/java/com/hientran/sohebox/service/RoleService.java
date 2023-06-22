@@ -19,9 +19,7 @@ import com.hientran.sohebox.utils.LogUtils;
  */
 @Service
 @Transactional(readOnly = true)
-public class RoleService extends BaseService {
-
-    private static final long serialVersionUID = 1L;
+public class RoleService  {
 
     @Autowired
     private RoleRepository roleRepository;

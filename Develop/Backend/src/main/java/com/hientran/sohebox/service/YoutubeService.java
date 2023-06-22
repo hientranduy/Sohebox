@@ -21,6 +21,7 @@ import com.hientran.sohebox.entity.YoutubeChannelVideoTbl;
 import com.hientran.sohebox.entity.YoutubeVideoTbl;
 import com.hientran.sohebox.exception.APIResponse;
 import com.hientran.sohebox.sco.YoutubeChannelVideoSCO;
+import com.hientran.sohebox.utils.MessageUtil;
 import com.hientran.sohebox.utils.ObjectMapperUtil;
 import com.hientran.sohebox.vo.PageResultVO;
 import com.hientran.sohebox.vo.YoutubeReponseVO;
@@ -33,8 +34,6 @@ import com.hientran.sohebox.webservice.YoutubeWebService;
  */
 @Service
 public class YoutubeService extends BaseService {
-
-    private static final long serialVersionUID = 1L;
 
     @Autowired
     private YoutubeWebService youtubeWebService;
@@ -156,7 +155,7 @@ public class YoutubeService extends BaseService {
 
         } catch (Exception e) {
             result = new APIResponse<Object>(HttpStatus.BAD_REQUEST,
-                    buildMessage(MessageConstants.ERROR_EXCEPTION, new String[] { e.getMessage() }));
+                    MessageUtil.buildMessage(MessageConstants.ERROR_EXCEPTION, new String[] { e.getMessage() }));
         }
 
         // Return

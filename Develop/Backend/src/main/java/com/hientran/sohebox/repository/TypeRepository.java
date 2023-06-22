@@ -3,6 +3,7 @@ package com.hientran.sohebox.repository;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 
 import org.springframework.data.domain.Page;
@@ -66,22 +67,23 @@ public interface TypeRepository
 
     /**
      * Get all type class
+     * @param entityManager 
      */
     @SuppressWarnings("unchecked")
-    public default List<Object[]> getAllTypeClass() {
+    public default List<Object[]> getAllTypeClass(EntityManager entityManager) {
         // Declare result
         List<Object[]> result = null;
 
         // Prepare native SQL
         StringBuilder sql = new StringBuilder();
-        sql.append(" SELECT type_class      ");
-        sql.append("      , 1               ");
-        sql.append(" FROM   type_tbl        ");
-        sql.append(" GROUP  BY type_class   ");
-        sql.append(" ORDER  BY type_class   ");
+        sql.append(" SELECT typeClass      ");
+        sql.append("      , 1              ");
+        sql.append(" FROM   type_tbl       ");
+        sql.append(" GROUP  BY typeClass   ");
+        sql.append(" ORDER  BY typeClass   ");
 
         // Execute SQL
-        Query query = getEntityManager().createNativeQuery(sql.toString());
+        Query query = entityManager.createNativeQuery(sql.toString());
         result = query.getResultList();
 
         // Return

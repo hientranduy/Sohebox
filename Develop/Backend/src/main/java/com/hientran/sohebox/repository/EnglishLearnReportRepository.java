@@ -2,6 +2,7 @@ package com.hientran.sohebox.repository;
 
 import java.util.List;
 
+import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 
 import org.springframework.data.domain.Page;
@@ -55,7 +56,7 @@ public interface EnglishLearnReportRepository extends JpaRepository<EnglishLearn
      * @return
      */
     @SuppressWarnings("unchecked")
-    public default List<Object[]> findDailyLearn() {
+    public default List<Object[]> findDailyLearn(EntityManager entityManager) {
         // Declare result
         List<Object[]> result = null;
 
@@ -69,7 +70,7 @@ public interface EnglishLearnReportRepository extends JpaRepository<EnglishLearn
         sql.append(" GROUP BY user_id ");
 
         // Execute SQL
-        Query query = getEntityManager().createNativeQuery(sql.toString());
+        Query query = entityManager.createNativeQuery(sql.toString());
         result = query.getResultList();
 
         // Return

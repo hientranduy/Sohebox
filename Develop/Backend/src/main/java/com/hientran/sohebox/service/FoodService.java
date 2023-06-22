@@ -29,6 +29,7 @@ import com.hientran.sohebox.sco.SearchTextVO;
 import com.hientran.sohebox.transformer.FoodTransformer;
 import com.hientran.sohebox.transformer.FoodTypeTransformer;
 import com.hientran.sohebox.utils.FileUtils;
+import com.hientran.sohebox.utils.MessageUtil;
 import com.hientran.sohebox.vo.FoodTypeVO;
 import com.hientran.sohebox.vo.FoodVO;
 import com.hientran.sohebox.vo.PageResultVO;
@@ -39,8 +40,6 @@ import com.hientran.sohebox.vo.PageResultVO;
 @Service
 @Transactional(readOnly = true)
 public class FoodService extends BaseService {
-
-    private static final long serialVersionUID = 1L;
 
     @Autowired
     private FoodRepository foodRepository;
@@ -76,22 +75,22 @@ public class FoodService extends BaseService {
 
             // Name must not null
             if (StringUtils.isBlank(vo.getName())) {
-                errors.add(buildMessage(MessageConstants.FILED_EMPTY, new String[] { FoodTblEnum.name.name() }));
+                errors.add(MessageUtil.buildMessage(MessageConstants.FILED_EMPTY, new String[] { FoodTblEnum.name.name() }));
             }
 
             // Image file must not null
             if (StringUtils.isBlank(vo.getImageFile())) {
-                errors.add(buildMessage(MessageConstants.FILED_EMPTY, new String[] { FoodTblEnum.imageFile.name() }));
+                errors.add(MessageUtil.buildMessage(MessageConstants.FILED_EMPTY, new String[] { FoodTblEnum.imageFile.name() }));
             }
 
             // Type must not null
             if (vo.getType() == null) {
-                errors.add(buildMessage(MessageConstants.FILED_EMPTY, new String[] { FoodTblEnum.type.name() }));
+                errors.add(MessageUtil.buildMessage(MessageConstants.FILED_EMPTY, new String[] { FoodTblEnum.type.name() }));
             }
 
             // Category must not null
             if (vo.getCategory() == null) {
-                errors.add(buildMessage(MessageConstants.FILED_EMPTY, new String[] { FoodTblEnum.category.name() }));
+                errors.add(MessageUtil.buildMessage(MessageConstants.FILED_EMPTY, new String[] { FoodTblEnum.category.name() }));
             }
 
             // Record error
@@ -104,7 +103,7 @@ public class FoodService extends BaseService {
         if (result.getStatus() == null) {
             if (recordIsExisted(vo.getName())) {
                 result = new APIResponse<Long>(HttpStatus.BAD_REQUEST,
-                        buildMessage(MessageConstants.EXISTED_RECORD, new String[] { "food <" + vo.getName() + ">" }));
+                        MessageUtil.buildMessage(MessageConstants.EXISTED_RECORD, new String[] { "food <" + vo.getName() + ">" }));
             }
         }
 
@@ -118,7 +117,7 @@ public class FoodService extends BaseService {
                     updateImage(vo.getImageFile(), imageName);
                 } catch (Exception e) {
                     result = new APIResponse<Long>(HttpStatus.BAD_REQUEST,
-                            buildMessage(MessageConstants.ERROR_EXCEPTION, new String[] { e.getMessage() }));
+                            MessageUtil.buildMessage(MessageConstants.ERROR_EXCEPTION, new String[] { e.getMessage() }));
                 }
 
             }
@@ -178,7 +177,7 @@ public class FoodService extends BaseService {
 
             // Name must not null
             if (StringUtils.isBlank(vo.getName())) {
-                errors.add(buildMessage(MessageConstants.FILED_EMPTY, new String[] { FoodTblEnum.name.name() }));
+                errors.add(MessageUtil.buildMessage(MessageConstants.FILED_EMPTY, new String[] { FoodTblEnum.name.name() }));
             }
 
             // Record error
@@ -192,7 +191,7 @@ public class FoodService extends BaseService {
         if (result.getStatus() == null) {
             updateTbl = getByName(vo.getName());
             if (updateTbl == null) {
-                result = new APIResponse<Long>(HttpStatus.BAD_REQUEST, buildMessage(MessageConstants.INEXISTED_RECORD,
+                result = new APIResponse<Long>(HttpStatus.BAD_REQUEST, MessageUtil.buildMessage(MessageConstants.INEXISTED_RECORD,
                         new String[] { "food <" + vo.getName() + ">" }));
             }
         }
@@ -209,7 +208,7 @@ public class FoodService extends BaseService {
                     updateImage(vo.getImageFile(), imageName);
                 } catch (Exception e) {
                     result = new APIResponse<Long>(HttpStatus.BAD_REQUEST,
-                            buildMessage(MessageConstants.ERROR_EXCEPTION, new String[] { e.getMessage() }));
+                            MessageUtil.buildMessage(MessageConstants.ERROR_EXCEPTION, new String[] { e.getMessage() }));
                 }
             }
         }
@@ -374,7 +373,7 @@ public class FoodService extends BaseService {
             result.setData(vo);
         } else {
             result = new APIResponse<Object>(HttpStatus.BAD_REQUEST,
-                    buildMessage(MessageConstants.INEXISTED_RECORD, new String[] { "food" }));
+                    MessageUtil.buildMessage(MessageConstants.INEXISTED_RECORD, new String[] { "food" }));
         }
 
         // Return

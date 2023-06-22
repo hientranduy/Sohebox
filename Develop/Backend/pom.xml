@@ -42,7 +42,8 @@
 		<springdoc-openapi.version>2.0.0</springdoc-openapi.version>
 		<dozer.version>5.5.1</dozer.version>
 		<velocity.version>1.4.7.RELEASE</velocity.version>
-		<jjwt.version>0.9.1</jjwt.version>
+		<jwt.version>4.4.0</jwt.version>
+		<mysql.version>8.0.19</mysql.version>
 	</properties>
 
 	<dependencies>
@@ -138,7 +139,7 @@
 		<dependency>
     		<groupId>mysql</groupId>
     		<artifactId>mysql-connector-java</artifactId>
-    		<version>8.0.19</version>
+    		<version>${mysql.version}</version>
 		</dependency>
 		
 		<!-- ================= -->
@@ -161,13 +162,14 @@
 			<artifactId>hazelcast-spring</artifactId>
 		</dependency>
 		
+		<!-- ========== -->
 		<!-- Token auth -->
+		<!-- ========== -->		
 		<dependency>
 			<groupId>com.auth0</groupId>
 			<artifactId>java-jwt</artifactId>
-			<version>4.2.1</version>
+			<version>${jwt.version}</version>
 		</dependency>		
-		
 
 		<!-- =================== -->
 		<!-- Dozer object mapper -->

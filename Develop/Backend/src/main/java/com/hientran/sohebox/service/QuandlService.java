@@ -15,6 +15,7 @@ import com.hientran.sohebox.cache.ConfigCache;
 import com.hientran.sohebox.constants.MessageConstants;
 import com.hientran.sohebox.constants.QuandlConstants;
 import com.hientran.sohebox.exception.APIResponse;
+import com.hientran.sohebox.utils.MessageUtil;
 import com.hientran.sohebox.utils.MyDateUtils;
 import com.hientran.sohebox.utils.ObjectMapperUtil;
 import com.hientran.sohebox.vo.PageResultVO;
@@ -27,8 +28,6 @@ import com.hientran.sohebox.webservice.QuandlWebService;
  */
 @Service
 public class QuandlService extends BaseService {
-
-    private static final long serialVersionUID = 1L;
 
     @Autowired
     private QuandlWebService quandlWebService;
@@ -89,7 +88,7 @@ public class QuandlService extends BaseService {
 
         } catch (Exception e) {
             result = new APIResponse<Object>(HttpStatus.BAD_REQUEST,
-                    buildMessage(MessageConstants.ERROR_EXCEPTION, new String[] { e.getMessage() }));
+                    MessageUtil.buildMessage(MessageConstants.ERROR_EXCEPTION, new String[] { e.getMessage() }));
         }
 
         // Return

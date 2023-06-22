@@ -30,6 +30,7 @@ import com.hientran.sohebox.service.MdpService;
 import com.hientran.sohebox.service.UserActivityService;
 import com.hientran.sohebox.transformer.AccountTransformer;
 import com.hientran.sohebox.transformer.TypeTransformer;
+import com.hientran.sohebox.utils.MessageUtil;
 import com.hientran.sohebox.vo.AccountVO;
 import com.hientran.sohebox.vo.PageResultVO;
 import com.hientran.sohebox.vo.TypeVO;
@@ -41,8 +42,6 @@ import com.hientran.sohebox.vo.UserVO;
 @Service
 @Transactional(readOnly = true)
 public class AccountService extends BaseService {
-
-    private static final long serialVersionUID = 1L;
 
     @Autowired
     private AccountRepository accountRepository;
@@ -85,13 +84,13 @@ public class AccountService extends BaseService {
 
             // Account type not null
             if (vo.getAccountType() == null) {
-                errors.add(buildMessage(MessageConstants.FILED_EMPTY, new String[] { AccountTblEnum.type.name() }));
+                errors.add(MessageUtil.buildMessage(MessageConstants.FILED_EMPTY, new String[] { AccountTblEnum.type.name() }));
             }
 
             // Account name not null
             if (StringUtils.isBlank(vo.getAccountName())) {
                 errors.add(
-                        buildMessage(MessageConstants.FILED_EMPTY, new String[] { AccountTblEnum.accountName.name() }));
+                        MessageUtil.buildMessage(MessageConstants.FILED_EMPTY, new String[] { AccountTblEnum.accountName.name() }));
             }
 
             // Record error
@@ -107,7 +106,7 @@ public class AccountService extends BaseService {
         if (result.getStatus() == null) {
             if (recordIsExisted(loggedUser, vo.getAccountType(), vo.getAccountName())) {
                 result = new APIResponse<Long>(HttpStatus.BAD_REQUEST,
-                        buildMessage(MessageConstants.EXISTED_RECORD, new String[] {
+                        MessageUtil.buildMessage(MessageConstants.EXISTED_RECORD, new String[] {
                                 "account " + vo.getAccountType().getTypeCode() + "<" + vo.getAccountName() + ">" }));
             }
         }
@@ -156,13 +155,13 @@ public class AccountService extends BaseService {
 
             // Account type not null
             if (vo.getAccountType() == null) {
-                errors.add(buildMessage(MessageConstants.FILED_EMPTY, new String[] { AccountTblEnum.type.name() }));
+                errors.add(MessageUtil.buildMessage(MessageConstants.FILED_EMPTY, new String[] { AccountTblEnum.type.name() }));
             }
 
             // Account name not null
             if (StringUtils.isBlank(vo.getAccountName())) {
                 errors.add(
-                        buildMessage(MessageConstants.FILED_EMPTY, new String[] { AccountTblEnum.accountName.name() }));
+                        MessageUtil.buildMessage(MessageConstants.FILED_EMPTY, new String[] { AccountTblEnum.accountName.name() }));
             }
 
             // Record error
@@ -180,7 +179,7 @@ public class AccountService extends BaseService {
             updateAccount = getAccountIdByUser(loggedUser, vo.getId());
             if (updateAccount == null) {
                 result = new APIResponse<Long>(HttpStatus.BAD_REQUEST,
-                        buildMessage(MessageConstants.INEXISTED_RECORD, new String[] {
+                        MessageUtil.buildMessage(MessageConstants.INEXISTED_RECORD, new String[] {
                                 "account " + vo.getAccountType().getTypeCode() + "<" + vo.getAccountName() + ">" }));
             }
         }
@@ -311,7 +310,7 @@ public class AccountService extends BaseService {
 
         if (result.getStatus() == null && userVO == null) {
             result = new APIResponse<Object>(HttpStatus.BAD_REQUEST,
-                    buildMessage(MessageConstants.INEXISTED_USERNAME, new String[] { sco.getUserName().getEq() }));
+                    MessageUtil.buildMessage(MessageConstants.INEXISTED_USERNAME, new String[] { sco.getUserName().getEq() }));
         }
 
         // Check authentication data
@@ -327,7 +326,7 @@ public class AccountService extends BaseService {
                     sco.setUser(userIdSearch);
                 } else {
                     result = new APIResponse<Object>(HttpStatus.BAD_REQUEST,
-                            buildMessage(MessageConstants.UNAUTHORIZED_DATA, null));
+                            MessageUtil.buildMessage(MessageConstants.UNAUTHORIZED_DATA, null));
                 }
             }
         }
@@ -391,13 +390,13 @@ public class AccountService extends BaseService {
         Optional<AccountTbl> accountTbl = accountRepository.findById(id);
         if (!accountTbl.isPresent()) {
             result = new APIResponse<Object>(HttpStatus.BAD_REQUEST,
-                    buildMessage(MessageConstants.UNAUTHORIZED_DATA, null));
+                    MessageUtil.buildMessage(MessageConstants.UNAUTHORIZED_DATA, null));
         }
 
         // Check logged user have permission to delete
         if (result.getStatus() == null && !userService.isDataOwner(accountTbl.get().getUser().getUsername())) {
             result = new APIResponse<Object>(HttpStatus.BAD_REQUEST,
-                    buildMessage(MessageConstants.UNAUTHORIZED_DATA, null));
+                    MessageUtil.buildMessage(MessageConstants.UNAUTHORIZED_DATA, null));
         }
 
         // Process delete
@@ -429,7 +428,7 @@ public class AccountService extends BaseService {
         Optional<AccountTbl> accountTbl = accountRepository.findById(id);
         if (!accountTbl.isPresent()) {
             result = new APIResponse<Object>(HttpStatus.BAD_REQUEST,
-                    buildMessage(MessageConstants.INEXISTED_RECORD, new String[] { "account" }));
+                    MessageUtil.buildMessage(MessageConstants.INEXISTED_RECORD, new String[] { "account" }));
         }
 
         // Check if user is the owner of data
@@ -437,7 +436,7 @@ public class AccountService extends BaseService {
             AccountVO vo = accountTransformer.convertToAccountVO(accountTbl.get());
             if (!userService.isDataOwner(vo.getUser().getUsername())) {
                 result = new APIResponse<Object>(HttpStatus.BAD_REQUEST,
-                        buildMessage(MessageConstants.UNAUTHORIZED_DATA, null));
+                        MessageUtil.buildMessage(MessageConstants.UNAUTHORIZED_DATA, null));
             } else {
                 // Set return data
                 result.setData(vo);

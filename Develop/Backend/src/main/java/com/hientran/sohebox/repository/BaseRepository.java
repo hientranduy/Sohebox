@@ -1,11 +1,6 @@
 package com.hientran.sohebox.repository;
 
 import java.util.List;
-import java.util.Properties;
-
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.PageRequest;
@@ -15,107 +10,65 @@ import org.springframework.util.CollectionUtils;
 
 import com.hientran.sohebox.constants.DBConstants;
 import com.hientran.sohebox.sco.Sorter;
-import com.hientran.sohebox.utils.PropertiesUtil;
 
 /**
  * @author hientran
  */
 public interface BaseRepository {
+	public default Pageable createPageable(Integer pageToGet, Integer maxRecordPerPage, List<Sorter> sorters,
+			Boolean reportFlag) {
+		// Declare return
+		Pageable result;
 
-    /**
-     * Entity Manager Factory
-     */
-    public default EntityManagerFactory emFactory() {
-        Properties props = new Properties();
-        props.setProperty("hibernate.dialect",
-                PropertiesUtil.getProperty("spring.jpa.properties.hibernate.dialect"));
-        props.setProperty("jakarta.persistence.jdbc.driver", "com.mysql.cj.jdbc.Driver");
+		// Prepare Sort
+		Sort sort = null;
+		if (!CollectionUtils.isEmpty(sorters)) {
+			for (Sorter sorter : sorters) {
+				if (sorter.getProperty() != null) {
+					// Create sort
+					Sort checkSort = null;
+					if (StringUtils.equals(sorter.getDirection().toUpperCase(), DBConstants.DIRECTION_DECCENT)) {
+						checkSort = Sort.by(Sort.Direction.DESC, sorter.getProperty());
+					} else {
+						checkSort = Sort.by(Sort.Direction.ASC, sorter.getProperty());
+					}
 
-        props.setProperty("jakarta.persistence.jdbc.url",
-                PropertiesUtil.getProperty("spring.datasource.url.database"));
-        props.setProperty("jakarta.persistence.jdbc.useSSL", "false");
-        props.setProperty("jakarta.persistence.jdbc.user",
-                PropertiesUtil.getProperty("spring.datasource.username"));
-        props.setProperty("jakarta.persistence.jdbc.password",
-                PropertiesUtil.getProperty("spring.datasource.password"));
-        return Persistence.createEntityManagerFactory("com.hientran.sohebox", props);
-    }
+					// Add sort
+					if (sort == null) {
+						sort = checkSort;
+					} else {
+						sort = sort.and(checkSort);
+					}
+				}
+			}
+		}
 
-    /**
-     * Get Entity Manager
-     */
-    public default EntityManager getEntityManager() {
-        return emFactory().createEntityManager();
-    }
+		// Get default configuration
+		int dataReturnMaxRecordPerPage = Integer.valueOf(1000);
+		int dataReturnFirstPage = Integer.valueOf(0);
 
-    public default void close() {
-        emFactory().close();
-    }
+		// Calculate max record per page
+		if (maxRecordPerPage == null || maxRecordPerPage > dataReturnMaxRecordPerPage) {
+			if (reportFlag == null || !reportFlag) {
+				maxRecordPerPage = dataReturnMaxRecordPerPage;
+			}
+		}
 
-    /**
-     * 
-     * Create Page able
-     *
-     * @param pageToGet
-     * @param maxRecordPerPage
-     * @param sorters
-     * @return
-     */
-    public default Pageable createPageable(Integer pageToGet, Integer maxRecordPerPage, List<Sorter> sorters,
-            Boolean reportFlag) {
-        // Declare return
-        Pageable result;
+		// Calculate pageToGet; index from 0
+		if (pageToGet == null || pageToGet <= 0) {
+			pageToGet = dataReturnFirstPage;
+		}
 
-        // Prepare Sort
-        Sort sort = null;
-        if (!CollectionUtils.isEmpty(sorters)) {
-            for (Sorter sorter : sorters) {
-                if (sorter.getProperty() != null) {
-                    // Create sort
-                    Sort checkSort = null;
-                    if (StringUtils.equals(sorter.getDirection().toUpperCase(), DBConstants.DIRECTION_DECCENT)) {
-                        checkSort = Sort.by(Sort.Direction.DESC, sorter.getProperty());
-                    } else {
-                        checkSort = Sort.by(Sort.Direction.ASC, sorter.getProperty());
-                    }
+		// Prepare page able
+		Pageable pageable = null;
+		if (sort != null) {
+			pageable = PageRequest.of(pageToGet, maxRecordPerPage, sort);
+		} else {
+			pageable = PageRequest.of(pageToGet, maxRecordPerPage);
+		}
 
-                    // Add sort
-                    if (sort == null) {
-                        sort = checkSort;
-                    } else {
-                        sort = sort.and(checkSort);
-                    }
-                }
-            }
-        }
-
-        // Get default configuration
-        int dataReturnMaxRecordPerPage = Integer
-                .valueOf(PropertiesUtil.getProperty("data.return.max_record_per_page"));
-        int dataReturnFirstPage = Integer.valueOf(PropertiesUtil.getProperty("data.return.first_page"));
-
-        // Calculate max record per page
-        if (maxRecordPerPage == null || maxRecordPerPage > dataReturnMaxRecordPerPage) {
-            if (reportFlag == null || !reportFlag) {
-                maxRecordPerPage = dataReturnMaxRecordPerPage;
-            }
-        }
-
-        // Calculate pageToGet; index from 0
-        if (pageToGet == null || pageToGet <= 0) {
-            pageToGet = dataReturnFirstPage;
-        }
-
-        // Prepare page able
-        Pageable pageable = null;
-        if (sort != null) {
-            pageable = PageRequest.of(pageToGet, maxRecordPerPage, sort);
-        } else {
-            pageable = PageRequest.of(pageToGet, maxRecordPerPage);
-        }
-
-        // Return
-        result = pageable;
-        return result;
-    }
+		// Return
+		result = pageable;
+		return result;
+	}
 }

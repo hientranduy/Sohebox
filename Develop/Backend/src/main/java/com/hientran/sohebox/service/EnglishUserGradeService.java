@@ -23,6 +23,7 @@ import com.hientran.sohebox.sco.SearchNumberVO;
 import com.hientran.sohebox.security.UserService;
 import com.hientran.sohebox.transformer.EnglishTypeTransformer;
 import com.hientran.sohebox.transformer.EnglishUserGradeTransformer;
+import com.hientran.sohebox.utils.MessageUtil;
 import com.hientran.sohebox.vo.EnglishTypeVO;
 import com.hientran.sohebox.vo.EnglishUserGradeVO;
 import com.hientran.sohebox.vo.PageResultVO;
@@ -33,8 +34,6 @@ import com.hientran.sohebox.vo.PageResultVO;
 @Service
 @Transactional(readOnly = true)
 public class EnglishUserGradeService extends BaseService {
-
-    private static final long serialVersionUID = 1L;
 
     @Autowired
     private EnglishUserGradeRepository EnglishUserGradeRepository;
@@ -69,19 +68,19 @@ public class EnglishUserGradeService extends BaseService {
 
             // user must not null
             if (vo.getUser() == null) {
-                errors.add(buildMessage(MessageConstants.FILED_EMPTY,
+                errors.add(MessageUtil.buildMessage(MessageConstants.FILED_EMPTY,
                         new String[] { EnglishUserGradeTblEnum.user.name() }));
             }
 
             // grade must not null
             if (vo.getVusGrade() == null) {
-                errors.add(buildMessage(MessageConstants.FILED_EMPTY,
+                errors.add(MessageUtil.buildMessage(MessageConstants.FILED_EMPTY,
                         new String[] { EnglishUserGradeTblEnum.vusGrade.name() }));
             }
 
             // learn day must not null
             if (vo.getLearnDay() == null) {
-                errors.add(buildMessage(MessageConstants.FILED_EMPTY,
+                errors.add(MessageUtil.buildMessage(MessageConstants.FILED_EMPTY,
                         new String[] { EnglishUserGradeTblEnum.learnDay.name() }));
             }
 
@@ -95,13 +94,13 @@ public class EnglishUserGradeService extends BaseService {
         UserTbl userTbl = userService.getTblByUserName(vo.getUser().getUsername());
         if (result.getStatus() == null && userTbl == null) {
             result = new APIResponse<Long>(HttpStatus.BAD_REQUEST,
-                    buildMessage(MessageConstants.INEXISTED_USERNAME, new String[] { vo.getUser().getUsername() }));
+                    MessageUtil.buildMessage(MessageConstants.INEXISTED_USERNAME, new String[] { vo.getUser().getUsername() }));
         }
 
         // Check if logged user is the same input user
         if (result.getStatus() == null && !userService.isDataOwner(vo.getUser().getUsername())) {
             result = new APIResponse<Long>(HttpStatus.BAD_REQUEST,
-                    buildMessage(MessageConstants.UNAUTHORIZED_DATA, null));
+                    MessageUtil.buildMessage(MessageConstants.UNAUTHORIZED_DATA, null));
         }
 
         // PROCESS INSERT/UPDATE

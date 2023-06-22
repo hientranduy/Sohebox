@@ -35,6 +35,7 @@ import com.hientran.sohebox.sco.YoutubeChannelSCO;
 import com.hientran.sohebox.sco.YoutubeChannelVideoSCO;
 import com.hientran.sohebox.security.UserService;
 import com.hientran.sohebox.transformer.MediaTypeTransformer;
+import com.hientran.sohebox.utils.MessageUtil;
 import com.hientran.sohebox.utils.ObjectMapperUtil;
 import com.hientran.sohebox.vo.MediaTypeVO;
 import com.hientran.sohebox.vo.PageResultVO;
@@ -50,8 +51,6 @@ import com.hientran.sohebox.webservice.YoutubeWebService;
 @Service
 @Transactional(readOnly = true)
 public class YoutubeChannelVideoService extends BaseService {
-
-    private static final long serialVersionUID = 1L;
 
     @Autowired
     private YoutubeChannelVideoRepository youtubeChannelVideoRepository;
@@ -225,13 +224,13 @@ public class YoutubeChannelVideoService extends BaseService {
 
             // Channel id must not null
             if (channelTbl == null) {
-                errors.add(buildMessage(MessageConstants.FILED_EMPTY,
+                errors.add(MessageUtil.buildMessage(MessageConstants.FILED_EMPTY,
                         new String[] { YoutubeChannelTblEnum.channelId.name() }));
             }
 
             // Video id must not null
             if (videoTbl == null) {
-                errors.add(buildMessage(MessageConstants.FILED_EMPTY,
+                errors.add(MessageUtil.buildMessage(MessageConstants.FILED_EMPTY,
                         new String[] { YoutubeVideoTblEnum.videoId.name() }));
             }
 
@@ -285,7 +284,7 @@ public class YoutubeChannelVideoService extends BaseService {
 
             // Video id must not null
             if (vo.getVideoId() == null) {
-                errors.add(buildMessage(MessageConstants.FILED_EMPTY,
+                errors.add(MessageUtil.buildMessage(MessageConstants.FILED_EMPTY,
                         new String[] { YoutubeVideoTblEnum.videoId.name() }));
             }
 
@@ -352,17 +351,17 @@ public class YoutubeChannelVideoService extends BaseService {
                             videoTbl = youtubeVideoRepository.save(videoTbl);
                         } else {
                             result = new APIResponse<YoutubeChannelVideoTbl>(HttpStatus.BAD_REQUEST,
-                                    buildMessage(MessageConstants.INEXISTED_RECORD, new String[] { "youtube video" }));
+                                    MessageUtil.buildMessage(MessageConstants.INEXISTED_RECORD, new String[] { "youtube video" }));
                         }
 
                     } else {
                         result = new APIResponse<YoutubeChannelVideoTbl>(HttpStatus.BAD_REQUEST,
-                                buildMessage(MessageConstants.INEXISTED_RECORD, new String[] { "youtube video" }));
+                                MessageUtil.buildMessage(MessageConstants.INEXISTED_RECORD, new String[] { "youtube video" }));
 
                     }
                 } catch (Exception e) {
                     result = new APIResponse<YoutubeChannelVideoTbl>(HttpStatus.BAD_REQUEST,
-                            buildMessage(MessageConstants.ERROR_EXCEPTION, new String[] { e.getMessage() }));
+                            MessageUtil.buildMessage(MessageConstants.ERROR_EXCEPTION, new String[] { e.getMessage() }));
                 }
             }
         }
@@ -394,7 +393,7 @@ public class YoutubeChannelVideoService extends BaseService {
 
             // Video id must not null
             if (videoId == null) {
-                errors.add(buildMessage(MessageConstants.FILED_EMPTY,
+                errors.add(MessageUtil.buildMessage(MessageConstants.FILED_EMPTY,
                         new String[] { YoutubeVideoTblEnum.videoId.name() }));
             }
 

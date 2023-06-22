@@ -1,30 +1,25 @@
 package com.hientran.sohebox.cache;
 
-import java.io.Serializable;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.ResourceBundleMessageSource;
 
-/**
- * @author hientran
- */
-public class BaseCache implements Serializable {
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
-    private static final long serialVersionUID = 1L;
+@RequiredArgsConstructor
+@Data
+public class BaseCache {
 
-    @Autowired
-    protected ResourceBundleMessageSource messageSource;
+	@PersistenceContext
+	protected EntityManager entityManager;
 
-    /**
-     * 
-     * Build message
-     *
-     * @param messageCode
-     * @param params
-     * @return
-     */
-    protected String buildMessage(String messageCode, Object[] params) {
-        return messageSource.getMessage(messageCode, params, null);
+	@Autowired
+	protected ResourceBundleMessageSource messageSource;
 
-    }
+	protected String buildMessage(String messageCode, Object[] params) {
+		return messageSource.getMessage(messageCode, params, null);
+
+	}
 }

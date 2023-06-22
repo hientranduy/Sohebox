@@ -2,6 +2,7 @@ package com.hientran.sohebox.repository;
 
 import java.util.List;
 
+import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 
 import org.springframework.data.domain.Page;
@@ -55,7 +56,7 @@ public interface UserRepository
      * @return
      */
     @SuppressWarnings("unchecked")
-    public default List<Object[]> getActiveUser(UserSCO sco) {
+    public default List<Object[]> getActiveUser(UserSCO sco, EntityManager entityManager) {
         // Declare result
         List<Object[]> result = null;
 
@@ -70,7 +71,7 @@ public interface UserRepository
         sql.append(" LIMIT ").append(sco.getMaxRecordPerPage());
 
         // Execute SQL
-        Query query = getEntityManager().createNativeQuery(sql.toString());
+        Query query = entityManager.createNativeQuery(sql.toString());
         result = query.getResultList();
 
         // Return

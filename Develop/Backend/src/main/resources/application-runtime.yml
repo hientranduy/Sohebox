@@ -30,12 +30,7 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update 
-    properties: 
-      hibernate: 
-         dialect: org.hibernate.dialect.MySQLDialect
-         show_sql: true
-         format_sql: false
-         type: trace 
+
 # mail                 
   mail:
     username: ${MAIL_USERNAME}
@@ -47,7 +42,16 @@ spring:
     username: ${MYSQL_USERNAME}
     password: ${MYSQL_PASSWORD}
 
-
+# ======================================================== #
+# Log                                                      #
+# ---------------------------------------------------------#
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: DEBUG
+        type.descriptor.sql.BasicBinder: TRACE
+        
 # ======================================================== #
 # Swagger                                                  #
 # ---------------------------------------------------------#
@@ -66,27 +70,15 @@ jwt:
 
 # ======================================================== #
 # Project Path                                             #
-# ---------------------------------------------------------#
-# Root
-sohebox:
-   root: C:/Hien/svn_checkout/Sohebox
-
+# ---------------------------------------------------------#  
 # Resource
 resource:
-   path: ${sohebox.root}/Develop/Backend/src/main/resources
-
-# Photo
-photo:
-  path:
-    root: ${sohebox.root}/Image/
-    check:
-      sync: Input
-    output: Output
+   path: ${SOHEBOX_ROOT}/Develop/Backend/src/main/resources
 
 # Web function
 web:
   asset:
-    path: ${sohebox.root}/Web/src/assets
+    path: ${SOHEBOX_ROOT}/Web/src/assets
     english:
        image:
           path: ${web.asset.path}/english/image/
@@ -94,20 +86,14 @@ web:
        image:
           path: ${web.asset.path}/food/image/
 
-# ======================================================== #
-# SETTING REST API Input/Output                            #
-# ---------------------------------------------------------#
+# ========================================== #
+# SETTING REST API Input/Output              #
+# -------------------------------------------#
 rest:
   template:
     timeout:
       read: 300000
       connect: 300000
-
-data: 
-  return:
-    max_record_per_page: 1000
-    first_page: 0
-
 
 # ========================================== #
 # SCHEDULE                                   #

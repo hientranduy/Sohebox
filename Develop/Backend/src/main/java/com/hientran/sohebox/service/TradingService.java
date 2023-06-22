@@ -29,6 +29,7 @@ import com.hientran.sohebox.repository.TradingSymbolRepository;
 import com.hientran.sohebox.sco.SearchNumberVO;
 import com.hientran.sohebox.sco.TradingSymbolSCO;
 import com.hientran.sohebox.transformer.CountryTransformer;
+import com.hientran.sohebox.utils.MessageUtil;
 import com.hientran.sohebox.utils.MyDateUtils;
 import com.hientran.sohebox.utils.ObjectMapperUtil;
 import com.hientran.sohebox.vo.PageResultVO;
@@ -44,8 +45,6 @@ import com.hientran.sohebox.webservice.TradingWebService;
  */
 @Service
 public class TradingService extends BaseService {
-
-    private static final long serialVersionUID = 1L;
 
     @Autowired
     private TradingWebService tradingWebService;
@@ -116,7 +115,7 @@ public class TradingService extends BaseService {
             }
         } catch (Exception e) {
             result = new APIResponse<Object>(HttpStatus.BAD_REQUEST,
-                    buildMessage(MessageConstants.ERROR_EXCEPTION, new String[] { e.getMessage() }));
+                    MessageUtil.buildMessage(MessageConstants.ERROR_EXCEPTION, new String[] { e.getMessage() }));
         }
 
         //////////////////////
@@ -148,7 +147,7 @@ public class TradingService extends BaseService {
                 }
             } catch (Exception e) {
                 result = new APIResponse<Object>(HttpStatus.BAD_REQUEST,
-                        buildMessage(MessageConstants.ERROR_EXCEPTION, new String[] { e.getMessage() }));
+                        MessageUtil.buildMessage(MessageConstants.ERROR_EXCEPTION, new String[] { e.getMessage() }));
             }
         }
 
@@ -252,7 +251,7 @@ public class TradingService extends BaseService {
             result.setData(data);
         } catch (Exception e) {
             result = new APIResponse<Object>(HttpStatus.BAD_REQUEST,
-                    buildMessage(MessageConstants.ERROR_EXCEPTION, new String[] { e.getMessage() }));
+                    MessageUtil.buildMessage(MessageConstants.ERROR_EXCEPTION, new String[] { e.getMessage() }));
         }
 
         // Return

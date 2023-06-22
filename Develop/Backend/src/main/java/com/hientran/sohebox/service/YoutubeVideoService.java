@@ -18,6 +18,7 @@ import com.hientran.sohebox.exception.APIResponse;
 import com.hientran.sohebox.repository.YoutubeVideoRepository;
 import com.hientran.sohebox.sco.SearchTextVO;
 import com.hientran.sohebox.sco.YoutubeVideoSCO;
+import com.hientran.sohebox.utils.MessageUtil;
 import com.hientran.sohebox.vo.YoutubeVideoVO;
 
 /**
@@ -26,8 +27,6 @@ import com.hientran.sohebox.vo.YoutubeVideoVO;
 @Service
 @Transactional(readOnly = true)
 public class YoutubeVideoService extends BaseService {
-
-    private static final long serialVersionUID = 1L;
 
     @Autowired
     private YoutubeVideoRepository youtubeVideoRepository;
@@ -74,7 +73,7 @@ public class YoutubeVideoService extends BaseService {
 
             // Video id must not null
             if (vo.getId().getVideoId() == null) {
-                errors.add(buildMessage(MessageConstants.FILED_EMPTY,
+                errors.add(MessageUtil.buildMessage(MessageConstants.FILED_EMPTY,
                         new String[] { YoutubeVideoTblEnum.videoId.name() }));
             }
 

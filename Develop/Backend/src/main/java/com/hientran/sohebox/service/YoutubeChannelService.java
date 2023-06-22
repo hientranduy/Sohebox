@@ -26,6 +26,7 @@ import com.hientran.sohebox.sco.YoutubeChannelSCO;
 import com.hientran.sohebox.security.UserService;
 import com.hientran.sohebox.transformer.MediaTypeTransformer;
 import com.hientran.sohebox.transformer.YoutubeChannelTransformer;
+import com.hientran.sohebox.utils.MessageUtil;
 import com.hientran.sohebox.vo.MediaTypeVO;
 import com.hientran.sohebox.vo.PageResultVO;
 import com.hientran.sohebox.vo.YoutubeChannelVO;
@@ -35,8 +36,6 @@ import com.hientran.sohebox.vo.YoutubeChannelVO;
  */
 @Service
 public class YoutubeChannelService extends BaseService {
-
-    private static final long serialVersionUID = 1L;
 
     @Autowired
     private YoutubeChannelRepository youtubeChannelRepository;
@@ -72,7 +71,7 @@ public class YoutubeChannelService extends BaseService {
 
             // Channel id must not null
             if (vo.getChannelId() == null) {
-                errors.add(buildMessage(MessageConstants.FILED_EMPTY,
+                errors.add(MessageUtil.buildMessage(MessageConstants.FILED_EMPTY,
                         new String[] { YoutubeChannelTblEnum.channelId.name() }));
             }
 
@@ -85,7 +84,7 @@ public class YoutubeChannelService extends BaseService {
         // Check if record existed already
         if (result.getStatus() == null) {
             if (recordIsExisted(vo.getChannelId())) {
-                result = new APIResponse<Long>(HttpStatus.BAD_REQUEST, buildMessage(MessageConstants.EXISTED_RECORD,
+                result = new APIResponse<Long>(HttpStatus.BAD_REQUEST, MessageUtil.buildMessage(MessageConstants.EXISTED_RECORD,
                         new String[] { "channel ID <" + vo.getId() + ">" }));
             }
         }
@@ -131,20 +130,20 @@ public class YoutubeChannelService extends BaseService {
 
             // Channel id must not null
             if (vo.getChannelId() == null) {
-                errors.add(buildMessage(MessageConstants.FILED_EMPTY,
+                errors.add(MessageUtil.buildMessage(MessageConstants.FILED_EMPTY,
                         new String[] { YoutubeChannelTblEnum.channelId.name() }));
             }
 
             // Category must not null
             if (vo.getCategory() == null) {
-                errors.add(buildMessage(MessageConstants.FILED_EMPTY,
+                errors.add(MessageUtil.buildMessage(MessageConstants.FILED_EMPTY,
                         new String[] { YoutubeChannelTblEnum.category.name() }));
             }
 
             // Name must not null
             if (StringUtils.isBlank(vo.getName())) {
                 errors.add(
-                        buildMessage(MessageConstants.FILED_EMPTY, new String[] { YoutubeChannelTblEnum.name.name() }));
+                        MessageUtil.buildMessage(MessageConstants.FILED_EMPTY, new String[] { YoutubeChannelTblEnum.name.name() }));
             }
 
             // Record error
@@ -158,7 +157,7 @@ public class YoutubeChannelService extends BaseService {
         if (result.getStatus() == null) {
             updateTbl = getByKey(vo.getChannelId());
             if (updateTbl == null) {
-                result = new APIResponse<Long>(HttpStatus.BAD_REQUEST, buildMessage(MessageConstants.INEXISTED_RECORD,
+                result = new APIResponse<Long>(HttpStatus.BAD_REQUEST, MessageUtil.buildMessage(MessageConstants.INEXISTED_RECORD,
                         new String[] { "Channel ID <" + vo.getChannelId() + ">" }));
             }
         }

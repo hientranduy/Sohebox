@@ -3,7 +3,6 @@ package com.hientran.sohebox.service;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.Serializable;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.security.KeyManagementException;
@@ -22,7 +21,6 @@ import javax.net.ssl.X509TrustManager;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.http.HttpStatus;
 
 import com.hientran.sohebox.cache.ConfigCache;
@@ -39,229 +37,217 @@ import com.hientran.sohebox.sco.SearchNumberVO;
 import com.hientran.sohebox.sco.SearchTextVO;
 import com.hientran.sohebox.security.UserService;
 import com.hientran.sohebox.utils.FileUtils;
+import com.hientran.sohebox.utils.MessageUtil;
 import com.hientran.sohebox.utils.MyDateUtils;
 import com.hientran.sohebox.vo.TypeVO;
 
-/**
- * @author hientran
- */
-public class BaseService implements Serializable {
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import lombok.RequiredArgsConstructor;
 
-    private static final long serialVersionUID = 1L;
+@RequiredArgsConstructor
+public class BaseService {
 
-    @Autowired
-    protected ResourceBundleMessageSource messageSource;
+	@PersistenceContext
+	protected EntityManager entityManager;
 
-    @Autowired
-    private UserService userService;
+	@Autowired
+	private UserService userService;
 
-    @Autowired
-    private ConfigCache configCache;
+	@Autowired
+	private ConfigCache configCache;
 
-    @Autowired
-    private UserActivityService userActivityService;
+	@Autowired
+	private UserActivityService userActivityService;
 
-    @Autowired
-    private TypeCache typeCache;
+	@Autowired
+	private TypeCache typeCache;
 
-    @Autowired
-    private RequestExternalService requestExternalService;
+	@Autowired
+	private RequestExternalService requestExternalService;
 
-    /**
-     * 
-     * Build message
-     *
-     * @param messageCode
-     * @param params
-     * @return
-     */
-    protected String buildMessage(String messageCode, Object[] params) {
-        return messageSource.getMessage(messageCode, params, null);
+	/**
+	 * 
+	 * Check data authentication
+	 *
+	 */
+	protected APIResponse<Object> isDataAuthentication(long userID) {
+		// Declare result
+		APIResponse<Object> result = new APIResponse<Object>();
 
-    }
+		// Get current logged user
+		UserTbl loggedUser = userService.getCurrentLoginUser();
 
-    /**
-     * 
-     * Check data authentication
-     *
-     */
-    protected APIResponse<Object> isDataAuthentication(long userID) {
-        // Declare result
-        APIResponse<Object> result = new APIResponse<Object>();
+		// Check authentication if not role creator
+		if (!StringUtils.equals(loggedUser.getRole().getRoleName(), DBConstants.USER_ROLE_CREATOR)) {
 
-        // Get current logged user
-        UserTbl loggedUser = userService.getCurrentLoginUser();
+			// Just return data of logged user
+			if (userID != loggedUser.getId()) {
+				result = new APIResponse<Object>(HttpStatus.BAD_REQUEST,
+						MessageUtil.buildMessage(MessageConstants.UNAUTHORIZED_DATA, null));
+			}
+		}
 
-        // Check authentication if not role creator
-        if (!StringUtils.equals(loggedUser.getRole().getRoleName(), DBConstants.USER_ROLE_CREATOR)) {
+		// Return
+		return result;
 
-            // Just return data of logged user
-            if (userID != loggedUser.getId()) {
-                result = new APIResponse<Object>(HttpStatus.BAD_REQUEST,
-                        buildMessage(MessageConstants.UNAUTHORIZED_DATA, null));
-            }
-        }
+	}
 
-        // Return
-        return result;
+	/**
+	 * 
+	 * Record user activity
+	 *
+	 */
+	protected void recordUserActivity(String activity) {
+		UserTbl userLogin = userService.getCurrentLoginUser();
+		if (userLogin != null) {
+			userActivityService.recordUserActivity(userLogin, activity);
+		}
+	}
 
-    }
+	/**
+	 * Refresh external file
+	 * 
+	 * @throws IOException
+	 * @throws NoSuchAlgorithmException
+	 * @throws KeyManagementException
+	 *
+	 */
+	protected void refreshExternalFile(String filePath)
+			throws IOException, KeyManagementException, NoSuchAlgorithmException {
 
-    /**
-     * 
-     * Record user activity
-     *
-     */
-    protected void recordUserActivity(String activity) {
-        UserTbl userLogin = userService.getCurrentLoginUser();
-        if (userLogin != null) {
-            userActivityService.recordUserActivity(userLogin, activity);
-        }
-    }
+		if (FileUtils.exist(filePath)) {
+			// Check if the file is old
+			File desFile = new File(filePath);
 
-    /**
-     * Refresh external file
-     * 
-     * @throws IOException
-     * @throws NoSuchAlgorithmException
-     * @throws KeyManagementException
-     *
-     */
-    protected void refreshExternalFile(String filePath)
-            throws IOException, KeyManagementException, NoSuchAlgorithmException {
+			Date lastModifiedDate = new Date(desFile.lastModified());
+			long diffInSecond = (new Date().getTime() - lastModifiedDate.getTime()) / 1000;
 
-        if (FileUtils.exist(filePath)) {
-            // Check if the file is old
-            File desFile = new File(filePath);
+			long updateDuration = 0;
+			switch (desFile.getName()) {
+			case DataExternalConstants.REQUEST_DATA_FILE_NAME_VCB:
+				updateDuration = Long
+						.parseLong(configCache.getValueByKey(DataExternalConstants.FINANCE_VCB_LATE_TIME_SECOND));
+				break;
+			case DataExternalConstants.REQUEST_DATA_FILE_NAME_SJC:
+				updateDuration = Long
+						.parseLong(configCache.getValueByKey(DataExternalConstants.FINANCE_SJC_LATE_TIME_SECOND));
+				break;
+			default:
+				break;
+			}
 
-            Date lastModifiedDate = new Date(desFile.lastModified());
-            long diffInSecond = (new Date().getTime() - lastModifiedDate.getTime()) / 1000;
+			if (diffInSecond > updateDuration) {
+				downloadUrlFile(filePath);
+			}
+		} else {
+			// Download new file
+			downloadUrlFile(filePath);
+		}
 
-            long updateDuration = 0;
-            switch (desFile.getName()) {
-            case DataExternalConstants.REQUEST_DATA_FILE_NAME_VCB:
-                updateDuration = Long
-                        .parseLong(configCache.getValueByKey(DataExternalConstants.FINANCE_VCB_LATE_TIME_SECOND));
-                break;
-            case DataExternalConstants.REQUEST_DATA_FILE_NAME_SJC:
-                updateDuration = Long
-                        .parseLong(configCache.getValueByKey(DataExternalConstants.FINANCE_SJC_LATE_TIME_SECOND));
-                break;
-            default:
-                break;
-            }
+	}
 
-            if (diffInSecond > updateDuration) {
-                downloadUrlFile(filePath);
-            }
-        } else {
-            // Download new file
-            downloadUrlFile(filePath);
-        }
+	/**
+	 * Download file from URL
+	 *
+	 * @param filePath
+	 * @throws IOException
+	 * @throws NoSuchAlgorithmException
+	 * @throws KeyManagementException
+	 */
+	private void downloadUrlFile(String filePath) throws IOException, NoSuchAlgorithmException, KeyManagementException {
 
-    }
+		// ========================================================
+		// ==== REMOVE CHECKING CERTIFICATE WHEN DOWNLOAD DATA ====
+		// ========================================================
+		// Create a trust manager that does not validate certificate chains
+		final TrustManager[] trustAllCerts = new TrustManager[] { new X509TrustManager() {
+			@Override
+			public void checkClientTrusted(final X509Certificate[] chain, final String authType) {
+			}
 
-    /**
-     * Download file from URL
-     *
-     * @param filePath
-     * @throws IOException
-     * @throws NoSuchAlgorithmException
-     * @throws KeyManagementException
-     */
-    private void downloadUrlFile(String filePath) throws IOException, NoSuchAlgorithmException, KeyManagementException {
+			@Override
+			public void checkServerTrusted(final X509Certificate[] chain, final String authType) {
+			}
 
-        // ========================================================
-        // ==== REMOVE CHECKING CERTIFICATE WHEN DOWNLOAD DATA ====
-        // ========================================================
-        // Create a trust manager that does not validate certificate chains
-        final TrustManager[] trustAllCerts = new TrustManager[] { new X509TrustManager() {
-            @Override
-            public void checkClientTrusted(final X509Certificate[] chain, final String authType) {
-            }
+			@Override
+			public X509Certificate[] getAcceptedIssuers() {
+				return null;
+			}
+		} };
 
-            @Override
-            public void checkServerTrusted(final X509Certificate[] chain, final String authType) {
-            }
+		// Install the all-trusting trust manager
+		final SSLContext sslContext = SSLContext.getInstance("SSL");
+		sslContext.init(null, trustAllCerts, null);
 
-            @Override
-            public X509Certificate[] getAcceptedIssuers() {
-                return null;
-            }
-        } };
+		// Create an ssl socket factory with our all-trusting manager
+		HttpsURLConnection.setDefaultSSLSocketFactory(sslContext.getSocketFactory());
+		HttpsURLConnection.setDefaultHostnameVerifier(new HostnameVerifier() {
+			public boolean verify(String urlHostName, SSLSession session) {
+				return true;
+			}
+		});
 
-        // Install the all-trusting trust manager
-        final SSLContext sslContext = SSLContext.getInstance("SSL");
-        sslContext.init(null, trustAllCerts, null);
+		// ===============================
+		// ==== PROCESS DOWNLOAD DATA ====
+		// ===============================
+		// Prepare URL
+		URL url = null;
+		switch (new File(filePath).getName()) {
+		case DataExternalConstants.REQUEST_DATA_FILE_NAME_VCB:
+			url = new URL(configCache.getValueByKey(DataExternalConstants.FINANCE_VCB_XML_URL));
+			break;
+		case DataExternalConstants.REQUEST_DATA_FILE_NAME_SJC:
+			url = new URL(configCache.getValueByKey(DataExternalConstants.FINANCE_SJC_XML_URL));
+			break;
+		default:
+			break;
+		}
 
-        // Create an ssl socket factory with our all-trusting manager
-        HttpsURLConnection.setDefaultSSLSocketFactory(sslContext.getSocketFactory());
-        HttpsURLConnection.setDefaultHostnameVerifier(new HostnameVerifier() {
-            public boolean verify(String urlHostName, SSLSession session) {
-                return true;
-            }
-        });
+		// Download
+		if (url != null) {
+			// fool connection to avoid 403
+			HttpURLConnection httpcon = (HttpURLConnection) url.openConnection();
+			httpcon.addRequestProperty("User-Agent", "Mozilla/4.0");
+			InputStream inputStream = httpcon.getInputStream();
 
-        // ===============================
-        // ==== PROCESS DOWNLOAD DATA ====
-        // ===============================
-        // Prepare URL
-        URL url = null;
-        switch (new File(filePath).getName()) {
-        case DataExternalConstants.REQUEST_DATA_FILE_NAME_VCB:
-            url = new URL(configCache.getValueByKey(DataExternalConstants.FINANCE_VCB_XML_URL));
-            break;
-        case DataExternalConstants.REQUEST_DATA_FILE_NAME_SJC:
-            url = new URL(configCache.getValueByKey(DataExternalConstants.FINANCE_SJC_XML_URL));
-            break;
-        default:
-            break;
-        }
+			FileUtils.writeFile(inputStream, new File(filePath));
+		}
+	}
 
-        // Download
-        if (url != null) {
-            // fool connection to avoid 403
-            HttpURLConnection httpcon = (HttpURLConnection) url.openConnection();
-            httpcon.addRequestProperty("User-Agent", "Mozilla/4.0");
-            InputStream inputStream = httpcon.getInputStream();
+	/**
+	 * Check if data is out update
+	 *
+	 * @param string
+	 * @return
+	 */
+	protected boolean dataIsOutUpdate(String url, int lateTimeSecond) {
+		// Declare result
+		boolean result = true;
 
-            FileUtils.writeFile(inputStream, new File(filePath));
-        }
-    }
+		// Search request
+		SearchTextVO requestUrl = new SearchTextVO();
+		requestUrl.setEq(url);
 
-    /**
-     * Check if data is out update
-     *
-     * @param string
-     * @return
-     */
-    protected boolean dataIsOutUpdate(String url, int lateTimeSecond) {
-        // Declare result
-        boolean result = true;
+		TypeVO requestType = typeCache.getType(DBConstants.TYPE_CLASS_REQUEST_EXTERNAL_TYPE,
+				DBConstants.REQUEST_EXTERNAL_TYPE_DATA);
+		SearchNumberVO requestTypeId = new SearchNumberVO();
+		requestTypeId.setEq(requestType.getId().doubleValue());
 
-        // Search request
-        SearchTextVO requestUrl = new SearchTextVO();
-        requestUrl.setEq(url);
+		SearchDateVO createdDate = new SearchDateVO();
+		createdDate.setGe(MyDateUtils.addMinusSecond(new Date(), lateTimeSecond * -1));
 
-        TypeVO requestType = typeCache.getType(DBConstants.TYPE_CLASS_REQUEST_EXTERNAL_TYPE,
-                DBConstants.REQUEST_EXTERNAL_TYPE_DATA);
-        SearchNumberVO requestTypeId = new SearchNumberVO();
-        requestTypeId.setEq(requestType.getId().doubleValue());
+		RequestExternalSCO sco = new RequestExternalSCO();
+		sco.setRequestUrl(requestUrl);
+		sco.setRequestTypeId(requestTypeId);
+		sco.setCreatedDate(createdDate);
+		List<RequestExternalTbl> requests = requestExternalService.search(sco);
 
-        SearchDateVO createdDate = new SearchDateVO();
-        createdDate.setGe(MyDateUtils.addMinusSecond(new Date(), lateTimeSecond * -1));
+		if (CollectionUtils.isNotEmpty(requests)) {
+			result = false;
+		}
 
-        RequestExternalSCO sco = new RequestExternalSCO();
-        sco.setRequestUrl(requestUrl);
-        sco.setRequestTypeId(requestTypeId);
-        sco.setCreatedDate(createdDate);
-        List<RequestExternalTbl> requests = requestExternalService.search(sco);
-
-        if (CollectionUtils.isNotEmpty(requests)) {
-            result = false;
-        }
-
-        // Return
-        return result;
-    }
+		// Return
+		return result;
+	}
 }

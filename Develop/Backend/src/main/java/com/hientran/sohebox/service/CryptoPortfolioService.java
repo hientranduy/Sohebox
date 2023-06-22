@@ -36,6 +36,7 @@ import com.hientran.sohebox.sco.SearchTextVO;
 import com.hientran.sohebox.security.UserService;
 import com.hientran.sohebox.transformer.CryptoPortfolioTransformer;
 import com.hientran.sohebox.transformer.CryptoValidatorTransformer;
+import com.hientran.sohebox.utils.MessageUtil;
 import com.hientran.sohebox.utils.ObjectMapperUtil;
 import com.hientran.sohebox.vo.CryptoPortfolioVO;
 import com.hientran.sohebox.vo.CryptoPortfolioValidatorDelegationVO;
@@ -51,8 +52,6 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional(readOnly = true)
 @Slf4j
 public class CryptoPortfolioService extends BaseService {
-
-    private static final long serialVersionUID = 1L;
 
     @Autowired
     private CryptoPortfolioRepository cryptoPortfolioRepository;
@@ -96,12 +95,12 @@ public class CryptoPortfolioService extends BaseService {
             List<String> errors = new ArrayList<>();
 
             if (vo.getToken() == null) {
-                errors.add(buildMessage(MessageConstants.FILED_EMPTY,
+                errors.add(MessageUtil.buildMessage(MessageConstants.FILED_EMPTY,
                         new String[] { CryptoPortfolioTblEnum.token.name() }));
             }
 
             if (StringUtils.isBlank(vo.getWallet())) {
-                errors.add(buildMessage(MessageConstants.FILED_EMPTY,
+                errors.add(MessageUtil.buildMessage(MessageConstants.FILED_EMPTY,
                         new String[] { CryptoPortfolioTblEnum.wallet.name() }));
             }
 
@@ -117,7 +116,7 @@ public class CryptoPortfolioService extends BaseService {
         // Check existence
         if (result.getStatus() == null) {
             if (recordIsExisted(loggedUser, vo)) {
-                result = new APIResponse<Long>(HttpStatus.BAD_REQUEST, buildMessage(MessageConstants.EXISTED_RECORD,
+                result = new APIResponse<Long>(HttpStatus.BAD_REQUEST, MessageUtil.buildMessage(MessageConstants.EXISTED_RECORD,
                         new String[] { " wallet " + vo.getWallet() + "<token " + vo.getToken().getTokenCode() + ">" }));
             }
         }
@@ -194,12 +193,12 @@ public class CryptoPortfolioService extends BaseService {
             List<String> errors = new ArrayList<>();
 
             if (vo.getToken() == null) {
-                errors.add(buildMessage(MessageConstants.FILED_EMPTY,
+                errors.add(MessageUtil.buildMessage(MessageConstants.FILED_EMPTY,
                         new String[] { CryptoPortfolioTblEnum.token.name() }));
             }
 
             if (StringUtils.isBlank(vo.getWallet())) {
-                errors.add(buildMessage(MessageConstants.FILED_EMPTY,
+                errors.add(MessageUtil.buildMessage(MessageConstants.FILED_EMPTY,
                         new String[] { CryptoPortfolioTblEnum.wallet.name() }));
             }
 
@@ -215,7 +214,7 @@ public class CryptoPortfolioService extends BaseService {
         // Get updated account
         CryptoPortfolioTbl updateTbl = getTokenPortfolioByUser(loggedUser, vo.getId());
         if (updateTbl == null) {
-            result = new APIResponse<Long>(HttpStatus.BAD_REQUEST, buildMessage(MessageConstants.INEXISTED_RECORD,
+            result = new APIResponse<Long>(HttpStatus.BAD_REQUEST, MessageUtil.buildMessage(MessageConstants.INEXISTED_RECORD,
                     new String[] { "portfolio token " + vo.getToken().getTokenCode() }));
         }
 
@@ -334,7 +333,7 @@ public class CryptoPortfolioService extends BaseService {
                         }
                     } catch (Exception e) {
                         return new APIResponse<Object>(HttpStatus.BAD_REQUEST,
-                                buildMessage(MessageConstants.ERROR_EXCEPTION, new String[] { e.getMessage() }));
+                        		MessageUtil.buildMessage(MessageConstants.ERROR_EXCEPTION, new String[] { e.getMessage() }));
                     }
                 }
             }
@@ -505,7 +504,7 @@ public class CryptoPortfolioService extends BaseService {
             result.setData(vo);
         } else {
             result = new APIResponse<Object>(HttpStatus.BAD_REQUEST,
-                    buildMessage(MessageConstants.INEXISTED_RECORD, new String[] { "token" }));
+            		MessageUtil.buildMessage(MessageConstants.INEXISTED_RECORD, new String[] { "token" }));
         }
 
         // Return
@@ -529,13 +528,13 @@ public class CryptoPortfolioService extends BaseService {
         Optional<CryptoPortfolioTbl> deleteItemTbl = cryptoPortfolioRepository.findById(id);
         if (!deleteItemTbl.isPresent()) {
             result = new APIResponse<Object>(HttpStatus.BAD_REQUEST,
-                    buildMessage(MessageConstants.UNAUTHORIZED_DATA, null));
+            		MessageUtil.buildMessage(MessageConstants.UNAUTHORIZED_DATA, null));
         }
 
         // Check logged user have permission to delete
         if (result.getStatus() == null && !userService.isDataOwner(deleteItemTbl.get().getUser().getUsername())) {
             result = new APIResponse<Object>(HttpStatus.BAD_REQUEST,
-                    buildMessage(MessageConstants.UNAUTHORIZED_DATA, null));
+            		MessageUtil.buildMessage(MessageConstants.UNAUTHORIZED_DATA, null));
         }
 
         // Process delete

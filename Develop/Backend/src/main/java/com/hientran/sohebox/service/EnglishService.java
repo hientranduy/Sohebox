@@ -41,6 +41,7 @@ import com.hientran.sohebox.security.UserService;
 import com.hientran.sohebox.transformer.EnglishTransformer;
 import com.hientran.sohebox.transformer.EnglishTypeTransformer;
 import com.hientran.sohebox.utils.FileUtils;
+import com.hientran.sohebox.utils.MessageUtil;
 import com.hientran.sohebox.vo.DownloadFileVO;
 import com.hientran.sohebox.vo.EnglishLearnReportVO;
 import com.hientran.sohebox.vo.EnglishTypeVO;
@@ -53,8 +54,6 @@ import com.hientran.sohebox.vo.PageResultVO;
 @Service
 @Transactional(readOnly = true)
 public class EnglishService extends BaseService {
-
-    private static final long serialVersionUID = 1L;
 
     @Autowired
     private EnglishRepository englishRepository;
@@ -96,28 +95,28 @@ public class EnglishService extends BaseService {
 
             // Keyword must not null
             if (StringUtils.isBlank(vo.getKeyWord())) {
-                errors.add(buildMessage(MessageConstants.FILED_EMPTY, new String[] { EnglishTblEnum.keyWord.name() }));
+                errors.add(MessageUtil.buildMessage(MessageConstants.FILED_EMPTY, new String[] { EnglishTblEnum.keyWord.name() }));
             }
 
             // Category must not null
             if (vo.getCategory() == null) {
-                errors.add(buildMessage(MessageConstants.FILED_EMPTY, new String[] { EnglishTblEnum.category.name() }));
+                errors.add(MessageUtil.buildMessage(MessageConstants.FILED_EMPTY, new String[] { EnglishTblEnum.category.name() }));
             }
 
             // Image file must not null
             if (StringUtils.isBlank(vo.getImageFile())) {
                 errors.add(
-                        buildMessage(MessageConstants.FILED_EMPTY, new String[] { EnglishTblEnum.imageFile.name() }));
+                        MessageUtil.buildMessage(MessageConstants.FILED_EMPTY, new String[] { EnglishTblEnum.imageFile.name() }));
             }
 
             // Vus grade must not null
             if (vo.getVusGrade() == null) {
-                errors.add(buildMessage(MessageConstants.FILED_EMPTY, new String[] { EnglishTblEnum.vusGrade.name() }));
+                errors.add(MessageUtil.buildMessage(MessageConstants.FILED_EMPTY, new String[] { EnglishTblEnum.vusGrade.name() }));
             }
 
             // learn day must not null
             if (vo.getLearnDay() == null) {
-                errors.add(buildMessage(MessageConstants.FILED_EMPTY, new String[] { EnglishTblEnum.learnDay.name() }));
+                errors.add(MessageUtil.buildMessage(MessageConstants.FILED_EMPTY, new String[] { EnglishTblEnum.learnDay.name() }));
             }
 
             // Record error
@@ -129,7 +128,7 @@ public class EnglishService extends BaseService {
         // Check if record existed already
         if (result.getStatus() == null) {
             if (recordIsExisted(vo.getKeyWord())) {
-                result = new APIResponse<Long>(HttpStatus.BAD_REQUEST, buildMessage(MessageConstants.EXISTED_RECORD,
+                result = new APIResponse<Long>(HttpStatus.BAD_REQUEST, MessageUtil.buildMessage(MessageConstants.EXISTED_RECORD,
                         new String[] { "word <" + vo.getKeyWord() + ">" }));
             }
         }
@@ -144,7 +143,7 @@ public class EnglishService extends BaseService {
                     updateImage(vo.getImageFile(), imageName);
                 } catch (Exception e) {
                     result = new APIResponse<Long>(HttpStatus.BAD_REQUEST,
-                            buildMessage(MessageConstants.ERROR_EXCEPTION, new String[] { e.getMessage() }));
+                            MessageUtil.buildMessage(MessageConstants.ERROR_EXCEPTION, new String[] { e.getMessage() }));
                 }
 
             }
@@ -247,7 +246,7 @@ public class EnglishService extends BaseService {
 
             // Keyword must not null
             if (StringUtils.isBlank(vo.getKeyWord())) {
-                errors.add(buildMessage(MessageConstants.FILED_EMPTY, new String[] { EnglishTblEnum.keyWord.name() }));
+                errors.add(MessageUtil.buildMessage(MessageConstants.FILED_EMPTY, new String[] { EnglishTblEnum.keyWord.name() }));
             }
 
             // Record error
@@ -261,7 +260,7 @@ public class EnglishService extends BaseService {
         if (result.getStatus() == null) {
             updateTbl = getByKey(vo.getKeyWord());
             if (updateTbl == null) {
-                result = new APIResponse<Long>(HttpStatus.BAD_REQUEST, buildMessage(MessageConstants.INEXISTED_RECORD,
+                result = new APIResponse<Long>(HttpStatus.BAD_REQUEST, MessageUtil.buildMessage(MessageConstants.INEXISTED_RECORD,
                         new String[] { "word <" + vo.getKeyWord() + ">" }));
             }
         }
@@ -278,7 +277,7 @@ public class EnglishService extends BaseService {
                     updateImage(vo.getImageFile(), imageName);
                 } catch (Exception e) {
                     result = new APIResponse<Long>(HttpStatus.BAD_REQUEST,
-                            buildMessage(MessageConstants.ERROR_EXCEPTION, new String[] { e.getMessage() }));
+                            MessageUtil.buildMessage(MessageConstants.ERROR_EXCEPTION, new String[] { e.getMessage() }));
                 }
             }
         }
@@ -372,7 +371,7 @@ public class EnglishService extends BaseService {
             result.setData(vo);
         } else {
             result = new APIResponse<Object>(HttpStatus.BAD_REQUEST,
-                    buildMessage(MessageConstants.INEXISTED_RECORD, new String[] { "english" }));
+                    MessageUtil.buildMessage(MessageConstants.INEXISTED_RECORD, new String[] { "english" }));
         }
 
         // Return
@@ -533,7 +532,7 @@ public class EnglishService extends BaseService {
         APIResponse<Object> result = new APIResponse<Object>();
 
         // Get data
-        List<Object[]> searchResult = englishRepository.findLowLearn(sco);
+        List<Object[]> searchResult = englishRepository.findLowLearn(sco, entityManager);
 
         // Transformer
         if (CollectionUtils.isNotEmpty(searchResult)) {
@@ -594,7 +593,7 @@ public class EnglishService extends BaseService {
 
         } catch (Exception e) {
             result = new APIResponse<Object>(HttpStatus.BAD_REQUEST,
-                    buildMessage(MessageConstants.ERROR_EXCEPTION, new String[] { e.getMessage() }));
+                    MessageUtil.buildMessage(MessageConstants.ERROR_EXCEPTION, new String[] { e.getMessage() }));
         }
 
         // Return
@@ -614,7 +613,7 @@ public class EnglishService extends BaseService {
 
         if (result.getStatus() == null) {
             // Get data
-            List<Object[]> searchResult = englishRepository.findTopLearn(numberUser);
+            List<Object[]> searchResult = englishRepository.findTopLearn(numberUser, entityManager);
 
             // Transformer
             if (CollectionUtils.isNotEmpty(searchResult)) {

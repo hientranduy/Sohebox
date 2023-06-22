@@ -23,6 +23,7 @@ import com.hientran.sohebox.sco.EnglishLearnRecordSCO;
 import com.hientran.sohebox.sco.SearchNumberVO;
 import com.hientran.sohebox.security.UserService;
 import com.hientran.sohebox.transformer.EnglishLearnRecordTransformer;
+import com.hientran.sohebox.utils.MessageUtil;
 import com.hientran.sohebox.vo.EnglishLearnRecordVO;
 import com.hientran.sohebox.vo.PageResultVO;
 
@@ -32,8 +33,6 @@ import com.hientran.sohebox.vo.PageResultVO;
 @Service
 @Transactional(readOnly = true)
 public class EnglishLearnRecordService extends BaseService {
-
-    private static final long serialVersionUID = 1L;
 
     @Autowired
     private EnglishLearnRecordRepository englishLearnRecordRepository;
@@ -65,13 +64,13 @@ public class EnglishLearnRecordService extends BaseService {
 
             // user must not null
             if (vo.getUser() == null) {
-                errors.add(buildMessage(MessageConstants.FILED_EMPTY,
+                errors.add(MessageUtil.buildMessage(MessageConstants.FILED_EMPTY,
                         new String[] { EnglishLearnRecordTblEnum.user.name() }));
             }
 
             // english must not null
             if (vo.getEnglish() == null) {
-                errors.add(buildMessage(MessageConstants.FILED_EMPTY,
+                errors.add(MessageUtil.buildMessage(MessageConstants.FILED_EMPTY,
                         new String[] { EnglishLearnRecordTblEnum.english.name() }));
             }
 
@@ -85,14 +84,14 @@ public class EnglishLearnRecordService extends BaseService {
         UserTbl userTbl = userService.getTblByUserName(vo.getUser().getUsername());
         if (result.getStatus() == null && userTbl == null) {
             result = new APIResponse<Long>(HttpStatus.BAD_REQUEST,
-                    buildMessage(MessageConstants.INEXISTED_USERNAME, new String[] { vo.getUser().getUsername() }));
+                    MessageUtil.buildMessage(MessageConstants.INEXISTED_USERNAME, new String[] { vo.getUser().getUsername() }));
         }
 
         // Check if english word is existed
         EnglishTbl englishTbl = englishService.getByKey(vo.getEnglish().getKeyWord());
         if (result.getStatus() == null && englishTbl == null) {
             result = new APIResponse<Long>(HttpStatus.BAD_REQUEST,
-                    buildMessage(MessageConstants.INEXISTED_RECORD, new String[] { vo.getEnglish().getKeyWord() }));
+                    MessageUtil.buildMessage(MessageConstants.INEXISTED_RECORD, new String[] { vo.getEnglish().getKeyWord() }));
         }
 
         // Get the old record

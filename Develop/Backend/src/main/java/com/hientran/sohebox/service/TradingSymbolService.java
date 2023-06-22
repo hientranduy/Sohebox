@@ -26,6 +26,7 @@ import com.hientran.sohebox.sco.TradingSymbolSCO;
 import com.hientran.sohebox.specification.TradingSymbolSpecs;
 import com.hientran.sohebox.transformer.TradingSymbolTransformer;
 import com.hientran.sohebox.transformer.TypeTransformer;
+import com.hientran.sohebox.utils.MessageUtil;
 import com.hientran.sohebox.vo.PageResultVO;
 import com.hientran.sohebox.vo.TradingSymbolVO;
 import com.hientran.sohebox.vo.TypeVO;
@@ -36,8 +37,6 @@ import com.hientran.sohebox.vo.TypeVO;
 @Service
 @Transactional(readOnly = true)
 public class TradingSymbolService extends BaseService {
-
-    private static final long serialVersionUID = 1L;
 
     @Autowired
     private TradingSymbolRepository tradingSymbolRepository;
@@ -76,25 +75,25 @@ public class TradingSymbolService extends BaseService {
 
             // Symbol
             if (StringUtils.isBlank(vo.getSymbol())) {
-                errors.add(buildMessage(MessageConstants.FILED_EMPTY,
+                errors.add(MessageUtil.buildMessage(MessageConstants.FILED_EMPTY,
                         new String[] { TradingSymbolTblEnum.symbol.name() }));
             }
 
             // Name
             if (StringUtils.isBlank(vo.getName())) {
                 errors.add(
-                        buildMessage(MessageConstants.FILED_EMPTY, new String[] { TradingSymbolTblEnum.name.name() }));
+                        MessageUtil.buildMessage(MessageConstants.FILED_EMPTY, new String[] { TradingSymbolTblEnum.name.name() }));
             }
 
             // Symbol type
             if (vo.getSymbolType() == null) {
-                errors.add(buildMessage(MessageConstants.FILED_EMPTY,
+                errors.add(MessageUtil.buildMessage(MessageConstants.FILED_EMPTY,
                         new String[] { TradingSymbolTblEnum.symbolType.name() }));
             }
 
             // Country
             if (vo.getCountry() == null) {
-                errors.add(buildMessage(MessageConstants.FILED_EMPTY,
+                errors.add(MessageUtil.buildMessage(MessageConstants.FILED_EMPTY,
                         new String[] { TradingSymbolTblEnum.country.name() }));
             }
 
@@ -107,7 +106,7 @@ public class TradingSymbolService extends BaseService {
         // Check if record existed already
         if (result.getStatus() == null) {
             if (recordIsExisted(vo.getSymbol())) {
-                result = new APIResponse<Long>(HttpStatus.BAD_REQUEST, buildMessage(MessageConstants.EXISTED_RECORD,
+                result = new APIResponse<Long>(HttpStatus.BAD_REQUEST, MessageUtil.buildMessage(MessageConstants.EXISTED_RECORD,
                         new String[] { "symbol <" + vo.getSymbol() + ">" }));
             }
         }
