@@ -1,21 +1,18 @@
 package com.hientran.sohebox.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import lombok.RequiredArgsConstructor;
 
 /**
  * @author hientran
  */
 @Service
+@RequiredArgsConstructor
 public class SchedulerService extends BaseService {
 
-	private static final long serialVersionUID = 1L;
-
-	@Autowired
-	private EnglishLearnReportService englishLearnReportService;
-
-	@Autowired
-	private CryptoPortfolioHistoryService cryptoPortfolioHistoryService;
+	private final EnglishLearnReportService englishLearnReportService;
+	private final CryptoPortfolioHistoryService cryptoPortfolioHistoryService;
 
 	/**
 	 * Extend english learn report

@@ -7,7 +7,6 @@ import java.util.Optional;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -15,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.hientran.sohebox.cache.TypeCache;
 import com.hientran.sohebox.constants.DBConstants;
-import com.hientran.sohebox.constants.MessageConstants;
+import com.hientran.sohebox.constants.ResponseCode;
 import com.hientran.sohebox.constants.enums.TradingSymbolTblEnum;
 import com.hientran.sohebox.entity.CountryTbl;
 import com.hientran.sohebox.entity.TradingSymbolTbl;
@@ -26,197 +25,184 @@ import com.hientran.sohebox.sco.TradingSymbolSCO;
 import com.hientran.sohebox.specification.TradingSymbolSpecs;
 import com.hientran.sohebox.transformer.TradingSymbolTransformer;
 import com.hientran.sohebox.transformer.TypeTransformer;
-import com.hientran.sohebox.utils.MessageUtil;
 import com.hientran.sohebox.vo.PageResultVO;
 import com.hientran.sohebox.vo.TradingSymbolVO;
 import com.hientran.sohebox.vo.TypeVO;
+
+import lombok.RequiredArgsConstructor;
 
 /**
  * @author hientran
  */
 @Service
 @Transactional(readOnly = true)
+@RequiredArgsConstructor
 public class TradingSymbolService extends BaseService {
 
-    @Autowired
-    private TradingSymbolRepository tradingSymbolRepository;
+	private final TradingSymbolRepository tradingSymbolRepository;
+	private final TradingSymbolTransformer tradingSymbolTransformer;
+	private final CountryService countryService;
+	private final TypeCache typeCache;
+	private final TypeTransformer typeTransformer;
+	private final TradingSymbolSpecs tradingSymbolSpecs;
 
-    @Autowired
-    private TradingSymbolTransformer tradingSymbolTransformer;
+	/**
+	 * 
+	 * Create
+	 * 
+	 * @param vo
+	 * @return
+	 * @throws IOException
+	 */
+	@Transactional(readOnly = false, rollbackFor = Exception.class)
+	public APIResponse<Long> create(TradingSymbolVO vo) {
+		// Declare result
+		APIResponse<Long> result = new APIResponse<Long>();
 
-    @Autowired
-    private CountryService countryService;
+		// Validate input
+		if (result.getStatus() == null) {
+			List<String> errors = new ArrayList<>();
 
-    @Autowired
-    private TypeCache typeCache;
+			// Symbol
+			if (StringUtils.isBlank(vo.getSymbol())) {
+				errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, TradingSymbolTblEnum.symbol.name()));
+			}
 
-    @Autowired
-    private TypeTransformer typeTransformer;
+			// Name
+			if (StringUtils.isBlank(vo.getName())) {
+				errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, TradingSymbolTblEnum.name.name()));
+			}
 
-    @Autowired
-    private TradingSymbolSpecs tradingSymbolSpecs;
+			// Symbol type
+			if (vo.getSymbolType() == null) {
+				errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, TradingSymbolTblEnum.symbolType.name()));
+			}
 
-    /**
-     * 
-     * Create
-     * 
-     * @param vo
-     * @return
-     * @throws IOException
-     */
-    @Transactional(readOnly = false, rollbackFor = Exception.class)
-    public APIResponse<Long> create(TradingSymbolVO vo) {
-        // Declare result
-        APIResponse<Long> result = new APIResponse<Long>();
+			// Country
+			if (vo.getCountry() == null) {
+				errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, TradingSymbolTblEnum.country.name()));
+			}
 
-        // Validate input
-        if (result.getStatus() == null) {
-            List<String> errors = new ArrayList<>();
+			// Record error
+			if (CollectionUtils.isNotEmpty(errors)) {
+				result = new APIResponse<Long>(HttpStatus.BAD_REQUEST, errors);
+			}
+		}
 
-            // Symbol
-            if (StringUtils.isBlank(vo.getSymbol())) {
-                errors.add(MessageUtil.buildMessage(MessageConstants.FILED_EMPTY,
-                        new String[] { TradingSymbolTblEnum.symbol.name() }));
-            }
+		// Check if record existed already
+		if (result.getStatus() == null) {
+			if (recordIsExisted(vo.getSymbol())) {
+				result = new APIResponse<Long>(HttpStatus.BAD_REQUEST,
+						ResponseCode.mapParam(ResponseCode.EXISTED_RECORD, "symbol <" + vo.getSymbol() + ">"));
+			}
+		}
 
-            // Name
-            if (StringUtils.isBlank(vo.getName())) {
-                errors.add(
-                        MessageUtil.buildMessage(MessageConstants.FILED_EMPTY, new String[] { TradingSymbolTblEnum.name.name() }));
-            }
+		/////////////////////
+		// Record new word //
+		/////////////////////
+		if (result.getStatus() == null) {
+			// Transform
+			TradingSymbolTbl tbl = tradingSymbolTransformer.convertToTbl(vo);
 
-            // Symbol type
-            if (vo.getSymbolType() == null) {
-                errors.add(MessageUtil.buildMessage(MessageConstants.FILED_EMPTY,
-                        new String[] { TradingSymbolTblEnum.symbolType.name() }));
-            }
+			// Set symbol type
+			TypeVO symbolType = typeCache.getType(DBConstants.TYPE_CLASS_TRADING_SYMBOL_TYPE,
+					vo.getSymbolType().getTypeCode());
+			tbl.setSymbolType(typeTransformer.convertToTypeTbl(symbolType));
 
-            // Country
-            if (vo.getCountry() == null) {
-                errors.add(MessageUtil.buildMessage(MessageConstants.FILED_EMPTY,
-                        new String[] { TradingSymbolTblEnum.country.name() }));
-            }
+			// Set country
+			CountryTbl country = countryService.get(vo.getCountry().getName());
+			tbl.setCountry(country);
 
-            // Record error
-            if (CollectionUtils.isNotEmpty(errors)) {
-                result = new APIResponse<Long>(HttpStatus.BAD_REQUEST, errors);
-            }
-        }
+			// Create User
+			tbl = tradingSymbolRepository.save(tbl);
 
-        // Check if record existed already
-        if (result.getStatus() == null) {
-            if (recordIsExisted(vo.getSymbol())) {
-                result = new APIResponse<Long>(HttpStatus.BAD_REQUEST, MessageUtil.buildMessage(MessageConstants.EXISTED_RECORD,
-                        new String[] { "symbol <" + vo.getSymbol() + ">" }));
-            }
-        }
+			// Set id return
+			result.setData(tbl.getId());
 
-        /////////////////////
-        // Record new word //
-        /////////////////////
-        if (result.getStatus() == null) {
-            // Transform
-            TradingSymbolTbl tbl = tradingSymbolTransformer.convertToTbl(vo);
+		}
 
-            // Set symbol type
-            TypeVO symbolType = typeCache.getType(DBConstants.TYPE_CLASS_TRADING_SYMBOL_TYPE,
-                    vo.getSymbolType().getTypeCode());
-            tbl.setSymbolType(typeTransformer.convertToTypeTbl(symbolType));
+		// Return
+		return result;
+	}
 
-            // Set country
-            CountryTbl country = countryService.get(vo.getCountry().getName());
-            tbl.setCountry(country);
+	/**
+	 * Search
+	 * 
+	 * @param sco
+	 * @return
+	 */
+	@Transactional(readOnly = false, rollbackFor = Exception.class)
+	public APIResponse<Object> search(TradingSymbolSCO sco) {
+		// Declare result
+		APIResponse<Object> result = new APIResponse<Object>();
 
-            // Create User
-            tbl = tradingSymbolRepository.save(tbl);
+		// Get data
+		Page<TradingSymbolTbl> page = tradingSymbolRepository.findAll(sco);
 
-            // Set id return
-            result.setData(tbl.getId());
+		// Transformer
+		PageResultVO<TradingSymbolVO> data = tradingSymbolTransformer.convertToPageReturn(page);
 
-        }
+		// Set data return
+		result.setData(data);
 
-        // Return
-        return result;
-    }
+		// Write activity type "TradingSymbol access"
+		recordUserActivity(DBConstants.USER_ACTIVITY_ENGLISH_ACCESS);
 
-    /**
-     * Search
-     * 
-     * @param sco
-     * @return
-     */
-    @Transactional(readOnly = false, rollbackFor = Exception.class)
-    public APIResponse<Object> search(TradingSymbolSCO sco) {
-        // Declare result
-        APIResponse<Object> result = new APIResponse<Object>();
+		// Return
+		return result;
+	}
 
-        // Get data
-        Page<TradingSymbolTbl> page = tradingSymbolRepository.findAll(sco);
+	/**
+	 * 
+	 * Check if record is existed
+	 *
+	 * @param keyWord
+	 * @return
+	 */
+	private boolean recordIsExisted(String symbol) {
+		// Declare result
+		Boolean result = false;
 
-        // Transformer
-        PageResultVO<TradingSymbolVO> data = tradingSymbolTransformer.convertToPageReturn(page);
+		SearchTextVO symbolSearch = new SearchTextVO();
+		symbolSearch.setEq(symbol);
 
-        // Set data return
-        result.setData(data);
+		TradingSymbolSCO sco = new TradingSymbolSCO();
+		sco.setSymbol(symbolSearch);
 
-        // Write activity type "TradingSymbol access"
-        recordUserActivity(DBConstants.USER_ACTIVITY_ENGLISH_ACCESS);
+		// Get data
+		List<TradingSymbolTbl> list = tradingSymbolRepository.findAll(sco).getContent();
+		if (CollectionUtils.isNotEmpty(list)) {
+			result = true;
+		}
 
-        // Return
-        return result;
-    }
+		// Return
+		return result;
+	}
 
-    /**
-     * 
-     * Check if record is existed
-     *
-     * @param keyWord
-     * @return
-     */
-    private boolean recordIsExisted(String symbol) {
-        // Declare result
-        Boolean result = false;
+	/**
+	 * Get trading symbol
+	 * 
+	 * @param sco
+	 * @return
+	 */
+	public TradingSymbolTbl getTradingSymbol(String tradingSymbol) {
+		// Declare result
+		TradingSymbolTbl result = null;
 
-        SearchTextVO symbolSearch = new SearchTextVO();
-        symbolSearch.setEq(symbol);
+		// Get data
+		SearchTextVO symbolSearch = new SearchTextVO();
+		symbolSearch.setEq(tradingSymbol);
+		TradingSymbolSCO sco = new TradingSymbolSCO();
+		sco.setSymbol(symbolSearch);
 
-        TradingSymbolSCO sco = new TradingSymbolSCO();
-        sco.setSymbol(symbolSearch);
+		Optional<TradingSymbolTbl> tbl = tradingSymbolRepository.findOne(tradingSymbolSpecs.buildSpecification(sco));
 
-        // Get data
-        List<TradingSymbolTbl> list = tradingSymbolRepository.findAll(sco).getContent();
-        if (CollectionUtils.isNotEmpty(list)) {
-            result = true;
-        }
+		// Transformer
+		if (tbl.isPresent()) {
+			result = tbl.get();
+		}
 
-        // Return
-        return result;
-    }
-
-    /**
-     * Get trading symbol
-     * 
-     * @param sco
-     * @return
-     */
-    public TradingSymbolTbl getTradingSymbol(String tradingSymbol) {
-        // Declare result
-        TradingSymbolTbl result = null;
-
-        // Get data
-        SearchTextVO symbolSearch = new SearchTextVO();
-        symbolSearch.setEq(tradingSymbol);
-        TradingSymbolSCO sco = new TradingSymbolSCO();
-        sco.setSymbol(symbolSearch);
-
-        Optional<TradingSymbolTbl> tbl = tradingSymbolRepository.findOne(tradingSymbolSpecs.buildSpecification(sco));
-
-        // Transformer
-        if (tbl.isPresent()) {
-            result = tbl.get();
-        }
-
-        // Return
-        return result;
-    }
+		// Return
+		return result;
+	}
 }

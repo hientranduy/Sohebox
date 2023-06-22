@@ -185,23 +185,6 @@ public class UserRestController {
 
 	/**
 	 * 
-	 * Delete by ID
-	 *
-	 * @param id
-	 * @return
-	 */
-	@DeleteMapping(ApiPublicConstants.API_USER + ApiPublicConstants.ID)
-	public ResponseEntity<?> deleteUserById(@PathVariable(value = "id") Long id) {
-		// Delete
-		APIResponse<?> result = userService.deleteById(id);
-
-		// Return
-		return new ResponseEntity<>(result, new HttpHeaders(),
-				result.getStatus() != null ? result.getStatus() : HttpStatus.OK);
-	}
-
-	/**
-	 * 
 	 * Logout
 	 *
 	 * @param vo

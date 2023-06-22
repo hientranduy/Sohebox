@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,67 +18,61 @@ import com.hientran.sohebox.transformer.TypeTransformer;
 import com.hientran.sohebox.vo.RequestExternalVO;
 import com.hientran.sohebox.vo.TypeVO;
 
+import lombok.RequiredArgsConstructor;
+
 /**
  * @author hientran
  */
 @Service
 @Transactional(readOnly = true)
+@RequiredArgsConstructor
 public class RequestExternalService extends BaseService {
 
-    private static final long serialVersionUID = 1L;
+	private final RequestExternalRepository requestExternalRepository;
+	private final RequestExternalTransformer requestExternalTransformer;
+	private final TypeCache typeCache;
+	private final TypeTransformer typeTransformer;
 
-    @Autowired
-    private RequestExternalRepository requestExternalRepository;
+	/**
+	 * 
+	 * Create
+	 * 
+	 */
+	@Transactional(readOnly = false, rollbackFor = Exception.class)
+	public void create(RequestExternalVO vo) throws Exception {
 
-    @Autowired
-    private RequestExternalTransformer requestExternalTransformer;
+		// Transform
+		RequestExternalTbl tbl = requestExternalTransformer.convertToTbl(vo);
 
-    @Autowired
-    private TypeCache typeCache;
+		tbl.setCreatedDate(new Date());
+		tbl.setNote(vo.getNote());
+		tbl.setRequestUrl(vo.getRequestUrl());
+		TypeVO requestType = typeCache.getType(DBConstants.TYPE_CLASS_REQUEST_EXTERNAL_TYPE,
+				vo.getRequestType().getTypeCode());
+		tbl.setRequestType(typeTransformer.convertToTypeTbl(requestType));
 
-    @Autowired
-    private TypeTransformer typeTransformer;
+		requestExternalRepository.save(tbl);
+	}
 
-    /**
-     * 
-     * Create
-     * 
-     */
-    @Transactional(readOnly = false, rollbackFor = Exception.class)
-    public void create(RequestExternalVO vo) throws Exception {
+	/**
+	 * Search
+	 * 
+	 */
+	@Transactional(readOnly = false, rollbackFor = Exception.class)
+	public List<RequestExternalTbl> search(RequestExternalSCO sco) {
+		// Declare result
+		List<RequestExternalTbl> result = null;
 
-        // Transform
-        RequestExternalTbl tbl = requestExternalTransformer.convertToTbl(vo);
+		// Get data
+		Page<RequestExternalTbl> page = requestExternalRepository.findAll(sco);
 
-        tbl.setCreatedDate(new Date());
-        tbl.setNote(vo.getNote());
-        tbl.setRequestUrl(vo.getRequestUrl());
-        TypeVO requestType = typeCache.getType(DBConstants.TYPE_CLASS_REQUEST_EXTERNAL_TYPE,
-                vo.getRequestType().getTypeCode());
-        tbl.setRequestType(typeTransformer.convertToTypeTbl(requestType));
+		// Transformer
+		if (page.getContent() != null && CollectionUtils.isNotEmpty(page.getContent())) {
+			result = page.getContent();
+		}
 
-        requestExternalRepository.save(tbl);
-    }
-
-    /**
-     * Search
-     * 
-     */
-    @Transactional(readOnly = false, rollbackFor = Exception.class)
-    public List<RequestExternalTbl> search(RequestExternalSCO sco) {
-        // Declare result
-        List<RequestExternalTbl> result = null;
-
-        // Get data
-        Page<RequestExternalTbl> page = requestExternalRepository.findAll(sco);
-
-        // Transformer
-        if (page.getContent() != null && CollectionUtils.isNotEmpty(page.getContent())) {
-            result = page.getContent();
-        }
-
-        // Return
-        return result;
-    }
+		// Return
+		return result;
+	}
 
 }

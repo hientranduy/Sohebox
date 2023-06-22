@@ -42,6 +42,8 @@ public class ApiPublicConstants implements Serializable {
     // API //
     /////////
 
+    public static final String API_ROLE = "/role";
+    
     public static final String API_USER = "/users";
 
     public static final String API_ACCOUNT = "/accounts";

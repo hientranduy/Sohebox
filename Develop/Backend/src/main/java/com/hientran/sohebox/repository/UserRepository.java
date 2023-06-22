@@ -20,6 +20,8 @@ import com.hientran.sohebox.specification.UserSpecs;
  */
 public interface UserRepository
         extends JpaRepository<UserTbl, Long>, JpaSpecificationExecutor<UserTbl>, BaseRepository {
+	
+	UserTbl findFirstByUsername(String username);
 
     UserSpecs specs = new UserSpecs();
 

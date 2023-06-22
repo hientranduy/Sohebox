@@ -6,7 +6,6 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -15,7 +14,7 @@ import org.springframework.util.CollectionUtils;
 
 import com.hazelcast.core.HazelcastInstance;
 import com.hientran.sohebox.constants.DBConstants;
-import com.hientran.sohebox.constants.MessageConstants;
+import com.hientran.sohebox.constants.ResponseCode;
 import com.hientran.sohebox.constants.enums.TypeTblEnum;
 import com.hientran.sohebox.entity.TypeTbl;
 import com.hientran.sohebox.exception.APIResponse;
@@ -35,17 +34,10 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class TypeCache extends BaseCache {
 
-	@Autowired
-	private TypeRepository typeRepository;
-
-	@Autowired
-	private TypeTransformer typeTransformer;
-
-	@Autowired
-	private TypeSpecs typeSpecs;
-
-	@Autowired
-	private HazelcastInstance instance;
+	private final TypeRepository typeRepository;
+	private final TypeTransformer typeTransformer;
+	private final TypeSpecs typeSpecs;
+	private final HazelcastInstance instance;
 
 	/**
 	 * 
@@ -288,17 +280,17 @@ public class TypeCache extends BaseCache {
 
 			// Type Class must be not null
 			if (StringUtils.isBlank(vo.getTypeClass())) {
-				errors.add(buildMessage(MessageConstants.FILED_EMPTY, new String[] { TypeTblEnum.typeClass.name() }));
+				errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, TypeTblEnum.typeClass.name()));
 			}
 
 			// Type Code must be not null
 			if (StringUtils.isBlank(vo.getTypeCode())) {
-				errors.add(buildMessage(MessageConstants.FILED_EMPTY, new String[] { TypeTblEnum.typeCode.name() }));
+				errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, TypeTblEnum.typeCode.name()));
 			}
 
 			// Type Name must be not null
 			if (StringUtils.isBlank(vo.getTypeName())) {
-				errors.add(buildMessage(MessageConstants.FILED_EMPTY, new String[] { TypeTblEnum.typeName.name() }));
+				errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, TypeTblEnum.typeName.name()));
 			}
 
 			// Record error
@@ -330,7 +322,7 @@ public class TypeCache extends BaseCache {
 		Optional<TypeTbl> tbl = typeRepository.findById(id);
 		if (!tbl.isPresent()) {
 			result = new APIResponse<Object>(HttpStatus.BAD_REQUEST,
-					buildMessage(MessageConstants.INEXISTED_RECORD, new String[] { "type" }));
+					ResponseCode.mapParam(ResponseCode.INEXISTED_RECORD, "type"));
 		} else {
 			// Set return data
 			TypeVO vo = typeTransformer.convertToTypeVO(tbl.get());
@@ -359,17 +351,17 @@ public class TypeCache extends BaseCache {
 
 			// Type class must be not null
 			if (StringUtils.isBlank(vo.getTypeClass())) {
-				errors.add(buildMessage(MessageConstants.FILED_EMPTY, new String[] { TypeTblEnum.typeClass.name() }));
+				errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, TypeTblEnum.typeClass.name()));
 			}
 
 			// Type code must be not null
 			if (StringUtils.isBlank(vo.getTypeCode())) {
-				errors.add(buildMessage(MessageConstants.FILED_EMPTY, new String[] { TypeTblEnum.typeCode.name() }));
+				errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, TypeTblEnum.typeCode.name()));
 			}
 
 			// Type name must be not null
 			if (StringUtils.isBlank(vo.getTypeName())) {
-				errors.add(buildMessage(MessageConstants.FILED_EMPTY, new String[] { TypeTblEnum.typeName.name() }));
+				errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, TypeTblEnum.typeName.name()));
 			}
 
 			// Record error
@@ -392,7 +384,7 @@ public class TypeCache extends BaseCache {
 			List<TypeTbl> lists = searchList(sco);
 			if (!CollectionUtils.isEmpty(lists)) {
 				result = new APIResponse<Long>(HttpStatus.BAD_REQUEST,
-						buildMessage(MessageConstants.EXISTED_RECORD, new String[] { "type" }));
+						ResponseCode.mapParam(ResponseCode.EXISTED_RECORD, "type"));
 			}
 		}
 

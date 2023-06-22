@@ -100,6 +100,9 @@ public class SecurityConfig {
 				// Home page
 				.requestMatchers("/").permitAll()
 
+				// Add role
+				.requestMatchers(HttpMethod.POST, "/api" + ApiPublicConstants.API_ROLE + ApiPublicConstants.ADD).permitAll()
+				
 				// Register user
 				.requestMatchers(HttpMethod.POST, ApiPublicConstants.API_USER).permitAll()
 

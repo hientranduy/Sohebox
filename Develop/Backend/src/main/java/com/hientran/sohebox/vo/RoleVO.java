@@ -1,4 +1,4 @@
-package com.hientran.sohebox.sco;
+package com.hientran.sohebox.vo;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
@@ -14,8 +14,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @EqualsAndHashCode(callSuper = true)
-public class RoleSCO extends BaseSCO {
-	private SearchNumberVO id;
-	private SearchTextVO roleName;
-	private SearchDateVO createdDate;
+public class RoleVO extends BaseVO {
+	private String roleName;
+	private String description;
 }

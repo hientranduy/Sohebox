@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,203 +26,196 @@ import com.hientran.sohebox.utils.LogUtils;
 import com.hientran.sohebox.vo.CryptoPortfolioHistoryVO;
 import com.hientran.sohebox.vo.PageResultVO;
 
+import lombok.RequiredArgsConstructor;
+
 /**
  * @author hientran
  */
 @Service
 @Transactional(readOnly = true)
+@RequiredArgsConstructor
 public class CryptoPortfolioHistoryService extends BaseService {
+	private final CryptoPortfolioHistoryRepository cryptoPortfolioHistoryRepository;
+	private final CryptoPortfolioRepository cryptoPortfolioRepository;
+	private final CryptoPortfolioHistoryTransformer cryptoPortfolioHistoryTransformer;
+	private final UserService userService;
 
-    private static final long serialVersionUID = 1L;
+	DecimalFormat df = new DecimalFormat("#.###");
 
-    @Autowired
-    private CryptoPortfolioHistoryRepository cryptoPortfolioHistoryRepository;
+	@Transactional(readOnly = false, rollbackFor = Exception.class)
+	public void cronjobCalculTotalPortfolio() {
+		try {
+			// Get raw data
+			List<CryptoPortfolioTbl> rawData = cryptoPortfolioRepository.findAll();
 
-    @Autowired
-    private CryptoPortfolioRepository cryptoPortfolioRepository;
+			// Group by user
+			HashMap<UserTbl, List<CryptoPortfolioTbl>> mapUserToken = new HashMap<UserTbl, List<CryptoPortfolioTbl>>();
+			for (CryptoPortfolioTbl item : rawData) {
+				UserTbl user = item.getUser();
+				if (mapUserToken.containsKey(user)) {
+					List<CryptoPortfolioTbl> mapValue = mapUserToken.get(user);
+					mapValue.add(item);
+					mapUserToken.replace(user, mapValue);
+				} else {
+					List<CryptoPortfolioTbl> mapValue = new ArrayList<>();
+					mapValue.add(item);
+					mapUserToken.put(user, mapValue);
+				}
+			}
 
-    @Autowired
-    private CryptoPortfolioHistoryTransformer cryptoPortfolioHistoryTransformer;
+			// Loop user
+			for (UserTbl user : mapUserToken.keySet()) {
+				List<CryptoPortfolioTbl> portfolioList = mapUserToken.get(user);
 
-    @Autowired
-    private UserService userService;
+				// Group by token
+				HashMap<CryptoTokenConfigTbl, CryptoPortfolioHistoryTbl> mapToken = new HashMap<CryptoTokenConfigTbl, CryptoPortfolioHistoryTbl>();
+				for (CryptoPortfolioTbl portfolio : portfolioList) {
+					CryptoTokenConfigTbl token = portfolio.getToken();
+					if (mapToken.containsKey(token)) {
+						CryptoPortfolioHistoryTbl history = mapToken.get(token);
+						if (portfolio.getAmtAvailable() != null) {
+							history.setTotalAvailable(history.getTotalAvailable() + portfolio.getAmtAvailable());
+						}
+						if (portfolio.getAmtTotalDelegated() != null) {
+							history.setTotalDelegated(history.getTotalDelegated() + portfolio.getAmtTotalDelegated());
+						}
+						if (portfolio.getAmtTotalReward() != null) {
+							history.setTotalReward(history.getTotalReward() + portfolio.getAmtTotalReward());
+						}
+						if (portfolio.getAmtTotalUnbonding() != null) {
+							history.setTotalUnbonding(history.getTotalUnbonding() + portfolio.getAmtTotalUnbonding());
+						}
+						mapToken.replace(token, history);
+					} else {
+						CryptoPortfolioHistoryTbl history = new CryptoPortfolioHistoryTbl();
+						history.setTimeStamp(new Date());
+						history.setUser(user);
+						history.setToken(token);
+						history.setLastSyncDate(portfolio.getSyncDate());
 
-    DecimalFormat df = new DecimalFormat("#.###");
+						if (portfolio.getAmtAvailable() != null) {
+							history.setTotalAvailable(portfolio.getAmtAvailable());
+						} else {
+							history.setTotalAvailable(Double.valueOf(0));
+						}
 
-    @Transactional(readOnly = false, rollbackFor = Exception.class)
-    public void cronjobCalculTotalPortfolio() {
-        try {
-            // Get raw data
-            List<CryptoPortfolioTbl> rawData = cryptoPortfolioRepository.findAll();
+						if (portfolio.getAmtTotalDelegated() != null) {
+							history.setTotalDelegated(portfolio.getAmtTotalDelegated());
+						} else {
+							history.setTotalAvailable(Double.valueOf(0));
+						}
 
-            // Group by user
-            HashMap<UserTbl, List<CryptoPortfolioTbl>> mapUserToken = new HashMap<UserTbl, List<CryptoPortfolioTbl>>();
-            for (CryptoPortfolioTbl item : rawData) {
-                UserTbl user = item.getUser();
-                if (mapUserToken.containsKey(user)) {
-                    List<CryptoPortfolioTbl> mapValue = mapUserToken.get(user);
-                    mapValue.add(item);
-                    mapUserToken.replace(user, mapValue);
-                } else {
-                    List<CryptoPortfolioTbl> mapValue = new ArrayList<>();
-                    mapValue.add(item);
-                    mapUserToken.put(user, mapValue);
-                }
-            }
+						if (portfolio.getAmtTotalReward() != null) {
+							history.setTotalReward(portfolio.getAmtTotalReward());
+						} else {
+							history.setTotalReward(Double.valueOf(0));
+						}
 
-            // Loop user
-            for (UserTbl user : mapUserToken.keySet()) {
-                List<CryptoPortfolioTbl> portfolioList = mapUserToken.get(user);
+						if (portfolio.getAmtTotalUnbonding() != null) {
+							history.setTotalUnbonding(portfolio.getAmtTotalUnbonding());
+						} else {
+							history.setTotalUnbonding(Double.valueOf(0));
+						}
 
-                // Group by token
-                HashMap<CryptoTokenConfigTbl, CryptoPortfolioHistoryTbl> mapToken = new HashMap<CryptoTokenConfigTbl, CryptoPortfolioHistoryTbl>();
-                for (CryptoPortfolioTbl portfolio : portfolioList) {
-                    CryptoTokenConfigTbl token = portfolio.getToken();
-                    if (mapToken.containsKey(token)) {
-                        CryptoPortfolioHistoryTbl history = mapToken.get(token);
-                        if (portfolio.getAmtAvailable() != null) {
-                            history.setTotalAvailable(history.getTotalAvailable() + portfolio.getAmtAvailable());
-                        }
-                        if (portfolio.getAmtTotalDelegated() != null) {
-                            history.setTotalDelegated(history.getTotalDelegated() + portfolio.getAmtTotalDelegated());
-                        }
-                        if (portfolio.getAmtTotalReward() != null) {
-                            history.setTotalReward(history.getTotalReward() + portfolio.getAmtTotalReward());
-                        }
-                        if (portfolio.getAmtTotalUnbonding() != null) {
-                            history.setTotalUnbonding(history.getTotalUnbonding() + portfolio.getAmtTotalUnbonding());
-                        }
-                        mapToken.replace(token, history);
-                    } else {
-                        CryptoPortfolioHistoryTbl history = new CryptoPortfolioHistoryTbl();
-                        history.setTimeStamp(new Date());
-                        history.setUser(user);
-                        history.setToken(token);
-                        history.setLastSyncDate(portfolio.getSyncDate());
+						mapToken.put(token, history);
+					}
+				}
 
-                        if (portfolio.getAmtAvailable() != null) {
-                            history.setTotalAvailable(portfolio.getAmtAvailable());
-                        } else {
-                            history.setTotalAvailable(Double.valueOf(0));
-                        }
+				// Loop token to write
+				for (CryptoTokenConfigTbl token : mapToken.keySet()) {
+					CryptoPortfolioHistoryTbl tbl = mapToken.get(token);
 
-                        if (portfolio.getAmtTotalDelegated() != null) {
-                            history.setTotalDelegated(portfolio.getAmtTotalDelegated());
-                        } else {
-                            history.setTotalAvailable(Double.valueOf(0));
-                        }
+					// Rounding
+					tbl.setTotalAvailable(Double.parseDouble(df.format(tbl.getTotalAvailable())));
+					tbl.setTotalDelegated(Double.parseDouble(df.format(tbl.getTotalDelegated())));
+					tbl.setTotalReward(Double.parseDouble(df.format(tbl.getTotalReward())));
+					tbl.setTotalUnbonding(Double.parseDouble(df.format(tbl.getTotalUnbonding())));
 
-                        if (portfolio.getAmtTotalReward() != null) {
-                            history.setTotalReward(portfolio.getAmtTotalReward());
-                        } else {
-                            history.setTotalReward(Double.valueOf(0));
-                        }
+					// Get last record
+					CryptoPortfolioHistoryTbl lastItem = cryptoPortfolioHistoryRepository
+							.findTopByUserAndTokenOrderByTimeStampDesc(tbl.getUser(), token);
 
-                        if (portfolio.getAmtTotalUnbonding() != null) {
-                            history.setTotalUnbonding(portfolio.getAmtTotalUnbonding());
-                        } else {
-                            history.setTotalUnbonding(Double.valueOf(0));
-                        }
+					// Set total increase
+					if (lastItem != null) {
+						tbl.setTotalIncrease(tbl.getTotalAvailable() + tbl.getTotalDelegated() + tbl.getTotalReward()
+								+ tbl.getTotalUnbonding() - (lastItem.getTotalAvailable() + lastItem.getTotalDelegated()
+										+ lastItem.getTotalReward() + lastItem.getTotalUnbonding()));
+					} else {
+						tbl.setTotalIncrease(tbl.getTotalAvailable() + tbl.getTotalDelegated() + tbl.getTotalReward()
+								+ tbl.getTotalUnbonding());
+					}
+					tbl.setTotalIncrease(Double.parseDouble(df.format(tbl.getTotalIncrease())));
 
-                        mapToken.put(token, history);
-                    }
-                }
+					cryptoPortfolioHistoryRepository.save(tbl);
+				}
+			}
 
-                // Loop token to write
-                for (CryptoTokenConfigTbl token : mapToken.keySet()) {
-                    CryptoPortfolioHistoryTbl tbl = mapToken.get(token);
+		} catch (Exception e) {
+			LogUtils.writeLogError(e);
+		}
 
-                    // Rounding
-                    tbl.setTotalAvailable(Double.parseDouble(df.format(tbl.getTotalAvailable())));
-                    tbl.setTotalDelegated(Double.parseDouble(df.format(tbl.getTotalDelegated())));
-                    tbl.setTotalReward(Double.parseDouble(df.format(tbl.getTotalReward())));
-                    tbl.setTotalUnbonding(Double.parseDouble(df.format(tbl.getTotalUnbonding())));
+	}
 
-                    // Get last record
-                    CryptoPortfolioHistoryTbl lastItem = cryptoPortfolioHistoryRepository
-                            .findTopByUserAndTokenOrderByTimeStampDesc(tbl.getUser(), token);
+	/**
+	 * Create
+	 */
+	@Transactional(readOnly = false, rollbackFor = Exception.class)
+	private APIResponse<Long> create(CryptoPortfolioHistoryVO vo) {
+		// Declare result
+		APIResponse<Long> result = new APIResponse<Long>();
 
-                    // Set total increase
-                    if (lastItem != null) {
-                        tbl.setTotalIncrease(tbl.getTotalAvailable() + tbl.getTotalDelegated() + tbl.getTotalReward()
-                                + tbl.getTotalUnbonding() - (lastItem.getTotalAvailable() + lastItem.getTotalDelegated()
-                                        + lastItem.getTotalReward() + lastItem.getTotalUnbonding()));
-                    } else {
-                        tbl.setTotalIncrease(tbl.getTotalAvailable() + tbl.getTotalDelegated() + tbl.getTotalReward()
-                                + tbl.getTotalUnbonding());
-                    }
-                    tbl.setTotalIncrease(Double.parseDouble(df.format(tbl.getTotalIncrease())));
+		// Transform
+		CryptoPortfolioHistoryTbl tbl = cryptoPortfolioHistoryTransformer.convertToTbl(vo);
 
-                    cryptoPortfolioHistoryRepository.save(tbl);
-                }
-            }
+		// Create
+		tbl = cryptoPortfolioHistoryRepository.save(tbl);
 
-        } catch (Exception e) {
-            LogUtils.writeLogError(e);
-        }
+		// Set id return
+		result.setData(tbl.getId());
 
-    }
+		// Return
+		return result;
+	}
 
-    /**
-     * Create
-     */
-    @Transactional(readOnly = false, rollbackFor = Exception.class)
-    private APIResponse<Long> create(CryptoPortfolioHistoryVO vo) {
-        // Declare result
-        APIResponse<Long> result = new APIResponse<Long>();
+	public APIResponse<Object> getPortfolioSummary(CryptoPortfolioHistorySCO sco) {
+		// Declare result
+		APIResponse<Object> result = new APIResponse<Object>();
 
-        // Transform
-        CryptoPortfolioHistoryTbl tbl = cryptoPortfolioHistoryTransformer.convertToTbl(vo);
+		// Get logged user
+		UserTbl loggedUser = userService.getCurrentLoginUser();
 
-        // Create
-        tbl = cryptoPortfolioHistoryRepository.save(tbl);
+		// Get latest date by user
+		Date latestReportDate = getLatestDateByUser(loggedUser);
 
-        // Set id return
-        result.setData(tbl.getId());
+		// Get Date
+		if (latestReportDate != null) {
+			// Prepare search
+			SearchNumberVO userIdSearch = new SearchNumberVO(loggedUser.getId().doubleValue());
+			sco.setUser(userIdSearch);
 
-        // Return
-        return result;
-    }
+			SearchDateVO dateSearch = new SearchDateVO(latestReportDate);
+			sco.setTimeStamp(dateSearch);
 
-    public APIResponse<Object> getPortfolioSummary(CryptoPortfolioHistorySCO sco) {
-        // Declare result
-        APIResponse<Object> result = new APIResponse<Object>();
+			// Get data
+			Page<CryptoPortfolioHistoryTbl> page = cryptoPortfolioHistoryRepository.findAll(sco);
 
-        // Get logged user
-        UserTbl loggedUser = userService.getCurrentLoginUser();
+			// Transformer
+			PageResultVO<CryptoPortfolioHistoryVO> data = cryptoPortfolioHistoryTransformer.convertToPageReturn(page);
 
-        // Get latest date by user
-        Date latestReportDate = getLatestDateByUser(loggedUser);
+			// Set data return
+			result.setData(data);
+		}
 
-        // Get Date
-        if (latestReportDate != null) {
-            // Prepare search
-            SearchNumberVO userIdSearch = new SearchNumberVO(loggedUser.getId().doubleValue());
-            sco.setUser(userIdSearch);
+		// Return
+		return result;
+	}
 
-            SearchDateVO dateSearch = new SearchDateVO(latestReportDate);
-            sco.setTimeStamp(dateSearch);
-
-            // Get data
-            Page<CryptoPortfolioHistoryTbl> page = cryptoPortfolioHistoryRepository.findAll(sco);
-
-            // Transformer
-            PageResultVO<CryptoPortfolioHistoryVO> data = cryptoPortfolioHistoryTransformer.convertToPageReturn(page);
-
-            // Set data return
-            result.setData(data);
-        }
-
-        // Return
-        return result;
-    }
-
-    private Date getLatestDateByUser(UserTbl loggedUser) {
-        CryptoPortfolioHistoryTbl tbl = cryptoPortfolioHistoryRepository.findTopByUserOrderByIdDesc(loggedUser);
-        if (tbl != null) {
-            return tbl.getTimeStamp();
-        } else {
-            return null;
-        }
-    }
+	private Date getLatestDateByUser(UserTbl loggedUser) {
+		CryptoPortfolioHistoryTbl tbl = cryptoPortfolioHistoryRepository.findTopByUserOrderByIdDesc(loggedUser);
+		if (tbl != null) {
+			return tbl.getTimeStamp();
+		} else {
+			return null;
+		}
+	}
 }

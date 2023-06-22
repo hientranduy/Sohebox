@@ -10,35 +10,32 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
 
-/**
- * 
- * Application log plan
- *
- * @author hientran
- */
+import com.hientran.sohebox.cache.FoodTypeCache;
+
+import lombok.extern.slf4j.Slf4j;
+
 @Aspect
 @Configuration
+@Slf4j
 public class AspectLogger {
-
-	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	///////////////////////////////////////////////////////
 	// Configured log before - after for rest controller //
 	///////////////////////////////////////////////////////
 	@Before(value = "execution(* com.hientran.sohebox.restcontroller.*.*(..))")
 	public void beforeRestful(JoinPoint joinPoint) {
-		logger.info("    START     : {}", joinPoint.getSignature());
+		log.info("    START     : {}", joinPoint.getSignature());
 		if (joinPoint.getArgs() != null && joinPoint.getArgs().length > 0) {
-			logger.info("    Arguments : {}", Arrays.asList(joinPoint.getArgs()).toString());
+			log.info("    Arguments : {}", Arrays.asList(joinPoint.getArgs()).toString());
 		}
 	}
 
 	@AfterReturning(value = "execution(* com.hientran.sohebox.restcontroller.*.*(..))", returning = "result")
 	public void afterRestful(JoinPoint joinPoint, Object result) {
 		if (result != null) {
-			logger.info("     Returned  : {}", result);
+			log.info("     Returned  : {}", result);
 		}
-		logger.info("     END       : {}", joinPoint.getSignature());
+		log.info("     END       : {}", joinPoint.getSignature());
 	}
 
 	////////////////////////////////////////////////
@@ -46,18 +43,15 @@ public class AspectLogger {
 	////////////////////////////////////////////////
 	@Before(value = "execution(* com.hientran.sohebox.service.*.*(..))")
 	public void beforeService(JoinPoint joinPoint) {
-		logger.info("    START     : {}", joinPoint.getSignature());
+		log.info("    START     : {}", joinPoint.getSignature());
 		if (joinPoint.getArgs() != null && joinPoint.getArgs().length > 0) {
-			logger.info("    Arguments : {}", Arrays.asList(joinPoint.getArgs()).toString());
+			log.info("    Arguments : {}", Arrays.asList(joinPoint.getArgs()).toString());
 		}
 	}
 
 	@AfterReturning(value = "execution(* com.hientran.sohebox.service.*.*(..))", returning = "result")
 	public void afterService(JoinPoint joinPoint, Object result) {
-		if (result != null) {
-			// logger.info(" Returned : {}", result);
-		}
-		logger.info("     END       : {}", joinPoint.getSignature());
+		log.info("     END       : {}", joinPoint.getSignature());
 	}
 
 	///////////////////////////////////////////////////
@@ -65,11 +59,11 @@ public class AspectLogger {
 	///////////////////////////////////////////////////
 	@Before(value = "execution(* com.hientran.sohebox.scheduler.*.*(..))")
 	public void beforeScheduler(JoinPoint joinPoint) {
-		logger.info("  START SCHEDULER : {}", joinPoint.getSignature());
+		log.info("  START SCHEDULER : {}", joinPoint.getSignature());
 	}
 
 	@AfterReturning(value = "execution(* com.hientran.sohebox.scheduler.*.*(..))", returning = "result")
 	public void afterScheduler(JoinPoint joinPoint, Object result) {
-		logger.info("   END SCHEDULER : {}", joinPoint.getSignature());
+		log.info("   END SCHEDULER : {}", joinPoint.getSignature());
 	}
 }

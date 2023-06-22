@@ -6,9 +6,6 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -17,7 +14,7 @@ import org.springframework.util.CollectionUtils;
 
 import com.hazelcast.core.HazelcastInstance;
 import com.hientran.sohebox.constants.DBConstants;
-import com.hientran.sohebox.constants.MessageConstants;
+import com.hientran.sohebox.constants.ResponseCode;
 import com.hientran.sohebox.constants.enums.FoodTypeTblEnum;
 import com.hientran.sohebox.entity.FoodTypeTbl;
 import com.hientran.sohebox.exception.APIResponse;
@@ -29,315 +26,302 @@ import com.hientran.sohebox.transformer.FoodTypeTransformer;
 import com.hientran.sohebox.vo.FoodTypeVO;
 import com.hientran.sohebox.vo.PageResultVO;
 
-/**
- * Cache of table typeTbl
- *
- * @author hientran
- */
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@RequiredArgsConstructor
+@Slf4j
 public class FoodTypeCache extends BaseCache {
 
-    private Logger logger = LoggerFactory.getLogger(this.getClass());
+	private final FoodTypeRepository typeRepository;
+	private final FoodTypeTransformer typeTransformer;
+	private final FoodTypeSpecs typeSpecs;
+	private final HazelcastInstance instance;
 
-    @Autowired
-    private FoodTypeRepository typeRepository;
+	/**
+	 * 
+	 * Return vo by id
+	 *
+	 * @param key
+	 * @return
+	 */
+	public FoodTypeVO getType(String typeClass, String typeCode) {
+		// Declare result
+		FoodTypeVO result = null;
 
-    @Autowired
-    private FoodTypeTransformer typeTransformer;
+		// Retrieve type cache
+		Map<TypeCacheKey, FoodTypeVO> typeCache = instance.getMap("typeCache");
 
-    @Autowired
-    private FoodTypeSpecs typeSpecs;
+		// Search type
+		FoodTypeVO cacheValue = typeCache.get(new TypeCacheKey(formatTypeClass(typeClass), formatTypeCode(typeCode)));
 
-    @Autowired
-    private HazelcastInstance instance;
+		// Return if have in cache
+		if (cacheValue != null) {
+			result = cacheValue;
+		} else {
 
-    /**
-     * 
-     * Return vo by id
-     *
-     * @param key
-     * @return
-     */
-    public FoodTypeVO getType(String typeClass, String typeCode) {
-        // Declare result
-        FoodTypeVO result = null;
+			// Get data from DB
+			SearchTextVO typeClassSearch = new SearchTextVO();
+			typeClassSearch.setEq(formatTypeClass(typeClass));
+			SearchTextVO typeCodeSearch = new SearchTextVO();
+			typeCodeSearch.setEq(formatTypeCode(typeCode));
 
-        // Retrieve type cache
-        Map<TypeCacheKey, FoodTypeVO> typeCache = instance.getMap("typeCache");
+			FoodTypeSCO sco = new FoodTypeSCO();
+			sco.setTypeClass(typeClassSearch);
+			sco.setTypeCode(typeCodeSearch);
 
-        // Search type
-        FoodTypeVO cacheValue = typeCache.get(new TypeCacheKey(formatTypeClass(typeClass), formatTypeCode(typeCode)));
+			Page<FoodTypeTbl> pageTbl = typeRepository.findAll(sco);
+			if (!CollectionUtils.isEmpty(pageTbl.getContent())) {
+				result = typeTransformer.convertToFoodTypeVO(pageTbl.getContent().get(0));
 
-        // Return if have in cache
-        if (cacheValue != null) {
-            result = cacheValue;
-        } else {
+			} else {
+				// Create new type
+				FoodTypeVO vo = new FoodTypeVO();
+				vo.setTypeClass(formatTypeClass(typeClass));
+				vo.setTypeCode(formatTypeCode(typeCode));
+				vo.setTypeName(typeCode.substring(0, 1).toUpperCase() + typeCode.substring(1).toLowerCase());
+				vo.setDescription(typeCode);
 
-            // Get data from DB
-            SearchTextVO typeClassSearch = new SearchTextVO();
-            typeClassSearch.setEq(formatTypeClass(typeClass));
-            SearchTextVO typeCodeSearch = new SearchTextVO();
-            typeCodeSearch.setEq(formatTypeCode(typeCode));
+				if (StringUtils.isBlank(vo.getIconUrl())) {
+					if (StringUtils.equals(vo.getTypeClass(), DBConstants.TYPE_CLASS_ACCOUNT)) {
+						vo.setIconUrl(DBConstants.ACCOUNT_TYPE_DEFAUT_ICON);
+					}
+				}
 
-            FoodTypeSCO sco = new FoodTypeSCO();
-            sco.setTypeClass(typeClassSearch);
-            sco.setTypeCode(typeCodeSearch);
+				// Add new type
+				FoodTypeTbl newType = typeRepository.save(typeTransformer.convertToFoodTypeTbl(vo));
 
-            Page<FoodTypeTbl> pageTbl = typeRepository.findAll(sco);
-            if (!CollectionUtils.isEmpty(pageTbl.getContent())) {
-                result = typeTransformer.convertToFoodTypeVO(pageTbl.getContent().get(0));
+				// Result
+				result = typeTransformer.convertToFoodTypeVO(newType);
+			}
 
-            } else {
-                // Create new type
-                FoodTypeVO vo = new FoodTypeVO();
-                vo.setTypeClass(formatTypeClass(typeClass));
-                vo.setTypeCode(formatTypeCode(typeCode));
-                vo.setTypeName(typeCode.substring(0, 1).toUpperCase() + typeCode.substring(1).toLowerCase());
-                vo.setDescription(typeCode);
+			// Add to cache
+			typeCache.put(new TypeCacheKey(result.getTypeClass(), result.getTypeCode()), result);
+		}
 
-                if (StringUtils.isBlank(vo.getIconUrl())) {
-                    if (StringUtils.equals(vo.getTypeClass(), DBConstants.TYPE_CLASS_ACCOUNT)) {
-                        vo.setIconUrl(DBConstants.ACCOUNT_TYPE_DEFAUT_ICON);
-                    }
-                }
+		// Return
+		return result;
+	}
 
-                // Add new type
-                FoodTypeTbl newType = typeRepository.save(typeTransformer.convertToFoodTypeTbl(vo));
+	/**
+	 * 
+	 * Update an existed type of DB and Cache
+	 *
+	 * @param vo
+	 */
+	public void update(FoodTypeVO vo) {
+		// Search old record
+		SearchTextVO searchClass = new SearchTextVO();
+		searchClass.setEq(formatTypeClass(vo.getTypeClass()));
+		SearchTextVO searchCode = new SearchTextVO();
+		searchCode.setEq(formatTypeCode(vo.getTypeCode()));
 
-                // Result
-                result = typeTransformer.convertToFoodTypeVO(newType);
-            }
+		FoodTypeSCO sco = new FoodTypeSCO();
+		sco.setTypeClass(searchClass);
+		sco.setTypeCode(searchCode);
 
-            // Add to cache
-            typeCache.put(new TypeCacheKey(result.getTypeClass(), result.getTypeCode()), result);
-        }
+		Optional<FoodTypeTbl> searchResult = typeRepository.findOne(typeSpecs.buildSpecification(sco));
 
-        // Return
-        return result;
-    }
+		// Update if found, else return not found exception
+		if (searchResult.isPresent()) {
+			FoodTypeTbl tbl = searchResult.get();
 
-    /**
-     * 
-     * Update an existed type of DB and Cache
-     *
-     * @param vo
-     */
-    public void update(FoodTypeVO vo) {
-        // Search old record
-        SearchTextVO searchClass = new SearchTextVO();
-        searchClass.setEq(formatTypeClass(vo.getTypeClass()));
-        SearchTextVO searchCode = new SearchTextVO();
-        searchCode.setEq(formatTypeCode(vo.getTypeCode()));
+			if (vo.getTypeCode() != null) {
+				tbl.setTypeCode(formatTypeCode(vo.getTypeCode()));
+			}
+			if (vo.getTypeName() != null) {
+				tbl.setTypeName(vo.getTypeName());
+			}
+			if (vo.getDescription() != null) {
+				tbl.setDescription(vo.getDescription());
+			}
+			if (vo.getIconUrl() != null) {
+				tbl.setIconUrl(vo.getIconUrl());
+			}
+			typeRepository.save(tbl);
 
-        FoodTypeSCO sco = new FoodTypeSCO();
-        sco.setTypeClass(searchClass);
-        sco.setTypeCode(searchCode);
+			// Update cache
+			Map<TypeCacheKey, FoodTypeVO> typeCache = instance.getMap("typeCache");
+			typeCache.put(new TypeCacheKey(tbl.getTypeClass(), tbl.getTypeCode()),
+					typeTransformer.convertToFoodTypeVO(tbl));
 
-        Optional<FoodTypeTbl> searchResult = typeRepository.findOne(typeSpecs.buildSpecification(sco));
+		} else {
+			log.error("Type not found to update, typeClass: " + vo.getTypeClass() + ", typeCode: " + vo.getTypeCode());
+		}
+	}
 
-        // Update if found, else return not found exception
-        if (searchResult.isPresent()) {
-            FoodTypeTbl tbl = searchResult.get();
+	/**
+	 * 
+	 * Delete a type
+	 *
+	 * @param key
+	 */
+	public void delete(Long id) {
+		// Check existed
+		FoodTypeTbl tbl = typeRepository.findById(id).get();
 
-            if (vo.getTypeCode() != null) {
-                tbl.setTypeCode(formatTypeCode(vo.getTypeCode()));
-            }
-            if (vo.getTypeName() != null) {
-                tbl.setTypeName(vo.getTypeName());
-            }
-            if (vo.getDescription() != null) {
-                tbl.setDescription(vo.getDescription());
-            }
-            if (vo.getIconUrl() != null) {
-                tbl.setIconUrl(vo.getIconUrl());
-            }
-            typeRepository.save(tbl);
+		// Delete if found, else return not found exception
+		if (tbl != null) {
+			typeRepository.delete(tbl);
 
-            // Update cache
-            Map<TypeCacheKey, FoodTypeVO> typeCache = instance.getMap("typeCache");
-            typeCache.put(new TypeCacheKey(tbl.getTypeClass(), tbl.getTypeCode()),
-                    typeTransformer.convertToFoodTypeVO(tbl));
+			// Remove from cache
+			Map<TypeCacheKey, FoodTypeVO> typeCache = instance.getMap("typeCache");
+			typeCache.remove(new TypeCacheKey(tbl.getTypeClass(), tbl.getTypeCode()));
 
-        } else {
-            logger.error(
-                    "Type not found to update, typeClass: " + vo.getTypeClass() + ", typeCode: " + vo.getTypeCode());
-        }
-    }
+		} else {
+			log.error("Type not found to delete, id: " + id);
+		}
+	}
 
-    /**
-     * 
-     * Delete a type
-     *
-     * @param key
-     */
-    public void delete(Long id) {
-        // Check existed
-        FoodTypeTbl tbl = typeRepository.findById(id).get();
+	/**
+	 * Search
+	 * 
+	 * @param sco
+	 * @return
+	 */
+	@Transactional(readOnly = false, rollbackFor = Exception.class)
+	public APIResponse<Object> search(FoodTypeSCO sco) {
+		// Declare result
+		APIResponse<Object> result = new APIResponse<Object>();
 
-        // Delete if found, else return not found exception
-        if (tbl != null) {
-            typeRepository.delete(tbl);
+		// Get data
+		Page<FoodTypeTbl> page = typeRepository.findAll(sco);
 
-            // Remove from cache
-            Map<TypeCacheKey, FoodTypeVO> typeCache = instance.getMap("typeCache");
-            typeCache.remove(new TypeCacheKey(tbl.getTypeClass(), tbl.getTypeCode()));
+		// Transformer
+		PageResultVO<FoodTypeVO> data = typeTransformer.convertToPageReturn(page);
 
-        } else {
-            logger.error("Type not found to delete, id: " + id);
-        }
-    }
+		// Set data return
+		result.setData(data);
 
-    /**
-     * Search
-     * 
-     * @param sco
-     * @return
-     */
-    @Transactional(readOnly = false, rollbackFor = Exception.class)
-    public APIResponse<Object> search(FoodTypeSCO sco) {
-        // Declare result
-        APIResponse<Object> result = new APIResponse<Object>();
+		// Return
+		return result;
+	}
 
-        // Get data
-        Page<FoodTypeTbl> page = typeRepository.findAll(sco);
+	/**
+	 * Get all type class
+	 * 
+	 * @param sco
+	 * @return
+	 */
+	public APIResponse<Object> getAllTypeClass() {
+		// Declare result
+		APIResponse<Object> result = new APIResponse<Object>();
 
-        // Transformer
-        PageResultVO<FoodTypeVO> data = typeTransformer.convertToPageReturn(page);
+		// Get list type class
+		List<Object[]> searchResult = typeRepository.getAllTypeClass(entityManager);
 
-        // Set data return
-        result.setData(data);
+		// Transformer
+		if (!CollectionUtils.isEmpty(searchResult)) {
+			// Prepare item list
+			List<String> listElement = new ArrayList<>();
+			for (Object[] objects : searchResult) {
+				listElement.add((String) objects[0]);
+			}
 
-        // Return
-        return result;
-    }
+			// Prepare page result
+			PageResultVO<String> data = new PageResultVO<String>();
+			data.setElements(listElement);
+			data.setCurrentPage(0);
+			data.setTotalPage(1);
+			data.setTotalElement(listElement.size());
 
-    /**
-     * Get all type class
-     * 
-     * @param sco
-     * @return
-     */
-    public APIResponse<Object> getAllTypeClass() {
-        // Declare result
-        APIResponse<Object> result = new APIResponse<Object>();
+			// Set data return
+			result.setData(data);
+		}
 
-        // Get list type class
-        List<Object[]> searchResult = typeRepository.getAllTypeClass(entityManager);
+		// Return
+		return result;
+	}
 
-        // Transformer
-        if (!CollectionUtils.isEmpty(searchResult)) {
-            // Prepare item list
-            List<String> listElement = new ArrayList<>();
-            for (Object[] objects : searchResult) {
-                listElement.add((String) objects[0]);
-            }
+	/**
+	 * 
+	 * Update
+	 * 
+	 * @param vo
+	 * @return
+	 */
+	@Transactional(readOnly = false, rollbackFor = Exception.class)
+	public APIResponse<Long> updateType(FoodTypeVO vo) {
+		// Declare result
+		APIResponse<Long> result = new APIResponse<Long>();
 
-            // Prepare page result
-            PageResultVO<String> data = new PageResultVO<String>();
-            data.setElements(listElement);
-            data.setCurrentPage(0);
-            data.setTotalPage(1);
-            data.setTotalElement(listElement.size());
+		// Validate input
+		if (result.getStatus() == null) {
+			List<String> errors = new ArrayList<>();
 
-            // Set data return
-            result.setData(data);
-        }
+			// Type Class must be not null
+			if (StringUtils.isBlank(vo.getTypeClass())) {
+				errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, FoodTypeTblEnum.typeClass.name()));
+			}
 
-        // Return
-        return result;
-    }
+			// Type Code must be not null
+			if (StringUtils.isBlank(vo.getTypeCode())) {
+				errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, FoodTypeTblEnum.typeCode.name()));
+			}
 
-    /**
-     * 
-     * Update
-     * 
-     * @param vo
-     * @return
-     */
-    @Transactional(readOnly = false, rollbackFor = Exception.class)
-    public APIResponse<Long> updateType(FoodTypeVO vo) {
-        // Declare result
-        APIResponse<Long> result = new APIResponse<Long>();
+			// Type Name must be not null
+			if (StringUtils.isBlank(vo.getTypeName())) {
+				errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, FoodTypeTblEnum.typeName.name()));
+			}
 
-        // Validate input
-        if (result.getStatus() == null) {
-            List<String> errors = new ArrayList<>();
+			// Record error
+			if (!CollectionUtils.isEmpty(errors)) {
+				result = new APIResponse<Long>(HttpStatus.BAD_REQUEST, errors);
+			}
+		}
 
-            // Type Class must be not null
-            if (StringUtils.isBlank(vo.getTypeClass())) {
-                errors.add(
-                        buildMessage(MessageConstants.FILED_EMPTY, new String[] { FoodTypeTblEnum.typeClass.name() }));
-            }
+		// Update
+		if (result.getStatus() == null) {
+			update(vo);
+		}
 
-            // Type Code must be not null
-            if (StringUtils.isBlank(vo.getTypeCode())) {
-                errors.add(
-                        buildMessage(MessageConstants.FILED_EMPTY, new String[] { FoodTypeTblEnum.typeCode.name() }));
-            }
+		// Return
+		return result;
+	}
 
-            // Type Name must be not null
-            if (StringUtils.isBlank(vo.getTypeName())) {
-                errors.add(
-                        buildMessage(MessageConstants.FILED_EMPTY, new String[] { FoodTypeTblEnum.typeName.name() }));
-            }
+	/**
+	 * Get by id
+	 * 
+	 * @param User
+	 * @return
+	 */
+	public APIResponse<Object> getById(Long id) {
+		// Declare result
+		APIResponse<Object> result = new APIResponse<Object>();
 
-            // Record error
-            if (!CollectionUtils.isEmpty(errors)) {
-                result = new APIResponse<Long>(HttpStatus.BAD_REQUEST, errors);
-            }
-        }
+		// Check existence
+		Optional<FoodTypeTbl> tbl = typeRepository.findById(id);
+		if (!tbl.isPresent()) {
+			result = new APIResponse<Object>(HttpStatus.BAD_REQUEST,
+					ResponseCode.mapParam(ResponseCode.INEXISTED_RECORD, "type"));
+		} else {
+			// Set return data
+			FoodTypeVO vo = typeTransformer.convertToFoodTypeVO(tbl.get());
+			result.setData(vo);
+		}
 
-        // Update
-        if (result.getStatus() == null) {
-            update(vo);
-        }
+		// Return
+		return result;
+	}
 
-        // Return
-        return result;
-    }
+	/**
+	 * Format type class
+	 *
+	 * @param vo
+	 * @return
+	 */
+	private String formatTypeClass(String typeClass) {
+		return typeClass.toUpperCase();
+	}
 
-    /**
-     * Get by id
-     * 
-     * @param User
-     * @return
-     */
-    public APIResponse<Object> getById(Long id) {
-        // Declare result
-        APIResponse<Object> result = new APIResponse<Object>();
-
-        // Check existence
-        Optional<FoodTypeTbl> tbl = typeRepository.findById(id);
-        if (!tbl.isPresent()) {
-            result = new APIResponse<Object>(HttpStatus.BAD_REQUEST,
-                    buildMessage(MessageConstants.INEXISTED_RECORD, new String[] { "type" }));
-        } else {
-            // Set return data
-            FoodTypeVO vo = typeTransformer.convertToFoodTypeVO(tbl.get());
-            result.setData(vo);
-        }
-
-        // Return
-        return result;
-    }
-
-    /**
-     * Format type class
-     *
-     * @param vo
-     * @return
-     */
-    private String formatTypeClass(String typeClass) {
-        return typeClass.toUpperCase();
-    }
-
-    /**
-     * Format type code
-     *
-     * @param vo
-     * @return
-     */
-    private String formatTypeCode(String typeCode) {
-        return typeCode.replaceAll(" ", "_").toUpperCase();
-    }
+	/**
+	 * Format type code
+	 *
+	 * @param vo
+	 * @return
+	 */
+	private String formatTypeCode(String typeCode) {
+		return typeCode.replaceAll(" ", "_").toUpperCase();
+	}
 }

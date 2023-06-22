@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.codec.binary.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -21,7 +20,7 @@ import com.hientran.sohebox.cache.ConfigCache;
 import com.hientran.sohebox.cache.TypeCache;
 import com.hientran.sohebox.constants.DBConstants;
 import com.hientran.sohebox.constants.DataExternalConstants;
-import com.hientran.sohebox.constants.MessageConstants;
+import com.hientran.sohebox.constants.ResponseCode;
 import com.hientran.sohebox.constants.TradingConstants;
 import com.hientran.sohebox.entity.TradingSymbolTbl;
 import com.hientran.sohebox.exception.APIResponse;
@@ -29,7 +28,6 @@ import com.hientran.sohebox.repository.TradingSymbolRepository;
 import com.hientran.sohebox.sco.SearchNumberVO;
 import com.hientran.sohebox.sco.TradingSymbolSCO;
 import com.hientran.sohebox.transformer.CountryTransformer;
-import com.hientran.sohebox.utils.MessageUtil;
 import com.hientran.sohebox.utils.MyDateUtils;
 import com.hientran.sohebox.utils.ObjectMapperUtil;
 import com.hientran.sohebox.vo.PageResultVO;
@@ -40,317 +38,307 @@ import com.hientran.sohebox.vo.TradingSymbolItemVO;
 import com.hientran.sohebox.vo.TypeVO;
 import com.hientran.sohebox.webservice.TradingWebService;
 
+import lombok.RequiredArgsConstructor;
+
 /**
  * @author hientran
  */
 @Service
+@RequiredArgsConstructor
 public class TradingService extends BaseService {
 
-    @Autowired
-    private TradingWebService tradingWebService;
+	private final TradingWebService tradingWebService;
+	private final TradingSymbolRepository tradingSymbolRepository;
+	private final CountryTransformer countryTransformer;
+	private final TypeCache typeCache;
+	private final ConfigCache configCache;
+	private final TradingSymbolService tradingSymbolService;
+	private final ObjectMapperUtil objectMapperUtil;
 
-    @Autowired
-    private TradingSymbolRepository tradingSymbolRepository;
+	@Value("${resource.path}")
+	private String resourcePath;
 
-    @Autowired
-    private CountryTransformer countryTransformer;
+	/**
+	 * Search video
+	 * 
+	 * @param sco
+	 * @return
+	 */
+	@Transactional(readOnly = false, rollbackFor = Exception.class)
+	public APIResponse<Object> searchOilPrice() {
+		// Declare result
+		APIResponse<Object> result = new APIResponse<Object>();
 
-    @Autowired
-    private TypeCache typeCache;
+		// Calculate start date
+		Date startDate = MyDateUtils.addMinusDate(new Date(), -7);
 
-    @Autowired
-    private ConfigCache configCache;
+		// Prepare symbol
+		List<String> symbols = new ArrayList<>();
+		symbols.add(TradingConstants.TRADINGECONOMICS_SYMBOL_COM_CLI);
+		symbols.add(TradingConstants.TRADINGECONOMICS_SYMBOL_COM_CO1);
 
-    @Autowired
-    private TradingSymbolService tradingSymbolService;
+		///////////////////
+		// Get data LIVE //
+		///////////////////
+		Map<String, String> parameters = new HashMap<String, String>();
+		parameters.put(TradingConstants.TRADINGECONOMICS_PARAM_KEY, TradingConstants.TRADINGECONOMICS_CONSTANT_KEY);
+		parameters.put(TradingConstants.TRADINGECONOMICS_PARAM_OUTPUT_FORMAT,
+				TradingConstants.TRADINGECONOMICS_CONSTANT_FORMAT_JSON);
 
-    @Autowired
-    private ObjectMapperUtil objectMapperUtil;
+		List<TradingSymbolItemVO> symbolItems = null;
+		String localFilepath = null;
+		int lateTimeSecond = 0;
+		try {
+			localFilepath = resourcePath + DataExternalConstants.REQUEST_DATA_FILE_PATH_TRADING_MARKET_OIL;
+			lateTimeSecond = Integer.parseInt(
+					configCache.getValueByKey(DataExternalConstants.FINANCE_TRADING_MARKET_OIL_LATE_TIME_SECOND));
 
-    @Value("${resource.path}")
-    private String resourcePath;
+			String responseData = tradingWebService.get(TradingConstants.TRADINGECONOMICS_API_MARKET_SYMBOL, symbols,
+					parameters, lateTimeSecond, localFilepath);
+			TradingSymbolItemVO[] response = objectMapperUtil.readValue(responseData,
+					new TypeReference<TradingSymbolItemVO[]>() {
+					});
+			if (response != null) {
+				symbolItems = Arrays.asList(response);
+			}
+		} catch (Exception e) {
+			result = new APIResponse<Object>(HttpStatus.BAD_REQUEST,
+					ResponseCode.mapParam(ResponseCode.ERROR_EXCEPTION, e.getMessage()));
+		}
 
-    /**
-     * Search video
-     * 
-     * @param sco
-     * @return
-     */
-    @Transactional(readOnly = false, rollbackFor = Exception.class)
-    public APIResponse<Object> searchOilPrice() {
-        // Declare result
-        APIResponse<Object> result = new APIResponse<Object>();
+		//////////////////////
+		// Get data HISTORY //
+		//////////////////////
+		List<TradingHistoryItemVO> historyItems = null;
+		localFilepath = null;
+		lateTimeSecond = 0;
+		if (result.getStatus() == null) {
+			parameters = new HashMap<String, String>();
+			parameters.put(TradingConstants.TRADINGECONOMICS_PARAM_KEY, TradingConstants.TRADINGECONOMICS_CONSTANT_KEY);
+			parameters.put(TradingConstants.TRADINGECONOMICS_PARAM_OUTPUT_FORMAT,
+					TradingConstants.TRADINGECONOMICS_CONSTANT_FORMAT_JSON);
+			parameters.put(TradingConstants.TRADINGECONOMICS_PARAM_START_DATE,
+					MyDateUtils.formatDate(startDate, MyDateUtils.YYYYMMDD));
 
-        // Calculate start date
-        Date startDate = MyDateUtils.addMinusDate(new Date(), -7);
+			try {
+				localFilepath = resourcePath + DataExternalConstants.REQUEST_DATA_FILE_PATH_TRADING_HISTORY_OIL;
+				lateTimeSecond = Integer.parseInt(
+						configCache.getValueByKey(DataExternalConstants.FINANCE_TRADING_HISTORY_OIL_LATE_TIME_SECOND));
 
-        // Prepare symbol
-        List<String> symbols = new ArrayList<>();
-        symbols.add(TradingConstants.TRADINGECONOMICS_SYMBOL_COM_CLI);
-        symbols.add(TradingConstants.TRADINGECONOMICS_SYMBOL_COM_CO1);
+				String responseData = tradingWebService.get(TradingConstants.TRADINGECONOMICS_API_MARKET_HISTORY,
+						symbols, parameters, lateTimeSecond, localFilepath);
+				TradingHistoryItemVO[] response = objectMapperUtil.readValue(responseData,
+						new TypeReference<TradingHistoryItemVO[]>() {
+						});
+				if (response != null) {
+					historyItems = Arrays.asList(response);
+				}
+			} catch (Exception e) {
+				result = new APIResponse<Object>(HttpStatus.BAD_REQUEST,
+						ResponseCode.mapParam(ResponseCode.ERROR_EXCEPTION, e.getMessage()));
+			}
+		}
 
-        ///////////////////
-        // Get data LIVE //
-        ///////////////////
-        Map<String, String> parameters = new HashMap<String, String>();
-        parameters.put(TradingConstants.TRADINGECONOMICS_PARAM_KEY, TradingConstants.TRADINGECONOMICS_CONSTANT_KEY);
-        parameters.put(TradingConstants.TRADINGECONOMICS_PARAM_OUTPUT_FORMAT,
-                TradingConstants.TRADINGECONOMICS_CONSTANT_FORMAT_JSON);
+		////////////////////
+		// Transform data //
+		////////////////////
+		if (result.getStatus() == null) {
+			TradingSymbolItemVO symbolCL1 = null;
+			TradingSymbolItemVO symbolCO1 = null;
+			for (TradingSymbolItemVO item : symbolItems) {
+				if (StringUtils.equals(item.getSymbol(), TradingConstants.TRADINGECONOMICS_SYMBOL_COM_CLI)) {
+					symbolCL1 = item;
+				} else {
+					symbolCO1 = item;
+				}
+			}
 
-        List<TradingSymbolItemVO> symbolItems = null;
-        String localFilepath = null;
-        int lateTimeSecond = 0;
-        try {
-            localFilepath = resourcePath + DataExternalConstants.REQUEST_DATA_FILE_PATH_TRADING_MARKET_OIL;
-            lateTimeSecond = Integer.parseInt(
-                    configCache.getValueByKey(DataExternalConstants.FINANCE_TRADING_MARKET_OIL_LATE_TIME_SECOND));
+			List<TradingHistoryItemVO> historyCL1 = new ArrayList<>();
+			List<TradingHistoryItemVO> historyCO1 = new ArrayList<>();
+			for (TradingHistoryItemVO item : historyItems) {
+				if (StringUtils.equals(item.getSymbol(), TradingConstants.TRADINGECONOMICS_SYMBOL_COM_CLI)) {
+					historyCL1.add(item);
+				} else {
+					historyCO1.add(item);
+				}
+			}
 
-            String responseData = tradingWebService.get(TradingConstants.TRADINGECONOMICS_API_MARKET_SYMBOL, symbols,
-                    parameters, lateTimeSecond, localFilepath);
-            TradingSymbolItemVO[] response = objectMapperUtil.readValue(responseData,
-                    new TypeReference<TradingSymbolItemVO[]>() {
-                    });
-            if (response != null) {
-                symbolItems = Arrays.asList(response);
-            }
-        } catch (Exception e) {
-            result = new APIResponse<Object>(HttpStatus.BAD_REQUEST,
-                    MessageUtil.buildMessage(MessageConstants.ERROR_EXCEPTION, new String[] { e.getMessage() }));
-        }
+			////////////////////
+			// Transform data //
+			////////////////////
+			TradingOilPriceSendVO resultItem = new TradingOilPriceSendVO();
+			resultItem.setSymbolCL1(symbolCL1);
+			resultItem.setSymbolCO1(symbolCO1);
+			resultItem.setHistoryCL1(historyCL1);
+			resultItem.setHistoryCO1(historyCO1);
 
-        //////////////////////
-        // Get data HISTORY //
-        //////////////////////
-        List<TradingHistoryItemVO> historyItems = null;
-        localFilepath = null;
-        lateTimeSecond = 0;
-        if (result.getStatus() == null) {
-            parameters = new HashMap<String, String>();
-            parameters.put(TradingConstants.TRADINGECONOMICS_PARAM_KEY, TradingConstants.TRADINGECONOMICS_CONSTANT_KEY);
-            parameters.put(TradingConstants.TRADINGECONOMICS_PARAM_OUTPUT_FORMAT,
-                    TradingConstants.TRADINGECONOMICS_CONSTANT_FORMAT_JSON);
-            parameters.put(TradingConstants.TRADINGECONOMICS_PARAM_START_DATE,
-                    MyDateUtils.formatDate(startDate, MyDateUtils.YYYYMMDD));
+			List<TradingOilPriceSendVO> resultList = new ArrayList<TradingOilPriceSendVO>();
+			resultList.add(resultItem);
 
-            try {
-                localFilepath = resourcePath + DataExternalConstants.REQUEST_DATA_FILE_PATH_TRADING_HISTORY_OIL;
-                lateTimeSecond = Integer.parseInt(
-                        configCache.getValueByKey(DataExternalConstants.FINANCE_TRADING_HISTORY_OIL_LATE_TIME_SECOND));
+			PageResultVO<TradingOilPriceSendVO> data = new PageResultVO<TradingOilPriceSendVO>();
+			data.setElements(resultList);
+			data.setCurrentPage(0);
+			data.setTotalPage(1);
+			data.setTotalElement(resultList.size());
 
-                String responseData = tradingWebService.get(TradingConstants.TRADINGECONOMICS_API_MARKET_HISTORY,
-                        symbols, parameters, lateTimeSecond, localFilepath);
-                TradingHistoryItemVO[] response = objectMapperUtil.readValue(responseData,
-                        new TypeReference<TradingHistoryItemVO[]>() {
-                        });
-                if (response != null) {
-                    historyItems = Arrays.asList(response);
-                }
-            } catch (Exception e) {
-                result = new APIResponse<Object>(HttpStatus.BAD_REQUEST,
-                        MessageUtil.buildMessage(MessageConstants.ERROR_EXCEPTION, new String[] { e.getMessage() }));
-            }
-        }
+			result.setData(data);
+		}
 
-        ////////////////////
-        // Transform data //
-        ////////////////////
-        if (result.getStatus() == null) {
-            TradingSymbolItemVO symbolCL1 = null;
-            TradingSymbolItemVO symbolCO1 = null;
-            for (TradingSymbolItemVO item : symbolItems) {
-                if (StringUtils.equals(item.getSymbol(), TradingConstants.TRADINGECONOMICS_SYMBOL_COM_CLI)) {
-                    symbolCL1 = item;
-                } else {
-                    symbolCO1 = item;
-                }
-            }
+		// Return
+		return result;
+	}
 
-            List<TradingHistoryItemVO> historyCL1 = new ArrayList<>();
-            List<TradingHistoryItemVO> historyCO1 = new ArrayList<>();
-            for (TradingHistoryItemVO item : historyItems) {
-                if (StringUtils.equals(item.getSymbol(), TradingConstants.TRADINGECONOMICS_SYMBOL_COM_CLI)) {
-                    historyCL1.add(item);
-                } else {
-                    historyCO1.add(item);
-                }
-            }
+	/**
+	 * Search video
+	 * 
+	 * @param sco
+	 * @return
+	 */
+	@Transactional(readOnly = false, rollbackFor = Exception.class)
+	public APIResponse<Object> searchStockPrice() {
+		// Declare result
+		APIResponse<Object> result = new APIResponse<Object>();
 
-            ////////////////////
-            // Transform data //
-            ////////////////////
-            TradingOilPriceSendVO resultItem = new TradingOilPriceSendVO();
-            resultItem.setSymbolCL1(symbolCL1);
-            resultItem.setSymbolCO1(symbolCO1);
-            resultItem.setHistoryCL1(historyCL1);
-            resultItem.setHistoryCO1(historyCO1);
+		try {
+			// Get data stock America
+			TypeVO zoneAmerica = typeCache.getType(DBConstants.TYPE_CLASS_TRADING_SYMBOL_ZONE,
+					DBConstants.TYPE_CODE_TRADING_SYMBOL_ZONE_AMERICA);
+			List<TradingSymbolItemVO> resultAmerica = searchStockPriceByZone(zoneAmerica);
 
-            List<TradingOilPriceSendVO> resultList = new ArrayList<TradingOilPriceSendVO>();
-            resultList.add(resultItem);
+			// Get data stock EU
+			TypeVO zoneEU = typeCache.getType(DBConstants.TYPE_CLASS_TRADING_SYMBOL_ZONE,
+					DBConstants.TYPE_CODE_TRADING_SYMBOL_ZONE_EU);
+			List<TradingSymbolItemVO> resultEU = searchStockPriceByZone(zoneEU);
 
-            PageResultVO<TradingOilPriceSendVO> data = new PageResultVO<TradingOilPriceSendVO>();
-            data.setElements(resultList);
-            data.setCurrentPage(0);
-            data.setTotalPage(1);
-            data.setTotalElement(resultList.size());
+			// Get data stock Asia
+			TypeVO zoneAsia = typeCache.getType(DBConstants.TYPE_CLASS_TRADING_SYMBOL_ZONE,
+					DBConstants.TYPE_CODE_TRADING_SYMBOL_ZONE_ASIA);
+			List<TradingSymbolItemVO> resultAsia = searchStockPriceByZone(zoneAsia);
 
-            result.setData(data);
-        }
+			// Get data stock Africa
+			TypeVO zoneAfrica = typeCache.getType(DBConstants.TYPE_CLASS_TRADING_SYMBOL_ZONE,
+					DBConstants.TYPE_CODE_TRADING_SYMBOL_ZONE_AFRICA);
+			List<TradingSymbolItemVO> resultAfrica = searchStockPriceByZone(zoneAfrica);
 
-        // Return
-        return result;
-    }
+			// Set return data
+			TradingStockPriceSendVO resultItemData = new TradingStockPriceSendVO();
+			resultItemData.setAmerica(resultAmerica);
+			resultItemData.setEurope(resultEU);
+			resultItemData.setAsia(resultAsia);
+			resultItemData.setAfrica(resultAfrica);
 
-    /**
-     * Search video
-     * 
-     * @param sco
-     * @return
-     */
-    @Transactional(readOnly = false, rollbackFor = Exception.class)
-    public APIResponse<Object> searchStockPrice() {
-        // Declare result
-        APIResponse<Object> result = new APIResponse<Object>();
+			List<TradingStockPriceSendVO> resultData = new ArrayList<>();
+			resultData.add(resultItemData);
 
-        try {
-            // Get data stock America
-            TypeVO zoneAmerica = typeCache.getType(DBConstants.TYPE_CLASS_TRADING_SYMBOL_ZONE,
-                    DBConstants.TYPE_CODE_TRADING_SYMBOL_ZONE_AMERICA);
-            List<TradingSymbolItemVO> resultAmerica = searchStockPriceByZone(zoneAmerica);
+			PageResultVO<TradingStockPriceSendVO> data = new PageResultVO<TradingStockPriceSendVO>();
+			data.setElements(resultData);
+			data.setCurrentPage(0);
+			data.setTotalPage(1);
+			data.setTotalElement(resultData.size());
 
-            // Get data stock EU
-            TypeVO zoneEU = typeCache.getType(DBConstants.TYPE_CLASS_TRADING_SYMBOL_ZONE,
-                    DBConstants.TYPE_CODE_TRADING_SYMBOL_ZONE_EU);
-            List<TradingSymbolItemVO> resultEU = searchStockPriceByZone(zoneEU);
+			result.setData(data);
+		} catch (Exception e) {
+			result = new APIResponse<Object>(HttpStatus.BAD_REQUEST,
+					ResponseCode.mapParam(ResponseCode.ERROR_EXCEPTION, e.getMessage()));
+		}
 
-            // Get data stock Asia
-            TypeVO zoneAsia = typeCache.getType(DBConstants.TYPE_CLASS_TRADING_SYMBOL_ZONE,
-                    DBConstants.TYPE_CODE_TRADING_SYMBOL_ZONE_ASIA);
-            List<TradingSymbolItemVO> resultAsia = searchStockPriceByZone(zoneAsia);
+		// Return
+		return result;
+	}
 
-            // Get data stock Africa
-            TypeVO zoneAfrica = typeCache.getType(DBConstants.TYPE_CLASS_TRADING_SYMBOL_ZONE,
-                    DBConstants.TYPE_CODE_TRADING_SYMBOL_ZONE_AFRICA);
-            List<TradingSymbolItemVO> resultAfrica = searchStockPriceByZone(zoneAfrica);
+	/**
+	 * Get stock price by zone
+	 *
+	 * @param zone
+	 * @return
+	 * @throws Exception
+	 */
+	private List<TradingSymbolItemVO> searchStockPriceByZone(TypeVO zone) throws Exception {
+		// Declare result
+		List<TradingSymbolItemVO> result = null;
 
-            // Set return data
-            TradingStockPriceSendVO resultItemData = new TradingStockPriceSendVO();
-            resultItemData.setAmerica(resultAmerica);
-            resultItemData.setEurope(resultEU);
-            resultItemData.setAsia(resultAsia);
-            resultItemData.setAfrica(resultAfrica);
+		// Get all symbol by zone
+		TypeVO stockType = typeCache.getType(DBConstants.TYPE_CLASS_TRADING_SYMBOL_TYPE,
+				DBConstants.TYPE_CODE_TRADING_SYMBOL_STOCK);
+		SearchNumberVO symbolTypeSearch = new SearchNumberVO();
+		symbolTypeSearch.setEq(stockType.getId().doubleValue());
 
-            List<TradingStockPriceSendVO> resultData = new ArrayList<>();
-            resultData.add(resultItemData);
+		SearchNumberVO zoneSearch = new SearchNumberVO();
+		zoneSearch.setEq(zone.getId().doubleValue());
 
-            PageResultVO<TradingStockPriceSendVO> data = new PageResultVO<TradingStockPriceSendVO>();
-            data.setElements(resultData);
-            data.setCurrentPage(0);
-            data.setTotalPage(1);
-            data.setTotalElement(resultData.size());
+		TradingSymbolSCO sco = new TradingSymbolSCO();
+		sco.setSymbolType(symbolTypeSearch);
+		sco.setZone(zoneSearch);
+		sco.setDeleteFlag(false);
 
-            result.setData(data);
-        } catch (Exception e) {
-            result = new APIResponse<Object>(HttpStatus.BAD_REQUEST,
-                    MessageUtil.buildMessage(MessageConstants.ERROR_EXCEPTION, new String[] { e.getMessage() }));
-        }
+		Page<TradingSymbolTbl> symbolTbls = tradingSymbolRepository.findAll(sco);
 
-        // Return
-        return result;
-    }
+		List<String> symbols = new ArrayList<>();
+		if (!CollectionUtils.isEmpty(symbolTbls.getContent())) {
+			for (TradingSymbolTbl item : symbolTbls.getContent()) {
+				symbols.add(item.getSymbol());
+			}
+		}
 
-    /**
-     * Get stock price by zone
-     *
-     * @param zone
-     * @return
-     * @throws Exception
-     */
-    private List<TradingSymbolItemVO> searchStockPriceByZone(TypeVO zone) throws Exception {
-        // Declare result
-        List<TradingSymbolItemVO> result = null;
+		//////////////
+		// Get data //
+		//////////////
+		if (!CollectionUtils.isEmpty(symbols)) {
+			result = new ArrayList<>();
 
-        // Get all symbol by zone
-        TypeVO stockType = typeCache.getType(DBConstants.TYPE_CLASS_TRADING_SYMBOL_TYPE,
-                DBConstants.TYPE_CODE_TRADING_SYMBOL_STOCK);
-        SearchNumberVO symbolTypeSearch = new SearchNumberVO();
-        symbolTypeSearch.setEq(stockType.getId().doubleValue());
+			// Prepare parameter
+			Map<String, String> parameters = new HashMap<String, String>();
+			parameters.put(TradingConstants.TRADINGECONOMICS_PARAM_KEY, TradingConstants.TRADINGECONOMICS_CONSTANT_KEY);
+			parameters.put(TradingConstants.TRADINGECONOMICS_PARAM_OUTPUT_FORMAT,
+					TradingConstants.TRADINGECONOMICS_CONSTANT_FORMAT_JSON);
 
-        SearchNumberVO zoneSearch = new SearchNumberVO();
-        zoneSearch.setEq(zone.getId().doubleValue());
+			// Get late time
+			int lateTimeSecond = Integer.parseInt(
+					configCache.getValueByKey(DataExternalConstants.FINANCE_TRADING_MARKET_STOCK_LATE_TIME_SECOND));
 
-        TradingSymbolSCO sco = new TradingSymbolSCO();
-        sco.setSymbolType(symbolTypeSearch);
-        sco.setZone(zoneSearch);
-        sco.setDeleteFlag(false);
+			// Get local file name
+			String localFilepath = null;
+			switch (zone.getTypeCode()) {
+			case DBConstants.TYPE_CODE_TRADING_SYMBOL_ZONE_AMERICA:
+				localFilepath = resourcePath
+						+ DataExternalConstants.REQUEST_DATA_FILE_PATH_TRADING_MARKET_STOCK_AMERICA;
+				break;
+			case DBConstants.TYPE_CODE_TRADING_SYMBOL_ZONE_EU:
+				localFilepath = resourcePath + DataExternalConstants.REQUEST_DATA_FILE_PATH_TRADING_MARKET_STOCK_EU;
+				break;
+			case DBConstants.TYPE_CODE_TRADING_SYMBOL_ZONE_ASIA:
+				localFilepath = resourcePath + DataExternalConstants.REQUEST_DATA_FILE_PATH_TRADING_MARKET_STOCK_ASIA;
+				break;
+			case DBConstants.TYPE_CODE_TRADING_SYMBOL_ZONE_AFRICA:
+				localFilepath = resourcePath + DataExternalConstants.REQUEST_DATA_FILE_PATH_TRADING_MARKET_STOCK_AFRICA;
+				break;
+			default:
+				break;
+			}
 
-        Page<TradingSymbolTbl> symbolTbls = tradingSymbolRepository.findAll(sco);
+			String responseData = tradingWebService.get(TradingConstants.TRADINGECONOMICS_API_MARKET_SYMBOL, symbols,
+					parameters, lateTimeSecond, localFilepath);
+			TradingSymbolItemVO[] response = objectMapperUtil.readValue(responseData,
+					new TypeReference<TradingSymbolItemVO[]>() {
+					});
+			if (response != null) {
+				result = Arrays.asList(response);
 
-        List<String> symbols = new ArrayList<>();
-        if (!CollectionUtils.isEmpty(symbolTbls.getContent())) {
-            for (TradingSymbolTbl item : symbolTbls.getContent()) {
-                symbols.add(item.getSymbol());
-            }
-        }
+				////////////////////
+				// Transform data //
+				////////////////////
+				TradingSymbolTbl tradingSymbolTbl;
+				for (TradingSymbolItemVO item : result) {
+					tradingSymbolTbl = tradingSymbolService.getTradingSymbol(item.getSymbol());
+					if (tradingSymbolTbl != null) {
+						item.setCountry(countryTransformer.convertToVO(tradingSymbolTbl.getCountry()));
+					}
+				}
+			}
+		}
 
-        //////////////
-        // Get data //
-        //////////////
-        if (!CollectionUtils.isEmpty(symbols)) {
-            result = new ArrayList<>();
-
-            // Prepare parameter
-            Map<String, String> parameters = new HashMap<String, String>();
-            parameters.put(TradingConstants.TRADINGECONOMICS_PARAM_KEY, TradingConstants.TRADINGECONOMICS_CONSTANT_KEY);
-            parameters.put(TradingConstants.TRADINGECONOMICS_PARAM_OUTPUT_FORMAT,
-                    TradingConstants.TRADINGECONOMICS_CONSTANT_FORMAT_JSON);
-
-            // Get late time
-            int lateTimeSecond = Integer.parseInt(
-                    configCache.getValueByKey(DataExternalConstants.FINANCE_TRADING_MARKET_STOCK_LATE_TIME_SECOND));
-
-            // Get local file name
-            String localFilepath = null;
-            switch (zone.getTypeCode()) {
-            case DBConstants.TYPE_CODE_TRADING_SYMBOL_ZONE_AMERICA:
-                localFilepath = resourcePath
-                        + DataExternalConstants.REQUEST_DATA_FILE_PATH_TRADING_MARKET_STOCK_AMERICA;
-                break;
-            case DBConstants.TYPE_CODE_TRADING_SYMBOL_ZONE_EU:
-                localFilepath = resourcePath + DataExternalConstants.REQUEST_DATA_FILE_PATH_TRADING_MARKET_STOCK_EU;
-                break;
-            case DBConstants.TYPE_CODE_TRADING_SYMBOL_ZONE_ASIA:
-                localFilepath = resourcePath + DataExternalConstants.REQUEST_DATA_FILE_PATH_TRADING_MARKET_STOCK_ASIA;
-                break;
-            case DBConstants.TYPE_CODE_TRADING_SYMBOL_ZONE_AFRICA:
-                localFilepath = resourcePath + DataExternalConstants.REQUEST_DATA_FILE_PATH_TRADING_MARKET_STOCK_AFRICA;
-                break;
-            default:
-                break;
-            }
-
-            String responseData = tradingWebService.get(TradingConstants.TRADINGECONOMICS_API_MARKET_SYMBOL, symbols,
-                    parameters, lateTimeSecond, localFilepath);
-            TradingSymbolItemVO[] response = objectMapperUtil.readValue(responseData,
-                    new TypeReference<TradingSymbolItemVO[]>() {
-                    });
-            if (response != null) {
-                result = Arrays.asList(response);
-
-                ////////////////////
-                // Transform data //
-                ////////////////////
-                TradingSymbolTbl tradingSymbolTbl;
-                for (TradingSymbolItemVO item : result) {
-                    tradingSymbolTbl = tradingSymbolService.getTradingSymbol(item.getSymbol());
-                    if (tradingSymbolTbl != null) {
-                        item.setCountry(countryTransformer.convertToVO(tradingSymbolTbl.getCountry()));
-                    }
-                }
-            }
-        }
-
-        // Return
-        return result;
-    }
+		// Return
+		return result;
+	}
 
 }

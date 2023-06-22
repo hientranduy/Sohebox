@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.hientran.sohebox.cache.TypeCache;
 import com.hientran.sohebox.constants.DBConstants;
-import com.hientran.sohebox.constants.MessageConstants;
+import com.hientran.sohebox.constants.ResponseCode;
 import com.hientran.sohebox.constants.enums.UserActivityTblEnum;
 import com.hientran.sohebox.entity.UserActivityTbl;
 import com.hientran.sohebox.entity.UserTbl;
@@ -19,7 +19,6 @@ import com.hientran.sohebox.repository.UserActivityRepository;
 import com.hientran.sohebox.repository.UserRepository;
 import com.hientran.sohebox.transformer.TypeTransformer;
 import com.hientran.sohebox.transformer.UserActivityTransformer;
-import com.hientran.sohebox.utils.MessageUtil;
 import com.hientran.sohebox.vo.TypeVO;
 import com.hientran.sohebox.vo.UserActivityVO;
 import com.hientran.sohebox.vo.UserVO;
@@ -55,14 +54,12 @@ public class UserActivityService {
 
 			// User must not null
 			if (vo.getUser() == null && vo.getUserTbl() == null) {
-				errors.add(MessageUtil.buildMessage(MessageConstants.FILED_EMPTY,
-						new String[] { UserActivityTblEnum.user.name() }));
+				errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, UserActivityTblEnum.user.name()));
 			}
 
 			// Activity must not null
 			if (vo.getActivity() == null) {
-				errors.add(MessageUtil.buildMessage(MessageConstants.FILED_EMPTY,
-						new String[] { UserActivityTblEnum.activity.name() }));
+				errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, UserActivityTblEnum.activity.name()));
 			}
 
 			// Record error

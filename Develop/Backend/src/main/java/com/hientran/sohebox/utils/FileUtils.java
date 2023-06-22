@@ -26,6 +26,7 @@ import java.util.Base64;
 import jakarta.activation.DataHandler;
 import jakarta.activation.DataSource;
 import jakarta.activation.FileDataSource;
+import lombok.extern.slf4j.Slf4j;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
@@ -34,9 +35,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.FileCopyUtils;
 
-public class FileUtils {
+import com.hientran.sohebox.cache.FoodTypeCache;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(FileUtils.class);
+@Slf4j
+public class FileUtils {
 
     private static final int BUFFER_SIZE = 1024;
 
@@ -63,7 +65,7 @@ public class FileUtils {
             String ext = dataFile.getExtension();
             String fileName = StringUtils.trimToEmpty(dataFile.getFileName());
             if (StringUtils.isBlank(fileName)) {
-                LOGGER.error("Can not write file because file name is blank");
+                log.error("Can not write file because file name is blank");
                 return;
             }
             DataHandler dataHandler = dataFile.getFile();
@@ -99,7 +101,7 @@ public class FileUtils {
                 try {
                     inputStream.close();
                 } catch (IOException e1) {
-                    LOGGER.error(ExceptionUtils.getFullStackTrace(e1));
+                    log.error(ExceptionUtils.getFullStackTrace(e1));
                     ;
                 }
             }
@@ -108,7 +110,7 @@ public class FileUtils {
                     outputStream.flush();
                     outputStream.close();
                 } catch (IOException e1) {
-                    LOGGER.error(ExceptionUtils.getFullStackTrace(e1));
+                    log.error(ExceptionUtils.getFullStackTrace(e1));
                     ;
                 }
             }
@@ -163,7 +165,7 @@ public class FileUtils {
                     try {
                         reader.close();
                     } catch (IOException e) {
-                        LOGGER.error(ExceptionUtils.getFullStackTrace(e));
+                        log.error(ExceptionUtils.getFullStackTrace(e));
                         ;
                     }
                 }
@@ -171,7 +173,7 @@ public class FileUtils {
                     writer.flush();
                     writer.close();
                 } catch (IOException e) {
-                    LOGGER.error(ExceptionUtils.getFullStackTrace(e));
+                    log.error(ExceptionUtils.getFullStackTrace(e));
                     ;
                 }
             }
@@ -193,7 +195,7 @@ public class FileUtils {
         if (!file.exists()) { // directory does not exist
             boolean r = file.mkdir(); // create it
             if (!r) {
-                LOGGER.debug("Can not create folder : " + directory);
+                log.debug("Can not create folder : " + directory);
             }
         }
     }
@@ -209,7 +211,7 @@ public class FileUtils {
         try {
             Files.createDirectories(Paths.get(directory));
         } catch (IOException e) {
-            LOGGER.error("Creation of folder + " + directory + " failed.", e);
+            log.error("Creation of folder + " + directory + " failed.", e);
         }
 
     }
@@ -243,9 +245,9 @@ public class FileUtils {
                     result = true;
                 }
             } catch (FileNotFoundException e) {
-                LOGGER.warn(logMessage + file);
+                log.warn(logMessage + file);
             } catch (IOException e) {
-                LOGGER.warn(logMessage + file);
+                log.warn(logMessage + file);
             } finally {
                 FileUtils.closeQuietly(randomAccessFile);
             }
@@ -269,7 +271,7 @@ public class FileUtils {
 
     /** This may fail for VERY large files. */
     public static void copyWithChannels(File aSourceFile, File aTargetFile, boolean aAppend) {
-        LOGGER.info("Copying files with channels.");
+        log.info("Copying files with channels.");
         ensureTargetDirectoryExists(aTargetFile.getParentFile());
         FileChannel inChannel = null;
         FileChannel outChannel = null;
@@ -302,9 +304,9 @@ public class FileUtils {
                 }
             }
         } catch (FileNotFoundException ex) {
-            LOGGER.error("File not found: " + ex);
+            log.error("File not found: " + ex);
         } catch (IOException ex) {
-            LOGGER.error(ExceptionUtils.getFullStackTrace(ex));
+            log.error(ExceptionUtils.getFullStackTrace(ex));
             ;
         }
     }

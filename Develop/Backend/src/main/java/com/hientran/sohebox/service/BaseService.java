@@ -27,7 +27,7 @@ import com.hientran.sohebox.cache.ConfigCache;
 import com.hientran.sohebox.cache.TypeCache;
 import com.hientran.sohebox.constants.DBConstants;
 import com.hientran.sohebox.constants.DataExternalConstants;
-import com.hientran.sohebox.constants.MessageConstants;
+import com.hientran.sohebox.constants.ResponseCode;
 import com.hientran.sohebox.entity.RequestExternalTbl;
 import com.hientran.sohebox.entity.UserTbl;
 import com.hientran.sohebox.exception.APIResponse;
@@ -37,7 +37,6 @@ import com.hientran.sohebox.sco.SearchNumberVO;
 import com.hientran.sohebox.sco.SearchTextVO;
 import com.hientran.sohebox.security.UserService;
 import com.hientran.sohebox.utils.FileUtils;
-import com.hientran.sohebox.utils.MessageUtil;
 import com.hientran.sohebox.utils.MyDateUtils;
 import com.hientran.sohebox.vo.TypeVO;
 
@@ -84,7 +83,7 @@ public class BaseService {
 			// Just return data of logged user
 			if (userID != loggedUser.getId()) {
 				result = new APIResponse<Object>(HttpStatus.BAD_REQUEST,
-						MessageUtil.buildMessage(MessageConstants.UNAUTHORIZED_DATA, null));
+						ResponseCode.mapParam(ResponseCode.UNAUTHORIZED_DATA, null));
 			}
 		}
 

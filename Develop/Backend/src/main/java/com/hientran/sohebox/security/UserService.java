@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -20,7 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.hientran.sohebox.constants.DBConstants;
-import com.hientran.sohebox.constants.MessageConstants;
+import com.hientran.sohebox.constants.ResponseCode;
 import com.hientran.sohebox.constants.enums.UserActivityTblEnum;
 import com.hientran.sohebox.constants.enums.UserTblEnum;
 import com.hientran.sohebox.entity.UserActivityTbl;
@@ -29,7 +30,6 @@ import com.hientran.sohebox.exception.APIResponse;
 import com.hientran.sohebox.repository.UserActivityRepository;
 import com.hientran.sohebox.repository.UserRepository;
 import com.hientran.sohebox.sco.SearchNumberVO;
-import com.hientran.sohebox.sco.SearchTextVO;
 import com.hientran.sohebox.sco.Sorter;
 import com.hientran.sohebox.sco.UserActivitySCO;
 import com.hientran.sohebox.sco.UserSCO;
@@ -38,7 +38,6 @@ import com.hientran.sohebox.service.RoleService;
 import com.hientran.sohebox.service.UserActivityService;
 import com.hientran.sohebox.specification.UserSpecs;
 import com.hientran.sohebox.transformer.UserTransformer;
-import com.hientran.sohebox.utils.MessageUtil;
 import com.hientran.sohebox.utils.MyDateUtils;
 import com.hientran.sohebox.validation.UserValidation;
 import com.hientran.sohebox.vo.ChangePasswordVO;
@@ -61,6 +60,7 @@ public class UserService implements UserDetailsService {
 
 	@PersistenceContext
 	protected EntityManager entityManager;
+
 	private final UserRepository userRepository;
 	private final UserTransformer userTransformer;
 	private final UserValidation validation;
@@ -74,10 +74,6 @@ public class UserService implements UserDetailsService {
 	 * 
 	 * Create new User
 	 * 
-	 * Anyone
-	 *
-	 * @param vo
-	 * @return
 	 */
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
 	public APIResponse<Long> create(UserVO vo) {
@@ -90,26 +86,22 @@ public class UserService implements UserDetailsService {
 
 			// username must not null
 			if (StringUtils.isBlank(vo.getUsername())) {
-				errors.add(MessageUtil.buildMessage(MessageConstants.FILED_EMPTY,
-						new String[] { UserTblEnum.username.name() }));
+				errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, UserTblEnum.username.name()));
 			}
 
 			// Password
 			if (validation.isInvalidPassword(vo.getPassword())) {
-				errors.add(MessageUtil.buildMessage(MessageConstants.INVALID_FIELD,
-						new String[] { UserTblEnum.password.name() }));
+				errors.add(ResponseCode.mapParam(ResponseCode.INVALID_FIELD, UserTblEnum.password.name()));
 			}
 
 			// First name must not null
 			if (StringUtils.isBlank(vo.getFirstName())) {
-				errors.add(MessageUtil.buildMessage(MessageConstants.FILED_EMPTY,
-						new String[] { UserTblEnum.firstName.name() }));
+				errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, UserTblEnum.firstName.name()));
 			}
 
 			// Last name must not null
 			if (StringUtils.isBlank(vo.getLastName())) {
-				errors.add(MessageUtil.buildMessage(MessageConstants.FILED_EMPTY,
-						new String[] { UserTblEnum.lastName.name() }));
+				errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, UserTblEnum.lastName.name()));
 			}
 
 			// Record error
@@ -122,7 +114,7 @@ public class UserService implements UserDetailsService {
 		if (result.getStatus() == null) {
 			if (getByUserName(vo.getUsername()) != null) {
 				result = new APIResponse<Long>(HttpStatus.BAD_REQUEST,
-						MessageUtil.buildMessage(MessageConstants.EXISTED_USERNAME, new String[] { vo.getUsername() }));
+						ResponseCode.mapParam(ResponseCode.EXISTED_USERNAME, vo.getUsername()));
 			}
 		}
 
@@ -132,7 +124,7 @@ public class UserService implements UserDetailsService {
 			UserTbl tbl = userTransformer.convertToTbl(vo);
 
 			// Always set role "user"
-			tbl.setRole(roleService.getRole(DBConstants.USER_ROLE_USER));
+			tbl.setRole(roleService.getByRoleName(DBConstants.USER_ROLE_USER));
 
 			// Set mdp
 			tbl.setMdp(mdpService.getMdp(vo.getPassword()));
@@ -148,6 +140,54 @@ public class UserService implements UserDetailsService {
 			// Create User
 			tbl = userRepository.save(tbl);
 			result.setData(tbl.getId());
+		}
+
+		// Return
+		return result;
+	}
+
+	/**
+	 * 
+	 * Update logged User
+	 *
+	 */
+	@Transactional(readOnly = false, rollbackFor = Exception.class)
+	public APIResponse<Object> update(UserVO vo) {
+		// Declare result
+		APIResponse<Object> result = new APIResponse<Object>();
+
+		// Validate data
+		if (result.getStatus() == null) {
+
+			List<String> errors = new ArrayList<>();
+
+			// username must not null
+			if (StringUtils.isBlank(vo.getUsername())) {
+				errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, UserTblEnum.username.name()));
+			}
+
+			// First name must not null
+			if (StringUtils.isBlank(vo.getFirstName())) {
+				errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, UserTblEnum.firstName.name()));
+			}
+
+			// Last name must not null
+			if (StringUtils.isBlank(vo.getLastName())) {
+				errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, UserTblEnum.lastName.name()));
+			}
+
+			// Record error
+			if (CollectionUtils.isNotEmpty(errors)) {
+				result = new APIResponse<Object>(HttpStatus.BAD_REQUEST, errors);
+			}
+		}
+
+		// Update
+		if (result.getStatus() == null) {
+			UserTbl updateTbl = getCurrentLoginUser();
+			updateTbl.setFirstName(vo.getFirstName());
+			updateTbl.setLastName(vo.getLastName());
+			userRepository.save(updateTbl);
 		}
 
 		// Return
@@ -177,14 +217,12 @@ public class UserService implements UserDetailsService {
 
 				// Old password must not null
 				if (StringUtils.isBlank(vo.getOldPassword())) {
-					errors.add(MessageUtil.buildMessage(MessageConstants.FILED_EMPTY,
-							new String[] { UserTblEnum.password.name() }));
+					errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, UserTblEnum.password.name()));
 				}
 
 				// New Password
 				if (validation.isInvalidPassword(vo.getNewPassword())) {
-					errors.add(MessageUtil.buildMessage(MessageConstants.INVALID_FIELD,
-							new String[] { UserTblEnum.password.name() }));
+					errors.add(ResponseCode.mapParam(ResponseCode.INVALID_FIELD, UserTblEnum.password.name()));
 				}
 
 				// Record error
@@ -210,7 +248,7 @@ public class UserService implements UserDetailsService {
 					userActivityService.recordUserActivity(userTbl, DBConstants.USER_ACTIVITY_CHANGE_PASSWORD);
 				} else {
 					result = new APIResponse<Object>(HttpStatus.BAD_REQUEST,
-							MessageUtil.buildMessage(MessageConstants.UNAUTHORIZED_USER, null));
+							ResponseCode.mapParam(ResponseCode.UNAUTHORIZED_USER, null));
 				}
 			}
 		} else {
@@ -223,8 +261,7 @@ public class UserService implements UserDetailsService {
 
 				// New Password
 				if (validation.isInvalidPassword(vo.getNewPassword())) {
-					errors.add(MessageUtil.buildMessage(MessageConstants.INVALID_FIELD,
-							new String[] { UserTblEnum.password.name() }));
+					errors.add(ResponseCode.mapParam(ResponseCode.INVALID_FIELD, UserTblEnum.password.name()));
 				}
 
 				// Record error
@@ -249,7 +286,7 @@ public class UserService implements UserDetailsService {
 							DBConstants.USER_ACTIVITY_CHANGE_PASSWORD_WHEN_LOGIN);
 				} else {
 					result = new APIResponse<Object>(HttpStatus.BAD_REQUEST,
-							MessageUtil.buildMessage(MessageConstants.UNAUTHORIZED_USER, null));
+							ResponseCode.mapParam(ResponseCode.UNAUTHORIZED_USER, null));
 				}
 			}
 		}
@@ -280,69 +317,7 @@ public class UserService implements UserDetailsService {
 			userActivityService.recordUserActivity(userTbl, DBConstants.USER_ACTIVITY_DELETE);
 		} else {
 			result = new APIResponse<Object>(HttpStatus.BAD_REQUEST,
-					MessageUtil.buildMessage(MessageConstants.UNAUTHORIZED_USER, null));
-		}
-
-		// Return
-		return result;
-	}
-
-	/**
-	 * 
-	 * Update logged User
-	 *
-	 * @param UserId
-	 * @param UserVO
-	 * @return
-	 */
-	@Transactional(readOnly = false, rollbackFor = Exception.class)
-	public APIResponse<Object> update(UserVO vo) {
-		// Declare result
-		APIResponse<Object> result = new APIResponse<Object>();
-
-		// Validate data
-		if (result.getStatus() == null) {
-
-			List<String> errors = new ArrayList<>();
-
-			// username must not null
-			if (StringUtils.isBlank(vo.getUsername())) {
-				errors.add(MessageUtil.buildMessage(MessageConstants.FILED_EMPTY,
-						new String[] { UserTblEnum.username.name() }));
-			}
-
-			// First name must not null
-			if (StringUtils.isBlank(vo.getFirstName())) {
-				errors.add(MessageUtil.buildMessage(MessageConstants.FILED_EMPTY,
-						new String[] { UserTblEnum.firstName.name() }));
-			}
-
-			// Last name must not null
-			if (StringUtils.isBlank(vo.getLastName())) {
-				errors.add(MessageUtil.buildMessage(MessageConstants.FILED_EMPTY,
-						new String[] { UserTblEnum.lastName.name() }));
-			}
-
-			// Record error
-			if (CollectionUtils.isNotEmpty(errors)) {
-				result = new APIResponse<Object>(HttpStatus.BAD_REQUEST, errors);
-			}
-		}
-
-		// Update
-		if (result.getStatus() == null) {
-			// Check if User existed
-			UserDetailsImp UserDetails = (UserDetailsImp) loadUserByUsername(vo.getUsername());
-
-			// Get User
-			UserTbl updateTbl = UserDetails.getUserTbl();
-
-			updateTbl.setFirstName(vo.getFirstName());
-			updateTbl.setLastName(vo.getLastName());
-			userRepository.save(updateTbl);
-
-			// Record activity "UPDATE INFO"
-			userActivityService.recordUserActivity(updateTbl, DBConstants.USER_ACTIVITY_UPDATE_INFO);
+					ResponseCode.mapParam(ResponseCode.UNAUTHORIZED_USER, null));
 		}
 
 		// Return
@@ -529,7 +504,7 @@ public class UserService implements UserDetailsService {
 		// Return if User existed
 		if (!tbl.isPresent()) {
 			result = new APIResponse<Object>(HttpStatus.BAD_REQUEST,
-					MessageUtil.buildMessage(MessageConstants.UNAUTHORIZED_DATA, null));
+					ResponseCode.mapParam(ResponseCode.UNAUTHORIZED_DATA, null));
 		}
 
 		// Transform data
@@ -538,7 +513,7 @@ public class UserService implements UserDetailsService {
 		// Return if not the owner
 		if (result.getStatus() == null && !isDataOwner(UserVO.getUsername())) {
 			result = new APIResponse<Object>(HttpStatus.BAD_REQUEST,
-					MessageUtil.buildMessage(MessageConstants.UNAUTHORIZED_DATA, null));
+					ResponseCode.mapParam(ResponseCode.UNAUTHORIZED_DATA, null));
 		}
 
 		// Set return data
@@ -589,29 +564,6 @@ public class UserService implements UserDetailsService {
 	}
 
 	/**
-	 * 
-	 * Get username by id
-	 *
-	 * @param id
-	 * @return
-	 */
-	public String getUsernameById(Long id) {
-		// Declare result
-		String result = null;
-
-		// Get Data
-		Optional<UserTbl> tbl = userRepository.findById(id);
-
-		// Return if User existed
-		if (tbl.isPresent()) {
-			result = tbl.get().getUsername();
-		}
-
-		// Return
-		return result;
-	}
-
-	/**
 	 * Search User by condition
 	 * 
 	 * Only creator
@@ -637,34 +589,6 @@ public class UserService implements UserDetailsService {
 	}
 
 	/**
-	 * Delete a User
-	 * 
-	 * Only role creator
-	 *
-	 * @param User
-	 * @return
-	 */
-	@Transactional(readOnly = false, rollbackFor = Exception.class)
-	public APIResponse<Object> deleteById(Long id) {
-		// Declare result
-		APIResponse<Object> result = new APIResponse<Object>();
-
-		// Check existed
-		Optional<UserTbl> UserTbl = userRepository.findById(id);
-
-		// Delete if found
-		if (UserTbl.isPresent()) {
-			userRepository.delete(UserTbl.get());
-		} else {
-			result = new APIResponse<Object>(HttpStatus.BAD_REQUEST,
-					MessageUtil.buildMessage(MessageConstants.UNAUTHORIZED_DATA, null));
-		}
-
-		// Return
-		return result;
-	}
-
-	/**
 	 * 
 	 * Get User by username
 	 *
@@ -675,16 +599,9 @@ public class UserService implements UserDetailsService {
 		// Declare result
 		UserVO result = null;
 
-		// Prepare search
-		SearchTextVO searchUserName = new SearchTextVO();
-		searchUserName.setEq(userName);
-		UserSCO sco = new UserSCO();
-		sco.setUserName(searchUserName);
-
-		// Get data
-		List<UserTbl> listUser = userRepository.findAll(sco).getContent();
-		if (CollectionUtils.isNotEmpty(listUser)) {
-			result = userTransformer.convertToVO(listUser.get(0));
+		UserTbl tbl = userRepository.findFirstByUsername(userName);
+		if (ObjectUtils.isNotEmpty(tbl)) {
+			result = userTransformer.convertToVO(tbl);
 		}
 
 		// Return
@@ -699,23 +616,7 @@ public class UserService implements UserDetailsService {
 	 * @return
 	 */
 	public UserTbl getTblByUserName(String userName) {
-		// Declare result
-		UserTbl result = null;
-
-		// Prepare search
-		SearchTextVO searchUserName = new SearchTextVO();
-		searchUserName.setEq(userName);
-		UserSCO sco = new UserSCO();
-		sco.setUserName(searchUserName);
-
-		// Get data
-		List<UserTbl> listUser = userRepository.findAll(sco).getContent();
-		if (CollectionUtils.isNotEmpty(listUser)) {
-			result = listUser.get(0);
-		}
-
-		// Return
-		return result;
+		return userRepository.findFirstByUsername(userName);
 	}
 
 	/**
@@ -726,7 +627,7 @@ public class UserService implements UserDetailsService {
 		UserDetailsImp userDetailsImp = null;
 
 		// Get user by user name
-		UserTbl userTbl = getAuthorizeUser(username);
+		UserTbl userTbl = userRepository.findFirstByUsername(username);
 		if (userTbl == null) {
 			throw new UsernameNotFoundException("User does not exist.");
 		} else {
@@ -737,38 +638,6 @@ public class UserService implements UserDetailsService {
 		}
 
 		return userDetailsImp;
-	}
-
-	/**
-	 * 
-	 * Get authorize user
-	 *
-	 * @param userName
-	 * @return
-	 */
-	private UserTbl getAuthorizeUser(String userName) {
-		// Declare result
-		UserTbl result = null;
-
-		if (StringUtils.isNotBlank(userName)) {
-			// Get Data
-			SearchTextVO user = new SearchTextVO();
-			user.setEq(userName);
-
-			UserSCO sco = new UserSCO();
-			sco.setUserName(user);
-			sco.setDeleteFlag(false);
-
-			Optional<UserTbl> tbl = userRepository.findOne(userSpecs.buildSpecification(sco));
-
-			// Transformer
-			if (tbl.isPresent()) {
-				result = tbl.get();
-			}
-		}
-
-		// Return
-		return result;
 	}
 
 	/**
@@ -785,29 +654,6 @@ public class UserService implements UserDetailsService {
 		if (StringUtils.equals(loggedUser.getRole().getRoleName(), DBConstants.USER_ROLE_USER)) {
 			if (!StringUtils.equals(loggedUser.getUsername(), username)) {
 				result = false;
-			}
-		}
-
-		// Return
-		return result;
-	}
-
-	/**
-	 * Valid if data is belong to logged user
-	 *
-	 * @return
-	 */
-	public boolean isDataOwner(Long id) {
-		Boolean result = true;
-
-		UserTbl loggedUser = getCurrentLoginUser();
-
-		// Only check for role User, skip other role
-		if (StringUtils.equals(loggedUser.getRole().getRoleName(), DBConstants.USER_ROLE_USER)) {
-			if (loggedUser.getId() == id) {
-				result = true;
-			} else {
-				result = true;
 			}
 		}
 
@@ -850,8 +696,7 @@ public class UserService implements UserDetailsService {
 
 			// username must not null
 			if (StringUtils.isBlank(vo.getUsername())) {
-				errors.add(MessageUtil.buildMessage(MessageConstants.FILED_EMPTY,
-						new String[] { UserTblEnum.username.name() }));
+				errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, UserTblEnum.username.name()));
 			}
 
 			// Record error
@@ -864,8 +709,8 @@ public class UserService implements UserDetailsService {
 		if (result.getStatus() == null) {
 			UserTbl userTbl = getTblByUserName(vo.getUsername());
 			if (userTbl == null) {
-				result = new APIResponse<Object>(HttpStatus.BAD_REQUEST, MessageUtil
-						.buildMessage(MessageConstants.INEXISTED_USERNAME, new String[] { vo.getUsername() }));
+				result = new APIResponse<Object>(HttpStatus.BAD_REQUEST,
+						ResponseCode.mapParam(ResponseCode.INEXISTED_USERNAME, vo.getUsername()));
 			} else {
 				// RECORD activity "LOGOUT"
 				recordUserActivity(DBConstants.USER_ACTIVITY_LOGOUT);
@@ -895,12 +740,11 @@ public class UserService implements UserDetailsService {
 		if (result.getStatus() == null) {
 			List<String> errors = new ArrayList<>();
 			if (tbl.getPrivateKey() != null && StringUtils.isBlank(vo.getOldPrivateKey())) {
-				errors.add(MessageUtil.buildMessage(MessageConstants.FILED_EMPTY, new String[] { "old private key" }));
+				errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, "old private key"));
 			}
 
 			if (StringUtils.isBlank(vo.getNewPrivateKey())) {
-				errors.add(MessageUtil.buildMessage(MessageConstants.FILED_EMPTY,
-						new String[] { UserTblEnum.privateKey.name() }));
+				errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, UserTblEnum.privateKey.name()));
 			}
 
 			// Record error
@@ -913,7 +757,7 @@ public class UserService implements UserDetailsService {
 		if (result.getStatus() == null && tbl.getPrivateKey() != null) {
 			if (!mdpService.isValidPassword(vo.getOldPrivateKey(), tbl.getPrivateKey().getMdp())) {
 				result = new APIResponse<Object>(HttpStatus.BAD_REQUEST,
-						MessageUtil.buildMessage(MessageConstants.UNAUTHORIZED_USER, null));
+						ResponseCode.mapParam(ResponseCode.UNAUTHORIZED_USER, null));
 			}
 		}
 

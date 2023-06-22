@@ -1,7 +1,5 @@
 package com.hientran.sohebox;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -9,15 +7,16 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  *
  * @author hientran
  */
 @SpringBootApplication
 @EnableJpaAuditing // ==> Auto update DB
+@Slf4j
 public class SoheboxApplication extends SpringBootServletInitializer {
-
-    private static Logger logger = LoggerFactory.getLogger(SoheboxApplication.class);
 
     /**
      * 
@@ -37,7 +36,7 @@ public class SoheboxApplication extends SpringBootServletInitializer {
         if (env.getProperty("server.ssl.key-store") != null) {
             protocol = "https";
         }
-        logger.info(
+        log.info(
                 "\n-----------------------------------------------------------\n\t" + "Application '{}' is running \n\t"
                         + "Protocol: \t\t{}\n\t"
                         + "Prolile(s): \t{}\n-----------------------------------------------------------",
