@@ -1,0 +1,10 @@
+
+BACKEND
+
+1/ Download eclipse
+ https://www.eclipse.org/downloads/packages/
+	Eclipse IDE for Java Developers
+	Windows x86_64
+
+2/ Install lombok
+	help ==> Install new software : add domain https://projectlombok.org/p2
