@@ -27,7 +27,7 @@ public class TradingSymbolTbl extends BaseTbl {
 	private String name;
 
 	@ManyToOne
-	@JoinColumn(foreignKey = @ForeignKey(name = "FK_TradingSymbolTbl_TypeTbl_symbolType"))
+	@JoinColumn(name = "symbol_type_id", foreignKey = @ForeignKey(name = "FK_TradingSymbolTbl_TypeTbl_symbolType"))
 	private TypeTbl symbolType;
 
 	@ManyToOne

@@ -88,8 +88,7 @@ public class EnglishTransformer extends BaseTransformer {
 
         // id
         if (objects[0] != null) {
-            BigInteger id = (BigInteger) objects[0];
-            result.setId(id.longValue());
+            result.setId((Long) objects[0]);
         }
 
         // Keyword

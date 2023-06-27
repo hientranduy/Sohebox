@@ -20,10 +20,10 @@ public class EnglishUserGradeTbl extends BaseTbl {
 	private UserTbl user;
 
 	@ManyToOne
-	@JoinColumn(foreignKey = @ForeignKey(name = "FK_EnglishUserGradeTbl_EnglishTypeTbl_vusGrade"))
+	@JoinColumn(name = "vus_grade_id", foreignKey = @ForeignKey(name = "FK_EnglishUserGradeTbl_EnglishTypeTbl_vusGrade"))
 	private EnglishTypeTbl vusGrade;
 
 	@ManyToOne
-	@JoinColumn(foreignKey = @ForeignKey(name = "FK_EnglishUserGradeTbl_EnglishTypeTbl_learnDay"))
+	@JoinColumn(name = "learn_day_id", foreignKey = @ForeignKey(name = "FK_EnglishUserGradeTbl_EnglishTypeTbl_learnDay"))
 	private EnglishTypeTbl learnDay;
 }

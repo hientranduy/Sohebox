@@ -14,7 +14,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "account_tbl", uniqueConstraints = {
-		@UniqueConstraint(name = "UQ_account", columnNames = { "user_id", "type_id", "accountName" }) })
+		@UniqueConstraint(name = "UQ_account", columnNames = { "user_id", "type_id", "account_name" }) })
 public class AccountTbl extends BaseTbl {
 	@ManyToOne
 	@JoinColumn(foreignKey = @ForeignKey(name = "FK_AccountTbl_UserTbl_user"))
@@ -24,7 +24,7 @@ public class AccountTbl extends BaseTbl {
 	@JoinColumn(foreignKey = @ForeignKey(name = "FK_AccountTbl_TypeTbl_accountType"))
 	private TypeTbl type;
 
-	@Column(name = "accountName", nullable = false)
+	@Column(name = "account_name", nullable = false)
 	private String accountName;
 
 	@ManyToOne

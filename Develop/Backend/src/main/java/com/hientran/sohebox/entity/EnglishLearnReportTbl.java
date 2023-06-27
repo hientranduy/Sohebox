@@ -18,16 +18,16 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "english_learn_report_tbl", uniqueConstraints = {
-		@UniqueConstraint(name = "UQ_english_learn_report", columnNames = { "user_id", "learnedDate" }) })
+		@UniqueConstraint(name = "UQ_english_learn_report", columnNames = { "user_id", "learned_date" }) })
 public class EnglishLearnReportTbl extends GenericTbl {
 	@ManyToOne
 	@JoinColumn(foreignKey = @ForeignKey(name = "FK_EnglishLearnReportTbl_UserTbl_user"))
 	private UserTbl user;
 
-	@Column(name = "learnedDate", nullable = false, updatable = false)
+	@Column(name = "learned_date", nullable = false, updatable = false)
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date learnedDate;
 
-	@Column(name = "learnedTotal", nullable = false)
+	@Column(name = "learned_total", nullable = false)
 	private Long learnedTotal;
 }

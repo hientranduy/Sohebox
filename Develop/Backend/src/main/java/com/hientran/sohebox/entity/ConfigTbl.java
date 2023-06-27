@@ -11,12 +11,12 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "config_tbl", uniqueConstraints = {
-		@UniqueConstraint(name = "UQ_config", columnNames = { "configKey" }) })
+		@UniqueConstraint(name = "UQ_config", columnNames = { "config_key" }) })
 public class ConfigTbl extends BaseTbl {
-	@Column(name = "configKey", nullable = false)
+	@Column(name = "config_key", nullable = false)
 	private String configKey;
 
-	@Column(name = "configValue")
+	@Column(name = "config_value")
 	private String configValue;
 
 	@Column(name = "description")

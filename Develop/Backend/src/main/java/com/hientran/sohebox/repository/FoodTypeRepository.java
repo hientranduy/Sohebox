@@ -75,11 +75,11 @@ public interface FoodTypeRepository
 
 		// Prepare native SQL
 		StringBuilder sql = new StringBuilder();
-		sql.append(" SELECT typeClass      ");
+		sql.append(" SELECT type_class      ");
 		sql.append("      , 1              ");
 		sql.append(" FROM   type_tbl       ");
-		sql.append(" GROUP  BY typeClass   ");
-		sql.append(" ORDER  BY typeClass   ");
+		sql.append(" GROUP  BY type_class   ");
+		sql.append(" ORDER  BY type_class   ");
 
 		// Execute SQL
 		Query query = entityManager.createNativeQuery(sql.toString());

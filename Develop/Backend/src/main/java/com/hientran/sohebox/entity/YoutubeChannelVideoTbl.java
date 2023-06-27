@@ -20,7 +20,7 @@ import lombok.EqualsAndHashCode;
 		@UniqueConstraint(name = "UQ_youtube_channel_video", columnNames = { "channel_id", "video_id" }) })
 @EntityListeners(AuditingEntityListener.class)
 public class YoutubeChannelVideoTbl extends GenericTbl {
-	@Column(name = "deleteFlag", nullable = false, columnDefinition = "tinyint(1) default 0")
+	@Column(name = "delete_flag", nullable = false, columnDefinition = "tinyint(1) default 0")
 	private boolean deleteFlag;
 
 	@ManyToOne

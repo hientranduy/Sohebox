@@ -24,10 +24,10 @@ public class EnglishLearnRecordTbl extends BaseTbl {
 	@JoinColumn(foreignKey = @ForeignKey(name = "FK_EnglishLearnRecordTbl_EnglishTbl_english"))
 	private EnglishTbl english;
 
-	@Column(name = "recordTimes", nullable = false)
+	@Column(name = "record_times", nullable = false)
 	private Long recordTimes;
 
-	@Column(name = "learnedToday", nullable = false)
+	@Column(name = "learned_today", nullable = false)
 	private Long learnedToday;
 
 	@Column(name = "note")

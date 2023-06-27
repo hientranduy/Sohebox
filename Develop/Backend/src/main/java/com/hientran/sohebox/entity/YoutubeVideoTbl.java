@@ -19,18 +19,18 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "youtube_video_tbl", uniqueConstraints = {
-		@UniqueConstraint(name = "UQ_youtube_video", columnNames = { "videoId" }) })
+		@UniqueConstraint(name = "UQ_youtube_video", columnNames = { "video_id" }) })
 @EntityListeners(AuditingEntityListener.class)
 public class YoutubeVideoTbl extends GenericTbl {
-	@Column(name = "createdDate", nullable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+	@Column(name = "created_date", nullable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
 	@Temporal(TemporalType.TIMESTAMP)
 	@CreatedDate
 	private Date createdDate;
 
-	@Column(name = "videoId")
+	@Column(name = "video_id")
 	private String videoId;
 
-	@Column(name = "publishedAt")
+	@Column(name = "published_at")
 	private String publishedAt;
 
 	@Column(name = "title")
@@ -39,6 +39,6 @@ public class YoutubeVideoTbl extends GenericTbl {
 	@Column(name = "description", length = 1000)
 	private String description;
 
-	@Column(name = "urlThumbnail")
+	@Column(name = "url_thumbnail")
 	private String urlThumbnail;
 }

@@ -100,15 +100,13 @@ public class EnglishLearnReportService extends BaseService {
 		// Insert
 		if (CollectionUtils.isNotEmpty(searchResult)) {
 			EnglishLearnReportTbl tbl;
-			BigInteger userId;
 			UserTbl user;
 			BigDecimal learnedCount;
 			Date learnedDate = MyDateUtils.addMinusDate(new Date(), -1);
 			for (Object[] objects : searchResult) {
 
 				// Get user
-				userId = (BigInteger) objects[0];
-				user = userService.getTblById(userId.longValue());
+				user = userService.getTblById((Long) objects[0]);
 
 				// Get count total
 				learnedCount = (BigDecimal) objects[1];

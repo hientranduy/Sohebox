@@ -23,24 +23,24 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "english_tbl", uniqueConstraints = {
-		@UniqueConstraint(name = "UQ_english", columnNames = { "keyWord" }) })
+		@UniqueConstraint(name = "UQ_english", columnNames = { "key_word" }) })
 @EntityListeners(AuditingEntityListener.class)
 public class EnglishTbl extends GenericTbl {
-	@Column(name = "createdDate", nullable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+	@Column(name = "created_date", nullable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
 	@Temporal(TemporalType.TIMESTAMP)
 	@CreatedDate
 	private Date createdDate;
 
-	@Column(name = "updatedDate", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+	@Column(name = "updated_date", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
 	@Temporal(TemporalType.TIMESTAMP)
 	@LastModifiedDate
 	private Date updatedDate;
 
-	@Column(name = "keyWord")
+	@Column(name = "key_word")
 	private String keyWord;
 
 	@ManyToOne
-	@JoinColumn(foreignKey = @ForeignKey(name = "FK_EnglishTbl_EnglishTypeTbl_wordLevel"))
+	@JoinColumn(name = "word_level_id", foreignKey = @ForeignKey(name = "FK_EnglishTbl_EnglishTypeTbl_wordLevel"))
 	private EnglishTypeTbl wordLevel;
 
 	@ManyToOne
@@ -48,25 +48,25 @@ public class EnglishTbl extends GenericTbl {
 	private EnglishTypeTbl category;
 
 	@ManyToOne
-	@JoinColumn(foreignKey = @ForeignKey(name = "FK_EnglishTbl_EnglishTypeTbl_learnDay"))
+	@JoinColumn(name = "learn_day_id", foreignKey = @ForeignKey(name = "FK_EnglishTbl_EnglishTypeTbl_learnDay"))
 	private EnglishTypeTbl learnDay;
 
-	@Column(name = "imageName", nullable = false)
+	@Column(name = "image_name", nullable = false)
 	private String imageName;
 
-	@Column(name = "explanationEn")
+	@Column(name = "explanation_en")
 	private String explanationEn;
 
-	@Column(name = "explanationVn")
+	@Column(name = "explanation_vn")
 	private String explanationVn;
 
-	@Column(name = "voiceUkFile")
+	@Column(name = "voice_uk_file")
 	private String voiceUkFile;
 
-	@Column(name = "voiceUsFile")
+	@Column(name = "voice_us_file")
 	private String voiceUsFile;
 
 	@ManyToOne
-	@JoinColumn(foreignKey = @ForeignKey(name = "FK_EnglishTbl_EnglishTypeTbl_vusGrade"))
+	@JoinColumn(name = "vus_grade_id", foreignKey = @ForeignKey(name = "FK_EnglishTbl_EnglishTypeTbl_vusGrade"))
 	private EnglishTypeTbl vusGrade;
 }

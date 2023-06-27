@@ -52,7 +52,7 @@ logging:
   level:
     org:
       hibernate:
-        SQL: DEBUG
+        SQL: ${SQL_LOG_LEVEL}
         type.descriptor.sql.BasicBinder: TRACE
         
 # ======================================================== #

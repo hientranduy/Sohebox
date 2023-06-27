@@ -424,8 +424,7 @@ public class UserService {
 			UserStatusVO userStatus;
 			for (Object[] object : listData) {
 				// Get user
-				BigInteger userId = (BigInteger) object[0];
-				UserTbl userTbl = getTblById(userId.longValue());
+				UserTbl userTbl = getTblById((Long) object[0]);
 
 				// Fill result item
 				userStatus = new UserStatusVO();

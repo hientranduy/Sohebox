@@ -17,10 +17,10 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "youtube_channel_tbl", uniqueConstraints = {
-		@UniqueConstraint(name = "UQ_youtube_channel", columnNames = { "channelId" }) })
+		@UniqueConstraint(name = "UQ_youtube_channel", columnNames = { "channel_id" }) })
 @EntityListeners(AuditingEntityListener.class)
 public class YoutubeChannelTbl extends BaseTbl {
-	@Column(name = "channelId")
+	@Column(name = "channel_id")
 	private String channelId;
 
 	@Column(name = "name")

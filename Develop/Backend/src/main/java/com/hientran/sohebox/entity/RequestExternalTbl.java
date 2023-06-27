@@ -20,16 +20,16 @@ import lombok.EqualsAndHashCode;
 @Entity
 @Table(name = "request_external_tbl")
 public class RequestExternalTbl extends GenericTbl {
-	@Column(name = "createdDate", nullable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+	@Column(name = "created_date", nullable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
 	@Temporal(TemporalType.TIMESTAMP)
 	@CreatedDate
 	private Date createdDate;
 
 	@ManyToOne
-	@JoinColumn(foreignKey = @ForeignKey(name = "FK_RequestExternalTbl_TypeTbl_requestType"))
+	@JoinColumn(name = "request_type_id", foreignKey = @ForeignKey(name = "FK_RequestExternalTbl_TypeTbl_requestType"))
 	private TypeTbl requestType;
 
-	@Column(name = "requestUrl", nullable = false, length = 500)
+	@Column(name = "request_url", nullable = false, length = 500)
 	private String requestUrl;
 
 	@Column(name = "note")

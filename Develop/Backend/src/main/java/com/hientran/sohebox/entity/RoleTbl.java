@@ -10,9 +10,9 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Entity
-@Table(name = "role_tbl", uniqueConstraints = { @UniqueConstraint(name = "UQ_role", columnNames = { "roleName" }) })
+@Table(name = "role_tbl", uniqueConstraints = { @UniqueConstraint(name = "UQ_role", columnNames = { "role_name" }) })
 public class RoleTbl extends BaseTbl {
-	@Column(name = "roleName", nullable = false)
+	@Column(name = "role_name", nullable = false)
 	private String roleName;
 
 	@Column(name = "description")

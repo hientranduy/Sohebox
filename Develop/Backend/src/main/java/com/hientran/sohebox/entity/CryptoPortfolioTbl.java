@@ -34,23 +34,23 @@ public class CryptoPortfolioTbl extends BaseTbl {
 	@Column(name = "starname")
 	private String starname;
 
-	@Column(name = "amtAvailable")
+	@Column(name = "amt_available")
 	private Double amtAvailable;
 
-	@Column(name = "amtTotalDelegated")
+	@Column(name = "amt_total_delegated")
 	private Double amtTotalDelegated;
 
-	@Column(name = "amtTotalReward")
+	@Column(name = "amt_total_reward")
 	private Double amtTotalReward;
 
-	@Column(name = "amtTotalUnbonding")
+	@Column(name = "amt_total_unbonding")
 	private Double amtTotalUnbonding;
 
 	@ManyToOne
 	@JoinColumn(foreignKey = @ForeignKey(name = "FK_CryptoPorfolioTbl_CryptoValidatorTbl_validator"))
 	private CryptoValidatorTbl validator;
 
-	@Column(name = "syncDate", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+	@Column(name = "sync_date", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date syncDate;
 }

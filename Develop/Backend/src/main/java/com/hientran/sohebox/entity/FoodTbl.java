@@ -26,12 +26,12 @@ import lombok.EqualsAndHashCode;
 @Table(name = "food_tbl", uniqueConstraints = { @UniqueConstraint(name = "UQ_food", columnNames = { "name" }) })
 @EntityListeners(AuditingEntityListener.class)
 public class FoodTbl extends GenericTbl {
-	@Column(name = "createdDate", nullable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+	@Column(name = "created_date", nullable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
 	@Temporal(TemporalType.TIMESTAMP)
 	@CreatedDate
 	private Date createdDate;
 
-	@Column(name = "updatedDate", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+	@Column(name = "updated_date", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
 	@Temporal(TemporalType.TIMESTAMP)
 	@LastModifiedDate
 	private Date updatedDate;
@@ -39,13 +39,13 @@ public class FoodTbl extends GenericTbl {
 	@Column(name = "name")
 	private String name;
 
-	@Column(name = "imageName", nullable = false)
+	@Column(name = "image_name", nullable = false)
 	private String imageName;
 
 	@Column(name = "description", length = 500)
 	private String description;
 
-	@Column(name = "locationNote")
+	@Column(name = "location_note")
 	private String locationNote;
 
 	@ManyToOne
@@ -56,13 +56,13 @@ public class FoodTbl extends GenericTbl {
 	@JoinColumn(foreignKey = @ForeignKey(name = "FK_FoodTbl_FoodTypeTbl_category"))
 	private FoodTypeTbl category;
 
-	@Column(name = "isFastFood")
+	@Column(name = "is_fast_food")
 	private Boolean isFastFood;
 
 	@Lob
 	@Column(name = "recipe", length = 2000)
 	private byte[] recipe;
 
-	@Column(name = "urlReference")
+	@Column(name = "url_reference")
 	private String urlReference;
 }

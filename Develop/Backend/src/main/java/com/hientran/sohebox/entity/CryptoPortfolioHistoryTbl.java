@@ -18,10 +18,10 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "crypto_portfolio_history_tbl", uniqueConstraints = {
-		@UniqueConstraint(name = "UQ_crypto_portfolio_history", columnNames = { "user_id", "token_id", "timeStamp" }) })
+		@UniqueConstraint(name = "UQ_crypto_portfolio_history", columnNames = { "user_id", "token_id", "time_stamp" }) })
 public class CryptoPortfolioHistoryTbl extends GenericTbl {
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "timeStamp")
+	@Column(name = "time_stamp")
 	private Date timeStamp;
 
 	@ManyToOne
@@ -32,21 +32,21 @@ public class CryptoPortfolioHistoryTbl extends GenericTbl {
 	@JoinColumn(foreignKey = @ForeignKey(name = "FK_CryptoPorfolioHistoryTbl_CryptoTokenConfigTbl_tokenCode"))
 	private CryptoTokenConfigTbl token;
 
-	@Column(name = "totalAvailable")
+	@Column(name = "total_available")
 	private Double totalAvailable;
 
-	@Column(name = "totalDelegated")
+	@Column(name = "total_delegated")
 	private Double totalDelegated;
 
-	@Column(name = "totalReward")
+	@Column(name = "total_reward")
 	private Double totalReward;
 
-	@Column(name = "totalUnbonding")
+	@Column(name = "total_unbonding")
 	private Double totalUnbonding;
 
-	@Column(name = "totalIncrease")
+	@Column(name = "total_increase")
 	private Double totalIncrease;
 
-	@Column(name = "lastSyncDate")
+	@Column(name = "last_sync_date")
 	private Date lastSyncDate;
 }

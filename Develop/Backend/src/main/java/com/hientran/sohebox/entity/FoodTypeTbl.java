@@ -11,20 +11,20 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "food_type_tbl", uniqueConstraints = {
-		@UniqueConstraint(name = "UQ_food_type", columnNames = { "typeClass", "typeCode" }) })
+		@UniqueConstraint(name = "UQ_food_type", columnNames = { "type_class", "type_code" }) })
 public class FoodTypeTbl extends BaseTbl {
-	@Column(name = "typeClass", nullable = false)
+	@Column(name = "type_class", nullable = false)
 	private String typeClass;
 
-	@Column(name = "typeCode", nullable = false)
+	@Column(name = "type_code", nullable = false)
 	private String typeCode;
 
-	@Column(name = "typeName")
+	@Column(name = "type_name")
 	private String typeName;
 
 	@Column(name = "description")
 	private String description;
 
-	@Column(name = "iconUrl")
+	@Column(name = "icon_url")
 	private String iconUrl;
 }

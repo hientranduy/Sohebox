@@ -610,8 +610,8 @@ public class EnglishService extends BaseService {
 				for (Object[] objects : searchResult) {
 					vo = new EnglishLearnReportVO();
 
-					BigInteger userID = (BigInteger) objects[0];
-					vo.setUser(userService.getVoById(userID.longValue()));
+					Long userID = (Long) objects[0];
+					vo.setUser(userService.getVoById(userID));
 
 					Date learnedDate = (Date) objects[1];
 					vo.setLearnedDate(learnedDate);

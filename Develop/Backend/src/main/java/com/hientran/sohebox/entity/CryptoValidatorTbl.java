@@ -15,24 +15,24 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "crypto_validator_tbl", uniqueConstraints = {
-		@UniqueConstraint(name = "UQ_crypto_validator", columnNames = { "validatorAddress" }) })
+		@UniqueConstraint(name = "UQ_crypto_validator", columnNames = { "validator_address" }) })
 public class CryptoValidatorTbl extends BaseTbl {
-	@Column(name = "validatorAddress", nullable = false)
+	@Column(name = "validator_address", nullable = false)
 	private String validatorAddress;
 
-	@Column(name = "validatorName", nullable = false)
+	@Column(name = "validator_name", nullable = false)
 	private String validatorName;
 
-	@Column(name = "validatorWebsite")
+	@Column(name = "validator_website")
 	private String validatorWebsite;
 
-	@Column(name = "commissionRate", nullable = false)
+	@Column(name = "commission_rate", nullable = false)
 	private Double commissionRate;
 
-	@Column(name = "totalDeligated")
+	@Column(name = "total_deligated")
 	private Double totalDeligated;
 
-	@Column(name = "syncDate", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+	@Column(name = "sync_date", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date syncDate;
 }

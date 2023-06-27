@@ -11,35 +11,35 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "crypto_token_config_tbl", uniqueConstraints = {
-		@UniqueConstraint(name = "UQ_crypto_token_config", columnNames = { "tokenCode" }) })
+		@UniqueConstraint(name = "UQ_crypto_token_config", columnNames = { "token_code" }) })
 public class CryptoTokenConfigTbl extends BaseTbl {
-	@Column(name = "tokenCode", nullable = false)
+	@Column(name = "token_code", nullable = false)
 	private String tokenCode;
 
-	@Column(name = "tokenName")
+	@Column(name = "token_name")
 	private String tokenName;
 
-	@Column(name = "iconUrl")
+	@Column(name = "icon_url")
 	private String iconUrl;
 
-	@Column(name = "nodeUrl")
+	@Column(name = "node_url")
 	private String nodeUrl;
 
-	@Column(name = "rpcUrl")
+	@Column(name = "rpc_url")
 	private String rpcUrl;
 
 	@Column(name = "denom")
 	private String denom;
 
-	@Column(name = "decimalExponent")
+	@Column(name = "decimal_exponent")
 	private Long decimalExponent;
 
-	@Column(name = "addressPrefix")
+	@Column(name = "address_prefix")
 	private String addressPrefix;
 
-	@Column(name = "mintscanPrefix")
+	@Column(name = "mintscan_prefix")
 	private String mintscanPrefix;
 
-	@Column(name = "deligateUrl")
+	@Column(name = "deligate_url")
 	private String deligateUrl;
 }

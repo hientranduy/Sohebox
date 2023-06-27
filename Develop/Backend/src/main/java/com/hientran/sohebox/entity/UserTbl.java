@@ -13,12 +13,12 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Entity
-@Table(name = "user_tbl", uniqueConstraints = { @UniqueConstraint(name = "UQ_user", columnNames = { "userName" }) })
+@Table(name = "user_tbl", uniqueConstraints = { @UniqueConstraint(name = "UQ_user", columnNames = { "username" }) })
 public class UserTbl extends BaseTbl {
-	@Column(name = "firstName", nullable = false)
+	@Column(name = "first_name", nullable = false)
 	private String firstName;
 
-	@Column(name = "lastName", nullable = false)
+	@Column(name = "last_name", nullable = false)
 	private String lastName;
 
 	@Column(name = "username", nullable = false)
@@ -29,13 +29,13 @@ public class UserTbl extends BaseTbl {
 	private MdpTbl mdp;
 
 	@ManyToOne
-	@JoinColumn(foreignKey = @ForeignKey(name = "FK_UserTbl_MdpTbl_privateKey"))
+	@JoinColumn(name = "private_key_id", foreignKey = @ForeignKey(name = "FK_UserTbl_MdpTbl_privateKey"))
 	private MdpTbl privateKey;
 
 	@ManyToOne
 	@JoinColumn(foreignKey = @ForeignKey(name = "FK_UserTbl_RoleTbl_role"))
 	private RoleTbl role;
 
-	@Column(name = "avatarUrl")
+	@Column(name = "avatar_url")
 	private String avatarUrl;
 }

@@ -23,7 +23,7 @@ import lombok.EqualsAndHashCode;
 @Table(name = "user_activity_tbl")
 @EntityListeners(AuditingEntityListener.class)
 public class UserActivityTbl extends GenericTbl {
-	@Column(name = "createdDate", nullable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+	@Column(name = "created_date", nullable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
 	@Temporal(TemporalType.TIMESTAMP)
 	@CreatedDate
 	private Date createdDate;
