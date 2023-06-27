@@ -3,7 +3,7 @@ spring:
   
 SOHEBOX_ROOT: C:/Hien/svn_checkout/Sohebox
 
-MYSQL_HOST_SCHEMA:localhost:3306/sohebox_test
+MYSQL_HOST_SCHEMA: localhost:3306/sohebox_test
 MYSQL_USERNAME: xxxxxx
 MYSQL_PASSWORD: xxxxxx
 
