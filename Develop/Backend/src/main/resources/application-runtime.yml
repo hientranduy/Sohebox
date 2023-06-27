@@ -32,7 +32,8 @@ spring:
 # jpa    
   jpa:
     hibernate:
-      ddl-auto: update 
+      ddl-auto: update
+    open-in-view: true
 
 # mail                 
   mail:
