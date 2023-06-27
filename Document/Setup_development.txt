@@ -7,4 +7,5 @@ BACKEND
 	Windows x86_64
 
 2/ Install lombok
-	help ==> Install new software : add domain https://projectlombok.org/p2
+	download https://projectlombok.org/download
+	execute Jar file to eclipse
