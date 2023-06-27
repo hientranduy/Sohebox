@@ -1,4 +1,4 @@
-package com.hientran.sohebox.security;
+package com.hientran.sohebox.authentication;
 
 import java.io.IOException;
 import java.util.Collections;

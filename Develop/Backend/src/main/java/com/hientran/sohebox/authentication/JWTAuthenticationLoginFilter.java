@@ -1,4 +1,4 @@
-package com.hientran.sohebox.security;
+package com.hientran.sohebox.authentication;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -23,7 +23,7 @@ import jakarta.servlet.http.HttpServletResponse;
  *
  * @author hientran
  */
-public class JWTLoginFilter extends UsernamePasswordAuthenticationFilter {
+public class JWTAuthenticationLoginFilter extends UsernamePasswordAuthenticationFilter {
 
 	private JWTTokenService tokenAuthenticationService;
 
@@ -35,7 +35,8 @@ public class JWTLoginFilter extends UsernamePasswordAuthenticationFilter {
 	 * @param authManager
 	 * @param tokenAuthentication
 	 */
-	public JWTLoginFilter(String url, AuthenticationManager authManager, JWTTokenService tokenAuthentication) {
+	public JWTAuthenticationLoginFilter(String url, AuthenticationManager authManager,
+			JWTTokenService tokenAuthentication) {
 
 		// Set login URL and method
 		this.setRequiresAuthenticationRequestMatcher(new AntPathRequestMatcher(url, "POST"));

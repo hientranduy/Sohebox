@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.hazelcast.org.json.JSONArray;
 import com.hazelcast.org.json.JSONObject;
+import com.hientran.sohebox.authentication.UserDetailsServiceImpl;
 import com.hientran.sohebox.cache.ConfigCache;
 import com.hientran.sohebox.constants.CosmosConstants;
 import com.hientran.sohebox.constants.DBConstants;
@@ -32,7 +33,6 @@ import com.hientran.sohebox.repository.CryptoPortfolioRepository;
 import com.hientran.sohebox.sco.CryptoPortfolioSCO;
 import com.hientran.sohebox.sco.SearchNumberVO;
 import com.hientran.sohebox.sco.SearchTextVO;
-import com.hientran.sohebox.security.UserService;
 import com.hientran.sohebox.transformer.CryptoPortfolioTransformer;
 import com.hientran.sohebox.transformer.CryptoValidatorTransformer;
 import com.hientran.sohebox.utils.ObjectMapperUtil;
@@ -56,6 +56,7 @@ public class CryptoPortfolioService extends BaseService {
 	private final CryptoPortfolioTransformer cryptoPortfolioTransformer;
 	private final CryptoValidatorTransformer cryptoValidatorTransformer;
 	private final UserService userService;
+	private final UserDetailsServiceImpl userDetailsServiceImpl;
 	private final CosmosWebService cosmosWebService;
 	private final ObjectMapperUtil objectMapperUtil;
 	private final ConfigCache configCache;
@@ -93,7 +94,7 @@ public class CryptoPortfolioService extends BaseService {
 		}
 
 		// Get logged user
-		UserTbl loggedUser = userService.getCurrentLoginUser();
+		UserTbl loggedUser = userDetailsServiceImpl.getCurrentLoginUser();
 
 		// Check existence
 		if (result.getStatus() == null) {
@@ -190,7 +191,7 @@ public class CryptoPortfolioService extends BaseService {
 		}
 
 		// Get logged user
-		UserTbl loggedUser = userService.getCurrentLoginUser();
+		UserTbl loggedUser = userDetailsServiceImpl.getCurrentLoginUser();
 
 		// Get updated account
 		CryptoPortfolioTbl updateTbl = getTokenPortfolioByUser(loggedUser, vo.getId());
@@ -285,7 +286,7 @@ public class CryptoPortfolioService extends BaseService {
 		APIResponse<Object> result = new APIResponse<Object>();
 
 		// Get logged user
-		UserTbl loggedUser = userService.getCurrentLoginUser();
+		UserTbl loggedUser = userDetailsServiceImpl.getCurrentLoginUser();
 		SearchNumberVO userIdSearch = new SearchNumberVO();
 		userIdSearch.setEq(loggedUser.getId().doubleValue());
 		sco.setUser(userIdSearch);

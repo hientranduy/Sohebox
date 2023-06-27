@@ -1,6 +1,5 @@
 package com.hientran.sohebox.restcontroller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,89 +17,83 @@ import com.hientran.sohebox.exception.APIResponse;
 import com.hientran.sohebox.sco.ConfigSCO;
 import com.hientran.sohebox.vo.ConfigVO;
 
+import lombok.RequiredArgsConstructor;
+
 /**
  * @author hientran
  */
 @RestController
+@RequiredArgsConstructor
 public class ConfigRestController extends BaseRestController {
 
-    private static final long serialVersionUID = 1L;
+	private final ConfigCache configCache;
 
-    @Autowired
-    private ConfigCache configCache;
+	/**
+	 * 
+	 * Search
+	 *
+	 * @param sco
+	 * @return
+	 */
+	@PostMapping(ApiPublicConstants.API_CONFIG + ApiPublicConstants.SEARCH)
+	public ResponseEntity<?> search(@RequestBody ConfigSCO sco) {
+		// Search
+		APIResponse<?> result = configCache.search(sco);
 
-    /**
-     * 
-     * Search
-     *
-     * @param sco
-     * @return
-     */
-    @PostMapping(ApiPublicConstants.API_CONFIG + ApiPublicConstants.SEARCH)
-    public ResponseEntity<?> search(@RequestBody
-    ConfigSCO sco) {
-        // Search
-        APIResponse<?> result = configCache.search(sco);
+		// Return
+		return new ResponseEntity<>(result, new HttpHeaders(),
+				result.getStatus() != null ? result.getStatus() : HttpStatus.OK);
 
-        // Return
-        return new ResponseEntity<>(result, new HttpHeaders(),
-                result.getStatus() != null ? result.getStatus() : HttpStatus.OK);
+	}
 
-    }
+	/**
+	 * 
+	 * Update
+	 *
+	 * @param vo
+	 * @return
+	 */
+	@PutMapping(ApiPublicConstants.API_CONFIG)
+	public ResponseEntity<?> update(@Validated @RequestBody ConfigVO vo) {
+		APIResponse<?> result = configCache.update(vo);
 
-    /**
-     * 
-     * Update
-     *
-     * @param vo
-     * @return
-     */
-    @PutMapping(ApiPublicConstants.API_CONFIG)
-    public ResponseEntity<?> update(@Validated
-    @RequestBody
-    ConfigVO vo) {
-        APIResponse<?> result = configCache.update(vo);
+		// Return
+		return new ResponseEntity<>(result, new HttpHeaders(),
+				result.getStatus() != null ? result.getStatus() : HttpStatus.OK);
+	}
 
-        // Return
-        return new ResponseEntity<>(result, new HttpHeaders(),
-                result.getStatus() != null ? result.getStatus() : HttpStatus.OK);
-    }
+	/**
+	 * 
+	 * Get by ID
+	 *
+	 * @param id
+	 * @return
+	 */
+	@GetMapping(ApiPublicConstants.API_CONFIG + ApiPublicConstants.ID)
+	public ResponseEntity<?> getById(@PathVariable(value = "id") Long id) {
+		// Delete
+		APIResponse<?> result = configCache.getById(id);
 
-    /**
-     * 
-     * Get by ID
-     *
-     * @param id
-     * @return
-     */
-    @GetMapping(ApiPublicConstants.API_CONFIG + ApiPublicConstants.ID)
-    public ResponseEntity<?> getById(@PathVariable(value = "id")
-    Long id) {
-        // Delete
-        APIResponse<?> result = configCache.getById(id);
+		// Return
+		return new ResponseEntity<>(result, new HttpHeaders(),
+				result.getStatus() != null ? result.getStatus() : HttpStatus.OK);
+	}
 
-        // Return
-        return new ResponseEntity<>(result, new HttpHeaders(),
-                result.getStatus() != null ? result.getStatus() : HttpStatus.OK);
-    }
+	/**
+	 * 
+	 * Add new
+	 *
+	 * @param vo
+	 * @return
+	 */
+	@PostMapping(ApiPublicConstants.API_CONFIG)
+	public ResponseEntity<?> create(@Validated @RequestBody ConfigVO vo) {
+		// Create Account
+		APIResponse<?> result = configCache.create(vo);
 
-    /**
-     * 
-     * Add new
-     *
-     * @param vo
-     * @return
-     */
-    @PostMapping(ApiPublicConstants.API_CONFIG)
-    public ResponseEntity<?> create(@Validated
-    @RequestBody
-    ConfigVO vo) {
-        // Create Account
-        APIResponse<?> result = configCache.create(vo);
-
-        // Return
-        return new ResponseEntity<>(result, new HttpHeaders(),
-                result.getStatus() != null ? result.getStatus() : HttpStatus.OK);
-    }
+		// Return
+		return new ResponseEntity<>(result, new HttpHeaders(),
+				result.getStatus() != null ? result.getStatus() : HttpStatus.OK);
+	}
 
 }

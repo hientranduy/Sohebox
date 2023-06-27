@@ -1,11 +1,10 @@
-package com.hientran.sohebox.security;
+package com.hientran.sohebox.authentication;
 
 import java.io.IOException;
 import java.util.Date;
 import java.util.UUID;
 
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -20,18 +19,15 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hientran.sohebox.constants.DBConstants;
 import com.hientran.sohebox.service.UserActivityService;
+import com.hientran.sohebox.service.UserService;
 import com.hientran.sohebox.vo.UserVO;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 
-/**
- * 
- * Token service
- *
- * @author hientran
- */
 @Component
+@RequiredArgsConstructor
 public class JWTTokenService {
 
 	@Value("${jwt.secret}")
@@ -44,23 +40,11 @@ public class JWTTokenService {
 
 	private String HEADER = "Authorization";
 
-	@Autowired
-	private UserService userService;
+	private final UserService userService;
+	private final UserDetailsServiceImpl userDetailsServiceImpl;
+	private final UserActivityService userActivityService;
+	private final ObjectMapper objectMapper;
 
-	@Autowired
-	private UserActivityService userActivityService;
-
-	@Autowired
-	private ObjectMapper objectMapper;
-
-	/**
-	 * 
-	 * Generate token and add to header
-	 *
-	 * @param res
-	 * @param username
-	 * @throws IOException
-	 */
 	public void addAuthentication(HttpServletResponse res, String username) throws IOException {
 		// Prepare parameter
 		Date createdDate = new Date();
@@ -69,7 +53,8 @@ public class JWTTokenService {
 		// Generate JWT
 		String jwtToken = JWT.create().withIssuer("Sohebox").withSubject(username).withClaim("userName", username)
 				.withIssuedAt(createdDate).withExpiresAt(expiredDate).withJWTId(UUID.randomUUID().toString())
-				.withNotBefore(expiredDate).sign(Algorithm.HMAC256(SECRET));
+				.withNotBefore(createdDate) // allow use token right after create
+				.sign(Algorithm.HMAC256(SECRET));
 
 		// Add to header
 		res.addHeader(HEADER, SCHEME + " " + jwtToken);
@@ -86,13 +71,6 @@ public class JWTTokenService {
 		userActivityService.recordUserActivity(userVO, DBConstants.USER_ACTIVITY_LOGIN);
 	}
 
-	/**
-	 * 
-	 * Get authentication
-	 *
-	 * @param request
-	 * @return
-	 */
 	public Authentication getAuthentication(HttpServletRequest request) {
 		// Declare return
 		Authentication result = null;
@@ -103,7 +81,7 @@ public class JWTTokenService {
 		if (StringUtils.isNotBlank(token)) {
 			String userName = getUserNameFromToken(token);
 			if (StringUtils.isNotBlank(userName)) {
-				UserDetails userDetails = userService.loadUserByUsername(userName);
+				UserDetails userDetails = userDetailsServiceImpl.loadUserByUsername(userName);
 				if (userName != null) {
 					result = new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
 				}
@@ -114,13 +92,6 @@ public class JWTTokenService {
 		return result;
 	}
 
-	/**
-	 * 
-	 * Validate token
-	 *
-	 * @param token
-	 * @return
-	 */
 	public boolean validateToken(String token) {
 		try {
 			JWTVerifier verifier = JWT.require(Algorithm.HMAC256(SECRET)).withIssuer("Sohebox").build();
@@ -132,32 +103,20 @@ public class JWTTokenService {
 		}
 	}
 
-	/**
-	 * 
-	 * Get user name from token
-	 *
-	 * @param token
-	 * @return
-	 */
 	private String getUserNameFromToken(String token) {
 		try {
-			DecodedJWT decodedJWT = JWT.decode(getJWTToken(token));
-			return decodedJWT.getSubject();
+			if (validateToken(getJWTToken(token))) {
+				DecodedJWT decodedJWT = JWT.decode(getJWTToken(token));
+				return decodedJWT.getSubject();
+			} else {
+				return null;
+			}
 		} catch (JWTVerificationException e) {
 			System.out.println(e.getMessage());
 			return null;
 		}
 	}
 
-	/**
-	 * 
-	 * Calculate the expiration date
-	 *
-	 * @param createdDate
-	 * @param expirationCustom
-	 * 
-	 * @return expired date
-	 */
 	private Date calculateExpirationDate(Date createdDate, Long expirationMiliSecond) {
 		if (expirationMiliSecond == null || expirationMiliSecond <= 0) {
 			return new Date(createdDate.getTime() + EXPIRATIONTIME);

@@ -23,6 +23,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
+import com.hientran.sohebox.authentication.UserDetailsServiceImpl;
 import com.hientran.sohebox.cache.ConfigCache;
 import com.hientran.sohebox.cache.TypeCache;
 import com.hientran.sohebox.constants.DBConstants;
@@ -35,7 +36,6 @@ import com.hientran.sohebox.sco.RequestExternalSCO;
 import com.hientran.sohebox.sco.SearchDateVO;
 import com.hientran.sohebox.sco.SearchNumberVO;
 import com.hientran.sohebox.sco.SearchTextVO;
-import com.hientran.sohebox.security.UserService;
 import com.hientran.sohebox.utils.FileUtils;
 import com.hientran.sohebox.utils.MyDateUtils;
 import com.hientran.sohebox.vo.TypeVO;
@@ -51,7 +51,7 @@ public class BaseService {
 	protected EntityManager entityManager;
 
 	@Autowired
-	private UserService userService;
+	private UserDetailsServiceImpl userService;
 
 	@Autowired
 	private ConfigCache configCache;

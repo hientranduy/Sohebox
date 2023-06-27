@@ -1,4 +1,4 @@
-package com.hientran.sohebox.security;
+package com.hientran.sohebox.service;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -13,13 +13,10 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.hientran.sohebox.authentication.UserDetailsServiceImpl;
 import com.hientran.sohebox.constants.DBConstants;
 import com.hientran.sohebox.constants.ResponseCode;
 import com.hientran.sohebox.constants.enums.UserActivityTblEnum;
@@ -33,10 +30,6 @@ import com.hientran.sohebox.sco.SearchNumberVO;
 import com.hientran.sohebox.sco.Sorter;
 import com.hientran.sohebox.sco.UserActivitySCO;
 import com.hientran.sohebox.sco.UserSCO;
-import com.hientran.sohebox.service.MdpService;
-import com.hientran.sohebox.service.RoleService;
-import com.hientran.sohebox.service.UserActivityService;
-import com.hientran.sohebox.specification.UserSpecs;
 import com.hientran.sohebox.transformer.UserTransformer;
 import com.hientran.sohebox.utils.MyDateUtils;
 import com.hientran.sohebox.validation.UserValidation;
@@ -56,7 +49,7 @@ import lombok.RequiredArgsConstructor;
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
-public class UserService implements UserDetailsService {
+public class UserService {
 
 	@PersistenceContext
 	protected EntityManager entityManager;
@@ -64,11 +57,11 @@ public class UserService implements UserDetailsService {
 	private final UserRepository userRepository;
 	private final UserTransformer userTransformer;
 	private final UserValidation validation;
-	private final UserSpecs userSpecs;
 	private final RoleService roleService;
 	private final MdpService mdpService;
 	private final UserActivityService userActivityService;
 	private final UserActivityRepository userActivityRepository;
+	private final UserDetailsServiceImpl userDetailsServiceImpl;
 
 	/**
 	 * 
@@ -184,7 +177,7 @@ public class UserService implements UserDetailsService {
 
 		// Update
 		if (result.getStatus() == null) {
-			UserTbl updateTbl = getCurrentLoginUser();
+			UserTbl updateTbl = userDetailsServiceImpl.getCurrentLoginUser();
 			updateTbl.setFirstName(vo.getFirstName());
 			updateTbl.setLastName(vo.getLastName());
 			userRepository.save(updateTbl);
@@ -233,14 +226,11 @@ public class UserService implements UserDetailsService {
 
 			// Change password
 			if (result.getStatus() == null) {
-				// Check if User existed
-				UserDetailsImp UserDetails = (UserDetailsImp) loadUserByUsername(vo.getUsername());
-
-				// Get User to update password
-				UserTbl userTbl = UserDetails.getUserTbl();
+				// Get user tbl
+				UserTbl userTbl = userRepository.findFirstByUsername(vo.getUsername());
 
 				// Check correct password
-				if (mdpService.isValidPassword(vo.getOldPassword(), userTbl.getMdp().getMdp())) {
+				if (userTbl != null && mdpService.isValidPassword(vo.getOldPassword(), userTbl.getMdp().getMdp())) {
 					userTbl.setMdp(mdpService.getMdp(vo.getNewPassword()));
 					userRepository.save(userTbl);
 
@@ -274,7 +264,7 @@ public class UserService implements UserDetailsService {
 			if (result.getStatus() == null) {
 
 				// Get User to update password
-				UserTbl userTbl = getCurrentLoginUser();
+				UserTbl userTbl = userDetailsServiceImpl.getCurrentLoginUser();
 
 				// Check correct password
 				if (userTbl != null) {
@@ -306,7 +296,7 @@ public class UserService implements UserDetailsService {
 		APIResponse<Object> result = new APIResponse<Object>();
 
 		// Get User
-		UserTbl userTbl = getCurrentLoginUser();
+		UserTbl userTbl = userDetailsServiceImpl.getCurrentLoginUser();
 
 		// Delete User
 		if (userTbl != null) {
@@ -620,27 +610,6 @@ public class UserService implements UserDetailsService {
 	}
 
 	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		UserDetailsImp userDetailsImp = null;
-
-		// Get user by user name
-		UserTbl userTbl = userRepository.findFirstByUsername(username);
-		if (userTbl == null) {
-			throw new UsernameNotFoundException("User does not exist.");
-		} else {
-			if (userDetailsImp == null) {
-				userDetailsImp = new UserDetailsImp();
-			}
-			userDetailsImp.setUserTbl(userTbl);
-		}
-
-		return userDetailsImp;
-	}
-
-	/**
 	 * Valid if data is belong to logged user
 	 *
 	 * @return
@@ -648,32 +617,13 @@ public class UserService implements UserDetailsService {
 	public boolean isDataOwner(String username) {
 		Boolean result = true;
 
-		UserTbl loggedUser = getCurrentLoginUser();
+		UserTbl loggedUser = userDetailsServiceImpl.getCurrentLoginUser();
 
 		// Only check for role User, skip other role
 		if (StringUtils.equals(loggedUser.getRole().getRoleName(), DBConstants.USER_ROLE_USER)) {
 			if (!StringUtils.equals(loggedUser.getUsername(), username)) {
 				result = false;
 			}
-		}
-
-		// Return
-		return result;
-	}
-
-	/**
-	 * Get info of current logged in user
-	 *
-	 * @return
-	 */
-	public UserTbl getCurrentLoginUser() {
-		// Declare result
-		UserTbl result = null;
-
-		// Get Data
-		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		if (principal instanceof UserDetailsImp) {
-			result = ((UserDetailsImp) principal).getUserTbl();
 		}
 
 		// Return
@@ -734,7 +684,7 @@ public class UserService implements UserDetailsService {
 		APIResponse<Object> result = new APIResponse<Object>();
 
 		// Get current logged in user
-		UserTbl tbl = getCurrentLoginUser();
+		UserTbl tbl = userDetailsServiceImpl.getCurrentLoginUser();
 
 		// Validate input
 		if (result.getStatus() == null) {
@@ -777,7 +727,7 @@ public class UserService implements UserDetailsService {
 	 *
 	 */
 	protected void recordUserActivity(String activity) {
-		UserTbl userLogin = getCurrentLoginUser();
+		UserTbl userLogin = userDetailsServiceImpl.getCurrentLoginUser();
 		if (userLogin != null) {
 			userActivityService.recordUserActivity(userLogin, activity);
 		}

@@ -6,11 +6,7 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
-
-import com.hientran.sohebox.cache.FoodTypeCache;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -30,29 +26,29 @@ public class AspectLogger {
 		}
 	}
 
-	@AfterReturning(value = "execution(* com.hientran.sohebox.restcontroller.*.*(..))", returning = "result")
-	public void afterRestful(JoinPoint joinPoint, Object result) {
-		if (result != null) {
-			log.info("     Returned  : {}", result);
-		}
-		log.info("     END       : {}", joinPoint.getSignature());
-	}
+//	@AfterReturning(value = "execution(* com.hientran.sohebox.restcontroller.*.*(..))", returning = "result")
+//	public void afterRestful(JoinPoint joinPoint, Object result) {
+//		if (result != null) {
+//			log.info("     Returned  : {}", result);
+//		}
+//		log.info("     END       : {}", joinPoint.getSignature());
+//	}
 
 	////////////////////////////////////////////////
 	// Configured log before - after for services //
 	////////////////////////////////////////////////
-	@Before(value = "execution(* com.hientran.sohebox.service.*.*(..))")
-	public void beforeService(JoinPoint joinPoint) {
-		log.info("    START     : {}", joinPoint.getSignature());
-		if (joinPoint.getArgs() != null && joinPoint.getArgs().length > 0) {
-			log.info("    Arguments : {}", Arrays.asList(joinPoint.getArgs()).toString());
-		}
-	}
-
-	@AfterReturning(value = "execution(* com.hientran.sohebox.service.*.*(..))", returning = "result")
-	public void afterService(JoinPoint joinPoint, Object result) {
-		log.info("     END       : {}", joinPoint.getSignature());
-	}
+//	@Before(value = "execution(* com.hientran.sohebox.service.*.*(..))")
+//	public void beforeService(JoinPoint joinPoint) {
+//		log.info("    START     : {}", joinPoint.getSignature());
+//		if (joinPoint.getArgs() != null && joinPoint.getArgs().length > 0) {
+//			log.info("    Arguments : {}", Arrays.asList(joinPoint.getArgs()).toString());
+//		}
+//	}
+//
+//	@AfterReturning(value = "execution(* com.hientran.sohebox.service.*.*(..))", returning = "result")
+//	public void afterService(JoinPoint joinPoint, Object result) {
+//		log.info("     END       : {}", joinPoint.getSignature());
+//	}
 
 	///////////////////////////////////////////////////
 	// Configured log before - after for scheduler //

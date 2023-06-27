@@ -108,3 +108,9 @@ schedule:
 # Every day at 00:00
   crypto:
     history: 0 0 0 * * *
+    
+# ========================================== #
+# AUTHENTICATION                             #
+# -------------------------------------------# 
+authentication:
+  isActived: true

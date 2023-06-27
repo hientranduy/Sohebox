@@ -3,8 +3,8 @@ package com.hientran.sohebox.configuration;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -22,13 +22,13 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import com.hientran.sohebox.authentication.JWTAuthenticationLoginFilter;
+import com.hientran.sohebox.authentication.JWTAuthenticationTokenFilter;
+import com.hientran.sohebox.authentication.JWTTokenService;
+import com.hientran.sohebox.authentication.JwtAuthenticationEntryPoint;
+import com.hientran.sohebox.authentication.UserDetailsServiceImpl;
 import com.hientran.sohebox.constants.ApiPublicConstants;
 import com.hientran.sohebox.constants.DBConstants;
-import com.hientran.sohebox.security.JWTAuthenticationFilter;
-import com.hientran.sohebox.security.JWTLoginFilter;
-import com.hientran.sohebox.security.JWTTokenService;
-import com.hientran.sohebox.security.JwtAuthenticationEntryPoint;
-import com.hientran.sohebox.security.UserService;
 
 /**
  * Web access security config
@@ -37,11 +37,11 @@ import com.hientran.sohebox.security.UserService;
  */
 @Configuration
 @EnableWebSecurity
-@ComponentScan("com.hientran.sohebox")
+@ConditionalOnProperty(name = "authentication.isActived", havingValue = "true", matchIfMissing = true)
 public class SecurityConfig {
 
 	@Autowired
-	private UserService userService;
+	private UserDetailsServiceImpl userService;
 
 	@Autowired
 	private JWTTokenService tokenAuthenticationService;
@@ -64,11 +64,12 @@ public class SecurityConfig {
 	public DefaultAuthenticationEventPublisher authenticationEventPublisher() {
 		return new DefaultAuthenticationEventPublisher();
 	}
-	
-    @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
-        return authenticationConfiguration.getAuthenticationManager();
-    }	
+
+	@Bean
+	public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
+			throws Exception {
+		return authenticationConfiguration.getAuthenticationManager();
+	}
 
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -101,8 +102,9 @@ public class SecurityConfig {
 				.requestMatchers("/").permitAll()
 
 				// Add role
-				.requestMatchers(HttpMethod.POST, "/api" + ApiPublicConstants.API_ROLE + ApiPublicConstants.ADD).permitAll()
-				
+				.requestMatchers(HttpMethod.POST, "/api" + ApiPublicConstants.API_ROLE + ApiPublicConstants.ADD)
+				.permitAll()
+
 				// Register user
 				.requestMatchers(HttpMethod.POST, ApiPublicConstants.API_USER).permitAll()
 
@@ -195,6 +197,10 @@ public class SecurityConfig {
 				.requestMatchers(HttpMethod.GET, "/api" + ApiPublicConstants.API_CONFIG + "/*")
 				.hasRole(DBConstants.USER_ROLE_CREATOR)
 
+				// Type: get
+				.requestMatchers(HttpMethod.GET, "/api" + ApiPublicConstants.API_TYPE + ApiPublicConstants.GET)
+				.hasRole(DBConstants.USER_ROLE_CREATOR)
+
 				// Type: create
 				.requestMatchers(HttpMethod.POST, "/api" + ApiPublicConstants.API_TYPE)
 				.hasRole(DBConstants.USER_ROLE_CREATOR)
@@ -232,13 +238,12 @@ public class SecurityConfig {
 				.and()
 
 				// Login by user name/password
-				.addFilterAfter(
-						new JWTLoginFilter(ApiPublicConstants.API_USER + ApiPublicConstants.AUTHENTICATE,
-								authenticationManager(http.getSharedObject(AuthenticationConfiguration.class)), tokenAuthenticationService),
-						UsernamePasswordAuthenticationFilter.class)
+				.addFilterAfter(new JWTAuthenticationLoginFilter(ApiPublicConstants.API_USER + ApiPublicConstants.AUTHENTICATE,
+						authenticationManager(http.getSharedObject(AuthenticationConfiguration.class)),
+						tokenAuthenticationService), UsernamePasswordAuthenticationFilter.class)
 
 				// Login by token bearer
-				.addFilterAfter(new JWTAuthenticationFilter(tokenAuthenticationService),
+				.addFilterAfter(new JWTAuthenticationTokenFilter(tokenAuthenticationService),
 						UsernamePasswordAuthenticationFilter.class);
 
 		return http.build();

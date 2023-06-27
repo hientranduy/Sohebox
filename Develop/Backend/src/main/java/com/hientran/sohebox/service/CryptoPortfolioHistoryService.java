@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.hientran.sohebox.authentication.UserDetailsServiceImpl;
 import com.hientran.sohebox.entity.CryptoPortfolioHistoryTbl;
 import com.hientran.sohebox.entity.CryptoPortfolioTbl;
 import com.hientran.sohebox.entity.CryptoTokenConfigTbl;
@@ -20,7 +21,6 @@ import com.hientran.sohebox.repository.CryptoPortfolioRepository;
 import com.hientran.sohebox.sco.CryptoPortfolioHistorySCO;
 import com.hientran.sohebox.sco.SearchDateVO;
 import com.hientran.sohebox.sco.SearchNumberVO;
-import com.hientran.sohebox.security.UserService;
 import com.hientran.sohebox.transformer.CryptoPortfolioHistoryTransformer;
 import com.hientran.sohebox.utils.LogUtils;
 import com.hientran.sohebox.vo.CryptoPortfolioHistoryVO;
@@ -38,7 +38,7 @@ public class CryptoPortfolioHistoryService extends BaseService {
 	private final CryptoPortfolioHistoryRepository cryptoPortfolioHistoryRepository;
 	private final CryptoPortfolioRepository cryptoPortfolioRepository;
 	private final CryptoPortfolioHistoryTransformer cryptoPortfolioHistoryTransformer;
-	private final UserService userService;
+	private final UserDetailsServiceImpl userService;
 
 	DecimalFormat df = new DecimalFormat("#.###");
 

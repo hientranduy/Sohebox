@@ -1,4 +1,4 @@
-package com.hientran.sohebox.security;
+package com.hientran.sohebox.service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.hientran.sohebox.authentication.UserDetailsServiceImpl;
 import com.hientran.sohebox.cache.TypeCache;
 import com.hientran.sohebox.constants.DBConstants;
 import com.hientran.sohebox.constants.ResponseCode;
@@ -24,9 +25,6 @@ import com.hientran.sohebox.sco.AccountSCO;
 import com.hientran.sohebox.sco.SearchNumberVO;
 import com.hientran.sohebox.sco.SearchTextVO;
 import com.hientran.sohebox.sco.TypeSCO;
-import com.hientran.sohebox.service.BaseService;
-import com.hientran.sohebox.service.MdpService;
-import com.hientran.sohebox.service.UserActivityService;
 import com.hientran.sohebox.transformer.AccountTransformer;
 import com.hientran.sohebox.transformer.TypeTransformer;
 import com.hientran.sohebox.vo.AccountVO;
@@ -49,6 +47,7 @@ public class AccountService extends BaseService {
 	private final TypeTransformer typeTransformer;
 	private final MdpService mdpService;
 	private final UserService userService;
+	private final UserDetailsServiceImpl userDetailsServiceImpl;
 	private final TypeCache typeCache;
 	private final UserActivityService userActivityService;
 
@@ -87,7 +86,7 @@ public class AccountService extends BaseService {
 		}
 
 		// Get logged user
-		UserTbl loggedUser = userService.getCurrentLoginUser();
+		UserTbl loggedUser = userDetailsServiceImpl.getCurrentLoginUser();
 
 		// Record existed already
 		if (result.getStatus() == null) {
@@ -157,7 +156,7 @@ public class AccountService extends BaseService {
 		}
 
 		// Get logged user
-		UserTbl loggedUser = userService.getCurrentLoginUser();
+		UserTbl loggedUser = userDetailsServiceImpl.getCurrentLoginUser();
 
 		// Get updated account
 		AccountTbl updateAccount = null;
@@ -443,7 +442,7 @@ public class AccountService extends BaseService {
 		APIResponse<Object> result = new APIResponse<Object>();
 
 		// Get current logged user
-		UserTbl loggedUser = userService.getCurrentLoginUser();
+		UserTbl loggedUser = userDetailsServiceImpl.getCurrentLoginUser();
 
 		// Check authentication
 		if (loggedUser.getPrivateKey() != null) {

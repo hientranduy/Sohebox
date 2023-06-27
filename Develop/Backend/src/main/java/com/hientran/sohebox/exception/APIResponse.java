@@ -1,5 +1,6 @@
 package com.hientran.sohebox.exception;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 
@@ -15,7 +16,8 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
  */
 @JsonInclude(Include.NON_NULL)
 public class APIResponse<Data> {
-    private HttpStatus status;
+
+	private HttpStatus status;
 
     private String message;
 

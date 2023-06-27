@@ -35,6 +35,8 @@ public class ApiPublicConstants implements Serializable {
     public static final String ADD = "/add";
 
     public static final String SET = "/set";
+    
+    public static final String GET = "/get";
 
     public static final String ID = "/{id}";
 

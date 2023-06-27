@@ -39,23 +39,13 @@ public class EnglishTypeCache extends BaseCache {
 	private final EnglishTypeSpecs typeSpecs;
 	private final HazelcastInstance instance;
 
-	/**
-	 * 
-	 * Return vo by id
-	 *
-	 * @param key
-	 * @return
-	 */
 	public EnglishTypeVO getType(String typeClass, String typeCode) {
 		// Declare result
 		EnglishTypeVO result = null;
 
 		// Retrieve type cache
-		Map<TypeCacheKey, EnglishTypeVO> typeCache = instance.getMap("typeCache");
-
-		// Search type
-		EnglishTypeVO cacheValue = typeCache
-				.get(new TypeCacheKey(formatTypeClass(typeClass), formatTypeCode(typeCode)));
+		Map<String, EnglishTypeVO> typeCache = instance.getMap("englishTypeCache");
+		EnglishTypeVO cacheValue = typeCache.get(formatTypeMapKey(typeClass, typeCode));
 
 		// Return if have in cache
 		if (cacheValue != null) {
@@ -98,7 +88,7 @@ public class EnglishTypeCache extends BaseCache {
 			}
 
 			// Add to cache
-			typeCache.put(new TypeCacheKey(result.getTypeClass(), result.getTypeCode()), result);
+			typeCache.put(formatTypeMapKey(result.getTypeClass(), result.getTypeCode()), result);
 		}
 
 		// Return
@@ -143,8 +133,8 @@ public class EnglishTypeCache extends BaseCache {
 			typeRepository.save(tbl);
 
 			// Update cache
-			Map<TypeCacheKey, EnglishTypeVO> typeCache = instance.getMap("typeCache");
-			typeCache.put(new TypeCacheKey(tbl.getTypeClass(), tbl.getTypeCode()),
+			Map<String, EnglishTypeVO> typeCache = instance.getMap("englishTypeCache");
+			typeCache.put(formatTypeMapKey(tbl.getTypeClass(), tbl.getTypeCode()),
 					typeTransformer.convertToEnglishTypeVO(tbl));
 
 		} else {
@@ -167,8 +157,8 @@ public class EnglishTypeCache extends BaseCache {
 			typeRepository.delete(tbl);
 
 			// Remove from cache
-			Map<TypeCacheKey, EnglishTypeVO> typeCache = instance.getMap("typeCache");
-			typeCache.remove(new TypeCacheKey(tbl.getTypeClass(), tbl.getTypeCode()));
+			Map<String, EnglishTypeVO> typeCache = instance.getMap("englishTypeCache");
+			typeCache.remove(formatTypeMapKey(tbl.getTypeClass(), tbl.getTypeCode()));
 
 		} else {
 			log.error("Type not found to delete, id: " + id);
@@ -304,25 +294,5 @@ public class EnglishTypeCache extends BaseCache {
 
 		// Return
 		return result;
-	}
-
-	/**
-	 * Format type class
-	 *
-	 * @param vo
-	 * @return
-	 */
-	private String formatTypeClass(String typeClass) {
-		return typeClass.toUpperCase();
-	}
-
-	/**
-	 * Format type code
-	 *
-	 * @param vo
-	 * @return
-	 */
-	private String formatTypeCode(String typeCode) {
-		return typeCode.replaceAll(" ", "_").toUpperCase();
 	}
 }

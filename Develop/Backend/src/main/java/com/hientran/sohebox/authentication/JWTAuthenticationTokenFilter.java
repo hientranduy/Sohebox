@@ -1,4 +1,4 @@
-package com.hientran.sohebox.security;
+package com.hientran.sohebox.authentication;
 
 import java.io.IOException;
 
@@ -17,7 +17,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
  *
  * @author hientran
  */
-public class JWTAuthenticationFilter extends OncePerRequestFilter {
+public class JWTAuthenticationTokenFilter extends OncePerRequestFilter {
 
     private JWTTokenService tokenService;
 
@@ -25,7 +25,7 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
      * Construction
      *
      */
-    public JWTAuthenticationFilter(JWTTokenService jWTTokenService) {
+    public JWTAuthenticationTokenFilter(JWTTokenService jWTTokenService) {
         super();
         tokenService = jWTTokenService;
     }

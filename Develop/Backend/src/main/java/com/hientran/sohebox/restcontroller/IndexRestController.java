@@ -1,7 +1,5 @@
 package com.hientran.sohebox.restcontroller;
 
-import java.io.Serializable;
-
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,18 +12,16 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/")
-public class IndexRestController implements Serializable {
+public class IndexRestController {
 
-    private static final long serialVersionUID = 1L;
-
-    /**
-     * 
-     * For testing only
-     *
-     * @return
-     */
-    @GetMapping
-    public String sayHello() {
-        return "Hello and Welcome to the Sohebox application: Spring Boot& Tomcat, MySQL, JPA, Hibernate Restful API";
-    }
+	/**
+	 * 
+	 * For testing only
+	 *
+	 * @return
+	 */
+	@GetMapping
+	public String sayHello() {
+		return "Hello and Welcome to the Sohebox application: Spring Boot& Tomcat, MySQL, JPA, Hibernate Restful API";
+	}
 }

@@ -1,6 +1,5 @@
 package com.hientran.sohebox.restcontroller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,19 +15,21 @@ import org.springframework.web.bind.annotation.RestController;
 import com.hientran.sohebox.constants.ApiPublicConstants;
 import com.hientran.sohebox.exception.APIResponse;
 import com.hientran.sohebox.sco.UserSCO;
-import com.hientran.sohebox.security.UserService;
+import com.hientran.sohebox.service.UserService;
 import com.hientran.sohebox.vo.ChangePasswordVO;
 import com.hientran.sohebox.vo.ChangePrivateKeyVO;
 import com.hientran.sohebox.vo.UserVO;
+
+import lombok.RequiredArgsConstructor;
 
 /**
  * @author hientran
  */
 @RestController
+@RequiredArgsConstructor
 public class UserRestController {
 
-	@Autowired
-	private UserService userService;
+	private final UserService userService;
 
 	/**
 	 * 

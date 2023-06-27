@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.hientran.sohebox.authentication.UserDetailsServiceImpl;
 import com.hientran.sohebox.cache.ConfigCache;
 import com.hientran.sohebox.cache.MediaTypeCache;
 import com.hientran.sohebox.constants.DBConstants;
@@ -32,7 +33,6 @@ import com.hientran.sohebox.repository.YoutubeVideoRepository;
 import com.hientran.sohebox.sco.SearchNumberVO;
 import com.hientran.sohebox.sco.YoutubeChannelSCO;
 import com.hientran.sohebox.sco.YoutubeChannelVideoSCO;
-import com.hientran.sohebox.security.UserService;
 import com.hientran.sohebox.transformer.MediaTypeTransformer;
 import com.hientran.sohebox.utils.ObjectMapperUtil;
 import com.hientran.sohebox.vo.MediaTypeVO;
@@ -58,7 +58,7 @@ public class YoutubeChannelVideoService extends BaseService {
 	private final YoutubeVideoService youtubeVideoService;
 	private final YoutubeChannelService youtubeChannelService;
 	private final YoutubeVideoRepository youtubeVideoRepository;
-	private final UserService userService;
+	private final UserDetailsServiceImpl userService;
 	private final MediaTypeCache mediaTypeCache;
 	private final ConfigCache configCache;
 	private final MediaTypeTransformer mediaTypeTransformer;

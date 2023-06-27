@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.hientran.sohebox.authentication.UserDetailsServiceImpl;
 import com.hientran.sohebox.cache.MediaTypeCache;
 import com.hientran.sohebox.constants.DBConstants;
 import com.hientran.sohebox.constants.ResponseCode;
@@ -23,7 +24,6 @@ import com.hientran.sohebox.repository.YoutubeChannelRepository;
 import com.hientran.sohebox.sco.SearchNumberVO;
 import com.hientran.sohebox.sco.SearchTextVO;
 import com.hientran.sohebox.sco.YoutubeChannelSCO;
-import com.hientran.sohebox.security.UserService;
 import com.hientran.sohebox.transformer.MediaTypeTransformer;
 import com.hientran.sohebox.transformer.YoutubeChannelTransformer;
 import com.hientran.sohebox.vo.MediaTypeVO;
@@ -45,7 +45,7 @@ public class YoutubeChannelService extends BaseService {
 	private final MediaTypeTransformer mediaTypeTransformer;
 
 	@Autowired
-	private UserService userService;
+	private UserDetailsServiceImpl userService;
 
 	/**
 	 * 

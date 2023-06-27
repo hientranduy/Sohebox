@@ -24,6 +24,9 @@ import com.hientran.sohebox.specification.TypeSpecs;
  */
 public interface TypeRepository
         extends JpaRepository<TypeTbl, Long>, JpaSpecificationExecutor<TypeTbl>, BaseRepository {
+	
+	TypeTbl findFirstByTypeClassAndTypeCode(String typeClass, String typeCode);
+	
     TypeSpecs specs = new TypeSpecs();
 
     /**
