@@ -3,7 +3,6 @@ package com.hientran.sohebox.cache;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
@@ -124,7 +123,6 @@ public class TypeCache extends BaseCache {
 			}
 		}
 
-		// Create default
 		if (result.getStatus() == null) {
 			// Create new type
 			TypeTbl tbl = new TypeTbl();
@@ -153,7 +151,7 @@ public class TypeCache extends BaseCache {
 	 * @return
 	 */
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
-	public APIResponse<Long> updateType(TypeVO vo) {
+	public APIResponse<Long> update(TypeVO vo) {
 		// Declare result
 		APIResponse<Long> result = new APIResponse<Long>();
 
@@ -264,66 +262,4 @@ public class TypeCache extends BaseCache {
 		// Return
 		return result;
 	}
-
-	/**
-	 * Get all type class
-	 * 
-	 * @param sco
-	 * @return
-	 */
-	public APIResponse<Object> getAllTypeClass() {
-		// Declare result
-		APIResponse<Object> result = new APIResponse<Object>();
-
-		// Get list type class
-		List<Object[]> searchResult = typeRepository.getAllTypeClass(entityManager);
-
-		// Transformer
-		if (!CollectionUtils.isEmpty(searchResult)) {
-			// Prepare item list
-			List<String> listElement = new ArrayList<>();
-			for (Object[] objects : searchResult) {
-				listElement.add((String) objects[0]);
-			}
-
-			// Prepare page result
-			PageResultVO<String> data = new PageResultVO<String>();
-			data.setElements(listElement);
-			data.setCurrentPage(0);
-			data.setTotalPage(1);
-			data.setTotalElement(listElement.size());
-
-			// Set data return
-			result.setData(data);
-		}
-
-		// Return
-		return result;
-	}
-
-	/**
-	 * Get by id
-	 * 
-	 * @param User
-	 * @return
-	 */
-	public APIResponse<Object> getById(Long id) {
-		// Declare result
-		APIResponse<Object> result = new APIResponse<Object>();
-
-		// Check existence
-		Optional<TypeTbl> tbl = typeRepository.findById(id);
-		if (!tbl.isPresent()) {
-			result = new APIResponse<Object>(HttpStatus.BAD_REQUEST,
-					ResponseCode.mapParam(ResponseCode.INEXISTED_RECORD, "type"));
-		} else {
-			// Set return data
-			TypeVO vo = typeTransformer.convertToTypeVO(tbl.get());
-			result.setData(vo);
-		}
-
-		// Return
-		return result;
-	}
-
 }

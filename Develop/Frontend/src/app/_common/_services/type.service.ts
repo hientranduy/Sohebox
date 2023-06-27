@@ -10,19 +10,9 @@ export class TypeService {
     constructor(private http: HttpClient) {
     }
 
-    // Search type
-    search(sco: TypeSCO) {
-        return this.http.post(`${environment.soheboxUrl}/api/types/search`, sco);
-    }
-
     // Add new type
     create(type: Type) {
         return this.http.post(`${environment.soheboxUrl}/api/types`, type);
-    }
-
-    // Delete type
-    delete(id: Number) {
-        return this.http.delete(`${environment.soheboxUrl}/api/types/${id}`);
     }
 
     // Update type
@@ -30,8 +20,8 @@ export class TypeService {
         return this.http.put(`${environment.soheboxUrl}/api/types`, type);
     }
 
-    // Get type
-    get(id: number) {
-        return this.http.get(`${environment.soheboxUrl}/api/types/${id}`);
+    // Search type
+    search(sco: TypeSCO) {
+        return this.http.post(`${environment.soheboxUrl}/api/types/search`, sco);
     }
 }
