@@ -22,106 +22,106 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @Component
 public class ObjectMapperUtil implements Serializable {
 
-    private static final long serialVersionUID = 7691347384413092645L;
+	private static final long serialVersionUID = 7691347384413092645L;
 
-    @Autowired
-    private ObjectMapper objectMapper;
+	@Autowired
+	private ObjectMapper objectMapper;
 
-    /**
-     * 
-     * Create JSON String from Object
-     *
-     * @param value
-     * @return
-     * @throws JsonProcessingException
-     */
-    public String writeValueAsString(Object value) throws JsonProcessingException {
-        String jsonString = null;
-        if (null != value) {
-            jsonString = objectMapper.writeValueAsString(value);
-        }
-        return jsonString;
-    }
+	/**
+	 * 
+	 * Create JSON String from Object
+	 *
+	 * @param value
+	 * @return
+	 * @throws JsonProcessingException
+	 */
+	public String writeValueAsString(Object value) throws JsonProcessingException {
+		String jsonString = null;
+		if (null != value) {
+			jsonString = objectMapper.writeValueAsString(value);
+		}
+		return jsonString;
+	}
 
-    /**
-     * 
-     * Create defined object from JSON String and Class
-     *
-     * @param content
-     * @param valueType
-     * @return
-     * @throws JsonParseException
-     * @throws JsonMappingException
-     * @throws IOException
-     */
-    public <T> T readValue(String content, Class<T> valueType)
-            throws JsonParseException, JsonMappingException, IOException {
-        T result = null;
-        if (StringUtils.isNotBlank(content)) {
-            result = objectMapper.readValue(content, valueType);
-        }
-        return result;
-    }
+	/**
+	 * 
+	 * Create defined object from JSON String and Class
+	 *
+	 * @param content
+	 * @param valueType
+	 * @return
+	 * @throws JsonParseException
+	 * @throws JsonMappingException
+	 * @throws IOException
+	 */
+	public <T> T readValue(String content, Class<T> valueType)
+			throws JsonParseException, JsonMappingException, IOException {
+		T result = null;
+		if (StringUtils.isNotBlank(content)) {
+			result = objectMapper.readValue(content, valueType);
+		}
+		return result;
+	}
 
-    /**
-     * 
-     * Create defined object from object and Class
-     *
-     * @param object
-     * @param valueType
-     * @return
-     * @throws JsonParseException
-     * @throws JsonMappingException
-     * @throws IOException
-     */
-    public <T> T readValue(Object object, Class<T> valueType)
-            throws JsonParseException, JsonMappingException, IOException {
-        T result = null;
-        if (object != null) {
-            result = objectMapper.readValue(writeValueAsString(object), valueType);
-        }
-        return result;
-    }
+	/**
+	 * 
+	 * Create defined object from object and Class
+	 *
+	 * @param object
+	 * @param valueType
+	 * @return
+	 * @throws JsonParseException
+	 * @throws JsonMappingException
+	 * @throws IOException
+	 */
+	public <T> T readValue(Object object, Class<T> valueType)
+			throws JsonParseException, JsonMappingException, IOException {
+		T result = null;
+		if (object != null) {
+			result = objectMapper.readValue(writeValueAsString(object), valueType);
+		}
+		return result;
+	}
 
-    /**
-     * 
-     * Create defined object from JSON String and TypeReference
-     *
-     * @param content
-     * @param valueTypeRef
-     * @return
-     * @throws JsonParseException
-     * @throws JsonMappingException
-     * @throws IOException
-     */
-    @SuppressWarnings("unchecked")
-    public <T> T readValue(String content, TypeReference<?> valueTypeRef)
-            throws JsonParseException, JsonMappingException, IOException {
-        T result = null;
-        if (StringUtils.isNotBlank(content)) {
-            result = (T) objectMapper.readValue(content, valueTypeRef);
-        }
-        return result;
-    }
+	/**
+	 * 
+	 * Create defined object from JSON String and TypeReference
+	 *
+	 * @param content
+	 * @param valueTypeRef
+	 * @return
+	 * @throws JsonParseException
+	 * @throws JsonMappingException
+	 * @throws IOException
+	 */
+	@SuppressWarnings("unchecked")
+	public <T> T readValue(String content, TypeReference<?> valueTypeRef)
+			throws JsonParseException, JsonMappingException, IOException {
+		T result = null;
+		if (StringUtils.isNotBlank(content)) {
+			result = (T) objectMapper.readValue(content, valueTypeRef);
+		}
+		return result;
+	}
 
-    /**
-     * 
-     * Create defined object from object and TypeReference
-     *
-     * @param content
-     * @param valueTypeRef
-     * @return
-     * @throws JsonParseException
-     * @throws JsonMappingException
-     * @throws IOException
-     */
-    @SuppressWarnings("unchecked")
-    public <T> T readValue(Object object, TypeReference<?> valueTypeRef)
-            throws JsonParseException, JsonMappingException, IOException {
-        T result = null;
-        if (object != null) {
-            result = (T) objectMapper.readValue(writeValueAsString(object), valueTypeRef);
-        }
-        return result;
-    }
+	/**
+	 * 
+	 * Create defined object from object and TypeReference
+	 *
+	 * @param content
+	 * @param valueTypeRef
+	 * @return
+	 * @throws JsonParseException
+	 * @throws JsonMappingException
+	 * @throws IOException
+	 */
+	@SuppressWarnings("unchecked")
+	public <T> T readValue(Object object, TypeReference<?> valueTypeRef)
+			throws JsonParseException, JsonMappingException, IOException {
+		T result = null;
+		if (object != null) {
+			result = (T) objectMapper.readValue(writeValueAsString(object), valueTypeRef);
+		}
+		return result;
+	}
 }

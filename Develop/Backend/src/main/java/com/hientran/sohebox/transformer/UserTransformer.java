@@ -20,111 +20,111 @@ import com.hientran.sohebox.vo.UserVO;
 @Component
 public class UserTransformer extends BaseTransformer {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    @Autowired
-    @Qualifier("objectMapper")
-    private Mapper objectMapper;
+	@Autowired
+	@Qualifier("objectMapper")
+	private Mapper objectMapper;
 
-    /**
-     * Convert Page<UserTbl> to PageResultVO<UserVO>
-     *
-     * @param Page<UserTbl>
-     * 
-     * @return PageResultVO<UserVO>
-     */
-    public PageResultVO<UserVO> convertToPageReturn(Page<UserTbl> pageTbl) {
-        // Declare result
-        PageResultVO<UserVO> result = new PageResultVO<UserVO>();
+	/**
+	 * Convert Page<UserTbl> to PageResultVO<UserVO>
+	 *
+	 * @param Page<UserTbl>
+	 * 
+	 * @return PageResultVO<UserVO>
+	 */
+	public PageResultVO<UserVO> convertToPageReturn(Page<UserTbl> pageTbl) {
+		// Declare result
+		PageResultVO<UserVO> result = new PageResultVO<UserVO>();
 
-        // Convert data
-        if (!CollectionUtils.isEmpty(pageTbl.getContent())) {
-            List<UserVO> listVO = new ArrayList<>();
-            for (UserTbl tbl : pageTbl.getContent()) {
-                listVO.add(convertToVO(tbl));
-            }
+		// Convert data
+		if (!CollectionUtils.isEmpty(pageTbl.getContent())) {
+			List<UserVO> listVO = new ArrayList<>();
+			for (UserTbl tbl : pageTbl.getContent()) {
+				listVO.add(convertToVO(tbl));
+			}
 
-            // Set return list to result
-            result.setElements(listVO);
-        }
+			// Set return list to result
+			result.setElements(listVO);
+		}
 
-        // Set header information
-        setPageHeader(pageTbl, result);
+		// Set header information
+		setPageHeader(pageTbl, result);
 
-        // Return
-        return result;
-    }
+		// Return
+		return result;
+	}
 
-    /**
-     * Convert vo to tbl
-     *
-     * @return
-     */
-    public UserVO convertToVO(UserTbl tbl) {
-        // Declare result
-        UserVO result = new UserVO();
+	/**
+	 * Convert vo to tbl
+	 *
+	 * @return
+	 */
+	public UserVO convertToVO(UserTbl tbl) {
+		// Declare result
+		UserVO result = new UserVO();
 
-        // Transformation
-        objectMapper.map(tbl, result);
+		// Transformation
+		objectMapper.map(tbl, result);
 
-        // Set mdp
-        if (tbl.getMdp() != null) {
-            result.setPassword(convertMdp(tbl.getMdp().getDescription()));
-        }
+		// Set mdp
+		if (tbl.getMdp() != null) {
+			result.setPassword(convertMdp(tbl.getMdp().getDescription()));
+		}
 
-        // Set role
-        if (tbl.getRole() != null) {
-            result.setRoleName(tbl.getRole().getRoleName());
-        }
+		// Set role
+		if (tbl.getRole() != null) {
+			result.setRoleName(tbl.getRole().getRoleName());
+		}
 
-        // Set private key to null
-        if (tbl.getPrivateKey() != null) {
-            result.setPrivateKey(convertMdp(tbl.getPrivateKey().getDescription()));
-        }
+		// Set private key to null
+		if (tbl.getPrivateKey() != null) {
+			result.setPrivateKey(convertMdp(tbl.getPrivateKey().getDescription()));
+		}
 
-        // Return
-        return result;
-    }
+		// Return
+		return result;
+	}
 
-    /**
-     * Conver return mdp
-     *
-     * @param description
-     * @return
-     */
-    private String convertMdp(String mdp) {
-        // Declare result
-        String result = "";
+	/**
+	 * Conver return mdp
+	 *
+	 * @param description
+	 * @return
+	 */
+	private String convertMdp(String mdp) {
+		// Declare result
+		String result = "";
 
-        // Add 1 first chars
-        result = mdp.substring(0, 1);
+		// Add 1 first chars
+		result = mdp.substring(0, 1);
 
-        // Add n middle chars
-        for (int i = 0; i < mdp.length() - 2; i++) {
-            result = result + "*";
-        }
+		// Add n middle chars
+		for (int i = 0; i < mdp.length() - 2; i++) {
+			result = result + "*";
+		}
 
-        // Add 1 last chars
-        result = result + mdp.substring(mdp.length() - 1);
+		// Add 1 last chars
+		result = result + mdp.substring(mdp.length() - 1);
 
-        // Return
-        return result;
-    }
+		// Return
+		return result;
+	}
 
-    /**
-     * Convert tbl to vo
-     *
-     * @param User
-     * @return
-     */
-    public UserTbl convertToTbl(UserVO vo) {
-        // Declare result
-        UserTbl result = new UserTbl();
+	/**
+	 * Convert tbl to vo
+	 *
+	 * @param User
+	 * @return
+	 */
+	public UserTbl convertToTbl(UserVO vo) {
+		// Declare result
+		UserTbl result = new UserTbl();
 
-        // Transformation
-        objectMapper.map(vo, result);
+		// Transformation
+		objectMapper.map(vo, result);
 
-        // Return
-        return result;
-    }
+		// Return
+		return result;
+	}
 }

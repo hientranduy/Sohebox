@@ -18,7 +18,8 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "crypto_portfolio_history_tbl", uniqueConstraints = {
-		@UniqueConstraint(name = "UQ_crypto_portfolio_history", columnNames = { "user_id", "token_id", "time_stamp" }) })
+		@UniqueConstraint(name = "UQ_crypto_portfolio_history", columnNames = { "user_id", "token_id",
+				"time_stamp" }) })
 public class CryptoPortfolioHistoryTbl extends GenericTbl {
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "time_stamp")

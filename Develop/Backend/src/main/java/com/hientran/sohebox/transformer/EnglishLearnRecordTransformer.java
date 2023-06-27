@@ -20,66 +20,66 @@ import com.hientran.sohebox.vo.PageResultVO;
 @Component
 public class EnglishLearnRecordTransformer extends BaseTransformer {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    @Autowired
-    @Qualifier("objectMapper")
-    private Mapper objectMapper;
+	@Autowired
+	@Qualifier("objectMapper")
+	private Mapper objectMapper;
 
-    /**
-     * Convert Page<EnglishLearnRecordTbl> to PageResultVO<EnglishLearnRecordVO>
-     *
-     * @param Page<EnglishLearnRecordTbl>
-     * 
-     * @return PageResultVO<EnglishLearnRecordVO>
-     */
-    public PageResultVO<EnglishLearnRecordVO> convertToPageReturn(Page<EnglishLearnRecordTbl> pageTbl) {
-        // Declare result
-        PageResultVO<EnglishLearnRecordVO> result = new PageResultVO<EnglishLearnRecordVO>();
+	/**
+	 * Convert Page<EnglishLearnRecordTbl> to PageResultVO<EnglishLearnRecordVO>
+	 *
+	 * @param Page<EnglishLearnRecordTbl>
+	 * 
+	 * @return PageResultVO<EnglishLearnRecordVO>
+	 */
+	public PageResultVO<EnglishLearnRecordVO> convertToPageReturn(Page<EnglishLearnRecordTbl> pageTbl) {
+		// Declare result
+		PageResultVO<EnglishLearnRecordVO> result = new PageResultVO<EnglishLearnRecordVO>();
 
-        // Convert data
-        if (!CollectionUtils.isEmpty(pageTbl.getContent())) {
-            List<EnglishLearnRecordVO> listVO = new ArrayList<>();
-            for (EnglishLearnRecordTbl tbl : pageTbl.getContent()) {
-                listVO.add(convertToVO(tbl));
-            }
+		// Convert data
+		if (!CollectionUtils.isEmpty(pageTbl.getContent())) {
+			List<EnglishLearnRecordVO> listVO = new ArrayList<>();
+			for (EnglishLearnRecordTbl tbl : pageTbl.getContent()) {
+				listVO.add(convertToVO(tbl));
+			}
 
-            // Set return list to result
-            result.setElements(listVO);
-        }
+			// Set return list to result
+			result.setElements(listVO);
+		}
 
-        // Set header information
-        setPageHeader(pageTbl, result);
+		// Set header information
+		setPageHeader(pageTbl, result);
 
-        // Return
-        return result;
-    }
+		// Return
+		return result;
+	}
 
-    /**
-     * Convert vo to tbl
-     */
-    public EnglishLearnRecordVO convertToVO(EnglishLearnRecordTbl tbl) {
-        // Declare result
-        EnglishLearnRecordVO result = new EnglishLearnRecordVO();
+	/**
+	 * Convert vo to tbl
+	 */
+	public EnglishLearnRecordVO convertToVO(EnglishLearnRecordTbl tbl) {
+		// Declare result
+		EnglishLearnRecordVO result = new EnglishLearnRecordVO();
 
-        // Transformation
-        objectMapper.map(tbl, result);
+		// Transformation
+		objectMapper.map(tbl, result);
 
-        // Return
-        return result;
-    }
+		// Return
+		return result;
+	}
 
-    /**
-     * Convert tbl to vo
-     */
-    public EnglishLearnRecordTbl convertToTbl(EnglishLearnRecordVO vo) {
-        // Declare result
-        EnglishLearnRecordTbl result = new EnglishLearnRecordTbl();
+	/**
+	 * Convert tbl to vo
+	 */
+	public EnglishLearnRecordTbl convertToTbl(EnglishLearnRecordVO vo) {
+		// Declare result
+		EnglishLearnRecordTbl result = new EnglishLearnRecordTbl();
 
-        // Transformation
-        objectMapper.map(vo, result);
+		// Transformation
+		objectMapper.map(vo, result);
 
-        // Return
-        return result;
-    }
+		// Return
+		return result;
+	}
 }

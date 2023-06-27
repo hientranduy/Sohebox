@@ -20,71 +20,71 @@ import com.hientran.sohebox.vo.PageResultVO;
 @Component
 public class EnglishTypeTransformer extends BaseTransformer {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    @Autowired
-    @Qualifier("objectMapper")
-    private Mapper objectMapper;
+	@Autowired
+	@Qualifier("objectMapper")
+	private Mapper objectMapper;
 
-    /**
-     * Convert Page<EnglishTypeTbl> to PageResultVO<EnglishTypeVO>
-     *
-     * @param Page<EnglishTypeTbl>
-     * 
-     * @return PageResultVO<EnglishTypeVO>
-     */
-    public PageResultVO<EnglishTypeVO> convertToPageReturn(Page<EnglishTypeTbl> pageTbl) {
-        // Declare result
-        PageResultVO<EnglishTypeVO> result = new PageResultVO<EnglishTypeVO>();
+	/**
+	 * Convert Page<EnglishTypeTbl> to PageResultVO<EnglishTypeVO>
+	 *
+	 * @param Page<EnglishTypeTbl>
+	 * 
+	 * @return PageResultVO<EnglishTypeVO>
+	 */
+	public PageResultVO<EnglishTypeVO> convertToPageReturn(Page<EnglishTypeTbl> pageTbl) {
+		// Declare result
+		PageResultVO<EnglishTypeVO> result = new PageResultVO<EnglishTypeVO>();
 
-        // Convert data
-        if (!CollectionUtils.isEmpty(pageTbl.getContent())) {
-            List<EnglishTypeVO> listVO = new ArrayList<>();
-            for (EnglishTypeTbl tbl : pageTbl.getContent()) {
-                listVO.add(convertToEnglishTypeVO(tbl));
-            }
+		// Convert data
+		if (!CollectionUtils.isEmpty(pageTbl.getContent())) {
+			List<EnglishTypeVO> listVO = new ArrayList<>();
+			for (EnglishTypeTbl tbl : pageTbl.getContent()) {
+				listVO.add(convertToEnglishTypeVO(tbl));
+			}
 
-            // Set return list to result
-            result.setElements(listVO);
-        }
+			// Set return list to result
+			result.setElements(listVO);
+		}
 
-        // Set header information
-        setPageHeader(pageTbl, result);
+		// Set header information
+		setPageHeader(pageTbl, result);
 
-        // Return
-        return result;
-    }
+		// Return
+		return result;
+	}
 
-    /**
-     * Convert vo to tbl
-     *
-     * @return
-     */
-    public EnglishTypeVO convertToEnglishTypeVO(EnglishTypeTbl tbl) {
-        // Declare result
-        EnglishTypeVO result = new EnglishTypeVO();
+	/**
+	 * Convert vo to tbl
+	 *
+	 * @return
+	 */
+	public EnglishTypeVO convertToEnglishTypeVO(EnglishTypeTbl tbl) {
+		// Declare result
+		EnglishTypeVO result = new EnglishTypeVO();
 
-        // Transformation
-        objectMapper.map(tbl, result);
+		// Transformation
+		objectMapper.map(tbl, result);
 
-        // Return
-        return result;
-    }
+		// Return
+		return result;
+	}
 
-    /**
-     * Convert tbl to vo
-     *
-     * @param type
-     * @return
-     */
-    public EnglishTypeTbl convertToEnglishTypeTbl(EnglishTypeVO vo) {
-        // Declare result
-        EnglishTypeTbl result = new EnglishTypeTbl();
+	/**
+	 * Convert tbl to vo
+	 *
+	 * @param type
+	 * @return
+	 */
+	public EnglishTypeTbl convertToEnglishTypeTbl(EnglishTypeVO vo) {
+		// Declare result
+		EnglishTypeTbl result = new EnglishTypeTbl();
 
-        // Transformation
-        objectMapper.map(vo, result);
+		// Transformation
+		objectMapper.map(vo, result);
 
-        // Return
-        return result;
-    }
+		// Return
+		return result;
+	}
 }

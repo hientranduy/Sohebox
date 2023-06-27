@@ -14,33 +14,33 @@ import com.hientran.sohebox.specification.YoutubeChannelSpecs;
  * @author hientran
  */
 public interface YoutubeChannelRepository
-        extends JpaRepository<YoutubeChannelTbl, Long>, JpaSpecificationExecutor<YoutubeChannelTbl>, BaseRepository {
+		extends JpaRepository<YoutubeChannelTbl, Long>, JpaSpecificationExecutor<YoutubeChannelTbl>, BaseRepository {
 
-    YoutubeChannelSpecs specs = new YoutubeChannelSpecs();
+	YoutubeChannelSpecs specs = new YoutubeChannelSpecs();
 
-    /**
-     * 
-     * Get all data
-     *
-     * @return
-     */
-    public default Page<YoutubeChannelTbl> findAll(YoutubeChannelSCO sco) {
+	/**
+	 * 
+	 * Get all data
+	 *
+	 * @return
+	 */
+	public default Page<YoutubeChannelTbl> findAll(YoutubeChannelSCO sco) {
 
-        // Declare result
-        Page<YoutubeChannelTbl> result = null;
+		// Declare result
+		Page<YoutubeChannelTbl> result = null;
 
-        // Create data filter
-        Specification<YoutubeChannelTbl> specific = specs.buildSpecification(sco);
+		// Create data filter
+		Specification<YoutubeChannelTbl> specific = specs.buildSpecification(sco);
 
-        // Create page able
-        Pageable pageable = createPageable(sco.getPageToGet(), sco.getMaxRecordPerPage(), sco.getSorters(),
-                sco.getReportFlag());
+		// Create page able
+		Pageable pageable = createPageable(sco.getPageToGet(), sco.getMaxRecordPerPage(), sco.getSorters(),
+				sco.getReportFlag());
 
-        // Get data
-        Page<YoutubeChannelTbl> pageData = findAll(specific, pageable);
+		// Get data
+		Page<YoutubeChannelTbl> pageData = findAll(specific, pageable);
 
-        // Return
-        result = pageData;
-        return result;
-    }
+		// Return
+		result = pageData;
+		return result;
+	}
 }

@@ -14,16 +14,16 @@ import com.hientran.sohebox.authentication.UserDetailsServiceImpl;
  */
 public class UserServiceTest extends SoheboxApplicationTests {
 
-    @Autowired
-    UserDetailsServiceImpl userService;
+	@Autowired
+	UserDetailsServiceImpl userService;
 
 //    @Test
-    public void getByIdTest() {
-        try {
-            // userService.getById((long) 1);
-        } catch (Exception e) {
+	public void getByIdTest() {
+		try {
+			// userService.getById((long) 1);
+		} catch (Exception e) {
 //            Assert.fail();
-        }
-    }
+		}
+	}
 
 }

@@ -23,73 +23,74 @@ import com.hientran.sohebox.specification.TypeSpecs;
  * @author hientran
  */
 public interface TypeRepository
-        extends JpaRepository<TypeTbl, Long>, JpaSpecificationExecutor<TypeTbl>, BaseRepository {
-	
+		extends JpaRepository<TypeTbl, Long>, JpaSpecificationExecutor<TypeTbl>, BaseRepository {
+
 	TypeTbl findFirstByTypeClassAndTypeCode(String typeClass, String typeCode);
-	
-    TypeSpecs specs = new TypeSpecs();
 
-    /**
-     * 
-     * Get all data
-     *
-     * @return
-     */
-    public default Page<TypeTbl> findAll(TypeSCO sco) {
+	TypeSpecs specs = new TypeSpecs();
 
-        // Declare result
-        Page<TypeTbl> result = null;
+	/**
+	 * 
+	 * Get all data
+	 *
+	 * @return
+	 */
+	public default Page<TypeTbl> findAll(TypeSCO sco) {
 
-        // Create data filter
-        Specification<TypeTbl> specific = specs.buildSpecification(sco);
+		// Declare result
+		Page<TypeTbl> result = null;
 
-        // Set default sort if not have
-        if (sco.getSorters() == null) {
-            // Sort default by type code
-            Sorter sort = new Sorter();
-            sort.setDirection(DBConstants.DIRECTION_ACCENT);
-            sort.setProperty(TypeTblEnum.typeCode.name());
+		// Create data filter
+		Specification<TypeTbl> specific = specs.buildSpecification(sco);
 
-            List<Sorter> sorters = new ArrayList<>();
-            sorters.add(sort);
+		// Set default sort if not have
+		if (sco.getSorters() == null) {
+			// Sort default by type code
+			Sorter sort = new Sorter();
+			sort.setDirection(DBConstants.DIRECTION_ACCENT);
+			sort.setProperty(TypeTblEnum.typeCode.name());
 
-            sco.setSorters(sorters);
-        }
+			List<Sorter> sorters = new ArrayList<>();
+			sorters.add(sort);
 
-        // Create page able
-        Pageable pageable = createPageable(sco.getPageToGet(), sco.getMaxRecordPerPage(), sco.getSorters(),
-                sco.getReportFlag());
+			sco.setSorters(sorters);
+		}
 
-        // Get data
-        Page<TypeTbl> pageData = findAll(specific, pageable);
+		// Create page able
+		Pageable pageable = createPageable(sco.getPageToGet(), sco.getMaxRecordPerPage(), sco.getSorters(),
+				sco.getReportFlag());
 
-        // Return
-        result = pageData;
-        return result;
-    }
+		// Get data
+		Page<TypeTbl> pageData = findAll(specific, pageable);
 
-    /**
-     * Get all type class
-     * @param entityManager 
-     */
-    @SuppressWarnings("unchecked")
-    public default List<Object[]> getAllTypeClass(EntityManager entityManager) {
-        // Declare result
-        List<Object[]> result = null;
+		// Return
+		result = pageData;
+		return result;
+	}
 
-        // Prepare native SQL
-        StringBuilder sql = new StringBuilder();
-        sql.append(" SELECT type_class      ");
-        sql.append("      , 1              ");
-        sql.append(" FROM   type_tbl       ");
-        sql.append(" GROUP  BY type_class   ");
-        sql.append(" ORDER  BY type_class   ");
+	/**
+	 * Get all type class
+	 * 
+	 * @param entityManager
+	 */
+	@SuppressWarnings("unchecked")
+	public default List<Object[]> getAllTypeClass(EntityManager entityManager) {
+		// Declare result
+		List<Object[]> result = null;
 
-        // Execute SQL
-        Query query = entityManager.createNativeQuery(sql.toString());
-        result = query.getResultList();
+		// Prepare native SQL
+		StringBuilder sql = new StringBuilder();
+		sql.append(" SELECT type_class      ");
+		sql.append("      , 1              ");
+		sql.append(" FROM   type_tbl       ");
+		sql.append(" GROUP  BY type_class   ");
+		sql.append(" ORDER  BY type_class   ");
 
-        // Return
-        return result;
-    }
+		// Execute SQL
+		Query query = entityManager.createNativeQuery(sql.toString());
+		result = query.getResultList();
+
+		// Return
+		return result;
+	}
 }

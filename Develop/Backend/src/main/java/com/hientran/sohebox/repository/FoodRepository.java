@@ -14,33 +14,33 @@ import com.hientran.sohebox.specification.FoodSpecs;
  * @author hientran
  */
 public interface FoodRepository
-        extends JpaRepository<FoodTbl, Long>, JpaSpecificationExecutor<FoodTbl>, BaseRepository {
+		extends JpaRepository<FoodTbl, Long>, JpaSpecificationExecutor<FoodTbl>, BaseRepository {
 
-    FoodSpecs specs = new FoodSpecs();
+	FoodSpecs specs = new FoodSpecs();
 
-    /**
-     * 
-     * Get all data
-     *
-     * @return
-     */
-    public default Page<FoodTbl> findAll(FoodSCO sco) {
+	/**
+	 * 
+	 * Get all data
+	 *
+	 * @return
+	 */
+	public default Page<FoodTbl> findAll(FoodSCO sco) {
 
-        // Declare result
-        Page<FoodTbl> result = null;
+		// Declare result
+		Page<FoodTbl> result = null;
 
-        // Create data filter
-        Specification<FoodTbl> specific = specs.buildSpecification(sco);
+		// Create data filter
+		Specification<FoodTbl> specific = specs.buildSpecification(sco);
 
-        // Create page able
-        Pageable pageable = createPageable(sco.getPageToGet(), sco.getMaxRecordPerPage(), sco.getSorters(),
-                sco.getReportFlag());
+		// Create page able
+		Pageable pageable = createPageable(sco.getPageToGet(), sco.getMaxRecordPerPage(), sco.getSorters(),
+				sco.getReportFlag());
 
-        // Get data
-        Page<FoodTbl> pageData = findAll(specific, pageable);
+		// Get data
+		Page<FoodTbl> pageData = findAll(specific, pageable);
 
-        // Return
-        result = pageData;
-        return result;
-    }
+		// Return
+		result = pageData;
+		return result;
+	}
 }

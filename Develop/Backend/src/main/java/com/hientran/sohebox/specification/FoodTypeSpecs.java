@@ -14,33 +14,33 @@ import com.hientran.sohebox.sco.FoodTypeSCO;
 @SuppressWarnings({ "unchecked", "rawtypes", "serial" })
 public class FoodTypeSpecs extends GenericSpecs {
 
-    public Specification<FoodTypeTbl> buildSpecification(FoodTypeSCO sco) {
-        // Declare result
-        Specification<FoodTypeTbl> specification = Specification.where(null);
+	public Specification<FoodTypeTbl> buildSpecification(FoodTypeSCO sco) {
+		// Declare result
+		Specification<FoodTypeTbl> specification = Specification.where(null);
 
-        // Add criteria
-        if (sco != null) {
-            if (sco.getSearchOr() != null && sco.getSearchOr() == true) {
-                specification = specification.or(buildSearchText(FoodTypeTblEnum.typeClass.name(), sco.getTypeClass()));
-                specification = specification.or(buildSearchText(FoodTypeTblEnum.typeCode.name(), sco.getTypeCode()));
-                specification = specification.or(buildSearchText(FoodTypeTblEnum.typeName.name(), sco.getTypeName()));
-                specification = specification
-                        .or(buildSearchText(FoodTypeTblEnum.description.name(), sco.getDescription()));
-                specification = specification
-                        .and(buildSearchBoolean(FoodTypeTblEnum.deleteFlag.name(), sco.getDeleteFlag()));
-            } else {
-                specification = specification
-                        .and(buildSearchText(FoodTypeTblEnum.typeClass.name(), sco.getTypeClass()));
-                specification = specification.and(buildSearchText(FoodTypeTblEnum.typeCode.name(), sco.getTypeCode()));
-                specification = specification.and(buildSearchText(FoodTypeTblEnum.typeName.name(), sco.getTypeName()));
-                specification = specification
-                        .and(buildSearchText(FoodTypeTblEnum.description.name(), sco.getDescription()));
-                specification = specification
-                        .and(buildSearchBoolean(FoodTypeTblEnum.deleteFlag.name(), sco.getDeleteFlag()));
-            }
-        }
+		// Add criteria
+		if (sco != null) {
+			if (sco.getSearchOr() != null && sco.getSearchOr() == true) {
+				specification = specification.or(buildSearchText(FoodTypeTblEnum.typeClass.name(), sco.getTypeClass()));
+				specification = specification.or(buildSearchText(FoodTypeTblEnum.typeCode.name(), sco.getTypeCode()));
+				specification = specification.or(buildSearchText(FoodTypeTblEnum.typeName.name(), sco.getTypeName()));
+				specification = specification
+						.or(buildSearchText(FoodTypeTblEnum.description.name(), sco.getDescription()));
+				specification = specification
+						.and(buildSearchBoolean(FoodTypeTblEnum.deleteFlag.name(), sco.getDeleteFlag()));
+			} else {
+				specification = specification
+						.and(buildSearchText(FoodTypeTblEnum.typeClass.name(), sco.getTypeClass()));
+				specification = specification.and(buildSearchText(FoodTypeTblEnum.typeCode.name(), sco.getTypeCode()));
+				specification = specification.and(buildSearchText(FoodTypeTblEnum.typeName.name(), sco.getTypeName()));
+				specification = specification
+						.and(buildSearchText(FoodTypeTblEnum.description.name(), sco.getDescription()));
+				specification = specification
+						.and(buildSearchBoolean(FoodTypeTblEnum.deleteFlag.name(), sco.getDeleteFlag()));
+			}
+		}
 
-        // Return result
-        return specification;
-    }
+		// Return result
+		return specification;
+	}
 }

@@ -14,31 +14,30 @@ import com.hientran.sohebox.service.SchedulerService;
 @Component
 public class Scheduler implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    @Autowired
-    private SchedulerService schedulerService;
+	@Autowired
+	private SchedulerService schedulerService;
 
+	/**
+	 * 
+	 * CRON schedule_ Extend english learn report
+	 *
+	 * @throws Exception
+	 */
+	@Scheduled(cron = "${schedule.english.learn_report}")
+	public void englishExtendLearnReport() throws Exception {
+		schedulerService.englishExtendLearnReport();
+	}
 
-    /**
-     * 
-     * CRON schedule_ Extend english learn report
-     *
-     * @throws Exception
-     */
-    @Scheduled(cron = "${schedule.english.learn_report}")
-    public void englishExtendLearnReport() throws Exception {
-        schedulerService.englishExtendLearnReport();
-    }
-
-    /**
-     * 
-     * CRON schedule_ Calculate crypto portfolio total
-     *
-     * @throws Exception
-     */
-    @Scheduled(cron = "${schedule.english.learn_report}")
-    public void cronjobCalculTotalPortfolio() throws Exception {
-        schedulerService.cronjobCalculTotalPortfolio();
-    }
+	/**
+	 * 
+	 * CRON schedule_ Calculate crypto portfolio total
+	 *
+	 * @throws Exception
+	 */
+	@Scheduled(cron = "${schedule.english.learn_report}")
+	public void cronjobCalculTotalPortfolio() throws Exception {
+		schedulerService.cronjobCalculTotalPortfolio();
+	}
 }

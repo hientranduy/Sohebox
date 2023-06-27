@@ -14,17 +14,17 @@ import com.hientran.sohebox.sco.CountrySCO;
 @SuppressWarnings({ "unchecked", "rawtypes", "serial" })
 public class CountrySpecs extends GenericSpecs {
 
-    public Specification<CountryTbl> buildSpecification(CountrySCO sco) {
-        // Declare result
-        Specification<CountryTbl> specification = Specification.where(null);
+	public Specification<CountryTbl> buildSpecification(CountrySCO sco) {
+		// Declare result
+		Specification<CountryTbl> specification = Specification.where(null);
 
-        // Add criteria
-        if (sco != null) {
-            specification = specification.and(buildSearchText(CountryTblEnum.name.name(), sco.getName()));
-            specification = specification.and(buildSearchText(CountryTblEnum.note.name(), sco.getNote()));
-        }
+		// Add criteria
+		if (sco != null) {
+			specification = specification.and(buildSearchText(CountryTblEnum.name.name(), sco.getName()));
+			specification = specification.and(buildSearchText(CountryTblEnum.note.name(), sco.getNote()));
+		}
 
-        // Return result
-        return specification;
-    }
+		// Return result
+		return specification;
+	}
 }

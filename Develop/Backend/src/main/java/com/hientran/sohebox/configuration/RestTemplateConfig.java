@@ -47,8 +47,7 @@ public class RestTemplateConfig {
 	}
 
 	@Bean("restTemplateL")
-	public RestTemplate restTemplateL()
-			throws KeyStoreException, NoSuchAlgorithmException, KeyManagementException {
+	public RestTemplate restTemplateL() throws KeyStoreException, NoSuchAlgorithmException, KeyManagementException {
 		// Read config timeout
 		int readTimeout = env.getProperty("rest.template.timeout.read", Integer.class, 60000);
 		int connectTimeout = env.getProperty("rest.template.timeout.connect", Integer.class, 60000);
@@ -62,10 +61,8 @@ public class RestTemplateConfig {
 		PoolingHttpClientConnectionManager connectionManager = PoolingHttpClientConnectionManagerBuilder.create()
 				.setSSLSocketFactory(sSLConnectionSocketFactory)
 				.setDefaultSocketConfig(SocketConfig.custom().setSoTimeout(Timeout.ofMinutes(readTimeout)).build())
-				.setPoolConcurrencyPolicy(PoolConcurrencyPolicy.STRICT)
-				.setConnPoolPolicy(PoolReusePolicy.LIFO)
-				.setConnectionTimeToLive(TimeValue.ofMinutes(readTimeout))
-				.build();
+				.setPoolConcurrencyPolicy(PoolConcurrencyPolicy.STRICT).setConnPoolPolicy(PoolReusePolicy.LIFO)
+				.setConnectionTimeToLive(TimeValue.ofMinutes(readTimeout)).build();
 
 		CloseableHttpClient client = HttpClients.custom().setConnectionManager(connectionManager)
 				.setDefaultRequestConfig(RequestConfig.custom().setCookieSpec(StandardCookieSpec.STRICT).build())

@@ -20,66 +20,66 @@ import com.hientran.sohebox.vo.PageResultVO;
 @Component
 public class EnglishLearnReportTransformer extends BaseTransformer {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    @Autowired
-    @Qualifier("objectMapper")
-    private Mapper objectMapper;
+	@Autowired
+	@Qualifier("objectMapper")
+	private Mapper objectMapper;
 
-    /**
-     * Convert Page<EnglishLearnReportTbl> to PageResultVO<EnglishLearnReportVO>
-     *
-     * @param Page<EnglishLearnReportTbl>
-     * 
-     * @return PageResultVO<EnglishLearnReportVO>
-     */
-    public PageResultVO<EnglishLearnReportVO> convertToPageReturn(Page<EnglishLearnReportTbl> pageTbl) {
-        // Declare result
-        PageResultVO<EnglishLearnReportVO> result = new PageResultVO<EnglishLearnReportVO>();
+	/**
+	 * Convert Page<EnglishLearnReportTbl> to PageResultVO<EnglishLearnReportVO>
+	 *
+	 * @param Page<EnglishLearnReportTbl>
+	 * 
+	 * @return PageResultVO<EnglishLearnReportVO>
+	 */
+	public PageResultVO<EnglishLearnReportVO> convertToPageReturn(Page<EnglishLearnReportTbl> pageTbl) {
+		// Declare result
+		PageResultVO<EnglishLearnReportVO> result = new PageResultVO<EnglishLearnReportVO>();
 
-        // Convert data
-        if (!CollectionUtils.isEmpty(pageTbl.getContent())) {
-            List<EnglishLearnReportVO> listVO = new ArrayList<>();
-            for (EnglishLearnReportTbl tbl : pageTbl.getContent()) {
-                listVO.add(convertToVO(tbl));
-            }
+		// Convert data
+		if (!CollectionUtils.isEmpty(pageTbl.getContent())) {
+			List<EnglishLearnReportVO> listVO = new ArrayList<>();
+			for (EnglishLearnReportTbl tbl : pageTbl.getContent()) {
+				listVO.add(convertToVO(tbl));
+			}
 
-            // Set return list to result
-            result.setElements(listVO);
-        }
+			// Set return list to result
+			result.setElements(listVO);
+		}
 
-        // Set header information
-        setPageHeader(pageTbl, result);
+		// Set header information
+		setPageHeader(pageTbl, result);
 
-        // Return
-        return result;
-    }
+		// Return
+		return result;
+	}
 
-    /**
-     * Convert vo to tbl
-     */
-    public EnglishLearnReportVO convertToVO(EnglishLearnReportTbl tbl) {
-        // Declare result
-        EnglishLearnReportVO result = new EnglishLearnReportVO();
+	/**
+	 * Convert vo to tbl
+	 */
+	public EnglishLearnReportVO convertToVO(EnglishLearnReportTbl tbl) {
+		// Declare result
+		EnglishLearnReportVO result = new EnglishLearnReportVO();
 
-        // Transformation
-        objectMapper.map(tbl, result);
+		// Transformation
+		objectMapper.map(tbl, result);
 
-        // Return
-        return result;
-    }
+		// Return
+		return result;
+	}
 
-    /**
-     * Convert tbl to vo
-     */
-    public EnglishLearnReportTbl convertToTbl(EnglishLearnReportVO vo) {
-        // Declare result
-        EnglishLearnReportTbl result = new EnglishLearnReportTbl();
+	/**
+	 * Convert tbl to vo
+	 */
+	public EnglishLearnReportTbl convertToTbl(EnglishLearnReportVO vo) {
+		// Declare result
+		EnglishLearnReportTbl result = new EnglishLearnReportTbl();
 
-        // Transformation
-        objectMapper.map(vo, result);
+		// Transformation
+		objectMapper.map(vo, result);
 
-        // Return
-        return result;
-    }
+		// Return
+		return result;
+	}
 }

@@ -13,33 +13,33 @@ import com.hientran.sohebox.sco.CryptoPortfolioHistorySCO;
 @Component
 public class CryptoPortfolioHistorySpecs extends GenericSpecs<CryptoPortfolioHistoryTbl> {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    public Specification<CryptoPortfolioHistoryTbl> buildSpecification(CryptoPortfolioHistorySCO sco) {
-        // Declare result
-        Specification<CryptoPortfolioHistoryTbl> specification = Specification.where(null);
+	public Specification<CryptoPortfolioHistoryTbl> buildSpecification(CryptoPortfolioHistorySCO sco) {
+		// Declare result
+		Specification<CryptoPortfolioHistoryTbl> specification = Specification.where(null);
 
-        // Add criteria
-        if (sco != null) {
-            if (sco.getSearchOr() != null && sco.getSearchOr() == true) {
-                specification = specification
-                        .or(buildSearchNumber(CryptoPortfolioHistoryTblEnum.id.name(), sco.getId()));
-                specification = specification
-                        .or(buildSearchDate(CryptoPortfolioHistoryTblEnum.timeStamp.name(), sco.getTimeStamp(), true));
-            } else {
-                specification = specification
-                        .and(buildSearchNumber(CryptoPortfolioHistoryTblEnum.id.name(), sco.getId()));
-                specification = specification
-                        .and(buildSearchDate(CryptoPortfolioHistoryTblEnum.timeStamp.name(), sco.getTimeStamp(), true));
-            }
+		// Add criteria
+		if (sco != null) {
+			if (sco.getSearchOr() != null && sco.getSearchOr() == true) {
+				specification = specification
+						.or(buildSearchNumber(CryptoPortfolioHistoryTblEnum.id.name(), sco.getId()));
+				specification = specification
+						.or(buildSearchDate(CryptoPortfolioHistoryTblEnum.timeStamp.name(), sco.getTimeStamp(), true));
+			} else {
+				specification = specification
+						.and(buildSearchNumber(CryptoPortfolioHistoryTblEnum.id.name(), sco.getId()));
+				specification = specification
+						.and(buildSearchDate(CryptoPortfolioHistoryTblEnum.timeStamp.name(), sco.getTimeStamp(), true));
+			}
 
-            if (sco.getUser() != null) {
-                specification = specification
-                        .and(buildSearchNumber(CryptoPortfolioHistoryTblEnum.user.name(), sco.getUser()));
-            }
-        }
+			if (sco.getUser() != null) {
+				specification = specification
+						.and(buildSearchNumber(CryptoPortfolioHistoryTblEnum.user.name(), sco.getUser()));
+			}
+		}
 
-        // Return result
-        return specification;
-    }
+		// Return result
+		return specification;
+	}
 }

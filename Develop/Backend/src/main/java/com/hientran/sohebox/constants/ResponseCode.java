@@ -14,13 +14,10 @@ public enum ResponseCode {
 	EXISTED_USERNAME("ERR_0001", "The username %s is existed, please chose another account"),
 	FILED_EMPTY("ERR_0002", "The field %s must be not null"),
 	UNAUTHORIZED_USER("ERR_0003", "Incorrect username/password or account is expired"),
-	UNAUTHORIZED("ERR_0004", "Unauthorized Login"), 
-	UNAUTHORIZED_DATA("ERR_0005", "Unauthorized Data"),
-	NO_UPDATE_DATA("ERR_0006", "Have no data to update"), 
-	NO_LOGIN_USER("ERR_0007", "You are not logged in"),
+	UNAUTHORIZED("ERR_0004", "Unauthorized Login"), UNAUTHORIZED_DATA("ERR_0005", "Unauthorized Data"),
+	NO_UPDATE_DATA("ERR_0006", "Have no data to update"), NO_LOGIN_USER("ERR_0007", "You are not logged in"),
 	INVALID_FIELD("ERR_0008", "The field %s is invalid"),
-	INEXISTED_USERNAME("ERR_0009", "The user owner %s is not existed"), 
-	EXISTED_RECORD("ERR_0010", "The %s is existed"),
+	INEXISTED_USERNAME("ERR_0009", "The user owner %s is not existed"), EXISTED_RECORD("ERR_0010", "The %s is existed"),
 	INEXISTED_RECORD("ERR_0011", "The %s is not existed"),
 
 	ERROR_EXCEPTION("ERR_9999", "Exception Error: %s");

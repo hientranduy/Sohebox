@@ -14,33 +14,33 @@ import com.hientran.sohebox.specification.EnglishLearnRecordSpecs;
  * @author hientran
  */
 public interface EnglishLearnRecordRepository extends JpaRepository<EnglishLearnRecordTbl, Long>,
-        JpaSpecificationExecutor<EnglishLearnRecordTbl>, BaseRepository {
+		JpaSpecificationExecutor<EnglishLearnRecordTbl>, BaseRepository {
 
-    EnglishLearnRecordSpecs specs = new EnglishLearnRecordSpecs();
+	EnglishLearnRecordSpecs specs = new EnglishLearnRecordSpecs();
 
-    /**
-     * 
-     * Get all data
-     *
-     * @return
-     */
-    public default Page<EnglishLearnRecordTbl> findAll(EnglishLearnRecordSCO sco) {
+	/**
+	 * 
+	 * Get all data
+	 *
+	 * @return
+	 */
+	public default Page<EnglishLearnRecordTbl> findAll(EnglishLearnRecordSCO sco) {
 
-        // Declare result
-        Page<EnglishLearnRecordTbl> result = null;
+		// Declare result
+		Page<EnglishLearnRecordTbl> result = null;
 
-        // Create data filter
-        Specification<EnglishLearnRecordTbl> specific = specs.buildSpecification(sco);
+		// Create data filter
+		Specification<EnglishLearnRecordTbl> specific = specs.buildSpecification(sco);
 
-        // Create page able
-        Pageable pageable = createPageable(sco.getPageToGet(), sco.getMaxRecordPerPage(), sco.getSorters(),
-                sco.getReportFlag());
+		// Create page able
+		Pageable pageable = createPageable(sco.getPageToGet(), sco.getMaxRecordPerPage(), sco.getSorters(),
+				sco.getReportFlag());
 
-        // Get data
-        Page<EnglishLearnRecordTbl> pageData = findAll(specific, pageable);
+		// Get data
+		Page<EnglishLearnRecordTbl> pageData = findAll(specific, pageable);
 
-        // Return
-        result = pageData;
-        return result;
-    }
+		// Return
+		result = pageData;
+		return result;
+	}
 }

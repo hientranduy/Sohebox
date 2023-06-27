@@ -19,64 +19,64 @@ import com.hientran.sohebox.specification.UserSpecs;
  * @author hientran
  */
 public interface UserRepository
-        extends JpaRepository<UserTbl, Long>, JpaSpecificationExecutor<UserTbl>, BaseRepository {
-	
+		extends JpaRepository<UserTbl, Long>, JpaSpecificationExecutor<UserTbl>, BaseRepository {
+
 	UserTbl findFirstByUsername(String username);
 
-    UserSpecs specs = new UserSpecs();
+	UserSpecs specs = new UserSpecs();
 
-    /**
-     * 
-     * Get all data
-     *
-     * @return
-     */
-    public default Page<UserTbl> findAll(UserSCO sco) {
+	/**
+	 * 
+	 * Get all data
+	 *
+	 * @return
+	 */
+	public default Page<UserTbl> findAll(UserSCO sco) {
 
-        // Declare result
-        Page<UserTbl> result = null;
+		// Declare result
+		Page<UserTbl> result = null;
 
-        // Create data filter
-        Specification<UserTbl> specific = specs.buildSpecification(sco);
+		// Create data filter
+		Specification<UserTbl> specific = specs.buildSpecification(sco);
 
-        // Create page able
-        Pageable pageable = createPageable(sco.getPageToGet(), sco.getMaxRecordPerPage(), sco.getSorters(),
-                sco.getReportFlag());
+		// Create page able
+		Pageable pageable = createPageable(sco.getPageToGet(), sco.getMaxRecordPerPage(), sco.getSorters(),
+				sco.getReportFlag());
 
-        // Get data
-        Page<UserTbl> pageData = findAll(specific, pageable);
+		// Get data
+		Page<UserTbl> pageData = findAll(specific, pageable);
 
-        // Return
-        result = pageData;
-        return result;
-    }
+		// Return
+		result = pageData;
+		return result;
+	}
 
-    /**
-     * 
-     * Get active users
-     *
-     * @return
-     */
-    @SuppressWarnings("unchecked")
-    public default List<Object[]> getActiveUser(UserSCO sco, EntityManager entityManager) {
-        // Declare result
-        List<Object[]> result = null;
+	/**
+	 * 
+	 * Get active users
+	 *
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public default List<Object[]> getActiveUser(UserSCO sco, EntityManager entityManager) {
+		// Declare result
+		List<Object[]> result = null;
 
-        // Prepare native SQL
-        StringBuilder sql = new StringBuilder();
+		// Prepare native SQL
+		StringBuilder sql = new StringBuilder();
 
-        sql.append(" SELECT user_id, MAX(created_date)               ");
-        sql.append(" FROM   user_activity_tbl                        ");
-        sql.append(" WHERE  created_date >= NOW() - INTERVAL 3 MONTH ");
-        sql.append(" GROUP  BY user_id                               ");
-        sql.append(" ORDER BY MAX(created_date) DESC                 ");
-        sql.append(" LIMIT ").append(sco.getMaxRecordPerPage());
+		sql.append(" SELECT user_id, MAX(created_date)               ");
+		sql.append(" FROM   user_activity_tbl                        ");
+		sql.append(" WHERE  created_date >= NOW() - INTERVAL 3 MONTH ");
+		sql.append(" GROUP  BY user_id                               ");
+		sql.append(" ORDER BY MAX(created_date) DESC                 ");
+		sql.append(" LIMIT ").append(sco.getMaxRecordPerPage());
 
-        // Execute SQL
-        Query query = entityManager.createNativeQuery(sql.toString());
-        result = query.getResultList();
+		// Execute SQL
+		Query query = entityManager.createNativeQuery(sql.toString());
+		result = query.getResultList();
 
-        // Return
-        return result;
-    }
+		// Return
+		return result;
+	}
 }

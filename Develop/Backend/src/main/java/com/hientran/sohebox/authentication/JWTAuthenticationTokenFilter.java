@@ -19,32 +19,32 @@ import org.springframework.web.filter.OncePerRequestFilter;
  */
 public class JWTAuthenticationTokenFilter extends OncePerRequestFilter {
 
-    private JWTTokenService tokenService;
+	private JWTTokenService tokenService;
 
-    /**
-     * Construction
-     *
-     */
-    public JWTAuthenticationTokenFilter(JWTTokenService jWTTokenService) {
-        super();
-        tokenService = jWTTokenService;
-    }
+	/**
+	 * Construction
+	 *
+	 */
+	public JWTAuthenticationTokenFilter(JWTTokenService jWTTokenService) {
+		super();
+		tokenService = jWTTokenService;
+	}
 
-    /**
-     * Authenticate token
-     * 
-     * {@inheritDoc}
-     */
-    @Override
-    public void doFilterInternal(HttpServletRequest servletRequest, HttpServletResponse servletResponse,
-            FilterChain filterChain) throws IOException, ServletException {
-        // Get Authentication
-        Authentication authentication = tokenService.getAuthentication((HttpServletRequest) servletRequest);
+	/**
+	 * Authenticate token
+	 * 
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void doFilterInternal(HttpServletRequest servletRequest, HttpServletResponse servletResponse,
+			FilterChain filterChain) throws IOException, ServletException {
+		// Get Authentication
+		Authentication authentication = tokenService.getAuthentication((HttpServletRequest) servletRequest);
 
-        // Set Authentication
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+		// Set Authentication
+		SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        // Do filter
-        filterChain.doFilter(servletRequest, servletResponse);
-    }
+		// Do filter
+		filterChain.doFilter(servletRequest, servletResponse);
+	}
 }

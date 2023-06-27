@@ -144,7 +144,7 @@ public class TypeCache extends BaseCache {
 		// Return
 		return result;
 	}
-	
+
 	/**
 	 * 
 	 * Update
@@ -214,7 +214,7 @@ public class TypeCache extends BaseCache {
 
 		// Return
 		return result;
-	}	
+	}
 
 	/**
 	 * Search
@@ -283,7 +283,7 @@ public class TypeCache extends BaseCache {
 			// Prepare item list
 			List<String> listElement = new ArrayList<>();
 			for (Object[] objects : searchResult) {
-				listElement.add((String) objects[0]); 
+				listElement.add((String) objects[0]);
 			}
 
 			// Prepare page result

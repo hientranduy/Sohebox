@@ -238,9 +238,11 @@ public class SecurityConfig {
 				.and()
 
 				// Login by user name/password
-				.addFilterAfter(new JWTAuthenticationLoginFilter(ApiPublicConstants.API_USER + ApiPublicConstants.AUTHENTICATE,
-						authenticationManager(http.getSharedObject(AuthenticationConfiguration.class)),
-						tokenAuthenticationService), UsernamePasswordAuthenticationFilter.class)
+				.addFilterAfter(
+						new JWTAuthenticationLoginFilter(ApiPublicConstants.API_USER + ApiPublicConstants.AUTHENTICATE,
+								authenticationManager(http.getSharedObject(AuthenticationConfiguration.class)),
+								tokenAuthenticationService),
+						UsernamePasswordAuthenticationFilter.class)
 
 				// Login by token bearer
 				.addFilterAfter(new JWTAuthenticationTokenFilter(tokenAuthenticationService),

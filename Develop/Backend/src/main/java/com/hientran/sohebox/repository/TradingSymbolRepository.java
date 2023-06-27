@@ -14,33 +14,33 @@ import com.hientran.sohebox.specification.TradingSymbolSpecs;
  * @author hientran
  */
 public interface TradingSymbolRepository
-        extends JpaRepository<TradingSymbolTbl, Long>, JpaSpecificationExecutor<TradingSymbolTbl>, BaseRepository {
+		extends JpaRepository<TradingSymbolTbl, Long>, JpaSpecificationExecutor<TradingSymbolTbl>, BaseRepository {
 
-    TradingSymbolSpecs specs = new TradingSymbolSpecs();
+	TradingSymbolSpecs specs = new TradingSymbolSpecs();
 
-    /**
-     * 
-     * Get all data
-     *
-     * @return
-     */
-    public default Page<TradingSymbolTbl> findAll(TradingSymbolSCO sco) {
+	/**
+	 * 
+	 * Get all data
+	 *
+	 * @return
+	 */
+	public default Page<TradingSymbolTbl> findAll(TradingSymbolSCO sco) {
 
-        // Declare result
-        Page<TradingSymbolTbl> result = null;
+		// Declare result
+		Page<TradingSymbolTbl> result = null;
 
-        // Create data filter
-        Specification<TradingSymbolTbl> specific = specs.buildSpecification(sco);
+		// Create data filter
+		Specification<TradingSymbolTbl> specific = specs.buildSpecification(sco);
 
-        // Create page able
-        Pageable pageable = createPageable(sco.getPageToGet(), sco.getMaxRecordPerPage(), sco.getSorters(),
-                sco.getReportFlag());
+		// Create page able
+		Pageable pageable = createPageable(sco.getPageToGet(), sco.getMaxRecordPerPage(), sco.getSorters(),
+				sco.getReportFlag());
 
-        // Get data
-        Page<TradingSymbolTbl> pageData = findAll(specific, pageable);
+		// Get data
+		Page<TradingSymbolTbl> pageData = findAll(specific, pageable);
 
-        // Return
-        result = pageData;
-        return result;
-    }
+		// Return
+		result = pageData;
+		return result;
+	}
 }

@@ -22,52 +22,52 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class MailProperties implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    @Value("${spring.mail.host}")
-    private String mailHost;
+	@Value("${spring.mail.host}")
+	private String mailHost;
 
-    @Value("${spring.mail.port}")
-    private String mailPort;
-	
-    @Value("${spring.mail.username}")
-    private String mailUsername;
+	@Value("${spring.mail.port}")
+	private String mailPort;
 
-    @Value("${spring.mail.password}")
-    private String mailPassword;
+	@Value("${spring.mail.username}")
+	private String mailUsername;
 
-    @Value("${spring.mail.transport.protocol}")
-    private String protocol;
+	@Value("${spring.mail.password}")
+	private String mailPassword;
 
-    @Value("${spring.mail.properties.mail.smtp.auth}")
-    private String auth;
+	@Value("${spring.mail.transport.protocol}")
+	private String protocol;
 
-    @Value("${spring.mail.properties.mail.smtp.starttls.enable}")
-    private String starttlsEnable;
+	@Value("${spring.mail.properties.mail.smtp.auth}")
+	private String auth;
 
-    @Value("${spring.mail.debug}")
-    private String mailDebug;
+	@Value("${spring.mail.properties.mail.smtp.starttls.enable}")
+	private String starttlsEnable;
 
-    /**
-     * 
-     * Bean gmailSender
-     *
-     * @return
-     */
-    @Bean(name = "gmailSender")
-    public JavaMailSender getJavaMailSender() {
-        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-        mailSender.setHost(mailHost);
-        mailSender.setPort(Integer.valueOf(mailPort));
-        mailSender.setUsername(mailUsername);
-        mailSender.setPassword(mailPassword);
+	@Value("${spring.mail.debug}")
+	private String mailDebug;
 
-        Properties props = mailSender.getJavaMailProperties();
-        props.put("mail.transport.protocol", protocol);
-        props.put("mail.smtp.auth", auth);
-        props.put("mail.smtp.starttls.enable", starttlsEnable);
-        props.put("mail.debug", mailDebug);
+	/**
+	 * 
+	 * Bean gmailSender
+	 *
+	 * @return
+	 */
+	@Bean(name = "gmailSender")
+	public JavaMailSender getJavaMailSender() {
+		JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+		mailSender.setHost(mailHost);
+		mailSender.setPort(Integer.valueOf(mailPort));
+		mailSender.setUsername(mailUsername);
+		mailSender.setPassword(mailPassword);
 
-        return mailSender;
-    }
+		Properties props = mailSender.getJavaMailProperties();
+		props.put("mail.transport.protocol", protocol);
+		props.put("mail.smtp.auth", auth);
+		props.put("mail.smtp.starttls.enable", starttlsEnable);
+		props.put("mail.debug", mailDebug);
+
+		return mailSender;
+	}
 }

@@ -37,11 +37,11 @@ public class SoheboxApplication extends SpringBootServletInitializer {
 			protocol = "https";
 		}
 		log.info(
-				"\n-----------------------------------------------------------\n\t" 
-		        + "Application {} is running \n\t"
-				+ "Swagger   : \t{}://localhost:{}/swagger-ui/index.html\n\t"
-				+ "Prolile(s): \t{}\n-----------------------------------------------------------",
-				SoheboxApplication.class.getSimpleName(), protocol, env.getProperty("server.port"), env.getActiveProfiles());
+				"\n-----------------------------------------------------------\n\t" + "Application {} is running \n\t"
+						+ "Swagger   : \t{}://localhost:{}/swagger-ui/index.html\n\t"
+						+ "Prolile(s): \t{}\n-----------------------------------------------------------",
+				SoheboxApplication.class.getSimpleName(), protocol, env.getProperty("server.port"),
+				env.getActiveProfiles());
 	}
 
 	/**

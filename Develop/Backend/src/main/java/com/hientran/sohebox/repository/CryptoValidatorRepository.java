@@ -14,32 +14,32 @@ import com.hientran.sohebox.specification.CryptoValidatorSpecs;
  * @author hientran
  */
 public interface CryptoValidatorRepository
-        extends JpaRepository<CryptoValidatorTbl, Long>, JpaSpecificationExecutor<CryptoValidatorTbl>, BaseRepository {
-    CryptoValidatorSpecs specs = new CryptoValidatorSpecs();
+		extends JpaRepository<CryptoValidatorTbl, Long>, JpaSpecificationExecutor<CryptoValidatorTbl>, BaseRepository {
+	CryptoValidatorSpecs specs = new CryptoValidatorSpecs();
 
-    CryptoValidatorTbl findByValidatorAddress(String validatorAddress);
+	CryptoValidatorTbl findByValidatorAddress(String validatorAddress);
 
-    /**
-     * Get all data
-     */
-    public default Page<CryptoValidatorTbl> findAll(CryptoValidatorSCO sco) {
+	/**
+	 * Get all data
+	 */
+	public default Page<CryptoValidatorTbl> findAll(CryptoValidatorSCO sco) {
 
-        // Declare result
-        Page<CryptoValidatorTbl> result = null;
+		// Declare result
+		Page<CryptoValidatorTbl> result = null;
 
-        // Create data filter
-        Specification<CryptoValidatorTbl> specific = specs.buildSpecification(sco);
+		// Create data filter
+		Specification<CryptoValidatorTbl> specific = specs.buildSpecification(sco);
 
-        // Create page able
-        Pageable pageable = createPageable(sco.getPageToGet(), sco.getMaxRecordPerPage(), sco.getSorters(),
-                sco.getReportFlag());
+		// Create page able
+		Pageable pageable = createPageable(sco.getPageToGet(), sco.getMaxRecordPerPage(), sco.getSorters(),
+				sco.getReportFlag());
 
-        // Get data
-        Page<CryptoValidatorTbl> pageData = findAll(specific, pageable);
+		// Get data
+		Page<CryptoValidatorTbl> pageData = findAll(specific, pageable);
 
-        // Return
-        result = pageData;
-        return result;
-    }
+		// Return
+		result = pageData;
+		return result;
+	}
 
 }
