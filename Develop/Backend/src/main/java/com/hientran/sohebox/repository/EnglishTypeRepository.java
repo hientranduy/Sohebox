@@ -16,14 +16,14 @@ import com.hientran.sohebox.sco.EnglishTypeSCO;
 import com.hientran.sohebox.sco.Sorter;
 import com.hientran.sohebox.specification.EnglishTypeSpecs;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.Query;
-
 /**
  * @author hientran
  */
 public interface EnglishTypeRepository
 		extends JpaRepository<EnglishTypeTbl, Long>, JpaSpecificationExecutor<EnglishTypeTbl>, BaseRepository {
+
+	EnglishTypeTbl findFirstByTypeClassAndTypeCode(String typeClass, String typeCode);
+
 	EnglishTypeSpecs specs = new EnglishTypeSpecs();
 
 	/**
@@ -62,30 +62,6 @@ public interface EnglishTypeRepository
 
 		// Return
 		result = pageData;
-		return result;
-	}
-
-	/**
-	 * Get all type class
-	 */
-	@SuppressWarnings("unchecked")
-	public default List<Object[]> getAllTypeClass(EntityManager entityManager) {
-		// Declare result
-		List<Object[]> result = null;
-
-		// Prepare native SQL
-		StringBuilder sql = new StringBuilder();
-		sql.append(" SELECT type_class      ");
-		sql.append("      , 1              ");
-		sql.append(" FROM   type_tbl       ");
-		sql.append(" GROUP  BY type_class   ");
-		sql.append(" ORDER  BY type_class   ");
-
-		// Execute SQL
-		Query query = entityManager.createNativeQuery(sql.toString());
-		result = query.getResultList();
-
-		// Return
 		return result;
 	}
 }

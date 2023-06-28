@@ -49,7 +49,7 @@ public class RequestExternalService extends BaseService {
 		tbl.setRequestUrl(vo.getRequestUrl());
 		TypeVO requestType = typeCache.getType(DBConstants.TYPE_CLASS_REQUEST_EXTERNAL_TYPE,
 				vo.getRequestType().getTypeCode());
-		tbl.setRequestType(typeTransformer.convertToTypeTbl(requestType));
+		tbl.setRequestType(typeTransformer.convertToTbl(requestType));
 
 		requestExternalRepository.save(tbl);
 	}

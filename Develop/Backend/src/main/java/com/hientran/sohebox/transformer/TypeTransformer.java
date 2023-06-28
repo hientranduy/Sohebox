@@ -14,9 +14,6 @@ import com.hientran.sohebox.entity.TypeTbl;
 import com.hientran.sohebox.vo.PageResultVO;
 import com.hientran.sohebox.vo.TypeVO;
 
-/**
- * @author hientran
- */
 @Component
 public class TypeTransformer extends BaseTransformer {
 
@@ -26,13 +23,6 @@ public class TypeTransformer extends BaseTransformer {
 	@Qualifier("objectMapper")
 	private Mapper objectMapper;
 
-	/**
-	 * Convert Page<TypeTbl> to PageResultVO<TypeVO>
-	 *
-	 * @param Page<TypeTbl>
-	 * 
-	 * @return PageResultVO<TypeVO>
-	 */
 	public PageResultVO<TypeVO> convertToPageReturn(Page<TypeTbl> pageTbl) {
 		// Declare result
 		PageResultVO<TypeVO> result = new PageResultVO<TypeVO>();
@@ -41,7 +31,7 @@ public class TypeTransformer extends BaseTransformer {
 		if (!CollectionUtils.isEmpty(pageTbl.getContent())) {
 			List<TypeVO> listVO = new ArrayList<>();
 			for (TypeTbl tbl : pageTbl.getContent()) {
-				listVO.add(convertToTypeVO(tbl));
+				listVO.add(convertToVO(tbl));
 			}
 
 			// Set return list to result
@@ -55,12 +45,7 @@ public class TypeTransformer extends BaseTransformer {
 		return result;
 	}
 
-	/**
-	 * Convert vo to tbl
-	 *
-	 * @return
-	 */
-	public TypeVO convertToTypeVO(TypeTbl tbl) {
+	public TypeVO convertToVO(TypeTbl tbl) {
 		// Declare result
 		TypeVO result = new TypeVO();
 
@@ -71,13 +56,7 @@ public class TypeTransformer extends BaseTransformer {
 		return result;
 	}
 
-	/**
-	 * Convert tbl to vo
-	 *
-	 * @param type
-	 * @return
-	 */
-	public TypeTbl convertToTypeTbl(TypeVO vo) {
+	public TypeTbl convertToTbl(TypeVO vo) {
 		// Declare result
 		TypeTbl result = new TypeTbl();
 

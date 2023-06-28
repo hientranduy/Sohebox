@@ -131,12 +131,12 @@ public class FoodService extends BaseService {
 
 			// Type
 			FoodTypeVO type = foodTypeCache.getType(DBConstants.TYPE_CLASS_FOOD_TYPE, vo.getType().getTypeCode());
-			tbl.setType(foodTypeTransformer.convertToFoodTypeTbl(type));
+			tbl.setType(foodTypeTransformer.convertToTbl(type));
 
 			// Category
 			FoodTypeVO category = foodTypeCache.getType(DBConstants.TYPE_CLASS_FOOD_CATEGORY,
 					vo.getCategory().getTypeCode());
-			tbl.setCategory(foodTypeTransformer.convertToFoodTypeTbl(category));
+			tbl.setCategory(foodTypeTransformer.convertToTbl(category));
 
 			// Create
 			tbl = foodRepository.save(tbl);
@@ -229,14 +229,14 @@ public class FoodService extends BaseService {
 			// Type
 			if (vo.getType() != null) {
 				FoodTypeVO type = foodTypeCache.getType(DBConstants.TYPE_CLASS_FOOD_TYPE, vo.getType().getTypeCode());
-				updateTbl.setType(foodTypeTransformer.convertToFoodTypeTbl(type));
+				updateTbl.setType(foodTypeTransformer.convertToTbl(type));
 			}
 
 			// Category
 			if (vo.getCategory() != null) {
 				FoodTypeVO category = foodTypeCache.getType(DBConstants.TYPE_CLASS_FOOD_CATEGORY,
 						vo.getCategory().getTypeCode());
-				updateTbl.setCategory(foodTypeTransformer.convertToFoodTypeTbl(category));
+				updateTbl.setCategory(foodTypeTransformer.convertToTbl(category));
 			}
 
 			// Is fast food

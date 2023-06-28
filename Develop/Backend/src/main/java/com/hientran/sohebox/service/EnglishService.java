@@ -148,12 +148,12 @@ public class EnglishService extends BaseService {
 			// Set category
 			EnglishTypeVO category = englishTypeCache.getType(DBConstants.TYPE_CLASS_ENGLISH_CATEGORY,
 					vo.getCategory().getTypeCode());
-			tbl.setCategory(englishTypeTransformer.convertToEnglishTypeTbl(category));
+			tbl.setCategory(englishTypeTransformer.convertToTbl(category));
 
 			// Set word level
 			EnglishTypeVO wordLevel = englishTypeCache.getType(DBConstants.TYPE_CLASS_ENGLISH_WORD_LEVEL,
 					setWordLevel(vo.getKeyWord()));
-			tbl.setWordLevel(englishTypeTransformer.convertToEnglishTypeTbl(wordLevel));
+			tbl.setWordLevel(englishTypeTransformer.convertToTbl(wordLevel));
 
 			// Set image name
 			tbl.setImageName(imageName);
@@ -166,12 +166,12 @@ public class EnglishService extends BaseService {
 			// Set grade
 			EnglishTypeVO vusGrade = englishTypeCache.getType(DBConstants.TYPE_CLASS_ENGLISH_VUS_GRADE,
 					vo.getVusGrade().getTypeCode());
-			tbl.setVusGrade(englishTypeTransformer.convertToEnglishTypeTbl(vusGrade));
+			tbl.setVusGrade(englishTypeTransformer.convertToTbl(vusGrade));
 
 			// Set learn day
 			EnglishTypeVO learnDay = englishTypeCache.getType(DBConstants.TYPE_CLASS_ENGLISH_LEARN_DAY,
 					vo.getLearnDay().getTypeCode());
-			tbl.setLearnDay(englishTypeTransformer.convertToEnglishTypeTbl(learnDay));
+			tbl.setLearnDay(englishTypeTransformer.convertToTbl(learnDay));
 
 			// Create User
 			tbl = englishRepository.save(tbl);
@@ -277,14 +277,14 @@ public class EnglishService extends BaseService {
 			if (vo.getCategory() != null) {
 				EnglishTypeVO category = englishTypeCache.getType(DBConstants.TYPE_CLASS_ENGLISH_CATEGORY,
 						vo.getCategory().getTypeCode());
-				updateTbl.setCategory(englishTypeTransformer.convertToEnglishTypeTbl(category));
+				updateTbl.setCategory(englishTypeTransformer.convertToTbl(category));
 			}
 
 			// Set word level
 			if (vo.getKeyWord() != null) {
 				EnglishTypeVO wordLevel = englishTypeCache.getType(DBConstants.TYPE_CLASS_ENGLISH_WORD_LEVEL,
 						setWordLevel(vo.getKeyWord()));
-				updateTbl.setWordLevel(englishTypeTransformer.convertToEnglishTypeTbl(wordLevel));
+				updateTbl.setWordLevel(englishTypeTransformer.convertToTbl(wordLevel));
 			}
 
 			// Set image name
@@ -316,14 +316,14 @@ public class EnglishService extends BaseService {
 			if (vo.getVusGrade() != null) {
 				EnglishTypeVO vusGrade = englishTypeCache.getType(DBConstants.TYPE_CLASS_ENGLISH_VUS_GRADE,
 						vo.getVusGrade().getTypeCode());
-				updateTbl.setVusGrade(englishTypeTransformer.convertToEnglishTypeTbl(vusGrade));
+				updateTbl.setVusGrade(englishTypeTransformer.convertToTbl(vusGrade));
 			}
 
 			// Set learn day
 			if (vo.getLearnDay() != null) {
 				EnglishTypeVO learnDay = englishTypeCache.getType(DBConstants.TYPE_CLASS_ENGLISH_LEARN_DAY,
 						vo.getLearnDay().getTypeCode());
-				updateTbl.setLearnDay(englishTypeTransformer.convertToEnglishTypeTbl(learnDay));
+				updateTbl.setLearnDay(englishTypeTransformer.convertToTbl(learnDay));
 			}
 
 			// Update word

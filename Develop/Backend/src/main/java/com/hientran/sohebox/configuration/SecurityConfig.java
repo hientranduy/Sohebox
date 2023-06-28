@@ -169,65 +169,73 @@ public class SecurityConfig {
 				.requestMatchers(HttpMethod.DELETE, ApiPublicConstants.API_USER + "/*")
 				.hasRole(DBConstants.USER_ROLE_CREATOR)
 
-				// Config: create
+				// Config: create-update-search
 				.requestMatchers(HttpMethod.POST, "/api" + ApiPublicConstants.API_CONFIG)
 				.hasRole(DBConstants.USER_ROLE_CREATOR)
-				.requestMatchers(HttpMethod.POST, "/api" + ApiPublicConstants.API_ENGLISH)
-				.hasRole(DBConstants.USER_ROLE_CREATOR)
-				.requestMatchers(HttpMethod.POST, "/api" + ApiPublicConstants.API_FOOD)
-				.hasRole(DBConstants.USER_ROLE_CREATOR)
-				.requestMatchers(HttpMethod.POST, "/api" + ApiPublicConstants.API_YOUTUBE_CHANNEL)
-				.hasRole(DBConstants.USER_ROLE_CREATOR)
-
-				// Config: update
 				.requestMatchers(HttpMethod.PUT, "/api" + ApiPublicConstants.API_CONFIG)
 				.hasRole(DBConstants.USER_ROLE_CREATOR)
-				.requestMatchers(HttpMethod.PUT, "/api" + ApiPublicConstants.API_ENGLISH)
-				.hasRole(DBConstants.USER_ROLE_CREATOR)
-				.requestMatchers(HttpMethod.PUT, "/api" + ApiPublicConstants.API_FOOD)
-				.hasRole(DBConstants.USER_ROLE_CREATOR)
-				.requestMatchers(HttpMethod.PUT, "/api" + ApiPublicConstants.API_YOUTUBE_CHANNEL)
-				.hasRole(DBConstants.USER_ROLE_CREATOR)
-
-				// Config: search
 				.requestMatchers(HttpMethod.POST, "/api" + ApiPublicConstants.API_CONFIG + ApiPublicConstants.SEARCH)
 				.hasRole(DBConstants.USER_ROLE_CREATOR)
 
-				// Config: get
-				.requestMatchers(HttpMethod.GET, "/api" + ApiPublicConstants.API_CONFIG + "/*")
-				.hasRole(DBConstants.USER_ROLE_CREATOR)
-
-				// Type: get
-				.requestMatchers(HttpMethod.GET, "/api" + ApiPublicConstants.API_TYPE + ApiPublicConstants.GET)
-				.hasRole(DBConstants.USER_ROLE_CREATOR)
-
-				// Type: create
+				// Type: create-update-search
 				.requestMatchers(HttpMethod.POST, "/api" + ApiPublicConstants.API_TYPE)
 				.hasRole(DBConstants.USER_ROLE_CREATOR)
-
-				// Type: update
 				.requestMatchers(HttpMethod.PUT, "/api" + ApiPublicConstants.API_TYPE)
 				.hasRole(DBConstants.USER_ROLE_CREATOR)
-				.requestMatchers(HttpMethod.PUT, "/api" + ApiPublicConstants.API_ENGLISH_TYPE)
-				.hasRole(DBConstants.USER_ROLE_CREATOR)
-				.requestMatchers(HttpMethod.PUT, "/api" + ApiPublicConstants.API_FOOD_TYPE)
-				.hasRole(DBConstants.USER_ROLE_CREATOR)
-				.requestMatchers(HttpMethod.PUT, "/api" + ApiPublicConstants.API_FOOD_TYPE)
+				.requestMatchers(HttpMethod.POST, "/api" + ApiPublicConstants.API_TYPE + ApiPublicConstants.SEARCH)
 				.hasRole(DBConstants.USER_ROLE_CREATOR)
 
-				// Add new trading symbol
+				// EnglishType: update-search
+				.requestMatchers(HttpMethod.PUT, "/api" + ApiPublicConstants.API_ENGLISH_TYPE)
+				.hasRole(DBConstants.USER_ROLE_CREATOR)
+				.requestMatchers(HttpMethod.POST,
+						"/api" + ApiPublicConstants.API_ENGLISH_TYPE + ApiPublicConstants.SEARCH)
+				.hasRole(DBConstants.USER_ROLE_CREATOR)
+
+				// FoodType: update-search
+				.requestMatchers(HttpMethod.PUT, "/api" + ApiPublicConstants.API_FOOD_TYPE)
+				.hasRole(DBConstants.USER_ROLE_CREATOR)
+				.requestMatchers(HttpMethod.POST, "/api" + ApiPublicConstants.API_FOOD_TYPE + ApiPublicConstants.SEARCH)
+				.hasRole(DBConstants.USER_ROLE_CREATOR)
+
+				// MediaType: update-search
+				.requestMatchers(HttpMethod.PUT, "/api" + ApiPublicConstants.API_MEDIA_TYPE)
+				.hasRole(DBConstants.USER_ROLE_CREATOR)
+				.requestMatchers(HttpMethod.POST,
+						"/api" + ApiPublicConstants.API_MEDIA_TYPE + ApiPublicConstants.SEARCH)
+				.hasRole(DBConstants.USER_ROLE_CREATOR)
+
+				// English: add-update
+				.requestMatchers(HttpMethod.PUT, "/api" + ApiPublicConstants.API_ENGLISH)
+				.hasRole(DBConstants.USER_ROLE_CREATOR)
+				.requestMatchers(HttpMethod.POST, "/api" + ApiPublicConstants.API_ENGLISH)
+				.hasRole(DBConstants.USER_ROLE_CREATOR)
+
+				// Food: add-update
+				.requestMatchers(HttpMethod.POST, "/api" + ApiPublicConstants.API_FOOD)
+				.hasRole(DBConstants.USER_ROLE_CREATOR)
+				.requestMatchers(HttpMethod.PUT, "/api" + ApiPublicConstants.API_FOOD)
+				.hasRole(DBConstants.USER_ROLE_CREATOR)
+
+				// Youtube Channel: add-update
+				.requestMatchers(HttpMethod.POST, "/api" + ApiPublicConstants.API_YOUTUBE_CHANNEL)
+				.hasRole(DBConstants.USER_ROLE_CREATOR)
+				.requestMatchers(HttpMethod.PUT, "/api" + ApiPublicConstants.API_YOUTUBE_CHANNEL)
+				.hasRole(DBConstants.USER_ROLE_CREATOR)
+				
+				// Crypto Token: add-update
+				.requestMatchers(HttpMethod.POST, "/api" + ApiPublicConstants.API_CRYPTO_TOKEN_CONFIG)
+				.hasRole(DBConstants.USER_ROLE_CREATOR)
+				.requestMatchers(HttpMethod.PUT, "/api" + ApiPublicConstants.API_CRYPTO_TOKEN_CONFIG)
+				.hasRole(DBConstants.USER_ROLE_CREATOR)
+
+				// Trading symbol: add
 				.requestMatchers(HttpMethod.POST, "/api" + ApiPublicConstants.API_TRADING_SYMBOL)
 				.hasRole(DBConstants.USER_ROLE_CREATOR)
 
 				// Show account password
 				.requestMatchers(HttpMethod.POST,
 						"/api" + ApiPublicConstants.API_ACCOUNT + ApiPublicConstants.API_ACCOUNT_SHOW_PASSWORD)
-				.hasRole(DBConstants.USER_ROLE_CREATOR)
-
-				// Crypto
-				.requestMatchers(HttpMethod.POST, "/api" + ApiPublicConstants.API_CRYPTO_TOKEN_CONFIG)
-				.hasRole(DBConstants.USER_ROLE_CREATOR)
-				.requestMatchers(HttpMethod.PUT, "/api" + ApiPublicConstants.API_CRYPTO_TOKEN_CONFIG)
 				.hasRole(DBConstants.USER_ROLE_CREATOR)
 
 				///////////////////////////////////////////

@@ -16,11 +16,11 @@ import com.hientran.sohebox.sco.ConfigSCO;
 import com.hientran.sohebox.sco.Sorter;
 import com.hientran.sohebox.specification.ConfigSpecs;
 
-/**
- * @author hientran
- */
 public interface ConfigRepository
 		extends JpaRepository<ConfigTbl, Long>, JpaSpecificationExecutor<ConfigTbl>, BaseRepository {
+	
+	ConfigTbl findFirstByConfigKey(String configKey);
+	
 	ConfigSpecs specs = new ConfigSpecs();
 
 	/**

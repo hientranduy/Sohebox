@@ -93,7 +93,7 @@ public class YoutubeChannelService extends BaseService {
 			// Set category
 			MediaTypeVO category = mediaTypeCache.getType(DBConstants.TYPE_CLASS_MEDIA_YOUTUBE_CHANNEL_CATEGORY,
 					vo.getCategory().getTypeCode());
-			tbl.setCategory(mediaTypeTransformer.convertToMediaTypeTbl(category));
+			tbl.setCategory(mediaTypeTransformer.convertToTbl(category));
 
 			// Create
 			tbl = youtubeChannelRepository.save(tbl);
@@ -164,7 +164,7 @@ public class YoutubeChannelService extends BaseService {
 			if (vo.getCategory() != null) {
 				MediaTypeVO category = mediaTypeCache.getType(DBConstants.TYPE_CLASS_MEDIA_YOUTUBE_CHANNEL_CATEGORY,
 						vo.getCategory().getTypeCode());
-				updateTbl.setCategory(mediaTypeTransformer.convertToMediaTypeTbl(category));
+				updateTbl.setCategory(mediaTypeTransformer.convertToTbl(category));
 			}
 
 			// Set name

@@ -14,9 +14,6 @@ import com.hientran.sohebox.entity.MediaTypeTbl;
 import com.hientran.sohebox.vo.MediaTypeVO;
 import com.hientran.sohebox.vo.PageResultVO;
 
-/**
- * @author hientran
- */
 @Component
 public class MediaTypeTransformer extends BaseTransformer {
 
@@ -26,13 +23,6 @@ public class MediaTypeTransformer extends BaseTransformer {
 	@Qualifier("objectMapper")
 	private Mapper objectMapper;
 
-	/**
-	 * Convert Page<MediaTypeTbl> to PageResultVO<MediaTypeVO>
-	 *
-	 * @param Page<MediaTypeTbl>
-	 * 
-	 * @return PageResultVO<MediaTypeVO>
-	 */
 	public PageResultVO<MediaTypeVO> convertToPageReturn(Page<MediaTypeTbl> pageTbl) {
 		// Declare result
 		PageResultVO<MediaTypeVO> result = new PageResultVO<MediaTypeVO>();
@@ -41,7 +31,7 @@ public class MediaTypeTransformer extends BaseTransformer {
 		if (!CollectionUtils.isEmpty(pageTbl.getContent())) {
 			List<MediaTypeVO> listVO = new ArrayList<>();
 			for (MediaTypeTbl tbl : pageTbl.getContent()) {
-				listVO.add(convertToMediaTypeVO(tbl));
+				listVO.add(convertToVO(tbl));
 			}
 
 			// Set return list to result
@@ -55,12 +45,7 @@ public class MediaTypeTransformer extends BaseTransformer {
 		return result;
 	}
 
-	/**
-	 * Convert vo to tbl
-	 *
-	 * @return
-	 */
-	public MediaTypeVO convertToMediaTypeVO(MediaTypeTbl tbl) {
+	public MediaTypeVO convertToVO(MediaTypeTbl tbl) {
 		// Declare result
 		MediaTypeVO result = new MediaTypeVO();
 
@@ -71,13 +56,7 @@ public class MediaTypeTransformer extends BaseTransformer {
 		return result;
 	}
 
-	/**
-	 * Convert tbl to vo
-	 *
-	 * @param type
-	 * @return
-	 */
-	public MediaTypeTbl convertToMediaTypeTbl(MediaTypeVO vo) {
+	public MediaTypeTbl convertToTbl(MediaTypeVO vo) {
 		// Declare result
 		MediaTypeTbl result = new MediaTypeTbl();
 

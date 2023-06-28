@@ -14,9 +14,6 @@ import com.hientran.sohebox.entity.EnglishTypeTbl;
 import com.hientran.sohebox.vo.EnglishTypeVO;
 import com.hientran.sohebox.vo.PageResultVO;
 
-/**
- * @author hientran
- */
 @Component
 public class EnglishTypeTransformer extends BaseTransformer {
 
@@ -26,13 +23,6 @@ public class EnglishTypeTransformer extends BaseTransformer {
 	@Qualifier("objectMapper")
 	private Mapper objectMapper;
 
-	/**
-	 * Convert Page<EnglishTypeTbl> to PageResultVO<EnglishTypeVO>
-	 *
-	 * @param Page<EnglishTypeTbl>
-	 * 
-	 * @return PageResultVO<EnglishTypeVO>
-	 */
 	public PageResultVO<EnglishTypeVO> convertToPageReturn(Page<EnglishTypeTbl> pageTbl) {
 		// Declare result
 		PageResultVO<EnglishTypeVO> result = new PageResultVO<EnglishTypeVO>();
@@ -41,7 +31,7 @@ public class EnglishTypeTransformer extends BaseTransformer {
 		if (!CollectionUtils.isEmpty(pageTbl.getContent())) {
 			List<EnglishTypeVO> listVO = new ArrayList<>();
 			for (EnglishTypeTbl tbl : pageTbl.getContent()) {
-				listVO.add(convertToEnglishTypeVO(tbl));
+				listVO.add(convertToVO(tbl));
 			}
 
 			// Set return list to result
@@ -55,12 +45,7 @@ public class EnglishTypeTransformer extends BaseTransformer {
 		return result;
 	}
 
-	/**
-	 * Convert vo to tbl
-	 *
-	 * @return
-	 */
-	public EnglishTypeVO convertToEnglishTypeVO(EnglishTypeTbl tbl) {
+	public EnglishTypeVO convertToVO(EnglishTypeTbl tbl) {
 		// Declare result
 		EnglishTypeVO result = new EnglishTypeVO();
 
@@ -71,13 +56,7 @@ public class EnglishTypeTransformer extends BaseTransformer {
 		return result;
 	}
 
-	/**
-	 * Convert tbl to vo
-	 *
-	 * @param type
-	 * @return
-	 */
-	public EnglishTypeTbl convertToEnglishTypeTbl(EnglishTypeVO vo) {
+	public EnglishTypeTbl convertToTbl(EnglishTypeVO vo) {
 		// Declare result
 		EnglishTypeTbl result = new EnglishTypeTbl();
 

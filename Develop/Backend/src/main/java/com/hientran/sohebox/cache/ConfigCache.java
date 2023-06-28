@@ -3,7 +3,6 @@ package com.hientran.sohebox.cache;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
@@ -19,53 +18,41 @@ import com.hientran.sohebox.entity.ConfigTbl;
 import com.hientran.sohebox.exception.APIResponse;
 import com.hientran.sohebox.repository.ConfigRepository;
 import com.hientran.sohebox.sco.ConfigSCO;
-import com.hientran.sohebox.sco.SearchTextVO;
-import com.hientran.sohebox.specification.ConfigSpecs;
 import com.hientran.sohebox.transformer.ConfigTransformer;
 import com.hientran.sohebox.vo.ConfigVO;
 import com.hientran.sohebox.vo.PageResultVO;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 @Service
 @RequiredArgsConstructor
-@Slf4j
-public class ConfigCache extends BaseCache {
+public class ConfigCache {
 
 	private final ConfigRepository configRepository;
 	private final ConfigTransformer configTransformer;
-	private final ConfigSpecs configSpecs;
 	private final HazelcastInstance instance;
 
 	/**
-	 * 
-	 * Get config value by key
-	 *
-	 * @param key
-	 * @return
+	 * Get
 	 */
 	public String getValueByKey(String key) {
 		// Declare result
 		String result = null;
 
-		// Get from cache first
+		// Get cache
 		Map<String, ConfigVO> configCache = instance.getMap("configCache");
 		ConfigVO cacheValue = configCache.get(formatConfigKey(key));
-
-		// Return if have in cache
 		if (cacheValue != null) {
-			result = cacheValue.getConfigValue();
-		} else {
+			return cacheValue.getConfigValue();
+		}
 
-			// Get data from DB
-			ConfigTbl tbl = searchByConfigKey(key);
-			if (tbl != null) {
-				result = tbl.getConfigValue();
+		// Get from DB
+		ConfigTbl tbl = configRepository.findFirstByConfigKey(key);
+		if (tbl != null) {
+			result = tbl.getConfigValue();
 
-				// Add to cache
-				configCache.put(key, configTransformer.convertToConfigVO(tbl));
-			}
+			// Add to cache
+			configCache.put(key, configTransformer.convertToConfigVO(tbl));
 		}
 
 		// Return
@@ -73,33 +60,85 @@ public class ConfigCache extends BaseCache {
 	}
 
 	/**
-	 * 
-	 * Delete a config
-	 *
-	 * @param key
+	 * Create
 	 */
-	public void delete(String key) {
-		// Check existed
-		ConfigTbl tbl = searchByConfigKey(key);
+	@Transactional(readOnly = false, rollbackFor = Exception.class)
+	public APIResponse<Long> create(ConfigVO vo) {
 
-		// Delete if found, else return not found exception
-		if (tbl != null) {
-			configRepository.delete(tbl);
-
-			// Remove from cache
-			Map<String, ConfigVO> configCache = instance.getMap("configCache");
-			configCache.remove(key);
-
-		} else {
-			log.error("Config not found to delete, key: " + key);
+		// Validate input
+		List<String> errors = new ArrayList<>();
+		if (StringUtils.isBlank(vo.getConfigKey())) {
+			errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, ConfigTblEnum.configKey.name()));
 		}
+		if (StringUtils.isBlank(vo.getConfigValue())) {
+			errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, ConfigTblEnum.configValue.name()));
+		}
+		if (!CollectionUtils.isEmpty(errors)) {
+			return new APIResponse<Long>(HttpStatus.BAD_REQUEST, errors);
+		}
+
+		// Valid existed record
+		ConfigTbl searchTbl = configRepository.findFirstByConfigKey(vo.getConfigKey());
+		if (searchTbl != null) {
+			return new APIResponse<Long>(HttpStatus.BAD_REQUEST,
+					ResponseCode.mapParam(ResponseCode.EXISTED_RECORD, "config"));
+		}
+
+		// Create
+		ConfigTbl tbl = configTransformer.convertToConfigTbl(vo);
+		tbl.setConfigKey(formatConfigKey(tbl.getConfigKey()));
+		tbl = configRepository.save(tbl);
+
+		// Return
+		APIResponse<Long> result = new APIResponse<Long>();
+		result.setData(tbl.getId());
+		return result;
+	}
+
+	/**
+	 * Update
+	 */
+	@Transactional(readOnly = false, rollbackFor = Exception.class)
+	public APIResponse<Long> update(ConfigVO vo) {
+
+		// Validate input
+		List<String> errors = new ArrayList<>();
+		if (StringUtils.isBlank(vo.getConfigKey())) {
+			errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, ConfigTblEnum.configKey.name()));
+		}
+		if (StringUtils.isBlank(vo.getConfigValue())) {
+			errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, ConfigTblEnum.configValue.name()));
+		}
+		if (!CollectionUtils.isEmpty(errors)) {
+			return new APIResponse<Long>(HttpStatus.BAD_REQUEST, errors);
+		}
+
+		// Valid existed record
+		ConfigTbl updateTbl = configRepository.findFirstByConfigKey(vo.getConfigKey());
+		if (updateTbl == null) {
+			return new APIResponse<Long>(HttpStatus.BAD_REQUEST,
+					ResponseCode.mapParam(ResponseCode.INEXISTED_RECORD, "config"));
+		}
+
+		// Update
+		updateTbl.setConfigValue(vo.getConfigValue());
+		if (vo.getDescription() != null) {
+			updateTbl.setDescription(vo.getDescription());
+		}
+
+		APIResponse<Long> result = new APIResponse<Long>();
+		result.setData(configRepository.save(updateTbl).getId());
+
+		// Update cache
+		Map<String, ConfigVO> configCache = instance.getMap("configCache");
+		configCache.put(vo.getConfigKey(), configTransformer.convertToConfigVO(updateTbl));
+
+		// Return
+		return result;
 	}
 
 	/**
 	 * Search
-	 * 
-	 * @param sco
-	 * @return
 	 */
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
 	public APIResponse<Object> search(ConfigSCO sco) {
@@ -120,192 +159,7 @@ public class ConfigCache extends BaseCache {
 	}
 
 	/**
-	 * 
-	 * Update
-	 * 
-	 * @param vo
-	 * @return
-	 */
-	@Transactional(readOnly = false, rollbackFor = Exception.class)
-	public APIResponse<Long> update(ConfigVO vo) {
-		// Declare result
-		APIResponse<Long> result = new APIResponse<Long>();
-
-		// Validate input
-		if (result.getStatus() == null) {
-			List<String> errors = new ArrayList<>();
-
-			// Config Key must be not null
-			if (StringUtils.isBlank(vo.getConfigKey())) {
-				errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, ConfigTblEnum.configKey.name()));
-			}
-
-			// Config Value must be not null
-			if (StringUtils.isBlank(vo.getConfigValue())) {
-				errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, ConfigTblEnum.configValue.name()));
-			}
-
-			// Record error
-			if (!CollectionUtils.isEmpty(errors)) {
-				result = new APIResponse<Long>(HttpStatus.BAD_REQUEST, errors);
-			}
-		}
-
-		// Check if record is existed
-		ConfigTbl updateTbl = null;
-		if (result.getStatus() == null) {
-			updateTbl = searchByConfigKey(vo.getConfigKey());
-			if (updateTbl == null) {
-				result = new APIResponse<Long>(HttpStatus.BAD_REQUEST,
-						ResponseCode.mapParam(ResponseCode.INEXISTED_RECORD, "config"));
-			}
-		}
-
-		// Update
-		if (result.getStatus() == null)
-
-		{
-			updateTbl.setConfigValue(vo.getConfigValue());
-			if (vo.getDescription() != null) {
-				updateTbl.setDescription(vo.getDescription());
-			}
-			updateTbl = configRepository.save(updateTbl);
-
-			// Update cache
-			Map<String, ConfigVO> configCache = instance.getMap("configCache");
-			configCache.put(vo.getConfigKey(), configTransformer.convertToConfigVO(updateTbl));
-		}
-
-		// Return
-		return result;
-	}
-
-	/**
-	 * Get by id
-	 * 
-	 * @param User
-	 * @return
-	 */
-	public APIResponse<Object> getById(Long id) {
-		// Declare result
-		APIResponse<Object> result = new APIResponse<Object>();
-
-		// Check existence
-		Optional<ConfigTbl> tbl = configRepository.findById(id);
-		if (!tbl.isPresent()) {
-			result = new APIResponse<Object>(HttpStatus.BAD_REQUEST,
-					ResponseCode.mapParam(ResponseCode.INEXISTED_RECORD, "config"));
-		} else {
-			// Set return data
-			ConfigVO vo = configTransformer.convertToConfigVO(tbl.get());
-			result.setData(vo);
-
-			// Add to cache
-			Map<String, ConfigVO> configCache = instance.getMap("configCache");
-			configCache.put(vo.getConfigKey(), vo);
-		}
-
-		// Return
-		return result;
-	}
-
-	/**
-	 * 
-	 * Create new
-	 * 
-	 * Anyone
-	 *
-	 * @param vo
-	 * @return
-	 */
-	@Transactional(readOnly = false, rollbackFor = Exception.class)
-	public APIResponse<Long> create(ConfigVO vo) {
-		// Declare result
-		APIResponse<Long> result = new APIResponse<Long>();
-
-		// Validate input
-		if (result.getStatus() == null) {
-			List<String> errors = new ArrayList<>();
-
-			// Config Key must be not null
-			if (StringUtils.isBlank(vo.getConfigKey())) {
-				errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, ConfigTblEnum.configKey.name()));
-			}
-
-			// Config Value must be not null
-			if (StringUtils.isBlank(vo.getConfigValue())) {
-				errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, ConfigTblEnum.configValue.name()));
-			}
-
-			// Record error
-			if (!CollectionUtils.isEmpty(errors)) {
-				result = new APIResponse<Long>(HttpStatus.BAD_REQUEST, errors);
-			}
-		}
-
-		// Check if record is not existed
-		ConfigTbl updateTbl = null;
-		if (result.getStatus() == null) {
-			updateTbl = searchByConfigKey(vo.getConfigKey());
-			if (updateTbl != null) {
-				result = new APIResponse<Long>(HttpStatus.BAD_REQUEST,
-						ResponseCode.mapParam(ResponseCode.EXISTED_RECORD, "config"));
-			}
-		}
-
-		// Create
-		if (result.getStatus() == null) {
-			// Transform
-			ConfigTbl tbl = configTransformer.convertToConfigTbl(vo);
-			tbl.setConfigKey(formatConfigKey(tbl.getConfigKey()));
-
-			tbl = configRepository.save(tbl);
-
-			// Add to cache
-			Map<String, ConfigVO> configCache = instance.getMap("configCache");
-			configCache.put(vo.getConfigKey(), configTransformer.convertToConfigVO(tbl));
-
-			// Set return result
-			result.setData(tbl.getId());
-		}
-
-		// Return
-		return result;
-	}
-
-	/**
-	 * 
-	 * Search configTbl by config key
-	 *
-	 * @param key
-	 * @return
-	 */
-	private ConfigTbl searchByConfigKey(String key) {
-		// Declare result
-		ConfigTbl result = null;
-
-		// Get Data
-		SearchTextVO keySearch = new SearchTextVO();
-		keySearch.setEq(formatConfigKey(key));
-		ConfigSCO sco = new ConfigSCO();
-		sco.setConfigKey(keySearch);
-
-		Optional<ConfigTbl> tbl = configRepository.findOne(configSpecs.buildSpecification(sco));
-
-		// Transformer
-		if (tbl.isPresent()) {
-			result = tbl.get();
-		}
-
-		// Return
-		return result;
-	}
-
-	/**
-	 * Format type code
-	 *
-	 * @param vo
-	 * @return
+	 * Format config key
 	 */
 	private String formatConfigKey(String configKey) {
 		return configKey.replaceAll(" ", "_").toUpperCase();

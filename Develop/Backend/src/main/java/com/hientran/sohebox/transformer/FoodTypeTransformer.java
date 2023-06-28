@@ -14,9 +14,6 @@ import com.hientran.sohebox.entity.FoodTypeTbl;
 import com.hientran.sohebox.vo.FoodTypeVO;
 import com.hientran.sohebox.vo.PageResultVO;
 
-/**
- * @author hientran
- */
 @Component
 public class FoodTypeTransformer extends BaseTransformer {
 
@@ -26,13 +23,6 @@ public class FoodTypeTransformer extends BaseTransformer {
 	@Qualifier("objectMapper")
 	private Mapper objectMapper;
 
-	/**
-	 * Convert Page<FoodTypeTbl> to PageResultVO<FoodTypeVO>
-	 *
-	 * @param Page<FoodTypeTbl>
-	 * 
-	 * @return PageResultVO<FoodTypeVO>
-	 */
 	public PageResultVO<FoodTypeVO> convertToPageReturn(Page<FoodTypeTbl> pageTbl) {
 		// Declare result
 		PageResultVO<FoodTypeVO> result = new PageResultVO<FoodTypeVO>();
@@ -41,7 +31,7 @@ public class FoodTypeTransformer extends BaseTransformer {
 		if (!CollectionUtils.isEmpty(pageTbl.getContent())) {
 			List<FoodTypeVO> listVO = new ArrayList<>();
 			for (FoodTypeTbl tbl : pageTbl.getContent()) {
-				listVO.add(convertToFoodTypeVO(tbl));
+				listVO.add(convertToVO(tbl));
 			}
 
 			// Set return list to result
@@ -55,12 +45,7 @@ public class FoodTypeTransformer extends BaseTransformer {
 		return result;
 	}
 
-	/**
-	 * Convert vo to tbl
-	 *
-	 * @return
-	 */
-	public FoodTypeVO convertToFoodTypeVO(FoodTypeTbl tbl) {
+	public FoodTypeVO convertToVO(FoodTypeTbl tbl) {
 		// Declare result
 		FoodTypeVO result = new FoodTypeVO();
 
@@ -71,13 +56,7 @@ public class FoodTypeTransformer extends BaseTransformer {
 		return result;
 	}
 
-	/**
-	 * Convert tbl to vo
-	 *
-	 * @param type
-	 * @return
-	 */
-	public FoodTypeTbl convertToFoodTypeTbl(FoodTypeVO vo) {
+	public FoodTypeTbl convertToTbl(FoodTypeVO vo) {
 		// Declare result
 		FoodTypeTbl result = new FoodTypeTbl();
 

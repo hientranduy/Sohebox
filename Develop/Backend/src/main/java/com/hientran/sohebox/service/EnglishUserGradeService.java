@@ -105,12 +105,12 @@ public class EnglishUserGradeService extends BaseService {
 			if (tbl == null) {
 				tbl = new EnglishUserGradeTbl();
 				tbl.setUser(userTbl);
-				tbl.setVusGrade(englishTypeTransformer.convertToEnglishTypeTbl(vusGrade));
-				tbl.setLearnDay(englishTypeTransformer.convertToEnglishTypeTbl(learnDay));
+				tbl.setVusGrade(englishTypeTransformer.convertToTbl(vusGrade));
+				tbl.setLearnDay(englishTypeTransformer.convertToTbl(learnDay));
 				tbl = EnglishUserGradeRepository.save(tbl);
 			} else {
-				tbl.setVusGrade(englishTypeTransformer.convertToEnglishTypeTbl(vusGrade));
-				tbl.setLearnDay(englishTypeTransformer.convertToEnglishTypeTbl(learnDay));
+				tbl.setVusGrade(englishTypeTransformer.convertToTbl(vusGrade));
+				tbl.setLearnDay(englishTypeTransformer.convertToTbl(learnDay));
 				tbl = EnglishUserGradeRepository.save(tbl);
 			}
 		}

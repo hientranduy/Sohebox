@@ -71,7 +71,7 @@ public class AccountTransformer extends BaseTransformer {
 		objectMapper.map(tbl, result);
 
 		// Account Type
-		result.setAccountType(typeTransformer.convertToTypeVO(tbl.getType()));
+		result.setAccountType(typeTransformer.convertToVO(tbl.getType()));
 
 		// Set mdp
 		if (tbl.getMdp() != null) {
@@ -124,7 +124,7 @@ public class AccountTransformer extends BaseTransformer {
 		objectMapper.map(vo, result);
 
 		// Account Type
-		result.setType(typeTransformer.convertToTypeTbl(vo.getAccountType()));
+		result.setType(typeTransformer.convertToTbl(vo.getAccountType()));
 
 		// Return
 		return result;

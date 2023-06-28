@@ -1,14 +1,9 @@
 package com.hientran.sohebox.cache;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
 import lombok.Data;
 
 @Data
 public class BaseCache {
-	@PersistenceContext
-	protected EntityManager entityManager;
-
 	protected String formatTypeClass(String typeClass) {
 		return typeClass.toUpperCase();
 	}

@@ -82,7 +82,7 @@ public class UserActivityService {
 
 			// Set activity
 			TypeVO typeVO = typeCache.getType(vo.getActivity().getTypeClass(), vo.getActivity().getTypeCode());
-			tbl.setActivity(typeTransformer.convertToTypeTbl(typeVO));
+			tbl.setActivity(typeTransformer.convertToTbl(typeVO));
 
 			// Create User
 			tbl = userActivityRepository.save(tbl);
@@ -109,7 +109,7 @@ public class UserActivityService {
 
 		// Set activity
 		TypeVO typeVO = typeCache.getType(DBConstants.TYPE_CLASS_USER_ACTIVITY, activity);
-		tbl.setActivity(typeTransformer.convertToTypeTbl(typeVO));
+		tbl.setActivity(typeTransformer.convertToTbl(typeVO));
 
 		// Create User
 		tbl = userActivityRepository.save(tbl);
@@ -129,7 +129,7 @@ public class UserActivityService {
 
 		// Set activity
 		TypeVO typeVO = typeCache.getType(DBConstants.TYPE_CLASS_USER_ACTIVITY, activity);
-		tbl.setActivity(typeTransformer.convertToTypeTbl(typeVO));
+		tbl.setActivity(typeTransformer.convertToTbl(typeVO));
 
 		// Create User
 		tbl = userActivityRepository.save(tbl);

@@ -290,7 +290,7 @@ public class YoutubeChannelVideoService extends BaseService {
 				privateChannel.setName(loggedUser.getFirstName() + " " + loggedUser.getLastName());
 				MediaTypeVO category = mediaTypeCache.getType(DBConstants.TYPE_CLASS_MEDIA_YOUTUBE_CHANNEL_CATEGORY,
 						DBConstants.TYPE_CODE_MEDIA_YOUTUBE_CHANNEL_CATEGORY_PERSONAL);
-				privateChannel.setCategory(mediaTypeTransformer.convertToMediaTypeTbl(category));
+				privateChannel.setCategory(mediaTypeTransformer.convertToTbl(category));
 
 				privateChannel = youtubeChannelRepository.save(privateChannel);
 			}

@@ -32,7 +32,7 @@ public class SwaggerConfig {
 
 	@Bean
 	public GroupedOpenApi actuatorApi() {
-		return GroupedOpenApi.builder().group("Internal").packagesToScan("com.hientran.sohebox.restcontroller.internal")
+		return GroupedOpenApi.builder().group("Admin").packagesToScan("com.hientran.sohebox.restcontroller.admin")
 				.pathsToMatch("/**").build();
 	}
 }

@@ -102,7 +102,7 @@ public class AccountService extends BaseService {
 			// Transform
 			AccountTbl tbl = new AccountTbl();
 			tbl.setUser(loggedUser);
-			tbl.setType(typeTransformer.convertToTypeTbl(vo.getAccountType()));
+			tbl.setType(typeTransformer.convertToTbl(vo.getAccountType()));
 			tbl.setAccountName(vo.getAccountName());
 			if (StringUtils.isNotBlank(vo.getMdp())) {
 				tbl.setMdp(mdpService.getMdp(vo.getMdp()));
@@ -172,7 +172,7 @@ public class AccountService extends BaseService {
 		// Update
 		if (result.getStatus() == null) {
 			if (!StringUtils.equals(vo.getAccountType().getTypeCode(), updateAccount.getType().getTypeCode())) {
-				updateAccount.setType(typeTransformer.convertToTypeTbl(vo.getAccountType()));
+				updateAccount.setType(typeTransformer.convertToTbl(vo.getAccountType()));
 			}
 			if (!StringUtils.equals(vo.getAccountName(), updateAccount.getAccountName())) {
 				updateAccount.setAccountName(vo.getAccountName());

@@ -107,7 +107,7 @@ public class TradingSymbolService extends BaseService {
 			// Set symbol type
 			TypeVO symbolType = typeCache.getType(DBConstants.TYPE_CLASS_TRADING_SYMBOL_TYPE,
 					vo.getSymbolType().getTypeCode());
-			tbl.setSymbolType(typeTransformer.convertToTypeTbl(symbolType));
+			tbl.setSymbolType(typeTransformer.convertToTbl(symbolType));
 
 			// Set country
 			CountryTbl country = countryService.get(vo.getCountry().getName());

@@ -16,22 +16,13 @@ import com.hientran.sohebox.sco.FoodTypeSCO;
 import com.hientran.sohebox.sco.Sorter;
 import com.hientran.sohebox.specification.FoodTypeSpecs;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.Query;
-
-/**
- * @author hientran
- */
 public interface FoodTypeRepository
 		extends JpaRepository<FoodTypeTbl, Long>, JpaSpecificationExecutor<FoodTypeTbl>, BaseRepository {
+
+	FoodTypeTbl findFirstByTypeClassAndTypeCode(String typeClass, String typeCode);
+
 	FoodTypeSpecs specs = new FoodTypeSpecs();
 
-	/**
-	 * 
-	 * Get all data
-	 *
-	 * @return
-	 */
 	public default Page<FoodTypeTbl> findAll(FoodTypeSCO sco) {
 
 		// Declare result
@@ -62,30 +53,6 @@ public interface FoodTypeRepository
 
 		// Return
 		result = pageData;
-		return result;
-	}
-
-	/**
-	 * Get all type class
-	 */
-	@SuppressWarnings("unchecked")
-	public default List<Object[]> getAllTypeClass(EntityManager entityManager) {
-		// Declare result
-		List<Object[]> result = null;
-
-		// Prepare native SQL
-		StringBuilder sql = new StringBuilder();
-		sql.append(" SELECT type_class      ");
-		sql.append("      , 1              ");
-		sql.append(" FROM   type_tbl       ");
-		sql.append(" GROUP  BY type_class   ");
-		sql.append(" ORDER  BY type_class   ");
-
-		// Execute SQL
-		Query query = entityManager.createNativeQuery(sql.toString());
-		result = query.getResultList();
-
-		// Return
 		return result;
 	}
 }
