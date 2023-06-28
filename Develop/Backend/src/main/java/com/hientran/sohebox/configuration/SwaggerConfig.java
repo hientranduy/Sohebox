@@ -5,9 +5,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 
 @Configuration
 public class SwaggerConfig {
@@ -34,5 +37,16 @@ public class SwaggerConfig {
 	public GroupedOpenApi actuatorApi() {
 		return GroupedOpenApi.builder().group("Admin").packagesToScan("com.hientran.sohebox.restcontroller.admin")
 				.pathsToMatch("/**").build();
+	}
+
+	@Bean
+	public OpenAPI openAPI() {
+		return new OpenAPI()
+				.addSecurityItem(new SecurityRequirement().addList("Bearer Authentication"))
+				.components(new Components().addSecuritySchemes("Bearer Authentication", createAPIKeyScheme()));
+	}
+
+	private SecurityScheme createAPIKeyScheme() {
+		return new SecurityScheme().type(SecurityScheme.Type.HTTP).bearerFormat("JWT").scheme("bearer");
 	}
 }
