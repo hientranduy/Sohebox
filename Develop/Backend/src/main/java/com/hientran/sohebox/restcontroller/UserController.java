@@ -4,9 +4,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,21 +19,14 @@ import com.hientran.sohebox.vo.UserVO;
 
 import lombok.RequiredArgsConstructor;
 
-/**
- * @author hientran
- */
 @RestController
 @RequiredArgsConstructor
-public class UserRestController {
+public class UserController {
 
 	private final UserService userService;
 
 	/**
-	 * 
-	 * Add new
-	 *
-	 * @param vo
-	 * @return
+	 * Create
 	 */
 	@PostMapping(ApiPublicConstants.API_USER)
 	public ResponseEntity<?> createUser(@Validated @RequestBody UserVO vo) {
@@ -49,49 +39,12 @@ public class UserRestController {
 	}
 
 	/**
-	 * 
-	 * Change password by username
-	 *
-	 * @param vo
-	 * @return
-	 */
-	@PutMapping(ApiPublicConstants.API_USER + ApiPublicConstants.CHANGE_PASSWORD)
-	public ResponseEntity<?> changePassword(@Validated @RequestBody ChangePasswordVO vo) {
-		// Change password
-		APIResponse<?> result = userService.changePassword(vo);
-
-		// Return
-		return new ResponseEntity<>(result, new HttpHeaders(),
-				result.getStatus() != null ? result.getStatus() : HttpStatus.OK);
-	}
-
-	/**
-	 * 
-	 * Change password by logged user
-	 *
-	 * @param vo
-	 * @return
+	 * Change password
 	 */
 	@PutMapping(ApiPublicConstants.API_USER + ApiPublicConstants.CHANGE_PASSWORD_LOGGED_USER)
 	public ResponseEntity<?> changePasswordLoggedUser(@Validated @RequestBody ChangePasswordVO vo) {
 		// Change password
 		APIResponse<?> result = userService.changePassword(vo);
-
-		// Return
-		return new ResponseEntity<>(result, new HttpHeaders(),
-				result.getStatus() != null ? result.getStatus() : HttpStatus.OK);
-	}
-
-	/**
-	 * 
-	 * Delete logged user
-	 *
-	 * @return
-	 */
-	@DeleteMapping(ApiPublicConstants.API_USER)
-	public ResponseEntity<?> deleteLoggedUser() {
-		// Change password
-		APIResponse<?> result = userService.deleteLoggedUser();
 
 		// Return
 		return new ResponseEntity<>(result, new HttpHeaders(),
@@ -143,23 +96,6 @@ public class UserRestController {
 	public ResponseEntity<?> searchActiveUser(@RequestBody UserSCO sco) {
 		// Get all User
 		APIResponse<?> result = userService.searchActiveUser(sco);
-
-		// Return
-		return new ResponseEntity<>(result, new HttpHeaders(),
-				result.getStatus() != null ? result.getStatus() : HttpStatus.OK);
-	}
-
-	/**
-	 * 
-	 * Get by ID
-	 *
-	 * @param id
-	 * @return
-	 */
-	@GetMapping(ApiPublicConstants.API_USER + ApiPublicConstants.ID)
-	public ResponseEntity<?> getUserById(@PathVariable(value = "id") Long id) {
-		// Get User by ID
-		APIResponse<?> result = userService.getById(id);
 
 		// Return
 		return new ResponseEntity<>(result, new HttpHeaders(),

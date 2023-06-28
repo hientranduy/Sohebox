@@ -16,8 +16,6 @@ public class ApiPublicConstants implements Serializable {
 
 	public static final String LOGOUT = "/logout";
 
-	public static final String CHANGE_PASSWORD = "/changePassword";
-
 	public static final String CHANGE_PASSWORD_LOGGED_USER = "/changePasswordLoggedUser";
 
 	public static final String CHANGE_PRIVATE_KEY = "/changePrivateKey";

@@ -108,10 +108,6 @@ public class SecurityConfig {
 				// Register user
 				.requestMatchers(HttpMethod.POST, ApiPublicConstants.API_USER).permitAll()
 
-				// Change password
-				.requestMatchers(HttpMethod.PUT, ApiPublicConstants.API_USER + ApiPublicConstants.CHANGE_PASSWORD)
-				.permitAll()
-
 				// Login
 				.requestMatchers(HttpMethod.POST, ApiPublicConstants.API_USER + ApiPublicConstants.AUTHENTICATE)
 				.permitAll()

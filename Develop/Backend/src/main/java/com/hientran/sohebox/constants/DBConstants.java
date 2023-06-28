@@ -83,10 +83,6 @@ public class DBConstants implements Serializable {
 
 	public static final String USER_ACTIVITY_LOGOUT = "logout";
 
-	public static final String USER_ACTIVITY_CHANGE_PASSWORD = "change password";
-
-	public static final String USER_ACTIVITY_CHANGE_PASSWORD_WHEN_LOGIN = "change password when login";
-
 	public static final String USER_ACTIVITY_DELETE = "delete";
 
 	public static final String USER_ACTIVITY_UPDATE_INFO = "update info";
