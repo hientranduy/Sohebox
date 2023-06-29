@@ -20,18 +20,18 @@ export class ConfigService {
         return this.http.post(`${environment.soheboxUrl}/api/configs`, item);
     }
 
-    // Delete
-    delete(id: Number) {
-        return this.http.delete(`${environment.soheboxUrl}/api/configs/${id}`);
-    }
+    // // Delete
+    // delete(id: Number) {
+    //     return this.http.delete(`${environment.soheboxUrl}/api/configs/${id}`);
+    // }
 
     // Update
     update(item: Config) {
         return this.http.put(`${environment.soheboxUrl}/api/configs`, item);
     }
 
-    // Get
-    get(id: number) {
-        return this.http.get(`${environment.soheboxUrl}/api/configs/${id}`);
-    }
+    // // Get
+    // get(id: number) {
+    //     return this.http.get(`${environment.soheboxUrl}/api/configs/${id}`);
+    // }
 }
