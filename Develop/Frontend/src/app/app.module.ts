@@ -45,7 +45,6 @@ import { HomeComponent } from './pages/home';
 import { MoviePlayerComponent, PhimmoiPlayerComponent, YoutubeChannelComponent, YoutubePlayerChannelComponent, YoutubePlayerComponent } from './pages/media';
 import { MediaComponent } from './pages/media/media.component';
 import { AddYoutubeVideoDialogComponent, DeleteYoutubeVideoDialogComponent } from './pages/media/_dialogs';
-import { ChangePasswordComponent } from './user/change-password';
 import { LoginComponent } from './user/login';
 import { RegisterComponent } from './user/register';
 import { UserSlideBarComponent } from './user/user-slide-bar';
@@ -106,7 +105,6 @@ import { ErrorInterceptor, JwtInterceptor } from './_common/_helpers';
         // User
         LoginComponent,
         RegisterComponent,
-        ChangePasswordComponent,
 
         // Dialog
         DeleteConfirmationDialogComponent,

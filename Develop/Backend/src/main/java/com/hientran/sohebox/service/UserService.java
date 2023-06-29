@@ -116,6 +116,14 @@ public class UserService {
 	}
 
 	/**
+	 * Logout
+	 */
+	@Transactional(readOnly = false, rollbackFor = Exception.class)
+	public APIResponse<Object> logout() {
+		return new APIResponse<Object>();
+	}
+
+	/**
 	 * Update logged user
 	 */
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
@@ -429,47 +437,6 @@ public class UserService {
 		if (StringUtils.equals(loggedUser.getRole().getRoleName(), DBConstants.USER_ROLE_USER)) {
 			if (!StringUtils.equals(loggedUser.getUsername(), username)) {
 				result = false;
-			}
-		}
-
-		// Return
-		return result;
-	}
-
-	/**
-	 * Logout
-	 *
-	 * @return
-	 */
-	@Transactional(readOnly = false, rollbackFor = Exception.class)
-	public APIResponse<Object> logout(UserVO vo) {
-		// Declare result
-		APIResponse<Object> result = new APIResponse<Object>();
-
-		// Validate input
-		if (result.getStatus() == null) {
-			List<String> errors = new ArrayList<>();
-
-			// username must not null
-			if (StringUtils.isBlank(vo.getUsername())) {
-				errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, UserTblEnum.username.name()));
-			}
-
-			// Record error
-			if (CollectionUtils.isNotEmpty(errors)) {
-				result = new APIResponse<Object>(HttpStatus.BAD_REQUEST, errors);
-			}
-		}
-
-		// Check if user is existed
-		if (result.getStatus() == null) {
-			UserTbl userTbl = getTblByUserName(vo.getUsername());
-			if (userTbl == null) {
-				result = new APIResponse<Object>(HttpStatus.BAD_REQUEST,
-						ResponseCode.mapParam(ResponseCode.INEXISTED_USERNAME, vo.getUsername()));
-			} else {
-				// RECORD activity "LOGOUT"
-				recordUserActivity(DBConstants.USER_ACTIVITY_LOGOUT);
 			}
 		}
 

@@ -184,9 +184,6 @@ public class SecurityConfig {
 				// EnglishType: update-search
 				.requestMatchers(HttpMethod.PUT, "/api" + ApiPublicConstants.API_ENGLISH_TYPE)
 				.hasRole(DBConstants.USER_ROLE_CREATOR)
-				.requestMatchers(HttpMethod.POST,
-						"/api" + ApiPublicConstants.API_ENGLISH_TYPE + ApiPublicConstants.SEARCH)
-				.hasRole(DBConstants.USER_ROLE_CREATOR)
 
 				// FoodType: update-search
 				.requestMatchers(HttpMethod.PUT, "/api" + ApiPublicConstants.API_FOOD_TYPE)

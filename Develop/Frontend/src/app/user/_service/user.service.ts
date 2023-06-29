@@ -14,9 +14,9 @@ export class UserService {
         return this.http.post(`${environment.soheboxUrl}/users`, user);
     }
 
-    // Change password by username & password
-    changePassword(user: User) {
-        return this.http.put(`${environment.soheboxUrl}/users/changePassword`, user);
+    // Logout
+    logout() {
+        return this.http.post(`${environment.soheboxUrl}/users/logout`, null);
     }
 
     // Change password by logged user
@@ -32,11 +32,6 @@ export class UserService {
     // Update user
     updateUser(user: User) {
         return this.http.put(`${environment.soheboxUrl}/users`, user);
-    }
-
-    // Logout
-    logout(user: User) {
-        return this.http.post(`${environment.soheboxUrl}/users/logout`, user);
     }
 
     // Search user

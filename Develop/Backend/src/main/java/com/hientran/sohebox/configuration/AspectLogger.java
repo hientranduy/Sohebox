@@ -26,13 +26,13 @@ public class AspectLogger {
 		}
 	}
 
-//	@AfterReturning(value = "execution(* com.hientran.sohebox.restcontroller.*.*(..))", returning = "result")
-//	public void afterRestful(JoinPoint joinPoint, Object result) {
-//		if (result != null) {
-//			log.info("     Returned  : {}", result);
-//		}
-//		log.info("     END       : {}", joinPoint.getSignature());
-//	}
+	@AfterReturning(value = "execution(* com.hientran.sohebox.restcontroller.*.*(..))", returning = "result")
+	public void afterRestful(JoinPoint joinPoint, Object result) {
+		if (result != null) {
+			log.info("     Returned  : {}", result);
+		}
+		log.info("     END       : {}", joinPoint.getSignature());
+	}
 
 	////////////////////////////////////////////////
 	// Configured log before - after for services //

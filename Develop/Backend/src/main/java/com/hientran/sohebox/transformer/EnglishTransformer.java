@@ -1,6 +1,5 @@
 package com.hientran.sohebox.transformer;
 
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -123,8 +122,7 @@ public class EnglishTransformer extends BaseTransformer {
 
 		// Record time
 		if (objects[7] != null) {
-			BigInteger recordTimes = (BigInteger) objects[7];
-			result.setRecordTimes(recordTimes.longValue());
+			result.setRecordTimes((Long) objects[7]);
 		}
 
 		// Category code

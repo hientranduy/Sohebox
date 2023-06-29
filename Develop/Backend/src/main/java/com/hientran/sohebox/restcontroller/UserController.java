@@ -39,6 +39,19 @@ public class UserController {
 	}
 
 	/**
+	 * Logout
+	 */
+	@PostMapping(ApiPublicConstants.API_USER + ApiPublicConstants.LOGOUT)
+	public ResponseEntity<?> logout() {
+		// Create Account
+		APIResponse<?> result = userService.logout();
+
+		// Return
+		return new ResponseEntity<>(result, new HttpHeaders(),
+				result.getStatus() != null ? result.getStatus() : HttpStatus.OK);
+	}
+
+	/**
 	 * Change password
 	 */
 	@PutMapping(ApiPublicConstants.API_USER + ApiPublicConstants.CHANGE_PASSWORD_LOGGED_USER)
@@ -118,23 +131,6 @@ public class UserController {
 		return new ResponseEntity<>(result, new HttpHeaders(),
 				result.getStatus() != null ? result.getStatus() : HttpStatus.OK);
 
-	}
-
-	/**
-	 * 
-	 * Logout
-	 *
-	 * @param vo
-	 * @return
-	 */
-	@PostMapping(ApiPublicConstants.API_USER + ApiPublicConstants.LOGOUT)
-	public ResponseEntity<?> logout(@Validated @RequestBody UserVO vo) {
-		// Create Account
-		APIResponse<?> result = userService.logout(vo);
-
-		// Return
-		return new ResponseEntity<>(result, new HttpHeaders(),
-				result.getStatus() != null ? result.getStatus() : HttpStatus.OK);
 	}
 
 	/**
