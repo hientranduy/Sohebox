@@ -6,14 +6,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.hientran.sohebox.cache.ConfigCache;
-import com.hientran.sohebox.constants.MessageConstants;
 import com.hientran.sohebox.constants.QuandlConstants;
+import com.hientran.sohebox.constants.ResponseCode;
 import com.hientran.sohebox.exception.APIResponse;
 import com.hientran.sohebox.utils.MyDateUtils;
 import com.hientran.sohebox.utils.ObjectMapperUtil;
@@ -22,78 +21,74 @@ import com.hientran.sohebox.vo.QuandlOpecOrbSendVO;
 import com.hientran.sohebox.vo.QuandlReponseVO;
 import com.hientran.sohebox.webservice.QuandlWebService;
 
+import lombok.RequiredArgsConstructor;
+
 /**
  * @author hientran
  */
 @Service
+@RequiredArgsConstructor
 public class QuandlService extends BaseService {
 
-    private static final long serialVersionUID = 1L;
+	private final QuandlWebService quandlWebService;
+	private final ObjectMapperUtil objectMapperUtil;
+	private final ConfigCache configCache;
 
-    @Autowired
-    private QuandlWebService quandlWebService;
+	/**
+	 * Search video
+	 * 
+	 * @param sco
+	 * @return
+	 */
+	@Transactional(readOnly = false, rollbackFor = Exception.class)
+	public APIResponse<Object> searchWTIOilPrices() {
+		// Declare result
+		APIResponse<Object> result = new APIResponse<Object>();
 
-    @Autowired
-    private ObjectMapperUtil objectMapperUtil;
+		// Calculate start date
+		Date startDate = MyDateUtils.addMinusDate(new Date(), -7);
 
-    @Autowired
-    private ConfigCache configCache;
+		// Get data
+		Map<String, String> parameters = new HashMap<String, String>();
+		parameters.put(QuandlConstants.QUANDL_PARAM_KEY, configCache.getValueByKey(QuandlConstants.QUANDL_KEY_API));
+		parameters.put(QuandlConstants.QUANDL_PARAM_START_DATE,
+				MyDateUtils.formatDate(startDate, MyDateUtils.YYYYMMDD));
 
-    /**
-     * Search video
-     * 
-     * @param sco
-     * @return
-     */
-    @Transactional(readOnly = false, rollbackFor = Exception.class)
-    public APIResponse<Object> searchWTIOilPrices() {
-        // Declare result
-        APIResponse<Object> result = new APIResponse<Object>();
+		try {
+			String responseData = quandlWebService.get(QuandlConstants.QUANDL_API_OPEC_ORB, parameters);
 
-        // Calculate start date
-        Date startDate = MyDateUtils.addMinusDate(new Date(), -7);
+			// Parse data to object
+			QuandlReponseVO response = objectMapperUtil.readValue(responseData, QuandlReponseVO.class);
 
-        // Get data
-        Map<String, String> parameters = new HashMap<String, String>();
-        parameters.put(QuandlConstants.QUANDL_PARAM_KEY, configCache.getValueByKey(QuandlConstants.QUANDL_KEY_API));
-        parameters.put(QuandlConstants.QUANDL_PARAM_START_DATE,
-                MyDateUtils.formatDate(startDate, MyDateUtils.YYYYMMDD));
+			// Prepare result
+			if (response.getDataset() != null && response.getDataset().getData() != null) {
+				List<QuandlOpecOrbSendVO> sendList = new ArrayList<QuandlOpecOrbSendVO>();
+				for (Object[] object : response.getDataset().getData()) {
+					QuandlOpecOrbSendVO item = new QuandlOpecOrbSendVO();
+					item.setDate((String) object[0]);
+					item.setPrice((Double) object[1]);
 
-        try {
-            String responseData = quandlWebService.get(QuandlConstants.QUANDL_API_OPEC_ORB, parameters);
+					sendList.add(item);
+				}
 
-            // Parse data to object
-            QuandlReponseVO response = objectMapperUtil.readValue(responseData, QuandlReponseVO.class);
+				// Set return data
+				PageResultVO<QuandlOpecOrbSendVO> data = new PageResultVO<QuandlOpecOrbSendVO>();
+				data.setElements(sendList);
+				data.setCurrentPage(0);
+				data.setTotalPage(1);
+				data.setTotalElement(sendList.size());
 
-            // Prepare result
-            if (response.getDataset() != null && response.getDataset().getData() != null) {
-                List<QuandlOpecOrbSendVO> sendList = new ArrayList<QuandlOpecOrbSendVO>();
-                for (Object[] object : response.getDataset().getData()) {
-                    QuandlOpecOrbSendVO item = new QuandlOpecOrbSendVO();
-                    item.setDate((String) object[0]);
-                    item.setPrice((Double) object[1]);
+				// Set data return
+				result.setData(data);
+			}
 
-                    sendList.add(item);
-                }
+		} catch (Exception e) {
+			result = new APIResponse<Object>(HttpStatus.BAD_REQUEST,
+					ResponseCode.mapParam(ResponseCode.ERROR_EXCEPTION, e.getMessage()));
+		}
 
-                // Set return data
-                PageResultVO<QuandlOpecOrbSendVO> data = new PageResultVO<QuandlOpecOrbSendVO>();
-                data.setElements(sendList);
-                data.setCurrentPage(0);
-                data.setTotalPage(1);
-                data.setTotalElement(sendList.size());
-
-                // Set data return
-                result.setData(data);
-            }
-
-        } catch (Exception e) {
-            result = new APIResponse<Object>(HttpStatus.BAD_REQUEST,
-                    buildMessage(MessageConstants.ERROR_EXCEPTION, new String[] { e.getMessage() }));
-        }
-
-        // Return
-        return result;
-    }
+		// Return
+		return result;
+	}
 
 }

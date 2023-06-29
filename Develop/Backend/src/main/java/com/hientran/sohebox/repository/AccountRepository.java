@@ -14,34 +14,34 @@ import com.hientran.sohebox.specification.AccountSpecs;
  * @author hientran
  */
 public interface AccountRepository
-        extends JpaRepository<AccountTbl, Long>, JpaSpecificationExecutor<AccountTbl>, BaseRepository {
+		extends JpaRepository<AccountTbl, Long>, JpaSpecificationExecutor<AccountTbl>, BaseRepository {
 
-    AccountSpecs specs = new AccountSpecs();
+	AccountSpecs specs = new AccountSpecs();
 
-    /**
-     * 
-     * Get all data
-     *
-     * @return
-     */
-    public default Page<AccountTbl> findAll(AccountSCO sco) {
+	/**
+	 * 
+	 * Get all data
+	 *
+	 * @return
+	 */
+	public default Page<AccountTbl> findAll(AccountSCO sco) {
 
-        // Declare result
-        Page<AccountTbl> result = null;
+		// Declare result
+		Page<AccountTbl> result = null;
 
-        // Create data filter
-        Specification<AccountTbl> specific = specs.buildSpecification(sco);
+		// Create data filter
+		Specification<AccountTbl> specific = specs.buildSpecification(sco);
 
-        // Create page able
-        Pageable pageable = createPageable(sco.getPageToGet(), sco.getMaxRecordPerPage(), sco.getSorters(),
-                sco.getReportFlag());
+		// Create page able
+		Pageable pageable = createPageable(sco.getPageToGet(), sco.getMaxRecordPerPage(), sco.getSorters(),
+				sco.getReportFlag());
 
-        // Get data
-        Page<AccountTbl> pageData = findAll(specific, pageable);
+		// Get data
+		Page<AccountTbl> pageData = findAll(specific, pageable);
 
-        // Return
-        result = pageData;
-        return result;
-    }
+		// Return
+		result = pageData;
+		return result;
+	}
 
 }

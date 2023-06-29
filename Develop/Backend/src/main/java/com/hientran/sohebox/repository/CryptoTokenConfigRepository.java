@@ -20,42 +20,42 @@ import com.hientran.sohebox.specification.CryptoTokenConfigSpecs;
  * @author hientran
  */
 public interface CryptoTokenConfigRepository extends JpaRepository<CryptoTokenConfigTbl, Long>,
-        JpaSpecificationExecutor<CryptoTokenConfigTbl>, BaseRepository {
-    CryptoTokenConfigSpecs specs = new CryptoTokenConfigSpecs();
+		JpaSpecificationExecutor<CryptoTokenConfigTbl>, BaseRepository {
+	CryptoTokenConfigSpecs specs = new CryptoTokenConfigSpecs();
 
-    /**
-     * Get all data
-     */
-    public default Page<CryptoTokenConfigTbl> findAll(CryptoTokenConfigSCO sco) {
+	/**
+	 * Get all data
+	 */
+	public default Page<CryptoTokenConfigTbl> findAll(CryptoTokenConfigSCO sco) {
 
-        // Declare result
-        Page<CryptoTokenConfigTbl> result = null;
+		// Declare result
+		Page<CryptoTokenConfigTbl> result = null;
 
-        // Create data filter
-        Specification<CryptoTokenConfigTbl> specific = specs.buildSpecification(sco);
+		// Create data filter
+		Specification<CryptoTokenConfigTbl> specific = specs.buildSpecification(sco);
 
-        // Set default sort if not have
-        if (sco.getSorters() == null) {
-            Sorter sort = new Sorter();
-            sort.setDirection(DBConstants.DIRECTION_ACCENT);
-            sort.setProperty(CryptoTokenConfigTblEnum.tokenCode.name());
+		// Set default sort if not have
+		if (sco.getSorters() == null) {
+			Sorter sort = new Sorter();
+			sort.setDirection(DBConstants.DIRECTION_ACCENT);
+			sort.setProperty(CryptoTokenConfigTblEnum.tokenCode.name());
 
-            List<Sorter> sorters = new ArrayList<>();
-            sorters.add(sort);
+			List<Sorter> sorters = new ArrayList<>();
+			sorters.add(sort);
 
-            sco.setSorters(sorters);
-        }
+			sco.setSorters(sorters);
+		}
 
-        // Create page able
-        Pageable pageable = createPageable(sco.getPageToGet(), sco.getMaxRecordPerPage(), sco.getSorters(),
-                sco.getReportFlag());
+		// Create page able
+		Pageable pageable = createPageable(sco.getPageToGet(), sco.getMaxRecordPerPage(), sco.getSorters(),
+				sco.getReportFlag());
 
-        // Get data
-        Page<CryptoTokenConfigTbl> pageData = findAll(specific, pageable);
+		// Get data
+		Page<CryptoTokenConfigTbl> pageData = findAll(specific, pageable);
 
-        // Return
-        result = pageData;
-        return result;
-    }
+		// Return
+		result = pageData;
+		return result;
+	}
 
 }

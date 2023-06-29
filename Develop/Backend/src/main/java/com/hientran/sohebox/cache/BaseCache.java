@@ -1,30 +1,18 @@
 package com.hientran.sohebox.cache;
 
-import java.io.Serializable;
+import lombok.Data;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.support.ResourceBundleMessageSource;
+@Data
+public class BaseCache {
+	protected String formatTypeClass(String typeClass) {
+		return typeClass.toUpperCase();
+	}
 
-/**
- * @author hientran
- */
-public class BaseCache implements Serializable {
+	protected String formatTypeCode(String typeCode) {
+		return typeCode.replaceAll(" ", "_").toUpperCase();
+	}
 
-    private static final long serialVersionUID = 1L;
-
-    @Autowired
-    protected ResourceBundleMessageSource messageSource;
-
-    /**
-     * 
-     * Build message
-     *
-     * @param messageCode
-     * @param params
-     * @return
-     */
-    protected String buildMessage(String messageCode, Object[] params) {
-        return messageSource.getMessage(messageCode, params, null);
-
-    }
+	protected String formatTypeMapKey(String typeClass, String typeCode) {
+		return formatTypeClass(typeClass) + "-" + formatTypeCode(typeCode);
+	}
 }

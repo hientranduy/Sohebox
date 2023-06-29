@@ -11,17 +11,17 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserValidation extends BaseValidation {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    public Boolean isInvalidPassword(String input) {
-        Boolean result = false;
-        if (StringUtils.isBlank(input)) {
-            result = true;
-        } else {
-            if (input.length() < 6) {
-                result = true;
-            }
-        }
-        return result;
-    }
+	public Boolean isInvalidPassword(String input) {
+		Boolean result = false;
+		if (StringUtils.isBlank(input)) {
+			result = true;
+		} else {
+			if (input.length() < 6) {
+				result = true;
+			}
+		}
+		return result;
+	}
 }

@@ -12,9 +12,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.hientran.sohebox.authentication.UserDetailsServiceImpl;
 import com.hientran.sohebox.cache.MediaTypeCache;
 import com.hientran.sohebox.constants.DBConstants;
-import com.hientran.sohebox.constants.MessageConstants;
+import com.hientran.sohebox.constants.ResponseCode;
 import com.hientran.sohebox.constants.enums.YoutubeChannelTblEnum;
 import com.hientran.sohebox.entity.UserTbl;
 import com.hientran.sohebox.entity.YoutubeChannelTbl;
@@ -23,338 +24,327 @@ import com.hientran.sohebox.repository.YoutubeChannelRepository;
 import com.hientran.sohebox.sco.SearchNumberVO;
 import com.hientran.sohebox.sco.SearchTextVO;
 import com.hientran.sohebox.sco.YoutubeChannelSCO;
-import com.hientran.sohebox.security.UserService;
 import com.hientran.sohebox.transformer.MediaTypeTransformer;
 import com.hientran.sohebox.transformer.YoutubeChannelTransformer;
 import com.hientran.sohebox.vo.MediaTypeVO;
 import com.hientran.sohebox.vo.PageResultVO;
 import com.hientran.sohebox.vo.YoutubeChannelVO;
 
+import lombok.RequiredArgsConstructor;
+
 /**
  * @author hientran
  */
 @Service
+@RequiredArgsConstructor
 public class YoutubeChannelService extends BaseService {
 
-    private static final long serialVersionUID = 1L;
+	private final YoutubeChannelRepository youtubeChannelRepository;
+	private final YoutubeChannelTransformer youtubeChannelTransformer;
+	private final MediaTypeCache mediaTypeCache;
+	private final MediaTypeTransformer mediaTypeTransformer;
 
-    @Autowired
-    private YoutubeChannelRepository youtubeChannelRepository;
+	@Autowired
+	private UserDetailsServiceImpl userService;
 
-    @Autowired
-    private YoutubeChannelTransformer youtubeChannelTransformer;
+	/**
+	 * 
+	 * Create
+	 * 
+	 * @param vo
+	 * @return
+	 * @throws IOException
+	 */
+	@Transactional(readOnly = false, rollbackFor = Exception.class)
+	public APIResponse<Long> create(YoutubeChannelVO vo) {
+		// Declare result
+		APIResponse<Long> result = new APIResponse<Long>();
 
-    @Autowired
-    private MediaTypeCache mediaTypeCache;
+		// Validate input
+		if (result.getStatus() == null) {
+			List<String> errors = new ArrayList<>();
 
-    @Autowired
-    private MediaTypeTransformer mediaTypeTransformer;
+			// Channel id must not null
+			if (vo.getChannelId() == null) {
+				errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, YoutubeChannelTblEnum.channelId.name()));
+			}
 
-    @Autowired
-    private UserService userService;
+			// Record error
+			if (CollectionUtils.isNotEmpty(errors)) {
+				result = new APIResponse<Long>(HttpStatus.BAD_REQUEST, errors);
+			}
+		}
 
-    /**
-     * 
-     * Create
-     * 
-     * @param vo
-     * @return
-     * @throws IOException
-     */
-    @Transactional(readOnly = false, rollbackFor = Exception.class)
-    public APIResponse<Long> create(YoutubeChannelVO vo) {
-        // Declare result
-        APIResponse<Long> result = new APIResponse<Long>();
+		// Check if record existed already
+		if (result.getStatus() == null) {
+			if (recordIsExisted(vo.getChannelId())) {
+				result = new APIResponse<Long>(HttpStatus.BAD_REQUEST,
+						ResponseCode.mapParam(ResponseCode.EXISTED_RECORD, "channel ID <" + vo.getId() + ">"));
+			}
+		}
 
-        // Validate input
-        if (result.getStatus() == null) {
-            List<String> errors = new ArrayList<>();
+		/////////////////////
+		// Record new //
+		/////////////////////
+		if (result.getStatus() == null) {
+			// Transform
+			YoutubeChannelTbl tbl = youtubeChannelTransformer.convertToTbl(vo);
 
-            // Channel id must not null
-            if (vo.getChannelId() == null) {
-                errors.add(buildMessage(MessageConstants.FILED_EMPTY,
-                        new String[] { YoutubeChannelTblEnum.channelId.name() }));
-            }
+			// Set category
+			MediaTypeVO category = mediaTypeCache.getType(DBConstants.TYPE_CLASS_MEDIA_YOUTUBE_CHANNEL_CATEGORY,
+					vo.getCategory().getTypeCode());
+			tbl.setCategory(mediaTypeTransformer.convertToTbl(category));
 
-            // Record error
-            if (CollectionUtils.isNotEmpty(errors)) {
-                result = new APIResponse<Long>(HttpStatus.BAD_REQUEST, errors);
-            }
-        }
+			// Create
+			tbl = youtubeChannelRepository.save(tbl);
 
-        // Check if record existed already
-        if (result.getStatus() == null) {
-            if (recordIsExisted(vo.getChannelId())) {
-                result = new APIResponse<Long>(HttpStatus.BAD_REQUEST, buildMessage(MessageConstants.EXISTED_RECORD,
-                        new String[] { "channel ID <" + vo.getId() + ">" }));
-            }
-        }
+			// Set id return
+			result.setData(tbl.getId());
+		}
 
-        /////////////////////
-        // Record new //
-        /////////////////////
-        if (result.getStatus() == null) {
-            // Transform
-            YoutubeChannelTbl tbl = youtubeChannelTransformer.convertToTbl(vo);
+		// Return
+		return result;
+	}
 
-            // Set category
-            MediaTypeVO category = mediaTypeCache.getType(DBConstants.TYPE_CLASS_MEDIA_YOUTUBE_CHANNEL_CATEGORY,
-                    vo.getCategory().getTypeCode());
-            tbl.setCategory(mediaTypeTransformer.convertToMediaTypeTbl(category));
+	/**
+	 * 
+	 * Update
+	 * 
+	 * @param vo
+	 * @return
+	 */
+	@Transactional(readOnly = false, rollbackFor = Exception.class)
+	public APIResponse<Long> update(YoutubeChannelVO vo) {
+		// Declare result
+		APIResponse<Long> result = new APIResponse<Long>();
 
-            // Create
-            tbl = youtubeChannelRepository.save(tbl);
+		// Validate input
+		if (result.getStatus() == null) {
+			List<String> errors = new ArrayList<>();
 
-            // Set id return
-            result.setData(tbl.getId());
-        }
+			// Channel id must not null
+			if (vo.getChannelId() == null) {
+				errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, YoutubeChannelTblEnum.channelId.name()));
+			}
 
-        // Return
-        return result;
-    }
+			// Category must not null
+			if (vo.getCategory() == null) {
+				errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, YoutubeChannelTblEnum.category.name()));
+			}
 
-    /**
-     * 
-     * Update
-     * 
-     * @param vo
-     * @return
-     */
-    @Transactional(readOnly = false, rollbackFor = Exception.class)
-    public APIResponse<Long> update(YoutubeChannelVO vo) {
-        // Declare result
-        APIResponse<Long> result = new APIResponse<Long>();
+			// Name must not null
+			if (StringUtils.isBlank(vo.getName())) {
+				errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, YoutubeChannelTblEnum.name.name()));
+			}
 
-        // Validate input
-        if (result.getStatus() == null) {
-            List<String> errors = new ArrayList<>();
+			// Record error
+			if (CollectionUtils.isNotEmpty(errors)) {
+				result = new APIResponse<Long>(HttpStatus.BAD_REQUEST, errors);
+			}
+		}
 
-            // Channel id must not null
-            if (vo.getChannelId() == null) {
-                errors.add(buildMessage(MessageConstants.FILED_EMPTY,
-                        new String[] { YoutubeChannelTblEnum.channelId.name() }));
-            }
+		// Get the old record
+		YoutubeChannelTbl updateTbl = null;
+		if (result.getStatus() == null) {
+			updateTbl = getByKey(vo.getChannelId());
+			if (updateTbl == null) {
+				result = new APIResponse<Long>(HttpStatus.BAD_REQUEST,
+						ResponseCode.mapParam(ResponseCode.INEXISTED_RECORD, "Channel ID <" + vo.getChannelId() + ">"));
+			}
+		}
 
-            // Category must not null
-            if (vo.getCategory() == null) {
-                errors.add(buildMessage(MessageConstants.FILED_EMPTY,
-                        new String[] { YoutubeChannelTblEnum.category.name() }));
-            }
+		// PROCESS UPDATE
 
-            // Name must not null
-            if (StringUtils.isBlank(vo.getName())) {
-                errors.add(
-                        buildMessage(MessageConstants.FILED_EMPTY, new String[] { YoutubeChannelTblEnum.name.name() }));
-            }
+		/////////////////////
+		// Update word //
+		/////////////////////
+		if (result.getStatus() == null) {
 
-            // Record error
-            if (CollectionUtils.isNotEmpty(errors)) {
-                result = new APIResponse<Long>(HttpStatus.BAD_REQUEST, errors);
-            }
-        }
+			// Set category
+			if (vo.getCategory() != null) {
+				MediaTypeVO category = mediaTypeCache.getType(DBConstants.TYPE_CLASS_MEDIA_YOUTUBE_CHANNEL_CATEGORY,
+						vo.getCategory().getTypeCode());
+				updateTbl.setCategory(mediaTypeTransformer.convertToTbl(category));
+			}
 
-        // Get the old record
-        YoutubeChannelTbl updateTbl = null;
-        if (result.getStatus() == null) {
-            updateTbl = getByKey(vo.getChannelId());
-            if (updateTbl == null) {
-                result = new APIResponse<Long>(HttpStatus.BAD_REQUEST, buildMessage(MessageConstants.INEXISTED_RECORD,
-                        new String[] { "Channel ID <" + vo.getChannelId() + ">" }));
-            }
-        }
+			// Set name
+			if (vo.getName() != null) {
+				updateTbl.setName(vo.getName());
+			}
 
-        // PROCESS UPDATE
+			// Set description
+			if (vo.getDescription() != null) {
+				updateTbl.setDescription(vo.getDescription());
+			}
 
-        /////////////////////
-        // Update word //
-        /////////////////////
-        if (result.getStatus() == null) {
+			// Update word
+			updateTbl = youtubeChannelRepository.save(updateTbl);
 
-            // Set category
-            if (vo.getCategory() != null) {
-                MediaTypeVO category = mediaTypeCache.getType(DBConstants.TYPE_CLASS_MEDIA_YOUTUBE_CHANNEL_CATEGORY,
-                        vo.getCategory().getTypeCode());
-                updateTbl.setCategory(mediaTypeTransformer.convertToMediaTypeTbl(category));
-            }
+			// Set id return
+			result.setData(updateTbl.getId());
+		}
 
-            // Set name
-            if (vo.getName() != null) {
-                updateTbl.setName(vo.getName());
-            }
+		// Return
+		return result;
+	}
 
-            // Set description
-            if (vo.getDescription() != null) {
-                updateTbl.setDescription(vo.getDescription());
-            }
+	/**
+	 * Search
+	 * 
+	 * @param sco
+	 * @return
+	 */
+	@Transactional(readOnly = false, rollbackFor = Exception.class)
+	public APIResponse<Object> search(YoutubeChannelSCO sco) {
+		// Declare result
+		APIResponse<Object> result = new APIResponse<Object>();
 
-            // Update word
-            updateTbl = youtubeChannelRepository.save(updateTbl);
+		// Get data
+		Page<YoutubeChannelTbl> page = youtubeChannelRepository.findAll(sco);
 
-            // Set id return
-            result.setData(updateTbl.getId());
-        }
+		// Transformer
+		PageResultVO<YoutubeChannelVO> data = youtubeChannelTransformer.convertToPageReturn(page);
 
-        // Return
-        return result;
-    }
+		// Set data return
+		result.setData(data);
 
-    /**
-     * Search
-     * 
-     * @param sco
-     * @return
-     */
-    @Transactional(readOnly = false, rollbackFor = Exception.class)
-    public APIResponse<Object> search(YoutubeChannelSCO sco) {
-        // Declare result
-        APIResponse<Object> result = new APIResponse<Object>();
+		// Write activity type "YoutubeChannel access"
+		recordUserActivity(DBConstants.USER_ACTIVITY_MEDIA_YOUTUBE_CHANNEL_ACCESS);
 
-        // Get data
-        Page<YoutubeChannelTbl> page = youtubeChannelRepository.findAll(sco);
+		// Return
+		return result;
+	}
 
-        // Transformer
-        PageResultVO<YoutubeChannelVO> data = youtubeChannelTransformer.convertToPageReturn(page);
+	/**
+	 * 
+	 * Check if record is existed
+	 *
+	 * @param keyWord
+	 * @return
+	 */
+	private boolean recordIsExisted(String key) {
+		// Declare result
+		Boolean result = false;
 
-        // Set data return
-        result.setData(data);
+		SearchTextVO keyWordSearch = new SearchTextVO();
+		keyWordSearch.setEq(key);
 
-        // Write activity type "YoutubeChannel access"
-        recordUserActivity(DBConstants.USER_ACTIVITY_MEDIA_YOUTUBE_CHANNEL_ACCESS);
+		YoutubeChannelSCO sco = new YoutubeChannelSCO();
+		sco.setChannelId(keyWordSearch);
 
-        // Return
-        return result;
-    }
+		// Get data
+		List<YoutubeChannelTbl> list = youtubeChannelRepository.findAll(sco).getContent();
+		if (CollectionUtils.isNotEmpty(list)) {
+			result = true;
+		}
 
-    /**
-     * 
-     * Check if record is existed
-     *
-     * @param keyWord
-     * @return
-     */
-    private boolean recordIsExisted(String key) {
-        // Declare result
-        Boolean result = false;
+		// Return
+		return result;
+	}
 
-        SearchTextVO keyWordSearch = new SearchTextVO();
-        keyWordSearch.setEq(key);
+	/**
+	 * 
+	 * Get record by key
+	 *
+	 * @param key
+	 * @return
+	 */
+	public YoutubeChannelTbl getByKey(String key) {
+		// Declare result
+		YoutubeChannelTbl result = null;
 
-        YoutubeChannelSCO sco = new YoutubeChannelSCO();
-        sco.setChannelId(keyWordSearch);
+		SearchTextVO keyWordSearch = new SearchTextVO();
+		keyWordSearch.setEq(key);
 
-        // Get data
-        List<YoutubeChannelTbl> list = youtubeChannelRepository.findAll(sco).getContent();
-        if (CollectionUtils.isNotEmpty(list)) {
-            result = true;
-        }
+		YoutubeChannelSCO sco = new YoutubeChannelSCO();
+		sco.setChannelId(keyWordSearch);
 
-        // Return
-        return result;
-    }
+		// Get data
+		List<YoutubeChannelTbl> list = youtubeChannelRepository.findAll(sco).getContent();
+		if (CollectionUtils.isNotEmpty(list)) {
+			result = list.get(0);
+		}
 
-    /**
-     * 
-     * Get record by key
-     *
-     * @param key
-     * @return
-     */
-    public YoutubeChannelTbl getByKey(String key) {
-        // Declare result
-        YoutubeChannelTbl result = null;
+		// Return
+		return result;
+	}
 
-        SearchTextVO keyWordSearch = new SearchTextVO();
-        keyWordSearch.setEq(key);
+	/**
+	 * 
+	 * Get record by key
+	 *
+	 * @param key
+	 * @return
+	 */
+	public YoutubeChannelTbl getById(Long id) {
+		// Declare result
+		YoutubeChannelTbl result = null;
 
-        YoutubeChannelSCO sco = new YoutubeChannelSCO();
-        sco.setChannelId(keyWordSearch);
+		// Get data
+		YoutubeChannelTbl channel = youtubeChannelRepository.findById(id).get();
+		if (channel != null) {
+			result = channel;
+		}
 
-        // Get data
-        List<YoutubeChannelTbl> list = youtubeChannelRepository.findAll(sco).getContent();
-        if (CollectionUtils.isNotEmpty(list)) {
-            result = list.get(0);
-        }
+		// Return
+		return result;
+	}
 
-        // Return
-        return result;
-    }
+	/**
+	 * Search
+	 * 
+	 * @param sco
+	 * @return
+	 */
+	@Transactional(readOnly = false, rollbackFor = Exception.class)
+	public APIResponse<Object> searchMyChannel(YoutubeChannelSCO sco) {
+		// Declare result
+		APIResponse<Object> result = new APIResponse<Object>();
 
-    /**
-     * 
-     * Get record by key
-     *
-     * @param key
-     * @return
-     */
-    public YoutubeChannelTbl getById(Long id) {
-        // Declare result
-        YoutubeChannelTbl result = null;
+		// Get public channel
+		MediaTypeVO privateChannelType = mediaTypeCache.getType(DBConstants.TYPE_CLASS_MEDIA_YOUTUBE_CHANNEL_CATEGORY,
+				DBConstants.TYPE_CODE_MEDIA_YOUTUBE_CHANNEL_CATEGORY_PERSONAL);
+		SearchNumberVO categoryId = new SearchNumberVO();
+		categoryId.setNotEq(privateChannelType.getId().doubleValue());
+		sco.setCategoryId(categoryId);
+		List<YoutubeChannelTbl> publicChannel = youtubeChannelRepository.findAll(sco).getContent();
 
-        // Get data
-        YoutubeChannelTbl channel = youtubeChannelRepository.findById(id).get();
-        if (channel != null) {
-            result = channel;
-        }
+		// Get private channel
+		UserTbl loggedUser = userService.getCurrentLoginUser();
+		List<YoutubeChannelTbl> privateChannel = new ArrayList<YoutubeChannelTbl>();
+		if (loggedUser != null) {
+			SearchNumberVO userIdSearch = new SearchNumberVO();
+			userIdSearch.setEq(loggedUser.getId().doubleValue());
+			YoutubeChannelSCO channelSCO = new YoutubeChannelSCO();
+			channelSCO.setUserId(userIdSearch);
+			privateChannel = youtubeChannelRepository.findAll(channelSCO).getContent();
+		}
 
-        // Return
-        return result;
-    }
+		// Merge to result channel
+		List<YoutubeChannelVO> resultChannel = new ArrayList<>();
+		if (CollectionUtils.isNotEmpty(publicChannel)) {
+			for (YoutubeChannelTbl channel : publicChannel) {
+				resultChannel.add(youtubeChannelTransformer.convertToVO(channel));
+			}
+		}
+		if (CollectionUtils.isNotEmpty(privateChannel)) {
+			for (YoutubeChannelTbl channel : privateChannel) {
+				resultChannel.add(youtubeChannelTransformer.convertToVO(channel));
+			}
+		}
 
-    /**
-     * Search
-     * 
-     * @param sco
-     * @return
-     */
-    @Transactional(readOnly = false, rollbackFor = Exception.class)
-    public APIResponse<Object> searchMyChannel(YoutubeChannelSCO sco) {
-        // Declare result
-        APIResponse<Object> result = new APIResponse<Object>();
+		// Set data return
+		PageResultVO<YoutubeChannelVO> data = new PageResultVO<>();
+		data.setElements(resultChannel);
+		data.setCurrentPage(0);
+		data.setTotalPage(1);
+		data.setTotalElement(resultChannel.size());
 
-        // Get public channel
-        MediaTypeVO privateChannelType = mediaTypeCache.getType(DBConstants.TYPE_CLASS_MEDIA_YOUTUBE_CHANNEL_CATEGORY,
-                DBConstants.TYPE_CODE_MEDIA_YOUTUBE_CHANNEL_CATEGORY_PERSONAL);
-        SearchNumberVO categoryId = new SearchNumberVO();
-        categoryId.setNotEq(privateChannelType.getId().doubleValue());
-        sco.setCategoryId(categoryId);
-        List<YoutubeChannelTbl> publicChannel = youtubeChannelRepository.findAll(sco).getContent();
+		// Write activity type "YoutubeChannel access"
+		recordUserActivity(DBConstants.USER_ACTIVITY_MEDIA_YOUTUBE_CHANNEL_ACCESS);
 
-        // Get private channel
-        UserTbl loggedUser = userService.getCurrentLoginUser();
-        List<YoutubeChannelTbl> privateChannel = new ArrayList<YoutubeChannelTbl>();
-        if (loggedUser != null) {
-            SearchNumberVO userIdSearch = new SearchNumberVO();
-            userIdSearch.setEq(loggedUser.getId().doubleValue());
-            YoutubeChannelSCO channelSCO = new YoutubeChannelSCO();
-            channelSCO.setUserId(userIdSearch);
-            privateChannel = youtubeChannelRepository.findAll(channelSCO).getContent();
-        }
-
-        // Merge to result channel
-        List<YoutubeChannelVO> resultChannel = new ArrayList<>();
-        if (CollectionUtils.isNotEmpty(publicChannel)) {
-            for (YoutubeChannelTbl channel : publicChannel) {
-                resultChannel.add(youtubeChannelTransformer.convertToVO(channel));
-            }
-        }
-        if (CollectionUtils.isNotEmpty(privateChannel)) {
-            for (YoutubeChannelTbl channel : privateChannel) {
-                resultChannel.add(youtubeChannelTransformer.convertToVO(channel));
-            }
-        }
-
-        // Set data return
-        PageResultVO<YoutubeChannelVO> data = new PageResultVO<>();
-        data.setElements(resultChannel);
-        data.setCurrentPage(0);
-        data.setTotalPage(1);
-        data.setTotalElement(resultChannel.size());
-
-        // Write activity type "YoutubeChannel access"
-        recordUserActivity(DBConstants.USER_ACTIVITY_MEDIA_YOUTUBE_CHANNEL_ACCESS);
-
-        // Return
-        result.setData(data);
-        return result;
-    }
+		// Return
+		result.setData(data);
+		return result;
+	}
 }

@@ -7,7 +7,6 @@ import java.util.Optional;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -15,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.hientran.sohebox.constants.CosmosConstants;
 import com.hientran.sohebox.constants.DBConstants;
-import com.hientran.sohebox.constants.MessageConstants;
+import com.hientran.sohebox.constants.ResponseCode;
 import com.hientran.sohebox.constants.enums.CryptoTokenConfigTblEnum;
 import com.hientran.sohebox.entity.CryptoTokenConfigTbl;
 import com.hientran.sohebox.exception.APIResponse;
@@ -26,255 +25,249 @@ import com.hientran.sohebox.transformer.CryptoTokenConfigTransformer;
 import com.hientran.sohebox.vo.CryptoTokenConfigVO;
 import com.hientran.sohebox.vo.PageResultVO;
 
+import lombok.RequiredArgsConstructor;
+
 /**
  * @author hientran
  */
 @Service
 @Transactional(readOnly = true)
+@RequiredArgsConstructor
 public class CryptoTokenConfigService extends BaseService {
+	private final CryptoTokenConfigRepository cryptoTokenConfigRepository;
+	private final CryptoTokenConfigTransformer cryptoTokenConfigTransformer;
 
-    private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 * Create
+	 * 
+	 * @param vo
+	 * @return
+	 * @throws IOException
+	 */
+	@Transactional(readOnly = false, rollbackFor = Exception.class)
+	public APIResponse<Long> create(CryptoTokenConfigVO vo) {
+		// Declare result
+		APIResponse<Long> result = new APIResponse<Long>();
 
-    @Autowired
-    private CryptoTokenConfigRepository cryptoTokenConfigRepository;
+		// Validate input
+		if (result.getStatus() == null) {
+			List<String> errors = new ArrayList<>();
 
-    @Autowired
-    private CryptoTokenConfigTransformer cryptoTokenConfigTransformer;
+			if (StringUtils.isBlank(vo.getTokenCode())) {
+				errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, CryptoTokenConfigTblEnum.tokenCode.name()));
+			}
 
-    /**
-     * 
-     * Create
-     * 
-     * @param vo
-     * @return
-     * @throws IOException
-     */
-    @Transactional(readOnly = false, rollbackFor = Exception.class)
-    public APIResponse<Long> create(CryptoTokenConfigVO vo) {
-        // Declare result
-        APIResponse<Long> result = new APIResponse<Long>();
+			if (StringUtils.isBlank(vo.getTokenName())) {
+				errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, CryptoTokenConfigTblEnum.tokenName.name()));
+			}
 
-        // Validate input
-        if (result.getStatus() == null) {
-            List<String> errors = new ArrayList<>();
+			// Record error
+			if (CollectionUtils.isNotEmpty(errors)) {
+				result = new APIResponse<Long>(HttpStatus.BAD_REQUEST, errors);
+			}
+		}
 
-            if (StringUtils.isBlank(vo.getTokenCode())) {
-                errors.add(buildMessage(MessageConstants.FILED_EMPTY,
-                        new String[] { CryptoTokenConfigTblEnum.tokenCode.name() }));
-            }
+		// Check existence
+		if (result.getStatus() == null) {
+			if (getByName(vo.getTokenCode()) != null) {
+				result = new APIResponse<Long>(HttpStatus.BAD_REQUEST,
+						ResponseCode.mapParam(ResponseCode.EXISTED_RECORD, "token <" + vo.getTokenCode() + ">"));
+			}
+		}
 
-            if (StringUtils.isBlank(vo.getTokenName())) {
-                errors.add(buildMessage(MessageConstants.FILED_EMPTY,
-                        new String[] { CryptoTokenConfigTblEnum.tokenName.name() }));
-            }
+		/////////////////////
+		// Record new //
+		/////////////////////
+		if (result.getStatus() == null) {
+			// Transform
+			CryptoTokenConfigTbl tbl = cryptoTokenConfigTransformer.convertToTbl(vo);
 
-            // Record error
-            if (CollectionUtils.isNotEmpty(errors)) {
-                result = new APIResponse<Long>(HttpStatus.BAD_REQUEST, errors);
-            }
-        }
+			// Create
+			tbl = cryptoTokenConfigRepository.save(tbl);
 
-        // Check existence
-        if (result.getStatus() == null) {
-            if (getByName(vo.getTokenCode()) != null) {
-                result = new APIResponse<Long>(HttpStatus.BAD_REQUEST, buildMessage(MessageConstants.EXISTED_RECORD,
-                        new String[] { "token <" + vo.getTokenCode() + ">" }));
-            }
-        }
+			// Set default
+			if (tbl.getDecimalExponent() <= 0) {
+				tbl.setDecimalExponent(Long.valueOf(CosmosConstants.COSMOS_DECIMAL_EXPONENT));
+			}
 
-        /////////////////////
-        // Record new //
-        /////////////////////
-        if (result.getStatus() == null) {
-            // Transform
-            CryptoTokenConfigTbl tbl = cryptoTokenConfigTransformer.convertToTbl(vo);
+			// Set id return
+			result.setData(tbl.getId());
 
-            // Create
-            tbl = cryptoTokenConfigRepository.save(tbl);
+			// Write activity
+			recordUserActivity(DBConstants.USER_ACTIVITY_CRYPTO_TOKEN_CONFIG_CREATE);
+		}
 
-            // Set default
-            if (tbl.getDecimalExponent() <= 0) {
-                tbl.setDecimalExponent(Long.valueOf(CosmosConstants.COSMOS_DECIMAL_EXPONENT));
-            }
+		// Return
+		return result;
+	}
 
-            // Set id return
-            result.setData(tbl.getId());
+	/**
+	 * 
+	 * Update
+	 * 
+	 * @param vo
+	 * @return
+	 */
+	@Transactional(readOnly = false, rollbackFor = Exception.class)
+	public APIResponse<Long> update(CryptoTokenConfigVO vo) {
+		// Declare result
+		APIResponse<Long> result = new APIResponse<Long>();
 
-            // Write activity
-            recordUserActivity(DBConstants.USER_ACTIVITY_CRYPTO_TOKEN_CONFIG_CREATE);
-        }
+		// Validate input
+		if (result.getStatus() == null) {
+			List<String> errors = new ArrayList<>();
 
-        // Return
-        return result;
-    }
+			if (StringUtils.isBlank(vo.getTokenCode())) {
+				errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, CryptoTokenConfigTblEnum.tokenCode.name()));
+			}
 
-    /**
-     * 
-     * Update
-     * 
-     * @param vo
-     * @return
-     */
-    @Transactional(readOnly = false, rollbackFor = Exception.class)
-    public APIResponse<Long> update(CryptoTokenConfigVO vo) {
-        // Declare result
-        APIResponse<Long> result = new APIResponse<Long>();
+			// Record error
+			if (CollectionUtils.isNotEmpty(errors)) {
+				result = new APIResponse<Long>(HttpStatus.BAD_REQUEST, errors);
+			}
+		}
 
-        // Validate input
-        if (result.getStatus() == null) {
-            List<String> errors = new ArrayList<>();
+		// Get the old record
+		CryptoTokenConfigTbl updateTbl = null;
+		if (result.getStatus() == null) {
+			updateTbl = getByName(vo.getTokenCode());
+			if (updateTbl == null) {
+				result = new APIResponse<Long>(HttpStatus.BAD_REQUEST,
+						ResponseCode.mapParam(ResponseCode.INEXISTED_RECORD, "token <" + vo.getTokenCode() + ">"));
+			}
+		}
 
-            if (StringUtils.isBlank(vo.getTokenCode())) {
-                errors.add(buildMessage(MessageConstants.FILED_EMPTY,
-                        new String[] { CryptoTokenConfigTblEnum.tokenCode.name() }));
-            }
+		/////////////////////
+		// Update //
+		/////////////////////
+		if (result.getStatus() == null) {
 
-            // Record error
-            if (CollectionUtils.isNotEmpty(errors)) {
-                result = new APIResponse<Long>(HttpStatus.BAD_REQUEST, errors);
-            }
-        }
+			if (vo.getTokenName() != null) {
+				updateTbl.setTokenName(vo.getTokenName());
+			}
 
-        // Get the old record
-        CryptoTokenConfigTbl updateTbl = null;
-        if (result.getStatus() == null) {
-            updateTbl = getByName(vo.getTokenCode());
-            if (updateTbl == null) {
-                result = new APIResponse<Long>(HttpStatus.BAD_REQUEST, buildMessage(MessageConstants.INEXISTED_RECORD,
-                        new String[] { "token <" + vo.getTokenCode() + ">" }));
-            }
-        }
+			if (vo.getIconUrl() != null) {
+				updateTbl.setIconUrl(vo.getIconUrl());
+			}
 
-        /////////////////////
-        // Update //
-        /////////////////////
-        if (result.getStatus() == null) {
+			if (vo.getNodeUrl() != null) {
+				updateTbl.setNodeUrl(vo.getNodeUrl());
+			}
 
-            if (vo.getTokenName() != null) {
-                updateTbl.setTokenName(vo.getTokenName());
-            }
+			if (vo.getRpcUrl() != null) {
+				updateTbl.setRpcUrl(vo.getRpcUrl());
+			}
 
-            if (vo.getIconUrl() != null) {
-                updateTbl.setIconUrl(vo.getIconUrl());
-            }
+			if (vo.getDenom() != null) {
+				updateTbl.setDenom(vo.getDenom());
+			}
 
-            if (vo.getNodeUrl() != null) {
-                updateTbl.setNodeUrl(vo.getNodeUrl());
-            }
+			if (vo.getDecimalExponent() != null && vo.getDecimalExponent() > 0) {
+				updateTbl.setDecimalExponent(vo.getDecimalExponent());
+			}
 
-            if (vo.getRpcUrl() != null) {
-                updateTbl.setRpcUrl(vo.getRpcUrl());
-            }
+			if (vo.getAddressPrefix() != null) {
+				updateTbl.setAddressPrefix(vo.getAddressPrefix());
+			}
 
-            if (vo.getDenom() != null) {
-                updateTbl.setDenom(vo.getDenom());
-            }
+			if (vo.getMintscanPrefix() != null) {
+				updateTbl.setMintscanPrefix(vo.getMintscanPrefix());
+			}
 
-            if (vo.getDecimalExponent() != null && vo.getDecimalExponent() > 0) {
-                updateTbl.setDecimalExponent(vo.getDecimalExponent());
-            }
+			if (vo.getDeligateUrl() != null) {
+				updateTbl.setDeligateUrl(vo.getDeligateUrl());
+			}
 
-            if (vo.getAddressPrefix() != null) {
-                updateTbl.setAddressPrefix(vo.getAddressPrefix());
-            }
+			// Update
+			updateTbl = cryptoTokenConfigRepository.save(updateTbl);
 
-            if (vo.getMintscanPrefix() != null) {
-                updateTbl.setMintscanPrefix(vo.getMintscanPrefix());
-            }
+			// Set id return
+			result.setData(updateTbl.getId());
 
-            if (vo.getDeligateUrl() != null) {
-                updateTbl.setDeligateUrl(vo.getDeligateUrl());
-            }
+			// Write activity
+			recordUserActivity(DBConstants.USER_ACTIVITY_CRYPTO_TOKEN_CONFIG_UPDATE);
+		}
 
-            // Update
-            updateTbl = cryptoTokenConfigRepository.save(updateTbl);
+		// Return
+		return result;
+	}
 
-            // Set id return
-            result.setData(updateTbl.getId());
+	/**
+	 * Search
+	 * 
+	 * @param sco
+	 * @return
+	 */
+	@Transactional(readOnly = false, rollbackFor = Exception.class)
+	public APIResponse<Object> search(CryptoTokenConfigSCO sco) {
+		// Declare result
+		APIResponse<Object> result = new APIResponse<Object>();
 
-            // Write activity
-            recordUserActivity(DBConstants.USER_ACTIVITY_CRYPTO_TOKEN_CONFIG_UPDATE);
-        }
+		// Get data
+		Page<CryptoTokenConfigTbl> page = cryptoTokenConfigRepository.findAll(sco);
 
-        // Return
-        return result;
-    }
+		// Transformer
+		PageResultVO<CryptoTokenConfigVO> data = cryptoTokenConfigTransformer.convertToPageReturn(page);
 
-    /**
-     * Search
-     * 
-     * @param sco
-     * @return
-     */
-    @Transactional(readOnly = false, rollbackFor = Exception.class)
-    public APIResponse<Object> search(CryptoTokenConfigSCO sco) {
-        // Declare result
-        APIResponse<Object> result = new APIResponse<Object>();
+		// Set data return
+		result.setData(data);
 
-        // Get data
-        Page<CryptoTokenConfigTbl> page = cryptoTokenConfigRepository.findAll(sco);
+		// Write activity
+		recordUserActivity(DBConstants.USER_ACTIVITY_CRYPTO_TOKEN_CONFIG_ACCESS);
 
-        // Transformer
-        PageResultVO<CryptoTokenConfigVO> data = cryptoTokenConfigTransformer.convertToPageReturn(page);
+		// Return
+		return result;
+	}
 
-        // Set data return
-        result.setData(data);
+	/**
+	 * 
+	 * Get by name
+	 *
+	 * @param name
+	 * @return
+	 */
+	public CryptoTokenConfigTbl getByName(String nameValue) {
+		// Declare result
+		CryptoTokenConfigTbl result = null;
 
-        // Write activity
-        recordUserActivity(DBConstants.USER_ACTIVITY_CRYPTO_TOKEN_CONFIG_ACCESS);
+		SearchTextVO nameSearch = new SearchTextVO();
+		nameSearch.setEq(nameValue);
 
-        // Return
-        return result;
-    }
+		CryptoTokenConfigSCO sco = new CryptoTokenConfigSCO();
+		sco.setTokenCode(nameSearch);
 
-    /**
-     * 
-     * Get by name
-     *
-     * @param name
-     * @return
-     */
-    public CryptoTokenConfigTbl getByName(String nameValue) {
-        // Declare result
-        CryptoTokenConfigTbl result = null;
+		// Get data
+		List<CryptoTokenConfigTbl> list = cryptoTokenConfigRepository.findAll(sco).getContent();
+		if (CollectionUtils.isNotEmpty(list)) {
+			result = list.get(0);
+		}
 
-        SearchTextVO nameSearch = new SearchTextVO();
-        nameSearch.setEq(nameValue);
+		// Return
+		return result;
+	}
 
-        CryptoTokenConfigSCO sco = new CryptoTokenConfigSCO();
-        sco.setTokenCode(nameSearch);
+	/**
+	 * Get by id
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public APIResponse<Object> getById(Long id) {
+		// Declare result
+		APIResponse<Object> result = new APIResponse<Object>();
 
-        // Get data
-        List<CryptoTokenConfigTbl> list = cryptoTokenConfigRepository.findAll(sco).getContent();
-        if (CollectionUtils.isNotEmpty(list)) {
-            result = list.get(0);
-        }
+		// Check existence
+		Optional<CryptoTokenConfigTbl> CryptoTokenConfigTbl = cryptoTokenConfigRepository.findById(id);
+		if (CryptoTokenConfigTbl.isPresent()) {
+			CryptoTokenConfigVO vo = cryptoTokenConfigTransformer.convertToVO(CryptoTokenConfigTbl.get());
+			result.setData(vo);
+		} else {
+			result = new APIResponse<Object>(HttpStatus.BAD_REQUEST,
+					ResponseCode.mapParam(ResponseCode.INEXISTED_RECORD, "token"));
+		}
 
-        // Return
-        return result;
-    }
-
-    /**
-     * Get by id
-     * 
-     * @param id
-     * @return
-     */
-    public APIResponse<Object> getById(Long id) {
-        // Declare result
-        APIResponse<Object> result = new APIResponse<Object>();
-
-        // Check existence
-        Optional<CryptoTokenConfigTbl> CryptoTokenConfigTbl = cryptoTokenConfigRepository.findById(id);
-        if (CryptoTokenConfigTbl.isPresent()) {
-            CryptoTokenConfigVO vo = cryptoTokenConfigTransformer.convertToVO(CryptoTokenConfigTbl.get());
-            result.setData(vo);
-        } else {
-            result = new APIResponse<Object>(HttpStatus.BAD_REQUEST,
-                    buildMessage(MessageConstants.INEXISTED_RECORD, new String[] { "token" }));
-        }
-
-        // Return
-        return result;
-    }
+		// Return
+		return result;
+	}
 }

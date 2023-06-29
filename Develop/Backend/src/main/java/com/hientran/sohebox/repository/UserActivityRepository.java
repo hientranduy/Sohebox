@@ -14,34 +14,34 @@ import com.hientran.sohebox.specification.UserActivitySpecs;
  * @author hientran
  */
 public interface UserActivityRepository
-        extends JpaRepository<UserActivityTbl, Long>, JpaSpecificationExecutor<UserActivityTbl>, BaseRepository {
+		extends JpaRepository<UserActivityTbl, Long>, JpaSpecificationExecutor<UserActivityTbl>, BaseRepository {
 
-    UserActivitySpecs specs = new UserActivitySpecs();
+	UserActivitySpecs specs = new UserActivitySpecs();
 
-    /**
-     * 
-     * Get all data
-     *
-     * @return
-     */
-    public default Page<UserActivityTbl> findAll(UserActivitySCO sco) {
+	/**
+	 * 
+	 * Get all data
+	 *
+	 * @return
+	 */
+	public default Page<UserActivityTbl> findAll(UserActivitySCO sco) {
 
-        // Declare result
-        Page<UserActivityTbl> result = null;
+		// Declare result
+		Page<UserActivityTbl> result = null;
 
-        // Create data filter
-        Specification<UserActivityTbl> specific = specs.buildSpecification(sco);
+		// Create data filter
+		Specification<UserActivityTbl> specific = specs.buildSpecification(sco);
 
-        // Create page able
-        Pageable pageable = createPageable(sco.getPageToGet(), sco.getMaxRecordPerPage(), sco.getSorters(),
-                sco.getReportFlag());
+		// Create page able
+		Pageable pageable = createPageable(sco.getPageToGet(), sco.getMaxRecordPerPage(), sco.getSorters(),
+				sco.getReportFlag());
 
-        // Get data
-        Page<UserActivityTbl> pageData = findAll(specific, pageable);
+		// Get data
+		Page<UserActivityTbl> pageData = findAll(specific, pageable);
 
-        // Return
-        result = pageData;
-        return result;
-    }
+		// Return
+		result = pageData;
+		return result;
+	}
 
 }

@@ -1,6 +1,5 @@
 package com.hientran.sohebox.restcontroller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,28 +10,28 @@ import com.hientran.sohebox.constants.ApiPublicConstants;
 import com.hientran.sohebox.exception.APIResponse;
 import com.hientran.sohebox.service.QuandlService;
 
+import lombok.RequiredArgsConstructor;
+
 /**
  * @author hientran
  */
 @RestController
+@RequiredArgsConstructor
 public class QuandlRestController extends BaseRestController {
 
-    private static final long serialVersionUID = 1L;
+	private final QuandlService quandlService;
 
-    @Autowired
-    private QuandlService quandlService;
+	/**
+	 * 
+	 * Get WTI oil price
+	 *
+	 */
+	@GetMapping(ApiPublicConstants.API_QUANDL + ApiPublicConstants.API_QUANDL_OPEC_ORB)
+	public ResponseEntity<?> getWTIOilPrices() {
+		APIResponse<?> result = quandlService.searchWTIOilPrices();
 
-    /**
-     * 
-     * Get WTI oil price
-     *
-     */
-    @GetMapping(ApiPublicConstants.API_QUANDL + ApiPublicConstants.API_QUANDL_OPEC_ORB)
-    public ResponseEntity<?> getWTIOilPrices() {
-        APIResponse<?> result = quandlService.searchWTIOilPrices();
+		return new ResponseEntity<>(result, new HttpHeaders(),
+				result.getStatus() != null ? result.getStatus() : HttpStatus.OK);
 
-        return new ResponseEntity<>(result, new HttpHeaders(),
-                result.getStatus() != null ? result.getStatus() : HttpStatus.OK);
-
-    }
+	}
 }

@@ -14,16 +14,16 @@ import com.hientran.sohebox.sco.YoutubeVideoSCO;
 @SuppressWarnings({ "unchecked", "rawtypes", "serial" })
 public class YoutubeVideoSpecs extends GenericSpecs {
 
-    public Specification<YoutubeVideoTbl> buildSpecification(YoutubeVideoSCO sco) {
-        // Declare result
-        Specification<YoutubeVideoTbl> specification = Specification.where(null);
+	public Specification<YoutubeVideoTbl> buildSpecification(YoutubeVideoSCO sco) {
+		// Declare result
+		Specification<YoutubeVideoTbl> specification = Specification.where(null);
 
-        // Add criteria
-        if (sco != null) {
-            specification = specification.and(buildSearchText(YoutubeVideoTblEnum.videoId.name(), sco.getVideoId()));
-        }
+		// Add criteria
+		if (sco != null) {
+			specification = specification.and(buildSearchText(YoutubeVideoTblEnum.videoId.name(), sco.getVideoId()));
+		}
 
-        // Return result
-        return specification;
-    }
+		// Return result
+		return specification;
+	}
 }

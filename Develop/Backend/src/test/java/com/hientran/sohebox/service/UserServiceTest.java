@@ -5,7 +5,7 @@ package com.hientran.sohebox.service;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.hientran.sohebox.SoheboxApplicationTests;
-import com.hientran.sohebox.security.UserService;
+import com.hientran.sohebox.authentication.UserDetailsServiceImpl;
 
 /**
  * User service junit test
@@ -14,16 +14,16 @@ import com.hientran.sohebox.security.UserService;
  */
 public class UserServiceTest extends SoheboxApplicationTests {
 
-    @Autowired
-    UserService userService;
+	@Autowired
+	UserDetailsServiceImpl userService;
 
 //    @Test
-    public void getByIdTest() {
-        try {
-            // userService.getById((long) 1);
-        } catch (Exception e) {
+	public void getByIdTest() {
+		try {
+			// userService.getById((long) 1);
+		} catch (Exception e) {
 //            Assert.fail();
-        }
-    }
+		}
+	}
 
 }

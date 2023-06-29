@@ -1,6 +1,5 @@
 package com.hientran.sohebox.restcontroller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,90 +17,84 @@ import com.hientran.sohebox.sco.FoodSCO;
 import com.hientran.sohebox.service.FoodService;
 import com.hientran.sohebox.vo.FoodVO;
 
+import lombok.RequiredArgsConstructor;
+
 /**
  * @author hientran
  */
 @RestController
+@RequiredArgsConstructor
 public class FoodRestController extends BaseRestController {
 
-    private static final long serialVersionUID = 1L;
+	private final FoodService foodService;
 
-    @Autowired
-    private FoodService foodService;
+	/**
+	 * 
+	 * Create
+	 *
+	 * @param vo
+	 * @return
+	 */
+	@PostMapping(ApiPublicConstants.API_FOOD)
+	public ResponseEntity<?> create(@Validated @RequestBody FoodVO vo) {
+		// Create Food
+		APIResponse<?> result = foodService.create(vo);
 
-    /**
-     * 
-     * Create
-     *
-     * @param vo
-     * @return
-     */
-    @PostMapping(ApiPublicConstants.API_FOOD)
-    public ResponseEntity<?> create(@Validated
-    @RequestBody
-    FoodVO vo) {
-        // Create Food
-        APIResponse<?> result = foodService.create(vo);
+		// Return
+		return new ResponseEntity<>(result, new HttpHeaders(),
+				result.getStatus() != null ? result.getStatus() : HttpStatus.OK);
+	}
 
-        // Return
-        return new ResponseEntity<>(result, new HttpHeaders(),
-                result.getStatus() != null ? result.getStatus() : HttpStatus.OK);
-    }
+	/**
+	 * 
+	 * Update
+	 *
+	 * @param vo
+	 * @return
+	 */
+	@PutMapping(ApiPublicConstants.API_FOOD)
+	public ResponseEntity<?> update(@Validated @RequestBody FoodVO vo) {
+		// Update Account
+		APIResponse<?> result = foodService.update(vo);
 
-    /**
-     * 
-     * Update
-     *
-     * @param vo
-     * @return
-     */
-    @PutMapping(ApiPublicConstants.API_FOOD)
-    public ResponseEntity<?> update(@Validated
-    @RequestBody
-    FoodVO vo) {
-        // Update Account
-        APIResponse<?> result = foodService.update(vo);
+		// Return
+		return new ResponseEntity<>(result, new HttpHeaders(),
+				result.getStatus() != null ? result.getStatus() : HttpStatus.OK);
+	}
 
-        // Return
-        return new ResponseEntity<>(result, new HttpHeaders(),
-                result.getStatus() != null ? result.getStatus() : HttpStatus.OK);
-    }
+	/**
+	 * 
+	 * Search
+	 *
+	 * @param sco
+	 * @return
+	 */
+	@PostMapping(ApiPublicConstants.API_FOOD + ApiPublicConstants.SEARCH)
+	public ResponseEntity<?> search(@RequestBody FoodSCO sco) {
+		// Search
+		APIResponse<?> result = foodService.search(sco);
 
-    /**
-     * 
-     * Search
-     *
-     * @param sco
-     * @return
-     */
-    @PostMapping(ApiPublicConstants.API_FOOD + ApiPublicConstants.SEARCH)
-    public ResponseEntity<?> search(@RequestBody
-    FoodSCO sco) {
-        // Search
-        APIResponse<?> result = foodService.search(sco);
+		// Return
+		return new ResponseEntity<>(result, new HttpHeaders(),
+				result.getStatus() != null ? result.getStatus() : HttpStatus.OK);
 
-        // Return
-        return new ResponseEntity<>(result, new HttpHeaders(),
-                result.getStatus() != null ? result.getStatus() : HttpStatus.OK);
+	}
 
-    }
+	/**
+	 * 
+	 * Get by ID
+	 *
+	 * @param id
+	 * @return
+	 */
+	@GetMapping(ApiPublicConstants.API_FOOD + ApiPublicConstants.ID)
+	public ResponseEntity<?> getById(@PathVariable(value = "id") Long id) {
+		// Delete
+		APIResponse<?> result = foodService.getById(id);
 
-    /**
-     * 
-     * Get by ID
-     *
-     * @param id
-     * @return
-     */
-    @GetMapping(ApiPublicConstants.API_FOOD + ApiPublicConstants.ID)
-    public ResponseEntity<?> getById(@PathVariable(value = "id")
-    Long id) {
-        // Delete
-        APIResponse<?> result = foodService.getById(id);
-
-        // Return
-        return new ResponseEntity<>(result, new HttpHeaders(),
-                result.getStatus() != null ? result.getStatus() : HttpStatus.OK);
-    }
+		// Return
+		return new ResponseEntity<>(result, new HttpHeaders(),
+				result.getStatus() != null ? result.getStatus() : HttpStatus.OK);
+	}
 
 }

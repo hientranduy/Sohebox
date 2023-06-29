@@ -1,6 +1,5 @@
 package com.hientran.sohebox.restcontroller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,73 +17,67 @@ import com.hientran.sohebox.sco.CryptoTokenConfigSCO;
 import com.hientran.sohebox.service.CryptoTokenConfigService;
 import com.hientran.sohebox.vo.CryptoTokenConfigVO;
 
+import lombok.RequiredArgsConstructor;
+
 /**
  * @author hientran
  */
 @RestController
+@RequiredArgsConstructor
 public class CryptoTokenConfigRestController extends BaseRestController {
 
-    private static final long serialVersionUID = 1L;
+	private final CryptoTokenConfigService cryptoTokenConfigService;
 
-    @Autowired
-    private CryptoTokenConfigService cryptoTokenConfigService;
+	/**
+	 * Add new
+	 */
+	@PostMapping(ApiPublicConstants.API_CRYPTO_TOKEN_CONFIG)
+	public ResponseEntity<?> create(@Validated @RequestBody CryptoTokenConfigVO vo) {
+		// Create Account
+		APIResponse<?> result = cryptoTokenConfigService.create(vo);
 
-    /**
-     * Add new
-     */
-    @PostMapping(ApiPublicConstants.API_CRYPTO_TOKEN_CONFIG)
-    public ResponseEntity<?> create(@Validated
-    @RequestBody
-    CryptoTokenConfigVO vo) {
-        // Create Account
-        APIResponse<?> result = cryptoTokenConfigService.create(vo);
+		// Return
+		return new ResponseEntity<>(result, new HttpHeaders(),
+				result.getStatus() != null ? result.getStatus() : HttpStatus.OK);
+	}
 
-        // Return
-        return new ResponseEntity<>(result, new HttpHeaders(),
-                result.getStatus() != null ? result.getStatus() : HttpStatus.OK);
-    }
+	/**
+	 * Update
+	 */
+	@PutMapping(ApiPublicConstants.API_CRYPTO_TOKEN_CONFIG)
+	public ResponseEntity<?> update(@Validated @RequestBody CryptoTokenConfigVO vo) {
+		APIResponse<?> result = cryptoTokenConfigService.update(vo);
 
-    /**
-     * Update
-     */
-    @PutMapping(ApiPublicConstants.API_CRYPTO_TOKEN_CONFIG)
-    public ResponseEntity<?> update(@Validated
-    @RequestBody
-    CryptoTokenConfigVO vo) {
-        APIResponse<?> result = cryptoTokenConfigService.update(vo);
+		// Return
+		return new ResponseEntity<>(result, new HttpHeaders(),
+				result.getStatus() != null ? result.getStatus() : HttpStatus.OK);
+	}
 
-        // Return
-        return new ResponseEntity<>(result, new HttpHeaders(),
-                result.getStatus() != null ? result.getStatus() : HttpStatus.OK);
-    }
+	/**
+	 * Search
+	 */
+	@PostMapping(ApiPublicConstants.API_CRYPTO_TOKEN_CONFIG + ApiPublicConstants.SEARCH)
+	public ResponseEntity<?> search(@RequestBody CryptoTokenConfigSCO sco) {
+		// Search
+		APIResponse<?> result = cryptoTokenConfigService.search(sco);
 
-    /**
-     * Search
-     */
-    @PostMapping(ApiPublicConstants.API_CRYPTO_TOKEN_CONFIG + ApiPublicConstants.SEARCH)
-    public ResponseEntity<?> search(@RequestBody
-    CryptoTokenConfigSCO sco) {
-        // Search
-        APIResponse<?> result = cryptoTokenConfigService.search(sco);
+		// Return
+		return new ResponseEntity<>(result, new HttpHeaders(),
+				result.getStatus() != null ? result.getStatus() : HttpStatus.OK);
 
-        // Return
-        return new ResponseEntity<>(result, new HttpHeaders(),
-                result.getStatus() != null ? result.getStatus() : HttpStatus.OK);
+	}
 
-    }
+	/**
+	 * Get by ID
+	 */
+	@GetMapping(ApiPublicConstants.API_CRYPTO_TOKEN_CONFIG + ApiPublicConstants.ID)
+	public ResponseEntity<?> getById(@PathVariable(value = "id") Long id) {
+		// Delete
+		APIResponse<?> result = cryptoTokenConfigService.getById(id);
 
-    /**
-     * Get by ID
-     */
-    @GetMapping(ApiPublicConstants.API_CRYPTO_TOKEN_CONFIG + ApiPublicConstants.ID)
-    public ResponseEntity<?> getById(@PathVariable(value = "id")
-    Long id) {
-        // Delete
-        APIResponse<?> result = cryptoTokenConfigService.getById(id);
-
-        // Return
-        return new ResponseEntity<>(result, new HttpHeaders(),
-                result.getStatus() != null ? result.getStatus() : HttpStatus.OK);
-    }
+		// Return
+		return new ResponseEntity<>(result, new HttpHeaders(),
+				result.getStatus() != null ? result.getStatus() : HttpStatus.OK);
+	}
 
 }

@@ -60,7 +60,7 @@ export class ChangePasswordDialogComponent implements OnInit {
 
       // Change password
       this.spinner.show();
-      this.userService.changePassword(this.changePasswordForm.value)
+      this.userService.changePasswordByLoggedUser(this.changePasswordForm.value)
         .subscribe(
           data => {
             // Send alert message

@@ -9,7 +9,6 @@ import { FoodComponent } from './pages/food';
 import { FoodDetailComponent } from './pages/food/food-detail/food-detail.component';
 import { HomeComponent } from './pages/home';
 import { MediaComponent, YoutubePlayerChannelComponent, YoutubePlayerComponent } from './pages/media';
-import { ChangePasswordComponent } from './user/change-password';
 import { LoginComponent } from './user/login';
 import { RegisterComponent } from './user/register';
 import { AuthGuard } from './user/_guards';
@@ -42,16 +41,6 @@ const appRoutes: Routes = [
             title: 'S.H Box - Sign Up',
             ogUrl: 'https://sohebox.com/register',
             description: 'Sign up for S.H Box and select function. Create an account to start getting your accounts, learning english, get food information. It is easy to register',
-            keywords: 'S.H Box'
-        }
-    },
-    {
-        path: 'changePassword',
-        component: ChangePasswordComponent,
-        data: {
-            title: 'S.H Box - Change Password',
-            ogUrl: 'https://sohebox.com/changePassword',
-            description: 'Login and chose change password function or change password by verifying current password',
             keywords: 'S.H Box'
         }
     },

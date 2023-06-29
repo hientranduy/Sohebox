@@ -14,33 +14,33 @@ import com.hientran.sohebox.specification.YoutubeVideoSpecs;
  * @author hientran
  */
 public interface YoutubeVideoRepository
-        extends JpaRepository<YoutubeVideoTbl, Long>, JpaSpecificationExecutor<YoutubeVideoTbl>, BaseRepository {
+		extends JpaRepository<YoutubeVideoTbl, Long>, JpaSpecificationExecutor<YoutubeVideoTbl>, BaseRepository {
 
-    YoutubeVideoSpecs specs = new YoutubeVideoSpecs();
+	YoutubeVideoSpecs specs = new YoutubeVideoSpecs();
 
-    /**
-     * 
-     * Get all data
-     *
-     * @return
-     */
-    public default Page<YoutubeVideoTbl> findAll(YoutubeVideoSCO sco) {
+	/**
+	 * 
+	 * Get all data
+	 *
+	 * @return
+	 */
+	public default Page<YoutubeVideoTbl> findAll(YoutubeVideoSCO sco) {
 
-        // Declare result
-        Page<YoutubeVideoTbl> result = null;
+		// Declare result
+		Page<YoutubeVideoTbl> result = null;
 
-        // Create data filter
-        Specification<YoutubeVideoTbl> specific = specs.buildSpecification(sco);
+		// Create data filter
+		Specification<YoutubeVideoTbl> specific = specs.buildSpecification(sco);
 
-        // Create page able
-        Pageable pageable = createPageable(sco.getPageToGet(), sco.getMaxRecordPerPage(), sco.getSorters(),
-                sco.getReportFlag());
+		// Create page able
+		Pageable pageable = createPageable(sco.getPageToGet(), sco.getMaxRecordPerPage(), sco.getSorters(),
+				sco.getReportFlag());
 
-        // Get data
-        Page<YoutubeVideoTbl> pageData = findAll(specific, pageable);
+		// Get data
+		Page<YoutubeVideoTbl> pageData = findAll(specific, pageable);
 
-        // Return
-        result = pageData;
-        return result;
-    }
+		// Return
+		result = pageData;
+		return result;
+	}
 }

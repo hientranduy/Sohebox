@@ -1,52 +1,45 @@
 package com.hientran.sohebox.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-import lombok.Getter;
-import lombok.Setter;
-
-/**
- * @author hientran
- */
+@Data
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "crypto_token_config_tbl", uniqueConstraints = {
-        @UniqueConstraint(name = "UQ_crypto_token_config", columnNames = { "tokenCode" }) })
-@Getter
-@Setter
+		@UniqueConstraint(name = "UQ_crypto_token_config", columnNames = { "token_code" }) })
 public class CryptoTokenConfigTbl extends BaseTbl {
+	@Column(name = "token_code", nullable = false)
+	private String tokenCode;
 
-    private static final long serialVersionUID = 1L;
+	@Column(name = "token_name")
+	private String tokenName;
 
-    @Column(name = "tokenCode", nullable = false)
-    private String tokenCode;
+	@Column(name = "icon_url")
+	private String iconUrl;
 
-    @Column(name = "tokenName")
-    private String tokenName;
+	@Column(name = "node_url")
+	private String nodeUrl;
 
-    @Column(name = "iconUrl")
-    private String iconUrl;
+	@Column(name = "rpc_url")
+	private String rpcUrl;
 
-    @Column(name = "nodeUrl")
-    private String nodeUrl;
+	@Column(name = "denom")
+	private String denom;
 
-    @Column(name = "rpcUrl")
-    private String rpcUrl;
+	@Column(name = "decimal_exponent")
+	private Long decimalExponent;
 
-    @Column(name = "denom")
-    private String denom;
+	@Column(name = "address_prefix")
+	private String addressPrefix;
 
-    @Column(name = "decimalExponent")
-    private Long decimalExponent;
+	@Column(name = "mintscan_prefix")
+	private String mintscanPrefix;
 
-    @Column(name = "addressPrefix")
-    private String addressPrefix;
-
-    @Column(name = "mintscanPrefix")
-    private String mintscanPrefix;
-
-    @Column(name = "deligateUrl")
-    private String deligateUrl;
+	@Column(name = "deligate_url")
+	private String deligateUrl;
 }

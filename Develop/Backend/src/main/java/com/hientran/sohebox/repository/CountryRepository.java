@@ -14,33 +14,33 @@ import com.hientran.sohebox.specification.CountrySpecs;
  * @author hientran
  */
 public interface CountryRepository
-        extends JpaRepository<CountryTbl, Long>, JpaSpecificationExecutor<CountryTbl>, BaseRepository {
+		extends JpaRepository<CountryTbl, Long>, JpaSpecificationExecutor<CountryTbl>, BaseRepository {
 
-    CountrySpecs specs = new CountrySpecs();
+	CountrySpecs specs = new CountrySpecs();
 
-    /**
-     * 
-     * Get all data
-     *
-     * @return
-     */
-    public default Page<CountryTbl> findAll(CountrySCO sco) {
+	/**
+	 * 
+	 * Get all data
+	 *
+	 * @return
+	 */
+	public default Page<CountryTbl> findAll(CountrySCO sco) {
 
-        // Declare result
-        Page<CountryTbl> result = null;
+		// Declare result
+		Page<CountryTbl> result = null;
 
-        // Create data filter
-        Specification<CountryTbl> specific = specs.buildSpecification(sco);
+		// Create data filter
+		Specification<CountryTbl> specific = specs.buildSpecification(sco);
 
-        // Create page able
-        Pageable pageable = createPageable(sco.getPageToGet(), sco.getMaxRecordPerPage(), sco.getSorters(),
-                sco.getReportFlag());
+		// Create page able
+		Pageable pageable = createPageable(sco.getPageToGet(), sco.getMaxRecordPerPage(), sco.getSorters(),
+				sco.getReportFlag());
 
-        // Get data
-        Page<CountryTbl> pageData = findAll(specific, pageable);
+		// Get data
+		Page<CountryTbl> pageData = findAll(specific, pageable);
 
-        // Return
-        result = pageData;
-        return result;
-    }
+		// Return
+		result = pageData;
+		return result;
+	}
 }

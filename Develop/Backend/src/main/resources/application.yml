@@ -1,0 +1,19 @@
+spring:
+  profiles.active: runtime
+  
+SOHEBOX_ROOT: C:/Hien/svn_checkout/Sohebox
+
+MYSQL_HOST_SCHEMA: localhost:3306/sohebox_test
+MYSQL_USERNAME: admin
+MYSQL_PASSWORD: admin
+
+MAIL_USERNAME: xxxxxx
+MAIL_PASSWORD: xxxxxx
+
+AUTHEN_ENABLE: true
+JWT_SECRET: xxxxxx
+
+SSL_ENABLE: true
+CERT_PASSWORD: xxxxxx
+
+SQL_LOG_LEVEL: INFO

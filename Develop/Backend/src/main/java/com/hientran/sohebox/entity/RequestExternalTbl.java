@@ -2,123 +2,36 @@ package com.hientran.sohebox.entity;
 
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ForeignKey;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
 import org.springframework.data.annotation.CreatedDate;
 
-/**
- * @author hientran
- */
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.ForeignKey;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+@Data
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "request_external_tbl")
 public class RequestExternalTbl extends GenericTbl {
+	@Column(name = "created_date", nullable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+	@Temporal(TemporalType.TIMESTAMP)
+	@CreatedDate
+	private Date createdDate;
 
-    private static final long serialVersionUID = 1L;
+	@ManyToOne
+	@JoinColumn(name = "request_type_id", foreignKey = @ForeignKey(name = "FK_RequestExternalTbl_TypeTbl_requestType"))
+	private TypeTbl requestType;
 
-    @Column(name = "createdDate", nullable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-    @Temporal(TemporalType.TIMESTAMP)
-    @CreatedDate
-    private Date createdDate;
+	@Column(name = "request_url", nullable = false, length = 500)
+	private String requestUrl;
 
-    @ManyToOne
-    @JoinColumn(foreignKey = @ForeignKey(name = "FK_RequestExternalTbl_TypeTbl_requestType"))
-    private TypeTbl requestType;
-
-    @Column(name = "requestUrl", nullable = false, length = 500)
-    private String requestUrl;
-
-    @Column(name = "note")
-    private String note;
-
-    /**
-     * Explanation of processing
-     *
-     */
-    public RequestExternalTbl() {
-        super();
-    }
-
-    /**
-     * Get createdDate
-     *
-     * @return createdDate
-     */
-    public Date getCreatedDate() {
-        return createdDate;
-    }
-
-    /**
-     * Set createdDate
-     *
-     * @param createdDate
-     *            the createdDate to set
-     */
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    /**
-     * Get requestType
-     *
-     * @return requestType
-     */
-    public TypeTbl getRequestType() {
-        return requestType;
-    }
-
-    /**
-     * Set requestType
-     *
-     * @param requestType
-     *            the requestType to set
-     */
-    public void setRequestType(TypeTbl requestType) {
-        this.requestType = requestType;
-    }
-
-    /**
-     * Get requestUrl
-     *
-     * @return requestUrl
-     */
-    public String getRequestUrl() {
-        return requestUrl;
-    }
-
-    /**
-     * Set requestUrl
-     *
-     * @param requestUrl
-     *            the requestUrl to set
-     */
-    public void setRequestUrl(String requestUrl) {
-        this.requestUrl = requestUrl;
-    }
-
-    /**
-     * Get note
-     *
-     * @return note
-     */
-    public String getNote() {
-        return note;
-    }
-
-    /**
-     * Set note
-     *
-     * @param note
-     *            the note to set
-     */
-    public void setNote(String note) {
-        this.note = note;
-    }
-
+	@Column(name = "note")
+	private String note;
 }

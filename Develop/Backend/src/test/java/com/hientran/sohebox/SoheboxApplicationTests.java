@@ -15,6 +15,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 public class SoheboxApplicationTests {
 
 //    @Test
-    public void contextLoads() {
-    }
+	public void contextLoads() {
+	}
 }

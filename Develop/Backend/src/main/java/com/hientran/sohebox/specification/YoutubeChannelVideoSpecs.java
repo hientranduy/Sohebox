@@ -14,21 +14,21 @@ import com.hientran.sohebox.sco.YoutubeChannelVideoSCO;
 @SuppressWarnings({ "unchecked", "rawtypes", "serial" })
 public class YoutubeChannelVideoSpecs extends GenericSpecs {
 
-    public Specification<YoutubeChannelVideoTbl> buildSpecification(YoutubeChannelVideoSCO sco) {
-        // Declare result
-        Specification<YoutubeChannelVideoTbl> specification = Specification.where(null);
+	public Specification<YoutubeChannelVideoTbl> buildSpecification(YoutubeChannelVideoSCO sco) {
+		// Declare result
+		Specification<YoutubeChannelVideoTbl> specification = Specification.where(null);
 
-        // Add criteria
-        if (sco != null) {
-            specification = specification
-                    .and(buildSearchNumber(YoutubeChannelVideoTblEnum.channel.name(), sco.getChannelId()));
-            specification = specification
-                    .and(buildSearchNumber(YoutubeChannelVideoTblEnum.video.name(), sco.getVideoId()));
-            specification = specification
-                    .and(buildSearchBoolean(YoutubeChannelVideoTblEnum.deleteFlag.name(), sco.getDeleteFlag()));
-        }
+		// Add criteria
+		if (sco != null) {
+			specification = specification
+					.and(buildSearchNumber(YoutubeChannelVideoTblEnum.channel.name(), sco.getChannelId()));
+			specification = specification
+					.and(buildSearchNumber(YoutubeChannelVideoTblEnum.video.name(), sco.getVideoId()));
+			specification = specification
+					.and(buildSearchBoolean(YoutubeChannelVideoTblEnum.deleteFlag.name(), sco.getDeleteFlag()));
+		}
 
-        // Return result
-        return specification;
-    }
+		// Return result
+		return specification;
+	}
 }

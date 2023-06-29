@@ -14,33 +14,33 @@ import com.hientran.sohebox.specification.RequestExternalSpecs;
  * @author hientran
  */
 public interface RequestExternalRepository
-        extends JpaRepository<RequestExternalTbl, Long>, JpaSpecificationExecutor<RequestExternalTbl>, BaseRepository {
+		extends JpaRepository<RequestExternalTbl, Long>, JpaSpecificationExecutor<RequestExternalTbl>, BaseRepository {
 
-    RequestExternalSpecs specs = new RequestExternalSpecs();
+	RequestExternalSpecs specs = new RequestExternalSpecs();
 
-    /**
-     * 
-     * Get all data
-     *
-     * @return
-     */
-    public default Page<RequestExternalTbl> findAll(RequestExternalSCO sco) {
+	/**
+	 * 
+	 * Get all data
+	 *
+	 * @return
+	 */
+	public default Page<RequestExternalTbl> findAll(RequestExternalSCO sco) {
 
-        // Declare result
-        Page<RequestExternalTbl> result = null;
+		// Declare result
+		Page<RequestExternalTbl> result = null;
 
-        // Create data filter
-        Specification<RequestExternalTbl> specific = specs.buildSpecification(sco);
+		// Create data filter
+		Specification<RequestExternalTbl> specific = specs.buildSpecification(sco);
 
-        // Create page able
-        Pageable pageable = createPageable(sco.getPageToGet(), sco.getMaxRecordPerPage(), sco.getSorters(),
-                sco.getReportFlag());
+		// Create page able
+		Pageable pageable = createPageable(sco.getPageToGet(), sco.getMaxRecordPerPage(), sco.getSorters(),
+				sco.getReportFlag());
 
-        // Get data
-        Page<RequestExternalTbl> pageData = findAll(specific, pageable);
+		// Get data
+		Page<RequestExternalTbl> pageData = findAll(specific, pageable);
 
-        // Return
-        result = pageData;
-        return result;
-    }
+		// Return
+		result = pageData;
+		return result;
+	}
 }

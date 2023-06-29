@@ -14,35 +14,35 @@ import com.hientran.sohebox.sco.YoutubeChannelSCO;
 @SuppressWarnings({ "unchecked", "rawtypes", "serial" })
 public class YoutubeChannelSpecs extends GenericSpecs {
 
-    public Specification<YoutubeChannelTbl> buildSpecification(YoutubeChannelSCO sco) {
-        // Declare result
-        Specification<YoutubeChannelTbl> specification = Specification.where(null);
+	public Specification<YoutubeChannelTbl> buildSpecification(YoutubeChannelSCO sco) {
+		// Declare result
+		Specification<YoutubeChannelTbl> specification = Specification.where(null);
 
-        // Add criteria
-        if (sco != null) {
-            if (sco.getSearchOr() != null && sco.getSearchOr() == true) {
-                specification = specification
-                        .or(buildSearchText(YoutubeChannelTblEnum.channelId.name(), sco.getChannelId()));
-                specification = specification.or(buildSearchText(YoutubeChannelTblEnum.name.name(), sco.getName()));
-                specification = specification
-                        .or(buildSearchText(YoutubeChannelTblEnum.description.name(), sco.getDescription()));
-                specification = specification
-                        .or(buildSearchNumber(YoutubeChannelTblEnum.category.name(), sco.getCategoryId()));
-                specification = specification.or(buildSearchNumber(YoutubeChannelTblEnum.user.name(), sco.getUserId()));
-            } else {
-                specification = specification
-                        .and(buildSearchText(YoutubeChannelTblEnum.channelId.name(), sco.getChannelId()));
-                specification = specification.and(buildSearchText(YoutubeChannelTblEnum.name.name(), sco.getName()));
-                specification = specification
-                        .and(buildSearchText(YoutubeChannelTblEnum.description.name(), sco.getDescription()));
-                specification = specification
-                        .and(buildSearchNumber(YoutubeChannelTblEnum.category.name(), sco.getCategoryId()));
-                specification = specification
-                        .and(buildSearchNumber(YoutubeChannelTblEnum.user.name(), sco.getUserId()));
-            }
-        }
+		// Add criteria
+		if (sco != null) {
+			if (sco.getSearchOr() != null && sco.getSearchOr() == true) {
+				specification = specification
+						.or(buildSearchText(YoutubeChannelTblEnum.channelId.name(), sco.getChannelId()));
+				specification = specification.or(buildSearchText(YoutubeChannelTblEnum.name.name(), sco.getName()));
+				specification = specification
+						.or(buildSearchText(YoutubeChannelTblEnum.description.name(), sco.getDescription()));
+				specification = specification
+						.or(buildSearchNumber(YoutubeChannelTblEnum.category.name(), sco.getCategoryId()));
+				specification = specification.or(buildSearchNumber(YoutubeChannelTblEnum.user.name(), sco.getUserId()));
+			} else {
+				specification = specification
+						.and(buildSearchText(YoutubeChannelTblEnum.channelId.name(), sco.getChannelId()));
+				specification = specification.and(buildSearchText(YoutubeChannelTblEnum.name.name(), sco.getName()));
+				specification = specification
+						.and(buildSearchText(YoutubeChannelTblEnum.description.name(), sco.getDescription()));
+				specification = specification
+						.and(buildSearchNumber(YoutubeChannelTblEnum.category.name(), sco.getCategoryId()));
+				specification = specification
+						.and(buildSearchNumber(YoutubeChannelTblEnum.user.name(), sco.getUserId()));
+			}
+		}
 
-        // Return result
-        return specification;
-    }
+		// Return result
+		return specification;
+	}
 }

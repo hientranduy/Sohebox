@@ -8,13 +8,14 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.http.HttpStatus;
-import org.apache.http.ParseException;
-import org.apache.http.client.config.RequestConfig;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.utils.URIBuilder;
-import org.apache.http.util.EntityUtils;
+import org.apache.hc.client5.http.classic.methods.HttpGet;
+import org.apache.hc.client5.http.config.RequestConfig;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
+import org.apache.hc.core5.http.HttpStatus;
+import org.apache.hc.core5.http.ParseException;
+import org.apache.hc.core5.http.io.entity.EntityUtils;
+import org.apache.hc.core5.net.URIBuilder;
+import org.apache.hc.core5.util.Timeout;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
@@ -36,169 +37,170 @@ import com.hientran.sohebox.vo.TypeVO;
  */
 public class BaseWebService implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    @Value("${bittrex.service.timeout}")
-    private int timeOut;
+	@Value("${rest.template.timeout.read}")
+	private int timeOutRead;
 
-    @Autowired
-    private RequestExternalService requestExternalService;
+	@Value("${rest.template.timeout.connect}")
+	private int timeOutConnect;
 
-    @Autowired
-    private TypeCache typeCache;
+	@Autowired
+	private RequestExternalService requestExternalService;
 
-    /**
-     * 
-     * Create http GET
-     *
-     * @param builder
-     * @return
-     * @throws URISyntaxException
-     */
-    protected HttpGet createHttpGet(URIBuilder builder) throws URISyntaxException {
-        // Configured get HTTP request
-        RequestConfig.Builder requestConfig = RequestConfig.custom();
-        requestConfig.setConnectTimeout(timeOut);
-        requestConfig.setConnectionRequestTimeout(timeOut);
-        requestConfig.setSocketTimeout(timeOut);
+	@Autowired
+	private TypeCache typeCache;
 
-        // Create httpGet
-        HttpGet httpGet = new HttpGet();
-        httpGet.addHeader("Accept", "application/json");
-        httpGet.addHeader("Accept-Charset", "utf-8");
-        httpGet.setURI(builder.build());
-        httpGet.setConfig(requestConfig.build());
-        return httpGet;
-    }
+	/**
+	 * 
+	 * Create http GET
+	 *
+	 * @param builder
+	 * @return
+	 * @throws URISyntaxException
+	 */
+	protected HttpGet createHttpGet(URIBuilder builder) throws URISyntaxException {
+		// Configured get HTTP request
+		RequestConfig.Builder requestConfig = RequestConfig.custom();
+		requestConfig.setConnectTimeout(Timeout.ofMilliseconds(Long.valueOf(timeOutConnect)));
+		requestConfig.setConnectionRequestTimeout(Timeout.ofMilliseconds(Long.valueOf(timeOutConnect)));
 
-    /**
-     * 
-     * Create http GET
-     *
-     * @param builder
-     * @return
-     * @throws URISyntaxException
-     */
-    protected HttpGet createHttpGet(URI uri) throws URISyntaxException {
-        // Configured get HTTP request
-        RequestConfig.Builder requestConfig = RequestConfig.custom();
-        requestConfig.setConnectTimeout(timeOut);
-        requestConfig.setConnectionRequestTimeout(timeOut);
-        requestConfig.setSocketTimeout(timeOut);
+		// Create httpGet
+		HttpGet httpGet = new HttpGet(builder.build());
+		httpGet.addHeader("Accept", "application/json");
+		httpGet.addHeader("Accept-Charset", "utf-8");
+		httpGet.setUri(builder.build());
+		httpGet.setConfig(requestConfig.build());
+		return httpGet;
+	}
 
-        // Create httpGet
-        HttpGet httpGet = new HttpGet();
-        httpGet.addHeader("Accept", "application/json");
-        httpGet.addHeader("Accept-Charset", "utf-8");
-        httpGet.setURI(uri);
-        httpGet.setConfig(requestConfig.build());
-        return httpGet;
-    }
+	/**
+	 * 
+	 * Create http GET
+	 *
+	 * @param builder
+	 * @return
+	 * @throws URISyntaxException
+	 */
+	protected HttpGet createHttpGet(URI uri) throws URISyntaxException {
+		// Configured get HTTP request
+		RequestConfig.Builder requestConfig = RequestConfig.custom();
+		requestConfig.setConnectTimeout(Timeout.ofMilliseconds(Long.valueOf(timeOutConnect)));
+		requestConfig.setConnectionRequestTimeout(Timeout.ofMilliseconds(Long.valueOf(timeOutConnect)));
 
-    /**
-     * 
-     * Validate HTTP status and get return
-     *
-     * @param method
-     * @param responseBody
-     * @return
-     * @throws WebServiceException
-     * @throws ParseException
-     * @throws IOException
-     */
-    protected String checkAndGetResult(HttpGet httpGet, CloseableHttpResponse responseBody)
-            throws ParseException, IOException, WebServiceException {
-        // Declare result
-        String result = null;
+		// Create httpGet
+		HttpGet httpGet = new HttpGet(uri);
+		httpGet.addHeader("Accept", "application/json");
+		httpGet.addHeader("Accept-Charset", "utf-8");
+		httpGet.setUri(uri);
+		httpGet.setConfig(requestConfig.build());
+		return httpGet;
+	}
 
-        // Check status
-        String errorLabel = "This call Web Services failed and returned an HTTP status of %d. That means: %s.";
-        int httpStatus = responseBody.getStatusLine().getStatusCode();
-        result = EntityUtils.toString(responseBody.getEntity());
+	/**
+	 * 
+	 * Validate HTTP status and get return
+	 *
+	 * @param method
+	 * @param responseBody
+	 * @return
+	 * @throws WebServiceException
+	 * @throws ParseException
+	 * @throws IOException
+	 */
+	protected String checkAndGetResult(HttpGet httpGet, CloseableHttpResponse responseBody)
+			throws ParseException, IOException, WebServiceException {
+		// Declare result
+		String result = null;
 
-        switch (httpStatus) {
-        case HttpStatus.SC_OK:
-        case HttpStatus.SC_CREATED:
-            break;
+		// Check status
+		String errorLabel = "This call Web Services failed and returned an HTTP status of %d. That means: %s.";
+		int httpStatus = responseBody.getCode();
+		result = EntityUtils.toString(responseBody.getEntity());
 
-        case HttpStatus.SC_NO_CONTENT:
-            throw new WebServiceException(String.format(errorLabel, httpStatus, "No content"), result);
+		switch (httpStatus) {
+		case HttpStatus.SC_OK:
+		case HttpStatus.SC_CREATED:
+			break;
 
-        case HttpStatus.SC_BAD_REQUEST:
-            throw new WebServiceException(String.format(errorLabel, httpStatus, "Bad Request"), result);
+		case HttpStatus.SC_NO_CONTENT:
+			throw new WebServiceException(String.format(errorLabel, httpStatus, "No content"), result);
 
-        case HttpStatus.SC_UNAUTHORIZED:
-            throw new WebServiceException(String.format(errorLabel, httpStatus, "Unauthorized"), result);
+		case HttpStatus.SC_BAD_REQUEST:
+			throw new WebServiceException(String.format(errorLabel, httpStatus, "Bad Request"), result);
 
-        case HttpStatus.SC_NOT_FOUND:
-            throw new WebServiceException(String.format(errorLabel, httpStatus, "Not Found"), result);
+		case HttpStatus.SC_UNAUTHORIZED:
+			throw new WebServiceException(String.format(errorLabel, httpStatus, "Unauthorized"), result);
 
-        case HttpStatus.SC_METHOD_NOT_ALLOWED:
-            throw new WebServiceException(
-                    String.format(errorLabel, httpStatus, "Method " + httpGet.getMethod() + " Not Allowed"), result);
+		case HttpStatus.SC_NOT_FOUND:
+			throw new WebServiceException(String.format(errorLabel, httpStatus, "Not Found"), result);
 
-        case HttpStatus.SC_INTERNAL_SERVER_ERROR:
-            throw new WebServiceException(String.format(errorLabel, httpStatus, "Internal Server Error"), result);
+		case HttpStatus.SC_METHOD_NOT_ALLOWED:
+			throw new WebServiceException(
+					String.format(errorLabel, httpStatus, "Method " + httpGet.getMethod() + " Not Allowed"), result);
 
-        default:
-            throw new WebServiceException("This call to Web Services returned an unexpected HTTP status of:"
-                    + String.valueOf(httpStatus) + ", URL:" + httpGet.toString());
-        }
+		case HttpStatus.SC_INTERNAL_SERVER_ERROR:
+			throw new WebServiceException(String.format(errorLabel, httpStatus, "Internal Server Error"), result);
 
-        // Return
-        return result;
-    }
+		default:
+			throw new WebServiceException("This call to Web Services returned an unexpected HTTP status of:"
+					+ String.valueOf(httpStatus) + ", URL:" + httpGet.toString());
+		}
 
-    /**
-     * Record external request
-     * 
-     * @throws Exception
-     *
-     */
-    protected void recordRequestExternal(String requestUrl, String requestTypeCode, String note) throws Exception {
-        TypeVO type = new TypeVO();
-        type.setTypeCode(requestTypeCode);
+		// Return
+		return result;
+	}
 
-        RequestExternalVO vo = new RequestExternalVO();
-        vo.setRequestUrl(requestUrl);
-        vo.setNote(note);
-        vo.setRequestType(type);
-        requestExternalService.create(vo);
-    }
+	/**
+	 * Record external request
+	 * 
+	 * @throws Exception
+	 *
+	 */
+	protected void recordRequestExternal(String requestUrl, String requestTypeCode, String note) throws Exception {
+		TypeVO type = new TypeVO();
+		type.setTypeCode(requestTypeCode);
 
-    /**
-     * Check if data is out update
-     *
-     * @param string
-     * @return
-     */
-    protected boolean dataIsOutUpdate(String url, int lateTimeSecond) {
-        // Declare result
-        boolean result = true;
+		RequestExternalVO vo = new RequestExternalVO();
+		vo.setRequestUrl(requestUrl);
+		vo.setNote(note);
+		vo.setRequestType(type);
+		requestExternalService.create(vo);
+	}
 
-        // Search request
-        SearchTextVO requestUrl = new SearchTextVO();
-        requestUrl.setEq(url);
+	/**
+	 * Check if data is out update
+	 *
+	 * @param string
+	 * @return
+	 */
+	protected boolean dataIsOutUpdate(String url, int lateTimeSecond) {
+		// Declare result
+		boolean result = true;
 
-        TypeVO requestType = typeCache.getType(DBConstants.TYPE_CLASS_REQUEST_EXTERNAL_TYPE,
-                DBConstants.REQUEST_EXTERNAL_TYPE_DATA);
-        SearchNumberVO requestTypeId = new SearchNumberVO();
-        requestTypeId.setEq(requestType.getId().doubleValue());
+		// Search request
+		SearchTextVO requestUrl = new SearchTextVO();
+		requestUrl.setEq(url);
 
-        SearchDateVO createdDate = new SearchDateVO();
-        createdDate.setGe(MyDateUtils.addMinusSecond(new Date(), lateTimeSecond * -1));
+		TypeVO requestType = typeCache.getType(DBConstants.TYPE_CLASS_REQUEST_EXTERNAL_TYPE,
+				DBConstants.REQUEST_EXTERNAL_TYPE_DATA);
+		SearchNumberVO requestTypeId = new SearchNumberVO();
+		requestTypeId.setEq(requestType.getId().doubleValue());
 
-        RequestExternalSCO sco = new RequestExternalSCO();
-        sco.setRequestUrl(requestUrl);
-        sco.setRequestTypeId(requestTypeId);
-        sco.setCreatedDate(createdDate);
-        List<RequestExternalTbl> requests = requestExternalService.search(sco);
+		SearchDateVO createdDate = new SearchDateVO();
+		createdDate.setGe(MyDateUtils.addMinusSecond(new Date(), lateTimeSecond * -1));
 
-        if (CollectionUtils.isNotEmpty(requests)) {
-            result = false;
-        }
+		RequestExternalSCO sco = new RequestExternalSCO();
+		sco.setRequestUrl(requestUrl);
+		sco.setRequestTypeId(requestTypeId);
+		sco.setCreatedDate(createdDate);
+		List<RequestExternalTbl> requests = requestExternalService.search(sco);
 
-        // Return
-        return result;
-    }
+		if (CollectionUtils.isNotEmpty(requests)) {
+			result = false;
+		}
+
+		// Return
+		return result;
+	}
 }

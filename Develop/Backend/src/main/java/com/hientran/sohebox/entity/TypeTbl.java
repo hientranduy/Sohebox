@@ -1,150 +1,33 @@
 package com.hientran.sohebox.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-/**
- * @author hientran
- */
+@Data
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "type_tbl", uniqueConstraints = {
-        @UniqueConstraint(name = "UQ_type", columnNames = { "typeClass", "typeCode" }) })
+		@UniqueConstraint(name = "UQ_type", columnNames = { "type_class", "type_code" }) })
 public class TypeTbl extends BaseTbl {
+	@Column(name = "type_class", nullable = false)
+	private String typeClass;
 
-    private static final long serialVersionUID = 1L;
+	@Column(name = "type_code", nullable = false)
+	private String typeCode;
 
-    @Column(name = "typeClass", nullable = false)
-    private String typeClass;
+	@Column(name = "type_name")
+	private String typeName;
 
-    @Column(name = "typeCode", nullable = false)
-    private String typeCode;
+	@Column(name = "description")
+	private String description;
 
-    @Column(name = "typeName")
-    private String typeName;
+	@Column(name = "icon_url")
+	private String iconUrl;
 
-    @Column(name = "description")
-    private String description;
-
-    @Column(name = "iconUrl")
-    private String iconUrl;
-
-    @Column(name = "url")
-    private String url;
-
-    /**
-     * Get typeClass
-     *
-     * @return typeClass
-     */
-    public String getTypeClass() {
-        return typeClass;
-    }
-
-    /**
-     * Set typeClass
-     *
-     * @param typeClass
-     *            the typeClass to set
-     */
-    public void setTypeClass(String typeClass) {
-        this.typeClass = typeClass;
-    }
-
-    /**
-     * Get typeCode
-     *
-     * @return typeCode
-     */
-    public String getTypeCode() {
-        return typeCode;
-    }
-
-    /**
-     * Set typeCode
-     *
-     * @param typeCode
-     *            the typeCode to set
-     */
-    public void setTypeCode(String typeCode) {
-        this.typeCode = typeCode;
-    }
-
-    /**
-     * Get typeName
-     *
-     * @return typeName
-     */
-    public String getTypeName() {
-        return typeName;
-    }
-
-    /**
-     * Set typeName
-     *
-     * @param typeName
-     *            the typeName to set
-     */
-    public void setTypeName(String typeName) {
-        this.typeName = typeName;
-    }
-
-    /**
-     * Get description
-     *
-     * @return description
-     */
-    public String getDescription() {
-        return description;
-    }
-
-    /**
-     * Set description
-     *
-     * @param description
-     *            the description to set
-     */
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    /**
-     * Get iconUrl
-     *
-     * @return iconUrl
-     */
-    public String getIconUrl() {
-        return iconUrl;
-    }
-
-    /**
-     * Set iconUrl
-     *
-     * @param iconUrl
-     *            the iconUrl to set
-     */
-    public void setIconUrl(String iconUrl) {
-        this.iconUrl = iconUrl;
-    }
-
-    /**
-     * Get url
-     *
-     * @return url
-     */
-    public String getUrl() {
-        return url;
-    }
-
-    /**
-     * Set url
-     *
-     * @param url
-     *            the url to set
-     */
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
+	@Column(name = "url")
+	private String url;
 }

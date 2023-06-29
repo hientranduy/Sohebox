@@ -99,7 +99,7 @@ export class EnglishComponent implements OnInit {
   totalUkVoice: any;
   getWordDate: Date;
   playVoiceDate: Date;
-  secondToPass: Number = 20;
+  secondToPass: number = 20;
   isSearchByCondition: Boolean = false;
   inputWordSave: string;
 

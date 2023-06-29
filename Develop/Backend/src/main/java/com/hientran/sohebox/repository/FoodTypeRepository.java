@@ -3,8 +3,6 @@ package com.hientran.sohebox.repository;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.Query;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -18,73 +16,43 @@ import com.hientran.sohebox.sco.FoodTypeSCO;
 import com.hientran.sohebox.sco.Sorter;
 import com.hientran.sohebox.specification.FoodTypeSpecs;
 
-/**
- * @author hientran
- */
 public interface FoodTypeRepository
-        extends JpaRepository<FoodTypeTbl, Long>, JpaSpecificationExecutor<FoodTypeTbl>, BaseRepository {
-    FoodTypeSpecs specs = new FoodTypeSpecs();
+		extends JpaRepository<FoodTypeTbl, Long>, JpaSpecificationExecutor<FoodTypeTbl>, BaseRepository {
 
-    /**
-     * 
-     * Get all data
-     *
-     * @return
-     */
-    public default Page<FoodTypeTbl> findAll(FoodTypeSCO sco) {
+	FoodTypeTbl findFirstByTypeClassAndTypeCode(String typeClass, String typeCode);
 
-        // Declare result
-        Page<FoodTypeTbl> result = null;
+	FoodTypeSpecs specs = new FoodTypeSpecs();
 
-        // Create data filter
-        Specification<FoodTypeTbl> specific = specs.buildSpecification(sco);
+	public default Page<FoodTypeTbl> findAll(FoodTypeSCO sco) {
 
-        // Set default sort if not have
-        if (sco.getSorters() == null) {
-            // Sort default by type code
-            Sorter sort = new Sorter();
-            sort.setDirection(DBConstants.DIRECTION_ACCENT);
-            sort.setProperty(FoodTypeTblEnum.typeCode.name());
+		// Declare result
+		Page<FoodTypeTbl> result = null;
 
-            List<Sorter> sorters = new ArrayList<>();
-            sorters.add(sort);
+		// Create data filter
+		Specification<FoodTypeTbl> specific = specs.buildSpecification(sco);
 
-            sco.setSorters(sorters);
-        }
+		// Set default sort if not have
+		if (sco.getSorters() == null) {
+			// Sort default by type code
+			Sorter sort = new Sorter();
+			sort.setDirection(DBConstants.DIRECTION_ACCENT);
+			sort.setProperty(FoodTypeTblEnum.typeCode.name());
 
-        // Create page able
-        Pageable pageable = createPageable(sco.getPageToGet(), sco.getMaxRecordPerPage(), sco.getSorters(),
-                sco.getReportFlag());
+			List<Sorter> sorters = new ArrayList<>();
+			sorters.add(sort);
 
-        // Get data
-        Page<FoodTypeTbl> pageData = findAll(specific, pageable);
+			sco.setSorters(sorters);
+		}
 
-        // Return
-        result = pageData;
-        return result;
-    }
+		// Create page able
+		Pageable pageable = createPageable(sco.getPageToGet(), sco.getMaxRecordPerPage(), sco.getSorters(),
+				sco.getReportFlag());
 
-    /**
-     * Get all type class
-     */
-    @SuppressWarnings("unchecked")
-    public default List<Object[]> getAllTypeClass() {
-        // Declare result
-        List<Object[]> result = null;
+		// Get data
+		Page<FoodTypeTbl> pageData = findAll(specific, pageable);
 
-        // Prepare native SQL
-        StringBuilder sql = new StringBuilder();
-        sql.append(" SELECT type_class      ");
-        sql.append("      , 1               ");
-        sql.append(" FROM   type_tbl        ");
-        sql.append(" GROUP  BY type_class   ");
-        sql.append(" ORDER  BY type_class   ");
-
-        // Execute SQL
-        Query query = getEntityManager().createNativeQuery(sql.toString());
-        result = query.getResultList();
-
-        // Return
-        return result;
-    }
+		// Return
+		result = pageData;
+		return result;
+	}
 }

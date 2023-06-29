@@ -22,41 +22,41 @@ import com.hientran.sohebox.specification.CryptoPortfolioHistorySpecs;
  * @author hientran
  */
 public interface CryptoPortfolioHistoryRepository extends JpaRepository<CryptoPortfolioHistoryTbl, Long>,
-        JpaSpecificationExecutor<CryptoPortfolioHistoryTbl>, BaseRepository {
-    CryptoPortfolioHistorySpecs specs = new CryptoPortfolioHistorySpecs();
+		JpaSpecificationExecutor<CryptoPortfolioHistoryTbl>, BaseRepository {
+	CryptoPortfolioHistorySpecs specs = new CryptoPortfolioHistorySpecs();
 
-    CryptoPortfolioHistoryTbl findTopByUserOrderByIdDesc(UserTbl user);
+	CryptoPortfolioHistoryTbl findTopByUserOrderByIdDesc(UserTbl user);
 
-    CryptoPortfolioHistoryTbl findTopByUserAndTokenOrderByTimeStampDesc(UserTbl user, CryptoTokenConfigTbl token);
+	CryptoPortfolioHistoryTbl findTopByUserAndTokenOrderByTimeStampDesc(UserTbl user, CryptoTokenConfigTbl token);
 
-    /**
-     * Get all data
-     */
-    public default Page<CryptoPortfolioHistoryTbl> findAll(CryptoPortfolioHistorySCO sco) {
+	/**
+	 * Get all data
+	 */
+	public default Page<CryptoPortfolioHistoryTbl> findAll(CryptoPortfolioHistorySCO sco) {
 
-        // Declare result
-        Page<CryptoPortfolioHistoryTbl> result = null;
+		// Declare result
+		Page<CryptoPortfolioHistoryTbl> result = null;
 
-        // Create data filter
-        Specification<CryptoPortfolioHistoryTbl> specific = specs.buildSpecification(sco);
+		// Create data filter
+		Specification<CryptoPortfolioHistoryTbl> specific = specs.buildSpecification(sco);
 
-        // Set default sort if not have
-        if (sco.getSorters() == null) {
-            List<Sorter> sorters = new ArrayList<>();
-            sorters.add(new Sorter(CryptoPortfolioHistoryTblEnum.token.name(), DBConstants.DIRECTION_ACCENT));
-            sco.setSorters(sorters);
-        }
+		// Set default sort if not have
+		if (sco.getSorters() == null) {
+			List<Sorter> sorters = new ArrayList<>();
+			sorters.add(new Sorter(CryptoPortfolioHistoryTblEnum.token.name(), DBConstants.DIRECTION_ACCENT));
+			sco.setSorters(sorters);
+		}
 
-        // Create page able
-        Pageable pageable = createPageable(sco.getPageToGet(), sco.getMaxRecordPerPage(), sco.getSorters(),
-                sco.getReportFlag());
+		// Create page able
+		Pageable pageable = createPageable(sco.getPageToGet(), sco.getMaxRecordPerPage(), sco.getSorters(),
+				sco.getReportFlag());
 
-        // Get data
-        Page<CryptoPortfolioHistoryTbl> pageData = findAll(specific, pageable);
+		// Get data
+		Page<CryptoPortfolioHistoryTbl> pageData = findAll(specific, pageable);
 
-        // Return
-        result = pageData;
-        return result;
-    }
+		// Return
+		result = pageData;
+		return result;
+	}
 
 }

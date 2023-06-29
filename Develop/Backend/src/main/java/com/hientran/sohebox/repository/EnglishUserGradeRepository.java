@@ -14,33 +14,33 @@ import com.hientran.sohebox.specification.EnglishUserGradeSpecs;
  * @author hientran
  */
 public interface EnglishUserGradeRepository extends JpaRepository<EnglishUserGradeTbl, Long>,
-        JpaSpecificationExecutor<EnglishUserGradeTbl>, BaseRepository {
+		JpaSpecificationExecutor<EnglishUserGradeTbl>, BaseRepository {
 
-    EnglishUserGradeSpecs specs = new EnglishUserGradeSpecs();
+	EnglishUserGradeSpecs specs = new EnglishUserGradeSpecs();
 
-    /**
-     * 
-     * Get all data
-     *
-     * @return
-     */
-    public default Page<EnglishUserGradeTbl> findAll(EnglishUserGradeSCO sco) {
+	/**
+	 * 
+	 * Get all data
+	 *
+	 * @return
+	 */
+	public default Page<EnglishUserGradeTbl> findAll(EnglishUserGradeSCO sco) {
 
-        // Declare result
-        Page<EnglishUserGradeTbl> result = null;
+		// Declare result
+		Page<EnglishUserGradeTbl> result = null;
 
-        // Create data filter
-        Specification<EnglishUserGradeTbl> specific = specs.buildSpecification(sco);
+		// Create data filter
+		Specification<EnglishUserGradeTbl> specific = specs.buildSpecification(sco);
 
-        // Create page able
-        Pageable pageable = createPageable(sco.getPageToGet(), sco.getMaxRecordPerPage(), sco.getSorters(),
-                sco.getReportFlag());
+		// Create page able
+		Pageable pageable = createPageable(sco.getPageToGet(), sco.getMaxRecordPerPage(), sco.getSorters(),
+				sco.getReportFlag());
 
-        // Get data
-        Page<EnglishUserGradeTbl> pageData = findAll(specific, pageable);
+		// Get data
+		Page<EnglishUserGradeTbl> pageData = findAll(specific, pageable);
 
-        // Return
-        result = pageData;
-        return result;
-    }
+		// Return
+		result = pageData;
+		return result;
+	}
 }

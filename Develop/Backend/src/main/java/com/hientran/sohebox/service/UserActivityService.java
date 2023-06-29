@@ -4,14 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.hientran.sohebox.cache.TypeCache;
 import com.hientran.sohebox.constants.DBConstants;
-import com.hientran.sohebox.constants.MessageConstants;
+import com.hientran.sohebox.constants.ResponseCode;
 import com.hientran.sohebox.constants.enums.UserActivityTblEnum;
 import com.hientran.sohebox.entity.UserActivityTbl;
 import com.hientran.sohebox.entity.UserTbl;
@@ -24,128 +23,115 @@ import com.hientran.sohebox.vo.TypeVO;
 import com.hientran.sohebox.vo.UserActivityVO;
 import com.hientran.sohebox.vo.UserVO;
 
-/**
- * @author hientran
- */
+import lombok.RequiredArgsConstructor;
+
 @Service
 @Transactional(readOnly = true)
-public class UserActivityService extends BaseService {
+@RequiredArgsConstructor
+public class UserActivityService {
 
-    private static final long serialVersionUID = 1L;
+	private final UserActivityRepository userActivityRepository;
+	private final UserActivityTransformer userActivityTransformer;
+	private final UserRepository userRepository;
+	private final TypeCache typeCache;
+	private final TypeTransformer typeTransformer;
 
-    @Autowired
-    private UserActivityRepository userActivityRepository;
+	/**
+	 * 
+	 * Create
+	 * 
+	 * @param vo
+	 * @return
+	 */
+	@Transactional(readOnly = false, rollbackFor = Exception.class)
+	public APIResponse<Long> create(UserActivityVO vo) {
+		// Declare result
+		APIResponse<Long> result = new APIResponse<Long>();
 
-    @Autowired
-    private UserActivityTransformer userActivityTransformer;
+		// Validate input
+		if (result.getStatus() == null) {
+			List<String> errors = new ArrayList<>();
 
-    @Autowired
-    private UserRepository userRepository;
+			// User must not null
+			if (vo.getUser() == null && vo.getUserTbl() == null) {
+				errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, UserActivityTblEnum.user.name()));
+			}
 
-    @Autowired
-    private TypeCache typeCache;
+			// Activity must not null
+			if (vo.getActivity() == null) {
+				errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, UserActivityTblEnum.activity.name()));
+			}
 
-    @Autowired
-    private TypeTransformer typeTransformer;
+			// Record error
+			if (CollectionUtils.isNotEmpty(errors)) {
+				result = new APIResponse<Long>(HttpStatus.BAD_REQUEST, errors);
+			}
+		}
 
-    /**
-     * 
-     * Create
-     * 
-     * @param vo
-     * @return
-     */
-    @Transactional(readOnly = false, rollbackFor = Exception.class)
-    public APIResponse<Long> create(UserActivityVO vo) {
-        // Declare result
-        APIResponse<Long> result = new APIResponse<Long>();
+		// Create activity
+		if (result.getStatus() == null) {
+			// Transform
+			UserActivityTbl tbl = userActivityTransformer.convertToTbl(vo);
 
-        // Validate input
-        if (result.getStatus() == null) {
-            List<String> errors = new ArrayList<>();
+			// Set user
+			if (vo.getUserTbl() != null) {
+				tbl.setUser(vo.getUserTbl());
+			} else {
+				tbl.setUser(userRepository.findById(vo.getUser().getId()).get());
+			}
 
-            // User must not null
-            if (vo.getUser() == null && vo.getUserTbl() == null) {
-                errors.add(
-                        buildMessage(MessageConstants.FILED_EMPTY, new String[] { UserActivityTblEnum.user.name() }));
-            }
+			// Set activity
+			TypeVO typeVO = typeCache.getType(vo.getActivity().getTypeClass(), vo.getActivity().getTypeCode());
+			tbl.setActivity(typeTransformer.convertToTbl(typeVO));
 
-            // Activity must not null
-            if (vo.getActivity() == null) {
-                errors.add(buildMessage(MessageConstants.FILED_EMPTY,
-                        new String[] { UserActivityTblEnum.activity.name() }));
-            }
+			// Create User
+			tbl = userActivityRepository.save(tbl);
 
-            // Record error
-            if (CollectionUtils.isNotEmpty(errors)) {
-                result = new APIResponse<Long>(HttpStatus.BAD_REQUEST, errors);
-            }
-        }
+			// Set id return
+			result.setData(tbl.getId());
+		}
 
-        // Create activity
-        if (result.getStatus() == null) {
-            // Transform
-            UserActivityTbl tbl = userActivityTransformer.convertToTbl(vo);
+		// Return
+		return result;
+	}
 
-            // Set user
-            if (vo.getUserTbl() != null) {
-                tbl.setUser(vo.getUserTbl());
-            } else {
-                tbl.setUser(userRepository.findById(vo.getUser().getId()).get());
-            }
+	/**
+	 * Write user activity
+	 *
+	 * @param userTbl
+	 */
+	@Transactional(readOnly = false, rollbackFor = Exception.class)
+	public void recordUserActivity(UserTbl userTbl, String activity) {
+		UserActivityTbl tbl = new UserActivityTbl();
 
-            // Set activity
-            TypeVO typeVO = typeCache.getType(vo.getActivity().getTypeClass(), vo.getActivity().getTypeCode());
-            tbl.setActivity(typeTransformer.convertToTypeTbl(typeVO));
+		// Set user
+		tbl.setUser(userTbl);
 
-            // Create User
-            tbl = userActivityRepository.save(tbl);
+		// Set activity
+		TypeVO typeVO = typeCache.getType(DBConstants.TYPE_CLASS_USER_ACTIVITY, activity);
+		tbl.setActivity(typeTransformer.convertToTbl(typeVO));
 
-            // Set id return
-            result.setData(tbl.getId());
-        }
+		// Create User
+		tbl = userActivityRepository.save(tbl);
+	}
 
-        // Return
-        return result;
-    }
+	/**
+	 * Write user activity
+	 *
+	 * @param userVO
+	 */
+	@Transactional(readOnly = false, rollbackFor = Exception.class)
+	public void recordUserActivity(UserVO userVO, String activity) {
+		UserActivityTbl tbl = new UserActivityTbl();
 
-    /**
-     * Write user activity
-     *
-     * @param userTbl
-     */
-    @Transactional(readOnly = false, rollbackFor = Exception.class)
-    public void recordUserActivity(UserTbl userTbl, String activity) {
-        UserActivityTbl tbl = new UserActivityTbl();
+		// Set user
+		tbl.setUser(userRepository.findById(userVO.getId()).get());
 
-        // Set user
-        tbl.setUser(userTbl);
+		// Set activity
+		TypeVO typeVO = typeCache.getType(DBConstants.TYPE_CLASS_USER_ACTIVITY, activity);
+		tbl.setActivity(typeTransformer.convertToTbl(typeVO));
 
-        // Set activity
-        TypeVO typeVO = typeCache.getType(DBConstants.TYPE_CLASS_USER_ACTIVITY, activity);
-        tbl.setActivity(typeTransformer.convertToTypeTbl(typeVO));
-
-        // Create User
-        tbl = userActivityRepository.save(tbl);
-    }
-
-    /**
-     * Write user activity
-     *
-     * @param userVO
-     */
-    @Transactional(readOnly = false, rollbackFor = Exception.class)
-    public void recordUserActivity(UserVO userVO, String activity) {
-        UserActivityTbl tbl = new UserActivityTbl();
-
-        // Set user
-        tbl.setUser(userRepository.findById(userVO.getId()).get());
-
-        // Set activity
-        TypeVO typeVO = typeCache.getType(DBConstants.TYPE_CLASS_USER_ACTIVITY, activity);
-        tbl.setActivity(typeTransformer.convertToTypeTbl(typeVO));
-
-        // Create User
-        tbl = userActivityRepository.save(tbl);
-    }
+		// Create User
+		tbl = userActivityRepository.save(tbl);
+	}
 }

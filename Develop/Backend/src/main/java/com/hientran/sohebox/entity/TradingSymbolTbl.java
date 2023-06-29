@@ -1,168 +1,43 @@
 package com.hientran.sohebox.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
-import javax.persistence.ForeignKey;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
-
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-/**
- * @author hientran
- */
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
+import jakarta.persistence.ForeignKey;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+@Data
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "trading_symbol_tbl", uniqueConstraints = {
-        @UniqueConstraint(name = "UQ_trading_symbol", columnNames = { "symbol" }) })
+		@UniqueConstraint(name = "UQ_trading_symbol", columnNames = { "symbol" }) })
 @EntityListeners(AuditingEntityListener.class)
 public class TradingSymbolTbl extends BaseTbl {
+	@Column(name = "symbol")
+	private String symbol;
 
-    private static final long serialVersionUID = 1L;
+	@Column(name = "name")
+	private String name;
 
-    @Column(name = "symbol")
-    private String symbol;
+	@ManyToOne
+	@JoinColumn(name = "symbol_type_id", foreignKey = @ForeignKey(name = "FK_TradingSymbolTbl_TypeTbl_symbolType"))
+	private TypeTbl symbolType;
 
-    @Column(name = "name")
-    private String name;
+	@ManyToOne
+	@JoinColumn(foreignKey = @ForeignKey(name = "FK_TradingSymbolTbl_TypeTbl_zone"))
+	private TypeTbl zone;
 
-    @ManyToOne
-    @JoinColumn(foreignKey = @ForeignKey(name = "FK_TradingSymbolTbl_TypeTbl_symbolType"))
-    private TypeTbl symbolType;
+	@ManyToOne
+	@JoinColumn(foreignKey = @ForeignKey(name = "FK_TradingSymbolTbl_CountryTbl_country"))
+	private CountryTbl country;
 
-    @ManyToOne
-    @JoinColumn(foreignKey = @ForeignKey(name = "FK_TradingSymbolTbl_TypeTbl_zone"))
-    private TypeTbl zone;
-
-    @ManyToOne
-    @JoinColumn(foreignKey = @ForeignKey(name = "FK_TradingSymbolTbl_CountryTbl_country"))
-    private CountryTbl country;
-
-    @Column(name = "description")
-    private String description;
-
-    /**
-     * Constructor
-     *
-     */
-    public TradingSymbolTbl() {
-        super();
-    }
-
-    /**
-     * Get symbol
-     *
-     * @return symbol
-     */
-    public String getSymbol() {
-        return symbol;
-    }
-
-    /**
-     * Set symbol
-     *
-     * @param symbol
-     *            the symbol to set
-     */
-    public void setSymbol(String symbol) {
-        this.symbol = symbol;
-    }
-
-    /**
-     * Get name
-     *
-     * @return name
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * Set name
-     *
-     * @param name
-     *            the name to set
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    /**
-     * Get symbolType
-     *
-     * @return symbolType
-     */
-    public TypeTbl getSymbolType() {
-        return symbolType;
-    }
-
-    /**
-     * Set symbolType
-     *
-     * @param symbolType
-     *            the symbolType to set
-     */
-    public void setSymbolType(TypeTbl symbolType) {
-        this.symbolType = symbolType;
-    }
-
-    /**
-     * Get zone
-     *
-     * @return zone
-     */
-    public TypeTbl getZone() {
-        return zone;
-    }
-
-    /**
-     * Set zone
-     *
-     * @param zone
-     *            the zone to set
-     */
-    public void setZone(TypeTbl zone) {
-        this.zone = zone;
-    }
-
-    /**
-     * Get country
-     *
-     * @return country
-     */
-    public CountryTbl getCountry() {
-        return country;
-    }
-
-    /**
-     * Set country
-     *
-     * @param country
-     *            the country to set
-     */
-    public void setCountry(CountryTbl country) {
-        this.country = country;
-    }
-
-    /**
-     * Get description
-     *
-     * @return description
-     */
-    public String getDescription() {
-        return description;
-    }
-
-    /**
-     * Set description
-     *
-     * @param description
-     *            the description to set
-     */
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
+	@Column(name = "description")
+	private String description;
 }

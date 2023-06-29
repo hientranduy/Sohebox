@@ -1,0 +1,120 @@
+# ======================================================== #
+# SERVER                                                   #
+# ---------------------------------------------------------#
+server:
+# port
+  port: 8080
+  
+# path
+  servlet:
+    context-path: /
+    
+# SSL
+  ssl:
+    enabled: ${SSL_ENABLE}
+
+    key-store-type: PKCS12
+    key-store: classpath:keystore/sohebox_certificate.pfx
+    key-store-password: ${CERT_PASSWORD}
+    
+#    trust-store: classpath:keystore/sohebox_certificate.pfx
+#    trust-store-password: ${CERT_PASSWORD} 
+
+# ======================================================== #
+# SPRING                                                   #
+# ---------------------------------------------------------#
+spring:
+  application:
+    name: Sohebox-Service-RestAPI
+  main:
+    allow-circular-references: true
+
+# jpa    
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: true
+
+# mail                 
+  mail:
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_USERNAME}          
+
+# database
+  datasource:
+    url: jdbc:mysql://${MYSQL_HOST_SCHEMA}?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false&allowPublicKeyRetrieval=true
+    username: ${MYSQL_USERNAME}
+    password: ${MYSQL_PASSWORD}
+
+# ======================================================== #
+# Log                                                      #
+# ---------------------------------------------------------#
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: ${SQL_LOG_LEVEL}
+        type.descriptor.sql.BasicBinder: TRACE
+        
+# ======================================================== #
+# Swagger                                                  #
+# ---------------------------------------------------------#
+application:
+  description: Sohebox Service Rest API
+  version: 1.0    
+build.date: 2023-06-21
+
+# ======================================================== #
+# JWT Authentication                                       #
+# ---------------------------------------------------------#
+# Token expire by 60 minutes
+jwt:
+  expiration: 3600000
+  secret: ${JWT_SECRET}
+
+# ======================================================== #
+# Project Path                                             #
+# ---------------------------------------------------------#  
+# Resource
+resource:
+   path: ${SOHEBOX_ROOT}/Develop/Backend/src/main/resources
+
+# Web function
+web:
+  asset:
+    path: ${SOHEBOX_ROOT}/Web/src/assets
+    english:
+       image:
+          path: ${web.asset.path}/english/image/
+    food:
+       image:
+          path: ${web.asset.path}/food/image/
+
+# ========================================== #
+# SETTING REST API Input/Output              #
+# -------------------------------------------#
+rest:
+  template:
+    timeout:
+      read: 300000
+      connect: 300000
+
+# ========================================== #
+# SCHEDULE                                   #
+# -------------------------------------------#  
+schedule:
+  threadCount: 4
+
+# Every day at 00:00
+  english:
+    learn_report: 0 0 0 * * *
+
+# Every day at 00:00
+  crypto:
+    history: 0 0 0 * * *
+    
+# ========================================== #
+# AUTHENTICATION                             #
+# -------------------------------------------# 
+authentication:
+  isActived: ${AUTHEN_ENABLE}
