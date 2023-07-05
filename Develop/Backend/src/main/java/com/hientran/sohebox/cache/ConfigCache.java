@@ -2,16 +2,15 @@ package com.hientran.sohebox.cache;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.cache.CacheManager;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
-import com.hazelcast.core.HazelcastInstance;
 import com.hientran.sohebox.constants.ResponseCode;
 import com.hientran.sohebox.constants.enums.ConfigTblEnum;
 import com.hientran.sohebox.entity.ConfigTbl;
@@ -30,7 +29,9 @@ public class ConfigCache {
 
 	private final ConfigRepository configRepository;
 	private final ConfigTransformer configTransformer;
-	private final HazelcastInstance instance;
+
+	private final CacheManager cacheManager;
+	private String cacheName = "configCache";
 
 	/**
 	 * Get
@@ -40,10 +41,9 @@ public class ConfigCache {
 		String result = null;
 
 		// Get cache
-		Map<String, ConfigVO> configCache = instance.getMap("configCache");
-		ConfigVO cacheValue = configCache.get(formatConfigKey(key));
-		if (cacheValue != null) {
-			return cacheValue.getConfigValue();
+		result = cacheManager.getCache(cacheName).get(formatConfigKey(key), String.class);
+		if (result != null) {
+			return result;
 		}
 
 		// Get from DB
@@ -52,7 +52,7 @@ public class ConfigCache {
 			result = tbl.getConfigValue();
 
 			// Add to cache
-			configCache.put(key, configTransformer.convertToConfigVO(tbl));
+			cacheManager.getCache(cacheName).put(formatConfigKey(key), tbl.getConfigValue());
 		}
 
 		// Return
@@ -130,8 +130,7 @@ public class ConfigCache {
 		result.setData(configRepository.save(updateTbl).getId());
 
 		// Update cache
-		Map<String, ConfigVO> configCache = instance.getMap("configCache");
-		configCache.put(vo.getConfigKey(), configTransformer.convertToConfigVO(updateTbl));
+		cacheManager.getCache(cacheName).put(formatConfigKey(vo.getConfigKey()), updateTbl.getConfigValue());
 
 		// Return
 		return result;

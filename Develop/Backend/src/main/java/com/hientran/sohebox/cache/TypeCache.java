@@ -2,16 +2,15 @@ package com.hientran.sohebox.cache;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.cache.CacheManager;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
-import com.hazelcast.core.HazelcastInstance;
 import com.hientran.sohebox.constants.DBConstants;
 import com.hientran.sohebox.constants.ResponseCode;
 import com.hientran.sohebox.constants.enums.TypeTblEnum;
@@ -29,9 +28,11 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class TypeCache extends BaseCache {
 
-	private final HazelcastInstance instance;
 	private final TypeRepository typeRepository;
 	private final TypeTransformer typeTransformer;
+
+	private final CacheManager cacheManager;
+	private String cacheName = "typeCache";
 
 	/**
 	 * Get
@@ -41,8 +42,7 @@ public class TypeCache extends BaseCache {
 		TypeVO result = null;
 
 		// Retrieve type cache
-		Map<String, TypeVO> typeCache = instance.getMap("typeCache");
-		result = typeCache.get(formatTypeMapKey(typeClass, typeCode));
+		result = cacheManager.getCache(cacheName).get(formatTypeMapKey(typeClass, typeCode), TypeVO.class);
 		if (result != null) {
 			return result;
 		}
@@ -69,7 +69,7 @@ public class TypeCache extends BaseCache {
 		}
 
 		// Add to cache
-		typeCache.put(formatTypeMapKey(result.getTypeClass(), result.getTypeCode()), result);
+		cacheManager.getCache(cacheName).put(formatTypeMapKey(result.getTypeClass(), result.getTypeCode()), result);
 
 		// Return
 		return result;
@@ -170,8 +170,8 @@ public class TypeCache extends BaseCache {
 		result.setData(typeRepository.save(tbl).getId());
 
 		// Update cache
-		Map<String, TypeVO> typeCache = instance.getMap("typeCache");
-		typeCache.put(formatTypeMapKey(tbl.getTypeClass(), tbl.getTypeCode()), typeTransformer.convertToVO(tbl));
+		cacheManager.getCache(cacheName).put(formatTypeMapKey(tbl.getTypeClass(), tbl.getTypeCode()),
+				typeTransformer.convertToVO(tbl));
 
 		// Return
 		return result;

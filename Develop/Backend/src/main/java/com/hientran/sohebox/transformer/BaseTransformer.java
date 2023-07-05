@@ -1,7 +1,5 @@
 package com.hientran.sohebox.transformer;
 
-import java.io.Serializable;
-
 import org.springframework.data.domain.Page;
 
 import com.hientran.sohebox.vo.PageResultVO;
@@ -9,9 +7,7 @@ import com.hientran.sohebox.vo.PageResultVO;
 /**
  * @author hientran
  */
-public class BaseTransformer implements Serializable {
-
-	private static final long serialVersionUID = 1L;
+public class BaseTransformer {
 
 	/**
 	 * 
