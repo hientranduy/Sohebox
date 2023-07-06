@@ -16,9 +16,6 @@ import com.hientran.sohebox.sco.MediaTypeSCO;
 import com.hientran.sohebox.sco.Sorter;
 import com.hientran.sohebox.specification.MediaTypeSpecs;
 
-/**
- * @author hientran
- */
 public interface MediaTypeRepository
 		extends JpaRepository<MediaTypeTbl, Long>, JpaSpecificationExecutor<MediaTypeTbl>, BaseRepository {
 

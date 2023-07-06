@@ -9,10 +9,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 import lombok.extern.slf4j.Slf4j;
 
-/**
- *
- * @author hientran
- */
 @SpringBootApplication
 @EnableJpaAuditing // ==> Auto update DB
 @Slf4j

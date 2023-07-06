@@ -1,11 +1,5 @@
 package com.hientran.sohebox.constants;
 
-/**
- * 
- * Tradingeconomics Constants
- *
- * @author hientran
- */
 public class TradingConstants {
 
 	/////////////////

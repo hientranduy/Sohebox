@@ -23,9 +23,6 @@ import com.hientran.sohebox.webservice.QuandlWebService;
 
 import lombok.RequiredArgsConstructor;
 
-/**
- * @author hientran
- */
 @Service
 @RequiredArgsConstructor
 public class QuandlService extends BaseService {

@@ -7,9 +7,6 @@ import com.hientran.sohebox.constants.enums.CryptoTokenConfigTblEnum;
 import com.hientran.sohebox.entity.CryptoTokenConfigTbl;
 import com.hientran.sohebox.sco.CryptoTokenConfigSCO;
 
-/**
- * @author hientran
- */
 @Component
 public class CryptoTokenConfigSpecs extends GenericSpecs<CryptoTokenConfigTbl> {
 

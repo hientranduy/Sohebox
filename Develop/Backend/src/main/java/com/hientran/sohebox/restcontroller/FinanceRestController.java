@@ -12,9 +12,6 @@ import com.hientran.sohebox.service.DataExternalService;
 
 import lombok.RequiredArgsConstructor;
 
-/**
- * @author hientran
- */
 @RestController
 @RequiredArgsConstructor
 public class FinanceRestController extends BaseRestController {

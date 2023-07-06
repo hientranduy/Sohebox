@@ -10,9 +10,6 @@ import com.hientran.sohebox.entity.CountryTbl;
 import com.hientran.sohebox.sco.CountrySCO;
 import com.hientran.sohebox.specification.CountrySpecs;
 
-/**
- * @author hientran
- */
 public interface CountryRepository
 		extends JpaRepository<CountryTbl, Long>, JpaSpecificationExecutor<CountryTbl>, BaseRepository {
 

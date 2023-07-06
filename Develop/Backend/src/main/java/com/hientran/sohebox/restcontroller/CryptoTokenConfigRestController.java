@@ -19,9 +19,6 @@ import com.hientran.sohebox.vo.CryptoTokenConfigVO;
 
 import lombok.RequiredArgsConstructor;
 
-/**
- * @author hientran
- */
 @RestController
 @RequiredArgsConstructor
 public class CryptoTokenConfigRestController extends BaseRestController {

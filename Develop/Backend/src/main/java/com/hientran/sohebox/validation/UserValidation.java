@@ -3,11 +3,6 @@ package com.hientran.sohebox.validation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
-/**
- * User validation
- *
- * @author hientran
- */
 @Component
 public class UserValidation {
 

@@ -11,11 +11,6 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 
 import lombok.RequiredArgsConstructor;
 
-/**
- * Mails properties
- *
- * @author hientran
- */
 @Configuration
 @PropertySource("classpath:mail.properties")
 @RequiredArgsConstructor

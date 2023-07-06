@@ -17,12 +17,6 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-/**
- * 
- * Authentication when access by username/password
- *
- * @author hientran
- */
 public class JWTAuthenticationLoginFilter extends UsernamePasswordAuthenticationFilter {
 
 	private JWTTokenService tokenAuthenticationService;

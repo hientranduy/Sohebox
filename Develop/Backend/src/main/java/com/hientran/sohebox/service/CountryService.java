@@ -13,9 +13,6 @@ import com.hientran.sohebox.sco.SearchTextVO;
 
 import lombok.RequiredArgsConstructor;
 
-/**
- * @author hientran
- */
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor

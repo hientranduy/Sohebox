@@ -7,9 +7,6 @@ import com.hientran.sohebox.constants.enums.MediaTypeTblEnum;
 import com.hientran.sohebox.entity.MediaTypeTbl;
 import com.hientran.sohebox.sco.MediaTypeSCO;
 
-/**
- * @author hientran
- */
 @Component
 @SuppressWarnings({ "unchecked", "rawtypes" })
 public class MediaTypeSpecs extends GenericSpecs {

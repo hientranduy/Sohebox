@@ -16,9 +16,6 @@ import com.hientran.sohebox.sco.CryptoTokenConfigSCO;
 import com.hientran.sohebox.sco.Sorter;
 import com.hientran.sohebox.specification.CryptoTokenConfigSpecs;
 
-/**
- * @author hientran
- */
 public interface CryptoTokenConfigRepository extends JpaRepository<CryptoTokenConfigTbl, Long>,
 		JpaSpecificationExecutor<CryptoTokenConfigTbl>, BaseRepository {
 	CryptoTokenConfigSpecs specs = new CryptoTokenConfigSpecs();

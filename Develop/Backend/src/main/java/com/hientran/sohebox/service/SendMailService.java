@@ -16,9 +16,6 @@ import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 
-/**
- * @author hientran
- */
 @Service
 @RequiredArgsConstructor
 public class SendMailService extends BaseService {

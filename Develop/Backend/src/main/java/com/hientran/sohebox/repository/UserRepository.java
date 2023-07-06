@@ -2,9 +2,6 @@ package com.hientran.sohebox.repository;
 
 import java.util.List;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.Query;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -15,9 +12,9 @@ import com.hientran.sohebox.entity.UserTbl;
 import com.hientran.sohebox.sco.UserSCO;
 import com.hientran.sohebox.specification.UserSpecs;
 
-/**
- * @author hientran
- */
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
+
 public interface UserRepository
 		extends JpaRepository<UserTbl, Long>, JpaSpecificationExecutor<UserTbl>, BaseRepository {
 

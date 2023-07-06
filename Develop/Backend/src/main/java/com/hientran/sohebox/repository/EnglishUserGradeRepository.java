@@ -10,9 +10,6 @@ import com.hientran.sohebox.entity.EnglishUserGradeTbl;
 import com.hientran.sohebox.sco.EnglishUserGradeSCO;
 import com.hientran.sohebox.specification.EnglishUserGradeSpecs;
 
-/**
- * @author hientran
- */
 public interface EnglishUserGradeRepository extends JpaRepository<EnglishUserGradeTbl, Long>,
 		JpaSpecificationExecutor<EnglishUserGradeTbl>, BaseRepository {
 

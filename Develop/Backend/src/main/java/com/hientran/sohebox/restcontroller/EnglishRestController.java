@@ -28,9 +28,6 @@ import com.hientran.sohebox.vo.EnglishVO;
 
 import lombok.RequiredArgsConstructor;
 
-/**
- * @author hientran
- */
 @RestController
 @RequiredArgsConstructor
 public class EnglishRestController extends BaseRestController {

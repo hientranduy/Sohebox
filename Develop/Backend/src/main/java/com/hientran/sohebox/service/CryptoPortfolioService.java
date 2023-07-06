@@ -44,9 +44,6 @@ import com.hientran.sohebox.webservice.CosmosWebService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-/**
- * @author hientran
- */
 @Service
 @Transactional(readOnly = true)
 @Slf4j

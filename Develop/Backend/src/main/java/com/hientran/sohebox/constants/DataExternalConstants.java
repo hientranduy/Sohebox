@@ -1,11 +1,5 @@
 package com.hientran.sohebox.constants;
 
-/**
- * 
- * Other constants
- *
- * @author hientran
- */
 public class DataExternalConstants {
 
 	/////////////////

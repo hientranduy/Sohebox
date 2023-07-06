@@ -7,9 +7,6 @@ import com.hientran.sohebox.constants.enums.EnglishTblEnum;
 import com.hientran.sohebox.entity.EnglishTbl;
 import com.hientran.sohebox.sco.EnglishSCO;
 
-/**
- * @author hientran
- */
 @Component
 @SuppressWarnings({ "unchecked", "rawtypes" })
 public class EnglishSpecs extends GenericSpecs {

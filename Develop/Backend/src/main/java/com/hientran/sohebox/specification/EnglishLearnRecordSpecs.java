@@ -7,9 +7,6 @@ import com.hientran.sohebox.constants.enums.EnglishLearnRecordTblEnum;
 import com.hientran.sohebox.entity.EnglishLearnRecordTbl;
 import com.hientran.sohebox.sco.EnglishLearnRecordSCO;
 
-/**
- * @author hientran
- */
 @Component
 @SuppressWarnings({ "unchecked", "rawtypes" })
 public class EnglishLearnRecordSpecs extends GenericSpecs {

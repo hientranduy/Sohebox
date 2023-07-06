@@ -7,9 +7,6 @@ import com.hientran.sohebox.constants.enums.CryptoValidatorTblEnum;
 import com.hientran.sohebox.entity.CryptoValidatorTbl;
 import com.hientran.sohebox.sco.CryptoValidatorSCO;
 
-/**
- * @author hientran
- */
 @Component
 public class CryptoValidatorSpecs extends GenericSpecs<CryptoValidatorTbl> {
 

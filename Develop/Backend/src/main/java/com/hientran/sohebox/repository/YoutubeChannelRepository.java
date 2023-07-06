@@ -10,9 +10,6 @@ import com.hientran.sohebox.entity.YoutubeChannelTbl;
 import com.hientran.sohebox.sco.YoutubeChannelSCO;
 import com.hientran.sohebox.specification.YoutubeChannelSpecs;
 
-/**
- * @author hientran
- */
 public interface YoutubeChannelRepository
 		extends JpaRepository<YoutubeChannelTbl, Long>, JpaSpecificationExecutor<YoutubeChannelTbl>, BaseRepository {
 

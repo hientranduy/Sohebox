@@ -21,9 +21,6 @@ import com.hientran.sohebox.vo.YoutubeVideoVO;
 
 import lombok.RequiredArgsConstructor;
 
-/**
- * @author hientran
- */
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor

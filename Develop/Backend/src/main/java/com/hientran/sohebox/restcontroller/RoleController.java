@@ -19,9 +19,6 @@ import com.hientran.sohebox.vo.RoleVO;
 
 import lombok.RequiredArgsConstructor;
 
-/**
- * @author hientran
- */
 @RestController
 @RequiredArgsConstructor
 public class RoleController extends BaseRestController {

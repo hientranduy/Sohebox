@@ -12,9 +12,6 @@ import com.hientran.sohebox.service.QuandlService;
 
 import lombok.RequiredArgsConstructor;
 
-/**
- * @author hientran
- */
 @RestController
 @RequiredArgsConstructor
 public class QuandlRestController extends BaseRestController {

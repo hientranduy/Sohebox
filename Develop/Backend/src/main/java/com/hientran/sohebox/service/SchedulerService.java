@@ -4,9 +4,6 @@ import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 
-/**
- * @author hientran
- */
 @Service
 @RequiredArgsConstructor
 public class SchedulerService extends BaseService {

@@ -45,9 +45,6 @@ import com.hientran.sohebox.webservice.YoutubeWebService;
 
 import lombok.RequiredArgsConstructor;
 
-/**
- * @author hientran
- */
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor

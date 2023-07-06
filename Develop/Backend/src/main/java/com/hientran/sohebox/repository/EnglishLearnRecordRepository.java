@@ -10,9 +10,6 @@ import com.hientran.sohebox.entity.EnglishLearnRecordTbl;
 import com.hientran.sohebox.sco.EnglishLearnRecordSCO;
 import com.hientran.sohebox.specification.EnglishLearnRecordSpecs;
 
-/**
- * @author hientran
- */
 public interface EnglishLearnRecordRepository extends JpaRepository<EnglishLearnRecordTbl, Long>,
 		JpaSpecificationExecutor<EnglishLearnRecordTbl>, BaseRepository {
 

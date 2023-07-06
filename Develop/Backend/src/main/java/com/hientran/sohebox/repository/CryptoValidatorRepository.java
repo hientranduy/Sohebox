@@ -10,9 +10,6 @@ import com.hientran.sohebox.entity.CryptoValidatorTbl;
 import com.hientran.sohebox.sco.CryptoValidatorSCO;
 import com.hientran.sohebox.specification.CryptoValidatorSpecs;
 
-/**
- * @author hientran
- */
 public interface CryptoValidatorRepository
 		extends JpaRepository<CryptoValidatorTbl, Long>, JpaSpecificationExecutor<CryptoValidatorTbl>, BaseRepository {
 	CryptoValidatorSpecs specs = new CryptoValidatorSpecs();

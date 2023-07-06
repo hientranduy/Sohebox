@@ -1,11 +1,5 @@
 package com.hientran.sohebox.constants;
 
-/**
- * 
- * Public API services output definition
- *
- * @author hientran
- */
 public class ApiPublicConstants {
 
 	public static final String AUTHENTICATE = "/login";

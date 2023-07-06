@@ -8,11 +8,6 @@ import org.springframework.http.HttpStatus;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
-/**
- * API response from service
- *
- * @author hientran
- */
 @JsonInclude(Include.NON_NULL)
 public class APIResponse<Data> {
 

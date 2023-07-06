@@ -40,9 +40,6 @@ import com.hientran.sohebox.webservice.TradingWebService;
 
 import lombok.RequiredArgsConstructor;
 
-/**
- * @author hientran
- */
 @Service
 @RequiredArgsConstructor
 public class TradingService extends BaseService {

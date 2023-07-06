@@ -7,9 +7,6 @@ import com.hientran.sohebox.constants.enums.FoodTypeTblEnum;
 import com.hientran.sohebox.entity.FoodTypeTbl;
 import com.hientran.sohebox.sco.FoodTypeSCO;
 
-/**
- * @author hientran
- */
 @Component
 @SuppressWarnings({ "unchecked", "rawtypes" })
 public class FoodTypeSpecs extends GenericSpecs {

@@ -32,9 +32,6 @@ import com.hientran.sohebox.vo.YoutubeChannelVO;
 
 import lombok.RequiredArgsConstructor;
 
-/**
- * @author hientran
- */
 @Service
 @RequiredArgsConstructor
 public class YoutubeChannelService extends BaseService {

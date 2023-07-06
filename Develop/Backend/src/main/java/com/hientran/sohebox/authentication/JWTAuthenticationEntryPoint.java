@@ -15,11 +15,6 @@ import com.hientran.sohebox.constants.ResponseCode;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-/**
- * Custom return message in case unauthentication
- * 
- * @author hientran
- */
 @Component
 public class JWTAuthenticationEntryPoint implements AuthenticationEntryPoint {
 

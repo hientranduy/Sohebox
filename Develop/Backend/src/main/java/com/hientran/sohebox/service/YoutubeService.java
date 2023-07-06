@@ -29,9 +29,6 @@ import com.hientran.sohebox.webservice.YoutubeWebService;
 
 import lombok.RequiredArgsConstructor;
 
-/**
- * @author hientran
- */
 @Service
 @RequiredArgsConstructor
 public class YoutubeService extends BaseService {

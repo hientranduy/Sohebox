@@ -16,9 +16,6 @@ import com.hientran.sohebox.sco.CryptoPortfolioSCO;
 import com.hientran.sohebox.sco.Sorter;
 import com.hientran.sohebox.specification.CryptoPortfolioSpecs;
 
-/**
- * @author hientran
- */
 public interface CryptoPortfolioRepository
 		extends JpaRepository<CryptoPortfolioTbl, Long>, JpaSpecificationExecutor<CryptoPortfolioTbl>, BaseRepository {
 	CryptoPortfolioSpecs specs = new CryptoPortfolioSpecs();

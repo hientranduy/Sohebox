@@ -7,9 +7,6 @@ import com.hientran.sohebox.constants.enums.CountryTblEnum;
 import com.hientran.sohebox.entity.CountryTbl;
 import com.hientran.sohebox.sco.CountrySCO;
 
-/**
- * @author hientran
- */
 @Component
 @SuppressWarnings({ "unchecked", "rawtypes" })
 public class CountrySpecs extends GenericSpecs {

@@ -15,9 +15,6 @@ import com.hientran.sohebox.vo.TradingSymbolVO;
 
 import lombok.RequiredArgsConstructor;
 
-/**
- * @author hientran
- */
 @RestController
 @RequiredArgsConstructor
 public class TradingSymbolRestController extends BaseRestController {

@@ -16,9 +16,6 @@ import com.hientran.sohebox.sco.EnglishTypeSCO;
 import com.hientran.sohebox.sco.Sorter;
 import com.hientran.sohebox.specification.EnglishTypeSpecs;
 
-/**
- * @author hientran
- */
 public interface EnglishTypeRepository
 		extends JpaRepository<EnglishTypeTbl, Long>, JpaSpecificationExecutor<EnglishTypeTbl>, BaseRepository {
 

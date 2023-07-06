@@ -1,11 +1,5 @@
 package com.hientran.sohebox.constants;
 
-/**
- * 
- * Constants that belong to database
- *
- * @author hientran
- */
 public class DBConstants {
 
 	/////////

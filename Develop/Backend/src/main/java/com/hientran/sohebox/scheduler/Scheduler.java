@@ -6,9 +6,6 @@ import org.springframework.stereotype.Component;
 
 import com.hientran.sohebox.service.SchedulerService;
 
-/**
- * @author hientran
- */
 @Component
 public class Scheduler {
 

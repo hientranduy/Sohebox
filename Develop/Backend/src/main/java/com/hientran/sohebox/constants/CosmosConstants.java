@@ -1,11 +1,5 @@
 package com.hientran.sohebox.constants;
 
-/**
- * 
- * Bittrex Constants
- *
- * @author hientran
- */
 public class CosmosConstants {
 
 	///////////

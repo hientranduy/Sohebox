@@ -7,9 +7,6 @@ import com.hientran.sohebox.constants.enums.YoutubeVideoTblEnum;
 import com.hientran.sohebox.entity.YoutubeVideoTbl;
 import com.hientran.sohebox.sco.YoutubeVideoSCO;
 
-/**
- * @author hientran
- */
 @Component
 @SuppressWarnings({ "unchecked", "rawtypes" })
 public class YoutubeVideoSpecs extends GenericSpecs {

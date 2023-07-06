@@ -7,9 +7,6 @@ import com.hientran.sohebox.constants.enums.AccountTblEnum;
 import com.hientran.sohebox.entity.AccountTbl;
 import com.hientran.sohebox.sco.AccountSCO;
 
-/**
- * @author hientran
- */
 @Component
 @SuppressWarnings({ "unchecked", "rawtypes" })
 public class AccountSpecs extends GenericSpecs {

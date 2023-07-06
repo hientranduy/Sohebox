@@ -17,12 +17,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
-/**
- * 
- * Application configure, including bean defination
- *
- * @author hientran
- */
 @Configuration
 @EnableScheduling
 public class BeanConfig {

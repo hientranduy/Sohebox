@@ -7,9 +7,6 @@ import com.hientran.sohebox.constants.enums.EnglishUserGradeTblEnum;
 import com.hientran.sohebox.entity.EnglishUserGradeTbl;
 import com.hientran.sohebox.sco.EnglishUserGradeSCO;
 
-/**
- * @author hientran
- */
 @Component
 @SuppressWarnings({ "unchecked", "rawtypes" })
 public class EnglishUserGradeSpecs extends GenericSpecs {

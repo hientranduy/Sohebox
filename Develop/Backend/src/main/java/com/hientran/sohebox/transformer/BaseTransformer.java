@@ -4,9 +4,6 @@ import org.springframework.data.domain.Page;
 
 import com.hientran.sohebox.vo.PageResultVO;
 
-/**
- * @author hientran
- */
 public class BaseTransformer {
 
 	/**

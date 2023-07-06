@@ -7,9 +7,6 @@ import com.hientran.sohebox.constants.enums.ConfigTblEnum;
 import com.hientran.sohebox.entity.ConfigTbl;
 import com.hientran.sohebox.sco.ConfigSCO;
 
-/**
- * @author hientran
- */
 @Component
 @SuppressWarnings({ "unchecked", "rawtypes" })
 public class ConfigSpecs extends GenericSpecs {

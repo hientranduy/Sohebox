@@ -16,9 +16,6 @@ import com.hientran.sohebox.sco.Sorter;
 import com.hientran.sohebox.sco.TypeSCO;
 import com.hientran.sohebox.specification.TypeSpecs;
 
-/**
- * @author hientran
- */
 public interface TypeRepository
 		extends JpaRepository<TypeTbl, Long>, JpaSpecificationExecutor<TypeTbl>, BaseRepository {
 

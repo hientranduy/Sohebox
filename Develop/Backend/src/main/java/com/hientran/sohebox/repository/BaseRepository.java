@@ -11,9 +11,6 @@ import org.springframework.util.CollectionUtils;
 import com.hientran.sohebox.constants.DBConstants;
 import com.hientran.sohebox.sco.Sorter;
 
-/**
- * @author hientran
- */
 public interface BaseRepository {
 	public default Pageable createPageable(Integer pageToGet, Integer maxRecordPerPage, List<Sorter> sorters,
 			Boolean reportFlag) {

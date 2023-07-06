@@ -10,9 +10,6 @@ import com.hientran.sohebox.entity.AccountTbl;
 import com.hientran.sohebox.sco.AccountSCO;
 import com.hientran.sohebox.specification.AccountSpecs;
 
-/**
- * @author hientran
- */
 public interface AccountRepository
 		extends JpaRepository<AccountTbl, Long>, JpaSpecificationExecutor<AccountTbl>, BaseRepository {
 

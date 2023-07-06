@@ -2,21 +2,15 @@ package com.hientran.sohebox.authentication;
 
 import java.io.IOException;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.filter.OncePerRequestFilter;
+
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.filter.OncePerRequestFilter;
-
-/**
- * 
- * Authentication when access by token
- *
- * @author hientran
- */
 public class JWTAuthenticationTokenFilter extends OncePerRequestFilter {
 
 	private JWTTokenService tokenService;

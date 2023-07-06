@@ -10,9 +10,6 @@ import com.hientran.sohebox.entity.UserActivityTbl;
 import com.hientran.sohebox.sco.UserActivitySCO;
 import com.hientran.sohebox.specification.UserActivitySpecs;
 
-/**
- * @author hientran
- */
 public interface UserActivityRepository
 		extends JpaRepository<UserActivityTbl, Long>, JpaSpecificationExecutor<UserActivityTbl>, BaseRepository {
 

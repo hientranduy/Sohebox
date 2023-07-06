@@ -24,9 +24,6 @@ import com.hientran.sohebox.vo.YoutubeVideoIdVO;
 
 import lombok.RequiredArgsConstructor;
 
-/**
- * @author hientran
- */
 @RestController
 @RequiredArgsConstructor
 public class YoutubeRestController extends BaseRestController {

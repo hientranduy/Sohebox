@@ -27,9 +27,6 @@ import com.hientran.sohebox.vo.VcbCurrencyVO;
 
 import lombok.RequiredArgsConstructor;
 
-/**
- * @author hientran
- */
 @Service
 @RequiredArgsConstructor
 public class DataExternalService extends BaseService {

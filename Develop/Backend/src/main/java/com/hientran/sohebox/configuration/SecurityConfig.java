@@ -22,19 +22,14 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import com.hientran.sohebox.authentication.JWTAuthenticationEntryPoint;
 import com.hientran.sohebox.authentication.JWTAuthenticationLoginFilter;
 import com.hientran.sohebox.authentication.JWTAuthenticationTokenFilter;
 import com.hientran.sohebox.authentication.JWTTokenService;
-import com.hientran.sohebox.authentication.JWTAuthenticationEntryPoint;
 import com.hientran.sohebox.authentication.UserDetailsServiceImpl;
 import com.hientran.sohebox.constants.ApiPublicConstants;
 import com.hientran.sohebox.constants.DBConstants;
 
-/**
- * Web access security config
- *
- * @author hientran
- */
 @Configuration
 @EnableWebSecurity
 @ConditionalOnProperty(name = "authentication.isActived", havingValue = "true", matchIfMissing = true)

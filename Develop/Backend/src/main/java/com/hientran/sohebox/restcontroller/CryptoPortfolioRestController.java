@@ -22,9 +22,6 @@ import com.hientran.sohebox.vo.CryptoPortfolioVO;
 
 import lombok.RequiredArgsConstructor;
 
-/**
- * @author hientran
- */
 @RestController
 @RequiredArgsConstructor
 public class CryptoPortfolioRestController extends BaseRestController {

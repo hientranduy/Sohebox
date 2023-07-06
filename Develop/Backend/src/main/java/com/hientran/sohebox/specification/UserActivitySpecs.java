@@ -7,9 +7,6 @@ import com.hientran.sohebox.constants.enums.UserActivityTblEnum;
 import com.hientran.sohebox.entity.UserActivityTbl;
 import com.hientran.sohebox.sco.UserActivitySCO;
 
-/**
- * @author hientran
- */
 @Component
 @SuppressWarnings({ "unchecked", "rawtypes" })
 public class UserActivitySpecs extends GenericSpecs {

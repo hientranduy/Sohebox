@@ -7,9 +7,6 @@ import com.hientran.sohebox.constants.enums.CryptoPortfolioHistoryTblEnum;
 import com.hientran.sohebox.entity.CryptoPortfolioHistoryTbl;
 import com.hientran.sohebox.sco.CryptoPortfolioHistorySCO;
 
-/**
- * @author hientran
- */
 @Component
 public class CryptoPortfolioHistorySpecs extends GenericSpecs<CryptoPortfolioHistoryTbl> {
 

@@ -1,11 +1,5 @@
 package com.hientran.sohebox.constants;
 
-/**
- * 
- * Constants that belong to report
- *
- * @author hientran
- */
 public class ReportConstants {
 
 	//////////////////////

@@ -12,9 +12,6 @@ import com.hientran.sohebox.service.TradingService;
 
 import lombok.RequiredArgsConstructor;
 
-/**
- * @author hientran
- */
 @RestController
 @RequiredArgsConstructor
 public class TradingRestController extends BaseRestController {

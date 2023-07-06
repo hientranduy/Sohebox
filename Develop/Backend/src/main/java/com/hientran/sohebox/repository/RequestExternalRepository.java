@@ -10,9 +10,6 @@ import com.hientran.sohebox.entity.RequestExternalTbl;
 import com.hientran.sohebox.sco.RequestExternalSCO;
 import com.hientran.sohebox.specification.RequestExternalSpecs;
 
-/**
- * @author hientran
- */
 public interface RequestExternalRepository
 		extends JpaRepository<RequestExternalTbl, Long>, JpaSpecificationExecutor<RequestExternalTbl>, BaseRepository {
 

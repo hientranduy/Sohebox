@@ -34,9 +34,6 @@ import com.hientran.sohebox.vo.UserVO;
 
 import lombok.RequiredArgsConstructor;
 
-/**
- * @author hientran
- */
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor

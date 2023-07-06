@@ -10,9 +10,6 @@ import com.hientran.sohebox.entity.TradingSymbolTbl;
 import com.hientran.sohebox.sco.TradingSymbolSCO;
 import com.hientran.sohebox.specification.TradingSymbolSpecs;
 
-/**
- * @author hientran
- */
 public interface TradingSymbolRepository
 		extends JpaRepository<TradingSymbolTbl, Long>, JpaSpecificationExecutor<TradingSymbolTbl>, BaseRepository {
 

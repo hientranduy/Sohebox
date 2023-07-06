@@ -16,9 +16,6 @@ import com.hientran.sohebox.specification.EnglishSpecs;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 
-/**
- * @author hientran
- */
 public interface EnglishRepository
 		extends JpaRepository<EnglishTbl, Long>, JpaSpecificationExecutor<EnglishTbl>, BaseRepository {
 

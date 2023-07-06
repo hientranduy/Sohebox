@@ -20,9 +20,6 @@ import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 
-/**
- * @author hientran
- */
 @Component
 @SuppressWarnings("serial")
 public class GenericSpecs<T> {

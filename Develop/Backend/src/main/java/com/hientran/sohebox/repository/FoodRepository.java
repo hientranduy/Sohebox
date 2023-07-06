@@ -10,9 +10,6 @@ import com.hientran.sohebox.entity.FoodTbl;
 import com.hientran.sohebox.sco.FoodSCO;
 import com.hientran.sohebox.specification.FoodSpecs;
 
-/**
- * @author hientran
- */
 public interface FoodRepository
 		extends JpaRepository<FoodTbl, Long>, JpaSpecificationExecutor<FoodTbl>, BaseRepository {
 

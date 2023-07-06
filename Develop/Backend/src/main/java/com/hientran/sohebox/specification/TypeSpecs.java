@@ -7,9 +7,6 @@ import com.hientran.sohebox.constants.enums.TypeTblEnum;
 import com.hientran.sohebox.entity.TypeTbl;
 import com.hientran.sohebox.sco.TypeSCO;
 
-/**
- * @author hientran
- */
 @Component
 @SuppressWarnings({ "unchecked", "rawtypes" })
 public class TypeSpecs extends GenericSpecs {

@@ -7,9 +7,6 @@ import com.hientran.sohebox.constants.enums.UserTblEnum;
 import com.hientran.sohebox.entity.UserTbl;
 import com.hientran.sohebox.sco.UserSCO;
 
-/**
- * @author hientran
- */
 @Component
 @SuppressWarnings({ "unchecked", "rawtypes" })
 public class UserSpecs extends GenericSpecs {
