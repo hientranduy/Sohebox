@@ -19,6 +19,7 @@ import com.hientran.sohebox.exception.APIResponse;
 import com.hientran.sohebox.repository.FoodTypeRepository;
 import com.hientran.sohebox.sco.FoodTypeSCO;
 import com.hientran.sohebox.sco.SearchTextVO;
+import com.hientran.sohebox.transformer.BaseTransformer;
 import com.hientran.sohebox.vo.FoodTypeVO;
 import com.hientran.sohebox.vo.PageResultVO;
 
@@ -26,7 +27,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class FoodTypeCache extends BaseCache {
+public class FoodTypeCache extends BaseTransformer {
 
 	private final FoodTypeRepository typeRepository;
 

@@ -18,6 +18,7 @@ import com.hientran.sohebox.entity.TypeTbl;
 import com.hientran.sohebox.exception.APIResponse;
 import com.hientran.sohebox.repository.TypeRepository;
 import com.hientran.sohebox.sco.TypeSCO;
+import com.hientran.sohebox.transformer.BaseTransformer;
 import com.hientran.sohebox.vo.PageResultVO;
 import com.hientran.sohebox.vo.TypeVO;
 
@@ -25,7 +26,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class TypeCache extends BaseCache {
+public class TypeCache extends BaseTransformer {
 
 	private final TypeRepository typeRepository;
 

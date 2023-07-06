@@ -19,6 +19,7 @@ import com.hientran.sohebox.exception.APIResponse;
 import com.hientran.sohebox.repository.MediaTypeRepository;
 import com.hientran.sohebox.sco.MediaTypeSCO;
 import com.hientran.sohebox.sco.SearchTextVO;
+import com.hientran.sohebox.transformer.BaseTransformer;
 import com.hientran.sohebox.vo.MediaTypeVO;
 import com.hientran.sohebox.vo.PageResultVO;
 
@@ -26,7 +27,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class MediaTypeCache extends BaseCache {
+public class MediaTypeCache extends BaseTransformer {
 
 	private final MediaTypeRepository typeRepository;
 

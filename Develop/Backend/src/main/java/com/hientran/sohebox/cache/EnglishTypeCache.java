@@ -19,6 +19,7 @@ import com.hientran.sohebox.exception.APIResponse;
 import com.hientran.sohebox.repository.EnglishTypeRepository;
 import com.hientran.sohebox.sco.EnglishTypeSCO;
 import com.hientran.sohebox.sco.SearchTextVO;
+import com.hientran.sohebox.transformer.BaseTransformer;
 import com.hientran.sohebox.vo.EnglishTypeVO;
 import com.hientran.sohebox.vo.PageResultVO;
 
@@ -26,7 +27,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class EnglishTypeCache extends BaseCache {
+public class EnglishTypeCache extends BaseTransformer {
 
 	private final EnglishTypeRepository typeRepository;
 

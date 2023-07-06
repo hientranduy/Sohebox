@@ -39,7 +39,6 @@ import com.hientran.sohebox.sco.SearchNumberVO;
 import com.hientran.sohebox.sco.SearchTextVO;
 import com.hientran.sohebox.utils.FileUtils;
 import com.hientran.sohebox.utils.MyDateUtils;
-import com.hientran.sohebox.vo.TypeVO;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;

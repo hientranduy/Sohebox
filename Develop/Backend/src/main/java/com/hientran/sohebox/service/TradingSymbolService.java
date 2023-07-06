@@ -3,7 +3,6 @@ package com.hientran.sohebox.service;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -22,7 +21,6 @@ import com.hientran.sohebox.exception.APIResponse;
 import com.hientran.sohebox.repository.TradingSymbolRepository;
 import com.hientran.sohebox.sco.SearchTextVO;
 import com.hientran.sohebox.sco.TradingSymbolSCO;
-import com.hientran.sohebox.specification.TradingSymbolSpecs;
 import com.hientran.sohebox.transformer.TradingSymbolTransformer;
 import com.hientran.sohebox.vo.PageResultVO;
 import com.hientran.sohebox.vo.TradingSymbolVO;
@@ -38,7 +36,6 @@ public class TradingSymbolService extends BaseService {
 	private final TradingSymbolTransformer tradingSymbolTransformer;
 	private final CountryService countryService;
 	private final TypeCache typeCache;
-	private final TradingSymbolSpecs tradingSymbolSpecs;
 
 	/**
 	 * 
@@ -166,33 +163,6 @@ public class TradingSymbolService extends BaseService {
 		List<TradingSymbolTbl> list = tradingSymbolRepository.findAll(sco).getContent();
 		if (CollectionUtils.isNotEmpty(list)) {
 			result = true;
-		}
-
-		// Return
-		return result;
-	}
-
-	/**
-	 * Get trading symbol
-	 * 
-	 * @param sco
-	 * @return
-	 */
-	public TradingSymbolTbl getTradingSymbol(String tradingSymbol) {
-		// Declare result
-		TradingSymbolTbl result = null;
-
-		// Get data
-		SearchTextVO symbolSearch = new SearchTextVO();
-		symbolSearch.setEq(tradingSymbol);
-		TradingSymbolSCO sco = new TradingSymbolSCO();
-		sco.setSymbol(symbolSearch);
-
-		Optional<TradingSymbolTbl> tbl = tradingSymbolRepository.findOne(tradingSymbolSpecs.buildSpecification(sco));
-
-		// Transformer
-		if (tbl.isPresent()) {
-			result = tbl.get();
 		}
 
 		// Return

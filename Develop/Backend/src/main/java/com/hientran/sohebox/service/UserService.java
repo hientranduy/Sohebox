@@ -31,7 +31,6 @@ import com.hientran.sohebox.sco.UserActivitySCO;
 import com.hientran.sohebox.sco.UserSCO;
 import com.hientran.sohebox.transformer.UserTransformer;
 import com.hientran.sohebox.utils.MyDateUtils;
-import com.hientran.sohebox.validation.UserValidation;
 import com.hientran.sohebox.vo.ChangePasswordVO;
 import com.hientran.sohebox.vo.ChangePrivateKeyVO;
 import com.hientran.sohebox.vo.PageResultVO;
@@ -52,7 +51,6 @@ public class UserService {
 
 	private final UserRepository userRepository;
 	private final UserTransformer userTransformer;
-	private final UserValidation validation;
 	private final RoleService roleService;
 	private final MdpService mdpService;
 	private final UserActivityService userActivityService;
@@ -70,7 +68,7 @@ public class UserService {
 		if (StringUtils.isBlank(vo.getUsername())) {
 			errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, UserTblEnum.username.name()));
 		}
-		if (validation.isInvalidPassword(vo.getPassword())) {
+		if (isInvalidPassword(vo.getPassword())) {
 			errors.add(ResponseCode.mapParam(ResponseCode.INVALID_FIELD, UserTblEnum.password.name()));
 		}
 		if (StringUtils.isBlank(vo.getFirstName())) {
@@ -166,7 +164,7 @@ public class UserService {
 
 		// Validate password
 		List<String> errors = new ArrayList<>();
-		if (validation.isInvalidPassword(vo.getNewPassword())) {
+		if (isInvalidPassword(vo.getNewPassword())) {
 			errors.add(ResponseCode.mapParam(ResponseCode.INVALID_FIELD, UserTblEnum.password.name()));
 		}
 		if (CollectionUtils.isNotEmpty(errors)) {
@@ -504,5 +502,17 @@ public class UserService {
 		if (userLogin != null) {
 			userActivityService.recordUserActivity(userLogin, activity);
 		}
+	}
+
+	public Boolean isInvalidPassword(String input) {
+		Boolean result = false;
+		if (StringUtils.isBlank(input)) {
+			result = true;
+		} else {
+			if (input.length() < 6) {
+				result = true;
+			}
+		}
+		return result;
 	}
 }

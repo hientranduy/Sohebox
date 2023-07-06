@@ -19,14 +19,6 @@ public class ObjectMapperUtil {
 
 	private final ObjectMapper objectMapper;
 
-	/**
-	 * 
-	 * Create JSON String from Object
-	 *
-	 * @param value
-	 * @return
-	 * @throws JsonProcessingException
-	 */
 	public String writeValueAsString(Object value) throws JsonProcessingException {
 		String jsonString = null;
 		if (null != value) {
@@ -35,17 +27,6 @@ public class ObjectMapperUtil {
 		return jsonString;
 	}
 
-	/**
-	 * 
-	 * Create defined object from JSON String and Class
-	 *
-	 * @param content
-	 * @param valueType
-	 * @return
-	 * @throws JsonParseException
-	 * @throws JsonMappingException
-	 * @throws IOException
-	 */
 	public <T> T readValue(String content, Class<T> valueType)
 			throws JsonParseException, JsonMappingException, IOException {
 		T result = null;
@@ -55,17 +36,6 @@ public class ObjectMapperUtil {
 		return result;
 	}
 
-	/**
-	 * 
-	 * Create defined object from object and Class
-	 *
-	 * @param object
-	 * @param valueType
-	 * @return
-	 * @throws JsonParseException
-	 * @throws JsonMappingException
-	 * @throws IOException
-	 */
 	public <T> T readValue(Object object, Class<T> valueType)
 			throws JsonParseException, JsonMappingException, IOException {
 		T result = null;
@@ -75,17 +45,6 @@ public class ObjectMapperUtil {
 		return result;
 	}
 
-	/**
-	 * 
-	 * Create defined object from JSON String and TypeReference
-	 *
-	 * @param content
-	 * @param valueTypeRef
-	 * @return
-	 * @throws JsonParseException
-	 * @throws JsonMappingException
-	 * @throws IOException
-	 */
 	@SuppressWarnings("unchecked")
 	public <T> T readValue(String content, TypeReference<?> valueTypeRef)
 			throws JsonParseException, JsonMappingException, IOException {
@@ -96,17 +55,6 @@ public class ObjectMapperUtil {
 		return result;
 	}
 
-	/**
-	 * 
-	 * Create defined object from object and TypeReference
-	 *
-	 * @param content
-	 * @param valueTypeRef
-	 * @return
-	 * @throws JsonParseException
-	 * @throws JsonMappingException
-	 * @throws IOException
-	 */
 	@SuppressWarnings("unchecked")
 	public <T> T readValue(Object object, TypeReference<?> valueTypeRef)
 			throws JsonParseException, JsonMappingException, IOException {

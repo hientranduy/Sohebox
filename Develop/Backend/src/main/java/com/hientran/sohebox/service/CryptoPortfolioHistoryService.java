@@ -22,7 +22,6 @@ import com.hientran.sohebox.sco.CryptoPortfolioHistorySCO;
 import com.hientran.sohebox.sco.SearchDateVO;
 import com.hientran.sohebox.sco.SearchNumberVO;
 import com.hientran.sohebox.transformer.CryptoPortfolioHistoryTransformer;
-import com.hientran.sohebox.utils.LogUtils;
 import com.hientran.sohebox.vo.CryptoPortfolioHistoryVO;
 import com.hientran.sohebox.vo.PageResultVO;
 
@@ -148,7 +147,7 @@ public class CryptoPortfolioHistoryService extends BaseService {
 			}
 
 		} catch (Exception e) {
-			LogUtils.writeLogError(e);
+			e.printStackTrace();
 		}
 
 	}
