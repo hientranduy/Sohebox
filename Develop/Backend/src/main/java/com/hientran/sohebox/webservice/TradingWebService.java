@@ -8,25 +8,19 @@ import org.apache.hc.client5.http.classic.methods.HttpGet;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
 import org.apache.hc.core5.net.URIBuilder;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.hientran.sohebox.constants.DBConstants;
 import com.hientran.sohebox.constants.TradingConstants;
 import com.hientran.sohebox.utils.FileUtils;
 
-/**
- * @author hientran
- */
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 public class TradingWebService extends BaseWebService {
 
-	private static final long serialVersionUID = 1L;
-
-	@Autowired
-	@Qualifier("httpClient")
-	private CloseableHttpClient httpClient;
+	private final CloseableHttpClient httpClient;
 
 	/**
 	 * 

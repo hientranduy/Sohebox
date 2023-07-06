@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.dozer.Mapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
@@ -14,17 +12,13 @@ import com.hientran.sohebox.entity.ConfigTbl;
 import com.hientran.sohebox.vo.ConfigVO;
 import com.hientran.sohebox.vo.PageResultVO;
 
-/**
- * @author hientran
- */
+import lombok.RequiredArgsConstructor;
+
 @Component
+@RequiredArgsConstructor
 public class ConfigTransformer extends BaseTransformer {
 
-	private static final long serialVersionUID = 1L;
-
-	@Autowired
-	@Qualifier("objectMapper")
-	private Mapper objectMapper;
+	private final Mapper objectMapper;
 
 	/**
 	 * Convert Page<ConfigTbl> to PageResultVO<ConfigVO>

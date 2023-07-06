@@ -1,10 +1,8 @@
 package com.hientran.sohebox.utils;
 
 import java.io.IOException;
-import java.io.Serializable;
 
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.core.JsonParseException;
@@ -13,19 +11,13 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-/**
- * 
- * Object Mapper Utility
- *
- * @author hientran
- */
+import lombok.RequiredArgsConstructor;
+
 @Component
-public class ObjectMapperUtil implements Serializable {
+@RequiredArgsConstructor
+public class ObjectMapperUtil {
 
-	private static final long serialVersionUID = 7691347384413092645L;
-
-	@Autowired
-	private ObjectMapper objectMapper;
+	private final ObjectMapper objectMapper;
 
 	/**
 	 * 

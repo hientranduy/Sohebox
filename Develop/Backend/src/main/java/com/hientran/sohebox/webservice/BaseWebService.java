@@ -1,7 +1,6 @@
 package com.hientran.sohebox.webservice;
 
 import java.io.IOException;
-import java.io.Serializable;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Date;
@@ -32,12 +31,7 @@ import com.hientran.sohebox.utils.MyDateUtils;
 import com.hientran.sohebox.vo.RequestExternalVO;
 import com.hientran.sohebox.vo.TypeVO;
 
-/**
- * @author hientran
- */
-public class BaseWebService implements Serializable {
-
-	private static final long serialVersionUID = 1L;
+public class BaseWebService {
 
 	@Value("${rest.template.timeout.read}")
 	private int timeOutRead;

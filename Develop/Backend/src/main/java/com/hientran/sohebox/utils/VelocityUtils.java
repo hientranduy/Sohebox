@@ -1,30 +1,22 @@
 package com.hientran.sohebox.utils;
 
-import java.io.Serializable;
 import java.io.StringWriter;
 import java.util.Map;
 
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.hientran.sohebox.constants.DBConstants;
 
-/**
- * 
- * Velocity Utility
- *
- * @author hientran
- */
+import lombok.RequiredArgsConstructor;
+
 @Component
-public class VelocityUtils implements Serializable {
+@RequiredArgsConstructor
+public class VelocityUtils {
 
-	private static final long serialVersionUID = 7691347384413092645L;
-
-	@Autowired
-	private VelocityEngine velocityEngine;
+	private final VelocityEngine velocityEngine;
 
 	/**
 	 * 

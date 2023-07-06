@@ -1,24 +1,18 @@
 package com.hientran.sohebox.transformer;
 
 import org.dozer.Mapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import com.hientran.sohebox.entity.RequestExternalTbl;
 import com.hientran.sohebox.vo.RequestExternalVO;
 
-/**
- * @author hientran
- */
+import lombok.RequiredArgsConstructor;
+
 @Component
+@RequiredArgsConstructor
 public class RequestExternalTransformer extends BaseTransformer {
 
-	private static final long serialVersionUID = 1L;
-
-	@Autowired
-	@Qualifier("objectMapper")
-	private Mapper objectMapper;
+	private final Mapper objectMapper;
 
 	/**
 	 * Convert vo to tbl

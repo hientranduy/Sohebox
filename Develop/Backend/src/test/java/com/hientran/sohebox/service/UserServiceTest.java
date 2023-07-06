@@ -1,21 +1,14 @@
 package com.hientran.sohebox.service;
 
-//import org.junit.Assert;
-//import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.hientran.sohebox.SoheboxApplicationTests;
 import com.hientran.sohebox.authentication.UserDetailsServiceImpl;
 
-/**
- * User service junit test
- *
- * @author hientran
- */
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 public class UserServiceTest extends SoheboxApplicationTests {
 
-	@Autowired
-	UserDetailsServiceImpl userService;
+	final UserDetailsServiceImpl userService;
 
 //    @Test
 	public void getByIdTest() {

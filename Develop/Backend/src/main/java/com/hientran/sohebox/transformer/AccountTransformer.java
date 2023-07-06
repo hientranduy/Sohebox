@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.dozer.Mapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
@@ -14,20 +12,14 @@ import com.hientran.sohebox.entity.AccountTbl;
 import com.hientran.sohebox.vo.AccountVO;
 import com.hientran.sohebox.vo.PageResultVO;
 
-/**
- * @author hientran
- */
+import lombok.RequiredArgsConstructor;
+
 @Component
+@RequiredArgsConstructor
 public class AccountTransformer extends BaseTransformer {
 
-	private static final long serialVersionUID = 1L;
-
-	@Autowired
-	@Qualifier("objectMapper")
-	private Mapper objectMapper;
-
-	@Autowired
-	private TypeTransformer typeTransformer;
+	private final Mapper objectMapper;
+	private final TypeTransformer typeTransformer;
 
 	/**
 	 * Convert Page<AccountTbl> to PageResultVO<AccountVO>
