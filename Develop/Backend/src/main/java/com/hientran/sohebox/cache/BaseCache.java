@@ -1,5 +1,9 @@
 package com.hientran.sohebox.cache;
 
+import org.springframework.data.domain.Page;
+
+import com.hientran.sohebox.vo.PageResultVO;
+
 import lombok.Data;
 
 @Data
@@ -14,5 +18,12 @@ public class BaseCache {
 
 	protected String formatTypeMapKey(String typeClass, String typeCode) {
 		return formatTypeClass(typeClass) + "-" + formatTypeCode(typeCode);
+	}
+	
+	protected void setPageHeader(Page<?> listData, PageResultVO<?> result) {
+		result.setTotalPage(listData.getTotalPages());
+		result.setTotalElement(listData.getTotalElements());
+		result.setCurrentPage(listData.getPageable().getPageNumber());
+		result.setPageSize(listData.getPageable().getPageSize());
 	}
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.cache.CacheManager;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -17,7 +18,6 @@ import com.hientran.sohebox.entity.ConfigTbl;
 import com.hientran.sohebox.exception.APIResponse;
 import com.hientran.sohebox.repository.ConfigRepository;
 import com.hientran.sohebox.sco.ConfigSCO;
-import com.hientran.sohebox.transformer.ConfigTransformer;
 import com.hientran.sohebox.vo.ConfigVO;
 import com.hientran.sohebox.vo.PageResultVO;
 
@@ -25,10 +25,9 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class ConfigCache {
+public class ConfigCache extends BaseCache{
 
 	private final ConfigRepository configRepository;
-	private final ConfigTransformer configTransformer;
 
 	private final CacheManager cacheManager;
 	private String cacheName = "configCache";
@@ -85,7 +84,8 @@ public class ConfigCache {
 		}
 
 		// Create
-		ConfigTbl tbl = configTransformer.convertToConfigTbl(vo);
+		ConfigTbl tbl = new ConfigTbl();
+		BeanUtils.copyProperties(vo, tbl);
 		tbl.setConfigKey(formatConfigKey(tbl.getConfigKey()));
 		tbl = configRepository.save(tbl);
 
@@ -148,7 +148,9 @@ public class ConfigCache {
 		Page<ConfigTbl> page = configRepository.findAll(sco);
 
 		// Transformer
-		PageResultVO<ConfigVO> data = configTransformer.convertToPageReturn(page);
+		PageResultVO<ConfigTbl> data = new PageResultVO<ConfigTbl>();
+		data.setElements(page.getContent());
+		setPageHeader(page, data);
 
 		// Set data return
 		result.setData(data);

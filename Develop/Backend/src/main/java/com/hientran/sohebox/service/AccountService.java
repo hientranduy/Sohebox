@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -26,7 +27,6 @@ import com.hientran.sohebox.sco.SearchNumberVO;
 import com.hientran.sohebox.sco.SearchTextVO;
 import com.hientran.sohebox.sco.TypeSCO;
 import com.hientran.sohebox.transformer.AccountTransformer;
-import com.hientran.sohebox.transformer.TypeTransformer;
 import com.hientran.sohebox.vo.AccountVO;
 import com.hientran.sohebox.vo.PageResultVO;
 import com.hientran.sohebox.vo.TypeVO;
@@ -41,7 +41,6 @@ public class AccountService extends BaseService {
 
 	private final AccountRepository accountRepository;
 	private final AccountTransformer accountTransformer;
-	private final TypeTransformer typeTransformer;
 	private final MdpService mdpService;
 	private final UserService userService;
 	private final UserDetailsServiceImpl userDetailsServiceImpl;
@@ -99,7 +98,10 @@ public class AccountService extends BaseService {
 			// Transform
 			AccountTbl tbl = new AccountTbl();
 			tbl.setUser(loggedUser);
-			tbl.setType(typeTransformer.convertToTbl(vo.getAccountType()));
+
+			TypeTbl accountType = new TypeTbl();
+			BeanUtils.copyProperties(vo.getAccountType(), accountType);
+			tbl.setType(accountType);
 			tbl.setAccountName(vo.getAccountName());
 			if (StringUtils.isNotBlank(vo.getMdp())) {
 				tbl.setMdp(mdpService.getMdp(vo.getMdp()));
@@ -169,7 +171,9 @@ public class AccountService extends BaseService {
 		// Update
 		if (result.getStatus() == null) {
 			if (!StringUtils.equals(vo.getAccountType().getTypeCode(), updateAccount.getType().getTypeCode())) {
-				updateAccount.setType(typeTransformer.convertToTbl(vo.getAccountType()));
+				TypeTbl accountType = new TypeTbl();
+				BeanUtils.copyProperties(vo.getAccountType(), accountType);
+				updateAccount.setType(accountType);
 			}
 			if (!StringUtils.equals(vo.getAccountName(), updateAccount.getAccountName())) {
 				updateAccount.setAccountName(vo.getAccountName());

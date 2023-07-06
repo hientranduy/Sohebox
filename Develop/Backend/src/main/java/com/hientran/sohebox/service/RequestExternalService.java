@@ -14,9 +14,7 @@ import com.hientran.sohebox.entity.RequestExternalTbl;
 import com.hientran.sohebox.repository.RequestExternalRepository;
 import com.hientran.sohebox.sco.RequestExternalSCO;
 import com.hientran.sohebox.transformer.RequestExternalTransformer;
-import com.hientran.sohebox.transformer.TypeTransformer;
 import com.hientran.sohebox.vo.RequestExternalVO;
-import com.hientran.sohebox.vo.TypeVO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -28,7 +26,6 @@ public class RequestExternalService extends BaseService {
 	private final RequestExternalRepository requestExternalRepository;
 	private final RequestExternalTransformer requestExternalTransformer;
 	private final TypeCache typeCache;
-	private final TypeTransformer typeTransformer;
 
 	/**
 	 * 
@@ -44,9 +41,8 @@ public class RequestExternalService extends BaseService {
 		tbl.setCreatedDate(new Date());
 		tbl.setNote(vo.getNote());
 		tbl.setRequestUrl(vo.getRequestUrl());
-		TypeVO requestType = typeCache.getType(DBConstants.TYPE_CLASS_REQUEST_EXTERNAL_TYPE,
-				vo.getRequestType().getTypeCode());
-		tbl.setRequestType(typeTransformer.convertToTbl(requestType));
+		tbl.setRequestType(
+				typeCache.getType(DBConstants.TYPE_CLASS_REQUEST_EXTERNAL_TYPE, vo.getRequestType().getTypeCode()));
 
 		requestExternalRepository.save(tbl);
 	}

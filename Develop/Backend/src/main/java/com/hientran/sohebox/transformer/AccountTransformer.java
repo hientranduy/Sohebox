@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.dozer.Mapper;
+import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
@@ -11,6 +12,7 @@ import org.springframework.util.CollectionUtils;
 import com.hientran.sohebox.entity.AccountTbl;
 import com.hientran.sohebox.vo.AccountVO;
 import com.hientran.sohebox.vo.PageResultVO;
+import com.hientran.sohebox.vo.TypeVO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -19,7 +21,6 @@ import lombok.RequiredArgsConstructor;
 public class AccountTransformer extends BaseTransformer {
 
 	private final Mapper objectMapper;
-	private final TypeTransformer typeTransformer;
 
 	/**
 	 * Convert Page<AccountTbl> to PageResultVO<AccountVO>
@@ -63,7 +64,9 @@ public class AccountTransformer extends BaseTransformer {
 		objectMapper.map(tbl, result);
 
 		// Account Type
-		result.setAccountType(typeTransformer.convertToVO(tbl.getType()));
+		TypeVO accountType = new TypeVO();
+		BeanUtils.copyProperties(tbl.getType(), accountType);
+		result.setAccountType(accountType);
 
 		// Set mdp
 		if (tbl.getMdp() != null) {

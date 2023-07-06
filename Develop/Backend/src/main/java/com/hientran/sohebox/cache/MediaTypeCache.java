@@ -89,11 +89,8 @@ public class MediaTypeCache extends BaseCache {
 
 		// Transformer
 		PageResultVO<MediaTypeTbl> data = new PageResultVO<MediaTypeTbl>();
-		data.setTotalPage(page.getTotalPages());
-		data.setTotalElement(page.getTotalElements());
-		data.setCurrentPage(page.getPageable().getPageNumber());
-		data.setPageSize(page.getPageable().getPageSize());
 		data.setElements(page.getContent());
+		setPageHeader(page, data);
 
 		// Set data return
 		result.setData(data);

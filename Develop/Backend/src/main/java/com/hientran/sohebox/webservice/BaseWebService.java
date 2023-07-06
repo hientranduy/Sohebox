@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Value;
 import com.hientran.sohebox.cache.TypeCache;
 import com.hientran.sohebox.constants.DBConstants;
 import com.hientran.sohebox.entity.RequestExternalTbl;
+import com.hientran.sohebox.entity.TypeTbl;
 import com.hientran.sohebox.exception.WebServiceException;
 import com.hientran.sohebox.sco.RequestExternalSCO;
 import com.hientran.sohebox.sco.SearchDateVO;
@@ -176,7 +177,7 @@ public class BaseWebService {
 		SearchTextVO requestUrl = new SearchTextVO();
 		requestUrl.setEq(url);
 
-		TypeVO requestType = typeCache.getType(DBConstants.TYPE_CLASS_REQUEST_EXTERNAL_TYPE,
+		TypeTbl requestType = typeCache.getType(DBConstants.TYPE_CLASS_REQUEST_EXTERNAL_TYPE,
 				DBConstants.REQUEST_EXTERNAL_TYPE_DATA);
 		SearchNumberVO requestTypeId = new SearchNumberVO();
 		requestTypeId.setEq(requestType.getId().doubleValue());

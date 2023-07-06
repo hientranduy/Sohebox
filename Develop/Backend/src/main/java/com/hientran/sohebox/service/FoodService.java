@@ -26,9 +26,7 @@ import com.hientran.sohebox.repository.FoodRepository;
 import com.hientran.sohebox.sco.FoodSCO;
 import com.hientran.sohebox.sco.SearchTextVO;
 import com.hientran.sohebox.transformer.FoodTransformer;
-import com.hientran.sohebox.transformer.FoodTypeTransformer;
 import com.hientran.sohebox.utils.FileUtils;
-import com.hientran.sohebox.vo.FoodTypeVO;
 import com.hientran.sohebox.vo.FoodVO;
 import com.hientran.sohebox.vo.PageResultVO;
 
@@ -41,7 +39,6 @@ public class FoodService extends BaseService {
 	private final FoodRepository foodRepository;
 	private final FoodTransformer foodTransformer;
 	private final FoodTypeCache foodTypeCache;
-	private final FoodTypeTransformer foodTypeTransformer;
 
 	@Value("${web.asset.food.image.path}")
 	private String WEB_FOOD_IMAGE_PATH;
@@ -127,13 +124,11 @@ public class FoodService extends BaseService {
 			tbl.setImageName(imageName);
 
 			// Type
-			FoodTypeVO type = foodTypeCache.getType(DBConstants.TYPE_CLASS_FOOD_TYPE, vo.getType().getTypeCode());
-			tbl.setType(foodTypeTransformer.convertToTbl(type));
+			tbl.setType(foodTypeCache.getType(DBConstants.TYPE_CLASS_FOOD_TYPE, vo.getType().getTypeCode()));
 
 			// Category
-			FoodTypeVO category = foodTypeCache.getType(DBConstants.TYPE_CLASS_FOOD_CATEGORY,
-					vo.getCategory().getTypeCode());
-			tbl.setCategory(foodTypeTransformer.convertToTbl(category));
+			tbl.setCategory(
+					foodTypeCache.getType(DBConstants.TYPE_CLASS_FOOD_CATEGORY, vo.getCategory().getTypeCode()));
 
 			// Create
 			tbl = foodRepository.save(tbl);
@@ -225,15 +220,13 @@ public class FoodService extends BaseService {
 
 			// Type
 			if (vo.getType() != null) {
-				FoodTypeVO type = foodTypeCache.getType(DBConstants.TYPE_CLASS_FOOD_TYPE, vo.getType().getTypeCode());
-				updateTbl.setType(foodTypeTransformer.convertToTbl(type));
+				updateTbl.setType(foodTypeCache.getType(DBConstants.TYPE_CLASS_FOOD_TYPE, vo.getType().getTypeCode()));
 			}
 
 			// Category
 			if (vo.getCategory() != null) {
-				FoodTypeVO category = foodTypeCache.getType(DBConstants.TYPE_CLASS_FOOD_CATEGORY,
-						vo.getCategory().getTypeCode());
-				updateTbl.setCategory(foodTypeTransformer.convertToTbl(category));
+				updateTbl.setCategory(
+						foodTypeCache.getType(DBConstants.TYPE_CLASS_FOOD_CATEGORY, vo.getCategory().getTypeCode()));
 			}
 
 			// Is fast food

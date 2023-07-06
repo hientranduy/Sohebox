@@ -17,9 +17,7 @@ import com.hientran.sohebox.entity.UserTbl;
 import com.hientran.sohebox.exception.APIResponse;
 import com.hientran.sohebox.repository.UserActivityRepository;
 import com.hientran.sohebox.repository.UserRepository;
-import com.hientran.sohebox.transformer.TypeTransformer;
 import com.hientran.sohebox.transformer.UserActivityTransformer;
-import com.hientran.sohebox.vo.TypeVO;
 import com.hientran.sohebox.vo.UserActivityVO;
 import com.hientran.sohebox.vo.UserVO;
 
@@ -34,7 +32,6 @@ public class UserActivityService {
 	private final UserActivityTransformer userActivityTransformer;
 	private final UserRepository userRepository;
 	private final TypeCache typeCache;
-	private final TypeTransformer typeTransformer;
 
 	/**
 	 * 
@@ -81,8 +78,7 @@ public class UserActivityService {
 			}
 
 			// Set activity
-			TypeVO typeVO = typeCache.getType(vo.getActivity().getTypeClass(), vo.getActivity().getTypeCode());
-			tbl.setActivity(typeTransformer.convertToTbl(typeVO));
+			tbl.setActivity(typeCache.getType(vo.getActivity().getTypeClass(), vo.getActivity().getTypeCode()));
 
 			// Create User
 			tbl = userActivityRepository.save(tbl);
@@ -108,8 +104,7 @@ public class UserActivityService {
 		tbl.setUser(userTbl);
 
 		// Set activity
-		TypeVO typeVO = typeCache.getType(DBConstants.TYPE_CLASS_USER_ACTIVITY, activity);
-		tbl.setActivity(typeTransformer.convertToTbl(typeVO));
+		tbl.setActivity(typeCache.getType(DBConstants.TYPE_CLASS_USER_ACTIVITY, activity));
 
 		// Create User
 		tbl = userActivityRepository.save(tbl);
@@ -128,8 +123,7 @@ public class UserActivityService {
 		tbl.setUser(userRepository.findById(userVO.getId()).get());
 
 		// Set activity
-		TypeVO typeVO = typeCache.getType(DBConstants.TYPE_CLASS_USER_ACTIVITY, activity);
-		tbl.setActivity(typeTransformer.convertToTbl(typeVO));
+		tbl.setActivity(typeCache.getType(DBConstants.TYPE_CLASS_USER_ACTIVITY, activity));
 
 		// Create User
 		tbl = userActivityRepository.save(tbl);

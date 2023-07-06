@@ -24,10 +24,8 @@ import com.hientran.sohebox.sco.SearchTextVO;
 import com.hientran.sohebox.sco.TradingSymbolSCO;
 import com.hientran.sohebox.specification.TradingSymbolSpecs;
 import com.hientran.sohebox.transformer.TradingSymbolTransformer;
-import com.hientran.sohebox.transformer.TypeTransformer;
 import com.hientran.sohebox.vo.PageResultVO;
 import com.hientran.sohebox.vo.TradingSymbolVO;
-import com.hientran.sohebox.vo.TypeVO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -40,7 +38,6 @@ public class TradingSymbolService extends BaseService {
 	private final TradingSymbolTransformer tradingSymbolTransformer;
 	private final CountryService countryService;
 	private final TypeCache typeCache;
-	private final TypeTransformer typeTransformer;
 	private final TradingSymbolSpecs tradingSymbolSpecs;
 
 	/**
@@ -102,9 +99,8 @@ public class TradingSymbolService extends BaseService {
 			TradingSymbolTbl tbl = tradingSymbolTransformer.convertToTbl(vo);
 
 			// Set symbol type
-			TypeVO symbolType = typeCache.getType(DBConstants.TYPE_CLASS_TRADING_SYMBOL_TYPE,
-					vo.getSymbolType().getTypeCode());
-			tbl.setSymbolType(typeTransformer.convertToTbl(symbolType));
+			tbl.setSymbolType(
+					typeCache.getType(DBConstants.TYPE_CLASS_TRADING_SYMBOL_TYPE, vo.getSymbolType().getTypeCode()));
 
 			// Set country
 			CountryTbl country = countryService.get(vo.getCountry().getName());

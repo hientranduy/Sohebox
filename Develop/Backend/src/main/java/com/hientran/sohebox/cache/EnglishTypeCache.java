@@ -19,7 +19,6 @@ import com.hientran.sohebox.exception.APIResponse;
 import com.hientran.sohebox.repository.EnglishTypeRepository;
 import com.hientran.sohebox.sco.EnglishTypeSCO;
 import com.hientran.sohebox.sco.SearchTextVO;
-import com.hientran.sohebox.transformer.EnglishTypeTransformer;
 import com.hientran.sohebox.vo.EnglishTypeVO;
 import com.hientran.sohebox.vo.PageResultVO;
 
@@ -30,7 +29,6 @@ import lombok.RequiredArgsConstructor;
 public class EnglishTypeCache extends BaseCache {
 
 	private final EnglishTypeRepository typeRepository;
-	private final EnglishTypeTransformer typeTransformer;
 
 	private final CacheManager cacheManager;
 	private String cacheName = "englishTypeCache";
@@ -38,12 +36,12 @@ public class EnglishTypeCache extends BaseCache {
 	/**
 	 * Get
 	 */
-	public EnglishTypeVO getType(String typeClass, String typeCode) {
+	public EnglishTypeTbl getType(String typeClass, String typeCode) {
 		// Declare result
-		EnglishTypeVO result = null;
+		EnglishTypeTbl result = null;
 
 		// Retrieve type cache
-		result = cacheManager.getCache(cacheName).get(formatTypeMapKey(typeClass, typeCode), EnglishTypeVO.class);
+		result = cacheManager.getCache(cacheName).get(formatTypeMapKey(typeClass, typeCode), EnglishTypeTbl.class);
 		if (result != null) {
 			return result;
 		}
@@ -52,24 +50,23 @@ public class EnglishTypeCache extends BaseCache {
 		EnglishTypeTbl tbl = typeRepository.findFirstByTypeClassAndTypeCode(formatTypeClass(typeClass),
 				formatTypeCode(typeCode));
 		if (tbl != null) {
-			result = typeTransformer.convertToVO(tbl);
+			result = tbl;
 		} else {
 
 			// Create new type
-			EnglishTypeVO vo = new EnglishTypeVO();
-			vo.setTypeClass(formatTypeClass(typeClass));
-			vo.setTypeCode(formatTypeCode(typeCode));
-			vo.setTypeName(typeCode.substring(0, 1).toUpperCase() + typeCode.substring(1).toLowerCase());
-			vo.setDescription(typeCode);
+			EnglishTypeTbl tblNew = new EnglishTypeTbl();
+			tblNew.setTypeClass(formatTypeClass(typeClass));
+			tblNew.setTypeCode(formatTypeCode(typeCode));
+			tblNew.setTypeName(typeCode.substring(0, 1).toUpperCase() + typeCode.substring(1).toLowerCase());
+			tblNew.setDescription(typeCode);
 
-			if (StringUtils.isBlank(vo.getIconUrl())) {
-				if (StringUtils.equals(vo.getTypeClass(), DBConstants.TYPE_CLASS_ACCOUNT)) {
-					vo.setIconUrl(DBConstants.ACCOUNT_TYPE_DEFAUT_ICON);
+			if (StringUtils.isBlank(tblNew.getIconUrl())) {
+				if (StringUtils.equals(tblNew.getTypeClass(), DBConstants.TYPE_CLASS_ACCOUNT)) {
+					tblNew.setIconUrl(DBConstants.ACCOUNT_TYPE_DEFAUT_ICON);
 				}
 			}
 
-			EnglishTypeTbl newType = typeRepository.save(typeTransformer.convertToTbl(vo));
-			result = typeTransformer.convertToVO(newType);
+			result = typeRepository.save(tblNew);
 		}
 
 		// Add to cache
@@ -91,7 +88,10 @@ public class EnglishTypeCache extends BaseCache {
 		Page<EnglishTypeTbl> page = typeRepository.findAll(sco);
 
 		// Transformer
-		PageResultVO<EnglishTypeVO> data = typeTransformer.convertToPageReturn(page);
+		// Transformer
+		PageResultVO<EnglishTypeTbl> data = new PageResultVO<EnglishTypeTbl>();
+		data.setElements(page.getContent());
+		setPageHeader(page, data);
 
 		// Set data return
 		result.setData(data);
@@ -156,8 +156,7 @@ public class EnglishTypeCache extends BaseCache {
 		result.setData(typeRepository.save(tbl).getId());
 
 		// Update cache
-		cacheManager.getCache(cacheName).put(formatTypeMapKey(tbl.getTypeClass(), tbl.getTypeCode()),
-				typeTransformer.convertToVO(tbl));
+		cacheManager.getCache(cacheName).put(formatTypeMapKey(tbl.getTypeClass(), tbl.getTypeCode()), tbl);
 
 		// Return
 		return result;

@@ -23,6 +23,7 @@ import com.hientran.sohebox.constants.DataExternalConstants;
 import com.hientran.sohebox.constants.ResponseCode;
 import com.hientran.sohebox.constants.TradingConstants;
 import com.hientran.sohebox.entity.TradingSymbolTbl;
+import com.hientran.sohebox.entity.TypeTbl;
 import com.hientran.sohebox.exception.APIResponse;
 import com.hientran.sohebox.repository.TradingSymbolRepository;
 import com.hientran.sohebox.sco.SearchNumberVO;
@@ -35,7 +36,6 @@ import com.hientran.sohebox.vo.TradingHistoryItemVO;
 import com.hientran.sohebox.vo.TradingOilPriceSendVO;
 import com.hientran.sohebox.vo.TradingStockPriceSendVO;
 import com.hientran.sohebox.vo.TradingSymbolItemVO;
-import com.hientran.sohebox.vo.TypeVO;
 import com.hientran.sohebox.webservice.TradingWebService;
 
 import lombok.RequiredArgsConstructor;
@@ -198,22 +198,22 @@ public class TradingService extends BaseService {
 
 		try {
 			// Get data stock America
-			TypeVO zoneAmerica = typeCache.getType(DBConstants.TYPE_CLASS_TRADING_SYMBOL_ZONE,
+			TypeTbl zoneAmerica = typeCache.getType(DBConstants.TYPE_CLASS_TRADING_SYMBOL_ZONE,
 					DBConstants.TYPE_CODE_TRADING_SYMBOL_ZONE_AMERICA);
 			List<TradingSymbolItemVO> resultAmerica = searchStockPriceByZone(zoneAmerica);
 
 			// Get data stock EU
-			TypeVO zoneEU = typeCache.getType(DBConstants.TYPE_CLASS_TRADING_SYMBOL_ZONE,
+			TypeTbl zoneEU = typeCache.getType(DBConstants.TYPE_CLASS_TRADING_SYMBOL_ZONE,
 					DBConstants.TYPE_CODE_TRADING_SYMBOL_ZONE_EU);
 			List<TradingSymbolItemVO> resultEU = searchStockPriceByZone(zoneEU);
 
 			// Get data stock Asia
-			TypeVO zoneAsia = typeCache.getType(DBConstants.TYPE_CLASS_TRADING_SYMBOL_ZONE,
+			TypeTbl zoneAsia = typeCache.getType(DBConstants.TYPE_CLASS_TRADING_SYMBOL_ZONE,
 					DBConstants.TYPE_CODE_TRADING_SYMBOL_ZONE_ASIA);
 			List<TradingSymbolItemVO> resultAsia = searchStockPriceByZone(zoneAsia);
 
 			// Get data stock Africa
-			TypeVO zoneAfrica = typeCache.getType(DBConstants.TYPE_CLASS_TRADING_SYMBOL_ZONE,
+			TypeTbl zoneAfrica = typeCache.getType(DBConstants.TYPE_CLASS_TRADING_SYMBOL_ZONE,
 					DBConstants.TYPE_CODE_TRADING_SYMBOL_ZONE_AFRICA);
 			List<TradingSymbolItemVO> resultAfrica = searchStockPriceByZone(zoneAfrica);
 
@@ -250,12 +250,12 @@ public class TradingService extends BaseService {
 	 * @return
 	 * @throws Exception
 	 */
-	private List<TradingSymbolItemVO> searchStockPriceByZone(TypeVO zone) throws Exception {
+	private List<TradingSymbolItemVO> searchStockPriceByZone(TypeTbl zone) throws Exception {
 		// Declare result
 		List<TradingSymbolItemVO> result = null;
 
 		// Get all symbol by zone
-		TypeVO stockType = typeCache.getType(DBConstants.TYPE_CLASS_TRADING_SYMBOL_TYPE,
+		TypeTbl stockType = typeCache.getType(DBConstants.TYPE_CLASS_TRADING_SYMBOL_TYPE,
 				DBConstants.TYPE_CODE_TRADING_SYMBOL_STOCK);
 		SearchNumberVO symbolTypeSearch = new SearchNumberVO();
 		symbolTypeSearch.setEq(stockType.getId().doubleValue());

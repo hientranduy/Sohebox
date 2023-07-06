@@ -18,7 +18,6 @@ import com.hientran.sohebox.entity.TypeTbl;
 import com.hientran.sohebox.exception.APIResponse;
 import com.hientran.sohebox.repository.TypeRepository;
 import com.hientran.sohebox.sco.TypeSCO;
-import com.hientran.sohebox.transformer.TypeTransformer;
 import com.hientran.sohebox.vo.PageResultVO;
 import com.hientran.sohebox.vo.TypeVO;
 
@@ -29,7 +28,6 @@ import lombok.RequiredArgsConstructor;
 public class TypeCache extends BaseCache {
 
 	private final TypeRepository typeRepository;
-	private final TypeTransformer typeTransformer;
 
 	private final CacheManager cacheManager;
 	private String cacheName = "typeCache";
@@ -37,12 +35,12 @@ public class TypeCache extends BaseCache {
 	/**
 	 * Get
 	 */
-	public TypeVO getType(String typeClass, String typeCode) {
+	public TypeTbl getType(String typeClass, String typeCode) {
 		// Declare result
-		TypeVO result = null;
+		TypeTbl result = null;
 
 		// Retrieve type cache
-		result = cacheManager.getCache(cacheName).get(formatTypeMapKey(typeClass, typeCode), TypeVO.class);
+		result = cacheManager.getCache(cacheName).get(formatTypeMapKey(typeClass, typeCode), TypeTbl.class);
 		if (result != null) {
 			return result;
 		}
@@ -51,21 +49,20 @@ public class TypeCache extends BaseCache {
 		TypeTbl tbl = typeRepository.findFirstByTypeClassAndTypeCode(formatTypeClass(typeClass),
 				formatTypeCode(typeCode));
 		if (tbl != null) {
-			result = typeTransformer.convertToVO(tbl);
+			result = tbl;
 		} else {
 			// Create new type
-			TypeVO vo = new TypeVO();
-			vo.setTypeClass(formatTypeClass(typeClass));
-			vo.setTypeCode(formatTypeCode(typeCode));
-			vo.setTypeName(typeCode.substring(0, 1).toUpperCase() + typeCode.substring(1).toLowerCase());
-			vo.setDescription(typeCode);
-			if (StringUtils.isBlank(vo.getIconUrl())) {
-				if (StringUtils.equals(vo.getTypeClass(), DBConstants.TYPE_CLASS_ACCOUNT)) {
-					vo.setIconUrl(DBConstants.ACCOUNT_TYPE_DEFAUT_ICON);
+			TypeTbl tblNew = new TypeTbl();
+			tblNew.setTypeClass(formatTypeClass(typeClass));
+			tblNew.setTypeCode(formatTypeCode(typeCode));
+			tblNew.setTypeName(typeCode.substring(0, 1).toUpperCase() + typeCode.substring(1).toLowerCase());
+			tblNew.setDescription(typeCode);
+			if (StringUtils.isBlank(tblNew.getIconUrl())) {
+				if (StringUtils.equals(tblNew.getTypeClass(), DBConstants.TYPE_CLASS_ACCOUNT)) {
+					tblNew.setIconUrl(DBConstants.ACCOUNT_TYPE_DEFAUT_ICON);
 				}
 			}
-			TypeTbl newType = typeRepository.save(typeTransformer.convertToTbl(vo));
-			result = typeTransformer.convertToVO(newType);
+			result = typeRepository.save(tblNew);
 		}
 
 		// Add to cache
@@ -170,8 +167,7 @@ public class TypeCache extends BaseCache {
 		result.setData(typeRepository.save(tbl).getId());
 
 		// Update cache
-		cacheManager.getCache(cacheName).put(formatTypeMapKey(tbl.getTypeClass(), tbl.getTypeCode()),
-				typeTransformer.convertToVO(tbl));
+		cacheManager.getCache(cacheName).put(formatTypeMapKey(tbl.getTypeClass(), tbl.getTypeCode()), tbl);
 
 		// Return
 		return result;
@@ -189,7 +185,9 @@ public class TypeCache extends BaseCache {
 		Page<TypeTbl> page = typeRepository.findAll(sco);
 
 		// Transformer
-		PageResultVO<TypeVO> data = typeTransformer.convertToPageReturn(page);
+		PageResultVO<TypeTbl> data = new PageResultVO<TypeTbl>();
+		data.setElements(page.getContent());
+		setPageHeader(page, data);
 
 		// Set data return
 		result.setData(data);

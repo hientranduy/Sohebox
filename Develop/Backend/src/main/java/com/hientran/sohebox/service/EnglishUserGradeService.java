@@ -13,15 +13,14 @@ import com.hientran.sohebox.cache.EnglishTypeCache;
 import com.hientran.sohebox.constants.DBConstants;
 import com.hientran.sohebox.constants.ResponseCode;
 import com.hientran.sohebox.constants.enums.EnglishUserGradeTblEnum;
+import com.hientran.sohebox.entity.EnglishTypeTbl;
 import com.hientran.sohebox.entity.EnglishUserGradeTbl;
 import com.hientran.sohebox.entity.UserTbl;
 import com.hientran.sohebox.exception.APIResponse;
 import com.hientran.sohebox.repository.EnglishUserGradeRepository;
 import com.hientran.sohebox.sco.EnglishUserGradeSCO;
 import com.hientran.sohebox.sco.SearchNumberVO;
-import com.hientran.sohebox.transformer.EnglishTypeTransformer;
 import com.hientran.sohebox.transformer.EnglishUserGradeTransformer;
-import com.hientran.sohebox.vo.EnglishTypeVO;
 import com.hientran.sohebox.vo.EnglishUserGradeVO;
 import com.hientran.sohebox.vo.PageResultVO;
 
@@ -34,7 +33,6 @@ public class EnglishUserGradeService extends BaseService {
 	private final EnglishUserGradeRepository EnglishUserGradeRepository;
 	private final EnglishUserGradeTransformer EnglishUserGradeTransformer;
 	private final UserService userService;
-	private final EnglishTypeTransformer englishTypeTransformer;
 	private final EnglishTypeCache englishTypeCache;
 
 	/**
@@ -92,22 +90,22 @@ public class EnglishUserGradeService extends BaseService {
 			EnglishUserGradeTbl tbl = getByKey(userTbl.getId());
 
 			// Get grade
-			EnglishTypeVO vusGrade = englishTypeCache.getType(DBConstants.TYPE_CLASS_ENGLISH_VUS_GRADE,
+			EnglishTypeTbl vusGrade = englishTypeCache.getType(DBConstants.TYPE_CLASS_ENGLISH_VUS_GRADE,
 					vo.getVusGrade().getTypeCode());
 
 			// Get learn day
-			EnglishTypeVO learnDay = englishTypeCache.getType(DBConstants.TYPE_CLASS_ENGLISH_LEARN_DAY,
+			EnglishTypeTbl learnDay = englishTypeCache.getType(DBConstants.TYPE_CLASS_ENGLISH_LEARN_DAY,
 					vo.getLearnDay().getTypeCode());
 
 			if (tbl == null) {
 				tbl = new EnglishUserGradeTbl();
 				tbl.setUser(userTbl);
-				tbl.setVusGrade(englishTypeTransformer.convertToTbl(vusGrade));
-				tbl.setLearnDay(englishTypeTransformer.convertToTbl(learnDay));
+				tbl.setVusGrade(vusGrade);
+				tbl.setLearnDay(learnDay);
 				tbl = EnglishUserGradeRepository.save(tbl);
 			} else {
-				tbl.setVusGrade(englishTypeTransformer.convertToTbl(vusGrade));
-				tbl.setLearnDay(englishTypeTransformer.convertToTbl(learnDay));
+				tbl.setVusGrade(vusGrade);
+				tbl.setLearnDay(learnDay);
 				tbl = EnglishUserGradeRepository.save(tbl);
 			}
 		}

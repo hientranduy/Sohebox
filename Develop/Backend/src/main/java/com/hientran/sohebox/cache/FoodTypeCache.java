@@ -19,7 +19,6 @@ import com.hientran.sohebox.exception.APIResponse;
 import com.hientran.sohebox.repository.FoodTypeRepository;
 import com.hientran.sohebox.sco.FoodTypeSCO;
 import com.hientran.sohebox.sco.SearchTextVO;
-import com.hientran.sohebox.transformer.FoodTypeTransformer;
 import com.hientran.sohebox.vo.FoodTypeVO;
 import com.hientran.sohebox.vo.PageResultVO;
 
@@ -30,7 +29,6 @@ import lombok.RequiredArgsConstructor;
 public class FoodTypeCache extends BaseCache {
 
 	private final FoodTypeRepository typeRepository;
-	private final FoodTypeTransformer typeTransformer;
 
 	private final CacheManager cacheManager;
 	private String cacheName = "foodTypeCache";
@@ -38,12 +36,12 @@ public class FoodTypeCache extends BaseCache {
 	/**
 	 * Get
 	 */
-	public FoodTypeVO getType(String typeClass, String typeCode) {
+	public FoodTypeTbl getType(String typeClass, String typeCode) {
 		// Declare result
-		FoodTypeVO result = null;
+		FoodTypeTbl result = null;
 
 		// Retrieve type cache
-		result = cacheManager.getCache(cacheName).get(formatTypeMapKey(typeClass, typeCode), FoodTypeVO.class);
+		result = cacheManager.getCache(cacheName).get(formatTypeMapKey(typeClass, typeCode), FoodTypeTbl.class);
 		if (result != null) {
 			return result;
 		}
@@ -52,24 +50,22 @@ public class FoodTypeCache extends BaseCache {
 		FoodTypeTbl tbl = typeRepository.findFirstByTypeClassAndTypeCode(formatTypeClass(typeClass),
 				formatTypeCode(typeCode));
 		if (tbl != null) {
-			result = typeTransformer.convertToVO(tbl);
+			result = tbl;
 		} else {
 
 			// Create new type
-			FoodTypeVO vo = new FoodTypeVO();
-			vo.setTypeClass(formatTypeClass(typeClass));
-			vo.setTypeCode(formatTypeCode(typeCode));
-			vo.setTypeName(typeCode.substring(0, 1).toUpperCase() + typeCode.substring(1).toLowerCase());
-			vo.setDescription(typeCode);
+			FoodTypeTbl tblNew = new FoodTypeTbl();
+			tblNew.setTypeClass(formatTypeClass(typeClass));
+			tblNew.setTypeCode(formatTypeCode(typeCode));
+			tblNew.setTypeName(typeCode.substring(0, 1).toUpperCase() + typeCode.substring(1).toLowerCase());
+			tblNew.setDescription(typeCode);
 
-			if (StringUtils.isBlank(vo.getIconUrl())) {
-				if (StringUtils.equals(vo.getTypeClass(), DBConstants.TYPE_CLASS_ACCOUNT)) {
-					vo.setIconUrl(DBConstants.ACCOUNT_TYPE_DEFAUT_ICON);
+			if (StringUtils.isBlank(tblNew.getIconUrl())) {
+				if (StringUtils.equals(tblNew.getTypeClass(), DBConstants.TYPE_CLASS_ACCOUNT)) {
+					tblNew.setIconUrl(DBConstants.ACCOUNT_TYPE_DEFAUT_ICON);
 				}
 			}
-
-			FoodTypeTbl newType = typeRepository.save(typeTransformer.convertToTbl(vo));
-			result = typeTransformer.convertToVO(newType);
+			result = typeRepository.save(tblNew);
 		}
 
 		// Add to cache
@@ -91,7 +87,9 @@ public class FoodTypeCache extends BaseCache {
 		Page<FoodTypeTbl> page = typeRepository.findAll(sco);
 
 		// Transformer
-		PageResultVO<FoodTypeVO> data = typeTransformer.convertToPageReturn(page);
+		PageResultVO<FoodTypeTbl> data = new PageResultVO<FoodTypeTbl>();
+		data.setElements(page.getContent());
+		setPageHeader(page, data);
 
 		// Set data return
 		result.setData(data);
@@ -156,8 +154,7 @@ public class FoodTypeCache extends BaseCache {
 		result.setData(typeRepository.save(tbl).getId());
 
 		// Update cache
-		cacheManager.getCache(cacheName).put(formatTypeMapKey(tbl.getTypeClass(), tbl.getTypeCode()),
-				typeTransformer.convertToVO(tbl));
+		cacheManager.getCache(cacheName).put(formatTypeMapKey(tbl.getTypeClass(), tbl.getTypeCode()), tbl);
 
 		// Return
 		return result;
