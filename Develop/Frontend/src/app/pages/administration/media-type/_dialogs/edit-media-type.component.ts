@@ -1,26 +1,22 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
-import { MediaTypeService } from '@app/pages/media/_services';
-import { AuthenticationService } from '@app/user/_service';
-import { AlertService } from '@app/_common/alert';
 import { MediaType } from '@app/_common/_models/mediaType';
 import { SpinnerService } from '@app/_common/_services';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
+import { MediaTypeDialogService } from '../media-type.service';
 
 @Component({
-  styleUrls: ['edit-media-type-dialog.component.css'],
-  templateUrl: 'edit-media-type-dialog.component.html',
+  styleUrls: ['edit-media-type.component.css'],
+  templateUrl: 'edit-media-type.component.html',
 })
 export class EditMediaTypeDialogComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
     private activeModal: NgbActiveModal,
-    private alertService: AlertService,
-    private authenticationService: AuthenticationService,
-    private mediaTypeService: MediaTypeService,
+    private mediaTypeDialogService: MediaTypeDialogService,
     private toastr: ToastrService,
     private spinner: SpinnerService
   ) {
@@ -130,29 +126,28 @@ export class EditMediaTypeDialogComponent implements OnInit {
         this.spinner.show();
 
         // Update
-        this.mediaTypeService.update(updateForm.value)
-          .subscribe(
-            data => {
-              // Send success toast message
-              this.toastr.success('<Type class ' + this.typeClass + ' & type code ' + this.typeCode + '> is updated successful');
+        this.mediaTypeDialogService.update(updateForm.value).subscribe({
+          next: async (response) => {
+            // Send success toast message
+            this.toastr.success('<Type class ' + this.typeClass + ' & type code ' + this.typeCode + '> is updated successful');
 
-              // Hide loading
-              this.spinner.hide();
+            // Hide loading
+            this.spinner.hide();
 
-              // Close dialog
-              this.activeModal.close(true);
+            // Close dialog
+            this.activeModal.close(true);
+          },
+          error: (err) => {
+            // Hide loading
+            this.spinner.hide();
 
-            },
-            error => {
-              // Hide loading
-              this.spinner.hide();
+            // Send error toast message
+            this.toastr.error(err);
 
-              // Send error toast message
-              this.toastr.error(error);
-
-              // Close dialog
-              this.activeModal.close(false);
-            });
+            // Close dialog
+            this.activeModal.close(false);
+          }
+        })
     }
   }
 

@@ -6,14 +6,13 @@ import { MediaType } from '@app/_common/_models/mediaType';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-  styleUrls: ['view-media-type-dialog.component.css'],
-  templateUrl: 'view-media-type-dialog.component.html'
+  styleUrls: ['view-media-type.component.css'],
+  templateUrl: 'view-media-type.component.html'
 })
 export class ViewMediaTypeDialogComponent implements OnInit {
 
   constructor(
     private activeModal: NgbActiveModal,
-    private authenticationService: AuthenticationService
   ) {
   }
 

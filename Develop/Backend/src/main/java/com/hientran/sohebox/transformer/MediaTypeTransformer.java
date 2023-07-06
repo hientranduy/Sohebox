@@ -3,7 +3,7 @@ package com.hientran.sohebox.transformer;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.dozer.Mapper;
+import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
@@ -17,8 +17,6 @@ import lombok.RequiredArgsConstructor;
 @Component
 @RequiredArgsConstructor
 public class MediaTypeTransformer extends BaseTransformer {
-
-	private final Mapper objectMapper;
 
 	public PageResultVO<MediaTypeVO> convertToPageReturn(Page<MediaTypeTbl> pageTbl) {
 		// Declare result
@@ -43,24 +41,14 @@ public class MediaTypeTransformer extends BaseTransformer {
 	}
 
 	public MediaTypeVO convertToVO(MediaTypeTbl tbl) {
-		// Declare result
 		MediaTypeVO result = new MediaTypeVO();
-
-		// Transformation
-		objectMapper.map(tbl, result);
-
-		// Return
+		BeanUtils.copyProperties(tbl, result);
 		return result;
 	}
 
 	public MediaTypeTbl convertToTbl(MediaTypeVO vo) {
-		// Declare result
 		MediaTypeTbl result = new MediaTypeTbl();
-
-		// Transformation
-		objectMapper.map(vo, result);
-
-		// Return
+		BeanUtils.copyProperties(vo, result);
 		return result;
 	}
 }

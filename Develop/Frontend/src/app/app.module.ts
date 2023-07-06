@@ -23,7 +23,6 @@ import { AddCryptoTokenConfigDialogComponent, EditCryptoTokenConfigDialogCompone
 import { AddEnglishTypeDialogComponent, DeleteEnglishTypeDialogComponent, EditEnglishTypeDialogComponent, ViewEnglishTypeDialogComponent } from './pages/administration/english-type/_dialogs';
 import { EnglishUserReportComponent } from './pages/administration/english-user-report/english-user-report.component';
 import { AddFoodTypeDialogComponent, DeleteFoodTypeDialogComponent, EditFoodTypeDialogComponent, ViewFoodTypeDialogComponent } from './pages/administration/food-type/_dialogs';
-import { DeleteMediaTypeDialogComponent, EditMediaTypeDialogComponent, ViewMediaTypeDialogComponent } from './pages/administration/media-type/_dialogs';
 import { AddConfigDialogComponent, DeleteConfigDialogComponent, EditConfigDialogComponent, ViewConfigDialogComponent } from './pages/administration/setting-config/_dialogs';
 import { AddTypeDialogComponent, DeleteTypeDialogComponent, EditTypeDialogComponent, ViewTypeDialogComponent } from './pages/administration/setting-type/_dialogs';
 import { UserControlComponent } from './pages/administration/user-control/user-control.component';
@@ -56,6 +55,8 @@ import { AlertComponent } from './_common/alert';
 import { AutoFocusDirective } from './_common/directive';
 import { TimeoutProgressDialogComponent } from './_common/timeout-progress-dialog/timeout-progress-dialog.component';
 import { ErrorInterceptor, JwtInterceptor } from './_common/_helpers';
+import { EditMediaTypeDialogComponent } from './pages/administration/media-type/_dialogs/edit-media-type.component';
+import { ViewMediaTypeDialogComponent } from './pages/administration/media-type/_dialogs/view-media-type.component';
 
 @NgModule({
     imports: [
@@ -168,7 +169,6 @@ import { ErrorInterceptor, JwtInterceptor } from './_common/_helpers';
         PhimmoiPlayerComponent,
 
         // Dialog
-        DeleteMediaTypeDialogComponent,
         EditMediaTypeDialogComponent,
         ViewMediaTypeDialogComponent,
         AddYoutubeChannelDialogComponent,

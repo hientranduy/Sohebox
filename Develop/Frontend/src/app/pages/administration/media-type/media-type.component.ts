@@ -1,15 +1,13 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { MediaTypeService } from '@app/pages/media/_services';
-import { AuthenticationService } from '@app/user/_service';
-import { AlertService } from '@app/_common/alert';
 import { ApiReponse } from '@app/_common/_models';
 import { MediaType } from '@app/_common/_models/mediaType';
 import { PageResultVO } from '@app/_common/_models/pageResultVO';
 import { SearchText, Sorter } from '@app/_common/_sco/core_sco';
 import { MediaTypeSCO } from '@app/_common/_sco/mediaTypeSCO';
 import { SpinnerService } from '@app/_common/_services';
+import { AlertService } from '@app/_common/alert';
 import { ToastrService } from 'ngx-toastr';
-import { MediaTypeDialogService } from './_dialogs';
+import { MediaTypeDialogService } from './media-type.service';
 
 @Component({
   selector: 'app-media-type',
@@ -20,7 +18,7 @@ export class MediaTypeComponent implements OnInit {
 
   // Table elements
   pageResult: PageResultVO<MediaType>;
-  currentSort: Sorter;
+  currentSort: Sorter; 
   currentFilterValue: string;
   selected = [];
 
@@ -39,9 +37,7 @@ export class MediaTypeComponent implements OnInit {
    * Constructor
    */
   constructor(
-    private authenticationService: AuthenticationService,
     private mediaTypeDialogService: MediaTypeDialogService,
-    private mediaTypeService: MediaTypeService,
     private alertService: AlertService,
     private toastr: ToastrService,
     private spinner: SpinnerService
@@ -172,7 +168,7 @@ export class MediaTypeComponent implements OnInit {
     this.spinner.show();
 
     // Search
-    this.mediaTypeService.search(sco).subscribe(
+    this.mediaTypeDialogService.search(sco).subscribe(
       data => {
         const responseAPi: any = data;
         const typeResponse: ApiReponse<MediaType> = responseAPi;
@@ -197,44 +193,6 @@ export class MediaTypeComponent implements OnInit {
   /////////////////////////////////////
   // METHOD BELONG TO UI CONTROLE //
   /////////////////////////////////////
-  /**
-   * Add button
-   */
-  public add() {
-    this.toastr.warning('[Admin notice] Not allow to create');
-    // this.mediaTypeDialogService.add("ADD", "").then(
-    //   result => {
-    //     if (result) {
-    //       // Refresh table
-    //       this.getPageResult(
-    //         0,
-    //         this.pageResult.pageSize,
-    //         this.currentSort,
-    //         this.currentFilterValue
-    //       );
-    //     }
-    //   },
-    //   reason => {
-    //     console.log("ADD reason:" + reason);
-    //   }
-    // );
-  }
-
-  /**
-   * Delete button
-   */
-  public delete() {
-    if (this.selected.length > 0) {
-      this.selected.forEach(element => {
-        this.deleteChoose(element);
-      });
-    } else {
-      this.toastr.info('No selected item', 'Information', {
-        timeOut: 2000
-      });
-    }
-  }
-
   /**
    * Refresh button
    */
@@ -276,45 +234,5 @@ export class MediaTypeComponent implements OnInit {
         console.log('EDIT reason:' + reason);
       }
     );
-  }
-
-  /**
-   * Delete chosen
-   */
-  public deleteChoose(item: MediaType) {
-    this.mediaTypeDialogService
-      .delete('DELETION', 'Are you sure deleting: ' + item.typeCode + ' ?')
-      .then(
-        result => {
-          if (result) {
-            this.toastr.warning('[Admin notice] Not allow to delete');
-
-            // this.configService.delete(item.id).subscribe(
-            //   data => {
-            //     // Send toast success
-            //     this.toastr.success(
-            //       "Your config key " + item.configKey + " is successful deleted"
-            //     );
-
-            //     // Refresh page
-            //     if (result) {
-            //       this.getPageResult(
-            //         this.pageResult.currentPage,
-            //         this.pageResult.pageSize,
-            //         this.currentSort,
-            //         this.currentFilterValue
-            //       );
-            //     }
-            //   },
-            //   error => {
-            //     this.toastr.error(error);
-            //   }
-            // );
-          }
-        },
-        reason => {
-          console.log('DELETE reason:' + reason);
-        }
-      );
   }
 }

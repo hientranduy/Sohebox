@@ -1,18 +1,19 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
-import { YoutubeChannel } from '@app/pages/media/_models';
-import { MediaTypeService, YoutubeService } from '@app/pages/media/_services';
-import { AuthenticationService } from '@app/user/_service';
-import { AlertService } from '@app/_common/alert';
 import { ApiReponse, MediaType } from '@app/_common/_models';
 import { SearchText, Sorter } from '@app/_common/_sco/core_sco';
 import { MediaTypeSCO } from '@app/_common/_sco/mediaTypeSCO';
 import { SpinnerService } from '@app/_common/_services';
+import { AlertService } from '@app/_common/alert';
+import { YoutubeChannel } from '@app/pages/media/_models';
+import { YoutubeService } from '@app/pages/media/_services';
+import { AuthenticationService } from '@app/user/_service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
+import { MediaTypeDialogService } from '../../media-type/media-type.service';
 
 @Component({
   selector: 'app-edit-youtube-channel-dialog',
@@ -26,7 +27,7 @@ export class EditYoutubeChannelDialogComponent implements OnInit {
     private activeModal: NgbActiveModal,
     private alertService: AlertService,
     private authenticationService: AuthenticationService,
-    private mediaTypeService: MediaTypeService,
+    private mediaTypeDialogService: MediaTypeDialogService,
     private youtubeService: YoutubeService,
     private toastr: ToastrService,
     private spinner: SpinnerService
@@ -109,7 +110,7 @@ export class EditYoutubeChannelDialogComponent implements OnInit {
     sco.sorters = sorters;
 
     // Get list
-    this.mediaTypeService.search(sco)
+    this.mediaTypeDialogService.search(sco)
       .subscribe(data => {
         // Get data
         const responseAPi: any = data;
