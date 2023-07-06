@@ -17,6 +17,7 @@ import com.hientran.sohebox.cache.MediaTypeCache;
 import com.hientran.sohebox.constants.DBConstants;
 import com.hientran.sohebox.constants.ResponseCode;
 import com.hientran.sohebox.constants.enums.YoutubeChannelTblEnum;
+import com.hientran.sohebox.entity.MediaTypeTbl;
 import com.hientran.sohebox.entity.UserTbl;
 import com.hientran.sohebox.entity.YoutubeChannelTbl;
 import com.hientran.sohebox.exception.APIResponse;
@@ -24,9 +25,7 @@ import com.hientran.sohebox.repository.YoutubeChannelRepository;
 import com.hientran.sohebox.sco.SearchNumberVO;
 import com.hientran.sohebox.sco.SearchTextVO;
 import com.hientran.sohebox.sco.YoutubeChannelSCO;
-import com.hientran.sohebox.transformer.MediaTypeTransformer;
 import com.hientran.sohebox.transformer.YoutubeChannelTransformer;
-import com.hientran.sohebox.vo.MediaTypeVO;
 import com.hientran.sohebox.vo.PageResultVO;
 import com.hientran.sohebox.vo.YoutubeChannelVO;
 
@@ -39,7 +38,6 @@ public class YoutubeChannelService extends BaseService {
 	private final YoutubeChannelRepository youtubeChannelRepository;
 	private final YoutubeChannelTransformer youtubeChannelTransformer;
 	private final MediaTypeCache mediaTypeCache;
-	private final MediaTypeTransformer mediaTypeTransformer;
 
 	@Autowired
 	private UserDetailsServiceImpl userService;
@@ -88,9 +86,8 @@ public class YoutubeChannelService extends BaseService {
 			YoutubeChannelTbl tbl = youtubeChannelTransformer.convertToTbl(vo);
 
 			// Set category
-			MediaTypeVO category = mediaTypeCache.getType(DBConstants.TYPE_CLASS_MEDIA_YOUTUBE_CHANNEL_CATEGORY,
-					vo.getCategory().getTypeCode());
-			tbl.setCategory(mediaTypeTransformer.convertToTbl(category));
+			tbl.setCategory(mediaTypeCache.getType(DBConstants.TYPE_CLASS_MEDIA_YOUTUBE_CHANNEL_CATEGORY,
+					vo.getCategory().getTypeCode()));
 
 			// Create
 			tbl = youtubeChannelRepository.save(tbl);
@@ -159,9 +156,8 @@ public class YoutubeChannelService extends BaseService {
 
 			// Set category
 			if (vo.getCategory() != null) {
-				MediaTypeVO category = mediaTypeCache.getType(DBConstants.TYPE_CLASS_MEDIA_YOUTUBE_CHANNEL_CATEGORY,
-						vo.getCategory().getTypeCode());
-				updateTbl.setCategory(mediaTypeTransformer.convertToTbl(category));
+				updateTbl.setCategory(mediaTypeCache.getType(DBConstants.TYPE_CLASS_MEDIA_YOUTUBE_CHANNEL_CATEGORY,
+						vo.getCategory().getTypeCode()));
 			}
 
 			// Set name
@@ -299,7 +295,7 @@ public class YoutubeChannelService extends BaseService {
 		APIResponse<Object> result = new APIResponse<Object>();
 
 		// Get public channel
-		MediaTypeVO privateChannelType = mediaTypeCache.getType(DBConstants.TYPE_CLASS_MEDIA_YOUTUBE_CHANNEL_CATEGORY,
+		MediaTypeTbl privateChannelType = mediaTypeCache.getType(DBConstants.TYPE_CLASS_MEDIA_YOUTUBE_CHANNEL_CATEGORY,
 				DBConstants.TYPE_CODE_MEDIA_YOUTUBE_CHANNEL_CATEGORY_PERSONAL);
 		SearchNumberVO categoryId = new SearchNumberVO();
 		categoryId.setNotEq(privateChannelType.getId().doubleValue());

@@ -19,7 +19,6 @@ import com.hientran.sohebox.exception.APIResponse;
 import com.hientran.sohebox.repository.MediaTypeRepository;
 import com.hientran.sohebox.sco.MediaTypeSCO;
 import com.hientran.sohebox.sco.SearchTextVO;
-import com.hientran.sohebox.transformer.MediaTypeTransformer;
 import com.hientran.sohebox.vo.MediaTypeVO;
 import com.hientran.sohebox.vo.PageResultVO;
 
@@ -30,7 +29,6 @@ import lombok.RequiredArgsConstructor;
 public class MediaTypeCache extends BaseCache {
 
 	private final MediaTypeRepository typeRepository;
-	private final MediaTypeTransformer typeTransformer;
 
 	private final CacheManager cacheManager;
 	private String cacheName = "mediaTypeCache";
@@ -38,12 +36,12 @@ public class MediaTypeCache extends BaseCache {
 	/**
 	 * Get
 	 */
-	public MediaTypeVO getType(String typeClass, String typeCode) {
+	public MediaTypeTbl getType(String typeClass, String typeCode) {
 		// Declare result
-		MediaTypeVO result = null;
+		MediaTypeTbl result = null;
 
 		// Retrieve cache
-		result = cacheManager.getCache(cacheName).get(formatTypeMapKey(typeClass, typeCode), MediaTypeVO.class);
+		result = cacheManager.getCache(cacheName).get(formatTypeMapKey(typeClass, typeCode), MediaTypeTbl.class);
 		if (result != null) {
 			return result;
 		}
@@ -52,24 +50,23 @@ public class MediaTypeCache extends BaseCache {
 		MediaTypeTbl tbl = typeRepository.findFirstByTypeClassAndTypeCode(formatTypeClass(typeClass),
 				formatTypeCode(typeCode));
 		if (tbl != null) {
-			result = typeTransformer.convertToVO(tbl);
+			result = tbl;
 		} else {
 
 			// Create new type
-			MediaTypeVO vo = new MediaTypeVO();
-			vo.setTypeClass(formatTypeClass(typeClass));
-			vo.setTypeCode(formatTypeCode(typeCode));
-			vo.setTypeName(typeCode.substring(0, 1).toUpperCase() + typeCode.substring(1).toLowerCase());
-			vo.setDescription(typeCode);
+			MediaTypeTbl tblNew = new MediaTypeTbl();
+			tblNew.setTypeClass(formatTypeClass(typeClass));
+			tblNew.setTypeCode(formatTypeCode(typeCode));
+			tblNew.setTypeName(typeCode.substring(0, 1).toUpperCase() + typeCode.substring(1).toLowerCase());
+			tblNew.setDescription(typeCode);
 
-			if (StringUtils.isBlank(vo.getIconUrl())) {
-				if (StringUtils.equals(vo.getTypeClass(), DBConstants.TYPE_CLASS_ACCOUNT)) {
-					vo.setIconUrl(DBConstants.ACCOUNT_TYPE_DEFAUT_ICON);
+			if (StringUtils.isBlank(tblNew.getIconUrl())) {
+				if (StringUtils.equals(tblNew.getTypeClass(), DBConstants.TYPE_CLASS_ACCOUNT)) {
+					tblNew.setIconUrl(DBConstants.ACCOUNT_TYPE_DEFAUT_ICON);
 				}
 			}
 
-			MediaTypeTbl newType = typeRepository.save(typeTransformer.convertToTbl(vo));
-			result = typeTransformer.convertToVO(newType);
+			result = typeRepository.save(tblNew);
 		}
 
 		// Add to cache
@@ -91,7 +88,12 @@ public class MediaTypeCache extends BaseCache {
 		Page<MediaTypeTbl> page = typeRepository.findAll(sco);
 
 		// Transformer
-		PageResultVO<MediaTypeVO> data = typeTransformer.convertToPageReturn(page);
+		PageResultVO<MediaTypeTbl> data = new PageResultVO<MediaTypeTbl>();
+		data.setTotalPage(page.getTotalPages());
+		data.setTotalElement(page.getTotalElements());
+		data.setCurrentPage(page.getPageable().getPageNumber());
+		data.setPageSize(page.getPageable().getPageSize());
+		data.setElements(page.getContent());
 
 		// Set data return
 		result.setData(data);
@@ -152,14 +154,12 @@ public class MediaTypeCache extends BaseCache {
 		if (vo.getIconUrl() != null) {
 			tbl.setIconUrl(vo.getIconUrl());
 		}
-		APIResponse<Long> result = new APIResponse<Long>();
-		result.setData(typeRepository.save(tbl).getId());
+		typeRepository.save(tbl);
 
 		// Update cache
-		cacheManager.getCache(cacheName).put(formatTypeMapKey(tbl.getTypeClass(), tbl.getTypeCode()),
-				typeTransformer.convertToVO(tbl));
+		cacheManager.getCache(cacheName).put(formatTypeMapKey(tbl.getTypeClass(), tbl.getTypeCode()), tbl);
 
 		// Return
-		return result;
+		return new APIResponse<Long>();
 	}
 }

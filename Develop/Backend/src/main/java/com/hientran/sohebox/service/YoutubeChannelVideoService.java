@@ -33,9 +33,7 @@ import com.hientran.sohebox.repository.YoutubeVideoRepository;
 import com.hientran.sohebox.sco.SearchNumberVO;
 import com.hientran.sohebox.sco.YoutubeChannelSCO;
 import com.hientran.sohebox.sco.YoutubeChannelVideoSCO;
-import com.hientran.sohebox.transformer.MediaTypeTransformer;
 import com.hientran.sohebox.utils.ObjectMapperUtil;
-import com.hientran.sohebox.vo.MediaTypeVO;
 import com.hientran.sohebox.vo.PageResultVO;
 import com.hientran.sohebox.vo.YoutubeReponseVO;
 import com.hientran.sohebox.vo.YoutubeResponseVideoVO;
@@ -58,7 +56,6 @@ public class YoutubeChannelVideoService extends BaseService {
 	private final UserDetailsServiceImpl userService;
 	private final MediaTypeCache mediaTypeCache;
 	private final ConfigCache configCache;
-	private final MediaTypeTransformer mediaTypeTransformer;
 	private final YoutubeWebService youtubeWebService;
 	private final ObjectMapperUtil objectMapperUtil;
 
@@ -285,9 +282,8 @@ public class YoutubeChannelVideoService extends BaseService {
 				privateChannel.setUser(loggedUser);
 				privateChannel.setChannelId(loggedUser.getUsername());
 				privateChannel.setName(loggedUser.getFirstName() + " " + loggedUser.getLastName());
-				MediaTypeVO category = mediaTypeCache.getType(DBConstants.TYPE_CLASS_MEDIA_YOUTUBE_CHANNEL_CATEGORY,
-						DBConstants.TYPE_CODE_MEDIA_YOUTUBE_CHANNEL_CATEGORY_PERSONAL);
-				privateChannel.setCategory(mediaTypeTransformer.convertToTbl(category));
+				privateChannel.setCategory(mediaTypeCache.getType(DBConstants.TYPE_CLASS_MEDIA_YOUTUBE_CHANNEL_CATEGORY,
+						DBConstants.TYPE_CODE_MEDIA_YOUTUBE_CHANNEL_CATEGORY_PERSONAL));
 
 				privateChannel = youtubeChannelRepository.save(privateChannel);
 			}
