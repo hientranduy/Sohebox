@@ -11,7 +11,7 @@ import com.hientran.sohebox.sco.TradingSymbolSCO;
  * @author hientran
  */
 @Component
-@SuppressWarnings({ "unchecked", "rawtypes", "serial" })
+@SuppressWarnings({ "unchecked", "rawtypes" })
 public class TradingSymbolSpecs extends GenericSpecs {
 
 	public Specification<TradingSymbolTbl> buildSpecification(TradingSymbolSCO sco) {

@@ -1,16 +1,12 @@
 package com.hientran.sohebox.constants;
 
-import java.io.Serializable;
-
 /**
  * 
  * Constants that belong to database
  *
  * @author hientran
  */
-public class DBConstants implements Serializable {
-
-	private static final long serialVersionUID = 1L;
+public class DBConstants {
 
 	/////////
 	// SQL //

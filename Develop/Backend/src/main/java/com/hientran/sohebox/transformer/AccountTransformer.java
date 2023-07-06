@@ -101,24 +101,4 @@ public class AccountTransformer extends BaseTransformer {
 		// Return
 		return result;
 	}
-
-	/**
-	 * Convert tbl to vo
-	 *
-	 * @param Account
-	 * @return
-	 */
-	public AccountTbl convertToAccountTbl(AccountVO vo) {
-		// Declare result
-		AccountTbl result = new AccountTbl();
-
-		// Transformation
-		objectMapper.map(vo, result);
-
-		// Account Type
-		result.setType(typeTransformer.convertToTbl(vo.getAccountType()));
-
-		// Return
-		return result;
-	}
 }

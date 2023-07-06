@@ -13,8 +13,6 @@ import com.hientran.sohebox.sco.CryptoPortfolioSCO;
 @Component
 public class CryptoPortfolioSpecs extends GenericSpecs<CryptoPortfolioTbl> {
 
-	private static final long serialVersionUID = 1L;
-
 	public Specification<CryptoPortfolioTbl> buildSpecification(CryptoPortfolioSCO sco) {
 		// Declare result
 		Specification<CryptoPortfolioTbl> specification = Specification.where(null);

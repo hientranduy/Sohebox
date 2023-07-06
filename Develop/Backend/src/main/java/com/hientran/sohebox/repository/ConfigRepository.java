@@ -18,9 +18,9 @@ import com.hientran.sohebox.specification.ConfigSpecs;
 
 public interface ConfigRepository
 		extends JpaRepository<ConfigTbl, Long>, JpaSpecificationExecutor<ConfigTbl>, BaseRepository {
-	
+
 	ConfigTbl findFirstByConfigKey(String configKey);
-	
+
 	ConfigSpecs specs = new ConfigSpecs();
 
 	/**

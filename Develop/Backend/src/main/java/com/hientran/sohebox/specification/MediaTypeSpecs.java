@@ -11,7 +11,7 @@ import com.hientran.sohebox.sco.MediaTypeSCO;
  * @author hientran
  */
 @Component
-@SuppressWarnings({ "unchecked", "rawtypes", "serial" })
+@SuppressWarnings({ "unchecked", "rawtypes" })
 public class MediaTypeSpecs extends GenericSpecs {
 
 	public Specification<MediaTypeTbl> buildSpecification(MediaTypeSCO sco) {

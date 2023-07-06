@@ -11,7 +11,7 @@ import com.hientran.sohebox.sco.ConfigSCO;
  * @author hientran
  */
 @Component
-@SuppressWarnings({ "unchecked", "rawtypes", "serial" })
+@SuppressWarnings({ "unchecked", "rawtypes" })
 public class ConfigSpecs extends GenericSpecs {
 	public Specification<ConfigTbl> buildSpecification(ConfigSCO sco) {
 		// Declare result

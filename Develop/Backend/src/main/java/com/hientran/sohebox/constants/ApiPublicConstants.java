@@ -1,16 +1,12 @@
 package com.hientran.sohebox.constants;
 
-import java.io.Serializable;
-
 /**
  * 
  * Public API services output definition
  *
  * @author hientran
  */
-public class ApiPublicConstants implements Serializable {
-
-	private static final long serialVersionUID = 1L;
+public class ApiPublicConstants {
 
 	public static final String AUTHENTICATE = "/login";
 

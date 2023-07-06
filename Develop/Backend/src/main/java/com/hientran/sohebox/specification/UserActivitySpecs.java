@@ -11,7 +11,7 @@ import com.hientran.sohebox.sco.UserActivitySCO;
  * @author hientran
  */
 @Component
-@SuppressWarnings({ "unchecked", "rawtypes", "serial" })
+@SuppressWarnings({ "unchecked", "rawtypes" })
 public class UserActivitySpecs extends GenericSpecs {
 
 	public Specification<UserActivityTbl> buildSpecification(UserActivitySCO sco) {

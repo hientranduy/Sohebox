@@ -11,7 +11,7 @@ import com.hientran.sohebox.sco.CountrySCO;
  * @author hientran
  */
 @Component
-@SuppressWarnings({ "unchecked", "rawtypes", "serial" })
+@SuppressWarnings({ "unchecked", "rawtypes" })
 public class CountrySpecs extends GenericSpecs {
 
 	public Specification<CountryTbl> buildSpecification(CountrySCO sco) {

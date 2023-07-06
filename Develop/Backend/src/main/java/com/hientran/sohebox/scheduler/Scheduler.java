@@ -1,7 +1,5 @@
 package com.hientran.sohebox.scheduler;
 
-import java.io.Serializable;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -12,9 +10,7 @@ import com.hientran.sohebox.service.SchedulerService;
  * @author hientran
  */
 @Component
-public class Scheduler implements Serializable {
-
-	private static final long serialVersionUID = 1L;
+public class Scheduler {
 
 	@Autowired
 	private SchedulerService schedulerService;

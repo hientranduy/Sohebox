@@ -1,16 +1,12 @@
 package com.hientran.sohebox.constants;
 
-import java.io.Serializable;
-
 /**
  * 
  * Bittrex Constants
  *
  * @author hientran
  */
-public class CosmosConstants implements Serializable {
-
-	private static final long serialVersionUID = 1L;
+public class CosmosConstants {
 
 	///////////
 	// VALUE //

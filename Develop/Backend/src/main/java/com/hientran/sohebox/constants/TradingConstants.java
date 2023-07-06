@@ -1,16 +1,12 @@
 package com.hientran.sohebox.constants;
 
-import java.io.Serializable;
-
 /**
  * 
  * Tradingeconomics Constants
  *
  * @author hientran
  */
-public class TradingConstants implements Serializable {
-
-	private static final long serialVersionUID = 1L;
+public class TradingConstants {
 
 	/////////////////
 	// URL //

@@ -1,16 +1,12 @@
 package com.hientran.sohebox.constants;
 
-import java.io.Serializable;
-
 /**
  * 
  * Bittrex Constants
  *
  * @author hientran
  */
-public class GoogleConstants implements Serializable {
-
-	private static final long serialVersionUID = 1L;
+public class GoogleConstants {
 
 	/////////////////
 	// GOOGLE KEY //

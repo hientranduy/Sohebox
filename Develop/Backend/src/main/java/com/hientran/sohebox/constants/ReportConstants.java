@@ -1,16 +1,12 @@
 package com.hientran.sohebox.constants;
 
-import java.io.Serializable;
-
 /**
  * 
  * Constants that belong to report
  *
  * @author hientran
  */
-public class ReportConstants implements Serializable {
-
-	private static final long serialVersionUID = 1L;
+public class ReportConstants {
 
 	//////////////////////
 	// Report Constants //

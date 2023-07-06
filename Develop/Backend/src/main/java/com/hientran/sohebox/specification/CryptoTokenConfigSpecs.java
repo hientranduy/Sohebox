@@ -13,8 +13,6 @@ import com.hientran.sohebox.sco.CryptoTokenConfigSCO;
 @Component
 public class CryptoTokenConfigSpecs extends GenericSpecs<CryptoTokenConfigTbl> {
 
-	private static final long serialVersionUID = 1L;
-
 	public Specification<CryptoTokenConfigTbl> buildSpecification(CryptoTokenConfigSCO sco) {
 		// Declare result
 		Specification<CryptoTokenConfigTbl> specification = Specification.where(null);

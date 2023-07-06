@@ -1,6 +1,5 @@
 package com.hientran.sohebox.utils;
 
-import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -15,9 +14,7 @@ import org.apache.commons.lang3.time.DateUtils;
  *
  * @author hientran
  */
-public class MyDateUtils implements Serializable {
-
-	private static final long serialVersionUID = 1L;
+public class MyDateUtils {
 
 	private static final int MAX_HOUR_INDEX_23 = 23;
 

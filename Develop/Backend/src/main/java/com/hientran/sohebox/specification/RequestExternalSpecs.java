@@ -11,7 +11,7 @@ import com.hientran.sohebox.sco.RequestExternalSCO;
  * @author hientran
  */
 @Component
-@SuppressWarnings({ "unchecked", "rawtypes", "serial" })
+@SuppressWarnings({ "unchecked", "rawtypes" })
 public class RequestExternalSpecs extends GenericSpecs {
 
 	public Specification<RequestExternalTbl> buildSpecification(RequestExternalSCO sco) {

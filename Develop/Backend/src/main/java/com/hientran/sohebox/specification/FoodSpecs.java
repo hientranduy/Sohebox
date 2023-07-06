@@ -11,7 +11,7 @@ import com.hientran.sohebox.sco.FoodSCO;
  * @author hientran
  */
 @Component
-@SuppressWarnings({ "unchecked", "rawtypes", "serial" })
+@SuppressWarnings({ "unchecked", "rawtypes" })
 public class FoodSpecs extends GenericSpecs {
 
 	public Specification<FoodTbl> buildSpecification(FoodSCO sco) {

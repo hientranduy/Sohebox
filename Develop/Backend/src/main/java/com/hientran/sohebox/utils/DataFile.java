@@ -1,17 +1,13 @@
 package com.hientran.sohebox.utils;
 
-import java.io.Serializable;
+import org.apache.commons.lang.StringUtils;
 
 import jakarta.activation.DataHandler;
 import jakarta.xml.bind.annotation.XmlMimeType;
 import jakarta.xml.bind.annotation.XmlType;
 
-import org.apache.commons.lang.StringUtils;
-
 @XmlType
-public class DataFile implements Serializable {
-	private static final long serialVersionUID = 7766352768745307143L;
-
+public class DataFile {
 	private static final String EXT_SEPARATOR = ".";
 
 	private String fileName;

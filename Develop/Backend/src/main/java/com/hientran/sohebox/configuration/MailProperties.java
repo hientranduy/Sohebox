@@ -1,6 +1,5 @@
 package com.hientran.sohebox.configuration;
 
-import java.io.Serializable;
 import java.util.Properties;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -20,9 +19,7 @@ import lombok.RequiredArgsConstructor;
 @Configuration
 @PropertySource("classpath:mail.properties")
 @RequiredArgsConstructor
-public class MailProperties implements Serializable {
-
-	private static final long serialVersionUID = 1L;
+public class MailProperties {
 
 	@Value("${spring.mail.host}")
 	private String mailHost;

@@ -11,7 +11,7 @@ import com.hientran.sohebox.sco.EnglishUserGradeSCO;
  * @author hientran
  */
 @Component
-@SuppressWarnings({ "unchecked", "rawtypes", "serial" })
+@SuppressWarnings({ "unchecked", "rawtypes" })
 public class EnglishUserGradeSpecs extends GenericSpecs {
 
 	public Specification<EnglishUserGradeTbl> buildSpecification(EnglishUserGradeSCO sco) {

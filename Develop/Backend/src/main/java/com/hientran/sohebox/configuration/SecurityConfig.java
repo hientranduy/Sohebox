@@ -25,7 +25,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import com.hientran.sohebox.authentication.JWTAuthenticationLoginFilter;
 import com.hientran.sohebox.authentication.JWTAuthenticationTokenFilter;
 import com.hientran.sohebox.authentication.JWTTokenService;
-import com.hientran.sohebox.authentication.JwtAuthenticationEntryPoint;
+import com.hientran.sohebox.authentication.JWTAuthenticationEntryPoint;
 import com.hientran.sohebox.authentication.UserDetailsServiceImpl;
 import com.hientran.sohebox.constants.ApiPublicConstants;
 import com.hientran.sohebox.constants.DBConstants;
@@ -47,7 +47,7 @@ public class SecurityConfig {
 	private JWTTokenService tokenAuthenticationService;
 
 	@Autowired
-	private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+	private JWTAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
@@ -215,7 +215,7 @@ public class SecurityConfig {
 				.hasRole(DBConstants.USER_ROLE_CREATOR)
 				.requestMatchers(HttpMethod.PUT, "/api" + ApiPublicConstants.API_YOUTUBE_CHANNEL)
 				.hasRole(DBConstants.USER_ROLE_CREATOR)
-				
+
 				// Crypto Token: add-update
 				.requestMatchers(HttpMethod.POST, "/api" + ApiPublicConstants.API_CRYPTO_TOKEN_CONFIG)
 				.hasRole(DBConstants.USER_ROLE_CREATOR)

@@ -11,7 +11,7 @@ import com.hientran.sohebox.sco.YoutubeVideoSCO;
  * @author hientran
  */
 @Component
-@SuppressWarnings({ "unchecked", "rawtypes", "serial" })
+@SuppressWarnings({ "unchecked", "rawtypes" })
 public class YoutubeVideoSpecs extends GenericSpecs {
 
 	public Specification<YoutubeVideoTbl> buildSpecification(YoutubeVideoSCO sco) {

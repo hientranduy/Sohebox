@@ -1,14 +1,8 @@
 package com.hientran.sohebox.specification;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
-
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Predicate;
-import jakarta.persistence.criteria.Root;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.jpa.domain.Specification;
@@ -21,14 +15,17 @@ import com.hientran.sohebox.sco.SearchTextVO;
 import com.hientran.sohebox.utils.MyDateUtils;
 import com.hientran.sohebox.utils.SQLUtils;
 
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
+
 /**
  * @author hientran
  */
 @Component
 @SuppressWarnings("serial")
-public class GenericSpecs<T> implements Serializable {
-
-	private static final long serialVersionUID = 1L;
+public class GenericSpecs<T> {
 
 	/**
 	 * 

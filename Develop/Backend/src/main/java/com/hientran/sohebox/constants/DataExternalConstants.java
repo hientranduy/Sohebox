@@ -1,16 +1,12 @@
 package com.hientran.sohebox.constants;
 
-import java.io.Serializable;
-
 /**
  * 
  * Other constants
  *
  * @author hientran
  */
-public class DataExternalConstants implements Serializable {
-
-	private static final long serialVersionUID = 1L;
+public class DataExternalConstants {
 
 	/////////////////
 	// Vietcombank //

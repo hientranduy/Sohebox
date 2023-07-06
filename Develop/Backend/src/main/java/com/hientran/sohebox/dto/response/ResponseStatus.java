@@ -1,6 +1,5 @@
 package com.hientran.sohebox.dto.response;
 
-import java.io.Serializable;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -18,9 +17,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ResponseStatus implements Serializable {
-
-	private static final long serialVersionUID = 1L;
+public class ResponseStatus {
 
 	@JsonProperty("code")
 	private Integer code = null;

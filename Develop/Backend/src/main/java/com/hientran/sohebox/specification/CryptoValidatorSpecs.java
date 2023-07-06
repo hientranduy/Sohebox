@@ -13,8 +13,6 @@ import com.hientran.sohebox.sco.CryptoValidatorSCO;
 @Component
 public class CryptoValidatorSpecs extends GenericSpecs<CryptoValidatorTbl> {
 
-	private static final long serialVersionUID = 1L;
-
 	public Specification<CryptoValidatorTbl> buildSpecification(CryptoValidatorSCO sco) {
 		// Declare result
 		Specification<CryptoValidatorTbl> specification = Specification.where(null);

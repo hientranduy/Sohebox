@@ -11,7 +11,7 @@ import com.hientran.sohebox.sco.TypeSCO;
  * @author hientran
  */
 @Component
-@SuppressWarnings({ "unchecked", "rawtypes", "serial" })
+@SuppressWarnings({ "unchecked", "rawtypes" })
 public class TypeSpecs extends GenericSpecs {
 
 	public Specification<TypeTbl> buildSpecification(TypeSCO sco) {

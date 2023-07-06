@@ -9,9 +9,7 @@ import org.springframework.stereotype.Component;
  * @author hientran
  */
 @Component
-public class UserValidation extends BaseValidation {
-
-	private static final long serialVersionUID = 1L;
+public class UserValidation {
 
 	public Boolean isInvalidPassword(String input) {
 		Boolean result = false;

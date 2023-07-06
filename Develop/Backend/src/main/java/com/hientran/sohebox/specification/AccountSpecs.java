@@ -11,7 +11,7 @@ import com.hientran.sohebox.sco.AccountSCO;
  * @author hientran
  */
 @Component
-@SuppressWarnings({ "unchecked", "rawtypes", "serial" })
+@SuppressWarnings({ "unchecked", "rawtypes" })
 public class AccountSpecs extends GenericSpecs {
 
 	public Specification<AccountTbl> buildSpecification(AccountSCO sco) {
