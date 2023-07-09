@@ -11,11 +11,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.hientran.sohebox.authentication.UserDetailsServiceImpl;
+import com.hientran.sohebox.dto.response.APIResponse;
 import com.hientran.sohebox.entity.CryptoPortfolioHistoryTbl;
 import com.hientran.sohebox.entity.CryptoPortfolioTbl;
 import com.hientran.sohebox.entity.CryptoTokenConfigTbl;
 import com.hientran.sohebox.entity.UserTbl;
-import com.hientran.sohebox.exception.APIResponse;
 import com.hientran.sohebox.repository.CryptoPortfolioHistoryRepository;
 import com.hientran.sohebox.repository.CryptoPortfolioRepository;
 import com.hientran.sohebox.sco.CryptoPortfolioHistorySCO;

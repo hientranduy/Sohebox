@@ -16,8 +16,8 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import com.hientran.sohebox.constants.DataExternalConstants;
-import com.hientran.sohebox.constants.ResponseCode;
-import com.hientran.sohebox.exception.APIResponse;
+import com.hientran.sohebox.dto.response.APIResponse;
+import com.hientran.sohebox.dto.response.ResponseCode;
 import com.hientran.sohebox.vo.PageResultVO;
 import com.hientran.sohebox.vo.SjcGoldCityVO;
 import com.hientran.sohebox.vo.SjcGoldItemVO;

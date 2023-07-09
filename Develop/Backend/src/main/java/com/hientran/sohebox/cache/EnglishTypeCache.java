@@ -12,13 +12,13 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import com.hientran.sohebox.constants.DBConstants;
-import com.hientran.sohebox.constants.ResponseCode;
-import com.hientran.sohebox.constants.enums.EnglishTypeTblEnum;
+import com.hientran.sohebox.dto.response.APIResponse;
+import com.hientran.sohebox.dto.response.ResponseCode;
 import com.hientran.sohebox.entity.EnglishTypeTbl;
-import com.hientran.sohebox.exception.APIResponse;
 import com.hientran.sohebox.repository.EnglishTypeRepository;
 import com.hientran.sohebox.sco.EnglishTypeSCO;
 import com.hientran.sohebox.sco.SearchTextVO;
+import com.hientran.sohebox.specification.EnglishTypeSpecs.EnglishTypeTblEnum;
 import com.hientran.sohebox.transformer.BaseTransformer;
 import com.hientran.sohebox.vo.EnglishTypeVO;
 import com.hientran.sohebox.vo.PageResultVO;

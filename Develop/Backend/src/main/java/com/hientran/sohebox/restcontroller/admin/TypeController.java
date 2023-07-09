@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.hientran.sohebox.cache.TypeCache;
 import com.hientran.sohebox.constants.ApiPublicConstants;
-import com.hientran.sohebox.exception.APIResponse;
+import com.hientran.sohebox.dto.response.APIResponse;
 import com.hientran.sohebox.restcontroller.BaseRestController;
 import com.hientran.sohebox.sco.TypeSCO;
 import com.hientran.sohebox.vo.TypeVO;

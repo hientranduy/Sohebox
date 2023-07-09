@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hientran.sohebox.constants.ApiPublicConstants;
-import com.hientran.sohebox.exception.APIResponse;
+import com.hientran.sohebox.dto.response.APIResponse;
 import com.hientran.sohebox.sco.UserSCO;
 import com.hientran.sohebox.service.UserService;
 import com.hientran.sohebox.vo.ChangePasswordVO;

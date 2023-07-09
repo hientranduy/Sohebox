@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hientran.sohebox.constants.ApiPublicConstants;
-import com.hientran.sohebox.exception.APIResponse;
+import com.hientran.sohebox.dto.response.APIResponse;
 import com.hientran.sohebox.service.DataExternalService;
 
 import lombok.RequiredArgsConstructor;

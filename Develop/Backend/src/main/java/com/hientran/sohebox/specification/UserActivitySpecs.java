@@ -3,13 +3,15 @@ package com.hientran.sohebox.specification;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
-import com.hientran.sohebox.constants.enums.UserActivityTblEnum;
 import com.hientran.sohebox.entity.UserActivityTbl;
 import com.hientran.sohebox.sco.UserActivitySCO;
 
 @Component
 @SuppressWarnings({ "unchecked", "rawtypes" })
 public class UserActivitySpecs extends GenericSpecs {
+	public enum UserActivityTblEnum {
+		createdDate, user, activity
+	}
 
 	public Specification<UserActivityTbl> buildSpecification(UserActivitySCO sco) {
 		// Declare result

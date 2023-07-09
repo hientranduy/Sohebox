@@ -3,13 +3,15 @@ package com.hientran.sohebox.specification;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
-import com.hientran.sohebox.constants.enums.YoutubeChannelTblEnum;
 import com.hientran.sohebox.entity.YoutubeChannelTbl;
 import com.hientran.sohebox.sco.YoutubeChannelSCO;
 
 @Component
 @SuppressWarnings({ "unchecked", "rawtypes" })
 public class YoutubeChannelSpecs extends GenericSpecs {
+	public enum YoutubeChannelTblEnum {
+		channelId, name, description, category, user
+	}
 
 	public Specification<YoutubeChannelTbl> buildSpecification(YoutubeChannelSCO sco) {
 		// Declare result

@@ -3,13 +3,15 @@ package com.hientran.sohebox.specification;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
-import com.hientran.sohebox.constants.enums.EnglishLearnRecordTblEnum;
 import com.hientran.sohebox.entity.EnglishLearnRecordTbl;
 import com.hientran.sohebox.sco.EnglishLearnRecordSCO;
 
 @Component
 @SuppressWarnings({ "unchecked", "rawtypes" })
 public class EnglishLearnRecordSpecs extends GenericSpecs {
+	public enum EnglishLearnRecordTblEnum {
+		user, english, recordTimes, updatedDate
+	}
 
 	public Specification<EnglishLearnRecordTbl> buildSpecification(EnglishLearnRecordSCO sco) {
 		// Declare result

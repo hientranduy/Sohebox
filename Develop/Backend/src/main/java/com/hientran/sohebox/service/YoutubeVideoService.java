@@ -10,13 +10,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.hientran.sohebox.constants.ResponseCode;
-import com.hientran.sohebox.constants.enums.YoutubeVideoTblEnum;
+import com.hientran.sohebox.dto.response.APIResponse;
+import com.hientran.sohebox.dto.response.ResponseCode;
 import com.hientran.sohebox.entity.YoutubeVideoTbl;
-import com.hientran.sohebox.exception.APIResponse;
 import com.hientran.sohebox.repository.YoutubeVideoRepository;
 import com.hientran.sohebox.sco.SearchTextVO;
 import com.hientran.sohebox.sco.YoutubeVideoSCO;
+import com.hientran.sohebox.specification.YoutubeVideoSpecs.YoutubeVideoTblEnum;
 import com.hientran.sohebox.vo.YoutubeVideoVO;
 
 import lombok.RequiredArgsConstructor;

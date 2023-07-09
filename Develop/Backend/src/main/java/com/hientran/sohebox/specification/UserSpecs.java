@@ -3,13 +3,15 @@ package com.hientran.sohebox.specification;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
-import com.hientran.sohebox.constants.enums.UserTblEnum;
 import com.hientran.sohebox.entity.UserTbl;
 import com.hientran.sohebox.sco.UserSCO;
 
 @Component
 @SuppressWarnings({ "unchecked", "rawtypes" })
 public class UserSpecs extends GenericSpecs {
+	public enum UserTblEnum {
+		deleteFlag, username, firstName, lastName, password, privateKey
+	}
 
 	public Specification<UserTbl> buildSpecification(UserSCO sco) {
 		// Declare result

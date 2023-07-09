@@ -3,13 +3,15 @@ package com.hientran.sohebox.specification;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
-import com.hientran.sohebox.constants.enums.MediaTypeTblEnum;
 import com.hientran.sohebox.entity.MediaTypeTbl;
 import com.hientran.sohebox.sco.MediaTypeSCO;
 
 @Component
 @SuppressWarnings({ "unchecked", "rawtypes" })
 public class MediaTypeSpecs extends GenericSpecs {
+	public enum MediaTypeTblEnum {
+		typeClass, typeCode, typeName, description, deleteFlag
+	}
 
 	public Specification<MediaTypeTbl> buildSpecification(MediaTypeSCO sco) {
 		// Declare result

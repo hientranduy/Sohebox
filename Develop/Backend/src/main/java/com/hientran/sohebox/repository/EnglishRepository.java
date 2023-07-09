@@ -8,10 +8,10 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
-import com.hientran.sohebox.constants.enums.EnglishTblEnum;
 import com.hientran.sohebox.entity.EnglishTbl;
 import com.hientran.sohebox.sco.EnglishSCO;
 import com.hientran.sohebox.specification.EnglishSpecs;
+import com.hientran.sohebox.specification.EnglishSpecs.EnglishTblEnum;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;

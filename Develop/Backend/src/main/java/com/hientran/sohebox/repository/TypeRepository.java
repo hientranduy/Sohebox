@@ -10,11 +10,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 import com.hientran.sohebox.constants.DBConstants;
-import com.hientran.sohebox.constants.enums.TypeTblEnum;
 import com.hientran.sohebox.entity.TypeTbl;
 import com.hientran.sohebox.sco.Sorter;
 import com.hientran.sohebox.sco.TypeSCO;
 import com.hientran.sohebox.specification.TypeSpecs;
+import com.hientran.sohebox.specification.TypeSpecs.TypeTblEnum;
 
 public interface TypeRepository
 		extends JpaRepository<TypeTbl, Long>, JpaSpecificationExecutor<TypeTbl>, BaseRepository {

@@ -10,11 +10,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 import com.hientran.sohebox.constants.DBConstants;
-import com.hientran.sohebox.constants.enums.CryptoTokenConfigTblEnum;
 import com.hientran.sohebox.entity.CryptoTokenConfigTbl;
 import com.hientran.sohebox.sco.CryptoTokenConfigSCO;
 import com.hientran.sohebox.sco.Sorter;
 import com.hientran.sohebox.specification.CryptoTokenConfigSpecs;
+import com.hientran.sohebox.specification.CryptoTokenConfigSpecs.CryptoTokenConfigTblEnum;
 
 public interface CryptoTokenConfigRepository extends JpaRepository<CryptoTokenConfigTbl, Long>,
 		JpaSpecificationExecutor<CryptoTokenConfigTbl>, BaseRepository {

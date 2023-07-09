@@ -3,13 +3,15 @@ package com.hientran.sohebox.specification;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
-import com.hientran.sohebox.constants.enums.YoutubeVideoTblEnum;
 import com.hientran.sohebox.entity.YoutubeVideoTbl;
 import com.hientran.sohebox.sco.YoutubeVideoSCO;
 
 @Component
 @SuppressWarnings({ "unchecked", "rawtypes" })
 public class YoutubeVideoSpecs extends GenericSpecs {
+	public enum YoutubeVideoTblEnum {
+		videoId, publishedAt, title, description, urlThumbnail
+	}
 
 	public Specification<YoutubeVideoTbl> buildSpecification(YoutubeVideoSCO sco) {
 		// Declare result

@@ -3,13 +3,15 @@ package com.hientran.sohebox.specification;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
-import com.hientran.sohebox.constants.enums.TradingSymbolTblEnum;
 import com.hientran.sohebox.entity.TradingSymbolTbl;
 import com.hientran.sohebox.sco.TradingSymbolSCO;
 
 @Component
 @SuppressWarnings({ "unchecked", "rawtypes" })
 public class TradingSymbolSpecs extends GenericSpecs {
+	public enum TradingSymbolTblEnum {
+		id, deleteFlag, symbol, name, symbolType, zone, country, description
+	}
 
 	public Specification<TradingSymbolTbl> buildSpecification(TradingSymbolSCO sco) {
 		// Declare result

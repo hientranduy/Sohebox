@@ -10,13 +10,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 import com.hientran.sohebox.constants.DBConstants;
-import com.hientran.sohebox.constants.enums.CryptoPortfolioHistoryTblEnum;
 import com.hientran.sohebox.entity.CryptoPortfolioHistoryTbl;
 import com.hientran.sohebox.entity.CryptoTokenConfigTbl;
 import com.hientran.sohebox.entity.UserTbl;
 import com.hientran.sohebox.sco.CryptoPortfolioHistorySCO;
 import com.hientran.sohebox.sco.Sorter;
 import com.hientran.sohebox.specification.CryptoPortfolioHistorySpecs;
+import com.hientran.sohebox.specification.CryptoPortfolioHistorySpecs.CryptoPortfolioHistoryTblEnum;
 
 public interface CryptoPortfolioHistoryRepository extends JpaRepository<CryptoPortfolioHistoryTbl, Long>,
 		JpaSpecificationExecutor<CryptoPortfolioHistoryTbl>, BaseRepository {

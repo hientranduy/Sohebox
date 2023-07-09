@@ -10,11 +10,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 import com.hientran.sohebox.constants.DBConstants;
-import com.hientran.sohebox.constants.enums.ConfigTblEnum;
 import com.hientran.sohebox.entity.ConfigTbl;
 import com.hientran.sohebox.sco.ConfigSCO;
 import com.hientran.sohebox.sco.Sorter;
 import com.hientran.sohebox.specification.ConfigSpecs;
+import com.hientran.sohebox.specification.ConfigSpecs.ConfigTblEnum;
 
 public interface ConfigRepository
 		extends JpaRepository<ConfigTbl, Long>, JpaSpecificationExecutor<ConfigTbl>, BaseRepository {

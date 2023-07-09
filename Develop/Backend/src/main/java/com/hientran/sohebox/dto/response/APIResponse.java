@@ -1,4 +1,4 @@
-package com.hientran.sohebox.exception;
+package com.hientran.sohebox.dto.response;
 
 import java.util.Arrays;
 import java.util.List;

@@ -10,13 +10,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.hientran.sohebox.cache.TypeCache;
 import com.hientran.sohebox.constants.DBConstants;
-import com.hientran.sohebox.constants.ResponseCode;
-import com.hientran.sohebox.constants.enums.UserActivityTblEnum;
+import com.hientran.sohebox.dto.response.APIResponse;
+import com.hientran.sohebox.dto.response.ResponseCode;
 import com.hientran.sohebox.entity.UserActivityTbl;
 import com.hientran.sohebox.entity.UserTbl;
-import com.hientran.sohebox.exception.APIResponse;
 import com.hientran.sohebox.repository.UserActivityRepository;
 import com.hientran.sohebox.repository.UserRepository;
+import com.hientran.sohebox.specification.UserActivitySpecs.UserActivityTblEnum;
 import com.hientran.sohebox.transformer.UserActivityTransformer;
 import com.hientran.sohebox.vo.UserActivityVO;
 import com.hientran.sohebox.vo.UserVO;

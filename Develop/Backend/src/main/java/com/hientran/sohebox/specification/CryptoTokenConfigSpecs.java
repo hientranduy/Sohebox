@@ -3,12 +3,14 @@ package com.hientran.sohebox.specification;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
-import com.hientran.sohebox.constants.enums.CryptoTokenConfigTblEnum;
 import com.hientran.sohebox.entity.CryptoTokenConfigTbl;
 import com.hientran.sohebox.sco.CryptoTokenConfigSCO;
 
 @Component
 public class CryptoTokenConfigSpecs extends GenericSpecs<CryptoTokenConfigTbl> {
+	public enum CryptoTokenConfigTblEnum {
+		id, tokenCode, tokenName, iconUrl, nodeUrl, denom, addressPrefix
+	}
 
 	public Specification<CryptoTokenConfigTbl> buildSpecification(CryptoTokenConfigSCO sco) {
 		// Declare result

@@ -10,11 +10,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 import com.hientran.sohebox.constants.DBConstants;
-import com.hientran.sohebox.constants.enums.MediaTypeTblEnum;
 import com.hientran.sohebox.entity.MediaTypeTbl;
 import com.hientran.sohebox.sco.MediaTypeSCO;
 import com.hientran.sohebox.sco.Sorter;
 import com.hientran.sohebox.specification.MediaTypeSpecs;
+import com.hientran.sohebox.specification.MediaTypeSpecs.MediaTypeTblEnum;
 
 public interface MediaTypeRepository
 		extends JpaRepository<MediaTypeTbl, Long>, JpaSpecificationExecutor<MediaTypeTbl>, BaseRepository {

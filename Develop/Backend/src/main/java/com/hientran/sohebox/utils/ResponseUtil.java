@@ -9,8 +9,8 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.CollectionUtils;
 
-import com.hientran.sohebox.constants.ResponseCode;
 import com.hientran.sohebox.dto.response.ErrorCode;
+import com.hientran.sohebox.dto.response.ResponseCode;
 import com.hientran.sohebox.dto.response.ResponseStatus;
 
 public class ResponseUtil {

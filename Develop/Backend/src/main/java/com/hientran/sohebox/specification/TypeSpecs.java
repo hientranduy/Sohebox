@@ -3,13 +3,16 @@ package com.hientran.sohebox.specification;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
-import com.hientran.sohebox.constants.enums.TypeTblEnum;
 import com.hientran.sohebox.entity.TypeTbl;
 import com.hientran.sohebox.sco.TypeSCO;
 
 @Component
 @SuppressWarnings({ "unchecked", "rawtypes" })
 public class TypeSpecs extends GenericSpecs {
+
+	public enum TypeTblEnum {
+		typeClass, typeCode, typeName, description, deleteFlag
+	}
 
 	public Specification<TypeTbl> buildSpecification(TypeSCO sco) {
 		// Declare result

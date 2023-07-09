@@ -12,12 +12,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
-import com.hientran.sohebox.constants.ResponseCode;
-import com.hientran.sohebox.constants.enums.ConfigTblEnum;
+import com.hientran.sohebox.dto.response.APIResponse;
+import com.hientran.sohebox.dto.response.ResponseCode;
 import com.hientran.sohebox.entity.ConfigTbl;
-import com.hientran.sohebox.exception.APIResponse;
 import com.hientran.sohebox.repository.ConfigRepository;
 import com.hientran.sohebox.sco.ConfigSCO;
+import com.hientran.sohebox.specification.ConfigSpecs.ConfigTblEnum;
 import com.hientran.sohebox.transformer.BaseTransformer;
 import com.hientran.sohebox.vo.ConfigVO;
 import com.hientran.sohebox.vo.PageResultVO;

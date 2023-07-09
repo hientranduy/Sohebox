@@ -10,11 +10,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 import com.hientran.sohebox.constants.DBConstants;
-import com.hientran.sohebox.constants.enums.EnglishTypeTblEnum;
 import com.hientran.sohebox.entity.EnglishTypeTbl;
 import com.hientran.sohebox.sco.EnglishTypeSCO;
 import com.hientran.sohebox.sco.Sorter;
 import com.hientran.sohebox.specification.EnglishTypeSpecs;
+import com.hientran.sohebox.specification.EnglishTypeSpecs.EnglishTypeTblEnum;
 
 public interface EnglishTypeRepository
 		extends JpaRepository<EnglishTypeTbl, Long>, JpaSpecificationExecutor<EnglishTypeTbl>, BaseRepository {

@@ -3,13 +3,15 @@ package com.hientran.sohebox.specification;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
-import com.hientran.sohebox.constants.enums.AccountTblEnum;
 import com.hientran.sohebox.entity.AccountTbl;
 import com.hientran.sohebox.sco.AccountSCO;
 
 @Component
 @SuppressWarnings({ "unchecked", "rawtypes" })
 public class AccountSpecs extends GenericSpecs {
+	public enum AccountTblEnum {
+		id, deleteFlag, user, type, note, accountName
+	}
 
 	public Specification<AccountTbl> buildSpecification(AccountSCO sco) {
 		// Declare result

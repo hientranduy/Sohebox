@@ -11,15 +11,15 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.hientran.sohebox.cache.EnglishTypeCache;
 import com.hientran.sohebox.constants.DBConstants;
-import com.hientran.sohebox.constants.ResponseCode;
-import com.hientran.sohebox.constants.enums.EnglishUserGradeTblEnum;
+import com.hientran.sohebox.dto.response.APIResponse;
+import com.hientran.sohebox.dto.response.ResponseCode;
 import com.hientran.sohebox.entity.EnglishTypeTbl;
 import com.hientran.sohebox.entity.EnglishUserGradeTbl;
 import com.hientran.sohebox.entity.UserTbl;
-import com.hientran.sohebox.exception.APIResponse;
 import com.hientran.sohebox.repository.EnglishUserGradeRepository;
 import com.hientran.sohebox.sco.EnglishUserGradeSCO;
 import com.hientran.sohebox.sco.SearchNumberVO;
+import com.hientran.sohebox.specification.EnglishUserGradeSpecs.EnglishUserGradeTblEnum;
 import com.hientran.sohebox.transformer.EnglishUserGradeTransformer;
 import com.hientran.sohebox.vo.EnglishUserGradeVO;
 import com.hientran.sohebox.vo.PageResultVO;

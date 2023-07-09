@@ -3,12 +3,14 @@ package com.hientran.sohebox.specification;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
-import com.hientran.sohebox.constants.enums.CryptoValidatorTblEnum;
 import com.hientran.sohebox.entity.CryptoValidatorTbl;
 import com.hientran.sohebox.sco.CryptoValidatorSCO;
 
 @Component
 public class CryptoValidatorSpecs extends GenericSpecs<CryptoValidatorTbl> {
+	public enum CryptoValidatorTblEnum {
+		id, validatorAddress, validatorName, validatorWebsite, commissionRate, totalDeligated, syncDate
+	}
 
 	public Specification<CryptoValidatorTbl> buildSpecification(CryptoValidatorSCO sco) {
 		// Declare result

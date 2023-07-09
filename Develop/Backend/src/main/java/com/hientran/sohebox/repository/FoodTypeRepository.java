@@ -10,11 +10,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 import com.hientran.sohebox.constants.DBConstants;
-import com.hientran.sohebox.constants.enums.FoodTypeTblEnum;
 import com.hientran.sohebox.entity.FoodTypeTbl;
 import com.hientran.sohebox.sco.FoodTypeSCO;
 import com.hientran.sohebox.sco.Sorter;
 import com.hientran.sohebox.specification.FoodTypeSpecs;
+import com.hientran.sohebox.specification.FoodTypeSpecs.FoodTypeTblEnum;
 
 public interface FoodTypeRepository
 		extends JpaRepository<FoodTypeTbl, Long>, JpaSpecificationExecutor<FoodTypeTbl>, BaseRepository {

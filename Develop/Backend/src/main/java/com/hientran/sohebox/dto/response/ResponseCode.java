@@ -1,4 +1,4 @@
-package com.hientran.sohebox.constants;
+package com.hientran.sohebox.dto.response;
 
 import java.util.List;
 

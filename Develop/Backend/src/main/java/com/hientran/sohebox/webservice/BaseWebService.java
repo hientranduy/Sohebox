@@ -10,7 +10,6 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.hc.client5.http.classic.methods.HttpGet;
 import org.apache.hc.client5.http.config.RequestConfig;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
-import org.apache.hc.core5.http.HttpStatus;
 import org.apache.hc.core5.http.ParseException;
 import org.apache.hc.core5.http.io.entity.EntityUtils;
 import org.apache.hc.core5.net.URIBuilder;
@@ -22,7 +21,6 @@ import com.hientran.sohebox.cache.TypeCache;
 import com.hientran.sohebox.constants.DBConstants;
 import com.hientran.sohebox.entity.RequestExternalTbl;
 import com.hientran.sohebox.entity.TypeTbl;
-import com.hientran.sohebox.exception.WebServiceException;
 import com.hientran.sohebox.sco.RequestExternalSCO;
 import com.hientran.sohebox.sco.SearchDateVO;
 import com.hientran.sohebox.sco.SearchNumberVO;
@@ -104,46 +102,8 @@ public class BaseWebService {
 	 * @throws IOException
 	 */
 	protected String checkAndGetResult(HttpGet httpGet, CloseableHttpResponse responseBody)
-			throws ParseException, IOException, WebServiceException {
-		// Declare result
-		String result = null;
-
-		// Check status
-		String errorLabel = "This call Web Services failed and returned an HTTP status of %d. That means: %s.";
-		int httpStatus = responseBody.getCode();
-		result = EntityUtils.toString(responseBody.getEntity());
-
-		switch (httpStatus) {
-		case HttpStatus.SC_OK:
-		case HttpStatus.SC_CREATED:
-			break;
-
-		case HttpStatus.SC_NO_CONTENT:
-			throw new WebServiceException(String.format(errorLabel, httpStatus, "No content"), result);
-
-		case HttpStatus.SC_BAD_REQUEST:
-			throw new WebServiceException(String.format(errorLabel, httpStatus, "Bad Request"), result);
-
-		case HttpStatus.SC_UNAUTHORIZED:
-			throw new WebServiceException(String.format(errorLabel, httpStatus, "Unauthorized"), result);
-
-		case HttpStatus.SC_NOT_FOUND:
-			throw new WebServiceException(String.format(errorLabel, httpStatus, "Not Found"), result);
-
-		case HttpStatus.SC_METHOD_NOT_ALLOWED:
-			throw new WebServiceException(
-					String.format(errorLabel, httpStatus, "Method " + httpGet.getMethod() + " Not Allowed"), result);
-
-		case HttpStatus.SC_INTERNAL_SERVER_ERROR:
-			throw new WebServiceException(String.format(errorLabel, httpStatus, "Internal Server Error"), result);
-
-		default:
-			throw new WebServiceException("This call to Web Services returned an unexpected HTTP status of:"
-					+ String.valueOf(httpStatus) + ", URL:" + httpGet.toString());
-		}
-
-		// Return
-		return result;
+			throws ParseException, IOException {
+		return EntityUtils.toString(responseBody.getEntity());
 	}
 
 	/**

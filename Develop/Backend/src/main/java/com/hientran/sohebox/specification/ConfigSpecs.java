@@ -3,13 +3,16 @@ package com.hientran.sohebox.specification;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
-import com.hientran.sohebox.constants.enums.ConfigTblEnum;
 import com.hientran.sohebox.entity.ConfigTbl;
 import com.hientran.sohebox.sco.ConfigSCO;
 
 @Component
 @SuppressWarnings({ "unchecked", "rawtypes" })
 public class ConfigSpecs extends GenericSpecs {
+	public enum ConfigTblEnum {
+		configKey, configValue, description, deleteFlag
+	}
+
 	public Specification<ConfigTbl> buildSpecification(ConfigSCO sco) {
 		// Declare result
 		Specification<ConfigTbl> specification = Specification.where(null);

@@ -3,12 +3,14 @@ package com.hientran.sohebox.specification;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
-import com.hientran.sohebox.constants.enums.CryptoPortfolioTblEnum;
 import com.hientran.sohebox.entity.CryptoPortfolioTbl;
 import com.hientran.sohebox.sco.CryptoPortfolioSCO;
 
 @Component
 public class CryptoPortfolioSpecs extends GenericSpecs<CryptoPortfolioTbl> {
+	public enum CryptoPortfolioTblEnum {
+		id, user, token, wallet, starname, syncDate
+	}
 
 	public Specification<CryptoPortfolioTbl> buildSpecification(CryptoPortfolioSCO sco) {
 		// Declare result

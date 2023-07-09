@@ -3,13 +3,15 @@ package com.hientran.sohebox.specification;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
-import com.hientran.sohebox.constants.enums.RequestExternalTblEnum;
 import com.hientran.sohebox.entity.RequestExternalTbl;
 import com.hientran.sohebox.sco.RequestExternalSCO;
 
 @Component
 @SuppressWarnings({ "unchecked", "rawtypes" })
 public class RequestExternalSpecs extends GenericSpecs {
+	public enum RequestExternalTblEnum {
+		id, requestType, requestUrl, createdDate, note
+	}
 
 	public Specification<RequestExternalTbl> buildSpecification(RequestExternalSCO sco) {
 		// Declare result

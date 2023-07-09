@@ -3,13 +3,15 @@ package com.hientran.sohebox.specification;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
-import com.hientran.sohebox.constants.enums.FoodTypeTblEnum;
 import com.hientran.sohebox.entity.FoodTypeTbl;
 import com.hientran.sohebox.sco.FoodTypeSCO;
 
 @Component
 @SuppressWarnings({ "unchecked", "rawtypes" })
 public class FoodTypeSpecs extends GenericSpecs {
+	public enum FoodTypeTblEnum {
+		typeClass, typeCode, typeName, description, deleteFlag
+	}
 
 	public Specification<FoodTypeTbl> buildSpecification(FoodTypeSCO sco) {
 		// Declare result

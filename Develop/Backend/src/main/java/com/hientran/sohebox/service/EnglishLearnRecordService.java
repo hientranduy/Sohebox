@@ -11,15 +11,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.hientran.sohebox.constants.ResponseCode;
-import com.hientran.sohebox.constants.enums.EnglishLearnRecordTblEnum;
+import com.hientran.sohebox.dto.response.APIResponse;
+import com.hientran.sohebox.dto.response.ResponseCode;
 import com.hientran.sohebox.entity.EnglishLearnRecordTbl;
 import com.hientran.sohebox.entity.EnglishTbl;
 import com.hientran.sohebox.entity.UserTbl;
-import com.hientran.sohebox.exception.APIResponse;
 import com.hientran.sohebox.repository.EnglishLearnRecordRepository;
 import com.hientran.sohebox.sco.EnglishLearnRecordSCO;
 import com.hientran.sohebox.sco.SearchNumberVO;
+import com.hientran.sohebox.specification.EnglishLearnRecordSpecs.EnglishLearnRecordTblEnum;
 import com.hientran.sohebox.transformer.EnglishLearnRecordTransformer;
 import com.hientran.sohebox.vo.EnglishLearnRecordVO;
 import com.hientran.sohebox.vo.PageResultVO;

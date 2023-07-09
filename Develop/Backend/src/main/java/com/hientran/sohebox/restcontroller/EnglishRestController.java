@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hientran.sohebox.constants.ApiPublicConstants;
-import com.hientran.sohebox.exception.APIResponse;
+import com.hientran.sohebox.dto.response.APIResponse;
 import com.hientran.sohebox.sco.EnglishLearnRecordSCO;
 import com.hientran.sohebox.sco.EnglishLearnReportSCO;
 import com.hientran.sohebox.sco.EnglishSCO;

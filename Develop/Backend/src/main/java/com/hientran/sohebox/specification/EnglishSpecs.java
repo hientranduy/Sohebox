@@ -3,13 +3,16 @@ package com.hientran.sohebox.specification;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
-import com.hientran.sohebox.constants.enums.EnglishTblEnum;
 import com.hientran.sohebox.entity.EnglishTbl;
 import com.hientran.sohebox.sco.EnglishSCO;
 
 @Component
 @SuppressWarnings({ "unchecked", "rawtypes" })
 public class EnglishSpecs extends GenericSpecs {
+	public enum EnglishTblEnum {
+		keyWord, key_word, wordLevel, word_level_id, category, category_id, learnDay, learn_day_id, imageName,
+		imageFile, vusGrade, vus_grade_id
+	}
 
 	public Specification<EnglishTbl> buildSpecification(EnglishSCO sco) {
 		// Declare result

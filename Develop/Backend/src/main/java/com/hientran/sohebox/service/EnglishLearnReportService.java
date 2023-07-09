@@ -9,9 +9,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.hientran.sohebox.dto.response.APIResponse;
 import com.hientran.sohebox.entity.EnglishLearnReportTbl;
 import com.hientran.sohebox.entity.UserTbl;
-import com.hientran.sohebox.exception.APIResponse;
 import com.hientran.sohebox.repository.EnglishLearnReportRepository;
 import com.hientran.sohebox.sco.EnglishLearnReportSCO;
 import com.hientran.sohebox.transformer.EnglishLearnReportTransformer;

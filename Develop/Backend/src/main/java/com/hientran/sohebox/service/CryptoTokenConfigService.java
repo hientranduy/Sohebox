@@ -14,13 +14,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.hientran.sohebox.constants.CosmosConstants;
 import com.hientran.sohebox.constants.DBConstants;
-import com.hientran.sohebox.constants.ResponseCode;
-import com.hientran.sohebox.constants.enums.CryptoTokenConfigTblEnum;
+import com.hientran.sohebox.dto.response.APIResponse;
+import com.hientran.sohebox.dto.response.ResponseCode;
 import com.hientran.sohebox.entity.CryptoTokenConfigTbl;
-import com.hientran.sohebox.exception.APIResponse;
 import com.hientran.sohebox.repository.CryptoTokenConfigRepository;
 import com.hientran.sohebox.sco.CryptoTokenConfigSCO;
 import com.hientran.sohebox.sco.SearchTextVO;
+import com.hientran.sohebox.specification.CryptoTokenConfigSpecs.CryptoTokenConfigTblEnum;
 import com.hientran.sohebox.transformer.CryptoTokenConfigTransformer;
 import com.hientran.sohebox.vo.CryptoTokenConfigVO;
 import com.hientran.sohebox.vo.PageResultVO;

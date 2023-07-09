@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hientran.sohebox.constants.ApiPublicConstants;
-import com.hientran.sohebox.exception.APIResponse;
+import com.hientran.sohebox.dto.response.APIResponse;
 import com.hientran.sohebox.sco.YoutubeChannelSCO;
 import com.hientran.sohebox.sco.YoutubeChannelVideoSCO;
 import com.hientran.sohebox.service.YoutubeChannelService;
