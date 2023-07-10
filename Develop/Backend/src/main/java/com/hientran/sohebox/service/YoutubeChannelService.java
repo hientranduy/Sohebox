@@ -16,7 +16,6 @@ import com.hientran.sohebox.authentication.UserDetailsServiceImpl;
 import com.hientran.sohebox.cache.MediaTypeCache;
 import com.hientran.sohebox.constants.DBConstants;
 import com.hientran.sohebox.dto.PageResultVO;
-import com.hientran.sohebox.dto.YoutubeChannelVO;
 import com.hientran.sohebox.dto.response.APIResponse;
 import com.hientran.sohebox.dto.response.ResponseCode;
 import com.hientran.sohebox.entity.MediaTypeTbl;
@@ -27,7 +26,6 @@ import com.hientran.sohebox.sco.SearchNumberVO;
 import com.hientran.sohebox.sco.SearchTextVO;
 import com.hientran.sohebox.sco.YoutubeChannelSCO;
 import com.hientran.sohebox.specification.YoutubeChannelSpecs.YoutubeChannelTblEnum;
-import com.hientran.sohebox.transformer.YoutubeChannelTransformer;
 
 import lombok.RequiredArgsConstructor;
 
@@ -36,7 +34,6 @@ import lombok.RequiredArgsConstructor;
 public class YoutubeChannelService extends BaseService {
 
 	private final YoutubeChannelRepository youtubeChannelRepository;
-	private final YoutubeChannelTransformer youtubeChannelTransformer;
 	private final MediaTypeCache mediaTypeCache;
 
 	@Autowired
@@ -46,12 +43,12 @@ public class YoutubeChannelService extends BaseService {
 	 *
 	 * Create
 	 *
-	 * @param vo
+	 * @param rq
 	 * @return
 	 * @throws IOException
 	 */
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
-	public APIResponse<Long> create(YoutubeChannelVO vo) {
+	public APIResponse<Long> create(YoutubeChannelTbl rq) {
 		// Declare result
 		APIResponse<Long> result = new APIResponse<>();
 
@@ -60,7 +57,7 @@ public class YoutubeChannelService extends BaseService {
 			List<String> errors = new ArrayList<>();
 
 			// Channel id must not null
-			if (vo.getChannelId() == null) {
+			if (rq.getChannelId() == null) {
 				errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, YoutubeChannelTblEnum.channelId.name()));
 			}
 
@@ -72,9 +69,9 @@ public class YoutubeChannelService extends BaseService {
 
 		// Check if record existed already
 		if (result.getStatus() == null) {
-			if (recordIsExisted(vo.getChannelId())) {
+			if (recordIsExisted(rq.getChannelId())) {
 				result = new APIResponse<>(HttpStatus.BAD_REQUEST,
-						ResponseCode.mapParam(ResponseCode.EXISTED_RECORD, "channel ID <" + vo.getId() + ">"));
+						ResponseCode.mapParam(ResponseCode.EXISTED_RECORD, "channel ID <" + rq.getId() + ">"));
 			}
 		}
 
@@ -83,11 +80,11 @@ public class YoutubeChannelService extends BaseService {
 		/////////////////////
 		if (result.getStatus() == null) {
 			// Transform
-			YoutubeChannelTbl tbl = youtubeChannelTransformer.convertToTbl(vo);
+			YoutubeChannelTbl tbl = rq;
 
 			// Set category
 			tbl.setCategory(mediaTypeCache.getType(DBConstants.TYPE_CLASS_MEDIA_YOUTUBE_CHANNEL_CATEGORY,
-					vo.getCategory().getTypeCode()));
+					rq.getCategory().getTypeCode()));
 
 			// Create
 			tbl = youtubeChannelRepository.save(tbl);
@@ -104,11 +101,11 @@ public class YoutubeChannelService extends BaseService {
 	 *
 	 * Update
 	 *
-	 * @param vo
+	 * @param rq
 	 * @return
 	 */
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
-	public APIResponse<Long> update(YoutubeChannelVO vo) {
+	public APIResponse<Long> update(YoutubeChannelTbl rq) {
 		// Declare result
 		APIResponse<Long> result = new APIResponse<>();
 
@@ -117,17 +114,17 @@ public class YoutubeChannelService extends BaseService {
 			List<String> errors = new ArrayList<>();
 
 			// Channel id must not null
-			if (vo.getChannelId() == null) {
+			if (rq.getChannelId() == null) {
 				errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, YoutubeChannelTblEnum.channelId.name()));
 			}
 
 			// Category must not null
-			if (vo.getCategory() == null) {
+			if (rq.getCategory() == null) {
 				errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, YoutubeChannelTblEnum.category.name()));
 			}
 
 			// Name must not null
-			if (StringUtils.isBlank(vo.getName())) {
+			if (StringUtils.isBlank(rq.getName())) {
 				errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, YoutubeChannelTblEnum.name.name()));
 			}
 
@@ -140,10 +137,10 @@ public class YoutubeChannelService extends BaseService {
 		// Get the old record
 		YoutubeChannelTbl updateTbl = null;
 		if (result.getStatus() == null) {
-			updateTbl = getByKey(vo.getChannelId());
+			updateTbl = getByKey(rq.getChannelId());
 			if (updateTbl == null) {
 				result = new APIResponse<>(HttpStatus.BAD_REQUEST,
-						ResponseCode.mapParam(ResponseCode.INEXISTED_RECORD, "Channel ID <" + vo.getChannelId() + ">"));
+						ResponseCode.mapParam(ResponseCode.INEXISTED_RECORD, "Channel ID <" + rq.getChannelId() + ">"));
 			}
 		}
 
@@ -155,19 +152,19 @@ public class YoutubeChannelService extends BaseService {
 		if (result.getStatus() == null) {
 
 			// Set category
-			if (vo.getCategory() != null) {
+			if (rq.getCategory() != null) {
 				updateTbl.setCategory(mediaTypeCache.getType(DBConstants.TYPE_CLASS_MEDIA_YOUTUBE_CHANNEL_CATEGORY,
-						vo.getCategory().getTypeCode()));
+						rq.getCategory().getTypeCode()));
 			}
 
 			// Set name
-			if (vo.getName() != null) {
-				updateTbl.setName(vo.getName());
+			if (rq.getName() != null) {
+				updateTbl.setName(rq.getName());
 			}
 
 			// Set description
-			if (vo.getDescription() != null) {
-				updateTbl.setDescription(vo.getDescription());
+			if (rq.getDescription() != null) {
+				updateTbl.setDescription(rq.getDescription());
 			}
 
 			// Update word
@@ -196,7 +193,11 @@ public class YoutubeChannelService extends BaseService {
 		Page<YoutubeChannelTbl> page = youtubeChannelRepository.findAll(sco);
 
 		// Transformer
-		PageResultVO<YoutubeChannelVO> data = youtubeChannelTransformer.convertToPageReturn(page);
+		PageResultVO<YoutubeChannelTbl> data = new PageResultVO<>();
+		if (!CollectionUtils.isEmpty(page.getContent())) {
+			data.setElements(page.getContent());
+			setPageHeader(page, data);
+		}
 
 		// Set data return
 		result.setData(data);
@@ -314,20 +315,16 @@ public class YoutubeChannelService extends BaseService {
 		}
 
 		// Merge to result channel
-		List<YoutubeChannelVO> resultChannel = new ArrayList<>();
+		List<YoutubeChannelTbl> resultChannel = new ArrayList<>();
 		if (CollectionUtils.isNotEmpty(publicChannel)) {
-			for (YoutubeChannelTbl channel : publicChannel) {
-				resultChannel.add(youtubeChannelTransformer.convertToVO(channel));
-			}
+			resultChannel.addAll(publicChannel);
 		}
 		if (CollectionUtils.isNotEmpty(privateChannel)) {
-			for (YoutubeChannelTbl channel : privateChannel) {
-				resultChannel.add(youtubeChannelTransformer.convertToVO(channel));
-			}
+			resultChannel.addAll(privateChannel);
 		}
 
 		// Set data return
-		PageResultVO<YoutubeChannelVO> data = new PageResultVO<>();
+		PageResultVO<YoutubeChannelTbl> data = new PageResultVO<>();
 		data.setElements(resultChannel);
 		data.setCurrentPage(0);
 		data.setTotalPage(1);
