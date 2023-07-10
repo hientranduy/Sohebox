@@ -1,6 +1,7 @@
 package com.hientran.sohebox.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.hientran.sohebox.entity.CountryTbl;
 import com.hientran.sohebox.entity.TypeTbl;
 
 import lombok.AllArgsConstructor;
@@ -13,10 +14,10 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class TradingSymbolVO  {
+public class TradingSymbolVO {
 	private String symbol;
 	private String name;
-	private CountryVO country;
+	private CountryTbl country;
 	private TypeTbl symbolType;
 	private TypeTbl zone;
 	private String description;

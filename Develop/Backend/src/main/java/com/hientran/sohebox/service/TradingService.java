@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.codec.binary.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -22,7 +22,6 @@ import com.hientran.sohebox.cache.TypeCache;
 import com.hientran.sohebox.constants.DBConstants;
 import com.hientran.sohebox.constants.DataExternalConstants;
 import com.hientran.sohebox.constants.TradingConstants;
-import com.hientran.sohebox.dto.CountryVO;
 import com.hientran.sohebox.dto.PageResultVO;
 import com.hientran.sohebox.dto.TradingHistoryItemVO;
 import com.hientran.sohebox.dto.TradingOilPriceSendVO;
@@ -30,6 +29,7 @@ import com.hientran.sohebox.dto.TradingStockPriceSendVO;
 import com.hientran.sohebox.dto.TradingSymbolItemVO;
 import com.hientran.sohebox.dto.response.APIResponse;
 import com.hientran.sohebox.dto.response.ResponseCode;
+import com.hientran.sohebox.entity.CountryTbl;
 import com.hientran.sohebox.entity.TradingSymbolTbl;
 import com.hientran.sohebox.entity.TypeTbl;
 import com.hientran.sohebox.repository.TradingSymbolRepository;
@@ -327,7 +327,7 @@ public class TradingService extends BaseService {
 				for (TradingSymbolItemVO item : result) {
 					tradingSymbolTbl = tradingSymbolRepository.findFirstBySymbol(item.getSymbol());
 					if (tradingSymbolTbl != null) {
-						CountryVO country = new CountryVO();
+						CountryTbl country = new CountryTbl();
 						BeanUtils.copyProperties(tradingSymbolTbl.getCountry(), country);
 						item.setCountry(country);
 					}

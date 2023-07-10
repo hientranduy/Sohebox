@@ -2,6 +2,7 @@ package com.hientran.sohebox.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.hientran.sohebox.entity.CountryTbl;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,7 +14,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class TradingSymbolItemVO  {
+public class TradingSymbolItemVO {
 	@JsonProperty("Symbol")
 	private String symbol;
 
@@ -63,5 +64,5 @@ public class TradingSymbolItemVO  {
 	private String lastUpdate;
 
 	// Other field
-	private CountryVO country;
+	private CountryTbl country;
 }
