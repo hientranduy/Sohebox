@@ -12,6 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import com.hientran.sohebox.constants.DBConstants;
+import com.hientran.sohebox.dto.PageResultVO;
+import com.hientran.sohebox.dto.TypeVO;
 import com.hientran.sohebox.dto.response.APIResponse;
 import com.hientran.sohebox.dto.response.ResponseCode;
 import com.hientran.sohebox.entity.TypeTbl;
@@ -19,8 +21,6 @@ import com.hientran.sohebox.repository.TypeRepository;
 import com.hientran.sohebox.sco.TypeSCO;
 import com.hientran.sohebox.specification.TypeSpecs.TypeTblEnum;
 import com.hientran.sohebox.transformer.BaseTransformer;
-import com.hientran.sohebox.vo.PageResultVO;
-import com.hientran.sohebox.vo.TypeVO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -91,14 +91,14 @@ public class TypeCache extends BaseTransformer {
 			errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, TypeTblEnum.typeName.name()));
 		}
 		if (!CollectionUtils.isEmpty(errors)) {
-			return new APIResponse<Long>(HttpStatus.BAD_REQUEST, errors);
+			return new APIResponse<>(HttpStatus.BAD_REQUEST, errors);
 		}
 
 		// Valid existed record
 		TypeTbl tblSearch = typeRepository.findFirstByTypeClassAndTypeCode(formatTypeClass(vo.getTypeClass()),
 				formatTypeCode(vo.getTypeCode()));
 		if (tblSearch != null) {
-			return new APIResponse<Long>(HttpStatus.BAD_REQUEST,
+			return new APIResponse<>(HttpStatus.BAD_REQUEST,
 					ResponseCode.mapParam(ResponseCode.EXISTED_RECORD, "typeCode/typeClass"));
 		}
 
@@ -113,7 +113,7 @@ public class TypeCache extends BaseTransformer {
 		tbl = typeRepository.save(tbl);
 
 		// Return
-		APIResponse<Long> result = new APIResponse<Long>();
+		APIResponse<Long> result = new APIResponse<>();
 		result.setData(tbl.getId());
 		return result;
 	}
@@ -136,14 +136,14 @@ public class TypeCache extends BaseTransformer {
 			errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, TypeTblEnum.typeName.name()));
 		}
 		if (!CollectionUtils.isEmpty(errors)) {
-			return new APIResponse<Long>(HttpStatus.BAD_REQUEST, errors);
+			return new APIResponse<>(HttpStatus.BAD_REQUEST, errors);
 		}
 
 		// Search old record
 		TypeTbl tbl = typeRepository.findFirstByTypeClassAndTypeCode(formatTypeClass(vo.getTypeClass()),
 				formatTypeCode(vo.getTypeCode()));
 		if (tbl == null) {
-			return new APIResponse<Long>(HttpStatus.BAD_REQUEST,
+			return new APIResponse<>(HttpStatus.BAD_REQUEST,
 					ResponseCode.mapParam(ResponseCode.INEXISTED_RECORD, "typeCode/typeClass"));
 		}
 
@@ -164,7 +164,7 @@ public class TypeCache extends BaseTransformer {
 			tbl.setUrl(vo.getUrl());
 		}
 
-		APIResponse<Long> result = new APIResponse<Long>();
+		APIResponse<Long> result = new APIResponse<>();
 		result.setData(typeRepository.save(tbl).getId());
 
 		// Update cache
@@ -180,13 +180,13 @@ public class TypeCache extends BaseTransformer {
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
 	public APIResponse<Object> search(TypeSCO sco) {
 		// Declare result
-		APIResponse<Object> result = new APIResponse<Object>();
+		APIResponse<Object> result = new APIResponse<>();
 
 		// Get data
 		Page<TypeTbl> page = typeRepository.findAll(sco);
 
 		// Transformer
-		PageResultVO<TypeTbl> data = new PageResultVO<TypeTbl>();
+		PageResultVO<TypeTbl> data = new PageResultVO<>();
 		data.setElements(page.getContent());
 		setPageHeader(page, data);
 
@@ -203,7 +203,7 @@ public class TypeCache extends BaseTransformer {
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
 	public List<TypeTbl> searchList(TypeSCO sco) {
 		// Declare result
-		List<TypeTbl> result = new ArrayList<TypeTbl>();
+		List<TypeTbl> result = new ArrayList<>();
 
 		// Get data
 		Page<TypeTbl> page = typeRepository.findAll(sco);

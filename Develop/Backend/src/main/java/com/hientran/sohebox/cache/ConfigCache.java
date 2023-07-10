@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import com.hientran.sohebox.dto.ConfigVO;
+import com.hientran.sohebox.dto.PageResultVO;
 import com.hientran.sohebox.dto.response.APIResponse;
 import com.hientran.sohebox.dto.response.ResponseCode;
 import com.hientran.sohebox.entity.ConfigTbl;
@@ -19,8 +21,6 @@ import com.hientran.sohebox.repository.ConfigRepository;
 import com.hientran.sohebox.sco.ConfigSCO;
 import com.hientran.sohebox.specification.ConfigSpecs.ConfigTblEnum;
 import com.hientran.sohebox.transformer.BaseTransformer;
-import com.hientran.sohebox.vo.ConfigVO;
-import com.hientran.sohebox.vo.PageResultVO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -74,13 +74,13 @@ public class ConfigCache extends BaseTransformer {
 			errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, ConfigTblEnum.configValue.name()));
 		}
 		if (!CollectionUtils.isEmpty(errors)) {
-			return new APIResponse<Long>(HttpStatus.BAD_REQUEST, errors);
+			return new APIResponse<>(HttpStatus.BAD_REQUEST, errors);
 		}
 
 		// Valid existed record
 		ConfigTbl searchTbl = configRepository.findFirstByConfigKey(vo.getConfigKey());
 		if (searchTbl != null) {
-			return new APIResponse<Long>(HttpStatus.BAD_REQUEST,
+			return new APIResponse<>(HttpStatus.BAD_REQUEST,
 					ResponseCode.mapParam(ResponseCode.EXISTED_RECORD, "config"));
 		}
 
@@ -91,7 +91,7 @@ public class ConfigCache extends BaseTransformer {
 		tbl = configRepository.save(tbl);
 
 		// Return
-		APIResponse<Long> result = new APIResponse<Long>();
+		APIResponse<Long> result = new APIResponse<>();
 		result.setData(tbl.getId());
 		return result;
 	}
@@ -111,13 +111,13 @@ public class ConfigCache extends BaseTransformer {
 			errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, ConfigTblEnum.configValue.name()));
 		}
 		if (!CollectionUtils.isEmpty(errors)) {
-			return new APIResponse<Long>(HttpStatus.BAD_REQUEST, errors);
+			return new APIResponse<>(HttpStatus.BAD_REQUEST, errors);
 		}
 
 		// Valid existed record
 		ConfigTbl updateTbl = configRepository.findFirstByConfigKey(vo.getConfigKey());
 		if (updateTbl == null) {
-			return new APIResponse<Long>(HttpStatus.BAD_REQUEST,
+			return new APIResponse<>(HttpStatus.BAD_REQUEST,
 					ResponseCode.mapParam(ResponseCode.INEXISTED_RECORD, "config"));
 		}
 
@@ -127,7 +127,7 @@ public class ConfigCache extends BaseTransformer {
 			updateTbl.setDescription(vo.getDescription());
 		}
 
-		APIResponse<Long> result = new APIResponse<Long>();
+		APIResponse<Long> result = new APIResponse<>();
 		result.setData(configRepository.save(updateTbl).getId());
 
 		// Update cache
@@ -143,13 +143,13 @@ public class ConfigCache extends BaseTransformer {
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
 	public APIResponse<Object> search(ConfigSCO sco) {
 		// Declare result
-		APIResponse<Object> result = new APIResponse<Object>();
+		APIResponse<Object> result = new APIResponse<>();
 
 		// Get data
 		Page<ConfigTbl> page = configRepository.findAll(sco);
 
 		// Transformer
-		PageResultVO<ConfigTbl> data = new PageResultVO<ConfigTbl>();
+		PageResultVO<ConfigTbl> data = new PageResultVO<>();
 		data.setElements(page.getContent());
 		setPageHeader(page, data);
 

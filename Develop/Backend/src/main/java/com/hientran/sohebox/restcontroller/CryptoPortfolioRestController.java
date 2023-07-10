@@ -13,12 +13,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hientran.sohebox.constants.ApiPublicConstants;
+import com.hientran.sohebox.dto.CryptoPortfolioVO;
 import com.hientran.sohebox.dto.response.APIResponse;
 import com.hientran.sohebox.sco.CryptoPortfolioHistorySCO;
 import com.hientran.sohebox.sco.CryptoPortfolioSCO;
 import com.hientran.sohebox.service.CryptoPortfolioHistoryService;
 import com.hientran.sohebox.service.CryptoPortfolioService;
-import com.hientran.sohebox.vo.CryptoPortfolioVO;
 
 import lombok.RequiredArgsConstructor;
 

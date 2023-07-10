@@ -16,7 +16,7 @@ public interface CountryRepository
 	CountrySpecs specs = new CountrySpecs();
 
 	/**
-	 * 
+	 *
 	 * Get all data
 	 *
 	 * @return

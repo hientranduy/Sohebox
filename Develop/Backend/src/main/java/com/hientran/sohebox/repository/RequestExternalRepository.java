@@ -16,7 +16,7 @@ public interface RequestExternalRepository
 	RequestExternalSpecs specs = new RequestExternalSpecs();
 
 	/**
-	 * 
+	 *
 	 * Get all data
 	 *
 	 * @return

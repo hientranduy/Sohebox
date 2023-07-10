@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.hientran.sohebox.dto.YoutubeVideoVO;
 import com.hientran.sohebox.dto.response.APIResponse;
 import com.hientran.sohebox.dto.response.ResponseCode;
 import com.hientran.sohebox.entity.YoutubeVideoTbl;
@@ -17,7 +18,6 @@ import com.hientran.sohebox.repository.YoutubeVideoRepository;
 import com.hientran.sohebox.sco.SearchTextVO;
 import com.hientran.sohebox.sco.YoutubeVideoSCO;
 import com.hientran.sohebox.specification.YoutubeVideoSpecs.YoutubeVideoTblEnum;
-import com.hientran.sohebox.vo.YoutubeVideoVO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -30,7 +30,7 @@ public class YoutubeVideoService extends BaseService {
 
 	/**
 	 * Search
-	 * 
+	 *
 	 * @param sco
 	 * @return
 	 */
@@ -52,9 +52,9 @@ public class YoutubeVideoService extends BaseService {
 	}
 
 	/**
-	 * 
+	 *
 	 * Add video if not exist
-	 * 
+	 *
 	 * @param vo
 	 * @return
 	 * @throws IOException
@@ -62,7 +62,7 @@ public class YoutubeVideoService extends BaseService {
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
 	public APIResponse<YoutubeVideoTbl> mergeVideo(YoutubeVideoVO vo) {
 		// Declare result
-		APIResponse<YoutubeVideoTbl> result = new APIResponse<YoutubeVideoTbl>();
+		APIResponse<YoutubeVideoTbl> result = new APIResponse<>();
 
 		// Validate input
 		if (result.getStatus() == null) {
@@ -75,7 +75,7 @@ public class YoutubeVideoService extends BaseService {
 
 			// Record error
 			if (CollectionUtils.isNotEmpty(errors)) {
-				result = new APIResponse<YoutubeVideoTbl>(HttpStatus.BAD_REQUEST, errors);
+				result = new APIResponse<>(HttpStatus.BAD_REQUEST, errors);
 			}
 		}
 
@@ -109,7 +109,7 @@ public class YoutubeVideoService extends BaseService {
 	}
 
 	/**
-	 * 
+	 *
 	 * Get video by id
 	 *
 	 */

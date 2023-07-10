@@ -16,7 +16,7 @@ public interface EnglishLearnRecordRepository extends JpaRepository<EnglishLearn
 	EnglishLearnRecordSpecs specs = new EnglishLearnRecordSpecs();
 
 	/**
-	 * 
+	 *
 	 * Get all data
 	 *
 	 * @return

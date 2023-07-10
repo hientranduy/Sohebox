@@ -3,8 +3,8 @@ package com.hientran.sohebox.transformer;
 import org.dozer.Mapper;
 import org.springframework.stereotype.Component;
 
+import com.hientran.sohebox.dto.RequestExternalVO;
 import com.hientran.sohebox.entity.RequestExternalTbl;
-import com.hientran.sohebox.vo.RequestExternalVO;
 
 import lombok.RequiredArgsConstructor;
 

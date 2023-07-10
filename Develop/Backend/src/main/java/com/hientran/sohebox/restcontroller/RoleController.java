@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hientran.sohebox.constants.ApiPublicConstants;
+import com.hientran.sohebox.dto.RoleVO;
 import com.hientran.sohebox.dto.response.ResponseWithBody;
 import com.hientran.sohebox.entity.RoleTbl;
 import com.hientran.sohebox.service.RoleService;
 import com.hientran.sohebox.utils.ResponseUtil;
-import com.hientran.sohebox.vo.RoleVO;
 
 import lombok.RequiredArgsConstructor;
 

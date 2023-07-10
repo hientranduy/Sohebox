@@ -16,7 +16,7 @@ public interface YoutubeChannelVideoRepository extends JpaRepository<YoutubeChan
 	YoutubeChannelVideoSpecs specs = new YoutubeChannelVideoSpecs();
 
 	/**
-	 * 
+	 *
 	 * Get all data
 	 *
 	 * @return

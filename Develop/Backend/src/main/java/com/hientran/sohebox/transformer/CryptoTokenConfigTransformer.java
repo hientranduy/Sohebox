@@ -8,9 +8,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
+import com.hientran.sohebox.dto.CryptoTokenConfigVO;
+import com.hientran.sohebox.dto.PageResultVO;
 import com.hientran.sohebox.entity.CryptoTokenConfigTbl;
-import com.hientran.sohebox.vo.CryptoTokenConfigVO;
-import com.hientran.sohebox.vo.PageResultVO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -26,7 +26,7 @@ public class CryptoTokenConfigTransformer extends BaseTransformer {
 	 */
 	public PageResultVO<CryptoTokenConfigVO> convertToPageReturn(Page<CryptoTokenConfigTbl> pageTbl) {
 		// Declare result
-		PageResultVO<CryptoTokenConfigVO> result = new PageResultVO<CryptoTokenConfigVO>();
+		PageResultVO<CryptoTokenConfigVO> result = new PageResultVO<>();
 
 		// Convert data
 		if (!CollectionUtils.isEmpty(pageTbl.getContent())) {

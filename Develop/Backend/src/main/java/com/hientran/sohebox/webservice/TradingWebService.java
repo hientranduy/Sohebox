@@ -23,7 +23,7 @@ public class TradingWebService extends BaseWebService {
 	private final CloseableHttpClient httpClient;
 
 	/**
-	 * 
+	 *
 	 * Get method
 	 *
 	 */

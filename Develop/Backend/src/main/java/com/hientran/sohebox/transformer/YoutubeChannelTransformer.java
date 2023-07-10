@@ -8,9 +8,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
+import com.hientran.sohebox.dto.PageResultVO;
+import com.hientran.sohebox.dto.YoutubeChannelVO;
 import com.hientran.sohebox.entity.YoutubeChannelTbl;
-import com.hientran.sohebox.vo.PageResultVO;
-import com.hientran.sohebox.vo.YoutubeChannelVO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -24,12 +24,12 @@ public class YoutubeChannelTransformer extends BaseTransformer {
 	 * Convert Page<YoutubeChannelTbl> to PageResultVO<YoutubeChannelVO>
 	 *
 	 * @param Page<YoutubeChannelTbl>
-	 * 
+	 *
 	 * @return PageResultVO<YoutubeChannelVO>
 	 */
 	public PageResultVO<YoutubeChannelVO> convertToPageReturn(Page<YoutubeChannelTbl> pageTbl) {
 		// Declare result
-		PageResultVO<YoutubeChannelVO> result = new PageResultVO<YoutubeChannelVO>();
+		PageResultVO<YoutubeChannelVO> result = new PageResultVO<>();
 
 		// Convert data
 		if (!CollectionUtils.isEmpty(pageTbl.getContent())) {

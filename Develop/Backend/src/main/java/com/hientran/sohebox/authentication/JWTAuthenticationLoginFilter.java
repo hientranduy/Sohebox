@@ -22,7 +22,7 @@ public class JWTAuthenticationLoginFilter extends UsernamePasswordAuthentication
 	private JWTTokenService tokenAuthenticationService;
 
 	/**
-	 * 
+	 *
 	 * Constructor
 	 *
 	 * @param url
@@ -44,7 +44,7 @@ public class JWTAuthenticationLoginFilter extends UsernamePasswordAuthentication
 
 	/**
 	 * Authorize login
-	 * 
+	 *
 	 * {@inheritDoc}
 	 */
 	@Override
@@ -65,7 +65,7 @@ public class JWTAuthenticationLoginFilter extends UsernamePasswordAuthentication
 
 	/**
 	 * In case authenticate success, generate JWT and add to token
-	 * 
+	 *
 	 * {@inheritDoc}
 	 */
 	@Override
@@ -75,7 +75,7 @@ public class JWTAuthenticationLoginFilter extends UsernamePasswordAuthentication
 	}
 
 	/**
-	 * 
+	 *
 	 * Temporary UserCredentials
 	 *
 	 */

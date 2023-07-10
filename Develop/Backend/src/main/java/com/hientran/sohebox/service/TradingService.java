@@ -22,6 +22,12 @@ import com.hientran.sohebox.cache.TypeCache;
 import com.hientran.sohebox.constants.DBConstants;
 import com.hientran.sohebox.constants.DataExternalConstants;
 import com.hientran.sohebox.constants.TradingConstants;
+import com.hientran.sohebox.dto.CountryVO;
+import com.hientran.sohebox.dto.PageResultVO;
+import com.hientran.sohebox.dto.TradingHistoryItemVO;
+import com.hientran.sohebox.dto.TradingOilPriceSendVO;
+import com.hientran.sohebox.dto.TradingStockPriceSendVO;
+import com.hientran.sohebox.dto.TradingSymbolItemVO;
 import com.hientran.sohebox.dto.response.APIResponse;
 import com.hientran.sohebox.dto.response.ResponseCode;
 import com.hientran.sohebox.entity.TradingSymbolTbl;
@@ -31,12 +37,6 @@ import com.hientran.sohebox.sco.SearchNumberVO;
 import com.hientran.sohebox.sco.TradingSymbolSCO;
 import com.hientran.sohebox.utils.MyDateUtils;
 import com.hientran.sohebox.utils.ObjectMapperUtil;
-import com.hientran.sohebox.vo.CountryVO;
-import com.hientran.sohebox.vo.PageResultVO;
-import com.hientran.sohebox.vo.TradingHistoryItemVO;
-import com.hientran.sohebox.vo.TradingOilPriceSendVO;
-import com.hientran.sohebox.vo.TradingStockPriceSendVO;
-import com.hientran.sohebox.vo.TradingSymbolItemVO;
 import com.hientran.sohebox.webservice.TradingWebService;
 
 import lombok.RequiredArgsConstructor;
@@ -56,14 +56,14 @@ public class TradingService extends BaseService {
 
 	/**
 	 * Search video
-	 * 
+	 *
 	 * @param sco
 	 * @return
 	 */
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
 	public APIResponse<Object> searchOilPrice() {
 		// Declare result
-		APIResponse<Object> result = new APIResponse<Object>();
+		APIResponse<Object> result = new APIResponse<>();
 
 		// Calculate start date
 		Date startDate = MyDateUtils.addMinusDate(new Date(), -7);
@@ -76,7 +76,7 @@ public class TradingService extends BaseService {
 		///////////////////
 		// Get data LIVE //
 		///////////////////
-		Map<String, String> parameters = new HashMap<String, String>();
+		Map<String, String> parameters = new HashMap<>();
 		parameters.put(TradingConstants.TRADINGECONOMICS_PARAM_KEY, TradingConstants.TRADINGECONOMICS_CONSTANT_KEY);
 		parameters.put(TradingConstants.TRADINGECONOMICS_PARAM_OUTPUT_FORMAT,
 				TradingConstants.TRADINGECONOMICS_CONSTANT_FORMAT_JSON);
@@ -98,7 +98,7 @@ public class TradingService extends BaseService {
 				symbolItems = Arrays.asList(response);
 			}
 		} catch (Exception e) {
-			result = new APIResponse<Object>(HttpStatus.BAD_REQUEST,
+			result = new APIResponse<>(HttpStatus.BAD_REQUEST,
 					ResponseCode.mapParam(ResponseCode.ERROR_EXCEPTION, e.getMessage()));
 		}
 
@@ -109,7 +109,7 @@ public class TradingService extends BaseService {
 		localFilepath = null;
 		lateTimeSecond = 0;
 		if (result.getStatus() == null) {
-			parameters = new HashMap<String, String>();
+			parameters = new HashMap<>();
 			parameters.put(TradingConstants.TRADINGECONOMICS_PARAM_KEY, TradingConstants.TRADINGECONOMICS_CONSTANT_KEY);
 			parameters.put(TradingConstants.TRADINGECONOMICS_PARAM_OUTPUT_FORMAT,
 					TradingConstants.TRADINGECONOMICS_CONSTANT_FORMAT_JSON);
@@ -130,7 +130,7 @@ public class TradingService extends BaseService {
 					historyItems = Arrays.asList(response);
 				}
 			} catch (Exception e) {
-				result = new APIResponse<Object>(HttpStatus.BAD_REQUEST,
+				result = new APIResponse<>(HttpStatus.BAD_REQUEST,
 						ResponseCode.mapParam(ResponseCode.ERROR_EXCEPTION, e.getMessage()));
 			}
 		}
@@ -168,10 +168,10 @@ public class TradingService extends BaseService {
 			resultItem.setHistoryCL1(historyCL1);
 			resultItem.setHistoryCO1(historyCO1);
 
-			List<TradingOilPriceSendVO> resultList = new ArrayList<TradingOilPriceSendVO>();
+			List<TradingOilPriceSendVO> resultList = new ArrayList<>();
 			resultList.add(resultItem);
 
-			PageResultVO<TradingOilPriceSendVO> data = new PageResultVO<TradingOilPriceSendVO>();
+			PageResultVO<TradingOilPriceSendVO> data = new PageResultVO<>();
 			data.setElements(resultList);
 			data.setCurrentPage(0);
 			data.setTotalPage(1);
@@ -186,14 +186,14 @@ public class TradingService extends BaseService {
 
 	/**
 	 * Search video
-	 * 
+	 *
 	 * @param sco
 	 * @return
 	 */
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
 	public APIResponse<Object> searchStockPrice() {
 		// Declare result
-		APIResponse<Object> result = new APIResponse<Object>();
+		APIResponse<Object> result = new APIResponse<>();
 
 		try {
 			// Get data stock America
@@ -226,7 +226,7 @@ public class TradingService extends BaseService {
 			List<TradingStockPriceSendVO> resultData = new ArrayList<>();
 			resultData.add(resultItemData);
 
-			PageResultVO<TradingStockPriceSendVO> data = new PageResultVO<TradingStockPriceSendVO>();
+			PageResultVO<TradingStockPriceSendVO> data = new PageResultVO<>();
 			data.setElements(resultData);
 			data.setCurrentPage(0);
 			data.setTotalPage(1);
@@ -234,7 +234,7 @@ public class TradingService extends BaseService {
 
 			result.setData(data);
 		} catch (Exception e) {
-			result = new APIResponse<Object>(HttpStatus.BAD_REQUEST,
+			result = new APIResponse<>(HttpStatus.BAD_REQUEST,
 					ResponseCode.mapParam(ResponseCode.ERROR_EXCEPTION, e.getMessage()));
 		}
 
@@ -283,7 +283,7 @@ public class TradingService extends BaseService {
 			result = new ArrayList<>();
 
 			// Prepare parameter
-			Map<String, String> parameters = new HashMap<String, String>();
+			Map<String, String> parameters = new HashMap<>();
 			parameters.put(TradingConstants.TRADINGECONOMICS_PARAM_KEY, TradingConstants.TRADINGECONOMICS_CONSTANT_KEY);
 			parameters.put(TradingConstants.TRADINGECONOMICS_PARAM_OUTPUT_FORMAT,
 					TradingConstants.TRADINGECONOMICS_CONSTANT_FORMAT_JSON);

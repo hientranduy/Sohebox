@@ -12,6 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import com.hientran.sohebox.constants.DBConstants;
+import com.hientran.sohebox.dto.EnglishTypeVO;
+import com.hientran.sohebox.dto.PageResultVO;
 import com.hientran.sohebox.dto.response.APIResponse;
 import com.hientran.sohebox.dto.response.ResponseCode;
 import com.hientran.sohebox.entity.EnglishTypeTbl;
@@ -20,8 +22,6 @@ import com.hientran.sohebox.sco.EnglishTypeSCO;
 import com.hientran.sohebox.sco.SearchTextVO;
 import com.hientran.sohebox.specification.EnglishTypeSpecs.EnglishTypeTblEnum;
 import com.hientran.sohebox.transformer.BaseTransformer;
-import com.hientran.sohebox.vo.EnglishTypeVO;
-import com.hientran.sohebox.vo.PageResultVO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -83,14 +83,14 @@ public class EnglishTypeCache extends BaseTransformer {
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
 	public APIResponse<Object> search(EnglishTypeSCO sco) {
 		// Declare result
-		APIResponse<Object> result = new APIResponse<Object>();
+		APIResponse<Object> result = new APIResponse<>();
 
 		// Get data
 		Page<EnglishTypeTbl> page = typeRepository.findAll(sco);
 
 		// Transformer
 		// Transformer
-		PageResultVO<EnglishTypeTbl> data = new PageResultVO<EnglishTypeTbl>();
+		PageResultVO<EnglishTypeTbl> data = new PageResultVO<>();
 		data.setElements(page.getContent());
 		setPageHeader(page, data);
 
@@ -119,14 +119,14 @@ public class EnglishTypeCache extends BaseTransformer {
 			errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, EnglishTypeTblEnum.typeName.name()));
 		}
 		if (!CollectionUtils.isEmpty(errors)) {
-			return new APIResponse<Long>(HttpStatus.BAD_REQUEST, errors);
+			return new APIResponse<>(HttpStatus.BAD_REQUEST, errors);
 		}
 
 		// Search old record
 		EnglishTypeTbl tbl = typeRepository.findFirstByTypeClassAndTypeCode(formatTypeClass(vo.getTypeClass()),
 				formatTypeCode(vo.getTypeCode()));
 		if (tbl == null) {
-			return new APIResponse<Long>(HttpStatus.BAD_REQUEST,
+			return new APIResponse<>(HttpStatus.BAD_REQUEST,
 					ResponseCode.mapParam(ResponseCode.INEXISTED_RECORD, "typeCode/typeClass"));
 		}
 
@@ -153,7 +153,7 @@ public class EnglishTypeCache extends BaseTransformer {
 		if (vo.getIconUrl() != null) {
 			tbl.setIconUrl(vo.getIconUrl());
 		}
-		APIResponse<Long> result = new APIResponse<Long>();
+		APIResponse<Long> result = new APIResponse<>();
 		result.setData(typeRepository.save(tbl).getId());
 
 		// Update cache

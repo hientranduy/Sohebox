@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hientran.sohebox.constants.ApiPublicConstants;
+import com.hientran.sohebox.dto.FoodVO;
 import com.hientran.sohebox.dto.response.APIResponse;
 import com.hientran.sohebox.sco.FoodSCO;
 import com.hientran.sohebox.service.FoodService;
-import com.hientran.sohebox.vo.FoodVO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -26,7 +26,7 @@ public class FoodRestController extends BaseRestController {
 	private final FoodService foodService;
 
 	/**
-	 * 
+	 *
 	 * Create
 	 *
 	 * @param vo
@@ -43,7 +43,7 @@ public class FoodRestController extends BaseRestController {
 	}
 
 	/**
-	 * 
+	 *
 	 * Update
 	 *
 	 * @param vo
@@ -60,7 +60,7 @@ public class FoodRestController extends BaseRestController {
 	}
 
 	/**
-	 * 
+	 *
 	 * Search
 	 *
 	 * @param sco
@@ -78,7 +78,7 @@ public class FoodRestController extends BaseRestController {
 	}
 
 	/**
-	 * 
+	 *
 	 * Get by ID
 	 *
 	 * @param id

@@ -10,7 +10,7 @@ import org.apache.commons.collections.CollectionUtils;
 
 /**
  * SQL Utils
- * 
+ *
  */
 public class SQLUtils {
 
@@ -34,7 +34,7 @@ public class SQLUtils {
 
 	/**
 	 * Default constructor to hide me.
-	 * 
+	 *
 	 */
 	private SQLUtils() {
 
@@ -44,7 +44,7 @@ public class SQLUtils {
 	 * <P>
 	 * Replace some specials characters in sql statement (\ _ *).
 	 * </P>
-	 * 
+	 *
 	 * @param sqlString SQL statement
 	 * @return String, SQL satement after replacing
 	 */
@@ -68,7 +68,7 @@ public class SQLUtils {
 
 	/**
 	 * Escape special character quote '
-	 * 
+	 *
 	 * @param sqlString sql statement
 	 * @return sql normalized
 	 */
@@ -83,9 +83,9 @@ public class SQLUtils {
 	}
 
 	/**
-	 * 
+	 *
 	 * put sql string into double quote
-	 * 
+	 *
 	 * @param sqlString SQL statement
 	 * @return new SQL string
 	 */
@@ -102,9 +102,9 @@ public class SQLUtils {
 	}
 
 	/**
-	 * 
+	 *
 	 * Normalize search like any where condition.
-	 * 
+	 *
 	 * @param sqlString SQL
 	 * @return new SQL String
 	 */
@@ -122,9 +122,9 @@ public class SQLUtils {
 	}
 
 	/**
-	 * 
+	 *
 	 * Normalize search like start
-	 * 
+	 *
 	 * @param sqlString SQL
 	 * @return new SQL String
 	 */
@@ -141,9 +141,9 @@ public class SQLUtils {
 	}
 
 	/**
-	 * 
+	 *
 	 * Normalize search like end
-	 * 
+	 *
 	 * @param sqlString SQL
 	 * @return new SQL String
 	 */
@@ -161,10 +161,10 @@ public class SQLUtils {
 
 	/**
 	 * Convert list data as string to applied in sql statement.
-	 * 
+	 *
 	 * @param codes data list
 	 * @return SQL expression
-	 * 
+	 *
 	 */
 	public static String convertToInStringList(List<String> codes) {
 		StringBuilder sql = new StringBuilder();
@@ -184,10 +184,10 @@ public class SQLUtils {
 
 	/**
 	 * Convert list data as integer to applied in sql statement.
-	 * 
+	 *
 	 * @param codes data list
 	 * @return SQL expression
-	 * 
+	 *
 	 */
 	public static String convertToInIntegerList(List<String> codes) {
 		StringBuilder sql = new StringBuilder();
@@ -204,14 +204,14 @@ public class SQLUtils {
 	}
 
 	/**
-	 * 
+	 *
 	 * Put a list of sql string into double quote
-	 * 
+	 *
 	 * @param objectList SQL statement
 	 * @return new list of SQL string to be into double quote.
 	 */
 	public static List<String> normalizeSQLString(final List<String> objectList) {
-		List<String> results = new ArrayList<String>();
+		List<String> results = new ArrayList<>();
 		if (CollectionUtils.isNotEmpty(objectList)) {
 			StringBuilder result = null;
 			for (String obj : objectList) {
@@ -228,7 +228,7 @@ public class SQLUtils {
 
 	/**
 	 * Explanation of processing
-	 * 
+	 *
 	 * @param ids
 	 * @return a string under SQL format.
 	 */
@@ -248,7 +248,7 @@ public class SQLUtils {
 
 	/**
 	 * Explanation of processing
-	 * 
+	 *
 	 * @param ids
 	 * @return a string under SQL format.
 	 */
@@ -268,7 +268,7 @@ public class SQLUtils {
 
 	/**
 	 * Convert int[] to string
-	 * 
+	 *
 	 * @param ids
 	 * @return
 	 */
@@ -286,7 +286,7 @@ public class SQLUtils {
 
 	/**
 	 * Explanation of processing
-	 * 
+	 *
 	 * @param ids
 	 * @return a string under SQL format.
 	 */
@@ -306,7 +306,7 @@ public class SQLUtils {
 
 	/**
 	 * Explanation of processing
-	 * 
+	 *
 	 * @param ids
 	 * @return a string under SQL format.
 	 */
@@ -332,7 +332,7 @@ public class SQLUtils {
 
 	/**
 	 * Convert object to String
-	 * 
+	 *
 	 * @param object Java Object
 	 * @return String
 	 */
@@ -346,7 +346,7 @@ public class SQLUtils {
 
 	/**
 	 * Convert an object to big decimal
-	 * 
+	 *
 	 * @param object
 	 * @return
 	 */
@@ -360,7 +360,7 @@ public class SQLUtils {
 
 	/**
 	 * Explanation of processing
-	 * 
+	 *
 	 * @param srList
 	 * @return
 	 */

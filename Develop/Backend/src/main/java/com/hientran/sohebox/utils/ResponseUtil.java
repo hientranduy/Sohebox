@@ -17,7 +17,7 @@ public class ResponseUtil {
 
 	/**
 	 * Response SUCCESS
-	 * 
+	 *
 	 * @return
 	 */
 	public static ResponseStatus createSuccessStatus() {
@@ -29,7 +29,7 @@ public class ResponseUtil {
 
 	/**
 	 * Response FAILED
-	 * 
+	 *
 	 * @return
 	 */
 	public static ResponseStatus createFailedStatus() {
@@ -41,7 +41,7 @@ public class ResponseUtil {
 
 	/**
 	 * Response by error list
-	 * 
+	 *
 	 * @param errors
 	 * @return
 	 */
@@ -56,7 +56,7 @@ public class ResponseUtil {
 
 	/**
 	 * Response by response code with param
-	 * 
+	 *
 	 * @param responseCode
 	 * @return
 	 */
@@ -68,7 +68,7 @@ public class ResponseUtil {
 
 	/**
 	 * Response by response code without param
-	 * 
+	 *
 	 * @param responseCode
 	 * @return
 	 */
@@ -80,7 +80,7 @@ public class ResponseUtil {
 
 	/**
 	 * Prepare ErrorCode
-	 * 
+	 *
 	 * @param responseCode
 	 * @param param
 	 * @return
@@ -98,7 +98,7 @@ public class ResponseUtil {
 
 	/**
 	 * Prepare ErrorCode without param
-	 * 
+	 *
 	 * @param responseCode
 	 * @return
 	 */

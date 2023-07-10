@@ -16,7 +16,7 @@ public interface YoutubeChannelRepository
 	YoutubeChannelSpecs specs = new YoutubeChannelSpecs();
 
 	/**
-	 * 
+	 *
 	 * Get all data
 	 *
 	 * @return

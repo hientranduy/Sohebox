@@ -8,9 +8,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
+import com.hientran.sohebox.dto.CryptoPortfolioHistoryVO;
+import com.hientran.sohebox.dto.PageResultVO;
 import com.hientran.sohebox.entity.CryptoPortfolioHistoryTbl;
-import com.hientran.sohebox.vo.CryptoPortfolioHistoryVO;
-import com.hientran.sohebox.vo.PageResultVO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -26,7 +26,7 @@ public class CryptoPortfolioHistoryTransformer extends BaseTransformer {
 	 */
 	public PageResultVO<CryptoPortfolioHistoryVO> convertToPageReturn(Page<CryptoPortfolioHistoryTbl> pageTbl) {
 		// Declare result
-		PageResultVO<CryptoPortfolioHistoryVO> result = new PageResultVO<CryptoPortfolioHistoryVO>();
+		PageResultVO<CryptoPortfolioHistoryVO> result = new PageResultVO<>();
 
 		// Convert data
 		if (!CollectionUtils.isEmpty(pageTbl.getContent())) {

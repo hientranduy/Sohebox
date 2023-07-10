@@ -24,7 +24,7 @@ public interface EnglishTypeRepository
 	EnglishTypeSpecs specs = new EnglishTypeSpecs();
 
 	/**
-	 * 
+	 *
 	 * Get all data
 	 *
 	 * @return

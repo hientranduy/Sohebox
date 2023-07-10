@@ -23,7 +23,7 @@ public interface UserRepository
 	UserSpecs specs = new UserSpecs();
 
 	/**
-	 * 
+	 *
 	 * Get all data
 	 *
 	 * @return
@@ -49,7 +49,7 @@ public interface UserRepository
 	}
 
 	/**
-	 * 
+	 *
 	 * Get active users
 	 *
 	 * @return

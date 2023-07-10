@@ -17,6 +17,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.hientran.sohebox.authentication.UserDetailsServiceImpl;
 import com.hientran.sohebox.constants.DBConstants;
+import com.hientran.sohebox.dto.ChangePasswordVO;
+import com.hientran.sohebox.dto.ChangePrivateKeyVO;
+import com.hientran.sohebox.dto.PageResultVO;
+import com.hientran.sohebox.dto.UserStatusVO;
+import com.hientran.sohebox.dto.UserVO;
 import com.hientran.sohebox.dto.response.APIResponse;
 import com.hientran.sohebox.dto.response.ResponseCode;
 import com.hientran.sohebox.entity.UserActivityTbl;
@@ -31,11 +36,6 @@ import com.hientran.sohebox.specification.UserActivitySpecs.UserActivityTblEnum;
 import com.hientran.sohebox.specification.UserSpecs.UserTblEnum;
 import com.hientran.sohebox.transformer.UserTransformer;
 import com.hientran.sohebox.utils.MyDateUtils;
-import com.hientran.sohebox.vo.ChangePasswordVO;
-import com.hientran.sohebox.vo.ChangePrivateKeyVO;
-import com.hientran.sohebox.vo.PageResultVO;
-import com.hientran.sohebox.vo.UserStatusVO;
-import com.hientran.sohebox.vo.UserVO;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -78,12 +78,12 @@ public class UserService {
 			errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, UserTblEnum.lastName.name()));
 		}
 		if (CollectionUtils.isNotEmpty(errors)) {
-			return new APIResponse<Long>(HttpStatus.BAD_REQUEST, errors);
+			return new APIResponse<>(HttpStatus.BAD_REQUEST, errors);
 		}
 
 		// Valid existed record
 		if (getByUserName(vo.getUsername()) != null) {
-			return new APIResponse<Long>(HttpStatus.BAD_REQUEST,
+			return new APIResponse<>(HttpStatus.BAD_REQUEST,
 					ResponseCode.mapParam(ResponseCode.EXISTED_USERNAME, vo.getUsername()));
 		}
 
@@ -108,7 +108,7 @@ public class UserService {
 		tbl = userRepository.save(tbl);
 
 		// Return
-		APIResponse<Long> result = new APIResponse<Long>();
+		APIResponse<Long> result = new APIResponse<>();
 		result.setData(tbl.getId());
 		return result;
 	}
@@ -118,7 +118,7 @@ public class UserService {
 	 */
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
 	public APIResponse<Object> logout() {
-		return new APIResponse<Object>();
+		return new APIResponse<>();
 	}
 
 	/**
@@ -139,7 +139,7 @@ public class UserService {
 			errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, UserTblEnum.lastName.name()));
 		}
 		if (CollectionUtils.isNotEmpty(errors)) {
-			return new APIResponse<Object>(HttpStatus.BAD_REQUEST, errors);
+			return new APIResponse<>(HttpStatus.BAD_REQUEST, errors);
 		}
 
 		// Update
@@ -149,7 +149,7 @@ public class UserService {
 		userRepository.save(updateTbl);
 
 		// Return
-		APIResponse<Object> result = new APIResponse<Object>();
+		APIResponse<Object> result = new APIResponse<>();
 		result.setData(updateTbl);
 		return result;
 	}
@@ -160,7 +160,7 @@ public class UserService {
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
 	public APIResponse<Object> changePassword(ChangePasswordVO vo) {
 		// Declare result
-		APIResponse<Object> result = new APIResponse<Object>();
+		APIResponse<Object> result = new APIResponse<>();
 
 		// Validate password
 		List<String> errors = new ArrayList<>();
@@ -168,7 +168,7 @@ public class UserService {
 			errors.add(ResponseCode.mapParam(ResponseCode.INVALID_FIELD, UserTblEnum.password.name()));
 		}
 		if (CollectionUtils.isNotEmpty(errors)) {
-			return new APIResponse<Object>(HttpStatus.BAD_REQUEST, errors);
+			return new APIResponse<>(HttpStatus.BAD_REQUEST, errors);
 		}
 
 		// Change password
@@ -182,7 +182,7 @@ public class UserService {
 
 	/**
 	 * Get all Users
-	 * 
+	 *
 	 * Only role creator
 	 *
 	 * @return
@@ -190,14 +190,14 @@ public class UserService {
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
 	public APIResponse<Object> searchUserStatus(UserSCO sco) {
 		// Declare result
-		APIResponse<Object> result = new APIResponse<Object>();
+		APIResponse<Object> result = new APIResponse<>();
 
 		// Get All Users
 		Page<UserTbl> page = userRepository.findAll(sco);
 
 		// Transform data
 		if (CollectionUtils.isNotEmpty(page.getContent())) {
-			List<UserStatusVO> listElement = new ArrayList<UserStatusVO>();
+			List<UserStatusVO> listElement = new ArrayList<>();
 
 			UserStatusVO userStatus;
 			for (UserTbl tbl : page.getContent()) {
@@ -243,7 +243,7 @@ public class UserService {
 			}
 
 			// Set data return
-			PageResultVO<UserStatusVO> data = new PageResultVO<UserStatusVO>();
+			PageResultVO<UserStatusVO> data = new PageResultVO<>();
 			data.setElements(listElement);
 			data.setTotalPage(page.getTotalPages());
 			data.setTotalElement(page.getTotalElements());
@@ -254,7 +254,7 @@ public class UserService {
 		} else {
 
 			// Set data return
-			PageResultVO<UserStatusVO> data = new PageResultVO<UserStatusVO>();
+			PageResultVO<UserStatusVO> data = new PageResultVO<>();
 			data.setElements(new ArrayList<UserStatusVO>());
 			data.setTotalPage(0);
 			data.setTotalElement(0);
@@ -270,7 +270,7 @@ public class UserService {
 
 	/**
 	 * Get active user
-	 * 
+	 *
 	 * Only role creator
 	 *
 	 * @return
@@ -278,14 +278,14 @@ public class UserService {
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
 	public APIResponse<Object> searchActiveUser(UserSCO sco) {
 		// Declare result
-		APIResponse<Object> result = new APIResponse<Object>();
+		APIResponse<Object> result = new APIResponse<>();
 
 		// Get All Users
 		List<Object[]> listData = userRepository.getActiveUser(sco, entityManager);
 
 		// Transform data
 		if (CollectionUtils.isNotEmpty(listData)) {
-			List<UserStatusVO> listElement = new ArrayList<UserStatusVO>();
+			List<UserStatusVO> listElement = new ArrayList<>();
 
 			UserStatusVO userStatus;
 			for (Object[] object : listData) {
@@ -326,7 +326,7 @@ public class UserService {
 			}
 
 			// Set data return
-			PageResultVO<UserStatusVO> data = new PageResultVO<UserStatusVO>();
+			PageResultVO<UserStatusVO> data = new PageResultVO<>();
 			data.setElements(listElement);
 			data.setCurrentPage(sco.getPageToGet());
 			data.setPageSize(sco.getMaxRecordPerPage());
@@ -367,7 +367,7 @@ public class UserService {
 
 	/**
 	 * Search User by condition
-	 * 
+	 *
 	 * Only creator
 	 *
 	 * @param UserId
@@ -375,7 +375,7 @@ public class UserService {
 	 */
 	public APIResponse<Object> search(UserSCO sco) {
 		// Declare result
-		APIResponse<Object> result = new APIResponse<Object>();
+		APIResponse<Object> result = new APIResponse<>();
 
 		// Get data
 		Page<UserTbl> page = userRepository.findAll(sco);
@@ -391,7 +391,7 @@ public class UserService {
 	}
 
 	/**
-	 * 
+	 *
 	 * Get User by username
 	 *
 	 * @param userName
@@ -411,7 +411,7 @@ public class UserService {
 	}
 
 	/**
-	 * 
+	 *
 	 * Get User by username
 	 *
 	 * @param userName
@@ -427,7 +427,7 @@ public class UserService {
 	 * @return
 	 */
 	public boolean isDataOwner(String username) {
-		Boolean result = true;
+		boolean result = true;
 
 		UserTbl loggedUser = userDetailsServiceImpl.getCurrentLoginUser();
 
@@ -443,16 +443,16 @@ public class UserService {
 	}
 
 	/**
-	 * 
+	 *
 	 * Change private key
-	 * 
+	 *
 	 * @param UserVO
 	 * @return
 	 */
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
 	public APIResponse<Object> changePrivateKey(ChangePrivateKeyVO vo) {
 		// Declare result
-		APIResponse<Object> result = new APIResponse<Object>();
+		APIResponse<Object> result = new APIResponse<>();
 
 		// Get current logged in user
 		UserTbl tbl = userDetailsServiceImpl.getCurrentLoginUser();
@@ -470,14 +470,14 @@ public class UserService {
 
 			// Record error
 			if (CollectionUtils.isNotEmpty(errors)) {
-				result = new APIResponse<Object>(HttpStatus.BAD_REQUEST, errors);
+				result = new APIResponse<>(HttpStatus.BAD_REQUEST, errors);
 			}
 		}
 
 		// Validate old private key
 		if (result.getStatus() == null && tbl.getPrivateKey() != null) {
 			if (!mdpService.isValidPassword(vo.getOldPrivateKey(), tbl.getPrivateKey().getMdp())) {
-				result = new APIResponse<Object>(HttpStatus.BAD_REQUEST,
+				result = new APIResponse<>(HttpStatus.BAD_REQUEST,
 						ResponseCode.mapParam(ResponseCode.UNAUTHORIZED_USER, null));
 			}
 		}
@@ -493,7 +493,7 @@ public class UserService {
 	}
 
 	/**
-	 * 
+	 *
 	 * Record user activity
 	 *
 	 */
@@ -505,7 +505,7 @@ public class UserService {
 	}
 
 	public Boolean isInvalidPassword(String input) {
-		Boolean result = false;
+		boolean result = false;
 		if (StringUtils.isBlank(input)) {
 			result = true;
 		} else {

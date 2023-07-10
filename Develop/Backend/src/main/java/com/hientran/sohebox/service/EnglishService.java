@@ -24,6 +24,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.hientran.sohebox.cache.EnglishTypeCache;
 import com.hientran.sohebox.constants.DBConstants;
+import com.hientran.sohebox.dto.DownloadFileVO;
+import com.hientran.sohebox.dto.EnglishLearnReportVO;
+import com.hientran.sohebox.dto.EnglishVO;
+import com.hientran.sohebox.dto.PageResultVO;
 import com.hientran.sohebox.dto.response.APIResponse;
 import com.hientran.sohebox.dto.response.ResponseCode;
 import com.hientran.sohebox.entity.EnglishLearnReportTbl;
@@ -37,10 +41,6 @@ import com.hientran.sohebox.sco.SearchTextVO;
 import com.hientran.sohebox.specification.EnglishSpecs.EnglishTblEnum;
 import com.hientran.sohebox.transformer.EnglishTransformer;
 import com.hientran.sohebox.utils.FileUtils;
-import com.hientran.sohebox.vo.DownloadFileVO;
-import com.hientran.sohebox.vo.EnglishLearnReportVO;
-import com.hientran.sohebox.vo.EnglishVO;
-import com.hientran.sohebox.vo.PageResultVO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -58,9 +58,9 @@ public class EnglishService extends BaseService {
 	private String WEB_ENGLISH_IMAGE_PATH;
 
 	/**
-	 * 
+	 *
 	 * Create
-	 * 
+	 *
 	 * @param vo
 	 * @return
 	 * @throws IOException
@@ -68,7 +68,7 @@ public class EnglishService extends BaseService {
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
 	public APIResponse<Long> create(EnglishVO vo) {
 		// Declare result
-		APIResponse<Long> result = new APIResponse<Long>();
+		APIResponse<Long> result = new APIResponse<>();
 
 		// Validate input
 		if (result.getStatus() == null) {
@@ -101,14 +101,14 @@ public class EnglishService extends BaseService {
 
 			// Record error
 			if (CollectionUtils.isNotEmpty(errors)) {
-				result = new APIResponse<Long>(HttpStatus.BAD_REQUEST, errors);
+				result = new APIResponse<>(HttpStatus.BAD_REQUEST, errors);
 			}
 		}
 
 		// Check if record existed already
 		if (result.getStatus() == null) {
 			if (recordIsExisted(vo.getKeyWord())) {
-				result = new APIResponse<Long>(HttpStatus.BAD_REQUEST,
+				result = new APIResponse<>(HttpStatus.BAD_REQUEST,
 						ResponseCode.mapParam(ResponseCode.EXISTED_RECORD, "word <" + vo.getKeyWord() + ">"));
 			}
 		}
@@ -122,7 +122,7 @@ public class EnglishService extends BaseService {
 				try {
 					updateImage(vo.getImageFile(), imageName);
 				} catch (Exception e) {
-					result = new APIResponse<Long>(HttpStatus.BAD_REQUEST,
+					result = new APIResponse<>(HttpStatus.BAD_REQUEST,
 							ResponseCode.mapParam(ResponseCode.ERROR_EXCEPTION, e.getMessage()));
 				}
 
@@ -179,14 +179,14 @@ public class EnglishService extends BaseService {
 
 	/**
 	 * Search
-	 * 
+	 *
 	 * @param sco
 	 * @return
 	 */
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
 	public APIResponse<Object> search(EnglishSCO sco) {
 		// Declare result
-		APIResponse<Object> result = new APIResponse<Object>();
+		APIResponse<Object> result = new APIResponse<>();
 
 		// Get data
 		Page<EnglishTbl> page = englishRepository.findAll(sco);
@@ -205,16 +205,16 @@ public class EnglishService extends BaseService {
 	}
 
 	/**
-	 * 
+	 *
 	 * Update
-	 * 
+	 *
 	 * @param vo
 	 * @return
 	 */
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
 	public APIResponse<Long> update(EnglishVO vo) {
 		// Declare result
-		APIResponse<Long> result = new APIResponse<Long>();
+		APIResponse<Long> result = new APIResponse<>();
 
 		// Validate input
 		if (result.getStatus() == null) {
@@ -227,7 +227,7 @@ public class EnglishService extends BaseService {
 
 			// Record error
 			if (CollectionUtils.isNotEmpty(errors)) {
-				result = new APIResponse<Long>(HttpStatus.BAD_REQUEST, errors);
+				result = new APIResponse<>(HttpStatus.BAD_REQUEST, errors);
 			}
 		}
 
@@ -236,7 +236,7 @@ public class EnglishService extends BaseService {
 		if (result.getStatus() == null) {
 			updateTbl = getByKey(vo.getKeyWord());
 			if (updateTbl == null) {
-				result = new APIResponse<Long>(HttpStatus.BAD_REQUEST,
+				result = new APIResponse<>(HttpStatus.BAD_REQUEST,
 						ResponseCode.mapParam(ResponseCode.INEXISTED_RECORD, "word <" + vo.getKeyWord() + ">"));
 			}
 		}
@@ -252,7 +252,7 @@ public class EnglishService extends BaseService {
 				try {
 					updateImage(vo.getImageFile(), imageName);
 				} catch (Exception e) {
-					result = new APIResponse<Long>(HttpStatus.BAD_REQUEST,
+					result = new APIResponse<>(HttpStatus.BAD_REQUEST,
 							ResponseCode.mapParam(ResponseCode.ERROR_EXCEPTION, e.getMessage()));
 				}
 			}
@@ -328,13 +328,13 @@ public class EnglishService extends BaseService {
 
 	/**
 	 * Get by id
-	 * 
+	 *
 	 * @param User
 	 * @return
 	 */
 	public APIResponse<Object> getById(Long id) {
 		// Declare result
-		APIResponse<Object> result = new APIResponse<Object>();
+		APIResponse<Object> result = new APIResponse<>();
 
 		// Check existence
 		Optional<EnglishTbl> englishTbl = englishRepository.findById(id);
@@ -342,7 +342,7 @@ public class EnglishService extends BaseService {
 			EnglishVO vo = englishTransformer.convertToVO(englishTbl.get());
 			result.setData(vo);
 		} else {
-			result = new APIResponse<Object>(HttpStatus.BAD_REQUEST,
+			result = new APIResponse<>(HttpStatus.BAD_REQUEST,
 					ResponseCode.mapParam(ResponseCode.INEXISTED_RECORD, "english"));
 		}
 
@@ -351,7 +351,7 @@ public class EnglishService extends BaseService {
 	}
 
 	/**
-	 * 
+	 *
 	 * Update image physical file
 	 *
 	 * @param imageFile
@@ -419,7 +419,7 @@ public class EnglishService extends BaseService {
 	}
 
 	/**
-	 * 
+	 *
 	 * Check if record is existed
 	 *
 	 * @param keyWord
@@ -427,7 +427,7 @@ public class EnglishService extends BaseService {
 	 */
 	private boolean recordIsExisted(String keyWord) {
 		// Declare result
-		Boolean result = false;
+		boolean result = false;
 
 		SearchTextVO keyWordSearch = new SearchTextVO();
 		keyWordSearch.setEq(formatKeyWord(keyWord));
@@ -446,7 +446,7 @@ public class EnglishService extends BaseService {
 	}
 
 	/**
-	 * 
+	 *
 	 * Get record by key
 	 *
 	 * @param key
@@ -494,14 +494,14 @@ public class EnglishService extends BaseService {
 
 	/**
 	 * Search with low learn
-	 * 
+	 *
 	 * @param sco
 	 * @return
 	 */
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
 	public APIResponse<Object> searchLowLearn(EnglishSCO sco) {
 		// Declare result
-		APIResponse<Object> result = new APIResponse<Object>();
+		APIResponse<Object> result = new APIResponse<>();
 
 		// Get data
 		List<Object[]> searchResult = englishRepository.findLowLearn(sco, entityManager);
@@ -515,7 +515,7 @@ public class EnglishService extends BaseService {
 			}
 
 			// Transformer
-			PageResultVO<EnglishVO> data = new PageResultVO<EnglishVO>();
+			PageResultVO<EnglishVO> data = new PageResultVO<>();
 			data.setElements(listElement);
 			data.setCurrentPage(0);
 			data.setTotalPage(1);
@@ -534,7 +534,7 @@ public class EnglishService extends BaseService {
 
 	/**
 	 * Download a URL mp3 file
-	 * 
+	 *
 	 * @param sco
 	 * @return
 	 * @throws IOException
@@ -542,7 +542,7 @@ public class EnglishService extends BaseService {
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
 	public APIResponse<Object> downloadFileMp3(DownloadFileVO vo) {
 		// Declare result
-		APIResponse<Object> result = new APIResponse<Object>();
+		APIResponse<Object> result = new APIResponse<>();
 
 		try {
 			// Prepare input stream
@@ -564,7 +564,7 @@ public class EnglishService extends BaseService {
 			outstream.close();
 
 		} catch (Exception e) {
-			result = new APIResponse<Object>(HttpStatus.BAD_REQUEST,
+			result = new APIResponse<>(HttpStatus.BAD_REQUEST,
 					ResponseCode.mapParam(ResponseCode.ERROR_EXCEPTION, e.getMessage()));
 		}
 
@@ -578,7 +578,7 @@ public class EnglishService extends BaseService {
 	 */
 	public APIResponse<Object> searchTopLearn(Long numberUser) {
 		// Declare result
-		APIResponse<Object> result = new APIResponse<Object>();
+		APIResponse<Object> result = new APIResponse<>();
 
 		// Check data authentication
 		result = isDataAuthentication(0);
@@ -628,7 +628,7 @@ public class EnglishService extends BaseService {
 				});
 
 				// Transformer
-				PageResultVO<EnglishLearnReportVO> data = new PageResultVO<EnglishLearnReportVO>();
+				PageResultVO<EnglishLearnReportVO> data = new PageResultVO<>();
 				data.setElements(listElement);
 				data.setCurrentPage(0);
 				data.setTotalPage(1);

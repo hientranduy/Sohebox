@@ -18,7 +18,7 @@ public interface TradingSymbolRepository
 	TradingSymbolSpecs specs = new TradingSymbolSpecs();
 
 	/**
-	 * 
+	 *
 	 * Get all data
 	 *
 	 * @return

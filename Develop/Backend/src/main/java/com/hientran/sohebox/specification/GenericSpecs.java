@@ -25,7 +25,7 @@ import jakarta.persistence.criteria.Root;
 public class GenericSpecs<T> {
 
 	/**
-	 * 
+	 *
 	 * Build search TEXT
 	 *
 	 * @param fieldName
@@ -52,7 +52,7 @@ public class GenericSpecs<T> {
 	}
 
 	/**
-	 * 
+	 *
 	 * Build search NUMBER
 	 *
 	 * @param fieldName
@@ -96,7 +96,7 @@ public class GenericSpecs<T> {
 	}
 
 	/**
-	 * 
+	 *
 	 * Build search DATE
 	 *
 	 * @param fieldName
@@ -163,7 +163,7 @@ public class GenericSpecs<T> {
 	}
 
 	/**
-	 * 
+	 *
 	 * Build search true/false
 	 *
 	 * @param fieldName
@@ -191,7 +191,7 @@ public class GenericSpecs<T> {
 	 * @return
 	 */
 	private Specification<T> buildBooleanEqual(String fieldName, Boolean value) {
-		return new Specification<T>() {
+		return new Specification<>() {
 			@Override
 			public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
 				Predicate predicate = criteriaBuilder.equal(root.get(fieldName), value);
@@ -201,7 +201,7 @@ public class GenericSpecs<T> {
 	}
 
 	/**
-	 * 
+	 *
 	 * Build text criteria: EQUAL
 	 *
 	 * @param fieldName
@@ -210,7 +210,7 @@ public class GenericSpecs<T> {
 	 */
 	@SuppressWarnings("hiding")
 	private <T> Specification<T> buildTextEqual(String fieldName, String value) {
-		return new Specification<T>() {
+		return new Specification<>() {
 			@Override
 			public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
 				Predicate predicate = criteriaBuilder.equal(root.get(fieldName), value);
@@ -220,7 +220,7 @@ public class GenericSpecs<T> {
 	}
 
 	/**
-	 * 
+	 *
 	 * Build text criteria: LIKE
 	 *
 	 * @param fieldName
@@ -230,7 +230,7 @@ public class GenericSpecs<T> {
 	 */
 	@SuppressWarnings("hiding")
 	private <T> Specification<T> buildTextLike(String fieldName, String value, int likeMode) {
-		return new Specification<T>() {
+		return new Specification<>() {
 			@Override
 			public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
 				String likeValue = null;
@@ -252,7 +252,7 @@ public class GenericSpecs<T> {
 	}
 
 	/**
-	 * 
+	 *
 	 * Build text criteria: IN
 	 *
 	 * @param fieldName
@@ -261,7 +261,7 @@ public class GenericSpecs<T> {
 	 */
 	@SuppressWarnings("hiding")
 	private <T> Specification<T> buildTextIn(String fieldName, String[] values) {
-		return new Specification<T>() {
+		return new Specification<>() {
 			@Override
 			public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
 				return root.get(fieldName).in(values);
@@ -270,7 +270,7 @@ public class GenericSpecs<T> {
 	}
 
 	/**
-	 * 
+	 *
 	 * Build number criteria: EQUAL
 	 *
 	 * @param fieldName
@@ -278,7 +278,7 @@ public class GenericSpecs<T> {
 	 * @return
 	 */
 	private Specification<T> buildNumberEqual(String fieldName, Double value) {
-		return new Specification<T>() {
+		return new Specification<>() {
 			@Override
 			public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
 				Predicate predicate = criteriaBuilder.equal(root.get(fieldName), value);
@@ -288,7 +288,7 @@ public class GenericSpecs<T> {
 	}
 
 	/**
-	 * 
+	 *
 	 * Build number criteria: NOT EQUAL
 	 *
 	 * @param fieldName
@@ -296,7 +296,7 @@ public class GenericSpecs<T> {
 	 * @return
 	 */
 	private Specification<T> buildNumberNotEqual(String fieldName, Double value) {
-		return new Specification<T>() {
+		return new Specification<>() {
 			@Override
 			public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
 				Predicate predicate = criteriaBuilder.notEqual(root.get(fieldName), value);
@@ -306,7 +306,7 @@ public class GenericSpecs<T> {
 	}
 
 	/**
-	 * 
+	 *
 	 * Build number criteria: IN
 	 *
 	 * @param fieldName
@@ -314,7 +314,7 @@ public class GenericSpecs<T> {
 	 * @return
 	 */
 	private Specification<T> buildNumberIn(String fieldName, Double[] values) {
-		return new Specification<T>() {
+		return new Specification<>() {
 			@Override
 			public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
 				return root.get(fieldName).in(values);
@@ -323,7 +323,7 @@ public class GenericSpecs<T> {
 	}
 
 	/**
-	 * 
+	 *
 	 * Build number criteria: GREATER or EQUAL
 	 *
 	 * @param fieldName
@@ -331,7 +331,7 @@ public class GenericSpecs<T> {
 	 * @return
 	 */
 	private Specification<T> buildNumberGe(String fieldName, Double value) {
-		return new Specification<T>() {
+		return new Specification<>() {
 			@Override
 			public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
 				Predicate predicate = criteriaBuilder.ge(root.get(fieldName), value);
@@ -341,7 +341,7 @@ public class GenericSpecs<T> {
 	}
 
 	/**
-	 * 
+	 *
 	 * Build number criteria: GREATER THAN
 	 *
 	 * @param fieldName
@@ -349,7 +349,7 @@ public class GenericSpecs<T> {
 	 * @return
 	 */
 	private Specification<T> buildNumberGt(String fieldName, Double value) {
-		return new Specification<T>() {
+		return new Specification<>() {
 			@Override
 			public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
 				Predicate predicate = criteriaBuilder.greaterThan(root.get(fieldName), value);
@@ -359,7 +359,7 @@ public class GenericSpecs<T> {
 	}
 
 	/**
-	 * 
+	 *
 	 * Build number criteria: LESS THAN or EQUAL
 	 *
 	 * @param fieldName
@@ -367,7 +367,7 @@ public class GenericSpecs<T> {
 	 * @return
 	 */
 	private Specification<T> buildNumberLe(String fieldName, Double value) {
-		return new Specification<T>() {
+		return new Specification<>() {
 			@Override
 			public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
 				Predicate predicate = criteriaBuilder.le(root.get(fieldName), value);
@@ -377,7 +377,7 @@ public class GenericSpecs<T> {
 	}
 
 	/**
-	 * 
+	 *
 	 * Build number criteria: LESS THAN
 	 *
 	 * @param fieldName
@@ -385,7 +385,7 @@ public class GenericSpecs<T> {
 	 * @return
 	 */
 	private Specification<T> buildNumberLt(String fieldName, Double value) {
-		return new Specification<T>() {
+		return new Specification<>() {
 			@Override
 			public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
 				Predicate predicate = criteriaBuilder.lessThan(root.get(fieldName), value);
@@ -395,7 +395,7 @@ public class GenericSpecs<T> {
 	}
 
 	/**
-	 * 
+	 *
 	 * Build date criteria: EQUAL
 	 *
 	 * @param fieldName
@@ -406,7 +406,7 @@ public class GenericSpecs<T> {
 
 	@SuppressWarnings("hiding")
 	private <T> Specification<T> buildDateEqual(String fieldName, Date value, boolean excludeTime) {
-		return new Specification<T>() {
+		return new Specification<>() {
 			@Override
 			public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
 				Date minDate = value;
@@ -423,7 +423,7 @@ public class GenericSpecs<T> {
 	}
 
 	/**
-	 * 
+	 *
 	 * Build date criteria: IN
 	 *
 	 * @param fieldName
@@ -432,7 +432,7 @@ public class GenericSpecs<T> {
 	 * @return
 	 */
 	private Specification<T> buildDateIn(String fieldName, Date[] values, boolean excludeTime) {
-		return new Specification<T>() {
+		return new Specification<>() {
 			@Override
 			public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
 				return root.get(fieldName).in(values);
@@ -441,7 +441,7 @@ public class GenericSpecs<T> {
 	}
 
 	/**
-	 * 
+	 *
 	 * Build date criteria: GREATER or EQUAL
 	 *
 	 * @param fieldName
@@ -450,7 +450,7 @@ public class GenericSpecs<T> {
 	 * @return
 	 */
 	private Specification<T> buildDateGe(String fieldName, Date value, boolean excludeTime) {
-		return new Specification<T>() {
+		return new Specification<>() {
 			@Override
 			public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
 				Date checkDate = value;
@@ -465,7 +465,7 @@ public class GenericSpecs<T> {
 	}
 
 	/**
-	 * 
+	 *
 	 * Build date criteria: GREATER THAN
 	 *
 	 * @param fieldName
@@ -474,7 +474,7 @@ public class GenericSpecs<T> {
 	 * @return
 	 */
 	private Specification<T> buildDateGt(String fieldName, Date value, boolean excludeTime) {
-		return new Specification<T>() {
+		return new Specification<>() {
 			@Override
 			public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
 				Date checkDate = value;
@@ -489,7 +489,7 @@ public class GenericSpecs<T> {
 	}
 
 	/**
-	 * 
+	 *
 	 * Build date criteria: LESS THAN or EQUAL
 	 *
 	 * @param fieldName
@@ -498,7 +498,7 @@ public class GenericSpecs<T> {
 	 * @return
 	 */
 	private Specification<T> buildDateLe(String fieldName, Date value, boolean excludeTime) {
-		return new Specification<T>() {
+		return new Specification<>() {
 			@Override
 			public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
 				Date checkDate = value;
@@ -513,7 +513,7 @@ public class GenericSpecs<T> {
 	}
 
 	/**
-	 * 
+	 *
 	 * Build date criteria: LESS THAN
 	 *
 	 * @param fieldName
@@ -522,7 +522,7 @@ public class GenericSpecs<T> {
 	 * @return
 	 */
 	private Specification<T> buildDateLt(String fieldName, Date value, boolean excludeTime) {
-		return new Specification<T>() {
+		return new Specification<>() {
 			@Override
 			public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
 				Date checkDate = value;
@@ -537,7 +537,7 @@ public class GenericSpecs<T> {
 	}
 
 	/**
-	 * 
+	 *
 	 * Build native SQL Search Text
 	 *
 	 * @param fieldName
@@ -568,7 +568,7 @@ public class GenericSpecs<T> {
 
 			} else if (value.getIn() != null) {
 				result = " AND " + fieldName + " IN "
-						+ SQLUtils.normalizeSQLString(new ArrayList<String>(Arrays.asList(value.getIn())));
+						+ SQLUtils.normalizeSQLString(new ArrayList<>(Arrays.asList(value.getIn())));
 			}
 		}
 
@@ -577,7 +577,7 @@ public class GenericSpecs<T> {
 	}
 
 	/**
-	 * 
+	 *
 	 * Build native SQL Search Number
 	 *
 	 * @param fieldName

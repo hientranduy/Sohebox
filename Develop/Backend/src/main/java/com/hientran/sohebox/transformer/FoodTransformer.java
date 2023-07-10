@@ -10,9 +10,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
+import com.hientran.sohebox.dto.FoodVO;
+import com.hientran.sohebox.dto.PageResultVO;
 import com.hientran.sohebox.entity.FoodTbl;
-import com.hientran.sohebox.vo.FoodVO;
-import com.hientran.sohebox.vo.PageResultVO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -26,12 +26,12 @@ public class FoodTransformer extends BaseTransformer {
 	 * Convert Page<FoodTbl> to PageResultVO<FoodVO>
 	 *
 	 * @param Page<FoodTbl>
-	 * 
+	 *
 	 * @return PageResultVO<FoodVO>
 	 */
 	public PageResultVO<FoodVO> convertToPageReturn(Page<FoodTbl> pageTbl) {
 		// Declare result
-		PageResultVO<FoodVO> result = new PageResultVO<FoodVO>();
+		PageResultVO<FoodVO> result = new PageResultVO<>();
 
 		// Convert data
 		if (!CollectionUtils.isEmpty(pageTbl.getContent())) {

@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.hientran.sohebox.dto.EnglishLearnRecordVO;
+import com.hientran.sohebox.dto.PageResultVO;
 import com.hientran.sohebox.dto.response.APIResponse;
 import com.hientran.sohebox.dto.response.ResponseCode;
 import com.hientran.sohebox.entity.EnglishLearnRecordTbl;
@@ -21,8 +23,6 @@ import com.hientran.sohebox.sco.EnglishLearnRecordSCO;
 import com.hientran.sohebox.sco.SearchNumberVO;
 import com.hientran.sohebox.specification.EnglishLearnRecordSpecs.EnglishLearnRecordTblEnum;
 import com.hientran.sohebox.transformer.EnglishLearnRecordTransformer;
-import com.hientran.sohebox.vo.EnglishLearnRecordVO;
-import com.hientran.sohebox.vo.PageResultVO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -36,16 +36,16 @@ public class EnglishLearnRecordService extends BaseService {
 	private final EnglishService englishService;
 
 	/**
-	 * 
+	 *
 	 * Count learn
-	 * 
+	 *
 	 * @param vo
 	 * @return
 	 */
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
 	public APIResponse<Long> addLearn(EnglishLearnRecordVO vo) {
 		// Declare result
-		APIResponse<Long> result = new APIResponse<Long>();
+		APIResponse<Long> result = new APIResponse<>();
 
 		// Validate input
 		if (result.getStatus() == null) {
@@ -63,21 +63,21 @@ public class EnglishLearnRecordService extends BaseService {
 
 			// Record error
 			if (CollectionUtils.isNotEmpty(errors)) {
-				result = new APIResponse<Long>(HttpStatus.BAD_REQUEST, errors);
+				result = new APIResponse<>(HttpStatus.BAD_REQUEST, errors);
 			}
 		}
 
 		// Check if user is existed
 		UserTbl userTbl = userService.getTblByUserName(vo.getUser().getUsername());
 		if (result.getStatus() == null && userTbl == null) {
-			result = new APIResponse<Long>(HttpStatus.BAD_REQUEST,
+			result = new APIResponse<>(HttpStatus.BAD_REQUEST,
 					ResponseCode.mapParam(ResponseCode.INEXISTED_USERNAME, vo.getUser().getUsername()));
 		}
 
 		// Check if english word is existed
 		EnglishTbl englishTbl = englishService.getByKey(vo.getEnglish().getKeyWord());
 		if (result.getStatus() == null && englishTbl == null) {
-			result = new APIResponse<Long>(HttpStatus.BAD_REQUEST,
+			result = new APIResponse<>(HttpStatus.BAD_REQUEST,
 					ResponseCode.mapParam(ResponseCode.INEXISTED_RECORD, vo.getEnglish().getKeyWord()));
 		}
 
@@ -118,7 +118,7 @@ public class EnglishLearnRecordService extends BaseService {
 	}
 
 	/**
-	 * 
+	 *
 	 * Get record by key
 	 *
 	 * @param userId
@@ -152,13 +152,13 @@ public class EnglishLearnRecordService extends BaseService {
 
 	/**
 	 * Search
-	 * 
+	 *
 	 * @param sco
 	 * @return
 	 */
 	public APIResponse<Object> search(EnglishLearnRecordSCO sco) {
 		// Declare result
-		APIResponse<Object> result = new APIResponse<Object>();
+		APIResponse<Object> result = new APIResponse<>();
 
 		// Check data authentication
 		result = isDataAuthentication(sco.getUserId().getEq().longValue());

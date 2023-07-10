@@ -15,6 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.hientran.sohebox.authentication.UserDetailsServiceImpl;
 import com.hientran.sohebox.cache.MediaTypeCache;
 import com.hientran.sohebox.constants.DBConstants;
+import com.hientran.sohebox.dto.PageResultVO;
+import com.hientran.sohebox.dto.YoutubeChannelVO;
 import com.hientran.sohebox.dto.response.APIResponse;
 import com.hientran.sohebox.dto.response.ResponseCode;
 import com.hientran.sohebox.entity.MediaTypeTbl;
@@ -26,8 +28,6 @@ import com.hientran.sohebox.sco.SearchTextVO;
 import com.hientran.sohebox.sco.YoutubeChannelSCO;
 import com.hientran.sohebox.specification.YoutubeChannelSpecs.YoutubeChannelTblEnum;
 import com.hientran.sohebox.transformer.YoutubeChannelTransformer;
-import com.hientran.sohebox.vo.PageResultVO;
-import com.hientran.sohebox.vo.YoutubeChannelVO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -43,9 +43,9 @@ public class YoutubeChannelService extends BaseService {
 	private UserDetailsServiceImpl userService;
 
 	/**
-	 * 
+	 *
 	 * Create
-	 * 
+	 *
 	 * @param vo
 	 * @return
 	 * @throws IOException
@@ -53,7 +53,7 @@ public class YoutubeChannelService extends BaseService {
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
 	public APIResponse<Long> create(YoutubeChannelVO vo) {
 		// Declare result
-		APIResponse<Long> result = new APIResponse<Long>();
+		APIResponse<Long> result = new APIResponse<>();
 
 		// Validate input
 		if (result.getStatus() == null) {
@@ -66,14 +66,14 @@ public class YoutubeChannelService extends BaseService {
 
 			// Record error
 			if (CollectionUtils.isNotEmpty(errors)) {
-				result = new APIResponse<Long>(HttpStatus.BAD_REQUEST, errors);
+				result = new APIResponse<>(HttpStatus.BAD_REQUEST, errors);
 			}
 		}
 
 		// Check if record existed already
 		if (result.getStatus() == null) {
 			if (recordIsExisted(vo.getChannelId())) {
-				result = new APIResponse<Long>(HttpStatus.BAD_REQUEST,
+				result = new APIResponse<>(HttpStatus.BAD_REQUEST,
 						ResponseCode.mapParam(ResponseCode.EXISTED_RECORD, "channel ID <" + vo.getId() + ">"));
 			}
 		}
@@ -101,16 +101,16 @@ public class YoutubeChannelService extends BaseService {
 	}
 
 	/**
-	 * 
+	 *
 	 * Update
-	 * 
+	 *
 	 * @param vo
 	 * @return
 	 */
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
 	public APIResponse<Long> update(YoutubeChannelVO vo) {
 		// Declare result
-		APIResponse<Long> result = new APIResponse<Long>();
+		APIResponse<Long> result = new APIResponse<>();
 
 		// Validate input
 		if (result.getStatus() == null) {
@@ -133,7 +133,7 @@ public class YoutubeChannelService extends BaseService {
 
 			// Record error
 			if (CollectionUtils.isNotEmpty(errors)) {
-				result = new APIResponse<Long>(HttpStatus.BAD_REQUEST, errors);
+				result = new APIResponse<>(HttpStatus.BAD_REQUEST, errors);
 			}
 		}
 
@@ -142,7 +142,7 @@ public class YoutubeChannelService extends BaseService {
 		if (result.getStatus() == null) {
 			updateTbl = getByKey(vo.getChannelId());
 			if (updateTbl == null) {
-				result = new APIResponse<Long>(HttpStatus.BAD_REQUEST,
+				result = new APIResponse<>(HttpStatus.BAD_REQUEST,
 						ResponseCode.mapParam(ResponseCode.INEXISTED_RECORD, "Channel ID <" + vo.getChannelId() + ">"));
 			}
 		}
@@ -183,14 +183,14 @@ public class YoutubeChannelService extends BaseService {
 
 	/**
 	 * Search
-	 * 
+	 *
 	 * @param sco
 	 * @return
 	 */
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
 	public APIResponse<Object> search(YoutubeChannelSCO sco) {
 		// Declare result
-		APIResponse<Object> result = new APIResponse<Object>();
+		APIResponse<Object> result = new APIResponse<>();
 
 		// Get data
 		Page<YoutubeChannelTbl> page = youtubeChannelRepository.findAll(sco);
@@ -209,7 +209,7 @@ public class YoutubeChannelService extends BaseService {
 	}
 
 	/**
-	 * 
+	 *
 	 * Check if record is existed
 	 *
 	 * @param keyWord
@@ -217,7 +217,7 @@ public class YoutubeChannelService extends BaseService {
 	 */
 	private boolean recordIsExisted(String key) {
 		// Declare result
-		Boolean result = false;
+		boolean result = false;
 
 		SearchTextVO keyWordSearch = new SearchTextVO();
 		keyWordSearch.setEq(key);
@@ -236,7 +236,7 @@ public class YoutubeChannelService extends BaseService {
 	}
 
 	/**
-	 * 
+	 *
 	 * Get record by key
 	 *
 	 * @param key
@@ -263,7 +263,7 @@ public class YoutubeChannelService extends BaseService {
 	}
 
 	/**
-	 * 
+	 *
 	 * Get record by key
 	 *
 	 * @param key
@@ -285,14 +285,14 @@ public class YoutubeChannelService extends BaseService {
 
 	/**
 	 * Search
-	 * 
+	 *
 	 * @param sco
 	 * @return
 	 */
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
 	public APIResponse<Object> searchMyChannel(YoutubeChannelSCO sco) {
 		// Declare result
-		APIResponse<Object> result = new APIResponse<Object>();
+		APIResponse<Object> result = new APIResponse<>();
 
 		// Get public channel
 		MediaTypeTbl privateChannelType = mediaTypeCache.getType(DBConstants.TYPE_CLASS_MEDIA_YOUTUBE_CHANNEL_CATEGORY,
@@ -304,7 +304,7 @@ public class YoutubeChannelService extends BaseService {
 
 		// Get private channel
 		UserTbl loggedUser = userService.getCurrentLoginUser();
-		List<YoutubeChannelTbl> privateChannel = new ArrayList<YoutubeChannelTbl>();
+		List<YoutubeChannelTbl> privateChannel = new ArrayList<>();
 		if (loggedUser != null) {
 			SearchNumberVO userIdSearch = new SearchNumberVO();
 			userIdSearch.setEq(loggedUser.getId().doubleValue());

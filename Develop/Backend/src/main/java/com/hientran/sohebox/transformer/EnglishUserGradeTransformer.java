@@ -8,9 +8,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
+import com.hientran.sohebox.dto.EnglishUserGradeVO;
+import com.hientran.sohebox.dto.PageResultVO;
 import com.hientran.sohebox.entity.EnglishUserGradeTbl;
-import com.hientran.sohebox.vo.EnglishUserGradeVO;
-import com.hientran.sohebox.vo.PageResultVO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -24,12 +24,12 @@ public class EnglishUserGradeTransformer extends BaseTransformer {
 	 * Convert Page<EnglishUserGradeTbl> to PageResultVO<EnglishUserGradeVO>
 	 *
 	 * @param Page<EnglishUserGradeTbl>
-	 * 
+	 *
 	 * @return PageResultVO<EnglishUserGradeVO>
 	 */
 	public PageResultVO<EnglishUserGradeVO> convertToPageReturn(Page<EnglishUserGradeTbl> pageTbl) {
 		// Declare result
-		PageResultVO<EnglishUserGradeVO> result = new PageResultVO<EnglishUserGradeVO>();
+		PageResultVO<EnglishUserGradeVO> result = new PageResultVO<>();
 
 		// Convert data
 		if (!CollectionUtils.isEmpty(pageTbl.getContent())) {

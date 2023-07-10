@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.hientran.sohebox.authentication.UserDetailsServiceImpl;
+import com.hientran.sohebox.dto.CryptoPortfolioHistoryVO;
+import com.hientran.sohebox.dto.PageResultVO;
 import com.hientran.sohebox.dto.response.APIResponse;
 import com.hientran.sohebox.entity.CryptoPortfolioHistoryTbl;
 import com.hientran.sohebox.entity.CryptoPortfolioTbl;
@@ -22,8 +24,6 @@ import com.hientran.sohebox.sco.CryptoPortfolioHistorySCO;
 import com.hientran.sohebox.sco.SearchDateVO;
 import com.hientran.sohebox.sco.SearchNumberVO;
 import com.hientran.sohebox.transformer.CryptoPortfolioHistoryTransformer;
-import com.hientran.sohebox.vo.CryptoPortfolioHistoryVO;
-import com.hientran.sohebox.vo.PageResultVO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -45,7 +45,7 @@ public class CryptoPortfolioHistoryService extends BaseService {
 			List<CryptoPortfolioTbl> rawData = cryptoPortfolioRepository.findAll();
 
 			// Group by user
-			HashMap<UserTbl, List<CryptoPortfolioTbl>> mapUserToken = new HashMap<UserTbl, List<CryptoPortfolioTbl>>();
+			HashMap<UserTbl, List<CryptoPortfolioTbl>> mapUserToken = new HashMap<>();
 			for (CryptoPortfolioTbl item : rawData) {
 				UserTbl user = item.getUser();
 				if (mapUserToken.containsKey(user)) {
@@ -64,7 +64,7 @@ public class CryptoPortfolioHistoryService extends BaseService {
 				List<CryptoPortfolioTbl> portfolioList = mapUserToken.get(user);
 
 				// Group by token
-				HashMap<CryptoTokenConfigTbl, CryptoPortfolioHistoryTbl> mapToken = new HashMap<CryptoTokenConfigTbl, CryptoPortfolioHistoryTbl>();
+				HashMap<CryptoTokenConfigTbl, CryptoPortfolioHistoryTbl> mapToken = new HashMap<>();
 				for (CryptoPortfolioTbl portfolio : portfolioList) {
 					CryptoTokenConfigTbl token = portfolio.getToken();
 					if (mapToken.containsKey(token)) {
@@ -158,7 +158,7 @@ public class CryptoPortfolioHistoryService extends BaseService {
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
 	private APIResponse<Long> create(CryptoPortfolioHistoryVO vo) {
 		// Declare result
-		APIResponse<Long> result = new APIResponse<Long>();
+		APIResponse<Long> result = new APIResponse<>();
 
 		// Transform
 		CryptoPortfolioHistoryTbl tbl = cryptoPortfolioHistoryTransformer.convertToTbl(vo);
@@ -175,7 +175,7 @@ public class CryptoPortfolioHistoryService extends BaseService {
 
 	public APIResponse<Object> getPortfolioSummary(CryptoPortfolioHistorySCO sco) {
 		// Declare result
-		APIResponse<Object> result = new APIResponse<Object>();
+		APIResponse<Object> result = new APIResponse<>();
 
 		// Get logged user
 		UserTbl loggedUser = userService.getCurrentLoginUser();

@@ -19,6 +19,8 @@ import org.springframework.beans.factory.annotation.Value;
 
 import com.hientran.sohebox.cache.TypeCache;
 import com.hientran.sohebox.constants.DBConstants;
+import com.hientran.sohebox.dto.RequestExternalVO;
+import com.hientran.sohebox.dto.TypeVO;
 import com.hientran.sohebox.entity.RequestExternalTbl;
 import com.hientran.sohebox.entity.TypeTbl;
 import com.hientran.sohebox.sco.RequestExternalSCO;
@@ -27,8 +29,6 @@ import com.hientran.sohebox.sco.SearchNumberVO;
 import com.hientran.sohebox.sco.SearchTextVO;
 import com.hientran.sohebox.service.RequestExternalService;
 import com.hientran.sohebox.utils.MyDateUtils;
-import com.hientran.sohebox.vo.RequestExternalVO;
-import com.hientran.sohebox.vo.TypeVO;
 
 public class BaseWebService {
 
@@ -45,7 +45,7 @@ public class BaseWebService {
 	private TypeCache typeCache;
 
 	/**
-	 * 
+	 *
 	 * Create http GET
 	 *
 	 * @param builder
@@ -68,7 +68,7 @@ public class BaseWebService {
 	}
 
 	/**
-	 * 
+	 *
 	 * Create http GET
 	 *
 	 * @param builder
@@ -91,7 +91,7 @@ public class BaseWebService {
 	}
 
 	/**
-	 * 
+	 *
 	 * Validate HTTP status and get return
 	 *
 	 * @param method
@@ -108,7 +108,7 @@ public class BaseWebService {
 
 	/**
 	 * Record external request
-	 * 
+	 *
 	 * @throws Exception
 	 *
 	 */

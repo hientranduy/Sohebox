@@ -24,7 +24,7 @@ public interface MediaTypeRepository
 	MediaTypeSpecs specs = new MediaTypeSpecs();
 
 	/**
-	 * 
+	 *
 	 * Get all data
 	 *
 	 * @return

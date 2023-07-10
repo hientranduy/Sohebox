@@ -9,10 +9,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
+import com.hientran.sohebox.dto.AccountVO;
+import com.hientran.sohebox.dto.PageResultVO;
+import com.hientran.sohebox.dto.TypeVO;
 import com.hientran.sohebox.entity.AccountTbl;
-import com.hientran.sohebox.vo.AccountVO;
-import com.hientran.sohebox.vo.PageResultVO;
-import com.hientran.sohebox.vo.TypeVO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -26,12 +26,12 @@ public class AccountTransformer extends BaseTransformer {
 	 * Convert Page<AccountTbl> to PageResultVO<AccountVO>
 	 *
 	 * @param Page<AccountTbl>
-	 * 
+	 *
 	 * @return PageResultVO<AccountVO>
 	 */
 	public PageResultVO<AccountVO> convertToPageReturn(Page<AccountTbl> pageTbl) {
 		// Declare result
-		PageResultVO<AccountVO> result = new PageResultVO<AccountVO>();
+		PageResultVO<AccountVO> result = new PageResultVO<>();
 
 		// Convert data
 		if (!CollectionUtils.isEmpty(pageTbl.getContent())) {

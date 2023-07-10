@@ -24,7 +24,7 @@ public interface TypeRepository
 	TypeSpecs specs = new TypeSpecs();
 
 	/**
-	 * 
+	 *
 	 * Get all data
 	 *
 	 * @return

@@ -249,7 +249,7 @@ public class SecurityConfig {
 
 	/**
 	 * Create Cors Configuration Source bean.
-	 * 
+	 *
 	 * It is for accept access from Web like AngularJS.
 	 *
 	 * @return CorsConfigurationSource object

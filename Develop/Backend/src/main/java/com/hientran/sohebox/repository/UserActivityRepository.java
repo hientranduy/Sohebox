@@ -16,7 +16,7 @@ public interface UserActivityRepository
 	UserActivitySpecs specs = new UserActivitySpecs();
 
 	/**
-	 * 
+	 *
 	 * Get all data
 	 *
 	 * @return

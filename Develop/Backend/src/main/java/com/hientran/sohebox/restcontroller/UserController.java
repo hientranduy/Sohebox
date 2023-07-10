@@ -10,12 +10,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hientran.sohebox.constants.ApiPublicConstants;
+import com.hientran.sohebox.dto.ChangePasswordVO;
+import com.hientran.sohebox.dto.ChangePrivateKeyVO;
+import com.hientran.sohebox.dto.UserVO;
 import com.hientran.sohebox.dto.response.APIResponse;
 import com.hientran.sohebox.sco.UserSCO;
 import com.hientran.sohebox.service.UserService;
-import com.hientran.sohebox.vo.ChangePasswordVO;
-import com.hientran.sohebox.vo.ChangePrivateKeyVO;
-import com.hientran.sohebox.vo.UserVO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -65,7 +65,7 @@ public class UserController {
 	}
 
 	/**
-	 * 
+	 *
 	 * Update info
 	 *
 	 * @param vo
@@ -82,7 +82,7 @@ public class UserController {
 	}
 
 	/**
-	 * 
+	 *
 	 * Search
 	 *
 	 * @param sco
@@ -99,7 +99,7 @@ public class UserController {
 	}
 
 	/**
-	 * 
+	 *
 	 * Search
 	 *
 	 * @param sco
@@ -116,7 +116,7 @@ public class UserController {
 	}
 
 	/**
-	 * 
+	 *
 	 * Search
 	 *
 	 * @param sco
@@ -134,7 +134,7 @@ public class UserController {
 	}
 
 	/**
-	 * 
+	 *
 	 * Change password by username
 	 *
 	 * @param vo

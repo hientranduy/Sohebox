@@ -16,7 +16,7 @@ public interface FoodRepository
 	FoodSpecs specs = new FoodSpecs();
 
 	/**
-	 * 
+	 *
 	 * Get all data
 	 *
 	 * @return

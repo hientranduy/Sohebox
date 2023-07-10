@@ -16,7 +16,7 @@ public interface AccountRepository
 	AccountSpecs specs = new AccountSpecs();
 
 	/**
-	 * 
+	 *
 	 * Get all data
 	 *
 	 * @return

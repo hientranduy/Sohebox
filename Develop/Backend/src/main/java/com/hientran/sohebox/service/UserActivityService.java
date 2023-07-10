@@ -10,6 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.hientran.sohebox.cache.TypeCache;
 import com.hientran.sohebox.constants.DBConstants;
+import com.hientran.sohebox.dto.UserActivityVO;
+import com.hientran.sohebox.dto.UserVO;
 import com.hientran.sohebox.dto.response.APIResponse;
 import com.hientran.sohebox.dto.response.ResponseCode;
 import com.hientran.sohebox.entity.UserActivityTbl;
@@ -18,8 +20,6 @@ import com.hientran.sohebox.repository.UserActivityRepository;
 import com.hientran.sohebox.repository.UserRepository;
 import com.hientran.sohebox.specification.UserActivitySpecs.UserActivityTblEnum;
 import com.hientran.sohebox.transformer.UserActivityTransformer;
-import com.hientran.sohebox.vo.UserActivityVO;
-import com.hientran.sohebox.vo.UserVO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -34,16 +34,16 @@ public class UserActivityService {
 	private final TypeCache typeCache;
 
 	/**
-	 * 
+	 *
 	 * Create
-	 * 
+	 *
 	 * @param vo
 	 * @return
 	 */
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
 	public APIResponse<Long> create(UserActivityVO vo) {
 		// Declare result
-		APIResponse<Long> result = new APIResponse<Long>();
+		APIResponse<Long> result = new APIResponse<>();
 
 		// Validate input
 		if (result.getStatus() == null) {
@@ -61,7 +61,7 @@ public class UserActivityService {
 
 			// Record error
 			if (CollectionUtils.isNotEmpty(errors)) {
-				result = new APIResponse<Long>(HttpStatus.BAD_REQUEST, errors);
+				result = new APIResponse<>(HttpStatus.BAD_REQUEST, errors);
 			}
 		}
 

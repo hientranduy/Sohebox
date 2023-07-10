@@ -24,6 +24,9 @@ import com.hientran.sohebox.cache.ConfigCache;
 import com.hientran.sohebox.constants.CosmosConstants;
 import com.hientran.sohebox.constants.DBConstants;
 import com.hientran.sohebox.constants.DataExternalConstants;
+import com.hientran.sohebox.dto.CryptoPortfolioVO;
+import com.hientran.sohebox.dto.CryptoPortfolioValidatorDelegationVO;
+import com.hientran.sohebox.dto.PageResultVO;
 import com.hientran.sohebox.dto.response.APIResponse;
 import com.hientran.sohebox.dto.response.ResponseCode;
 import com.hientran.sohebox.entity.CryptoPortfolioTbl;
@@ -36,9 +39,6 @@ import com.hientran.sohebox.specification.CryptoPortfolioSpecs.CryptoPortfolioTb
 import com.hientran.sohebox.transformer.CryptoPortfolioTransformer;
 import com.hientran.sohebox.transformer.CryptoValidatorTransformer;
 import com.hientran.sohebox.utils.ObjectMapperUtil;
-import com.hientran.sohebox.vo.CryptoPortfolioVO;
-import com.hientran.sohebox.vo.CryptoPortfolioValidatorDelegationVO;
-import com.hientran.sohebox.vo.PageResultVO;
 import com.hientran.sohebox.webservice.CosmosWebService;
 
 import lombok.RequiredArgsConstructor;
@@ -60,9 +60,9 @@ public class CryptoPortfolioService extends BaseService {
 	private final CryptoValidatorService cryptoValidatorService;
 
 	/**
-	 * 
+	 *
 	 * Create
-	 * 
+	 *
 	 * @param vo
 	 * @return
 	 * @throws IOException
@@ -70,7 +70,7 @@ public class CryptoPortfolioService extends BaseService {
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
 	public APIResponse<Long> create(CryptoPortfolioVO vo) {
 		// Declare result
-		APIResponse<Long> result = new APIResponse<Long>();
+		APIResponse<Long> result = new APIResponse<>();
 
 		// Validate input
 		if (result.getStatus() == null) {
@@ -86,7 +86,7 @@ public class CryptoPortfolioService extends BaseService {
 
 			// Record error
 			if (CollectionUtils.isNotEmpty(errors)) {
-				result = new APIResponse<Long>(HttpStatus.BAD_REQUEST, errors);
+				result = new APIResponse<>(HttpStatus.BAD_REQUEST, errors);
 			}
 		}
 
@@ -96,9 +96,8 @@ public class CryptoPortfolioService extends BaseService {
 		// Check existence
 		if (result.getStatus() == null) {
 			if (recordIsExisted(loggedUser, vo)) {
-				result = new APIResponse<Long>(HttpStatus.BAD_REQUEST,
-						ResponseCode.mapParam(ResponseCode.EXISTED_RECORD,
-								" wallet " + vo.getWallet() + "<token " + vo.getToken().getTokenCode() + ">"));
+				result = new APIResponse<>(HttpStatus.BAD_REQUEST, ResponseCode.mapParam(ResponseCode.EXISTED_RECORD,
+						" wallet " + vo.getWallet() + "<token " + vo.getToken().getTokenCode() + ">"));
 			}
 		}
 
@@ -123,14 +122,14 @@ public class CryptoPortfolioService extends BaseService {
 	}
 
 	/**
-	 * 
+	 *
 	 * Check if record is existed
 	 *
 	 * @return
 	 */
 	private boolean recordIsExisted(UserTbl user, CryptoPortfolioVO vo) {
 		// Declare result
-		Boolean result = false;
+		boolean result = false;
 
 		// Prepare search
 		SearchNumberVO userIdSearch = new SearchNumberVO();
@@ -158,16 +157,16 @@ public class CryptoPortfolioService extends BaseService {
 	}
 
 	/**
-	 * 
+	 *
 	 * Update
-	 * 
+	 *
 	 * @param vo
 	 * @return
 	 */
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
 	public APIResponse<Long> update(CryptoPortfolioVO vo) {
 		// Declare result
-		APIResponse<Long> result = new APIResponse<Long>();
+		APIResponse<Long> result = new APIResponse<>();
 
 		// Validate input
 		if (result.getStatus() == null) {
@@ -183,7 +182,7 @@ public class CryptoPortfolioService extends BaseService {
 
 			// Record error
 			if (CollectionUtils.isNotEmpty(errors)) {
-				result = new APIResponse<Long>(HttpStatus.BAD_REQUEST, errors);
+				result = new APIResponse<>(HttpStatus.BAD_REQUEST, errors);
 			}
 		}
 
@@ -193,7 +192,7 @@ public class CryptoPortfolioService extends BaseService {
 		// Get updated account
 		CryptoPortfolioTbl updateTbl = getTokenPortfolioByUser(loggedUser, vo.getId());
 		if (updateTbl == null) {
-			result = new APIResponse<Long>(HttpStatus.BAD_REQUEST, ResponseCode.mapParam(ResponseCode.INEXISTED_RECORD,
+			result = new APIResponse<>(HttpStatus.BAD_REQUEST, ResponseCode.mapParam(ResponseCode.INEXISTED_RECORD,
 					"portfolio token " + vo.getToken().getTokenCode()));
 		}
 
@@ -236,7 +235,7 @@ public class CryptoPortfolioService extends BaseService {
 	}
 
 	/**
-	 * 
+	 *
 	 * Get account
 	 *
 	 * @param userOwnerId
@@ -272,7 +271,7 @@ public class CryptoPortfolioService extends BaseService {
 
 	/**
 	 * Search
-	 * 
+	 *
 	 * @param sco
 	 * @return
 	 * @throws Exception
@@ -280,7 +279,7 @@ public class CryptoPortfolioService extends BaseService {
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
 	public APIResponse<Object> search(CryptoPortfolioSCO sco) {
 		// Declare result
-		APIResponse<Object> result = new APIResponse<Object>();
+		APIResponse<Object> result = new APIResponse<>();
 
 		// Get logged user
 		UserTbl loggedUser = userDetailsServiceImpl.getCurrentLoginUser();
@@ -311,7 +310,7 @@ public class CryptoPortfolioService extends BaseService {
 							this.update(item);
 						}
 					} catch (Exception e) {
-						return new APIResponse<Object>(HttpStatus.BAD_REQUEST,
+						return new APIResponse<>(HttpStatus.BAD_REQUEST,
 								ResponseCode.mapParam(ResponseCode.ERROR_EXCEPTION, e.getMessage()));
 					}
 				}
@@ -468,13 +467,13 @@ public class CryptoPortfolioService extends BaseService {
 
 	/**
 	 * Get by id
-	 * 
+	 *
 	 * @param id
 	 * @return
 	 */
 	public APIResponse<Object> getById(Long id) {
 		// Declare result
-		APIResponse<Object> result = new APIResponse<Object>();
+		APIResponse<Object> result = new APIResponse<>();
 
 		// Check existence
 		Optional<CryptoPortfolioTbl> CryptoPortfolioTbl = cryptoPortfolioRepository.findById(id);
@@ -482,7 +481,7 @@ public class CryptoPortfolioService extends BaseService {
 			CryptoPortfolioVO vo = cryptoPortfolioTransformer.convertToVO(CryptoPortfolioTbl.get());
 			result.setData(vo);
 		} else {
-			result = new APIResponse<Object>(HttpStatus.BAD_REQUEST,
+			result = new APIResponse<>(HttpStatus.BAD_REQUEST,
 					ResponseCode.mapParam(ResponseCode.INEXISTED_RECORD, "token"));
 		}
 
@@ -492,7 +491,7 @@ public class CryptoPortfolioService extends BaseService {
 
 	/**
 	 * Delete by id
-	 * 
+	 *
 	 * Only role creator
 	 *
 	 * @param User
@@ -501,18 +500,18 @@ public class CryptoPortfolioService extends BaseService {
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
 	public APIResponse<Object> deleteById(Long id) {
 		// Declare result
-		APIResponse<Object> result = new APIResponse<Object>();
+		APIResponse<Object> result = new APIResponse<>();
 
 		// Check existed
 		Optional<CryptoPortfolioTbl> deleteItemTbl = cryptoPortfolioRepository.findById(id);
 		if (!deleteItemTbl.isPresent()) {
-			result = new APIResponse<Object>(HttpStatus.BAD_REQUEST,
+			result = new APIResponse<>(HttpStatus.BAD_REQUEST,
 					ResponseCode.mapParam(ResponseCode.UNAUTHORIZED_DATA, null));
 		}
 
 		// Check logged user have permission to delete
 		if (result.getStatus() == null && !userService.isDataOwner(deleteItemTbl.get().getUser().getUsername())) {
-			result = new APIResponse<Object>(HttpStatus.BAD_REQUEST,
+			result = new APIResponse<>(HttpStatus.BAD_REQUEST,
 					ResponseCode.mapParam(ResponseCode.UNAUTHORIZED_DATA, null));
 		}
 

@@ -24,7 +24,7 @@ public interface ConfigRepository
 	ConfigSpecs specs = new ConfigSpecs();
 
 	/**
-	 * 
+	 *
 	 * Get all data
 	 *
 	 * @return

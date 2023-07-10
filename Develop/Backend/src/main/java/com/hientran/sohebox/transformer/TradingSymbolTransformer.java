@@ -8,9 +8,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
+import com.hientran.sohebox.dto.PageResultVO;
+import com.hientran.sohebox.dto.TradingSymbolVO;
 import com.hientran.sohebox.entity.TradingSymbolTbl;
-import com.hientran.sohebox.vo.PageResultVO;
-import com.hientran.sohebox.vo.TradingSymbolVO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -24,12 +24,12 @@ public class TradingSymbolTransformer extends BaseTransformer {
 	 * Convert Page<TradingSymbolTbl> to PageResultVO<TradingSymbolVO>
 	 *
 	 * @param Page<TradingSymbolTbl>
-	 * 
+	 *
 	 * @return PageResultVO<TradingSymbolVO>
 	 */
 	public PageResultVO<TradingSymbolVO> convertToPageReturn(Page<TradingSymbolTbl> pageTbl) {
 		// Declare result
-		PageResultVO<TradingSymbolVO> result = new PageResultVO<TradingSymbolVO>();
+		PageResultVO<TradingSymbolVO> result = new PageResultVO<>();
 
 		// Convert data
 		if (!CollectionUtils.isEmpty(pageTbl.getContent())) {

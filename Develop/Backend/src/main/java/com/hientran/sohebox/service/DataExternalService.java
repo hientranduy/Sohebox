@@ -16,14 +16,14 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import com.hientran.sohebox.constants.DataExternalConstants;
+import com.hientran.sohebox.dto.PageResultVO;
+import com.hientran.sohebox.dto.SjcGoldCityVO;
+import com.hientran.sohebox.dto.SjcGoldItemVO;
+import com.hientran.sohebox.dto.SjcGoldVO;
+import com.hientran.sohebox.dto.VcbCurrencyItemVO;
+import com.hientran.sohebox.dto.VcbCurrencyVO;
 import com.hientran.sohebox.dto.response.APIResponse;
 import com.hientran.sohebox.dto.response.ResponseCode;
-import com.hientran.sohebox.vo.PageResultVO;
-import com.hientran.sohebox.vo.SjcGoldCityVO;
-import com.hientran.sohebox.vo.SjcGoldItemVO;
-import com.hientran.sohebox.vo.SjcGoldVO;
-import com.hientran.sohebox.vo.VcbCurrencyItemVO;
-import com.hientran.sohebox.vo.VcbCurrencyVO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -36,18 +36,18 @@ public class DataExternalService extends BaseService {
 
 	/**
 	 * Get vietcombank foreigner rate
-	 * 
+	 *
 	 */
 	public APIResponse<Object> getVietcombankForeignerRate() {
 		// Declare result
-		APIResponse<Object> result = new APIResponse<Object>();
+		APIResponse<Object> result = new APIResponse<>();
 		String filePath = resourcePath + DataExternalConstants.REQUEST_DATA_FILE_PATH_VCB;
 
 		// Check and update file
 		try {
 			refreshExternalFile(filePath);
 		} catch (Exception e) {
-			result = new APIResponse<Object>(HttpStatus.BAD_REQUEST,
+			result = new APIResponse<>(HttpStatus.BAD_REQUEST,
 					ResponseCode.mapParam(ResponseCode.ERROR_EXCEPTION, e.getMessage()));
 		}
 
@@ -88,10 +88,10 @@ public class DataExternalService extends BaseService {
 				resultItem.setRates(rates);
 
 				// Set return data
-				List<VcbCurrencyVO> listItem = new ArrayList<VcbCurrencyVO>();
+				List<VcbCurrencyVO> listItem = new ArrayList<>();
 				listItem.add(resultItem);
 
-				PageResultVO<VcbCurrencyVO> data = new PageResultVO<VcbCurrencyVO>();
+				PageResultVO<VcbCurrencyVO> data = new PageResultVO<>();
 				data.setElements(listItem);
 				data.setCurrentPage(0);
 				data.setTotalPage(1);
@@ -110,18 +110,18 @@ public class DataExternalService extends BaseService {
 
 	/**
 	 * Get SJC gold price
-	 * 
+	 *
 	 */
 	public APIResponse<Object> getSjcGoldPrice() {
 		// Declare result
-		APIResponse<Object> result = new APIResponse<Object>();
+		APIResponse<Object> result = new APIResponse<>();
 		String filePath = resourcePath + DataExternalConstants.REQUEST_DATA_FILE_PATH_SJC;
 
 		// Check and update file
 		try {
 			refreshExternalFile(filePath);
 		} catch (Exception e) {
-			result = new APIResponse<Object>(HttpStatus.BAD_REQUEST,
+			result = new APIResponse<>(HttpStatus.BAD_REQUEST,
 					ResponseCode.mapParam(ResponseCode.ERROR_EXCEPTION, e.getMessage()));
 		}
 
@@ -158,10 +158,10 @@ public class DataExternalService extends BaseService {
 				}
 
 				// Set return data
-				List<SjcGoldVO> listData = new ArrayList<SjcGoldVO>();
+				List<SjcGoldVO> listData = new ArrayList<>();
 				listData.add(resultData);
 
-				PageResultVO<SjcGoldVO> data = new PageResultVO<SjcGoldVO>();
+				PageResultVO<SjcGoldVO> data = new PageResultVO<>();
 				data.setElements(listData);
 				data.setCurrentPage(0);
 				data.setTotalPage(1);

@@ -16,7 +16,7 @@ public interface EnglishUserGradeRepository extends JpaRepository<EnglishUserGra
 	EnglishUserGradeSpecs specs = new EnglishUserGradeSpecs();
 
 	/**
-	 * 
+	 *
 	 * Get all data
 	 *
 	 * @return

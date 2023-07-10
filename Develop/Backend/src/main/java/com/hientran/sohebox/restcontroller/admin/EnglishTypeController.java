@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.hientran.sohebox.cache.EnglishTypeCache;
 import com.hientran.sohebox.constants.ApiPublicConstants;
+import com.hientran.sohebox.dto.EnglishTypeVO;
 import com.hientran.sohebox.dto.response.APIResponse;
 import com.hientran.sohebox.restcontroller.BaseRestController;
 import com.hientran.sohebox.sco.EnglishTypeSCO;
-import com.hientran.sohebox.vo.EnglishTypeVO;
 
 import lombok.RequiredArgsConstructor;
 

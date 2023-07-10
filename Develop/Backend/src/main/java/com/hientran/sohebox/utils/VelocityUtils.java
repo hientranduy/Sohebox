@@ -19,7 +19,7 @@ public class VelocityUtils {
 	private final VelocityEngine velocityEngine;
 
 	/**
-	 * 
+	 *
 	 * Create text by VM template and parameters
 	 *
 	 * @param templatePath

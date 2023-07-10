@@ -23,7 +23,7 @@ public class MyDateUtils {
 	public static final String YYYYMMDD = "yyyy-MM-dd";
 
 	/**
-	 * 
+	 *
 	 * Get date with time is 0:0:0
 	 *
 	 * @param aDate
@@ -34,7 +34,7 @@ public class MyDateUtils {
 	}
 
 	/**
-	 * 
+	 *
 	 * Get date with time is 23:59:59
 	 *
 	 * @param aDate
@@ -45,7 +45,7 @@ public class MyDateUtils {
 	}
 
 	/**
-	 * 
+	 *
 	 * Change time hh:mm:ss of a date
 	 *
 	 * @param aDate
@@ -73,7 +73,7 @@ public class MyDateUtils {
 	}
 
 	/**
-	 * 
+	 *
 	 * Convert String to Date
 	 *
 	 * @param sDate
@@ -94,7 +94,7 @@ public class MyDateUtils {
 	}
 
 	/**
-	 * 
+	 *
 	 * Convert data to string
 	 *
 	 * @param date
@@ -117,7 +117,7 @@ public class MyDateUtils {
 	 * @param date1 Date 1
 	 * @param date2 Date 2
 	 * @return true If they are the same value
-	 * 
+	 *
 	 */
 	public static boolean compareDateTime(Date date1, Date date2) {
 		boolean result = false;
@@ -136,7 +136,7 @@ public class MyDateUtils {
 	}
 
 	/**
-	 * 
+	 *
 	 * Format duration time text
 	 *
 	 * @param totalSecond

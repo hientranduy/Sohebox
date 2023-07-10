@@ -9,6 +9,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.hientran.sohebox.dto.EnglishLearnReportVO;
+import com.hientran.sohebox.dto.PageResultVO;
 import com.hientran.sohebox.dto.response.APIResponse;
 import com.hientran.sohebox.entity.EnglishLearnReportTbl;
 import com.hientran.sohebox.entity.UserTbl;
@@ -16,8 +18,6 @@ import com.hientran.sohebox.repository.EnglishLearnReportRepository;
 import com.hientran.sohebox.sco.EnglishLearnReportSCO;
 import com.hientran.sohebox.transformer.EnglishLearnReportTransformer;
 import com.hientran.sohebox.utils.MyDateUtils;
-import com.hientran.sohebox.vo.EnglishLearnReportVO;
-import com.hientran.sohebox.vo.PageResultVO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -30,16 +30,16 @@ public class EnglishLearnReportService extends BaseService {
 	private final UserService userService;
 
 	/**
-	 * 
+	 *
 	 * Count learn
-	 * 
+	 *
 	 * @param vo
 	 * @return
 	 */
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
 	public APIResponse<Long> add(EnglishLearnReportVO vo) {
 		// Declare result
-		APIResponse<Long> result = new APIResponse<Long>();
+		APIResponse<Long> result = new APIResponse<>();
 
 		// Get user
 		UserTbl userTbl = userService.getTblByUserName(vo.getUser().getUsername());
@@ -57,13 +57,13 @@ public class EnglishLearnReportService extends BaseService {
 
 	/**
 	 * Search
-	 * 
+	 *
 	 * @param sco
 	 * @return
 	 */
 	public APIResponse<Object> search(EnglishLearnReportSCO sco) {
 		// Declare result
-		APIResponse<Object> result = new APIResponse<Object>();
+		APIResponse<Object> result = new APIResponse<>();
 
 		// Check data authentication
 		result = isDataAuthentication(sco.getUserId().getEq().longValue());

@@ -21,7 +21,7 @@ public interface EnglishLearnReportRepository extends JpaRepository<EnglishLearn
 	EnglishLearnReportSpecs specs = new EnglishLearnReportSpecs();
 
 	/**
-	 * 
+	 *
 	 * Get all data
 	 *
 	 * @return
@@ -47,7 +47,7 @@ public interface EnglishLearnReportRepository extends JpaRepository<EnglishLearn
 	}
 
 	/**
-	 * 
+	 *
 	 * Find daily learn by user/count total
 	 *
 	 * @return

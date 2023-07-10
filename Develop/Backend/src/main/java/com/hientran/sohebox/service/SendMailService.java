@@ -9,8 +9,8 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.hientran.sohebox.dto.SendEmailContentVO;
 import com.hientran.sohebox.utils.VelocityUtils;
-import com.hientran.sohebox.vo.SendEmailContentVO;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;

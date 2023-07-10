@@ -13,14 +13,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hientran.sohebox.constants.ApiPublicConstants;
+import com.hientran.sohebox.dto.YoutubeChannelVO;
+import com.hientran.sohebox.dto.YoutubeVideoIdVO;
 import com.hientran.sohebox.dto.response.APIResponse;
 import com.hientran.sohebox.sco.YoutubeChannelSCO;
 import com.hientran.sohebox.sco.YoutubeChannelVideoSCO;
 import com.hientran.sohebox.service.YoutubeChannelService;
 import com.hientran.sohebox.service.YoutubeChannelVideoService;
 import com.hientran.sohebox.service.YoutubeService;
-import com.hientran.sohebox.vo.YoutubeChannelVO;
-import com.hientran.sohebox.vo.YoutubeVideoIdVO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -33,7 +33,7 @@ public class YoutubeRestController extends BaseRestController {
 	private final YoutubeService youtubeService;
 
 	/**
-	 * 
+	 *
 	 * Add new channel
 	 *
 	 * @param vo
@@ -48,7 +48,7 @@ public class YoutubeRestController extends BaseRestController {
 	}
 
 	/**
-	 * 
+	 *
 	 * Search channel
 	 *
 	 * @param sco
@@ -64,7 +64,7 @@ public class YoutubeRestController extends BaseRestController {
 	}
 
 	/**
-	 * 
+	 *
 	 * Search youtube channel
 	 *
 	 * @param sco
@@ -80,7 +80,7 @@ public class YoutubeRestController extends BaseRestController {
 	}
 
 	/**
-	 * 
+	 *
 	 * Update youtube channel
 	 *
 	 * @param vo
@@ -95,7 +95,7 @@ public class YoutubeRestController extends BaseRestController {
 	}
 
 	/**
-	 * 
+	 *
 	 * Search youtube video
 	 *
 	 * @param sco
@@ -111,7 +111,7 @@ public class YoutubeRestController extends BaseRestController {
 	}
 
 	/**
-	 * 
+	 *
 	 * Add private youtube video
 	 *
 	 * @param vo
@@ -126,7 +126,7 @@ public class YoutubeRestController extends BaseRestController {
 	}
 
 	/**
-	 * 
+	 *
 	 * Search youtube video
 	 *
 	 * @param sco
@@ -142,7 +142,7 @@ public class YoutubeRestController extends BaseRestController {
 	}
 
 	/**
-	 * 
+	 *
 	 * Delete video by videoId
 	 *
 	 * @return

@@ -16,7 +16,7 @@ public interface YoutubeVideoRepository
 	YoutubeVideoSpecs specs = new YoutubeVideoSpecs();
 
 	/**
-	 * 
+	 *
 	 * Get all data
 	 *
 	 * @return

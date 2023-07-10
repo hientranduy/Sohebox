@@ -13,7 +13,7 @@ public class Scheduler {
 	private SchedulerService schedulerService;
 
 	/**
-	 * 
+	 *
 	 * CRON schedule_ Extend english learn report
 	 *
 	 * @throws Exception
@@ -24,7 +24,7 @@ public class Scheduler {
 	}
 
 	/**
-	 * 
+	 *
 	 * CRON schedule_ Calculate crypto portfolio total
 	 *
 	 * @throws Exception

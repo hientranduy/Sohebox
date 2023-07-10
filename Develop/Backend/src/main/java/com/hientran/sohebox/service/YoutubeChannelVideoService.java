@@ -19,6 +19,11 @@ import com.hientran.sohebox.cache.ConfigCache;
 import com.hientran.sohebox.cache.MediaTypeCache;
 import com.hientran.sohebox.constants.DBConstants;
 import com.hientran.sohebox.constants.GoogleConstants;
+import com.hientran.sohebox.dto.PageResultVO;
+import com.hientran.sohebox.dto.YoutubeReponseVO;
+import com.hientran.sohebox.dto.YoutubeResponseVideoVO;
+import com.hientran.sohebox.dto.YoutubeVideoIdVO;
+import com.hientran.sohebox.dto.YoutubeVideoSendVO;
 import com.hientran.sohebox.dto.response.APIResponse;
 import com.hientran.sohebox.dto.response.ResponseCode;
 import com.hientran.sohebox.entity.UserTbl;
@@ -34,11 +39,6 @@ import com.hientran.sohebox.sco.YoutubeChannelVideoSCO;
 import com.hientran.sohebox.specification.YoutubeChannelSpecs.YoutubeChannelTblEnum;
 import com.hientran.sohebox.specification.YoutubeVideoSpecs.YoutubeVideoTblEnum;
 import com.hientran.sohebox.utils.ObjectMapperUtil;
-import com.hientran.sohebox.vo.PageResultVO;
-import com.hientran.sohebox.vo.YoutubeReponseVO;
-import com.hientran.sohebox.vo.YoutubeResponseVideoVO;
-import com.hientran.sohebox.vo.YoutubeVideoIdVO;
-import com.hientran.sohebox.vo.YoutubeVideoSendVO;
 import com.hientran.sohebox.webservice.YoutubeWebService;
 
 import lombok.RequiredArgsConstructor;
@@ -61,7 +61,7 @@ public class YoutubeChannelVideoService extends BaseService {
 
 	/**
 	 * Search
-	 * 
+	 *
 	 * @param sco
 	 * @return
 	 */
@@ -84,7 +84,7 @@ public class YoutubeChannelVideoService extends BaseService {
 
 	/**
 	 * Search
-	 * 
+	 *
 	 * @param sco
 	 * @return
 	 */
@@ -121,7 +121,7 @@ public class YoutubeChannelVideoService extends BaseService {
 	 */
 	public APIResponse<?> getPrivateVideo() {
 		// Declare result
-		APIResponse<Object> result = new APIResponse<Object>();
+		APIResponse<Object> result = new APIResponse<>();
 
 		// Get login user
 		UserTbl loggedUser = userService.getCurrentLoginUser();
@@ -152,7 +152,7 @@ public class YoutubeChannelVideoService extends BaseService {
 			List<YoutubeChannelVideoTbl> videoList = search(sco);
 
 			if (CollectionUtils.isNotEmpty(videoList)) {
-				List<YoutubeVideoSendVO> videoSends = new ArrayList<YoutubeVideoSendVO>();
+				List<YoutubeVideoSendVO> videoSends = new ArrayList<>();
 				for (YoutubeChannelVideoTbl video : videoList) {
 					YoutubeVideoSendVO videoSend = new YoutubeVideoSendVO();
 					videoSend.setVideoId(video.getVideo().getVideoId());
@@ -165,7 +165,7 @@ public class YoutubeChannelVideoService extends BaseService {
 				}
 
 				// Set data return
-				PageResultVO<YoutubeVideoSendVO> data = new PageResultVO<YoutubeVideoSendVO>();
+				PageResultVO<YoutubeVideoSendVO> data = new PageResultVO<>();
 				data.setElements(videoSends);
 				data.setCurrentPage(0);
 				data.setTotalPage(1);
@@ -179,9 +179,9 @@ public class YoutubeChannelVideoService extends BaseService {
 	}
 
 	/**
-	 * 
+	 *
 	 * Merge channel video
-	 * 
+	 *
 	 * @param vo
 	 * @return
 	 * @throws IOException
@@ -190,7 +190,7 @@ public class YoutubeChannelVideoService extends BaseService {
 	public APIResponse<YoutubeChannelVideoTbl> mergeChannelVideo(YoutubeChannelTbl channelTbl,
 			YoutubeVideoTbl videoTbl) {
 		// Declare result
-		APIResponse<YoutubeChannelVideoTbl> result = new APIResponse<YoutubeChannelVideoTbl>();
+		APIResponse<YoutubeChannelVideoTbl> result = new APIResponse<>();
 
 		// Validate input
 		if (result.getStatus() == null) {
@@ -208,7 +208,7 @@ public class YoutubeChannelVideoService extends BaseService {
 
 			// Record error
 			if (CollectionUtils.isNotEmpty(errors)) {
-				result = new APIResponse<YoutubeChannelVideoTbl>(HttpStatus.BAD_REQUEST, errors);
+				result = new APIResponse<>(HttpStatus.BAD_REQUEST, errors);
 			}
 		}
 
@@ -247,7 +247,7 @@ public class YoutubeChannelVideoService extends BaseService {
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
 	public APIResponse<?> addPrivateVideo(@Validated YoutubeVideoIdVO vo) {
 		// Declare result
-		APIResponse<YoutubeChannelVideoTbl> result = new APIResponse<YoutubeChannelVideoTbl>();
+		APIResponse<YoutubeChannelVideoTbl> result = new APIResponse<>();
 
 		// Validate input
 		if (result.getStatus() == null) {
@@ -260,7 +260,7 @@ public class YoutubeChannelVideoService extends BaseService {
 
 			// Record error
 			if (CollectionUtils.isNotEmpty(errors)) {
-				result = new APIResponse<YoutubeChannelVideoTbl>(HttpStatus.BAD_REQUEST, errors);
+				result = new APIResponse<>(HttpStatus.BAD_REQUEST, errors);
 			}
 		}
 
@@ -296,7 +296,7 @@ public class YoutubeChannelVideoService extends BaseService {
 
 			if (videoTbl == null) {
 				// Call Youtube API
-				Map<String, String> parameters = new HashMap<String, String>();
+				Map<String, String> parameters = new HashMap<>();
 				parameters.put(GoogleConstants.YOUTUBE_PARAM_KEY,
 						configCache.getValueByKey(GoogleConstants.GOOGLE_KEY_API));
 				parameters.put(GoogleConstants.YOUTUBE_PARAM_PART, GoogleConstants.YOUTUBE_DEFAUT_VALUE_SNIPPET);
@@ -306,7 +306,7 @@ public class YoutubeChannelVideoService extends BaseService {
 					YoutubeReponseVO response = objectMapperUtil.readValue(responseData, YoutubeReponseVO.class);
 
 					if (response.getItems() != null) {
-						List<YoutubeResponseVideoVO> youtubeVideos = new ArrayList<YoutubeResponseVideoVO>();
+						List<YoutubeResponseVideoVO> youtubeVideos = new ArrayList<>();
 						youtubeVideos = objectMapperUtil.readValue(response.getItems(),
 								new TypeReference<List<YoutubeResponseVideoVO>>() {
 								});
@@ -319,17 +319,17 @@ public class YoutubeChannelVideoService extends BaseService {
 							videoTbl.setPublishedAt(video.getSnippet().getPublishedAt());
 							videoTbl = youtubeVideoRepository.save(videoTbl);
 						} else {
-							result = new APIResponse<YoutubeChannelVideoTbl>(HttpStatus.BAD_REQUEST,
+							result = new APIResponse<>(HttpStatus.BAD_REQUEST,
 									ResponseCode.mapParam(ResponseCode.INEXISTED_RECORD, "youtube video"));
 						}
 
 					} else {
-						result = new APIResponse<YoutubeChannelVideoTbl>(HttpStatus.BAD_REQUEST,
+						result = new APIResponse<>(HttpStatus.BAD_REQUEST,
 								ResponseCode.mapParam(ResponseCode.INEXISTED_RECORD, "youtube video"));
 
 					}
 				} catch (Exception e) {
-					result = new APIResponse<YoutubeChannelVideoTbl>(HttpStatus.BAD_REQUEST,
+					result = new APIResponse<>(HttpStatus.BAD_REQUEST,
 							ResponseCode.mapParam(ResponseCode.ERROR_EXCEPTION, e.getMessage()));
 				}
 			}
@@ -354,7 +354,7 @@ public class YoutubeChannelVideoService extends BaseService {
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
 	public APIResponse<?> removeVideo(String videoId) {
 		// Declare result
-		APIResponse<Object> result = new APIResponse<Object>();
+		APIResponse<Object> result = new APIResponse<>();
 
 		// Validate input
 		if (result.getStatus() == null) {
@@ -367,7 +367,7 @@ public class YoutubeChannelVideoService extends BaseService {
 
 			// Record error
 			if (CollectionUtils.isNotEmpty(errors)) {
-				result = new APIResponse<Object>(HttpStatus.BAD_REQUEST, errors);
+				result = new APIResponse<>(HttpStatus.BAD_REQUEST, errors);
 			}
 		}
 

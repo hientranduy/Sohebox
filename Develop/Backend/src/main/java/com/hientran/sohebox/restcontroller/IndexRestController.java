@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class IndexRestController {
 
 	/**
-	 * 
+	 *
 	 * For testing only
 	 *
 	 * @return

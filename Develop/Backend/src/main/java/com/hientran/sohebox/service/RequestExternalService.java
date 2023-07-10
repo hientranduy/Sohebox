@@ -10,11 +10,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.hientran.sohebox.cache.TypeCache;
 import com.hientran.sohebox.constants.DBConstants;
+import com.hientran.sohebox.dto.RequestExternalVO;
 import com.hientran.sohebox.entity.RequestExternalTbl;
 import com.hientran.sohebox.repository.RequestExternalRepository;
 import com.hientran.sohebox.sco.RequestExternalSCO;
 import com.hientran.sohebox.transformer.RequestExternalTransformer;
-import com.hientran.sohebox.vo.RequestExternalVO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -28,9 +28,9 @@ public class RequestExternalService extends BaseService {
 	private final TypeCache typeCache;
 
 	/**
-	 * 
+	 *
 	 * Create
-	 * 
+	 *
 	 */
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
 	public void create(RequestExternalVO vo) throws Exception {
@@ -49,7 +49,7 @@ public class RequestExternalService extends BaseService {
 
 	/**
 	 * Search
-	 * 
+	 *
 	 */
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
 	public List<RequestExternalTbl> search(RequestExternalSCO sco) {

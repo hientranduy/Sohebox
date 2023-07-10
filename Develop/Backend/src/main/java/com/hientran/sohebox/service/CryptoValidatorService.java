@@ -19,6 +19,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.hientran.sohebox.cache.ConfigCache;
 import com.hientran.sohebox.constants.CosmosConstants;
 import com.hientran.sohebox.constants.DataExternalConstants;
+import com.hientran.sohebox.dto.CryptoPortfolioVO;
+import com.hientran.sohebox.dto.CryptoValidatorVO;
+import com.hientran.sohebox.dto.PageResultVO;
 import com.hientran.sohebox.dto.response.APIResponse;
 import com.hientran.sohebox.dto.response.ResponseCode;
 import com.hientran.sohebox.entity.CryptoValidatorTbl;
@@ -27,9 +30,6 @@ import com.hientran.sohebox.sco.CryptoValidatorSCO;
 import com.hientran.sohebox.sco.SearchTextVO;
 import com.hientran.sohebox.specification.CryptoValidatorSpecs.CryptoValidatorTblEnum;
 import com.hientran.sohebox.transformer.CryptoValidatorTransformer;
-import com.hientran.sohebox.vo.CryptoPortfolioVO;
-import com.hientran.sohebox.vo.CryptoValidatorVO;
-import com.hientran.sohebox.vo.PageResultVO;
 import com.hientran.sohebox.webservice.CosmosWebService;
 
 import lombok.RequiredArgsConstructor;
@@ -49,9 +49,9 @@ public class CryptoValidatorService extends BaseService {
 	DecimalFormat df = new DecimalFormat("#.###");
 
 	/**
-	 * 
+	 *
 	 * Create
-	 * 
+	 *
 	 * @param vo
 	 * @return
 	 * @throws IOException
@@ -59,7 +59,7 @@ public class CryptoValidatorService extends BaseService {
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
 	public APIResponse<Long> create(CryptoValidatorVO vo) {
 		// Declare result
-		APIResponse<Long> result = new APIResponse<Long>();
+		APIResponse<Long> result = new APIResponse<>();
 
 		// Validate input
 		if (result.getStatus() == null) {
@@ -77,15 +77,15 @@ public class CryptoValidatorService extends BaseService {
 
 			// Record error
 			if (CollectionUtils.isNotEmpty(errors)) {
-				result = new APIResponse<Long>(HttpStatus.BAD_REQUEST, errors);
+				result = new APIResponse<>(HttpStatus.BAD_REQUEST, errors);
 			}
 		}
 
 		// Check existence
 		if (result.getStatus() == null) {
 			if (recordIsExisted(vo)) {
-				result = new APIResponse<Long>(HttpStatus.BAD_REQUEST, ResponseCode
-						.mapParam(ResponseCode.EXISTED_RECORD, " validator address " + vo.getValidatorAddress()));
+				result = new APIResponse<>(HttpStatus.BAD_REQUEST, ResponseCode.mapParam(ResponseCode.EXISTED_RECORD,
+						" validator address " + vo.getValidatorAddress()));
 			}
 		}
 
@@ -109,14 +109,14 @@ public class CryptoValidatorService extends BaseService {
 	}
 
 	/**
-	 * 
+	 *
 	 * Check if record is existed
 	 *
 	 * @return
 	 */
 	private boolean recordIsExisted(CryptoValidatorVO vo) {
 		// Declare result
-		Boolean result = false;
+		boolean result = false;
 
 		// Prepare search
 		SearchTextVO validatorAddressSearch = new SearchTextVO();
@@ -136,16 +136,16 @@ public class CryptoValidatorService extends BaseService {
 	}
 
 	/**
-	 * 
+	 *
 	 * Update
-	 * 
+	 *
 	 * @param vo
 	 * @return
 	 */
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
 	public APIResponse<Long> update(CryptoValidatorVO vo) {
 		// Declare result
-		APIResponse<Long> result = new APIResponse<Long>();
+		APIResponse<Long> result = new APIResponse<>();
 
 		// Validate input
 		if (result.getStatus() == null) {
@@ -163,14 +163,14 @@ public class CryptoValidatorService extends BaseService {
 
 			// Record error
 			if (CollectionUtils.isNotEmpty(errors)) {
-				result = new APIResponse<Long>(HttpStatus.BAD_REQUEST, errors);
+				result = new APIResponse<>(HttpStatus.BAD_REQUEST, errors);
 			}
 		}
 
 		// Get updated item
 		CryptoValidatorTbl updateTbl = cryptoValidatorRepository.findById(vo.getId()).get();
 		if (updateTbl == null) {
-			result = new APIResponse<Long>(HttpStatus.BAD_REQUEST, ResponseCode.mapParam(ResponseCode.INEXISTED_RECORD,
+			result = new APIResponse<>(HttpStatus.BAD_REQUEST, ResponseCode.mapParam(ResponseCode.INEXISTED_RECORD,
 					"Validator wallet " + vo.getValidatorAddress()));
 		}
 
@@ -203,7 +203,7 @@ public class CryptoValidatorService extends BaseService {
 
 	/**
 	 * Search
-	 * 
+	 *
 	 * @param sco
 	 * @return
 	 * @throws Exception
@@ -211,7 +211,7 @@ public class CryptoValidatorService extends BaseService {
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
 	public APIResponse<Object> search(CryptoValidatorSCO sco) {
 		// Declare result
-		APIResponse<Object> result = new APIResponse<Object>();
+		APIResponse<Object> result = new APIResponse<>();
 
 		// Get data
 		Page<CryptoValidatorTbl> page = cryptoValidatorRepository.findAll(sco);
@@ -228,13 +228,13 @@ public class CryptoValidatorService extends BaseService {
 
 	/**
 	 * Get by id
-	 * 
+	 *
 	 * @param id
 	 * @return
 	 */
 	public APIResponse<Object> getById(Long id) {
 		// Declare result
-		APIResponse<Object> result = new APIResponse<Object>();
+		APIResponse<Object> result = new APIResponse<>();
 
 		// Check existence
 		Optional<CryptoValidatorTbl> CryptoValidatorTbl = cryptoValidatorRepository.findById(id);
@@ -242,7 +242,7 @@ public class CryptoValidatorService extends BaseService {
 			CryptoValidatorVO vo = cryptoValidatorTransformer.convertToVO(CryptoValidatorTbl.get());
 			result.setData(vo);
 		} else {
-			result = new APIResponse<Object>(HttpStatus.BAD_REQUEST,
+			result = new APIResponse<>(HttpStatus.BAD_REQUEST,
 					ResponseCode.mapParam(ResponseCode.INEXISTED_RECORD, "token"));
 		}
 
@@ -253,7 +253,7 @@ public class CryptoValidatorService extends BaseService {
 	public CryptoValidatorVO getValidator(String validatorAddress, CryptoPortfolioVO cryptoPortfolioVO) {
 		// Declare result
 		CryptoValidatorVO returnValidator = null;
-		Boolean isNewValidator = false;
+		boolean isNewValidator = false;
 
 		// Get current validator info
 		if (cryptoPortfolioVO.getValidator() != null
@@ -269,7 +269,7 @@ public class CryptoValidatorService extends BaseService {
 		}
 
 		// Check if need sync
-		Boolean isSyncValidator = false;
+		boolean isSyncValidator = false;
 		if (returnValidator != null) {
 			int lateTimeSecond = Integer.parseInt(
 					configCache.getValueByKey(DataExternalConstants.CRYPTO_PORTFOLIO_SYNC_VALIDATOR_LATE_TIME_SECOND));

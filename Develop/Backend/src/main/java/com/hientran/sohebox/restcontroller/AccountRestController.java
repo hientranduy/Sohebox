@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hientran.sohebox.constants.ApiPublicConstants;
+import com.hientran.sohebox.dto.AccountVO;
 import com.hientran.sohebox.dto.response.APIResponse;
 import com.hientran.sohebox.sco.AccountSCO;
 import com.hientran.sohebox.service.AccountService;
-import com.hientran.sohebox.vo.AccountVO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -27,7 +27,7 @@ public class AccountRestController extends BaseRestController {
 	private final AccountService accountService;
 
 	/**
-	 * 
+	 *
 	 * Add new
 	 *
 	 * @param vo
@@ -44,7 +44,7 @@ public class AccountRestController extends BaseRestController {
 	}
 
 	/**
-	 * 
+	 *
 	 * Search
 	 *
 	 * @param sco
@@ -62,7 +62,7 @@ public class AccountRestController extends BaseRestController {
 	}
 
 	/**
-	 * 
+	 *
 	 * Delete by ID
 	 *
 	 * @param id
@@ -79,7 +79,7 @@ public class AccountRestController extends BaseRestController {
 	}
 
 	/**
-	 * 
+	 *
 	 * Update
 	 *
 	 * @param vo
@@ -96,7 +96,7 @@ public class AccountRestController extends BaseRestController {
 	}
 
 	/**
-	 * 
+	 *
 	 * Get by ID
 	 *
 	 * @param id
@@ -112,7 +112,7 @@ public class AccountRestController extends BaseRestController {
 	}
 
 	/**
-	 * 
+	 *
 	 * Get clear password
 	 *
 	 * @param id

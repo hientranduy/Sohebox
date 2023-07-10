@@ -8,9 +8,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
+import com.hientran.sohebox.dto.PageResultVO;
+import com.hientran.sohebox.dto.UserVO;
 import com.hientran.sohebox.entity.UserTbl;
-import com.hientran.sohebox.vo.PageResultVO;
-import com.hientran.sohebox.vo.UserVO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -24,12 +24,12 @@ public class UserTransformer extends BaseTransformer {
 	 * Convert Page<UserTbl> to PageResultVO<UserVO>
 	 *
 	 * @param Page<UserTbl>
-	 * 
+	 *
 	 * @return PageResultVO<UserVO>
 	 */
 	public PageResultVO<UserVO> convertToPageReturn(Page<UserTbl> pageTbl) {
 		// Declare result
-		PageResultVO<UserVO> result = new PageResultVO<UserVO>();
+		PageResultVO<UserVO> result = new PageResultVO<>();
 
 		// Convert data
 		if (!CollectionUtils.isEmpty(pageTbl.getContent())) {

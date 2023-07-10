@@ -13,6 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.hientran.sohebox.cache.TypeCache;
 import com.hientran.sohebox.constants.DBConstants;
+import com.hientran.sohebox.dto.PageResultVO;
+import com.hientran.sohebox.dto.TradingSymbolVO;
 import com.hientran.sohebox.dto.response.APIResponse;
 import com.hientran.sohebox.dto.response.ResponseCode;
 import com.hientran.sohebox.entity.CountryTbl;
@@ -22,8 +24,6 @@ import com.hientran.sohebox.sco.SearchTextVO;
 import com.hientran.sohebox.sco.TradingSymbolSCO;
 import com.hientran.sohebox.specification.TradingSymbolSpecs.TradingSymbolTblEnum;
 import com.hientran.sohebox.transformer.TradingSymbolTransformer;
-import com.hientran.sohebox.vo.PageResultVO;
-import com.hientran.sohebox.vo.TradingSymbolVO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -38,9 +38,9 @@ public class TradingSymbolService extends BaseService {
 	private final TypeCache typeCache;
 
 	/**
-	 * 
+	 *
 	 * Create
-	 * 
+	 *
 	 * @param vo
 	 * @return
 	 * @throws IOException
@@ -48,7 +48,7 @@ public class TradingSymbolService extends BaseService {
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
 	public APIResponse<Long> create(TradingSymbolVO vo) {
 		// Declare result
-		APIResponse<Long> result = new APIResponse<Long>();
+		APIResponse<Long> result = new APIResponse<>();
 
 		// Validate input
 		if (result.getStatus() == null) {
@@ -76,14 +76,14 @@ public class TradingSymbolService extends BaseService {
 
 			// Record error
 			if (CollectionUtils.isNotEmpty(errors)) {
-				result = new APIResponse<Long>(HttpStatus.BAD_REQUEST, errors);
+				result = new APIResponse<>(HttpStatus.BAD_REQUEST, errors);
 			}
 		}
 
 		// Check if record existed already
 		if (result.getStatus() == null) {
 			if (recordIsExisted(vo.getSymbol())) {
-				result = new APIResponse<Long>(HttpStatus.BAD_REQUEST,
+				result = new APIResponse<>(HttpStatus.BAD_REQUEST,
 						ResponseCode.mapParam(ResponseCode.EXISTED_RECORD, "symbol <" + vo.getSymbol() + ">"));
 			}
 		}
@@ -117,14 +117,14 @@ public class TradingSymbolService extends BaseService {
 
 	/**
 	 * Search
-	 * 
+	 *
 	 * @param sco
 	 * @return
 	 */
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
 	public APIResponse<Object> search(TradingSymbolSCO sco) {
 		// Declare result
-		APIResponse<Object> result = new APIResponse<Object>();
+		APIResponse<Object> result = new APIResponse<>();
 
 		// Get data
 		Page<TradingSymbolTbl> page = tradingSymbolRepository.findAll(sco);
@@ -143,7 +143,7 @@ public class TradingSymbolService extends BaseService {
 	}
 
 	/**
-	 * 
+	 *
 	 * Check if record is existed
 	 *
 	 * @param keyWord
@@ -151,7 +151,7 @@ public class TradingSymbolService extends BaseService {
 	 */
 	private boolean recordIsExisted(String symbol) {
 		// Declare result
-		Boolean result = false;
+		boolean result = false;
 
 		SearchTextVO symbolSearch = new SearchTextVO();
 		symbolSearch.setEq(symbol);

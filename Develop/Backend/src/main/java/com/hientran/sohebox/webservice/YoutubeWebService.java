@@ -20,7 +20,7 @@ public class YoutubeWebService extends BaseWebService {
 	private final CloseableHttpClient httpClient;
 
 	/**
-	 * 
+	 *
 	 * Get method
 	 *
 	 * @param apiName
@@ -49,7 +49,7 @@ public class YoutubeWebService extends BaseWebService {
 	}
 
 	/**
-	 * 
+	 *
 	 * Get method: normal case
 	 *
 	 * @param apiName

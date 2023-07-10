@@ -18,7 +18,7 @@ public class DataFile {
 
 	/**
 	 * Get extension
-	 * 
+	 *
 	 * @return extension
 	 */
 	public String getExtension() {
@@ -27,7 +27,7 @@ public class DataFile {
 
 	/**
 	 * Set extension
-	 * 
+	 *
 	 * @param extension the extension to set
 	 */
 	public void setExtension(String extension) {
@@ -40,7 +40,7 @@ public class DataFile {
 
 	/**
 	 * DataFile constructor
-	 * 
+	 *
 	 */
 	public DataFile() {
 		super();
@@ -48,7 +48,7 @@ public class DataFile {
 
 	/**
 	 * DataFile constructor
-	 * 
+	 *
 	 * @param file DataHandler
 	 */
 	public DataFile(DataHandler file) {
@@ -58,7 +58,7 @@ public class DataFile {
 
 	/**
 	 * DataFile constructor
-	 * 
+	 *
 	 * @param fileName file name included file extension
 	 * @param file     DataHandler
 	 */
@@ -70,7 +70,7 @@ public class DataFile {
 
 	/**
 	 * Get fileName
-	 * 
+	 *
 	 * @return fileName
 	 */
 	public String getFileName() {
@@ -79,7 +79,7 @@ public class DataFile {
 
 	/**
 	 * Set fileName
-	 * 
+	 *
 	 * @param fileName The fileName to set
 	 */
 	public void setFileName(String fileName) {
@@ -88,7 +88,7 @@ public class DataFile {
 
 	/**
 	 * Get imageData
-	 * 
+	 *
 	 * @return imageData
 	 */
 	@XmlMimeType("application/octet-stream")
@@ -98,7 +98,7 @@ public class DataFile {
 
 	/**
 	 * Set imageData
-	 * 
+	 *
 	 * @param imageData The imageData to set
 	 */
 	public void setFile(DataHandler imageData) {

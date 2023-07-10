@@ -8,9 +8,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
+import com.hientran.sohebox.dto.EnglishLearnRecordVO;
+import com.hientran.sohebox.dto.PageResultVO;
 import com.hientran.sohebox.entity.EnglishLearnRecordTbl;
-import com.hientran.sohebox.vo.EnglishLearnRecordVO;
-import com.hientran.sohebox.vo.PageResultVO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -24,12 +24,12 @@ public class EnglishLearnRecordTransformer extends BaseTransformer {
 	 * Convert Page<EnglishLearnRecordTbl> to PageResultVO<EnglishLearnRecordVO>
 	 *
 	 * @param Page<EnglishLearnRecordTbl>
-	 * 
+	 *
 	 * @return PageResultVO<EnglishLearnRecordVO>
 	 */
 	public PageResultVO<EnglishLearnRecordVO> convertToPageReturn(Page<EnglishLearnRecordTbl> pageTbl) {
 		// Declare result
-		PageResultVO<EnglishLearnRecordVO> result = new PageResultVO<EnglishLearnRecordVO>();
+		PageResultVO<EnglishLearnRecordVO> result = new PageResultVO<>();
 
 		// Convert data
 		if (!CollectionUtils.isEmpty(pageTbl.getContent())) {

@@ -15,7 +15,7 @@ public class CosmosWebService extends BaseWebService {
 	private final CloseableHttpClient httpClient;
 
 	/**
-	 * 
+	 *
 	 * Get method
 	 */
 	public String get(URIBuilder builder) throws Exception {

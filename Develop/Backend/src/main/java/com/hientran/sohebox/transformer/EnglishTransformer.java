@@ -8,10 +8,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
+import com.hientran.sohebox.dto.EnglishTypeVO;
+import com.hientran.sohebox.dto.EnglishVO;
+import com.hientran.sohebox.dto.PageResultVO;
 import com.hientran.sohebox.entity.EnglishTbl;
-import com.hientran.sohebox.vo.EnglishTypeVO;
-import com.hientran.sohebox.vo.EnglishVO;
-import com.hientran.sohebox.vo.PageResultVO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -25,12 +25,12 @@ public class EnglishTransformer extends BaseTransformer {
 	 * Convert Page<EnglishTbl> to PageResultVO<EnglishVO>
 	 *
 	 * @param Page<EnglishTbl>
-	 * 
+	 *
 	 * @return PageResultVO<EnglishVO>
 	 */
 	public PageResultVO<EnglishVO> convertToPageReturn(Page<EnglishTbl> pageTbl) {
 		// Declare result
-		PageResultVO<EnglishVO> result = new PageResultVO<EnglishVO>();
+		PageResultVO<EnglishVO> result = new PageResultVO<>();
 
 		// Convert data
 		if (!CollectionUtils.isEmpty(pageTbl.getContent())) {

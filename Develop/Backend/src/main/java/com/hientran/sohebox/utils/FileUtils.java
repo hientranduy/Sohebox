@@ -48,7 +48,7 @@ public class FileUtils {
 
 	/**
 	 * Write file
-	 * 
+	 *
 	 * @param dataFile the data file
 	 * @throws IOException the IOException
 	 */
@@ -73,7 +73,7 @@ public class FileUtils {
 
 	/**
 	 * Write Input Stream to File
-	 * 
+	 *
 	 * @param inputStream the InputStream
 	 * @param file        the Output File
 	 * @throws IOException the IOException
@@ -93,7 +93,7 @@ public class FileUtils {
 					inputStream.close();
 				} catch (IOException e1) {
 					log.error(ExceptionUtils.getFullStackTrace(e1));
-					;
+
 				}
 			}
 			if (outputStream != null) {
@@ -102,7 +102,7 @@ public class FileUtils {
 					outputStream.close();
 				} catch (IOException e1) {
 					log.error(ExceptionUtils.getFullStackTrace(e1));
-					;
+
 				}
 			}
 		}
@@ -110,7 +110,7 @@ public class FileUtils {
 
 	/**
 	 * Get the number of bytes of an input stream
-	 * 
+	 *
 	 * @param inputStream InputStream
 	 * @return the number of bytes
 	 * @throws IOException the IOException
@@ -128,7 +128,7 @@ public class FileUtils {
 
 	/**
 	 * Convert the InputStream to String.
-	 * 
+	 *
 	 * @param is the InputStream
 	 * @return string
 	 * @throws IOException IOException
@@ -153,7 +153,7 @@ public class FileUtils {
 						reader.close();
 					} catch (IOException e) {
 						log.error(ExceptionUtils.getFullStackTrace(e));
-						;
+
 					}
 				}
 				try {
@@ -161,7 +161,7 @@ public class FileUtils {
 					writer.close();
 				} catch (IOException e) {
 					log.error(ExceptionUtils.getFullStackTrace(e));
-					;
+
 				}
 			}
 
@@ -172,7 +172,7 @@ public class FileUtils {
 
 	/**
 	 * Create directory if it does not exist
-	 * 
+	 *
 	 * @param directory the directory to create
 	 */
 	public static void createDirIfNotExist(String directory) {
@@ -188,7 +188,7 @@ public class FileUtils {
 
 	/**
 	 * Create directories if it does not exist
-	 * 
+	 *
 	 * @param directory the directory to create
 	 */
 	public static void createDirsIfNotExist(String directory) {
@@ -203,7 +203,7 @@ public class FileUtils {
 
 	/**
 	 * Close a stream.
-	 * 
+	 *
 	 * @param closeable
 	 */
 	public static void closeQuietly(Closeable closeable) {
@@ -242,7 +242,7 @@ public class FileUtils {
 
 	/**
 	 * Explanation of processing
-	 * 
+	 *
 	 * @param file
 	 * @return
 	 */
@@ -292,7 +292,7 @@ public class FileUtils {
 			log.error("File not found: " + ex);
 		} catch (IOException ex) {
 			log.error(ExceptionUtils.getFullStackTrace(ex));
-			;
+
 		}
 	}
 
@@ -304,7 +304,7 @@ public class FileUtils {
 
 	/**
 	 * Check for a path existed.
-	 * 
+	 *
 	 * @param monitorPath Watching path
 	 * @return Path exists or not
 	 */
@@ -318,7 +318,7 @@ public class FileUtils {
 
 	/**
 	 * Copy file using stream
-	 * 
+	 *
 	 * @param source
 	 * @param dest
 	 * @throws IOException
@@ -347,7 +347,7 @@ public class FileUtils {
 
 	/**
 	 * get File from pathFile
-	 * 
+	 *
 	 * @param filePath the path store file
 	 * @param fileType type of file (jped/image, ...)
 	 * @return DataFile
@@ -369,7 +369,7 @@ public class FileUtils {
 
 	/**
 	 * Get PhotoFile base on filePath
-	 * 
+	 *
 	 * @param filePath
 	 * @return DataFile
 	 * @throws IOException readFile exception
@@ -400,7 +400,7 @@ public class FileUtils {
 
 	/**
 	 * Convert String to FileInputStream
-	 * 
+	 *
 	 * @param fileString data file
 	 * @return InputStreamS
 	 * @throws IOException
@@ -412,9 +412,9 @@ public class FileUtils {
 	}
 
 	/**
-	 * 
+	 *
 	 * Convert file to string data.
-	 * 
+	 *
 	 * @param file File object
 	 * @return String data
 	 * @throws IOException
@@ -430,7 +430,7 @@ public class FileUtils {
 
 	/**
 	 * Delete existing file.
-	 * 
+	 *
 	 * @param fileName File path
 	 */
 	public static void deleteFile(String fileName) {
@@ -442,7 +442,7 @@ public class FileUtils {
 
 	/**
 	 * Copy file
-	 * 
+	 *
 	 * @param srcFilePath
 	 * @param desFilePath
 	 * @throws IOException
@@ -465,7 +465,7 @@ public class FileUtils {
 
 	/**
 	 * Update JSON file
-	 * 
+	 *
 	 * @throws IOException
 	 *
 	 */

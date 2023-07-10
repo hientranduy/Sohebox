@@ -66,13 +66,13 @@ public class BaseService {
 	private RequestExternalService requestExternalService;
 
 	/**
-	 * 
+	 *
 	 * Check data authentication
 	 *
 	 */
 	protected APIResponse<Object> isDataAuthentication(long userID) {
 		// Declare result
-		APIResponse<Object> result = new APIResponse<Object>();
+		APIResponse<Object> result = new APIResponse<>();
 
 		// Get current logged user
 		UserTbl loggedUser = userService.getCurrentLoginUser();
@@ -82,7 +82,7 @@ public class BaseService {
 
 			// Just return data of logged user
 			if (userID != loggedUser.getId()) {
-				result = new APIResponse<Object>(HttpStatus.BAD_REQUEST,
+				result = new APIResponse<>(HttpStatus.BAD_REQUEST,
 						ResponseCode.mapParam(ResponseCode.UNAUTHORIZED_DATA, null));
 			}
 		}
@@ -93,7 +93,7 @@ public class BaseService {
 	}
 
 	/**
-	 * 
+	 *
 	 * Record user activity
 	 *
 	 */
@@ -106,7 +106,7 @@ public class BaseService {
 
 	/**
 	 * Refresh external file
-	 * 
+	 *
 	 * @throws IOException
 	 * @throws NoSuchAlgorithmException
 	 * @throws KeyManagementException
@@ -182,6 +182,7 @@ public class BaseService {
 		// Create an ssl socket factory with our all-trusting manager
 		HttpsURLConnection.setDefaultSSLSocketFactory(sslContext.getSocketFactory());
 		HttpsURLConnection.setDefaultHostnameVerifier(new HostnameVerifier() {
+			@Override
 			public boolean verify(String urlHostName, SSLSession session) {
 				return true;
 			}

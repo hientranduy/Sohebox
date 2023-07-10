@@ -15,6 +15,10 @@ import org.springframework.transaction.annotation.Transactional;
 import com.hientran.sohebox.authentication.UserDetailsServiceImpl;
 import com.hientran.sohebox.cache.TypeCache;
 import com.hientran.sohebox.constants.DBConstants;
+import com.hientran.sohebox.dto.AccountVO;
+import com.hientran.sohebox.dto.PageResultVO;
+import com.hientran.sohebox.dto.TypeVO;
+import com.hientran.sohebox.dto.UserVO;
 import com.hientran.sohebox.dto.response.APIResponse;
 import com.hientran.sohebox.dto.response.ResponseCode;
 import com.hientran.sohebox.entity.AccountTbl;
@@ -27,10 +31,6 @@ import com.hientran.sohebox.sco.SearchTextVO;
 import com.hientran.sohebox.sco.TypeSCO;
 import com.hientran.sohebox.specification.AccountSpecs.AccountTblEnum;
 import com.hientran.sohebox.transformer.AccountTransformer;
-import com.hientran.sohebox.vo.AccountVO;
-import com.hientran.sohebox.vo.PageResultVO;
-import com.hientran.sohebox.vo.TypeVO;
-import com.hientran.sohebox.vo.UserVO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -48,9 +48,9 @@ public class AccountService extends BaseService {
 	private final UserActivityService userActivityService;
 
 	/**
-	 * 
+	 *
 	 * Create new Account
-	 * 
+	 *
 	 * Anyone
 	 *
 	 * @param vo
@@ -59,7 +59,7 @@ public class AccountService extends BaseService {
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
 	public APIResponse<Long> create(AccountVO vo) {
 		// Declare result
-		APIResponse<Long> result = new APIResponse<Long>();
+		APIResponse<Long> result = new APIResponse<>();
 
 		// Validate input
 		if (result.getStatus() == null) {
@@ -77,7 +77,7 @@ public class AccountService extends BaseService {
 
 			// Record error
 			if (CollectionUtils.isNotEmpty(errors)) {
-				result = new APIResponse<Long>(HttpStatus.BAD_REQUEST, errors);
+				result = new APIResponse<>(HttpStatus.BAD_REQUEST, errors);
 			}
 		}
 
@@ -87,9 +87,8 @@ public class AccountService extends BaseService {
 		// Record existed already
 		if (result.getStatus() == null) {
 			if (recordIsExisted(loggedUser, vo.getAccountType(), vo.getAccountName())) {
-				result = new APIResponse<Long>(HttpStatus.BAD_REQUEST,
-						ResponseCode.mapParam(ResponseCode.EXISTED_RECORD,
-								"account " + vo.getAccountType().getTypeCode() + "<" + vo.getAccountName() + ">"));
+				result = new APIResponse<>(HttpStatus.BAD_REQUEST, ResponseCode.mapParam(ResponseCode.EXISTED_RECORD,
+						"account " + vo.getAccountType().getTypeCode() + "<" + vo.getAccountName() + ">"));
 			}
 		}
 
@@ -123,16 +122,16 @@ public class AccountService extends BaseService {
 	}
 
 	/**
-	 * 
+	 *
 	 * Update
-	 * 
+	 *
 	 * @param vo
 	 * @return
 	 */
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
 	public APIResponse<Long> update(AccountVO vo) {
 		// Declare result
-		APIResponse<Long> result = new APIResponse<Long>();
+		APIResponse<Long> result = new APIResponse<>();
 
 		// Validate input
 		if (result.getStatus() == null) {
@@ -150,7 +149,7 @@ public class AccountService extends BaseService {
 
 			// Record error
 			if (CollectionUtils.isNotEmpty(errors)) {
-				result = new APIResponse<Long>(HttpStatus.BAD_REQUEST, errors);
+				result = new APIResponse<>(HttpStatus.BAD_REQUEST, errors);
 			}
 		}
 
@@ -162,9 +161,8 @@ public class AccountService extends BaseService {
 		if (result.getStatus() == null) {
 			updateAccount = getAccountIdByUser(loggedUser, vo.getId());
 			if (updateAccount == null) {
-				result = new APIResponse<Long>(HttpStatus.BAD_REQUEST,
-						ResponseCode.mapParam(ResponseCode.INEXISTED_RECORD,
-								"account " + vo.getAccountType().getTypeCode() + "<" + vo.getAccountName() + ">"));
+				result = new APIResponse<>(HttpStatus.BAD_REQUEST, ResponseCode.mapParam(ResponseCode.INEXISTED_RECORD,
+						"account " + vo.getAccountType().getTypeCode() + "<" + vo.getAccountName() + ">"));
 			}
 		}
 
@@ -205,7 +203,7 @@ public class AccountService extends BaseService {
 	}
 
 	/**
-	 * 
+	 *
 	 * Check if record is existed
 	 *
 	 * @param userOwnerId
@@ -215,7 +213,7 @@ public class AccountService extends BaseService {
 	 */
 	private boolean recordIsExisted(UserTbl user, TypeVO accountType, String accountName) {
 		// Declare result
-		Boolean result = false;
+		boolean result = false;
 
 		// Prepare search
 		SearchNumberVO userIdSearch = new SearchNumberVO();
@@ -243,7 +241,7 @@ public class AccountService extends BaseService {
 	}
 
 	/**
-	 * 
+	 *
 	 * Get account
 	 *
 	 * @param userOwnerId
@@ -279,14 +277,14 @@ public class AccountService extends BaseService {
 
 	/**
 	 * Search
-	 * 
+	 *
 	 * @param sco
 	 * @return
 	 */
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
 	public APIResponse<Object> search(AccountSCO sco) {
 		// Declare result
-		APIResponse<Object> result = new APIResponse<Object>();
+		APIResponse<Object> result = new APIResponse<>();
 
 		// Check if input user is existed
 		UserVO userVO = null;
@@ -295,7 +293,7 @@ public class AccountService extends BaseService {
 		}
 
 		if (result.getStatus() == null && userVO == null) {
-			result = new APIResponse<Object>(HttpStatus.BAD_REQUEST,
+			result = new APIResponse<>(HttpStatus.BAD_REQUEST,
 					ResponseCode.mapParam(ResponseCode.INEXISTED_USERNAME, sco.getUserName().getEq()));
 		}
 
@@ -311,7 +309,7 @@ public class AccountService extends BaseService {
 					userIdSearch.setEq(userVO.getId().doubleValue());
 					sco.setUser(userIdSearch);
 				} else {
-					result = new APIResponse<Object>(HttpStatus.BAD_REQUEST,
+					result = new APIResponse<>(HttpStatus.BAD_REQUEST,
 							ResponseCode.mapParam(ResponseCode.UNAUTHORIZED_DATA, null));
 				}
 			}
@@ -361,7 +359,7 @@ public class AccountService extends BaseService {
 
 	/**
 	 * Delete by id
-	 * 
+	 *
 	 * Only role creator
 	 *
 	 * @param User
@@ -370,18 +368,18 @@ public class AccountService extends BaseService {
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
 	public APIResponse<Object> deleteById(Long id) {
 		// Declare result
-		APIResponse<Object> result = new APIResponse<Object>();
+		APIResponse<Object> result = new APIResponse<>();
 
 		// Check account is existed
 		Optional<AccountTbl> accountTbl = accountRepository.findById(id);
 		if (!accountTbl.isPresent()) {
-			result = new APIResponse<Object>(HttpStatus.BAD_REQUEST,
+			result = new APIResponse<>(HttpStatus.BAD_REQUEST,
 					ResponseCode.mapParam(ResponseCode.UNAUTHORIZED_DATA, null));
 		}
 
 		// Check logged user have permission to delete
 		if (result.getStatus() == null && !userService.isDataOwner(accountTbl.get().getUser().getUsername())) {
-			result = new APIResponse<Object>(HttpStatus.BAD_REQUEST,
+			result = new APIResponse<>(HttpStatus.BAD_REQUEST,
 					ResponseCode.mapParam(ResponseCode.UNAUTHORIZED_DATA, null));
 		}
 
@@ -402,18 +400,18 @@ public class AccountService extends BaseService {
 
 	/**
 	 * Get by id
-	 * 
+	 *
 	 * @param User
 	 * @return
 	 */
 	public APIResponse<Object> getById(Long id) {
 		// Declare result
-		APIResponse<Object> result = new APIResponse<Object>();
+		APIResponse<Object> result = new APIResponse<>();
 
 		// Check existence
 		Optional<AccountTbl> accountTbl = accountRepository.findById(id);
 		if (!accountTbl.isPresent()) {
-			result = new APIResponse<Object>(HttpStatus.BAD_REQUEST,
+			result = new APIResponse<>(HttpStatus.BAD_REQUEST,
 					ResponseCode.mapParam(ResponseCode.INEXISTED_RECORD, "account"));
 		}
 
@@ -421,7 +419,7 @@ public class AccountService extends BaseService {
 		if (result.getStatus() == null) {
 			AccountVO vo = accountTransformer.convertToAccountVO(accountTbl.get());
 			if (!userService.isDataOwner(vo.getUser().getUsername())) {
-				result = new APIResponse<Object>(HttpStatus.BAD_REQUEST,
+				result = new APIResponse<>(HttpStatus.BAD_REQUEST,
 						ResponseCode.mapParam(ResponseCode.UNAUTHORIZED_DATA, null));
 			} else {
 				// Set return data
@@ -440,7 +438,7 @@ public class AccountService extends BaseService {
 	 */
 	public APIResponse<?> showPassword(AccountVO vo) {
 		// Declare result
-		APIResponse<Object> result = new APIResponse<Object>();
+		APIResponse<Object> result = new APIResponse<>();
 
 		// Get current logged user
 		UserTbl loggedUser = userDetailsServiceImpl.getCurrentLoginUser();
@@ -448,10 +446,10 @@ public class AccountService extends BaseService {
 		// Check authentication
 		if (loggedUser.getPrivateKey() != null) {
 			if (!mdpService.isValidPassword(vo.getUser().getPrivateKey(), loggedUser.getPrivateKey().getMdp())) {
-				result = new APIResponse<Object>(HttpStatus.OK, "Incorrect private key");
+				result = new APIResponse<>(HttpStatus.OK, "Incorrect private key");
 			}
 		} else {
-			result = new APIResponse<Object>(HttpStatus.OK, "Private key is not set yet");
+			result = new APIResponse<>(HttpStatus.OK, "Private key is not set yet");
 		}
 
 		// Get data
@@ -460,7 +458,7 @@ public class AccountService extends BaseService {
 		// Verify data owner
 		if (result.getStatus() == null) {
 			if (accountTbl == null || accountTbl.getUser().getId() != loggedUser.getId()) {
-				result = new APIResponse<Object>(HttpStatus.OK, "You are not data owner");
+				result = new APIResponse<>(HttpStatus.OK, "You are not data owner");
 			}
 		}
 
@@ -470,7 +468,7 @@ public class AccountService extends BaseService {
 			vo.setMdp(accountTbl.getMdp().getDescription());
 			accountList.add(vo);
 
-			PageResultVO<AccountVO> data = new PageResultVO<AccountVO>();
+			PageResultVO<AccountVO> data = new PageResultVO<>();
 			data.setElements(accountList);
 			data.setCurrentPage(0);
 			data.setTotalPage(1);

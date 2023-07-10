@@ -11,6 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.hientran.sohebox.cache.EnglishTypeCache;
 import com.hientran.sohebox.constants.DBConstants;
+import com.hientran.sohebox.dto.EnglishUserGradeVO;
+import com.hientran.sohebox.dto.PageResultVO;
 import com.hientran.sohebox.dto.response.APIResponse;
 import com.hientran.sohebox.dto.response.ResponseCode;
 import com.hientran.sohebox.entity.EnglishTypeTbl;
@@ -21,8 +23,6 @@ import com.hientran.sohebox.sco.EnglishUserGradeSCO;
 import com.hientran.sohebox.sco.SearchNumberVO;
 import com.hientran.sohebox.specification.EnglishUserGradeSpecs.EnglishUserGradeTblEnum;
 import com.hientran.sohebox.transformer.EnglishUserGradeTransformer;
-import com.hientran.sohebox.vo.EnglishUserGradeVO;
-import com.hientran.sohebox.vo.PageResultVO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -36,16 +36,16 @@ public class EnglishUserGradeService extends BaseService {
 	private final EnglishTypeCache englishTypeCache;
 
 	/**
-	 * 
+	 *
 	 * Set english user grade
-	 * 
+	 *
 	 * @param vo
 	 * @return id
 	 */
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
 	public APIResponse<Long> setEnglishUserGrade(EnglishUserGradeVO vo) {
 		// Declare result
-		APIResponse<Long> result = new APIResponse<Long>();
+		APIResponse<Long> result = new APIResponse<>();
 
 		// Validate empty input
 		if (result.getStatus() == null) {
@@ -68,20 +68,20 @@ public class EnglishUserGradeService extends BaseService {
 
 			// Record error
 			if (CollectionUtils.isNotEmpty(errors)) {
-				result = new APIResponse<Long>(HttpStatus.BAD_REQUEST, errors);
+				result = new APIResponse<>(HttpStatus.BAD_REQUEST, errors);
 			}
 		}
 
 		// Validate in-existed input user
 		UserTbl userTbl = userService.getTblByUserName(vo.getUser().getUsername());
 		if (result.getStatus() == null && userTbl == null) {
-			result = new APIResponse<Long>(HttpStatus.BAD_REQUEST,
+			result = new APIResponse<>(HttpStatus.BAD_REQUEST,
 					ResponseCode.mapParam(ResponseCode.INEXISTED_USERNAME, vo.getUser().getUsername()));
 		}
 
 		// Check if logged user is the same input user
 		if (result.getStatus() == null && !userService.isDataOwner(vo.getUser().getUsername())) {
-			result = new APIResponse<Long>(HttpStatus.BAD_REQUEST,
+			result = new APIResponse<>(HttpStatus.BAD_REQUEST,
 					ResponseCode.mapParam(ResponseCode.UNAUTHORIZED_DATA, null));
 		}
 
@@ -115,7 +115,7 @@ public class EnglishUserGradeService extends BaseService {
 	}
 
 	/**
-	 * 
+	 *
 	 * Get record by key
 	 *
 	 * @param table key
@@ -144,13 +144,13 @@ public class EnglishUserGradeService extends BaseService {
 
 	/**
 	 * Search
-	 * 
+	 *
 	 * @param sco
 	 * @return
 	 */
 	public APIResponse<Object> search(EnglishUserGradeSCO sco) {
 		// Declare result
-		APIResponse<Object> result = new APIResponse<Object>();
+		APIResponse<Object> result = new APIResponse<>();
 
 		// Get data
 		Page<EnglishUserGradeTbl> page = EnglishUserGradeRepository.findAll(sco);

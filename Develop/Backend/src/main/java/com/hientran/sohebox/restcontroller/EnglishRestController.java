@@ -12,6 +12,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hientran.sohebox.constants.ApiPublicConstants;
+import com.hientran.sohebox.dto.DownloadFileVO;
+import com.hientran.sohebox.dto.EnglishLearnRecordVO;
+import com.hientran.sohebox.dto.EnglishUserGradeVO;
+import com.hientran.sohebox.dto.EnglishVO;
 import com.hientran.sohebox.dto.response.APIResponse;
 import com.hientran.sohebox.sco.EnglishLearnRecordSCO;
 import com.hientran.sohebox.sco.EnglishLearnReportSCO;
@@ -21,10 +25,6 @@ import com.hientran.sohebox.service.EnglishLearnRecordService;
 import com.hientran.sohebox.service.EnglishLearnReportService;
 import com.hientran.sohebox.service.EnglishService;
 import com.hientran.sohebox.service.EnglishUserGradeService;
-import com.hientran.sohebox.vo.DownloadFileVO;
-import com.hientran.sohebox.vo.EnglishLearnRecordVO;
-import com.hientran.sohebox.vo.EnglishUserGradeVO;
-import com.hientran.sohebox.vo.EnglishVO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -38,7 +38,7 @@ public class EnglishRestController extends BaseRestController {
 	private final EnglishUserGradeService englishUserGradeService;
 
 	/**
-	 * 
+	 *
 	 * Add new
 	 *
 	 * @param vo
@@ -55,7 +55,7 @@ public class EnglishRestController extends BaseRestController {
 	}
 
 	/**
-	 * 
+	 *
 	 * Search
 	 *
 	 * @param sco
@@ -73,7 +73,7 @@ public class EnglishRestController extends BaseRestController {
 	}
 
 	/**
-	 * 
+	 *
 	 * Search low learn
 	 *
 	 * @param sco
@@ -91,7 +91,7 @@ public class EnglishRestController extends BaseRestController {
 	}
 
 	/**
-	 * 
+	 *
 	 * Update
 	 *
 	 * @param vo
@@ -108,7 +108,7 @@ public class EnglishRestController extends BaseRestController {
 	}
 
 	/**
-	 * 
+	 *
 	 * Get by ID
 	 *
 	 * @param id
@@ -125,7 +125,7 @@ public class EnglishRestController extends BaseRestController {
 	}
 
 	/**
-	 * 
+	 *
 	 * Add learn
 	 *
 	 * @param vo
@@ -142,7 +142,7 @@ public class EnglishRestController extends BaseRestController {
 	}
 
 	/**
-	 * 
+	 *
 	 * Search
 	 *
 	 * @param sco
@@ -160,7 +160,7 @@ public class EnglishRestController extends BaseRestController {
 	}
 
 	/**
-	 * 
+	 *
 	 * Search
 	 *
 	 * @param sco
@@ -177,7 +177,7 @@ public class EnglishRestController extends BaseRestController {
 	}
 
 	/**
-	 * 
+	 *
 	 * Set english user grade
 	 *
 	 * @param vo
@@ -194,7 +194,7 @@ public class EnglishRestController extends BaseRestController {
 	}
 
 	/**
-	 * 
+	 *
 	 * Search english user grade
 	 *
 	 * @param sco
@@ -211,7 +211,7 @@ public class EnglishRestController extends BaseRestController {
 	}
 
 	/**
-	 * 
+	 *
 	 * Search
 	 *
 	 * @param sco
@@ -229,7 +229,7 @@ public class EnglishRestController extends BaseRestController {
 	}
 
 	/**
-	 * 
+	 *
 	 * Search low learn
 	 *
 	 * @param sco

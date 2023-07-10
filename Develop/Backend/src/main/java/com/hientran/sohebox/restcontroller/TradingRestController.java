@@ -19,7 +19,7 @@ public class TradingRestController extends BaseRestController {
 	private final TradingService tradingService;
 
 	/**
-	 * 
+	 *
 	 * Get WTI oil price
 	 *
 	 */
@@ -33,7 +33,7 @@ public class TradingRestController extends BaseRestController {
 	}
 
 	/**
-	 * 
+	 *
 	 * Get WTI oil price
 	 *
 	 */

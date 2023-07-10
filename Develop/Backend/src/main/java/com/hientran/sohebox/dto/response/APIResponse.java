@@ -28,7 +28,7 @@ public class APIResponse<Data> {
 	}
 
 	/**
-	 * 
+	 *
 	 * Constructor
 	 *
 	 * @param status
@@ -43,7 +43,7 @@ public class APIResponse<Data> {
 	}
 
 	/**
-	 * 
+	 *
 	 * Constructor
 	 *
 	 * @param status
@@ -58,7 +58,7 @@ public class APIResponse<Data> {
 	}
 
 	/**
-	 * 
+	 *
 	 * Constructor
 	 *
 	 * @param status
@@ -71,7 +71,7 @@ public class APIResponse<Data> {
 	}
 
 	/**
-	 * 
+	 *
 	 * Constructor
 	 *
 	 * @param status

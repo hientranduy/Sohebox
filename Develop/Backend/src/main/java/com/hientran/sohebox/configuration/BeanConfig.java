@@ -25,7 +25,7 @@ public class BeanConfig {
 	private String threadCount;
 
 	/**
-	 * 
+	 *
 	 * Bean taskScheduler
 	 *
 	 */
@@ -37,7 +37,7 @@ public class BeanConfig {
 	}
 
 	/**
-	 * 
+	 *
 	 * Bean httpClient
 	 *
 	 */
@@ -48,7 +48,7 @@ public class BeanConfig {
 	}
 
 	/**
-	 * 
+	 *
 	 * Bean objectMapper
 	 *
 	 */
@@ -65,7 +65,7 @@ public class BeanConfig {
 	}
 
 	/**
-	 * 
+	 *
 	 * Bean velocityEngine
 	 *
 	 */

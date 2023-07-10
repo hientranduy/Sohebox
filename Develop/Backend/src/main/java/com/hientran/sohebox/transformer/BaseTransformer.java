@@ -2,7 +2,7 @@ package com.hientran.sohebox.transformer;
 
 import org.springframework.data.domain.Page;
 
-import com.hientran.sohebox.vo.PageResultVO;
+import com.hientran.sohebox.dto.PageResultVO;
 
 public class BaseTransformer {
 	/*

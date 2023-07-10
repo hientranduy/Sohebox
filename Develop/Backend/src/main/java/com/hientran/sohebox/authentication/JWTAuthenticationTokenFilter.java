@@ -26,14 +26,14 @@ public class JWTAuthenticationTokenFilter extends OncePerRequestFilter {
 
 	/**
 	 * Authenticate token
-	 * 
+	 *
 	 * {@inheritDoc}
 	 */
 	@Override
 	public void doFilterInternal(HttpServletRequest servletRequest, HttpServletResponse servletResponse,
 			FilterChain filterChain) throws IOException, ServletException {
 		// Get Authentication
-		Authentication authentication = tokenService.getAuthentication((HttpServletRequest) servletRequest);
+		Authentication authentication = tokenService.getAuthentication(servletRequest);
 
 		// Set Authentication
 		SecurityContextHolder.getContext().setAuthentication(authentication);

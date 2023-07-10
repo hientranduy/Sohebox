@@ -14,6 +14,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.hientran.sohebox.constants.CosmosConstants;
 import com.hientran.sohebox.constants.DBConstants;
+import com.hientran.sohebox.dto.CryptoTokenConfigVO;
+import com.hientran.sohebox.dto.PageResultVO;
 import com.hientran.sohebox.dto.response.APIResponse;
 import com.hientran.sohebox.dto.response.ResponseCode;
 import com.hientran.sohebox.entity.CryptoTokenConfigTbl;
@@ -22,8 +24,6 @@ import com.hientran.sohebox.sco.CryptoTokenConfigSCO;
 import com.hientran.sohebox.sco.SearchTextVO;
 import com.hientran.sohebox.specification.CryptoTokenConfigSpecs.CryptoTokenConfigTblEnum;
 import com.hientran.sohebox.transformer.CryptoTokenConfigTransformer;
-import com.hientran.sohebox.vo.CryptoTokenConfigVO;
-import com.hientran.sohebox.vo.PageResultVO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -35,9 +35,9 @@ public class CryptoTokenConfigService extends BaseService {
 	private final CryptoTokenConfigTransformer cryptoTokenConfigTransformer;
 
 	/**
-	 * 
+	 *
 	 * Create
-	 * 
+	 *
 	 * @param vo
 	 * @return
 	 * @throws IOException
@@ -45,7 +45,7 @@ public class CryptoTokenConfigService extends BaseService {
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
 	public APIResponse<Long> create(CryptoTokenConfigVO vo) {
 		// Declare result
-		APIResponse<Long> result = new APIResponse<Long>();
+		APIResponse<Long> result = new APIResponse<>();
 
 		// Validate input
 		if (result.getStatus() == null) {
@@ -61,14 +61,14 @@ public class CryptoTokenConfigService extends BaseService {
 
 			// Record error
 			if (CollectionUtils.isNotEmpty(errors)) {
-				result = new APIResponse<Long>(HttpStatus.BAD_REQUEST, errors);
+				result = new APIResponse<>(HttpStatus.BAD_REQUEST, errors);
 			}
 		}
 
 		// Check existence
 		if (result.getStatus() == null) {
 			if (getByName(vo.getTokenCode()) != null) {
-				result = new APIResponse<Long>(HttpStatus.BAD_REQUEST,
+				result = new APIResponse<>(HttpStatus.BAD_REQUEST,
 						ResponseCode.mapParam(ResponseCode.EXISTED_RECORD, "token <" + vo.getTokenCode() + ">"));
 			}
 		}
@@ -100,16 +100,16 @@ public class CryptoTokenConfigService extends BaseService {
 	}
 
 	/**
-	 * 
+	 *
 	 * Update
-	 * 
+	 *
 	 * @param vo
 	 * @return
 	 */
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
 	public APIResponse<Long> update(CryptoTokenConfigVO vo) {
 		// Declare result
-		APIResponse<Long> result = new APIResponse<Long>();
+		APIResponse<Long> result = new APIResponse<>();
 
 		// Validate input
 		if (result.getStatus() == null) {
@@ -121,7 +121,7 @@ public class CryptoTokenConfigService extends BaseService {
 
 			// Record error
 			if (CollectionUtils.isNotEmpty(errors)) {
-				result = new APIResponse<Long>(HttpStatus.BAD_REQUEST, errors);
+				result = new APIResponse<>(HttpStatus.BAD_REQUEST, errors);
 			}
 		}
 
@@ -130,7 +130,7 @@ public class CryptoTokenConfigService extends BaseService {
 		if (result.getStatus() == null) {
 			updateTbl = getByName(vo.getTokenCode());
 			if (updateTbl == null) {
-				result = new APIResponse<Long>(HttpStatus.BAD_REQUEST,
+				result = new APIResponse<>(HttpStatus.BAD_REQUEST,
 						ResponseCode.mapParam(ResponseCode.INEXISTED_RECORD, "token <" + vo.getTokenCode() + ">"));
 			}
 		}
@@ -192,14 +192,14 @@ public class CryptoTokenConfigService extends BaseService {
 
 	/**
 	 * Search
-	 * 
+	 *
 	 * @param sco
 	 * @return
 	 */
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
 	public APIResponse<Object> search(CryptoTokenConfigSCO sco) {
 		// Declare result
-		APIResponse<Object> result = new APIResponse<Object>();
+		APIResponse<Object> result = new APIResponse<>();
 
 		// Get data
 		Page<CryptoTokenConfigTbl> page = cryptoTokenConfigRepository.findAll(sco);
@@ -218,7 +218,7 @@ public class CryptoTokenConfigService extends BaseService {
 	}
 
 	/**
-	 * 
+	 *
 	 * Get by name
 	 *
 	 * @param name
@@ -246,13 +246,13 @@ public class CryptoTokenConfigService extends BaseService {
 
 	/**
 	 * Get by id
-	 * 
+	 *
 	 * @param id
 	 * @return
 	 */
 	public APIResponse<Object> getById(Long id) {
 		// Declare result
-		APIResponse<Object> result = new APIResponse<Object>();
+		APIResponse<Object> result = new APIResponse<>();
 
 		// Check existence
 		Optional<CryptoTokenConfigTbl> CryptoTokenConfigTbl = cryptoTokenConfigRepository.findById(id);
@@ -260,7 +260,7 @@ public class CryptoTokenConfigService extends BaseService {
 			CryptoTokenConfigVO vo = cryptoTokenConfigTransformer.convertToVO(CryptoTokenConfigTbl.get());
 			result.setData(vo);
 		} else {
-			result = new APIResponse<Object>(HttpStatus.BAD_REQUEST,
+			result = new APIResponse<>(HttpStatus.BAD_REQUEST,
 					ResponseCode.mapParam(ResponseCode.INEXISTED_RECORD, "token"));
 		}
 

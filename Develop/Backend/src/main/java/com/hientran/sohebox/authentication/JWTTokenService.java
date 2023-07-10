@@ -18,9 +18,9 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hientran.sohebox.constants.DBConstants;
+import com.hientran.sohebox.dto.UserVO;
 import com.hientran.sohebox.service.UserActivityService;
 import com.hientran.sohebox.service.UserService;
-import com.hientran.sohebox.vo.UserVO;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

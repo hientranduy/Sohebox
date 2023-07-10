@@ -22,7 +22,7 @@ public class QuandlWebService extends BaseWebService {
 	private final CloseableHttpClient httpClient;
 
 	/**
-	 * 
+	 *
 	 * Get method
 	 *
 	 * @param apiName

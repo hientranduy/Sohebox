@@ -19,7 +19,7 @@ public class FinanceRestController extends BaseRestController {
 	private final DataExternalService dataExternalService;
 
 	/**
-	 * 
+	 *
 	 * Get currency vietcombank
 	 *
 	 */
@@ -33,7 +33,7 @@ public class FinanceRestController extends BaseRestController {
 	}
 
 	/**
-	 * 
+	 *
 	 * Get currency vietcombank
 	 *
 	 */

@@ -14,6 +14,10 @@ import org.springframework.util.CollectionUtils;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.hientran.sohebox.cache.ConfigCache;
 import com.hientran.sohebox.constants.GoogleConstants;
+import com.hientran.sohebox.dto.PageResultVO;
+import com.hientran.sohebox.dto.YoutubeReponseVO;
+import com.hientran.sohebox.dto.YoutubeVideoSendVO;
+import com.hientran.sohebox.dto.YoutubeVideoVO;
 import com.hientran.sohebox.dto.response.APIResponse;
 import com.hientran.sohebox.dto.response.ResponseCode;
 import com.hientran.sohebox.entity.YoutubeChannelTbl;
@@ -21,10 +25,6 @@ import com.hientran.sohebox.entity.YoutubeChannelVideoTbl;
 import com.hientran.sohebox.entity.YoutubeVideoTbl;
 import com.hientran.sohebox.sco.YoutubeChannelVideoSCO;
 import com.hientran.sohebox.utils.ObjectMapperUtil;
-import com.hientran.sohebox.vo.PageResultVO;
-import com.hientran.sohebox.vo.YoutubeReponseVO;
-import com.hientran.sohebox.vo.YoutubeVideoSendVO;
-import com.hientran.sohebox.vo.YoutubeVideoVO;
 import com.hientran.sohebox.webservice.YoutubeWebService;
 
 import lombok.RequiredArgsConstructor;
@@ -42,20 +42,20 @@ public class YoutubeService extends BaseService {
 
 	/**
 	 * Search video by channel
-	 * 
+	 *
 	 * @param sco
 	 * @return
 	 */
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
 	public APIResponse<Object> searchChannelVideo(YoutubeChannelVideoSCO sco) {
 		// Declare result
-		APIResponse<Object> result = new APIResponse<Object>();
+		APIResponse<Object> result = new APIResponse<>();
 
 		// Get channel
 		YoutubeChannelTbl channelTbl = youtubeChannelService.getById(sco.getChannelId().getEq().longValue());
 
 		// Prepare parameters
-		Map<String, String> parameters = new HashMap<String, String>();
+		Map<String, String> parameters = new HashMap<>();
 		parameters.put(GoogleConstants.YOUTUBE_PARAM_KEY, configCache.getValueByKey(GoogleConstants.GOOGLE_KEY_API));
 		parameters.put(GoogleConstants.YOUTUBE_PARAM_CHANNEL_ID, channelTbl.getChannelId());
 		parameters.put(GoogleConstants.YOUTUBE_PARAM_ORDER, GoogleConstants.YOUTUBE_DEFAUT_VALUE_DATE);
@@ -84,13 +84,13 @@ public class YoutubeService extends BaseService {
 				String responseData = youtubeWebService.getLatestVideoByChannel(builder);
 				YoutubeReponseVO response = objectMapperUtil.readValue(responseData, YoutubeReponseVO.class);
 				if (response.getItems() != null) {
-					List<YoutubeVideoVO> youtubeVideos = new ArrayList<YoutubeVideoVO>();
+					List<YoutubeVideoVO> youtubeVideos = new ArrayList<>();
 					youtubeVideos = objectMapperUtil.readValue(response.getItems(),
 							new TypeReference<List<YoutubeVideoVO>>() {
 							});
 
 					// Transformer YoutubeVideo to YoutubeVideoSend
-					videoSends = new ArrayList<YoutubeVideoSendVO>();
+					videoSends = new ArrayList<>();
 					for (YoutubeVideoVO video : youtubeVideos) {
 						YoutubeVideoSendVO videoSend = new YoutubeVideoSendVO();
 						videoSend.setVideoId(video.getId().getVideoId());
@@ -114,7 +114,7 @@ public class YoutubeService extends BaseService {
 				// Get video from local DB
 				List<YoutubeChannelVideoTbl> videos = youtubeChannelVideoService.search(sco);
 				if (!CollectionUtils.isEmpty(videos)) {
-					videoSends = new ArrayList<YoutubeVideoSendVO>();
+					videoSends = new ArrayList<>();
 					for (YoutubeChannelVideoTbl videoList : videos) {
 						YoutubeVideoSendVO videoSend = new YoutubeVideoSendVO();
 						videoSend.setVideoId(videoList.getVideo().getVideoId());
@@ -130,7 +130,7 @@ public class YoutubeService extends BaseService {
 
 			// Set return data
 			if (videoSends != null) {
-				PageResultVO<YoutubeVideoSendVO> data = new PageResultVO<YoutubeVideoSendVO>();
+				PageResultVO<YoutubeVideoSendVO> data = new PageResultVO<>();
 				data.setElements(videoSends);
 				data.setCurrentPage(0);
 				data.setTotalPage(1);
@@ -141,7 +141,7 @@ public class YoutubeService extends BaseService {
 			}
 
 		} catch (Exception e) {
-			result = new APIResponse<Object>(HttpStatus.BAD_REQUEST,
+			result = new APIResponse<>(HttpStatus.BAD_REQUEST,
 					ResponseCode.mapParam(ResponseCode.ERROR_EXCEPTION, e.getMessage()));
 		}
 

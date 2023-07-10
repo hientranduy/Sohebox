@@ -22,7 +22,7 @@ public interface EnglishRepository
 	EnglishSpecs specs = new EnglishSpecs();
 
 	/**
-	 * 
+	 *
 	 * Get all data
 	 *
 	 * @return
@@ -48,7 +48,7 @@ public interface EnglishRepository
 	}
 
 	/**
-	 * 
+	 *
 	 * Get all data that have low learn
 	 *
 	 * @return
@@ -119,7 +119,7 @@ public interface EnglishRepository
 	}
 
 	/**
-	 * 
+	 *
 	 * Get top learn
 	 *
 	 * @return

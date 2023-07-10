@@ -12,7 +12,7 @@ import com.hientran.sohebox.entity.UserTbl;
 
 /**
  * Custom user details.
- * 
+ *
  */
 public class UserDetailsImp implements UserDetails {
 
@@ -67,7 +67,7 @@ public class UserDetailsImp implements UserDetails {
 	 */
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		List<GrantedAuthority> list = new ArrayList<GrantedAuthority>();
+		List<GrantedAuthority> list = new ArrayList<>();
 		list.add(new SimpleGrantedAuthority("ROLE_" + userTbl.getRole().getRoleName()));
 		return list;
 	}

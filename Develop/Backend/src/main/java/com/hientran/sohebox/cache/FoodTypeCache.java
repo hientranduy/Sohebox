@@ -12,6 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import com.hientran.sohebox.constants.DBConstants;
+import com.hientran.sohebox.dto.FoodTypeVO;
+import com.hientran.sohebox.dto.PageResultVO;
 import com.hientran.sohebox.dto.response.APIResponse;
 import com.hientran.sohebox.dto.response.ResponseCode;
 import com.hientran.sohebox.entity.FoodTypeTbl;
@@ -20,8 +22,6 @@ import com.hientran.sohebox.sco.FoodTypeSCO;
 import com.hientran.sohebox.sco.SearchTextVO;
 import com.hientran.sohebox.specification.FoodTypeSpecs.FoodTypeTblEnum;
 import com.hientran.sohebox.transformer.BaseTransformer;
-import com.hientran.sohebox.vo.FoodTypeVO;
-import com.hientran.sohebox.vo.PageResultVO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -82,13 +82,13 @@ public class FoodTypeCache extends BaseTransformer {
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
 	public APIResponse<Object> search(FoodTypeSCO sco) {
 		// Declare result
-		APIResponse<Object> result = new APIResponse<Object>();
+		APIResponse<Object> result = new APIResponse<>();
 
 		// Get data
 		Page<FoodTypeTbl> page = typeRepository.findAll(sco);
 
 		// Transformer
-		PageResultVO<FoodTypeTbl> data = new PageResultVO<FoodTypeTbl>();
+		PageResultVO<FoodTypeTbl> data = new PageResultVO<>();
 		data.setElements(page.getContent());
 		setPageHeader(page, data);
 
@@ -117,14 +117,14 @@ public class FoodTypeCache extends BaseTransformer {
 			errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, FoodTypeTblEnum.typeName.name()));
 		}
 		if (!CollectionUtils.isEmpty(errors)) {
-			return new APIResponse<Long>(HttpStatus.BAD_REQUEST, errors);
+			return new APIResponse<>(HttpStatus.BAD_REQUEST, errors);
 		}
 
 		// Search old record
 		FoodTypeTbl tbl = typeRepository.findFirstByTypeClassAndTypeCode(formatTypeClass(vo.getTypeClass()),
 				formatTypeCode(vo.getTypeCode()));
 		if (tbl == null) {
-			return new APIResponse<Long>(HttpStatus.BAD_REQUEST,
+			return new APIResponse<>(HttpStatus.BAD_REQUEST,
 					ResponseCode.mapParam(ResponseCode.INEXISTED_RECORD, "typeCode/typeClass"));
 		}
 
@@ -151,7 +151,7 @@ public class FoodTypeCache extends BaseTransformer {
 		if (vo.getIconUrl() != null) {
 			tbl.setIconUrl(vo.getIconUrl());
 		}
-		APIResponse<Long> result = new APIResponse<Long>();
+		APIResponse<Long> result = new APIResponse<>();
 		result.setData(typeRepository.save(tbl).getId());
 
 		// Update cache

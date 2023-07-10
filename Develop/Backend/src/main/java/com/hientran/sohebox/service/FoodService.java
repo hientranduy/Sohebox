@@ -18,6 +18,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.hientran.sohebox.cache.FoodTypeCache;
 import com.hientran.sohebox.constants.DBConstants;
+import com.hientran.sohebox.dto.FoodVO;
+import com.hientran.sohebox.dto.PageResultVO;
 import com.hientran.sohebox.dto.response.APIResponse;
 import com.hientran.sohebox.dto.response.ResponseCode;
 import com.hientran.sohebox.entity.FoodTbl;
@@ -27,8 +29,6 @@ import com.hientran.sohebox.sco.SearchTextVO;
 import com.hientran.sohebox.specification.FoodSpecs.FoodTblEnum;
 import com.hientran.sohebox.transformer.FoodTransformer;
 import com.hientran.sohebox.utils.FileUtils;
-import com.hientran.sohebox.vo.FoodVO;
-import com.hientran.sohebox.vo.PageResultVO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -44,9 +44,9 @@ public class FoodService extends BaseService {
 	private String WEB_FOOD_IMAGE_PATH;
 
 	/**
-	 * 
+	 *
 	 * Create
-	 * 
+	 *
 	 * @param vo
 	 * @return
 	 * @throws IOException
@@ -54,7 +54,7 @@ public class FoodService extends BaseService {
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
 	public APIResponse<Long> create(FoodVO vo) {
 		// Declare result
-		APIResponse<Long> result = new APIResponse<Long>();
+		APIResponse<Long> result = new APIResponse<>();
 
 		// Validate input
 		if (result.getStatus() == null) {
@@ -82,14 +82,14 @@ public class FoodService extends BaseService {
 
 			// Record error
 			if (CollectionUtils.isNotEmpty(errors)) {
-				result = new APIResponse<Long>(HttpStatus.BAD_REQUEST, errors);
+				result = new APIResponse<>(HttpStatus.BAD_REQUEST, errors);
 			}
 		}
 
 		// Check existence
 		if (result.getStatus() == null) {
 			if (recordIsExisted(vo.getName())) {
-				result = new APIResponse<Long>(HttpStatus.BAD_REQUEST,
+				result = new APIResponse<>(HttpStatus.BAD_REQUEST,
 						ResponseCode.mapParam(ResponseCode.EXISTED_RECORD, "food <" + vo.getName() + ">"));
 			}
 		}
@@ -103,7 +103,7 @@ public class FoodService extends BaseService {
 				try {
 					updateImage(vo.getImageFile(), imageName);
 				} catch (Exception e) {
-					result = new APIResponse<Long>(HttpStatus.BAD_REQUEST,
+					result = new APIResponse<>(HttpStatus.BAD_REQUEST,
 							ResponseCode.mapParam(ResponseCode.ERROR_EXCEPTION, e.getMessage()));
 				}
 
@@ -145,16 +145,16 @@ public class FoodService extends BaseService {
 	}
 
 	/**
-	 * 
+	 *
 	 * Update
-	 * 
+	 *
 	 * @param vo
 	 * @return
 	 */
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
 	public APIResponse<Long> update(FoodVO vo) {
 		// Declare result
-		APIResponse<Long> result = new APIResponse<Long>();
+		APIResponse<Long> result = new APIResponse<>();
 
 		// Validate input
 		if (result.getStatus() == null) {
@@ -167,7 +167,7 @@ public class FoodService extends BaseService {
 
 			// Record error
 			if (CollectionUtils.isNotEmpty(errors)) {
-				result = new APIResponse<Long>(HttpStatus.BAD_REQUEST, errors);
+				result = new APIResponse<>(HttpStatus.BAD_REQUEST, errors);
 			}
 		}
 
@@ -176,7 +176,7 @@ public class FoodService extends BaseService {
 		if (result.getStatus() == null) {
 			updateTbl = getByName(vo.getName());
 			if (updateTbl == null) {
-				result = new APIResponse<Long>(HttpStatus.BAD_REQUEST,
+				result = new APIResponse<>(HttpStatus.BAD_REQUEST,
 						ResponseCode.mapParam(ResponseCode.INEXISTED_RECORD, "food <" + vo.getName() + ">"));
 			}
 		}
@@ -192,7 +192,7 @@ public class FoodService extends BaseService {
 				try {
 					updateImage(vo.getImageFile(), imageName);
 				} catch (Exception e) {
-					result = new APIResponse<Long>(HttpStatus.BAD_REQUEST,
+					result = new APIResponse<>(HttpStatus.BAD_REQUEST,
 							ResponseCode.mapParam(ResponseCode.ERROR_EXCEPTION, e.getMessage()));
 				}
 			}
@@ -260,14 +260,14 @@ public class FoodService extends BaseService {
 
 	/**
 	 * Search
-	 * 
+	 *
 	 * @param sco
 	 * @return
 	 */
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
 	public APIResponse<Object> search(FoodSCO sco) {
 		// Declare result
-		APIResponse<Object> result = new APIResponse<Object>();
+		APIResponse<Object> result = new APIResponse<>();
 
 		// Get data
 		Page<FoodTbl> page = foodRepository.findAll(sco);
@@ -286,7 +286,7 @@ public class FoodService extends BaseService {
 	}
 
 	/**
-	 * 
+	 *
 	 * Check existence
 	 *
 	 * @param name
@@ -294,7 +294,7 @@ public class FoodService extends BaseService {
 	 */
 	private boolean recordIsExisted(String nameValue) {
 		// Declare result
-		Boolean result = false;
+		boolean result = false;
 
 		SearchTextVO nameSearch = new SearchTextVO();
 		nameSearch.setEq(formatName(nameValue));
@@ -313,7 +313,7 @@ public class FoodService extends BaseService {
 	}
 
 	/**
-	 * 
+	 *
 	 * Get by name
 	 *
 	 * @param name
@@ -341,13 +341,13 @@ public class FoodService extends BaseService {
 
 	/**
 	 * Get by id
-	 * 
+	 *
 	 * @param id
 	 * @return
 	 */
 	public APIResponse<Object> getById(Long id) {
 		// Declare result
-		APIResponse<Object> result = new APIResponse<Object>();
+		APIResponse<Object> result = new APIResponse<>();
 
 		// Check existence
 		Optional<FoodTbl> foodTbl = foodRepository.findById(id);
@@ -355,7 +355,7 @@ public class FoodService extends BaseService {
 			FoodVO vo = foodTransformer.convertToVO(foodTbl.get());
 			result.setData(vo);
 		} else {
-			result = new APIResponse<Object>(HttpStatus.BAD_REQUEST,
+			result = new APIResponse<>(HttpStatus.BAD_REQUEST,
 					ResponseCode.mapParam(ResponseCode.INEXISTED_RECORD, "food"));
 		}
 
@@ -383,7 +383,7 @@ public class FoodService extends BaseService {
 	}
 
 	/**
-	 * 
+	 *
 	 * Update image physical file
 	 *
 	 * @param imageFile

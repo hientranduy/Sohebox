@@ -15,7 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 public class SoheboxApplication extends SpringBootServletInitializer {
 
 	/**
-	 * 
+	 *
 	 * Main entry point of Spring Boot application: => need to jar package type
 	 *
 	 * @param args

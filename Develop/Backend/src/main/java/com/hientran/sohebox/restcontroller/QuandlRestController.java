@@ -19,7 +19,7 @@ public class QuandlRestController extends BaseRestController {
 	private final QuandlService quandlService;
 
 	/**
-	 * 
+	 *
 	 * Get WTI oil price
 	 *
 	 */

@@ -12,6 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import com.hientran.sohebox.constants.DBConstants;
+import com.hientran.sohebox.dto.MediaTypeVO;
+import com.hientran.sohebox.dto.PageResultVO;
 import com.hientran.sohebox.dto.response.APIResponse;
 import com.hientran.sohebox.dto.response.ResponseCode;
 import com.hientran.sohebox.entity.MediaTypeTbl;
@@ -20,8 +22,6 @@ import com.hientran.sohebox.sco.MediaTypeSCO;
 import com.hientran.sohebox.sco.SearchTextVO;
 import com.hientran.sohebox.specification.MediaTypeSpecs.MediaTypeTblEnum;
 import com.hientran.sohebox.transformer.BaseTransformer;
-import com.hientran.sohebox.vo.MediaTypeVO;
-import com.hientran.sohebox.vo.PageResultVO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -83,13 +83,13 @@ public class MediaTypeCache extends BaseTransformer {
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
 	public APIResponse<Object> search(MediaTypeSCO sco) {
 		// Declare result
-		APIResponse<Object> result = new APIResponse<Object>();
+		APIResponse<Object> result = new APIResponse<>();
 
 		// Get data
 		Page<MediaTypeTbl> page = typeRepository.findAll(sco);
 
 		// Transformer
-		PageResultVO<MediaTypeTbl> data = new PageResultVO<MediaTypeTbl>();
+		PageResultVO<MediaTypeTbl> data = new PageResultVO<>();
 		data.setElements(page.getContent());
 		setPageHeader(page, data);
 
@@ -118,14 +118,14 @@ public class MediaTypeCache extends BaseTransformer {
 			errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, MediaTypeTblEnum.typeName.name()));
 		}
 		if (!CollectionUtils.isEmpty(errors)) {
-			return new APIResponse<Long>(HttpStatus.BAD_REQUEST, errors);
+			return new APIResponse<>(HttpStatus.BAD_REQUEST, errors);
 		}
 
 		// Search old record
 		MediaTypeTbl tbl = typeRepository.findFirstByTypeClassAndTypeCode(formatTypeClass(vo.getTypeClass()),
 				formatTypeCode(vo.getTypeCode()));
 		if (tbl == null) {
-			return new APIResponse<Long>(HttpStatus.BAD_REQUEST,
+			return new APIResponse<>(HttpStatus.BAD_REQUEST,
 					ResponseCode.mapParam(ResponseCode.INEXISTED_RECORD, "typeCode/typeClass"));
 		}
 
@@ -158,6 +158,6 @@ public class MediaTypeCache extends BaseTransformer {
 		cacheManager.getCache(cacheName).put(formatTypeMapKey(tbl.getTypeClass(), tbl.getTypeCode()), tbl);
 
 		// Return
-		return new APIResponse<Long>();
+		return new APIResponse<>();
 	}
 }
