@@ -7,7 +7,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
@@ -16,8 +15,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@EqualsAndHashCode(callSuper = true)
-public class SendEmailContentVO extends BaseVO {
+public class SendEmailContentVO  {
 	private String mailFrom;
 	private String[] listMailTo;
 	private String subject;

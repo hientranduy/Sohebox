@@ -20,7 +20,6 @@ import org.springframework.beans.factory.annotation.Value;
 import com.hientran.sohebox.cache.TypeCache;
 import com.hientran.sohebox.constants.DBConstants;
 import com.hientran.sohebox.dto.RequestExternalVO;
-import com.hientran.sohebox.dto.TypeVO;
 import com.hientran.sohebox.entity.RequestExternalTbl;
 import com.hientran.sohebox.entity.TypeTbl;
 import com.hientran.sohebox.sco.RequestExternalSCO;
@@ -113,7 +112,7 @@ public class BaseWebService {
 	 *
 	 */
 	protected void recordRequestExternal(String requestUrl, String requestTypeCode, String note) throws Exception {
-		TypeVO type = new TypeVO();
+		TypeTbl type = new TypeTbl();
 		type.setTypeCode(requestTypeCode);
 
 		RequestExternalVO vo = new RequestExternalVO();

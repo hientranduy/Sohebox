@@ -1,10 +1,10 @@
 package com.hientran.sohebox.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.hientran.sohebox.entity.MediaTypeTbl;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
@@ -13,12 +13,11 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@EqualsAndHashCode(callSuper = true)
-public class YoutubeChannelVO extends BaseVO {
+public class YoutubeChannelVO  {
 	private Long id;
 	private String channelId;
 	private String name;
 	private String description;
-	private MediaTypeVO category;
+	private MediaTypeTbl category;
 	private UserVO user;
 }

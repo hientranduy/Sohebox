@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
-import com.hientran.sohebox.dto.ConfigVO;
 import com.hientran.sohebox.dto.PageResultVO;
 import com.hientran.sohebox.dto.response.APIResponse;
 import com.hientran.sohebox.dto.response.ResponseCode;
@@ -63,14 +62,14 @@ public class ConfigCache extends BaseTransformer {
 	 * Create
 	 */
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
-	public APIResponse<Long> create(ConfigVO vo) {
+	public APIResponse<Long> create(ConfigTbl rq) {
 
 		// Validate input
 		List<String> errors = new ArrayList<>();
-		if (StringUtils.isBlank(vo.getConfigKey())) {
+		if (StringUtils.isBlank(rq.getConfigKey())) {
 			errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, ConfigTblEnum.configKey.name()));
 		}
-		if (StringUtils.isBlank(vo.getConfigValue())) {
+		if (StringUtils.isBlank(rq.getConfigValue())) {
 			errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, ConfigTblEnum.configValue.name()));
 		}
 		if (!CollectionUtils.isEmpty(errors)) {
@@ -78,7 +77,7 @@ public class ConfigCache extends BaseTransformer {
 		}
 
 		// Valid existed record
-		ConfigTbl searchTbl = configRepository.findFirstByConfigKey(vo.getConfigKey());
+		ConfigTbl searchTbl = configRepository.findFirstByConfigKey(rq.getConfigKey());
 		if (searchTbl != null) {
 			return new APIResponse<>(HttpStatus.BAD_REQUEST,
 					ResponseCode.mapParam(ResponseCode.EXISTED_RECORD, "config"));
@@ -86,7 +85,7 @@ public class ConfigCache extends BaseTransformer {
 
 		// Create
 		ConfigTbl tbl = new ConfigTbl();
-		BeanUtils.copyProperties(vo, tbl);
+		BeanUtils.copyProperties(rq, tbl);
 		tbl.setConfigKey(formatConfigKey(tbl.getConfigKey()));
 		tbl = configRepository.save(tbl);
 
@@ -100,14 +99,14 @@ public class ConfigCache extends BaseTransformer {
 	 * Update
 	 */
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
-	public APIResponse<Long> update(ConfigVO vo) {
+	public APIResponse<Long> update(ConfigTbl rq) {
 
 		// Validate input
 		List<String> errors = new ArrayList<>();
-		if (StringUtils.isBlank(vo.getConfigKey())) {
+		if (StringUtils.isBlank(rq.getConfigKey())) {
 			errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, ConfigTblEnum.configKey.name()));
 		}
-		if (StringUtils.isBlank(vo.getConfigValue())) {
+		if (StringUtils.isBlank(rq.getConfigValue())) {
 			errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, ConfigTblEnum.configValue.name()));
 		}
 		if (!CollectionUtils.isEmpty(errors)) {
@@ -115,23 +114,23 @@ public class ConfigCache extends BaseTransformer {
 		}
 
 		// Valid existed record
-		ConfigTbl updateTbl = configRepository.findFirstByConfigKey(vo.getConfigKey());
+		ConfigTbl updateTbl = configRepository.findFirstByConfigKey(rq.getConfigKey());
 		if (updateTbl == null) {
 			return new APIResponse<>(HttpStatus.BAD_REQUEST,
 					ResponseCode.mapParam(ResponseCode.INEXISTED_RECORD, "config"));
 		}
 
 		// Update
-		updateTbl.setConfigValue(vo.getConfigValue());
-		if (vo.getDescription() != null) {
-			updateTbl.setDescription(vo.getDescription());
+		updateTbl.setConfigValue(rq.getConfigValue());
+		if (rq.getDescription() != null) {
+			updateTbl.setDescription(rq.getDescription());
 		}
 
 		APIResponse<Long> result = new APIResponse<>();
 		result.setData(configRepository.save(updateTbl).getId());
 
 		// Update cache
-		cacheManager.getCache(cacheName).put(formatConfigKey(vo.getConfigKey()), updateTbl.getConfigValue());
+		cacheManager.getCache(cacheName).put(formatConfigKey(rq.getConfigKey()), updateTbl.getConfigValue());
 
 		// Return
 		return result;

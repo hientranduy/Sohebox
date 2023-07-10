@@ -7,7 +7,6 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.hientran.sohebox.dto.RoleVO;
 import com.hientran.sohebox.entity.RoleTbl;
 import com.hientran.sohebox.repository.RoleRepository;
 
@@ -24,9 +23,9 @@ public class RoleService {
 	}
 
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
-	public List<RoleTbl> create(List<RoleVO> voList) {
+	public List<RoleTbl> create(List<RoleTbl> request) {
 		List<RoleTbl> result = new ArrayList<>();
-		for (RoleVO vo : voList) {
+		for (RoleTbl vo : request) {
 			RoleTbl roleUpdate = roleRepository.findFirstByRoleName(vo.getRoleName());
 			if (ObjectUtils.isEmpty(roleUpdate)) {
 				RoleTbl roleInsert = new RoleTbl();

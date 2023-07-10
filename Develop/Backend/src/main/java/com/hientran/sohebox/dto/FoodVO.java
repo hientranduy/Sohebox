@@ -5,7 +5,6 @@ import com.hientran.sohebox.entity.FoodTypeTbl;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
@@ -14,8 +13,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@EqualsAndHashCode(callSuper = true)
-public class FoodVO extends BaseVO {
+public class FoodVO  {
 	private Long id;
 	private String name;
 	private String imageName;

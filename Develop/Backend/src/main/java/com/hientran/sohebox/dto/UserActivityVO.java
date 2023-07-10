@@ -4,11 +4,11 @@ import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.hientran.sohebox.entity.TypeTbl;
 import com.hientran.sohebox.entity.UserTbl;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
@@ -17,8 +17,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@EqualsAndHashCode(callSuper = true)
-public class UserActivityVO extends BaseVO {
+public class UserActivityVO  {
 	@JsonIgnore
 	private Long id;
 
@@ -28,5 +27,5 @@ public class UserActivityVO extends BaseVO {
 
 	private UserTbl userTbl;
 
-	private TypeVO activity;
+	private TypeTbl activity;
 }

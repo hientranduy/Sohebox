@@ -11,8 +11,8 @@ import org.springframework.util.CollectionUtils;
 
 import com.hientran.sohebox.dto.AccountVO;
 import com.hientran.sohebox.dto.PageResultVO;
-import com.hientran.sohebox.dto.TypeVO;
 import com.hientran.sohebox.entity.AccountTbl;
+import com.hientran.sohebox.entity.TypeTbl;
 
 import lombok.RequiredArgsConstructor;
 
@@ -64,7 +64,7 @@ public class AccountTransformer extends BaseTransformer {
 		objectMapper.map(tbl, result);
 
 		// Account Type
-		TypeVO accountType = new TypeVO();
+		TypeTbl accountType = new TypeTbl();
 		BeanUtils.copyProperties(tbl.getType(), accountType);
 		result.setAccountType(accountType);
 

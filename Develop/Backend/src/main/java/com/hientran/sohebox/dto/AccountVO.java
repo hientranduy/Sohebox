@@ -1,10 +1,10 @@
 package com.hientran.sohebox.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.hientran.sohebox.entity.TypeTbl;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
@@ -13,11 +13,10 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@EqualsAndHashCode(callSuper = true)
-public class AccountVO extends BaseVO {
+public class AccountVO {
 	private Long id;
 	private UserVO user;
-	private TypeVO accountType;
+	private TypeTbl accountType;
 	private String accountName;
 	private String mdp;
 	private String note;

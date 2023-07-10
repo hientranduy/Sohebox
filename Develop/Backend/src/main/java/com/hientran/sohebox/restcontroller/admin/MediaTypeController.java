@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.hientran.sohebox.cache.MediaTypeCache;
 import com.hientran.sohebox.constants.ApiPublicConstants;
-import com.hientran.sohebox.dto.MediaTypeVO;
 import com.hientran.sohebox.dto.response.APIResponse;
+import com.hientran.sohebox.entity.MediaTypeTbl;
 import com.hientran.sohebox.restcontroller.BaseRestController;
 import com.hientran.sohebox.sco.MediaTypeSCO;
 
@@ -42,8 +42,8 @@ public class MediaTypeController extends BaseRestController {
 	 * Update
 	 */
 	@PutMapping(ApiPublicConstants.API_MEDIA_TYPE)
-	public ResponseEntity<?> update(@Validated @RequestBody MediaTypeVO vo) {
-		APIResponse<?> result = typeCache.update(vo);
+	public ResponseEntity<?> update(@Validated @RequestBody MediaTypeTbl request) {
+		APIResponse<?> result = typeCache.update(request);
 
 		// Return
 		return new ResponseEntity<>(result, new HttpHeaders(),

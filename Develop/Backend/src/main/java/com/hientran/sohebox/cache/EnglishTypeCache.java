@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import com.hientran.sohebox.constants.DBConstants;
-import com.hientran.sohebox.dto.EnglishTypeVO;
 import com.hientran.sohebox.dto.PageResultVO;
 import com.hientran.sohebox.dto.response.APIResponse;
 import com.hientran.sohebox.dto.response.ResponseCode;
@@ -105,17 +104,17 @@ public class EnglishTypeCache extends BaseTransformer {
 	 * Update
 	 */
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
-	public APIResponse<Long> update(EnglishTypeVO vo) {
+	public APIResponse<Long> update(EnglishTypeTbl rq) {
 
 		// Validate input
 		List<String> errors = new ArrayList<>();
-		if (StringUtils.isBlank(vo.getTypeClass())) {
+		if (StringUtils.isBlank(rq.getTypeClass())) {
 			errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, EnglishTypeTblEnum.typeClass.name()));
 		}
-		if (StringUtils.isBlank(vo.getTypeCode())) {
+		if (StringUtils.isBlank(rq.getTypeCode())) {
 			errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, EnglishTypeTblEnum.typeCode.name()));
 		}
-		if (StringUtils.isBlank(vo.getTypeName())) {
+		if (StringUtils.isBlank(rq.getTypeName())) {
 			errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, EnglishTypeTblEnum.typeName.name()));
 		}
 		if (!CollectionUtils.isEmpty(errors)) {
@@ -123,8 +122,8 @@ public class EnglishTypeCache extends BaseTransformer {
 		}
 
 		// Search old record
-		EnglishTypeTbl tbl = typeRepository.findFirstByTypeClassAndTypeCode(formatTypeClass(vo.getTypeClass()),
-				formatTypeCode(vo.getTypeCode()));
+		EnglishTypeTbl tbl = typeRepository.findFirstByTypeClassAndTypeCode(formatTypeClass(rq.getTypeClass()),
+				formatTypeCode(rq.getTypeCode()));
 		if (tbl == null) {
 			return new APIResponse<>(HttpStatus.BAD_REQUEST,
 					ResponseCode.mapParam(ResponseCode.INEXISTED_RECORD, "typeCode/typeClass"));
@@ -132,26 +131,26 @@ public class EnglishTypeCache extends BaseTransformer {
 
 		// Search old record
 		SearchTextVO searchClass = new SearchTextVO();
-		searchClass.setEq(formatTypeClass(vo.getTypeClass()));
+		searchClass.setEq(formatTypeClass(rq.getTypeClass()));
 		SearchTextVO searchCode = new SearchTextVO();
-		searchCode.setEq(formatTypeCode(vo.getTypeCode()));
+		searchCode.setEq(formatTypeCode(rq.getTypeCode()));
 
 		EnglishTypeSCO sco = new EnglishTypeSCO();
 		sco.setTypeClass(searchClass);
 		sco.setTypeCode(searchCode);
 
 		// Update
-		if (vo.getTypeCode() != null) {
-			tbl.setTypeCode(formatTypeCode(vo.getTypeCode()));
+		if (rq.getTypeCode() != null) {
+			tbl.setTypeCode(formatTypeCode(rq.getTypeCode()));
 		}
-		if (vo.getTypeName() != null) {
-			tbl.setTypeName(vo.getTypeName());
+		if (rq.getTypeName() != null) {
+			tbl.setTypeName(rq.getTypeName());
 		}
-		if (vo.getDescription() != null) {
-			tbl.setDescription(vo.getDescription());
+		if (rq.getDescription() != null) {
+			tbl.setDescription(rq.getDescription());
 		}
-		if (vo.getIconUrl() != null) {
-			tbl.setIconUrl(vo.getIconUrl());
+		if (rq.getIconUrl() != null) {
+			tbl.setIconUrl(rq.getIconUrl());
 		}
 		APIResponse<Long> result = new APIResponse<>();
 		result.setData(typeRepository.save(tbl).getId());

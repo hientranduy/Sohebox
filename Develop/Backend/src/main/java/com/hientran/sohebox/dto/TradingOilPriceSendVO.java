@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
@@ -15,8 +14,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@EqualsAndHashCode(callSuper = true)
-public class TradingOilPriceSendVO extends BaseVO {
+public class TradingOilPriceSendVO  {
 	private TradingSymbolItemVO symbolCL1;
 	private TradingSymbolItemVO symbolCO1;
 	private List<TradingHistoryItemVO> historyCL1;

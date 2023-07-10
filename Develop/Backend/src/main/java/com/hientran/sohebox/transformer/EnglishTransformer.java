@@ -8,10 +8,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
-import com.hientran.sohebox.dto.EnglishTypeVO;
 import com.hientran.sohebox.dto.EnglishVO;
 import com.hientran.sohebox.dto.PageResultVO;
 import com.hientran.sohebox.entity.EnglishTbl;
+import com.hientran.sohebox.entity.EnglishTypeTbl;
 
 import lombok.RequiredArgsConstructor;
 
@@ -121,14 +121,14 @@ public class EnglishTransformer extends BaseTransformer {
 
 		// Category code
 		if (objects[8] != null) {
-			EnglishTypeVO category = new EnglishTypeVO();
+			EnglishTypeTbl category = new EnglishTypeTbl();
 			category.setTypeCode((String) objects[8]);
 			result.setCategory(category);
 		}
 
 		// grade code
 		if (objects[9] != null) {
-			EnglishTypeVO vusGrade = new EnglishTypeVO();
+			EnglishTypeTbl vusGrade = new EnglishTypeTbl();
 			vusGrade.setTypeCode((String) objects[9]);
 			result.setVusGrade(vusGrade);
 		}
