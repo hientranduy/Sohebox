@@ -25,10 +25,10 @@ import com.hientran.sohebox.entity.AccountTbl;
 import com.hientran.sohebox.entity.TypeTbl;
 import com.hientran.sohebox.entity.UserTbl;
 import com.hientran.sohebox.repository.AccountRepository;
+import com.hientran.sohebox.repository.TypeRepository;
 import com.hientran.sohebox.sco.AccountSCO;
 import com.hientran.sohebox.sco.SearchNumberVO;
 import com.hientran.sohebox.sco.SearchTextVO;
-import com.hientran.sohebox.sco.TypeSCO;
 import com.hientran.sohebox.specification.AccountSpecs.AccountTblEnum;
 import com.hientran.sohebox.transformer.AccountTransformer;
 
@@ -46,6 +46,7 @@ public class AccountService extends BaseService {
 	private final UserDetailsServiceImpl userDetailsServiceImpl;
 	private final TypeCache typeCache;
 	private final UserActivityService userActivityService;
+	private final TypeRepository typeRepository;
 
 	/**
 	 *
@@ -318,14 +319,8 @@ public class AccountService extends BaseService {
 		// Get data
 		if (result.getStatus() == null) {
 			if (sco.getAccountName() != null && sco.getAccountName().getLike() != null) {
-				SearchTextVO typeClass = new SearchTextVO();
-				typeClass.setEq(DBConstants.TYPE_CLASS_ACCOUNT);
-				SearchTextVO typeCode = new SearchTextVO();
-				typeCode.setLike(sco.getAccountName().getLike());
-				TypeSCO typeSCO = new TypeSCO();
-				typeSCO.setTypeClass(typeClass);
-				typeSCO.setTypeCode(typeCode);
-				List<TypeTbl> accountTypes = typeCache.searchList(typeSCO);
+				List<TypeTbl> accountTypes = typeRepository.findAllByTypeClassAndTypeCodeContaining(
+						DBConstants.TYPE_CLASS_ACCOUNT, sco.getAccountName().getLike());
 
 				if (CollectionUtils.isNotEmpty(accountTypes)) {
 					List<Double> ids = new ArrayList<>();

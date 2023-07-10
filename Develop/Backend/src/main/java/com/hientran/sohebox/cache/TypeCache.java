@@ -196,26 +196,4 @@ public class TypeCache extends BaseTransformer {
 		// Return
 		return result;
 	}
-
-	/**
-	 * Search list
-	 */
-	@Transactional(readOnly = false, rollbackFor = Exception.class)
-	public List<TypeTbl> searchList(TypeSCO sco) {
-		// Declare result
-		List<TypeTbl> result = new ArrayList<>();
-
-		// Get data
-		Page<TypeTbl> page = typeRepository.findAll(sco);
-
-		// Transformer
-		if (!CollectionUtils.isEmpty(page.getContent())) {
-			for (TypeTbl tbl : page.getContent()) {
-				result.add(tbl);
-			}
-		}
-
-		// Return
-		return result;
-	}
 }

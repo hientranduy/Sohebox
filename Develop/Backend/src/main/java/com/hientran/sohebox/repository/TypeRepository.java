@@ -21,6 +21,8 @@ public interface TypeRepository
 
 	TypeTbl findFirstByTypeClassAndTypeCode(String typeClass, String typeCode);
 
+	List<TypeTbl> findAllByTypeClassAndTypeCodeContaining(String typeClass, String typeCode);
+
 	TypeSpecs specs = new TypeSpecs();
 
 	/**
