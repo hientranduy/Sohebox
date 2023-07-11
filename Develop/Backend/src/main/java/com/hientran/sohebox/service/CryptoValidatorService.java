@@ -20,7 +20,6 @@ import com.hientran.sohebox.cache.ConfigCache;
 import com.hientran.sohebox.constants.CosmosConstants;
 import com.hientran.sohebox.constants.DataExternalConstants;
 import com.hientran.sohebox.dto.CryptoPortfolioVO;
-import com.hientran.sohebox.dto.CryptoValidatorVO;
 import com.hientran.sohebox.dto.PageResultVO;
 import com.hientran.sohebox.dto.response.APIResponse;
 import com.hientran.sohebox.dto.response.ResponseCode;
@@ -29,7 +28,6 @@ import com.hientran.sohebox.repository.CryptoValidatorRepository;
 import com.hientran.sohebox.sco.CryptoValidatorSCO;
 import com.hientran.sohebox.sco.SearchTextVO;
 import com.hientran.sohebox.specification.CryptoValidatorSpecs.CryptoValidatorTblEnum;
-import com.hientran.sohebox.transformer.CryptoValidatorTransformer;
 import com.hientran.sohebox.webservice.CosmosWebService;
 
 import lombok.RequiredArgsConstructor;
@@ -42,7 +40,6 @@ import lombok.extern.slf4j.Slf4j;
 public class CryptoValidatorService extends BaseService {
 
 	private final CryptoValidatorRepository cryptoValidatorRepository;
-	private final CryptoValidatorTransformer cryptoValidatorTransformer;
 	private final ConfigCache configCache;
 	private final CosmosWebService cosmosWebService;
 
@@ -52,12 +49,12 @@ public class CryptoValidatorService extends BaseService {
 	 *
 	 * Create
 	 *
-	 * @param vo
+	 * @param rq
 	 * @return
 	 * @throws IOException
 	 */
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
-	public APIResponse<Long> create(CryptoValidatorVO vo) {
+	public APIResponse<Long> create(CryptoValidatorTbl rq) {
 		// Declare result
 		APIResponse<Long> result = new APIResponse<>();
 
@@ -65,12 +62,12 @@ public class CryptoValidatorService extends BaseService {
 		if (result.getStatus() == null) {
 			List<String> errors = new ArrayList<>();
 
-			if (vo.getValidatorAddress() == null) {
+			if (rq.getValidatorAddress() == null) {
 				errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY,
 						CryptoValidatorTblEnum.validatorAddress.name()));
 			}
 
-			if (StringUtils.isBlank(vo.getValidatorName())) {
+			if (StringUtils.isBlank(rq.getValidatorName())) {
 				errors.add(
 						ResponseCode.mapParam(ResponseCode.FILED_EMPTY, CryptoValidatorTblEnum.validatorName.name()));
 			}
@@ -83,9 +80,9 @@ public class CryptoValidatorService extends BaseService {
 
 		// Check existence
 		if (result.getStatus() == null) {
-			if (recordIsExisted(vo)) {
+			if (recordIsExisted(rq)) {
 				result = new APIResponse<>(HttpStatus.BAD_REQUEST, ResponseCode.mapParam(ResponseCode.EXISTED_RECORD,
-						" validator address " + vo.getValidatorAddress()));
+						" validator address " + rq.getValidatorAddress()));
 			}
 		}
 
@@ -94,7 +91,7 @@ public class CryptoValidatorService extends BaseService {
 		/////////////////////
 		if (result.getStatus() == null) {
 			// Transform
-			CryptoValidatorTbl tbl = cryptoValidatorTransformer.convertToTbl(vo);
+			CryptoValidatorTbl tbl = rq;
 			tbl.setSyncDate(new Date());
 
 			// Create
@@ -114,13 +111,13 @@ public class CryptoValidatorService extends BaseService {
 	 *
 	 * @return
 	 */
-	private boolean recordIsExisted(CryptoValidatorVO vo) {
+	private boolean recordIsExisted(CryptoValidatorTbl rq) {
 		// Declare result
 		boolean result = false;
 
 		// Prepare search
 		SearchTextVO validatorAddressSearch = new SearchTextVO();
-		validatorAddressSearch.setEq(vo.getValidatorAddress());
+		validatorAddressSearch.setEq(rq.getValidatorAddress());
 
 		CryptoValidatorSCO sco = new CryptoValidatorSCO();
 		sco.setValidatorAddress(validatorAddressSearch);
@@ -139,11 +136,11 @@ public class CryptoValidatorService extends BaseService {
 	 *
 	 * Update
 	 *
-	 * @param vo
+	 * @param rq
 	 * @return
 	 */
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
-	public APIResponse<Long> update(CryptoValidatorVO vo) {
+	public APIResponse<Long> update(CryptoValidatorTbl rq) {
 		// Declare result
 		APIResponse<Long> result = new APIResponse<>();
 
@@ -151,12 +148,12 @@ public class CryptoValidatorService extends BaseService {
 		if (result.getStatus() == null) {
 			List<String> errors = new ArrayList<>();
 
-			if (vo.getValidatorAddress() == null) {
+			if (rq.getValidatorAddress() == null) {
 				errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY,
 						CryptoValidatorTblEnum.validatorAddress.name()));
 			}
 
-			if (StringUtils.isBlank(vo.getValidatorName())) {
+			if (StringUtils.isBlank(rq.getValidatorName())) {
 				errors.add(
 						ResponseCode.mapParam(ResponseCode.FILED_EMPTY, CryptoValidatorTblEnum.validatorName.name()));
 			}
@@ -168,28 +165,28 @@ public class CryptoValidatorService extends BaseService {
 		}
 
 		// Get updated item
-		CryptoValidatorTbl updateTbl = cryptoValidatorRepository.findById(vo.getId()).get();
+		CryptoValidatorTbl updateTbl = cryptoValidatorRepository.findById(rq.getId()).get();
 		if (updateTbl == null) {
 			result = new APIResponse<>(HttpStatus.BAD_REQUEST, ResponseCode.mapParam(ResponseCode.INEXISTED_RECORD,
-					"Validator wallet " + vo.getValidatorAddress()));
+					"Validator wallet " + rq.getValidatorAddress()));
 		}
 
 		// Update
 		if (result.getStatus() == null) {
-			if (!StringUtils.equals(vo.getValidatorName(), updateTbl.getValidatorName())) {
-				updateTbl.setValidatorName(vo.getValidatorName());
+			if (!StringUtils.equals(rq.getValidatorName(), updateTbl.getValidatorName())) {
+				updateTbl.setValidatorName(rq.getValidatorName());
 			}
 
-			if (!StringUtils.equals(vo.getValidatorWebsite(), updateTbl.getValidatorWebsite())) {
-				updateTbl.setValidatorWebsite(vo.getValidatorWebsite());
+			if (!StringUtils.equals(rq.getValidatorWebsite(), updateTbl.getValidatorWebsite())) {
+				updateTbl.setValidatorWebsite(rq.getValidatorWebsite());
 			}
 
-			if (vo.getCommissionRate() != null) {
-				updateTbl.setCommissionRate(vo.getCommissionRate());
+			if (rq.getCommissionRate() != null) {
+				updateTbl.setCommissionRate(rq.getCommissionRate());
 			}
 
-			if (vo.getTotalDeligated() != null) {
-				updateTbl.setTotalDeligated(vo.getTotalDeligated());
+			if (rq.getTotalDeligated() != null) {
+				updateTbl.setTotalDeligated(rq.getTotalDeligated());
 			}
 
 			updateTbl.setSyncDate(new Date());
@@ -217,7 +214,11 @@ public class CryptoValidatorService extends BaseService {
 		Page<CryptoValidatorTbl> page = cryptoValidatorRepository.findAll(sco);
 
 		// Transformer
-		PageResultVO<CryptoValidatorVO> data = cryptoValidatorTransformer.convertToPageReturn(page);
+		PageResultVO<CryptoValidatorTbl> data = new PageResultVO<>();
+		if (!CollectionUtils.isEmpty(page.getContent())) {
+			data.setElements(page.getContent());
+			setPageHeader(page, data);
+		}
 
 		// Set data return
 		result.setData(data);
@@ -239,8 +240,7 @@ public class CryptoValidatorService extends BaseService {
 		// Check existence
 		Optional<CryptoValidatorTbl> CryptoValidatorTbl = cryptoValidatorRepository.findById(id);
 		if (CryptoValidatorTbl.isPresent()) {
-			CryptoValidatorVO vo = cryptoValidatorTransformer.convertToVO(CryptoValidatorTbl.get());
-			result.setData(vo);
+			result.setData(CryptoValidatorTbl.get());
 		} else {
 			result = new APIResponse<>(HttpStatus.BAD_REQUEST,
 					ResponseCode.mapParam(ResponseCode.INEXISTED_RECORD, "token"));
@@ -250,9 +250,9 @@ public class CryptoValidatorService extends BaseService {
 		return result;
 	}
 
-	public CryptoValidatorVO getValidator(String validatorAddress, CryptoPortfolioVO cryptoPortfolioVO) {
+	public CryptoValidatorTbl getValidator(String validatorAddress, CryptoPortfolioVO cryptoPortfolioVO) {
 		// Declare result
-		CryptoValidatorVO returnValidator = null;
+		CryptoValidatorTbl returnValidator = null;
 		boolean isNewValidator = false;
 
 		// Get current validator info
@@ -262,7 +262,7 @@ public class CryptoValidatorService extends BaseService {
 		} else {
 			CryptoValidatorTbl tbl = cryptoValidatorRepository.findByValidatorAddress(validatorAddress);
 			if (tbl != null) {
-				returnValidator = cryptoValidatorTransformer.convertToVO(tbl);
+				returnValidator = tbl;
 			} else {
 				isNewValidator = true;
 			}
@@ -315,7 +315,7 @@ public class CryptoValidatorService extends BaseService {
 
 				// Record DB
 				if (isNewValidator) {
-					returnValidator = new CryptoValidatorVO();
+					returnValidator = new CryptoValidatorTbl();
 					returnValidator.setValidatorAddress(validatorAddress);
 					returnValidator.setValidatorName(validatorName);
 					returnValidator.setValidatorWebsite(validatorWebsite);
@@ -323,8 +323,7 @@ public class CryptoValidatorService extends BaseService {
 					returnValidator.setCommissionRate(commissionRate);
 
 					Long idResult = create(returnValidator).getData();
-					returnValidator = cryptoValidatorTransformer
-							.convertToVO(cryptoValidatorRepository.findById(idResult).get());
+					returnValidator = cryptoValidatorRepository.findById(idResult).get();
 				} else {
 					returnValidator.setValidatorName(validatorName);
 					returnValidator.setValidatorWebsite(validatorWebsite);

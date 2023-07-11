@@ -37,7 +37,6 @@ import com.hientran.sohebox.sco.SearchNumberVO;
 import com.hientran.sohebox.sco.SearchTextVO;
 import com.hientran.sohebox.specification.CryptoPortfolioSpecs.CryptoPortfolioTblEnum;
 import com.hientran.sohebox.transformer.CryptoPortfolioTransformer;
-import com.hientran.sohebox.transformer.CryptoValidatorTransformer;
 import com.hientran.sohebox.utils.ObjectMapperUtil;
 import com.hientran.sohebox.webservice.CosmosWebService;
 
@@ -51,7 +50,6 @@ import lombok.extern.slf4j.Slf4j;
 public class CryptoPortfolioService extends BaseService {
 	private final CryptoPortfolioRepository cryptoPortfolioRepository;
 	private final CryptoPortfolioTransformer cryptoPortfolioTransformer;
-	private final CryptoValidatorTransformer cryptoValidatorTransformer;
 	private final UserService userService;
 	private final UserDetailsServiceImpl userDetailsServiceImpl;
 	private final CosmosWebService cosmosWebService;
@@ -222,7 +220,7 @@ public class CryptoPortfolioService extends BaseService {
 			}
 
 			if (vo.getValidator() != null) {
-				updateTbl.setValidator(cryptoValidatorTransformer.convertToTbl(vo.getValidator()));
+				updateTbl.setValidator(vo.getValidator());
 			}
 
 			updateTbl.setSyncDate(new Date());

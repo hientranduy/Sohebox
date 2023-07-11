@@ -25,7 +25,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.hientran.sohebox.cache.EnglishTypeCache;
 import com.hientran.sohebox.constants.DBConstants;
 import com.hientran.sohebox.dto.DownloadFileVO;
-import com.hientran.sohebox.dto.EnglishLearnReportVO;
 import com.hientran.sohebox.dto.EnglishVO;
 import com.hientran.sohebox.dto.PageResultVO;
 import com.hientran.sohebox.dto.response.APIResponse;
@@ -590,16 +589,16 @@ public class EnglishService extends BaseService {
 			// Transformer
 			if (CollectionUtils.isNotEmpty(searchResult)) {
 				// Format data
-				List<EnglishLearnReportVO> listElement = new ArrayList<>();
-				EnglishLearnReportVO vo;
+				List<EnglishLearnReportTbl> listElement = new ArrayList<>();
+				EnglishLearnReportTbl tblItem;
 				for (Object[] objects : searchResult) {
-					vo = new EnglishLearnReportVO();
+					tblItem = new EnglishLearnReportTbl();
 
 					Long userID = (Long) objects[0];
-					vo.setUser(userService.getVoById(userID));
+					tblItem.setUser(userService.getTblById(userID));
 
 					Date learnedDate = (Date) objects[1];
-					vo.setLearnedDate(learnedDate);
+					tblItem.setLearnedDate(learnedDate);
 
 					SearchNumberVO userId = new SearchNumberVO();
 					userId.setEq(userID.doubleValue());
@@ -614,21 +613,21 @@ public class EnglishService extends BaseService {
 							countLearnTotal = countLearnTotal + tbl.getLearnedTotal();
 						}
 					}
-					vo.setLearnedTotal(countLearnTotal);
+					tblItem.setLearnedTotal(countLearnTotal);
 
-					listElement.add(vo);
+					listElement.add(tblItem);
 				}
 
 				// Sort data by learn count
-				Collections.sort(listElement, new Comparator<EnglishLearnReportVO>() {
+				Collections.sort(listElement, new Comparator<EnglishLearnReportTbl>() {
 					@Override
-					public int compare(EnglishLearnReportVO a, EnglishLearnReportVO b) {
+					public int compare(EnglishLearnReportTbl a, EnglishLearnReportTbl b) {
 						return (int) (b.getLearnedTotal() - a.getLearnedTotal());
 					}
 				});
 
 				// Transformer
-				PageResultVO<EnglishLearnReportVO> data = new PageResultVO<>();
+				PageResultVO<EnglishLearnReportTbl> data = new PageResultVO<>();
 				data.setElements(listElement);
 				data.setCurrentPage(0);
 				data.setTotalPage(1);

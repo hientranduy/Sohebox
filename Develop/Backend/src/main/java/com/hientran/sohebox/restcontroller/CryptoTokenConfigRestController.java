@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hientran.sohebox.constants.ApiPublicConstants;
-import com.hientran.sohebox.dto.CryptoTokenConfigVO;
 import com.hientran.sohebox.dto.response.APIResponse;
+import com.hientran.sohebox.entity.CryptoTokenConfigTbl;
 import com.hientran.sohebox.sco.CryptoTokenConfigSCO;
 import com.hientran.sohebox.service.CryptoTokenConfigService;
 
@@ -29,9 +29,9 @@ public class CryptoTokenConfigRestController extends BaseRestController {
 	 * Add new
 	 */
 	@PostMapping(ApiPublicConstants.API_CRYPTO_TOKEN_CONFIG)
-	public ResponseEntity<?> create(@Validated @RequestBody CryptoTokenConfigVO vo) {
+	public ResponseEntity<?> create(@Validated @RequestBody CryptoTokenConfigTbl request) {
 		// Create Account
-		APIResponse<?> result = cryptoTokenConfigService.create(vo);
+		APIResponse<?> result = cryptoTokenConfigService.create(request);
 
 		// Return
 		return new ResponseEntity<>(result, new HttpHeaders(),
@@ -42,8 +42,8 @@ public class CryptoTokenConfigRestController extends BaseRestController {
 	 * Update
 	 */
 	@PutMapping(ApiPublicConstants.API_CRYPTO_TOKEN_CONFIG)
-	public ResponseEntity<?> update(@Validated @RequestBody CryptoTokenConfigVO vo) {
-		APIResponse<?> result = cryptoTokenConfigService.update(vo);
+	public ResponseEntity<?> update(@Validated @RequestBody CryptoTokenConfigTbl request) {
+		APIResponse<?> result = cryptoTokenConfigService.update(request);
 
 		// Return
 		return new ResponseEntity<>(result, new HttpHeaders(),

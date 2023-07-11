@@ -14,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.hientran.sohebox.constants.CosmosConstants;
 import com.hientran.sohebox.constants.DBConstants;
-import com.hientran.sohebox.dto.CryptoTokenConfigVO;
 import com.hientran.sohebox.dto.PageResultVO;
 import com.hientran.sohebox.dto.response.APIResponse;
 import com.hientran.sohebox.dto.response.ResponseCode;
@@ -23,7 +22,6 @@ import com.hientran.sohebox.repository.CryptoTokenConfigRepository;
 import com.hientran.sohebox.sco.CryptoTokenConfigSCO;
 import com.hientran.sohebox.sco.SearchTextVO;
 import com.hientran.sohebox.specification.CryptoTokenConfigSpecs.CryptoTokenConfigTblEnum;
-import com.hientran.sohebox.transformer.CryptoTokenConfigTransformer;
 
 import lombok.RequiredArgsConstructor;
 
@@ -32,18 +30,17 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class CryptoTokenConfigService extends BaseService {
 	private final CryptoTokenConfigRepository cryptoTokenConfigRepository;
-	private final CryptoTokenConfigTransformer cryptoTokenConfigTransformer;
 
 	/**
 	 *
 	 * Create
 	 *
-	 * @param vo
+	 * @param rq
 	 * @return
 	 * @throws IOException
 	 */
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
-	public APIResponse<Long> create(CryptoTokenConfigVO vo) {
+	public APIResponse<Long> create(CryptoTokenConfigTbl rq) {
 		// Declare result
 		APIResponse<Long> result = new APIResponse<>();
 
@@ -51,11 +48,11 @@ public class CryptoTokenConfigService extends BaseService {
 		if (result.getStatus() == null) {
 			List<String> errors = new ArrayList<>();
 
-			if (StringUtils.isBlank(vo.getTokenCode())) {
+			if (StringUtils.isBlank(rq.getTokenCode())) {
 				errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, CryptoTokenConfigTblEnum.tokenCode.name()));
 			}
 
-			if (StringUtils.isBlank(vo.getTokenName())) {
+			if (StringUtils.isBlank(rq.getTokenName())) {
 				errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, CryptoTokenConfigTblEnum.tokenName.name()));
 			}
 
@@ -67,9 +64,9 @@ public class CryptoTokenConfigService extends BaseService {
 
 		// Check existence
 		if (result.getStatus() == null) {
-			if (getByName(vo.getTokenCode()) != null) {
+			if (getByName(rq.getTokenCode()) != null) {
 				result = new APIResponse<>(HttpStatus.BAD_REQUEST,
-						ResponseCode.mapParam(ResponseCode.EXISTED_RECORD, "token <" + vo.getTokenCode() + ">"));
+						ResponseCode.mapParam(ResponseCode.EXISTED_RECORD, "token <" + rq.getTokenCode() + ">"));
 			}
 		}
 
@@ -78,7 +75,7 @@ public class CryptoTokenConfigService extends BaseService {
 		/////////////////////
 		if (result.getStatus() == null) {
 			// Transform
-			CryptoTokenConfigTbl tbl = cryptoTokenConfigTransformer.convertToTbl(vo);
+			CryptoTokenConfigTbl tbl = rq;
 
 			// Create
 			tbl = cryptoTokenConfigRepository.save(tbl);
@@ -103,11 +100,11 @@ public class CryptoTokenConfigService extends BaseService {
 	 *
 	 * Update
 	 *
-	 * @param vo
+	 * @param rq
 	 * @return
 	 */
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
-	public APIResponse<Long> update(CryptoTokenConfigVO vo) {
+	public APIResponse<Long> update(CryptoTokenConfigTbl rq) {
 		// Declare result
 		APIResponse<Long> result = new APIResponse<>();
 
@@ -115,7 +112,7 @@ public class CryptoTokenConfigService extends BaseService {
 		if (result.getStatus() == null) {
 			List<String> errors = new ArrayList<>();
 
-			if (StringUtils.isBlank(vo.getTokenCode())) {
+			if (StringUtils.isBlank(rq.getTokenCode())) {
 				errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, CryptoTokenConfigTblEnum.tokenCode.name()));
 			}
 
@@ -128,10 +125,10 @@ public class CryptoTokenConfigService extends BaseService {
 		// Get the old record
 		CryptoTokenConfigTbl updateTbl = null;
 		if (result.getStatus() == null) {
-			updateTbl = getByName(vo.getTokenCode());
+			updateTbl = getByName(rq.getTokenCode());
 			if (updateTbl == null) {
 				result = new APIResponse<>(HttpStatus.BAD_REQUEST,
-						ResponseCode.mapParam(ResponseCode.INEXISTED_RECORD, "token <" + vo.getTokenCode() + ">"));
+						ResponseCode.mapParam(ResponseCode.INEXISTED_RECORD, "token <" + rq.getTokenCode() + ">"));
 			}
 		}
 
@@ -140,40 +137,40 @@ public class CryptoTokenConfigService extends BaseService {
 		/////////////////////
 		if (result.getStatus() == null) {
 
-			if (vo.getTokenName() != null) {
-				updateTbl.setTokenName(vo.getTokenName());
+			if (rq.getTokenName() != null) {
+				updateTbl.setTokenName(rq.getTokenName());
 			}
 
-			if (vo.getIconUrl() != null) {
-				updateTbl.setIconUrl(vo.getIconUrl());
+			if (rq.getIconUrl() != null) {
+				updateTbl.setIconUrl(rq.getIconUrl());
 			}
 
-			if (vo.getNodeUrl() != null) {
-				updateTbl.setNodeUrl(vo.getNodeUrl());
+			if (rq.getNodeUrl() != null) {
+				updateTbl.setNodeUrl(rq.getNodeUrl());
 			}
 
-			if (vo.getRpcUrl() != null) {
-				updateTbl.setRpcUrl(vo.getRpcUrl());
+			if (rq.getRpcUrl() != null) {
+				updateTbl.setRpcUrl(rq.getRpcUrl());
 			}
 
-			if (vo.getDenom() != null) {
-				updateTbl.setDenom(vo.getDenom());
+			if (rq.getDenom() != null) {
+				updateTbl.setDenom(rq.getDenom());
 			}
 
-			if (vo.getDecimalExponent() != null && vo.getDecimalExponent() > 0) {
-				updateTbl.setDecimalExponent(vo.getDecimalExponent());
+			if (rq.getDecimalExponent() != null && rq.getDecimalExponent() > 0) {
+				updateTbl.setDecimalExponent(rq.getDecimalExponent());
 			}
 
-			if (vo.getAddressPrefix() != null) {
-				updateTbl.setAddressPrefix(vo.getAddressPrefix());
+			if (rq.getAddressPrefix() != null) {
+				updateTbl.setAddressPrefix(rq.getAddressPrefix());
 			}
 
-			if (vo.getMintscanPrefix() != null) {
-				updateTbl.setMintscanPrefix(vo.getMintscanPrefix());
+			if (rq.getMintscanPrefix() != null) {
+				updateTbl.setMintscanPrefix(rq.getMintscanPrefix());
 			}
 
-			if (vo.getDeligateUrl() != null) {
-				updateTbl.setDeligateUrl(vo.getDeligateUrl());
+			if (rq.getDeligateUrl() != null) {
+				updateTbl.setDeligateUrl(rq.getDeligateUrl());
 			}
 
 			// Update
@@ -205,7 +202,11 @@ public class CryptoTokenConfigService extends BaseService {
 		Page<CryptoTokenConfigTbl> page = cryptoTokenConfigRepository.findAll(sco);
 
 		// Transformer
-		PageResultVO<CryptoTokenConfigVO> data = cryptoTokenConfigTransformer.convertToPageReturn(page);
+		PageResultVO<CryptoTokenConfigTbl> data = new PageResultVO<>();
+		if (!CollectionUtils.isEmpty(page.getContent())) {
+			data.setElements(page.getContent());
+			setPageHeader(page, data);
+		}
 
 		// Set data return
 		result.setData(data);
@@ -257,8 +258,7 @@ public class CryptoTokenConfigService extends BaseService {
 		// Check existence
 		Optional<CryptoTokenConfigTbl> CryptoTokenConfigTbl = cryptoTokenConfigRepository.findById(id);
 		if (CryptoTokenConfigTbl.isPresent()) {
-			CryptoTokenConfigVO vo = cryptoTokenConfigTransformer.convertToVO(CryptoTokenConfigTbl.get());
-			result.setData(vo);
+			result.setData(CryptoTokenConfigTbl.get());
 		} else {
 			result = new APIResponse<>(HttpStatus.BAD_REQUEST,
 					ResponseCode.mapParam(ResponseCode.INEXISTED_RECORD, "token"));

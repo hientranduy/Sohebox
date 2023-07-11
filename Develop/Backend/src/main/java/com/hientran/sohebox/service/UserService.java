@@ -354,16 +354,6 @@ public class UserService {
 		return null;
 	}
 
-	/**
-	 * Get User by id
-	 */
-	public UserVO getVoById(Long id) {
-		Optional<UserTbl> tbl = userRepository.findById(id);
-		if (tbl.isPresent()) {
-			return userTransformer.convertToVO(tbl.get());
-		}
-		return null;
-	}
 
 	/**
 	 * Search User by condition
