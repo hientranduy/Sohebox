@@ -19,7 +19,6 @@ import org.springframework.beans.factory.annotation.Value;
 
 import com.hientran.sohebox.cache.TypeCache;
 import com.hientran.sohebox.constants.DBConstants;
-import com.hientran.sohebox.dto.RequestExternalVO;
 import com.hientran.sohebox.entity.RequestExternalTbl;
 import com.hientran.sohebox.entity.TypeTbl;
 import com.hientran.sohebox.sco.RequestExternalSCO;
@@ -115,11 +114,11 @@ public class BaseWebService {
 		TypeTbl type = new TypeTbl();
 		type.setTypeCode(requestTypeCode);
 
-		RequestExternalVO vo = new RequestExternalVO();
-		vo.setRequestUrl(requestUrl);
-		vo.setNote(note);
-		vo.setRequestType(type);
-		requestExternalService.create(vo);
+		RequestExternalTbl tbl = new RequestExternalTbl();
+		tbl.setRequestUrl(requestUrl);
+		tbl.setNote(note);
+		tbl.setRequestType(type);
+		requestExternalService.create(tbl);
 	}
 
 	/**

@@ -19,10 +19,10 @@ import org.springframework.transaction.annotation.Transactional;
 import com.hientran.sohebox.cache.ConfigCache;
 import com.hientran.sohebox.constants.CosmosConstants;
 import com.hientran.sohebox.constants.DataExternalConstants;
-import com.hientran.sohebox.dto.CryptoPortfolioVO;
 import com.hientran.sohebox.dto.PageResultVO;
 import com.hientran.sohebox.dto.response.APIResponse;
 import com.hientran.sohebox.dto.response.ResponseCode;
+import com.hientran.sohebox.entity.CryptoPortfolioTbl;
 import com.hientran.sohebox.entity.CryptoValidatorTbl;
 import com.hientran.sohebox.repository.CryptoValidatorRepository;
 import com.hientran.sohebox.sco.CryptoValidatorSCO;
@@ -250,15 +250,15 @@ public class CryptoValidatorService extends BaseService {
 		return result;
 	}
 
-	public CryptoValidatorTbl getValidator(String validatorAddress, CryptoPortfolioVO cryptoPortfolioVO) {
+	public CryptoValidatorTbl getValidator(String validatorAddress, CryptoPortfolioTbl cryptoPortfolioTbl) {
 		// Declare result
 		CryptoValidatorTbl returnValidator = null;
 		boolean isNewValidator = false;
 
 		// Get current validator info
-		if (cryptoPortfolioVO.getValidator() != null
-				&& StringUtils.equals(validatorAddress, cryptoPortfolioVO.getValidator().getValidatorAddress())) {
-			returnValidator = cryptoPortfolioVO.getValidator();
+		if (cryptoPortfolioTbl.getValidator() != null
+				&& StringUtils.equals(validatorAddress, cryptoPortfolioTbl.getValidator().getValidatorAddress())) {
+			returnValidator = cryptoPortfolioTbl.getValidator();
 		} else {
 			CryptoValidatorTbl tbl = cryptoValidatorRepository.findByValidatorAddress(validatorAddress);
 			if (tbl != null) {
@@ -299,7 +299,7 @@ public class CryptoValidatorService extends BaseService {
 
 			// Sync new value
 			try {
-				URIBuilder builder = new URIBuilder(cryptoPortfolioVO.getToken().getNodeUrl()
+				URIBuilder builder = new URIBuilder(cryptoPortfolioTbl.getToken().getNodeUrl()
 						+ CosmosConstants.COSMOS_STAKING_V1BETA1_VALIDATORS + "/" + validatorAddress);
 				String responseString = cosmosWebService.get(builder);
 				JSONObject jsonObject = new JSONObject(responseString);
@@ -309,7 +309,7 @@ public class CryptoValidatorService extends BaseService {
 				String validatorWebsite = jsonObject.getJSONObject("validator").getJSONObject("description")
 						.get("website").toString();
 				Double totalDeligated = jsonObject.getJSONObject("validator").getDouble("tokens")
-						/ cryptoPortfolioVO.getToken().getDecimalExponent();
+						/ cryptoPortfolioTbl.getToken().getDecimalExponent();
 				Double commissionRate = Double.parseDouble(df.format(jsonObject.getJSONObject("validator")
 						.getJSONObject("commission").getJSONObject("commission_rates").getDouble("rate")));
 
@@ -332,7 +332,7 @@ public class CryptoValidatorService extends BaseService {
 					update(returnValidator);
 				}
 			} catch (Exception e) {
-				returnValidator = cryptoPortfolioVO.getValidator();
+				returnValidator = cryptoPortfolioTbl.getValidator();
 				log.error("getValidator syncData onchain Error Message: {}", e.getMessage());
 				e.printStackTrace();
 			}

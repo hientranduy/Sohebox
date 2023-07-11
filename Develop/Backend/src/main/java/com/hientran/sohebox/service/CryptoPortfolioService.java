@@ -24,7 +24,6 @@ import com.hientran.sohebox.cache.ConfigCache;
 import com.hientran.sohebox.constants.CosmosConstants;
 import com.hientran.sohebox.constants.DBConstants;
 import com.hientran.sohebox.constants.DataExternalConstants;
-import com.hientran.sohebox.dto.CryptoPortfolioVO;
 import com.hientran.sohebox.dto.CryptoPortfolioValidatorDelegationVO;
 import com.hientran.sohebox.dto.PageResultVO;
 import com.hientran.sohebox.dto.response.APIResponse;
@@ -36,7 +35,6 @@ import com.hientran.sohebox.sco.CryptoPortfolioSCO;
 import com.hientran.sohebox.sco.SearchNumberVO;
 import com.hientran.sohebox.sco.SearchTextVO;
 import com.hientran.sohebox.specification.CryptoPortfolioSpecs.CryptoPortfolioTblEnum;
-import com.hientran.sohebox.transformer.CryptoPortfolioTransformer;
 import com.hientran.sohebox.utils.ObjectMapperUtil;
 import com.hientran.sohebox.webservice.CosmosWebService;
 
@@ -49,7 +47,6 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class CryptoPortfolioService extends BaseService {
 	private final CryptoPortfolioRepository cryptoPortfolioRepository;
-	private final CryptoPortfolioTransformer cryptoPortfolioTransformer;
 	private final UserService userService;
 	private final UserDetailsServiceImpl userDetailsServiceImpl;
 	private final CosmosWebService cosmosWebService;
@@ -61,12 +58,12 @@ public class CryptoPortfolioService extends BaseService {
 	 *
 	 * Create
 	 *
-	 * @param vo
+	 * @param rq
 	 * @return
 	 * @throws IOException
 	 */
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
-	public APIResponse<Long> create(CryptoPortfolioVO vo) {
+	public APIResponse<Long> create(CryptoPortfolioTbl rq) {
 		// Declare result
 		APIResponse<Long> result = new APIResponse<>();
 
@@ -74,11 +71,11 @@ public class CryptoPortfolioService extends BaseService {
 		if (result.getStatus() == null) {
 			List<String> errors = new ArrayList<>();
 
-			if (vo.getToken() == null) {
+			if (rq.getToken() == null) {
 				errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, CryptoPortfolioTblEnum.token.name()));
 			}
 
-			if (StringUtils.isBlank(vo.getWallet())) {
+			if (StringUtils.isBlank(rq.getWallet())) {
 				errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, CryptoPortfolioTblEnum.wallet.name()));
 			}
 
@@ -93,9 +90,9 @@ public class CryptoPortfolioService extends BaseService {
 
 		// Check existence
 		if (result.getStatus() == null) {
-			if (recordIsExisted(loggedUser, vo)) {
+			if (recordIsExisted(loggedUser, rq)) {
 				result = new APIResponse<>(HttpStatus.BAD_REQUEST, ResponseCode.mapParam(ResponseCode.EXISTED_RECORD,
-						" wallet " + vo.getWallet() + "<token " + vo.getToken().getTokenCode() + ">"));
+						" wallet " + rq.getWallet() + "<token " + rq.getToken().getTokenCode() + ">"));
 			}
 		}
 
@@ -104,7 +101,7 @@ public class CryptoPortfolioService extends BaseService {
 		/////////////////////
 		if (result.getStatus() == null) {
 			// Transform
-			CryptoPortfolioTbl tbl = cryptoPortfolioTransformer.convertToTbl(vo);
+			CryptoPortfolioTbl tbl = rq;
 			tbl.setUser(loggedUser);
 
 			// Create
@@ -125,7 +122,7 @@ public class CryptoPortfolioService extends BaseService {
 	 *
 	 * @return
 	 */
-	private boolean recordIsExisted(UserTbl user, CryptoPortfolioVO vo) {
+	private boolean recordIsExisted(UserTbl user, CryptoPortfolioTbl rq) {
 		// Declare result
 		boolean result = false;
 
@@ -134,10 +131,10 @@ public class CryptoPortfolioService extends BaseService {
 		userIdSearch.setEq(user.getId().doubleValue());
 
 		SearchNumberVO tokenIdSearch = new SearchNumberVO();
-		tokenIdSearch.setEq(vo.getToken().getId().doubleValue());
+		tokenIdSearch.setEq(rq.getToken().getId().doubleValue());
 
 		SearchTextVO walletSearch = new SearchTextVO();
-		walletSearch.setEq(vo.getWallet());
+		walletSearch.setEq(rq.getWallet());
 
 		CryptoPortfolioSCO sco = new CryptoPortfolioSCO();
 		sco.setUser(userIdSearch);
@@ -158,11 +155,11 @@ public class CryptoPortfolioService extends BaseService {
 	 *
 	 * Update
 	 *
-	 * @param vo
+	 * @param rq
 	 * @return
 	 */
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
-	public APIResponse<Long> update(CryptoPortfolioVO vo) {
+	public APIResponse<Long> update(CryptoPortfolioTbl rq) {
 		// Declare result
 		APIResponse<Long> result = new APIResponse<>();
 
@@ -170,11 +167,11 @@ public class CryptoPortfolioService extends BaseService {
 		if (result.getStatus() == null) {
 			List<String> errors = new ArrayList<>();
 
-			if (vo.getToken() == null) {
+			if (rq.getToken() == null) {
 				errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, CryptoPortfolioTblEnum.token.name()));
 			}
 
-			if (StringUtils.isBlank(vo.getWallet())) {
+			if (StringUtils.isBlank(rq.getWallet())) {
 				errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, CryptoPortfolioTblEnum.wallet.name()));
 			}
 
@@ -188,39 +185,39 @@ public class CryptoPortfolioService extends BaseService {
 		UserTbl loggedUser = userDetailsServiceImpl.getCurrentLoginUser();
 
 		// Get updated account
-		CryptoPortfolioTbl updateTbl = getTokenPortfolioByUser(loggedUser, vo.getId());
+		CryptoPortfolioTbl updateTbl = getTokenPortfolioByUser(loggedUser, rq.getId());
 		if (updateTbl == null) {
 			result = new APIResponse<>(HttpStatus.BAD_REQUEST, ResponseCode.mapParam(ResponseCode.INEXISTED_RECORD,
-					"portfolio token " + vo.getToken().getTokenCode()));
+					"portfolio token " + rq.getToken().getTokenCode()));
 		}
 
 		// Update
 		if (result.getStatus() == null) {
-			if (!StringUtils.equals(vo.getWallet(), updateTbl.getWallet())) {
-				updateTbl.setWallet(vo.getWallet());
+			if (!StringUtils.equals(rq.getWallet(), updateTbl.getWallet())) {
+				updateTbl.setWallet(rq.getWallet());
 			}
-			if (!StringUtils.equals(vo.getStarname(), updateTbl.getStarname())) {
-				updateTbl.setStarname(vo.getStarname());
-			}
-
-			if (vo.getAmtAvailable() != null) {
-				updateTbl.setAmtAvailable(vo.getAmtAvailable());
+			if (!StringUtils.equals(rq.getStarname(), updateTbl.getStarname())) {
+				updateTbl.setStarname(rq.getStarname());
 			}
 
-			if (vo.getAmtTotalDelegated() != null) {
-				updateTbl.setAmtTotalDelegated(vo.getAmtTotalDelegated());
+			if (rq.getAmtAvailable() != null) {
+				updateTbl.setAmtAvailable(rq.getAmtAvailable());
 			}
 
-			if (vo.getAmtTotalReward() != null) {
-				updateTbl.setAmtTotalReward(vo.getAmtTotalReward());
+			if (rq.getAmtTotalDelegated() != null) {
+				updateTbl.setAmtTotalDelegated(rq.getAmtTotalDelegated());
 			}
 
-			if (vo.getAmtTotalUnbonding() != null) {
-				updateTbl.setAmtTotalUnbonding(vo.getAmtTotalUnbonding());
+			if (rq.getAmtTotalReward() != null) {
+				updateTbl.setAmtTotalReward(rq.getAmtTotalReward());
 			}
 
-			if (vo.getValidator() != null) {
-				updateTbl.setValidator(vo.getValidator());
+			if (rq.getAmtTotalUnbonding() != null) {
+				updateTbl.setAmtTotalUnbonding(rq.getAmtTotalUnbonding());
+			}
+
+			if (rq.getValidator() != null) {
+				updateTbl.setValidator(rq.getValidator());
 			}
 
 			updateTbl.setSyncDate(new Date());
@@ -289,14 +286,18 @@ public class CryptoPortfolioService extends BaseService {
 		Page<CryptoPortfolioTbl> page = cryptoPortfolioRepository.findAll(sco);
 
 		// Transformer
-		PageResultVO<CryptoPortfolioVO> data = cryptoPortfolioTransformer.convertToPageReturn(page);
+		PageResultVO<CryptoPortfolioTbl> data = new PageResultVO<>();
+		if (!CollectionUtils.isEmpty(page.getContent())) {
+			data.setElements(page.getContent());
+			setPageHeader(page, data);
+		}
 
 		// Get data on chain
 		if (CollectionUtils.isNotEmpty(data.getElements())) {
 			int lateTimeSecond = Integer.parseInt(
 					configCache.getValueByKey(DataExternalConstants.CRYPTO_PORTFOLIO_SYNC_ONCHAIN_LATE_TIME_SECOND));
 
-			for (CryptoPortfolioVO item : data.getElements()) {
+			for (CryptoPortfolioTbl item : data.getElements()) {
 				// Get if out update
 				long diffInSecond = (new Date().getTime() - item.getUpdatedDate().getTime()) / 1000;
 				if (diffInSecond > lateTimeSecond) {
@@ -322,7 +323,7 @@ public class CryptoPortfolioService extends BaseService {
 		return result;
 	}
 
-	private void setDataOnChain(CryptoPortfolioVO cryptoPortfolioVO) {
+	private void setDataOnChain(CryptoPortfolioTbl tbl) {
 		DecimalFormat df = new DecimalFormat("#.###");
 		df.setRoundingMode(RoundingMode.CEILING);
 		URIBuilder builder;
@@ -341,8 +342,8 @@ public class CryptoPortfolioService extends BaseService {
 //        }
 
 		try {
-			builder = new URIBuilder(cryptoPortfolioVO.getToken().getNodeUrl()
-					+ CosmosConstants.COSMOS_BANK_V1BETA1_BALANCES + "/" + cryptoPortfolioVO.getWallet());
+			builder = new URIBuilder(
+					tbl.getToken().getNodeUrl() + CosmosConstants.COSMOS_BANK_V1BETA1_BALANCES + "/" + tbl.getWallet());
 			jsonObject = new JSONObject(cosmosWebService.get(builder));
 
 			if (jsonObject.getJSONArray("balances").length() > 0) {
@@ -351,14 +352,13 @@ public class CryptoPortfolioService extends BaseService {
 				for (int i = 0; i < listObject.length(); i++) {
 					String demon = listObject.getJSONObject(i).getString("denom");
 					if (!demon.contains("ibc")) {
-						cryptoPortfolioVO.setAmtAvailable(
-								Double.parseDouble(df.format(listObject.getJSONObject(i).getDouble("amount")
-										/ cryptoPortfolioVO.getToken().getDecimalExponent())));
+						tbl.setAmtAvailable(Double.parseDouble(df.format(listObject.getJSONObject(i).getDouble("amount")
+								/ tbl.getToken().getDecimalExponent())));
 						break;
 					}
 				}
 			} else {
-				cryptoPortfolioVO.setAmtAvailable(Double.valueOf(0));
+				tbl.setAmtAvailable(Double.valueOf(0));
 			}
 		} catch (Exception e) {
 			log.error("setDataOnChain AmtAvailable Error Message: {}", e.getMessage());
@@ -381,16 +381,16 @@ public class CryptoPortfolioService extends BaseService {
 
 		try {
 			builder = new URIBuilder(
-					cryptoPortfolioVO.getToken().getNodeUrl() + CosmosConstants.COSMOS_DISTRIBUTION_V1BETA1_DELEGATORS
-							+ "/" + cryptoPortfolioVO.getWallet() + CosmosConstants.COSMOS_REWARDS);
+					tbl.getToken().getNodeUrl() + CosmosConstants.COSMOS_DISTRIBUTION_V1BETA1_DELEGATORS + "/"
+							+ tbl.getWallet() + CosmosConstants.COSMOS_REWARDS);
 			jsonObject = new JSONObject(cosmosWebService.get(builder));
 
 			if (jsonObject.getJSONArray("total").length() > 0) {
-				cryptoPortfolioVO.setAmtTotalReward(Double
+				tbl.setAmtTotalReward(Double
 						.parseDouble(df.format(jsonObject.getJSONArray("total").getJSONObject(0).getDouble("amount")
-								/ cryptoPortfolioVO.getToken().getDecimalExponent())));
+								/ tbl.getToken().getDecimalExponent())));
 			} else {
-				cryptoPortfolioVO.setAmtTotalReward(Double.valueOf(0));
+				tbl.setAmtTotalReward(Double.valueOf(0));
 			}
 		} catch (Exception e) {
 			log.error("setDataOnChain AmtTotalReward Error Message: {}", e.getMessage());
@@ -425,8 +425,8 @@ public class CryptoPortfolioService extends BaseService {
 //        cryptoPortfolioVO.setAmtTotalDelegated(amtTotalDelegated);
 
 		try {
-			builder = new URIBuilder(cryptoPortfolioVO.getToken().getNodeUrl()
-					+ CosmosConstants.COSMOS_STAKING_V1BETA1_DELEGATION + "/" + cryptoPortfolioVO.getWallet());
+			builder = new URIBuilder(tbl.getToken().getNodeUrl() + CosmosConstants.COSMOS_STAKING_V1BETA1_DELEGATION
+					+ "/" + tbl.getWallet());
 			jsonObject = new JSONObject(cosmosWebService.get(builder));
 
 			List<CryptoPortfolioValidatorDelegationVO> validatorDelegation = objectMapperUtil.readValue(
@@ -441,8 +441,8 @@ public class CryptoPortfolioService extends BaseService {
 				for (CryptoPortfolioValidatorDelegationVO item : validatorDelegation) {
 					Double amount = item.getBalance().getAmount();
 					if (amount > 0) {
-						amtTotalDelegated = amtTotalDelegated + Double
-								.parseDouble(df.format(amount / cryptoPortfolioVO.getToken().getDecimalExponent()));
+						amtTotalDelegated = amtTotalDelegated
+								+ Double.parseDouble(df.format(amount / tbl.getToken().getDecimalExponent()));
 						if (amount > maxAmount) {
 							maxAmount = amount;
 							validatorAddress = item.getDelegation().getValidator_address();
@@ -450,12 +450,11 @@ public class CryptoPortfolioService extends BaseService {
 					}
 				}
 			}
-			cryptoPortfolioVO.setAmtTotalDelegated(amtTotalDelegated);
+			tbl.setAmtTotalDelegated(amtTotalDelegated);
 
 			// Get validator info
 			if (validatorAddress != null) {
-				cryptoPortfolioVO
-						.setValidator(cryptoValidatorService.getValidator(validatorAddress, cryptoPortfolioVO));
+				tbl.setValidator(cryptoValidatorService.getValidator(validatorAddress, tbl));
 			}
 		} catch (Exception e) {
 			log.error("setDataOnChain AmtTotalDelegated Error Message: {}", e.getMessage());
@@ -476,8 +475,7 @@ public class CryptoPortfolioService extends BaseService {
 		// Check existence
 		Optional<CryptoPortfolioTbl> CryptoPortfolioTbl = cryptoPortfolioRepository.findById(id);
 		if (CryptoPortfolioTbl.isPresent()) {
-			CryptoPortfolioVO vo = cryptoPortfolioTransformer.convertToVO(CryptoPortfolioTbl.get());
-			result.setData(vo);
+			result.setData(CryptoPortfolioTbl.get());
 		} else {
 			result = new APIResponse<>(HttpStatus.BAD_REQUEST,
 					ResponseCode.mapParam(ResponseCode.INEXISTED_RECORD, "token"));
