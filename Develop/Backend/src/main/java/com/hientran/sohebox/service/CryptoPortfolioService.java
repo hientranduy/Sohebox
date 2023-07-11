@@ -309,6 +309,7 @@ public class CryptoPortfolioService extends BaseService {
 							this.update(item);
 						}
 					} catch (Exception e) {
+						e.printStackTrace();
 						return new APIResponse<>(HttpStatus.BAD_REQUEST,
 								ResponseCode.mapParam(ResponseCode.ERROR_EXCEPTION, e.getMessage()));
 					}
