@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.hientran.sohebox.cache.ConfigCache;
 import com.hientran.sohebox.constants.ApiPublicConstants;
-import com.hientran.sohebox.dto.ConfigVO;
 import com.hientran.sohebox.dto.response.APIResponse;
+import com.hientran.sohebox.entity.ConfigTbl;
 import com.hientran.sohebox.restcontroller.BaseRestController;
 import com.hientran.sohebox.sco.ConfigSCO;
 
@@ -42,8 +42,8 @@ public class ConfigController extends BaseRestController {
 	 * Update
 	 */
 	@PutMapping(ApiPublicConstants.API_CONFIG)
-	public ResponseEntity<?> update(@Validated @RequestBody ConfigVO vo) {
-		APIResponse<?> result = configCache.update(vo);
+	public ResponseEntity<?> update(@Validated @RequestBody ConfigTbl request) {
+		APIResponse<?> result = configCache.update(request);
 
 		// Return
 		return new ResponseEntity<>(result, new HttpHeaders(),
@@ -54,9 +54,9 @@ public class ConfigController extends BaseRestController {
 	 * Create
 	 */
 	@PostMapping(ApiPublicConstants.API_CONFIG)
-	public ResponseEntity<?> create(@Validated @RequestBody ConfigVO vo) {
+	public ResponseEntity<?> create(@Validated @RequestBody ConfigTbl request) {
 		// Create Account
-		APIResponse<?> result = configCache.create(vo);
+		APIResponse<?> result = configCache.create(request);
 
 		// Return
 		return new ResponseEntity<>(result, new HttpHeaders(),

@@ -9,14 +9,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.hientran.sohebox.dto.EnglishLearnReportVO;
 import com.hientran.sohebox.dto.PageResultVO;
 import com.hientran.sohebox.dto.response.APIResponse;
 import com.hientran.sohebox.entity.EnglishLearnReportTbl;
 import com.hientran.sohebox.entity.UserTbl;
 import com.hientran.sohebox.repository.EnglishLearnReportRepository;
 import com.hientran.sohebox.sco.EnglishLearnReportSCO;
-import com.hientran.sohebox.transformer.EnglishLearnReportTransformer;
 import com.hientran.sohebox.utils.MyDateUtils;
 
 import lombok.RequiredArgsConstructor;
@@ -26,29 +24,28 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class EnglishLearnReportService extends BaseService {
 	private final EnglishLearnReportRepository englishLearnReportRepository;
-	private final EnglishLearnReportTransformer englishLearnReportTransformer;
 	private final UserService userService;
 
 	/**
 	 *
 	 * Count learn
 	 *
-	 * @param vo
+	 * @param rq
 	 * @return
 	 */
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
-	public APIResponse<Long> add(EnglishLearnReportVO vo) {
+	public APIResponse<Long> add(EnglishLearnReportTbl rq) {
 		// Declare result
 		APIResponse<Long> result = new APIResponse<>();
 
 		// Get user
-		UserTbl userTbl = userService.getTblByUserName(vo.getUser().getUsername());
+		UserTbl userTbl = userService.getTblByUserName(rq.getUser().getUsername());
 
 		// Insert
 		EnglishLearnReportTbl tbl = new EnglishLearnReportTbl();
 		tbl.setUser(userTbl);
-		tbl.setLearnedDate(vo.getLearnedDate());
-		tbl.setLearnedTotal(vo.getLearnedTotal());
+		tbl.setLearnedDate(rq.getLearnedDate());
+		tbl.setLearnedTotal(rq.getLearnedTotal());
 		tbl = englishLearnReportRepository.save(tbl);
 
 		// Return
@@ -74,7 +71,11 @@ public class EnglishLearnReportService extends BaseService {
 			Page<EnglishLearnReportTbl> page = englishLearnReportRepository.findAll(sco);
 
 			// Transformer
-			PageResultVO<EnglishLearnReportVO> data = englishLearnReportTransformer.convertToPageReturn(page);
+			PageResultVO<EnglishLearnReportTbl> data = new PageResultVO<>();
+			if (!CollectionUtils.isEmpty(page.getContent())) {
+				data.setElements(page.getContent());
+				setPageHeader(page, data);
+			}
 
 			// Set data return
 			result.setData(data);

@@ -14,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.hientran.sohebox.cache.TypeCache;
 import com.hientran.sohebox.constants.DBConstants;
 import com.hientran.sohebox.dto.PageResultVO;
-import com.hientran.sohebox.dto.TradingSymbolVO;
 import com.hientran.sohebox.dto.response.APIResponse;
 import com.hientran.sohebox.dto.response.ResponseCode;
 import com.hientran.sohebox.entity.CountryTbl;
@@ -23,7 +22,6 @@ import com.hientran.sohebox.repository.TradingSymbolRepository;
 import com.hientran.sohebox.sco.SearchTextVO;
 import com.hientran.sohebox.sco.TradingSymbolSCO;
 import com.hientran.sohebox.specification.TradingSymbolSpecs.TradingSymbolTblEnum;
-import com.hientran.sohebox.transformer.TradingSymbolTransformer;
 
 import lombok.RequiredArgsConstructor;
 
@@ -33,7 +31,6 @@ import lombok.RequiredArgsConstructor;
 public class TradingSymbolService extends BaseService {
 
 	private final TradingSymbolRepository tradingSymbolRepository;
-	private final TradingSymbolTransformer tradingSymbolTransformer;
 	private final CountryService countryService;
 	private final TypeCache typeCache;
 
@@ -41,12 +38,12 @@ public class TradingSymbolService extends BaseService {
 	 *
 	 * Create
 	 *
-	 * @param vo
+	 * @param rq
 	 * @return
 	 * @throws IOException
 	 */
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
-	public APIResponse<Long> create(TradingSymbolVO vo) {
+	public APIResponse<Long> create(TradingSymbolTbl rq) {
 		// Declare result
 		APIResponse<Long> result = new APIResponse<>();
 
@@ -55,22 +52,22 @@ public class TradingSymbolService extends BaseService {
 			List<String> errors = new ArrayList<>();
 
 			// Symbol
-			if (StringUtils.isBlank(vo.getSymbol())) {
+			if (StringUtils.isBlank(rq.getSymbol())) {
 				errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, TradingSymbolTblEnum.symbol.name()));
 			}
 
 			// Name
-			if (StringUtils.isBlank(vo.getName())) {
+			if (StringUtils.isBlank(rq.getName())) {
 				errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, TradingSymbolTblEnum.name.name()));
 			}
 
 			// Symbol type
-			if (vo.getSymbolType() == null) {
+			if (rq.getSymbolType() == null) {
 				errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, TradingSymbolTblEnum.symbolType.name()));
 			}
 
 			// Country
-			if (vo.getCountry() == null) {
+			if (rq.getCountry() == null) {
 				errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, TradingSymbolTblEnum.country.name()));
 			}
 
@@ -82,9 +79,9 @@ public class TradingSymbolService extends BaseService {
 
 		// Check if record existed already
 		if (result.getStatus() == null) {
-			if (recordIsExisted(vo.getSymbol())) {
+			if (recordIsExisted(rq.getSymbol())) {
 				result = new APIResponse<>(HttpStatus.BAD_REQUEST,
-						ResponseCode.mapParam(ResponseCode.EXISTED_RECORD, "symbol <" + vo.getSymbol() + ">"));
+						ResponseCode.mapParam(ResponseCode.EXISTED_RECORD, "symbol <" + rq.getSymbol() + ">"));
 			}
 		}
 
@@ -93,14 +90,14 @@ public class TradingSymbolService extends BaseService {
 		/////////////////////
 		if (result.getStatus() == null) {
 			// Transform
-			TradingSymbolTbl tbl = tradingSymbolTransformer.convertToTbl(vo);
+			TradingSymbolTbl tbl = rq;
 
 			// Set symbol type
 			tbl.setSymbolType(
-					typeCache.getType(DBConstants.TYPE_CLASS_TRADING_SYMBOL_TYPE, vo.getSymbolType().getTypeCode()));
+					typeCache.getType(DBConstants.TYPE_CLASS_TRADING_SYMBOL_TYPE, rq.getSymbolType().getTypeCode()));
 
 			// Set country
-			CountryTbl country = countryService.get(vo.getCountry().getName());
+			CountryTbl country = countryService.get(rq.getCountry().getName());
 			tbl.setCountry(country);
 
 			// Create User
@@ -130,7 +127,11 @@ public class TradingSymbolService extends BaseService {
 		Page<TradingSymbolTbl> page = tradingSymbolRepository.findAll(sco);
 
 		// Transformer
-		PageResultVO<TradingSymbolVO> data = tradingSymbolTransformer.convertToPageReturn(page);
+		PageResultVO<TradingSymbolTbl> data = new PageResultVO<>();
+		if (!CollectionUtils.isEmpty(page.getContent())) {
+			data.setElements(page.getContent());
+			setPageHeader(page, data);
+		}
 
 		// Set data return
 		result.setData(data);

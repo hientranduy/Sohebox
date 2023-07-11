@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.hientran.sohebox.constants.ApiPublicConstants;
 import com.hientran.sohebox.dto.DownloadFileVO;
-import com.hientran.sohebox.dto.EnglishLearnRecordVO;
-import com.hientran.sohebox.dto.EnglishUserGradeVO;
 import com.hientran.sohebox.dto.EnglishVO;
 import com.hientran.sohebox.dto.response.APIResponse;
+import com.hientran.sohebox.entity.EnglishLearnRecordTbl;
+import com.hientran.sohebox.entity.EnglishUserGradeTbl;
 import com.hientran.sohebox.sco.EnglishLearnRecordSCO;
 import com.hientran.sohebox.sco.EnglishLearnReportSCO;
 import com.hientran.sohebox.sco.EnglishSCO;
@@ -132,9 +132,9 @@ public class EnglishRestController extends BaseRestController {
 	 * @return
 	 */
 	@PutMapping(ApiPublicConstants.API_ENGLISH + ApiPublicConstants.API_ENGLISH_LEARN_RECORD + ApiPublicConstants.ADD)
-	public ResponseEntity<?> addLearn(@Validated @RequestBody EnglishLearnRecordVO vo) {
+	public ResponseEntity<?> addLearn(@Validated @RequestBody EnglishLearnRecordTbl request) {
 		// Update Account
-		APIResponse<?> result = englishLearnRecordService.addLearn(vo);
+		APIResponse<?> result = englishLearnRecordService.addLearn(request);
 
 		// Return
 		return new ResponseEntity<>(result, new HttpHeaders(),
@@ -184,9 +184,9 @@ public class EnglishRestController extends BaseRestController {
 	 * @return
 	 */
 	@PutMapping(ApiPublicConstants.API_ENGLISH + ApiPublicConstants.API_ENGLISH_USER_GRADE + ApiPublicConstants.SET)
-	public ResponseEntity<?> setEnglishUserGrade(@Validated @RequestBody EnglishUserGradeVO vo) {
+	public ResponseEntity<?> setEnglishUserGrade(@Validated @RequestBody EnglishUserGradeTbl request) {
 		// Update Account
-		APIResponse<?> result = englishUserGradeService.setEnglishUserGrade(vo);
+		APIResponse<?> result = englishUserGradeService.setEnglishUserGrade(request);
 
 		// Return
 		return new ResponseEntity<>(result, new HttpHeaders(),

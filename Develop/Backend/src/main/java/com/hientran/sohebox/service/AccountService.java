@@ -13,11 +13,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.hientran.sohebox.authentication.UserDetailsServiceImpl;
-import com.hientran.sohebox.cache.TypeCache;
 import com.hientran.sohebox.constants.DBConstants;
 import com.hientran.sohebox.dto.AccountVO;
 import com.hientran.sohebox.dto.PageResultVO;
-import com.hientran.sohebox.dto.TypeVO;
 import com.hientran.sohebox.dto.UserVO;
 import com.hientran.sohebox.dto.response.APIResponse;
 import com.hientran.sohebox.dto.response.ResponseCode;
@@ -44,7 +42,6 @@ public class AccountService extends BaseService {
 	private final MdpService mdpService;
 	private final UserService userService;
 	private final UserDetailsServiceImpl userDetailsServiceImpl;
-	private final TypeCache typeCache;
 	private final UserActivityService userActivityService;
 	private final TypeRepository typeRepository;
 
@@ -212,7 +209,7 @@ public class AccountService extends BaseService {
 	 * @param accountName
 	 * @return
 	 */
-	private boolean recordIsExisted(UserTbl user, TypeVO accountType, String accountName) {
+	private boolean recordIsExisted(UserTbl user, TypeTbl accountType, String accountName) {
 		// Declare result
 		boolean result = false;
 

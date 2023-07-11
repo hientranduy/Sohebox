@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hientran.sohebox.constants.ApiPublicConstants;
-import com.hientran.sohebox.dto.TradingSymbolVO;
 import com.hientran.sohebox.dto.response.APIResponse;
+import com.hientran.sohebox.entity.TradingSymbolTbl;
 import com.hientran.sohebox.service.TradingSymbolService;
 
 import lombok.RequiredArgsConstructor;
@@ -29,9 +29,9 @@ public class TradingSymbolRestController extends BaseRestController {
 	 * @return
 	 */
 	@PostMapping(ApiPublicConstants.API_TRADING_SYMBOL)
-	public ResponseEntity<?> create(@Validated @RequestBody TradingSymbolVO vo) {
+	public ResponseEntity<?> create(@Validated @RequestBody TradingSymbolTbl request) {
 		// Create TradingSymbol
-		APIResponse<?> result = tradingSymbolService.create(vo);
+		APIResponse<?> result = tradingSymbolService.create(request);
 
 		// Return
 		return new ResponseEntity<>(result, new HttpHeaders(),

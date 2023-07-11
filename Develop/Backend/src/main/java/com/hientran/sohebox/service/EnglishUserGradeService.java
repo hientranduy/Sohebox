@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.hientran.sohebox.cache.EnglishTypeCache;
 import com.hientran.sohebox.constants.DBConstants;
-import com.hientran.sohebox.dto.EnglishUserGradeVO;
 import com.hientran.sohebox.dto.PageResultVO;
 import com.hientran.sohebox.dto.response.APIResponse;
 import com.hientran.sohebox.dto.response.ResponseCode;
@@ -22,7 +21,6 @@ import com.hientran.sohebox.repository.EnglishUserGradeRepository;
 import com.hientran.sohebox.sco.EnglishUserGradeSCO;
 import com.hientran.sohebox.sco.SearchNumberVO;
 import com.hientran.sohebox.specification.EnglishUserGradeSpecs.EnglishUserGradeTblEnum;
-import com.hientran.sohebox.transformer.EnglishUserGradeTransformer;
 
 import lombok.RequiredArgsConstructor;
 
@@ -31,7 +29,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class EnglishUserGradeService extends BaseService {
 	private final EnglishUserGradeRepository EnglishUserGradeRepository;
-	private final EnglishUserGradeTransformer EnglishUserGradeTransformer;
 	private final UserService userService;
 	private final EnglishTypeCache englishTypeCache;
 
@@ -39,11 +36,11 @@ public class EnglishUserGradeService extends BaseService {
 	 *
 	 * Set english user grade
 	 *
-	 * @param vo
+	 * @param rq
 	 * @return id
 	 */
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
-	public APIResponse<Long> setEnglishUserGrade(EnglishUserGradeVO vo) {
+	public APIResponse<Long> setEnglishUserGrade(EnglishUserGradeTbl rq) {
 		// Declare result
 		APIResponse<Long> result = new APIResponse<>();
 
@@ -52,17 +49,17 @@ public class EnglishUserGradeService extends BaseService {
 			List<String> errors = new ArrayList<>();
 
 			// user must not null
-			if (vo.getUser() == null) {
+			if (rq.getUser() == null) {
 				errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, EnglishUserGradeTblEnum.user.name()));
 			}
 
 			// grade must not null
-			if (vo.getVusGrade() == null) {
+			if (rq.getVusGrade() == null) {
 				errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, EnglishUserGradeTblEnum.vusGrade.name()));
 			}
 
 			// learn day must not null
-			if (vo.getLearnDay() == null) {
+			if (rq.getLearnDay() == null) {
 				errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, EnglishUserGradeTblEnum.learnDay.name()));
 			}
 
@@ -73,14 +70,14 @@ public class EnglishUserGradeService extends BaseService {
 		}
 
 		// Validate in-existed input user
-		UserTbl userTbl = userService.getTblByUserName(vo.getUser().getUsername());
+		UserTbl userTbl = userService.getTblByUserName(rq.getUser().getUsername());
 		if (result.getStatus() == null && userTbl == null) {
 			result = new APIResponse<>(HttpStatus.BAD_REQUEST,
-					ResponseCode.mapParam(ResponseCode.INEXISTED_USERNAME, vo.getUser().getUsername()));
+					ResponseCode.mapParam(ResponseCode.INEXISTED_USERNAME, rq.getUser().getUsername()));
 		}
 
 		// Check if logged user is the same input user
-		if (result.getStatus() == null && !userService.isDataOwner(vo.getUser().getUsername())) {
+		if (result.getStatus() == null && !userService.isDataOwner(rq.getUser().getUsername())) {
 			result = new APIResponse<>(HttpStatus.BAD_REQUEST,
 					ResponseCode.mapParam(ResponseCode.UNAUTHORIZED_DATA, null));
 		}
@@ -91,11 +88,11 @@ public class EnglishUserGradeService extends BaseService {
 
 			// Get grade
 			EnglishTypeTbl vusGrade = englishTypeCache.getType(DBConstants.TYPE_CLASS_ENGLISH_VUS_GRADE,
-					vo.getVusGrade().getTypeCode());
+					rq.getVusGrade().getTypeCode());
 
 			// Get learn day
 			EnglishTypeTbl learnDay = englishTypeCache.getType(DBConstants.TYPE_CLASS_ENGLISH_LEARN_DAY,
-					vo.getLearnDay().getTypeCode());
+					rq.getLearnDay().getTypeCode());
 
 			if (tbl == null) {
 				tbl = new EnglishUserGradeTbl();
@@ -156,7 +153,11 @@ public class EnglishUserGradeService extends BaseService {
 		Page<EnglishUserGradeTbl> page = EnglishUserGradeRepository.findAll(sco);
 
 		// Transformer
-		PageResultVO<EnglishUserGradeVO> data = EnglishUserGradeTransformer.convertToPageReturn(page);
+		PageResultVO<EnglishUserGradeTbl> data = new PageResultVO<>();
+		if (!CollectionUtils.isEmpty(page.getContent())) {
+			data.setElements(page.getContent());
+			setPageHeader(page, data);
+		}
 
 		// Set data return
 		result.setData(data);

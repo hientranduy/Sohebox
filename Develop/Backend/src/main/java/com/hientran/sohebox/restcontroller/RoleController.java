@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hientran.sohebox.constants.ApiPublicConstants;
-import com.hientran.sohebox.dto.RoleVO;
 import com.hientran.sohebox.dto.response.ResponseWithBody;
 import com.hientran.sohebox.entity.RoleTbl;
 import com.hientran.sohebox.service.RoleService;
@@ -26,7 +25,7 @@ public class RoleController extends BaseRestController {
 	private final RoleService roleService;
 
 	@PostMapping(ApiPublicConstants.API_ROLE + ApiPublicConstants.ADD)
-	public ResponseEntity<?> create(@Validated @RequestBody List<RoleVO> voList) {
+	public ResponseEntity<?> create(@Validated @RequestBody List<RoleTbl> voList) {
 		List<RoleTbl> roleTbls = roleService.create(voList);
 
 		// Return

@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hientran.sohebox.constants.ApiPublicConstants;
-import com.hientran.sohebox.dto.CryptoPortfolioVO;
 import com.hientran.sohebox.dto.response.APIResponse;
+import com.hientran.sohebox.entity.CryptoPortfolioTbl;
 import com.hientran.sohebox.sco.CryptoPortfolioHistorySCO;
 import com.hientran.sohebox.sco.CryptoPortfolioSCO;
 import com.hientran.sohebox.service.CryptoPortfolioHistoryService;
@@ -33,9 +33,9 @@ public class CryptoPortfolioRestController extends BaseRestController {
 	 * Add new
 	 */
 	@PostMapping(ApiPublicConstants.API_CRYPTO_PORTFOLIO)
-	public ResponseEntity<?> create(@Validated @RequestBody CryptoPortfolioVO vo) {
+	public ResponseEntity<?> create(@Validated @RequestBody CryptoPortfolioTbl request) {
 		// Create Account
-		APIResponse<?> result = cryptoPortfolioService.create(vo);
+		APIResponse<?> result = cryptoPortfolioService.create(request);
 
 		// Return
 		return new ResponseEntity<>(result, new HttpHeaders(),
@@ -46,9 +46,9 @@ public class CryptoPortfolioRestController extends BaseRestController {
 	 * Update
 	 */
 	@PutMapping(ApiPublicConstants.API_CRYPTO_PORTFOLIO)
-	public ResponseEntity<?> update(@Validated @RequestBody CryptoPortfolioVO vo) {
+	public ResponseEntity<?> update(@Validated @RequestBody CryptoPortfolioTbl request) {
 		// Update Account
-		APIResponse<?> result = cryptoPortfolioService.update(vo);
+		APIResponse<?> result = cryptoPortfolioService.update(request);
 
 		// Return
 		return new ResponseEntity<>(result, new HttpHeaders(),

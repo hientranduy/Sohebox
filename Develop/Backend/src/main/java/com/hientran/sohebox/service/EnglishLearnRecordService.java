@@ -11,7 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.hientran.sohebox.dto.EnglishLearnRecordVO;
 import com.hientran.sohebox.dto.PageResultVO;
 import com.hientran.sohebox.dto.response.APIResponse;
 import com.hientran.sohebox.dto.response.ResponseCode;
@@ -22,7 +21,6 @@ import com.hientran.sohebox.repository.EnglishLearnRecordRepository;
 import com.hientran.sohebox.sco.EnglishLearnRecordSCO;
 import com.hientran.sohebox.sco.SearchNumberVO;
 import com.hientran.sohebox.specification.EnglishLearnRecordSpecs.EnglishLearnRecordTblEnum;
-import com.hientran.sohebox.transformer.EnglishLearnRecordTransformer;
 
 import lombok.RequiredArgsConstructor;
 
@@ -31,7 +29,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class EnglishLearnRecordService extends BaseService {
 	private final EnglishLearnRecordRepository englishLearnRecordRepository;
-	private final EnglishLearnRecordTransformer englishLearnRecordTransformer;
 	private final UserService userService;
 	private final EnglishService englishService;
 
@@ -39,11 +36,11 @@ public class EnglishLearnRecordService extends BaseService {
 	 *
 	 * Count learn
 	 *
-	 * @param vo
+	 * @param rq
 	 * @return
 	 */
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
-	public APIResponse<Long> addLearn(EnglishLearnRecordVO vo) {
+	public APIResponse<Long> addLearn(EnglishLearnRecordTbl rq) {
 		// Declare result
 		APIResponse<Long> result = new APIResponse<>();
 
@@ -52,12 +49,12 @@ public class EnglishLearnRecordService extends BaseService {
 			List<String> errors = new ArrayList<>();
 
 			// user must not null
-			if (vo.getUser() == null) {
+			if (rq.getUser() == null) {
 				errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, EnglishLearnRecordTblEnum.user.name()));
 			}
 
 			// english must not null
-			if (vo.getEnglish() == null) {
+			if (rq.getEnglish() == null) {
 				errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, EnglishLearnRecordTblEnum.english.name()));
 			}
 
@@ -68,17 +65,17 @@ public class EnglishLearnRecordService extends BaseService {
 		}
 
 		// Check if user is existed
-		UserTbl userTbl = userService.getTblByUserName(vo.getUser().getUsername());
+		UserTbl userTbl = userService.getTblByUserName(rq.getUser().getUsername());
 		if (result.getStatus() == null && userTbl == null) {
 			result = new APIResponse<>(HttpStatus.BAD_REQUEST,
-					ResponseCode.mapParam(ResponseCode.INEXISTED_USERNAME, vo.getUser().getUsername()));
+					ResponseCode.mapParam(ResponseCode.INEXISTED_USERNAME, rq.getUser().getUsername()));
 		}
 
 		// Check if english word is existed
-		EnglishTbl englishTbl = englishService.getByKey(vo.getEnglish().getKeyWord());
+		EnglishTbl englishTbl = englishService.getByKey(rq.getEnglish().getKeyWord());
 		if (result.getStatus() == null && englishTbl == null) {
 			result = new APIResponse<>(HttpStatus.BAD_REQUEST,
-					ResponseCode.mapParam(ResponseCode.INEXISTED_RECORD, vo.getEnglish().getKeyWord()));
+					ResponseCode.mapParam(ResponseCode.INEXISTED_RECORD, rq.getEnglish().getKeyWord()));
 		}
 
 		// Get the old record
@@ -169,7 +166,11 @@ public class EnglishLearnRecordService extends BaseService {
 			Page<EnglishLearnRecordTbl> page = englishLearnRecordRepository.findAll(sco);
 
 			// Transformer
-			PageResultVO<EnglishLearnRecordVO> data = englishLearnRecordTransformer.convertToPageReturn(page);
+			PageResultVO<EnglishLearnRecordTbl> data = new PageResultVO<>();
+			if (!CollectionUtils.isEmpty(page.getContent())) {
+				data.setElements(page.getContent());
+				setPageHeader(page, data);
+			}
 
 			// Set data return
 			result.setData(data);

@@ -16,11 +16,11 @@ export class ErrorInterceptor implements HttpInterceptor {
                     error = err.error.message || err.error.errors || err.statusText;
 
                     // auto logout if 401 response returned from api
-                    this.authenticationService.logout();
-                    if (!err.message.includes('/users/login')) {
-                        // Reload to return to login page
-                        location.reload();
-                    }
+                    // this.authenticationService.logout();
+                    // if (!err.message.includes('/users/login')) {
+                    //     // Reload to return to login page
+                    //     location.reload();
+                    // }
                     break;
 
                 case err.statusText === 'Unknown Error':

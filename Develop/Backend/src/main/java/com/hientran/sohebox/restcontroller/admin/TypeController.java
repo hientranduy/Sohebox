@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.hientran.sohebox.cache.TypeCache;
 import com.hientran.sohebox.constants.ApiPublicConstants;
-import com.hientran.sohebox.dto.TypeVO;
 import com.hientran.sohebox.dto.response.APIResponse;
+import com.hientran.sohebox.entity.TypeTbl;
 import com.hientran.sohebox.restcontroller.BaseRestController;
 import com.hientran.sohebox.sco.TypeSCO;
 
@@ -28,9 +28,9 @@ public class TypeController extends BaseRestController {
 	 * Create
 	 */
 	@PostMapping(ApiPublicConstants.API_TYPE)
-	public ResponseEntity<?> create(@Validated @RequestBody TypeVO vo) {
+	public ResponseEntity<?> create(@Validated @RequestBody TypeTbl request) {
 		// Create Account
-		APIResponse<?> result = typeCache.create(vo);
+		APIResponse<?> result = typeCache.create(request);
 
 		// Return
 		return new ResponseEntity<>(result, new HttpHeaders(),
@@ -41,8 +41,8 @@ public class TypeController extends BaseRestController {
 	 * Update
 	 */
 	@PutMapping(ApiPublicConstants.API_TYPE)
-	public ResponseEntity<?> update(@Validated @RequestBody TypeVO vo) {
-		APIResponse<?> result = typeCache.update(vo);
+	public ResponseEntity<?> update(@Validated @RequestBody TypeTbl request) {
+		APIResponse<?> result = typeCache.update(request);
 
 		// Return
 		return new ResponseEntity<>(result, new HttpHeaders(),

@@ -13,7 +13,6 @@ import org.springframework.util.CollectionUtils;
 
 import com.hientran.sohebox.constants.DBConstants;
 import com.hientran.sohebox.dto.PageResultVO;
-import com.hientran.sohebox.dto.TypeVO;
 import com.hientran.sohebox.dto.response.APIResponse;
 import com.hientran.sohebox.dto.response.ResponseCode;
 import com.hientran.sohebox.entity.TypeTbl;
@@ -77,17 +76,17 @@ public class TypeCache extends BaseTransformer {
 	 * Create new
 	 */
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
-	public APIResponse<Long> create(TypeVO vo) {
+	public APIResponse<Long> create(TypeTbl rq) {
 
 		// Validate input
 		List<String> errors = new ArrayList<>();
-		if (StringUtils.isBlank(vo.getTypeClass())) {
+		if (StringUtils.isBlank(rq.getTypeClass())) {
 			errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, TypeTblEnum.typeClass.name()));
 		}
-		if (StringUtils.isBlank(vo.getTypeCode())) {
+		if (StringUtils.isBlank(rq.getTypeCode())) {
 			errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, TypeTblEnum.typeCode.name()));
 		}
-		if (StringUtils.isBlank(vo.getTypeName())) {
+		if (StringUtils.isBlank(rq.getTypeName())) {
 			errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, TypeTblEnum.typeName.name()));
 		}
 		if (!CollectionUtils.isEmpty(errors)) {
@@ -95,8 +94,8 @@ public class TypeCache extends BaseTransformer {
 		}
 
 		// Valid existed record
-		TypeTbl tblSearch = typeRepository.findFirstByTypeClassAndTypeCode(formatTypeClass(vo.getTypeClass()),
-				formatTypeCode(vo.getTypeCode()));
+		TypeTbl tblSearch = typeRepository.findFirstByTypeClassAndTypeCode(formatTypeClass(rq.getTypeClass()),
+				formatTypeCode(rq.getTypeCode()));
 		if (tblSearch != null) {
 			return new APIResponse<>(HttpStatus.BAD_REQUEST,
 					ResponseCode.mapParam(ResponseCode.EXISTED_RECORD, "typeCode/typeClass"));
@@ -104,12 +103,12 @@ public class TypeCache extends BaseTransformer {
 
 		// Create new type
 		TypeTbl tbl = new TypeTbl();
-		tbl.setTypeClass(formatTypeClass(vo.getTypeClass()));
-		tbl.setTypeCode(formatTypeCode(vo.getTypeCode()));
-		tbl.setTypeName(vo.getTypeCode().substring(0, 1).toUpperCase() + vo.getTypeCode().substring(1).toLowerCase());
-		tbl.setDescription(vo.getDescription());
-		tbl.setIconUrl(vo.getIconUrl());
-		tbl.setUrl(vo.getUrl());
+		tbl.setTypeClass(formatTypeClass(rq.getTypeClass()));
+		tbl.setTypeCode(formatTypeCode(rq.getTypeCode()));
+		tbl.setTypeName(rq.getTypeCode().substring(0, 1).toUpperCase() + rq.getTypeCode().substring(1).toLowerCase());
+		tbl.setDescription(rq.getDescription());
+		tbl.setIconUrl(rq.getIconUrl());
+		tbl.setUrl(rq.getUrl());
 		tbl = typeRepository.save(tbl);
 
 		// Return
@@ -122,17 +121,17 @@ public class TypeCache extends BaseTransformer {
 	 * Update
 	 */
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
-	public APIResponse<Long> update(TypeVO vo) {
+	public APIResponse<Long> update(TypeTbl rq) {
 
 		// Validate input
 		List<String> errors = new ArrayList<>();
-		if (StringUtils.isBlank(vo.getTypeClass())) {
+		if (StringUtils.isBlank(rq.getTypeClass())) {
 			errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, TypeTblEnum.typeClass.name()));
 		}
-		if (StringUtils.isBlank(vo.getTypeCode())) {
+		if (StringUtils.isBlank(rq.getTypeCode())) {
 			errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, TypeTblEnum.typeCode.name()));
 		}
-		if (StringUtils.isBlank(vo.getTypeName())) {
+		if (StringUtils.isBlank(rq.getTypeName())) {
 			errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, TypeTblEnum.typeName.name()));
 		}
 		if (!CollectionUtils.isEmpty(errors)) {
@@ -140,28 +139,28 @@ public class TypeCache extends BaseTransformer {
 		}
 
 		// Search old record
-		TypeTbl tbl = typeRepository.findFirstByTypeClassAndTypeCode(formatTypeClass(vo.getTypeClass()),
-				formatTypeCode(vo.getTypeCode()));
+		TypeTbl tbl = typeRepository.findFirstByTypeClassAndTypeCode(formatTypeClass(rq.getTypeClass()),
+				formatTypeCode(rq.getTypeCode()));
 		if (tbl == null) {
 			return new APIResponse<>(HttpStatus.BAD_REQUEST,
 					ResponseCode.mapParam(ResponseCode.INEXISTED_RECORD, "typeCode/typeClass"));
 		}
 
 		// Update
-		if (vo.getTypeCode() != null) {
-			tbl.setTypeCode(formatTypeCode(vo.getTypeCode()));
+		if (rq.getTypeCode() != null) {
+			tbl.setTypeCode(formatTypeCode(rq.getTypeCode()));
 		}
-		if (vo.getTypeName() != null) {
-			tbl.setTypeName(vo.getTypeName());
+		if (rq.getTypeName() != null) {
+			tbl.setTypeName(rq.getTypeName());
 		}
-		if (vo.getDescription() != null) {
-			tbl.setDescription(vo.getDescription());
+		if (rq.getDescription() != null) {
+			tbl.setDescription(rq.getDescription());
 		}
-		if (vo.getIconUrl() != null) {
-			tbl.setIconUrl(vo.getIconUrl());
+		if (rq.getIconUrl() != null) {
+			tbl.setIconUrl(rq.getIconUrl());
 		}
-		if (vo.getUrl() != null) {
-			tbl.setUrl(vo.getUrl());
+		if (rq.getUrl() != null) {
+			tbl.setUrl(rq.getUrl());
 		}
 
 		APIResponse<Long> result = new APIResponse<>();

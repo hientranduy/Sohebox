@@ -9,9 +9,9 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import com.hientran.sohebox.authentication.UserDetailsServiceImpl;
-import com.hientran.sohebox.dto.CryptoPortfolioHistoryVO;
 import com.hientran.sohebox.dto.PageResultVO;
 import com.hientran.sohebox.dto.response.APIResponse;
 import com.hientran.sohebox.entity.CryptoPortfolioHistoryTbl;
@@ -23,7 +23,6 @@ import com.hientran.sohebox.repository.CryptoPortfolioRepository;
 import com.hientran.sohebox.sco.CryptoPortfolioHistorySCO;
 import com.hientran.sohebox.sco.SearchDateVO;
 import com.hientran.sohebox.sco.SearchNumberVO;
-import com.hientran.sohebox.transformer.CryptoPortfolioHistoryTransformer;
 
 import lombok.RequiredArgsConstructor;
 
@@ -33,7 +32,6 @@ import lombok.RequiredArgsConstructor;
 public class CryptoPortfolioHistoryService extends BaseService {
 	private final CryptoPortfolioHistoryRepository cryptoPortfolioHistoryRepository;
 	private final CryptoPortfolioRepository cryptoPortfolioRepository;
-	private final CryptoPortfolioHistoryTransformer cryptoPortfolioHistoryTransformer;
 	private final UserDetailsServiceImpl userService;
 
 	DecimalFormat df = new DecimalFormat("#.###");
@@ -152,27 +150,6 @@ public class CryptoPortfolioHistoryService extends BaseService {
 
 	}
 
-	/**
-	 * Create
-	 */
-	@Transactional(readOnly = false, rollbackFor = Exception.class)
-	private APIResponse<Long> create(CryptoPortfolioHistoryVO vo) {
-		// Declare result
-		APIResponse<Long> result = new APIResponse<>();
-
-		// Transform
-		CryptoPortfolioHistoryTbl tbl = cryptoPortfolioHistoryTransformer.convertToTbl(vo);
-
-		// Create
-		tbl = cryptoPortfolioHistoryRepository.save(tbl);
-
-		// Set id return
-		result.setData(tbl.getId());
-
-		// Return
-		return result;
-	}
-
 	public APIResponse<Object> getPortfolioSummary(CryptoPortfolioHistorySCO sco) {
 		// Declare result
 		APIResponse<Object> result = new APIResponse<>();
@@ -196,7 +173,11 @@ public class CryptoPortfolioHistoryService extends BaseService {
 			Page<CryptoPortfolioHistoryTbl> page = cryptoPortfolioHistoryRepository.findAll(sco);
 
 			// Transformer
-			PageResultVO<CryptoPortfolioHistoryVO> data = cryptoPortfolioHistoryTransformer.convertToPageReturn(page);
+			PageResultVO<CryptoPortfolioHistoryTbl> data = new PageResultVO<>();
+			if (!CollectionUtils.isEmpty(page.getContent())) {
+				data.setElements(page.getContent());
+				setPageHeader(page, data);
+			}
 
 			// Set data return
 			result.setData(data);

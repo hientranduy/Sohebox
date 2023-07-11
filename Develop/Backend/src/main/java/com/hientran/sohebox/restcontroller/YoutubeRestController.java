@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hientran.sohebox.constants.ApiPublicConstants;
-import com.hientran.sohebox.dto.YoutubeChannelVO;
 import com.hientran.sohebox.dto.YoutubeVideoIdVO;
 import com.hientran.sohebox.dto.response.APIResponse;
+import com.hientran.sohebox.entity.YoutubeChannelTbl;
 import com.hientran.sohebox.sco.YoutubeChannelSCO;
 import com.hientran.sohebox.sco.YoutubeChannelVideoSCO;
 import com.hientran.sohebox.service.YoutubeChannelService;
@@ -40,8 +40,8 @@ public class YoutubeRestController extends BaseRestController {
 	 * @return
 	 */
 	@PostMapping(ApiPublicConstants.API_YOUTUBE_CHANNEL)
-	public ResponseEntity<?> create(@Validated @RequestBody YoutubeChannelVO vo) {
-		APIResponse<?> result = youtubeChannelService.create(vo);
+	public ResponseEntity<?> create(@Validated @RequestBody YoutubeChannelTbl request) {
+		APIResponse<?> result = youtubeChannelService.create(request);
 
 		return new ResponseEntity<>(result, new HttpHeaders(),
 				result.getStatus() != null ? result.getStatus() : HttpStatus.OK);
@@ -87,8 +87,8 @@ public class YoutubeRestController extends BaseRestController {
 	 * @return
 	 */
 	@PutMapping(ApiPublicConstants.API_YOUTUBE_CHANNEL)
-	public ResponseEntity<?> update(@Validated @RequestBody YoutubeChannelVO vo) {
-		APIResponse<?> result = youtubeChannelService.update(vo);
+	public ResponseEntity<?> update(@Validated @RequestBody YoutubeChannelTbl request) {
+		APIResponse<?> result = youtubeChannelService.update(request);
 
 		return new ResponseEntity<>(result, new HttpHeaders(),
 				result.getStatus() != null ? result.getStatus() : HttpStatus.OK);

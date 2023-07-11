@@ -10,11 +10,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.hientran.sohebox.cache.TypeCache;
 import com.hientran.sohebox.constants.DBConstants;
-import com.hientran.sohebox.dto.RequestExternalVO;
 import com.hientran.sohebox.entity.RequestExternalTbl;
 import com.hientran.sohebox.repository.RequestExternalRepository;
 import com.hientran.sohebox.sco.RequestExternalSCO;
-import com.hientran.sohebox.transformer.RequestExternalTransformer;
 
 import lombok.RequiredArgsConstructor;
 
@@ -24,7 +22,6 @@ import lombok.RequiredArgsConstructor;
 public class RequestExternalService extends BaseService {
 
 	private final RequestExternalRepository requestExternalRepository;
-	private final RequestExternalTransformer requestExternalTransformer;
 	private final TypeCache typeCache;
 
 	/**
@@ -33,16 +30,16 @@ public class RequestExternalService extends BaseService {
 	 *
 	 */
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
-	public void create(RequestExternalVO vo) throws Exception {
+	public void create(RequestExternalTbl rq) throws Exception {
 
 		// Transform
-		RequestExternalTbl tbl = requestExternalTransformer.convertToTbl(vo);
+		RequestExternalTbl tbl = rq;
 
 		tbl.setCreatedDate(new Date());
-		tbl.setNote(vo.getNote());
-		tbl.setRequestUrl(vo.getRequestUrl());
+		tbl.setNote(rq.getNote());
+		tbl.setRequestUrl(rq.getRequestUrl());
 		tbl.setRequestType(
-				typeCache.getType(DBConstants.TYPE_CLASS_REQUEST_EXTERNAL_TYPE, vo.getRequestType().getTypeCode()));
+				typeCache.getType(DBConstants.TYPE_CLASS_REQUEST_EXTERNAL_TYPE, rq.getRequestType().getTypeCode()));
 
 		requestExternalRepository.save(tbl);
 	}
