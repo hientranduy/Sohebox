@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration>
+	<include
+		resource="org/springframework/boot/logging/logback/defaults.xml" />
+
+	<property name="LOG_PATTERN"
+		value="%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %-45logger{45} - traceId=%X{traceId} - %msg%n" />
+
+    <!-- Console Log -->
+	<appender name="STDOUT"
+		class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<charset>utf-8</charset>
+			<pattern>${LOG_PATTERN}</pattern>
+		</encoder>
+	</appender>
+
+    <!-- Application Log - Log all -->
+	<appender name="ApplicationLog"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<rollingPolicy
+			class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>./logs/AppLog_%d{yyyy-MM-dd}.log</fileNamePattern>
+		</rollingPolicy>	
+		<encoder>
+			<charset>utf-8</charset>
+			<pattern>${LOG_PATTERN}</pattern>
+		</encoder>
+	</appender>
+	
+    <!-- Error Log - Log error only -->
+	<appender name="ErrorLog"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<rollingPolicy
+			class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>./logs/ErrLog_%d{yyyy-MM-dd}.log</fileNamePattern>
+		</rollingPolicy>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>		
+		<encoder>
+			<charset>utf-8</charset>
+			<pattern>${LOG_PATTERN}</pattern>
+		</encoder>
+	</appender>	
+
+	<root level="info">
+		<appender-ref ref="STDOUT" />
+		<appender-ref ref="ApplicationLog"/>
+		<appender-ref ref="ErrorLog"/>
+	</root>
+</configuration>

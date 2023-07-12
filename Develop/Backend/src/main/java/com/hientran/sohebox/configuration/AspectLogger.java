@@ -20,46 +20,30 @@ public class AspectLogger {
 	///////////////////////////////////////////////////////
 	@Before(value = "execution(* com.hientran.sohebox.restcontroller.*.*(..))")
 	public void beforeRestful(JoinPoint joinPoint) {
-		log.info("    START     : {}", joinPoint.getSignature());
+		log.info("START     : {}", joinPoint.getSignature());
 		if (joinPoint.getArgs() != null && joinPoint.getArgs().length > 0) {
-			log.info("    Arguments : {}", Arrays.asList(joinPoint.getArgs()).toString());
+			log.info("Arguments : {}", Arrays.asList(joinPoint.getArgs()).toString());
 		}
 	}
 
 	@AfterReturning(value = "execution(* com.hientran.sohebox.restcontroller.*.*(..))", returning = "result")
 	public void afterRestful(JoinPoint joinPoint, Object result) {
 		if (result != null) {
-			log.info("     Returned  : {}", result);
+			log.info("Returned  : {}", result);
 		}
-		log.info("     END       : {}", joinPoint.getSignature());
+		log.info("END       : {}", joinPoint.getSignature());
 	}
-
-	////////////////////////////////////////////////
-	// Configured log before - after for services //
-	////////////////////////////////////////////////
-//	@Before(value = "execution(* com.hientran.sohebox.service.*.*(..))")
-//	public void beforeService(JoinPoint joinPoint) {
-//		log.info("    START     : {}", joinPoint.getSignature());
-//		if (joinPoint.getArgs() != null && joinPoint.getArgs().length > 0) {
-//			log.info("    Arguments : {}", Arrays.asList(joinPoint.getArgs()).toString());
-//		}
-//	}
-//
-//	@AfterReturning(value = "execution(* com.hientran.sohebox.service.*.*(..))", returning = "result")
-//	public void afterService(JoinPoint joinPoint, Object result) {
-//		log.info("     END       : {}", joinPoint.getSignature());
-//	}
 
 	///////////////////////////////////////////////////
 	// Configured log before - after for scheduler //
 	///////////////////////////////////////////////////
 	@Before(value = "execution(* com.hientran.sohebox.scheduler.*.*(..))")
 	public void beforeScheduler(JoinPoint joinPoint) {
-		log.info("  START SCHEDULER : {}", joinPoint.getSignature());
+		log.info("START SCHEDULER : {}", joinPoint.getSignature());
 	}
 
 	@AfterReturning(value = "execution(* com.hientran.sohebox.scheduler.*.*(..))", returning = "result")
 	public void afterScheduler(JoinPoint joinPoint, Object result) {
-		log.info("   END SCHEDULER : {}", joinPoint.getSignature());
+		log.info("END SCHEDULER : {}", joinPoint.getSignature());
 	}
 }
