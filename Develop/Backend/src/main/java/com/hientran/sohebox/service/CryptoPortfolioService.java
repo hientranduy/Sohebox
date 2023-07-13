@@ -330,11 +330,9 @@ public class CryptoPortfolioService extends BaseService {
 		JsonObject jsonObject;
 
 		// Get available
-		log.info("setDataOnChain - get available- wallet {}", tbl.getWallet());
 		try {
 			builder = new URIBuilder(
 					tbl.getToken().getNodeUrl() + CosmosConstants.COSMOS_BANK_V1BETA1_BALANCES + "/" + tbl.getWallet());
-			log.info("setDataOnChain - get available- builder {}", builder.toString());
 			jsonObject = new Gson().fromJson(cosmosWebService.get(builder), JsonObject.class);
 
 			if (jsonObject.getAsJsonArray("balances").size() > 0) {
@@ -362,7 +360,6 @@ public class CryptoPortfolioService extends BaseService {
 			builder = new URIBuilder(
 					tbl.getToken().getNodeUrl() + CosmosConstants.COSMOS_DISTRIBUTION_V1BETA1_DELEGATORS + "/"
 							+ tbl.getWallet() + CosmosConstants.COSMOS_REWARDS);
-			log.info("setDataOnChain - get reward- builder {}", builder.toString());
 			jsonObject = new Gson().fromJson(cosmosWebService.get(builder), JsonObject.class);
 
 			if (jsonObject.getAsJsonArray("total").size() > 0) {
@@ -381,9 +378,7 @@ public class CryptoPortfolioService extends BaseService {
 		try {
 			builder = new URIBuilder(tbl.getToken().getNodeUrl() + CosmosConstants.COSMOS_STAKING_V1BETA1_DELEGATION
 					+ "/" + tbl.getWallet());
-			log.info("setDataOnChain - get delegated- builder {}", builder.toString());
 			jsonObject = new Gson().fromJson(cosmosWebService.get(builder), JsonObject.class);
-
 			JsonArray jsonArray = jsonObject.getAsJsonArray("delegation_responses");
 
 			Double amtTotalDelegated = Double.valueOf(0);
