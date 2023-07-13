@@ -596,7 +596,6 @@ export class EnglishComponent implements OnInit {
     if (user != null && english != null) {
       // Prepare vo
       const englishLearnRecord: EnglishLearnRecord = new EnglishLearnRecord();
-      englishLearnRecord.user = user;
       englishLearnRecord.english = english;
 
       // Call API count learn

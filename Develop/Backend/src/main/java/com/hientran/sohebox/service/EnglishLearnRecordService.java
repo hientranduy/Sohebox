@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.hientran.sohebox.authentication.UserDetailsServiceImpl;
 import com.hientran.sohebox.dto.PageResultVO;
 import com.hientran.sohebox.dto.response.APIResponse;
 import com.hientran.sohebox.dto.response.ResponseCode;
@@ -29,8 +30,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class EnglishLearnRecordService extends BaseService {
 	private final EnglishLearnRecordRepository englishLearnRecordRepository;
-	private final UserService userService;
 	private final EnglishService englishService;
+	private final UserDetailsServiceImpl userDetailsServiceImpl;
 
 	/**
 	 *
@@ -48,11 +49,6 @@ public class EnglishLearnRecordService extends BaseService {
 		if (result.getStatus() == null) {
 			List<String> errors = new ArrayList<>();
 
-			// user must not null
-			if (rq.getUser() == null) {
-				errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, EnglishLearnRecordTblEnum.user.name()));
-			}
-
 			// english must not null
 			if (rq.getEnglish() == null) {
 				errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, EnglishLearnRecordTblEnum.english.name()));
@@ -64,12 +60,8 @@ public class EnglishLearnRecordService extends BaseService {
 			}
 		}
 
-		// Check if user is existed
-		UserTbl userTbl = userService.getTblByUserName(rq.getUser().getUsername());
-		if (result.getStatus() == null && userTbl == null) {
-			result = new APIResponse<>(HttpStatus.BAD_REQUEST,
-					ResponseCode.mapParam(ResponseCode.INEXISTED_USERNAME, rq.getUser().getUsername()));
-		}
+		// Get logged user
+		UserTbl userTbl = userDetailsServiceImpl.getCurrentLoginUser();
 
 		// Check if english word is existed
 		EnglishTbl englishTbl = englishService.getByKey(rq.getEnglish().getKeyWord());
