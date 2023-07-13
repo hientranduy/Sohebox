@@ -20,7 +20,7 @@ public class CosmosWebService extends BaseWebService {
 	 */
 	public String get(URIBuilder builder) throws Exception {
 		// Declare result
-		String result = null;
+		String result = "";
 
 		// Build HTTP get
 		HttpGet httpGet = createHttpGet(builder);

@@ -331,20 +331,11 @@ public class CryptoPortfolioService extends BaseService {
 		JSONObject jsonObject;
 
 		// Get available
-//        builder = new URIBuilder(cryptoPortfolioVO.getToken().getNodeUrl() + CosmosConstants.COSMOS_BANK_BALANCES + "/"
-//                + cryptoPortfolioVO.getWallet());
-//        jsonObject = new JSONObject(cosmosWebService.get(builder));
-//
-//        if (jsonObject.getJSONArray("result").length() > 0) {
-//            cryptoPortfolioVO.setAmtAvailable(Double.parseDouble(
-//                    df.format(jsonObject.getJSONArray("result").getJSONObject(0).getDouble("amount") / cryptoPortfolioVO.getToken().getDecimalExponent())));
-//        } else {
-//            cryptoPortfolioVO.setAmtAvailable(Double.valueOf(0));
-//        }
-
+		log.info("setDataOnChain - get available- wallet {}", tbl.getWallet());
 		try {
 			builder = new URIBuilder(
 					tbl.getToken().getNodeUrl() + CosmosConstants.COSMOS_BANK_V1BETA1_BALANCES + "/" + tbl.getWallet());
+			log.info("setDataOnChain - get available- builder {}", builder.toString());
 			jsonObject = new JSONObject(cosmosWebService.get(builder));
 
 			if (jsonObject.getJSONArray("balances").length() > 0) {
@@ -367,23 +358,11 @@ public class CryptoPortfolioService extends BaseService {
 		}
 
 		// Get reward
-//        builder = new URIBuilder(
-//                cryptoPortfolioVO.getToken().getNodeUrl() + CosmosConstants.COSMOS_DISTRIBUTION_DELEGATORS + "/"
-//                        + cryptoPortfolioVO.getWallet() + CosmosConstants.COSMOS_REWARDS);
-//        jsonObject = new JSONObject(cosmosWebService.get(builder));
-//
-//        if (jsonObject.getJSONObject("result").getJSONArray("total").length() > 0) {
-//            cryptoPortfolioVO.setAmtTotalReward(Double.parseDouble(df.format(
-//                    jsonObject.getJSONObject("result").getJSONArray("total").getJSONObject(0).getDouble("amount")
-//                            / cryptoPortfolioVO.getToken().getDecimalExponent())));
-//        } else {
-//            cryptoPortfolioVO.setAmtTotalReward(Double.valueOf(0));
-//        }
-
 		try {
 			builder = new URIBuilder(
 					tbl.getToken().getNodeUrl() + CosmosConstants.COSMOS_DISTRIBUTION_V1BETA1_DELEGATORS + "/"
 							+ tbl.getWallet() + CosmosConstants.COSMOS_REWARDS);
+			log.info("setDataOnChain - get reward- builder {}", builder.toString());
 			jsonObject = new JSONObject(cosmosWebService.get(builder));
 
 			if (jsonObject.getJSONArray("total").length() > 0) {
@@ -399,35 +378,10 @@ public class CryptoPortfolioService extends BaseService {
 		}
 
 		// Get delegated
-//        builder = new URIBuilder(cryptoPortfolioVO.getToken().getNodeUrl() + CosmosConstants.COSMOS_STAKING_DELEGATORS
-//                + "/" + cryptoPortfolioVO.getWallet() + CosmosConstants.COSMOS_DELEGATIONS);
-//        jsonObject = new JSONObject(cosmosWebService.get(builder));
-//
-//        List<CryptoPortfolioValidatorDelegationVO> validatorDelegation = objectMapperUtil.readValue(
-//                jsonObject.getJSONArray("result").toString(),
-//                new TypeReference<List<CryptoPortfolioValidatorDelegationVO>>() {
-//                });
-//
-//        Double amtTotalDelegated = Double.valueOf(0);
-//        String validatorAddress = null;
-//        if (CollectionUtils.isNotEmpty(validatorDelegation)) {
-//            Double maxAmount = Double.valueOf(0);
-//            for (CryptoPortfolioValidatorDelegationVO item : validatorDelegation) {
-//                Double amount = item.getBalance().getAmount();
-//                if (amount > 0) {
-//                    amtTotalDelegated = amtTotalDelegated + Double.parseDouble(df.format(amount / cryptoPortfolioVO.getToken().getDecimalExponent()));
-//                    if (amount > maxAmount) {
-//                        maxAmount = amount;
-//                        validatorAddress = item.getDelegation().getValidator_address();
-//                    }
-//                }
-//            }
-//        }
-//        cryptoPortfolioVO.setAmtTotalDelegated(amtTotalDelegated);
-
 		try {
 			builder = new URIBuilder(tbl.getToken().getNodeUrl() + CosmosConstants.COSMOS_STAKING_V1BETA1_DELEGATION
 					+ "/" + tbl.getWallet());
+			log.info("setDataOnChain - get delegated- builder {}", builder.toString());
 			jsonObject = new JSONObject(cosmosWebService.get(builder));
 
 			List<CryptoPortfolioValidatorDelegationVO> validatorDelegation = objectMapperUtil.readValue(

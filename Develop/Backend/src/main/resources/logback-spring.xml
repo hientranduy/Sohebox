@@ -4,8 +4,8 @@
 	<include
 		resource="org/springframework/boot/logging/logback/defaults.xml" />
 
-	<property name="LOG_PATTERN"
-		value="%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %-45logger{45} - traceId=%X{traceId} - %msg%n" />
+	<property name="LOG_PATTERN1" value="%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %-45logger{45} - traceId=%X{traceId} - %msg%n" />
+	<property name="LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss} %-5level %-35logger{35} - %msg%n" />
 
     <!-- Console Log -->
 	<appender name="STDOUT"
