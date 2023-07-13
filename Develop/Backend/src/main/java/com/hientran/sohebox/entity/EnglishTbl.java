@@ -6,6 +6,8 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
@@ -15,6 +17,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import jakarta.persistence.Transient;
 import jakarta.persistence.UniqueConstraint;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -69,4 +72,13 @@ public class EnglishTbl extends GenericTbl {
 	@ManyToOne
 	@JoinColumn(name = "vus_grade_id", foreignKey = @ForeignKey(name = "FK_EnglishTbl_EnglishTypeTbl_vusGrade"))
 	private EnglishTypeTbl vusGrade;
+	
+	// Other field
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@Transient
+	private String imageExtention;
+	
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@Transient
+	private Long recordTimes;
 }

@@ -132,7 +132,7 @@ public class EnglishRestController extends BaseRestController {
 	 * @return
 	 */
 	@PutMapping(ApiPublicConstants.API_ENGLISH + ApiPublicConstants.API_ENGLISH_LEARN_RECORD + ApiPublicConstants.ADD)
-	public ResponseEntity<?> addLearn(@Validated @RequestBody EnglishLearnRecordTbl request) {
+	public ResponseEntity<?> addLearn(@RequestBody EnglishLearnRecordTbl request) {
 		// Update Account
 		APIResponse<?> result = englishLearnRecordService.addLearn(request);
 
