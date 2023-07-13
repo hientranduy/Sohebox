@@ -11,20 +11,19 @@ import java.util.Optional;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.hc.core5.net.URIBuilder;
-import org.springframework.boot.configurationprocessor.json.JSONArray;
-import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.fasterxml.jackson.core.type.TypeReference;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.hientran.sohebox.authentication.UserDetailsServiceImpl;
 import com.hientran.sohebox.cache.ConfigCache;
 import com.hientran.sohebox.constants.CosmosConstants;
 import com.hientran.sohebox.constants.DBConstants;
 import com.hientran.sohebox.constants.DataExternalConstants;
-import com.hientran.sohebox.dto.CryptoPortfolioValidatorDelegationVO;
 import com.hientran.sohebox.dto.PageResultVO;
 import com.hientran.sohebox.dto.response.APIResponse;
 import com.hientran.sohebox.dto.response.ResponseCode;
@@ -328,7 +327,7 @@ public class CryptoPortfolioService extends BaseService {
 		DecimalFormat df = new DecimalFormat("#.###");
 		df.setRoundingMode(RoundingMode.CEILING);
 		URIBuilder builder;
-		JSONObject jsonObject;
+		JsonObject jsonObject;
 
 		// Get available
 		log.info("setDataOnChain - get available- wallet {}", tbl.getWallet());
@@ -336,16 +335,17 @@ public class CryptoPortfolioService extends BaseService {
 			builder = new URIBuilder(
 					tbl.getToken().getNodeUrl() + CosmosConstants.COSMOS_BANK_V1BETA1_BALANCES + "/" + tbl.getWallet());
 			log.info("setDataOnChain - get available- builder {}", builder.toString());
-			jsonObject = new JSONObject(cosmosWebService.get(builder));
+			jsonObject = new Gson().fromJson(cosmosWebService.get(builder), JsonObject.class);
 
-			if (jsonObject.getJSONArray("balances").length() > 0) {
-				JSONArray listObject = jsonObject.getJSONArray("balances");
+			if (jsonObject.getAsJsonArray("balances").size() > 0) {
+				JsonArray listObject = jsonObject.getAsJsonArray("balances");
 
-				for (int i = 0; i < listObject.length(); i++) {
-					String demon = listObject.getJSONObject(i).getString("denom");
+				for (int i = 0; i < listObject.size(); i++) {
+					JsonObject object = listObject.get(i).getAsJsonObject();
+					String demon = object.get("denom").getAsString();
 					if (!demon.contains("ibc")) {
-						tbl.setAmtAvailable(Double.parseDouble(df.format(listObject.getJSONObject(i).getDouble("amount")
-								/ tbl.getToken().getDecimalExponent())));
+						tbl.setAmtAvailable(Double.parseDouble(
+								df.format(object.get("amount").getAsDouble() / tbl.getToken().getDecimalExponent())));
 						break;
 					}
 				}
@@ -363,11 +363,11 @@ public class CryptoPortfolioService extends BaseService {
 					tbl.getToken().getNodeUrl() + CosmosConstants.COSMOS_DISTRIBUTION_V1BETA1_DELEGATORS + "/"
 							+ tbl.getWallet() + CosmosConstants.COSMOS_REWARDS);
 			log.info("setDataOnChain - get reward- builder {}", builder.toString());
-			jsonObject = new JSONObject(cosmosWebService.get(builder));
+			jsonObject = new Gson().fromJson(cosmosWebService.get(builder), JsonObject.class);
 
-			if (jsonObject.getJSONArray("total").length() > 0) {
-				tbl.setAmtTotalReward(Double
-						.parseDouble(df.format(jsonObject.getJSONArray("total").getJSONObject(0).getDouble("amount")
+			if (jsonObject.getAsJsonArray("total").size() > 0) {
+				tbl.setAmtTotalReward(Double.parseDouble(df
+						.format(jsonObject.getAsJsonArray("total").get(0).getAsJsonObject().get("amount").getAsDouble()
 								/ tbl.getToken().getDecimalExponent())));
 			} else {
 				tbl.setAmtTotalReward(Double.valueOf(0));
@@ -382,25 +382,24 @@ public class CryptoPortfolioService extends BaseService {
 			builder = new URIBuilder(tbl.getToken().getNodeUrl() + CosmosConstants.COSMOS_STAKING_V1BETA1_DELEGATION
 					+ "/" + tbl.getWallet());
 			log.info("setDataOnChain - get delegated- builder {}", builder.toString());
-			jsonObject = new JSONObject(cosmosWebService.get(builder));
+			jsonObject = new Gson().fromJson(cosmosWebService.get(builder), JsonObject.class);
 
-			List<CryptoPortfolioValidatorDelegationVO> validatorDelegation = objectMapperUtil.readValue(
-					jsonObject.getJSONArray("delegation_responses").toString(),
-					new TypeReference<List<CryptoPortfolioValidatorDelegationVO>>() {
-					});
+			JsonArray jsonArray = jsonObject.getAsJsonArray("delegation_responses");
 
 			Double amtTotalDelegated = Double.valueOf(0);
 			String validatorAddress = null;
-			if (CollectionUtils.isNotEmpty(validatorDelegation)) {
+			if (jsonArray.size() > 0) {
 				Double maxAmount = Double.valueOf(0);
-				for (CryptoPortfolioValidatorDelegationVO item : validatorDelegation) {
-					Double amount = item.getBalance().getAmount();
+				for (int i = 0; i < jsonArray.size(); i++) {
+					Double amount = jsonArray.get(i).getAsJsonObject().get("balance").getAsJsonObject().get("amount")
+							.getAsDouble();
 					if (amount > 0) {
 						amtTotalDelegated = amtTotalDelegated
 								+ Double.parseDouble(df.format(amount / tbl.getToken().getDecimalExponent()));
 						if (amount > maxAmount) {
 							maxAmount = amount;
-							validatorAddress = item.getDelegation().getValidator_address();
+							validatorAddress = jsonArray.get(i).getAsJsonObject().get("delegation").getAsJsonObject()
+									.get("validator_address").getAsString();
 						}
 					}
 				}

@@ -255,7 +255,7 @@ public class UserService {
 
 			// Set data return
 			PageResultVO<UserStatusVO> data = new PageResultVO<>();
-			data.setElements(new ArrayList<UserStatusVO>());
+			data.setElements(new ArrayList<>());
 			data.setTotalPage(0);
 			data.setTotalElement(0);
 			data.setCurrentPage(sco.getPageToGet());

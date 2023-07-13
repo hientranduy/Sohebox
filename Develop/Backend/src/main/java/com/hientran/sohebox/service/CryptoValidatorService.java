@@ -10,12 +10,13 @@ import java.util.Optional;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.hc.core5.net.URIBuilder;
-import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.hientran.sohebox.cache.ConfigCache;
 import com.hientran.sohebox.constants.CosmosConstants;
 import com.hientran.sohebox.constants.DataExternalConstants;
@@ -283,35 +284,22 @@ public class CryptoValidatorService extends BaseService {
 
 		// Process if have sync flag
 		if (isSyncValidator) {
-			// Get new infos
-//            URIBuilder builder = new URIBuilder(cryptoPortfolioVO.getToken().getNodeUrl()
-//                    + CosmosConstants.COSMOS_STAKING_VALIDATORS + "/" + validatorAddress);
-//            String responseString = cosmosWebService.get(builder);
-//            JSONObject jsonObject = new JSONObject(responseString);
-//
-//            String validatorName = jsonObject.getJSONObject("result").getJSONObject("description").get("moniker")
-//                    .toString();
-//            String validatorWebsite = jsonObject.getJSONObject("result").getJSONObject("description").get("website")
-//                    .toString();
-//            Double totalDeligated = jsonObject.getJSONObject("result").getDouble("tokens") / cryptoPortfolioVO.getToken().getDecimalExponent();
-//            Double commissionRate = jsonObject.getJSONObject("result").getJSONObject("commission")
-//                    .getJSONObject("commission_rates").getDouble("rate");
-
 			// Sync new value
 			try {
 				URIBuilder builder = new URIBuilder(cryptoPortfolioTbl.getToken().getNodeUrl()
 						+ CosmosConstants.COSMOS_STAKING_V1BETA1_VALIDATORS + "/" + validatorAddress);
 				String responseString = cosmosWebService.get(builder);
-				JSONObject jsonObject = new JSONObject(responseString);
+				JsonObject jsonObject = new Gson().fromJson(responseString, JsonObject.class);
 
-				String validatorName = jsonObject.getJSONObject("validator").getJSONObject("description").get("moniker")
-						.toString();
-				String validatorWebsite = jsonObject.getJSONObject("validator").getJSONObject("description")
-						.get("website").toString();
-				Double totalDeligated = jsonObject.getJSONObject("validator").getDouble("tokens")
+				String validatorName = jsonObject.get("validator").getAsJsonObject().get("description")
+						.getAsJsonObject().get("moniker").getAsString();
+				String validatorWebsite = jsonObject.get("validator").getAsJsonObject().get("description")
+						.getAsJsonObject().get("website").getAsString();
+				Double totalDeligated = jsonObject.get("validator").getAsJsonObject().get("tokens").getAsDouble()
 						/ cryptoPortfolioTbl.getToken().getDecimalExponent();
-				Double commissionRate = Double.parseDouble(df.format(jsonObject.getJSONObject("validator")
-						.getJSONObject("commission").getJSONObject("commission_rates").getDouble("rate")));
+				Double commissionRate = Double.parseDouble(
+						df.format(jsonObject.get("validator").getAsJsonObject().get("commission").getAsJsonObject()
+								.get("commission_rates").getAsJsonObject().get("rate").getAsDouble()));
 
 				// Record DB
 				if (isNewValidator) {
