@@ -12,14 +12,16 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import jakarta.persistence.UniqueConstraint;
-import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "mdp_tbl", uniqueConstraints = { @UniqueConstraint(name = "UQ_mdp", columnNames = { "mdp" }) })
 @EntityListeners(AuditingEntityListener.class)
+@Getter
+@Setter
 public class MdpTbl extends GenericTbl {
 	@Column(name = "created_date", nullable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
 	@Temporal(TemporalType.TIMESTAMP)
