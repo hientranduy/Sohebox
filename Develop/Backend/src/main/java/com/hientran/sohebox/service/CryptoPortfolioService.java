@@ -34,7 +34,6 @@ import com.hientran.sohebox.sco.CryptoPortfolioSCO;
 import com.hientran.sohebox.sco.SearchNumberVO;
 import com.hientran.sohebox.sco.SearchTextVO;
 import com.hientran.sohebox.specification.CryptoPortfolioSpecs.CryptoPortfolioTblEnum;
-import com.hientran.sohebox.utils.ObjectMapperUtil;
 import com.hientran.sohebox.webservice.CosmosWebService;
 
 import lombok.RequiredArgsConstructor;
@@ -49,7 +48,6 @@ public class CryptoPortfolioService extends BaseService {
 	private final UserService userService;
 	private final UserDetailsServiceImpl userDetailsServiceImpl;
 	private final CosmosWebService cosmosWebService;
-	private final ObjectMapperUtil objectMapperUtil;
 	private final ConfigCache configCache;
 	private final CryptoValidatorService cryptoValidatorService;
 

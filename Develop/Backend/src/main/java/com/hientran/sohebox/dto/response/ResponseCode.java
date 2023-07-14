@@ -35,6 +35,7 @@ public enum ResponseCode {
 
 		return null;
 	}
+
 	public static String mapParam(ResponseCode code, String param) {
 		if (ObjectUtils.isEmpty(code)) {
 			return null;
