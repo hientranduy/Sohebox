@@ -113,6 +113,33 @@ public class TradingSymbolService extends BaseService {
 	}
 
 	/**
+	 *
+	 * Check if record is existed
+	 *
+	 * @param keyWord
+	 * @return
+	 */
+	private boolean recordIsExisted(String symbol) {
+		// Declare result
+		boolean result = false;
+
+		SearchTextVO symbolSearch = new SearchTextVO();
+		symbolSearch.setEq(symbol);
+
+		TradingSymbolSCO sco = new TradingSymbolSCO();
+		sco.setSymbol(symbolSearch);
+
+		// Get data
+		List<TradingSymbolTbl> list = tradingSymbolRepository.findAll(sco).getContent();
+		if (CollectionUtils.isNotEmpty(list)) {
+			result = true;
+		}
+
+		// Return
+		return result;
+	}
+
+	/**
 	 * Search
 	 *
 	 * @param sco
@@ -138,33 +165,6 @@ public class TradingSymbolService extends BaseService {
 
 		// Write activity type "TradingSymbol access"
 		recordUserActivity(DBConstants.USER_ACTIVITY_ENGLISH_ACCESS);
-
-		// Return
-		return result;
-	}
-
-	/**
-	 *
-	 * Check if record is existed
-	 *
-	 * @param keyWord
-	 * @return
-	 */
-	private boolean recordIsExisted(String symbol) {
-		// Declare result
-		boolean result = false;
-
-		SearchTextVO symbolSearch = new SearchTextVO();
-		symbolSearch.setEq(symbol);
-
-		TradingSymbolSCO sco = new TradingSymbolSCO();
-		sco.setSymbol(symbolSearch);
-
-		// Get data
-		List<TradingSymbolTbl> list = tradingSymbolRepository.findAll(sco).getContent();
-		if (CollectionUtils.isNotEmpty(list)) {
-			result = true;
-		}
 
 		// Return
 		return result;

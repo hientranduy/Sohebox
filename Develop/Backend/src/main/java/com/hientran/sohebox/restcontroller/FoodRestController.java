@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hientran.sohebox.constants.ApiPublicConstants;
-import com.hientran.sohebox.dto.FoodVO;
 import com.hientran.sohebox.dto.response.APIResponse;
+import com.hientran.sohebox.entity.FoodTbl;
 import com.hientran.sohebox.sco.FoodSCO;
 import com.hientran.sohebox.service.FoodService;
 
@@ -33,9 +33,9 @@ public class FoodRestController extends BaseRestController {
 	 * @return
 	 */
 	@PostMapping(ApiPublicConstants.API_FOOD)
-	public ResponseEntity<?> create(@Validated @RequestBody FoodVO vo) {
+	public ResponseEntity<?> create(@Validated @RequestBody FoodTbl request) {
 		// Create Food
-		APIResponse<?> result = foodService.create(vo);
+		APIResponse<?> result = foodService.create(request);
 
 		// Return
 		return new ResponseEntity<>(result, new HttpHeaders(),
@@ -44,15 +44,15 @@ public class FoodRestController extends BaseRestController {
 
 	/**
 	 *
-	 * Update
+	 * Get by ID
 	 *
-	 * @param vo
+	 * @param id
 	 * @return
 	 */
-	@PutMapping(ApiPublicConstants.API_FOOD)
-	public ResponseEntity<?> update(@Validated @RequestBody FoodVO vo) {
-		// Update Account
-		APIResponse<?> result = foodService.update(vo);
+	@GetMapping(ApiPublicConstants.API_FOOD + ApiPublicConstants.ID)
+	public ResponseEntity<?> getById(@PathVariable(value = "id") Long id) {
+		// Delete
+		APIResponse<?> result = foodService.getById(id);
 
 		// Return
 		return new ResponseEntity<>(result, new HttpHeaders(),
@@ -79,15 +79,15 @@ public class FoodRestController extends BaseRestController {
 
 	/**
 	 *
-	 * Get by ID
+	 * Update
 	 *
-	 * @param id
+	 * @param vo
 	 * @return
 	 */
-	@GetMapping(ApiPublicConstants.API_FOOD + ApiPublicConstants.ID)
-	public ResponseEntity<?> getById(@PathVariable(value = "id") Long id) {
-		// Delete
-		APIResponse<?> result = foodService.getById(id);
+	@PutMapping(ApiPublicConstants.API_FOOD)
+	public ResponseEntity<?> update(@Validated @RequestBody FoodTbl request) {
+		// Update Account
+		APIResponse<?> result = foodService.update(request);
 
 		// Return
 		return new ResponseEntity<>(result, new HttpHeaders(),

@@ -19,8 +19,6 @@ import com.hientran.sohebox.specification.MediaTypeSpecs.MediaTypeTblEnum;
 public interface MediaTypeRepository
 		extends JpaRepository<MediaTypeTbl, Long>, JpaSpecificationExecutor<MediaTypeTbl>, BaseRepository {
 
-	MediaTypeTbl findFirstByTypeClassAndTypeCode(String typeClass, String typeCode);
-
 	MediaTypeSpecs specs = new MediaTypeSpecs();
 
 	/**
@@ -61,4 +59,6 @@ public interface MediaTypeRepository
 		result = pageData;
 		return result;
 	}
+
+	MediaTypeTbl findFirstByTypeClassAndTypeCode(String typeClass, String typeCode);
 }

@@ -43,12 +43,12 @@ public class CryptoPortfolioRestController extends BaseRestController {
 	}
 
 	/**
-	 * Update
+	 * Delete by ID
 	 */
-	@PutMapping(ApiPublicConstants.API_CRYPTO_PORTFOLIO)
-	public ResponseEntity<?> update(@Validated @RequestBody CryptoPortfolioTbl request) {
-		// Update Account
-		APIResponse<?> result = cryptoPortfolioService.update(request);
+	@DeleteMapping(ApiPublicConstants.API_CRYPTO_PORTFOLIO + ApiPublicConstants.ID)
+	public ResponseEntity<?> deleteUserById(@PathVariable(value = "id") Long id) {
+		// Delete
+		APIResponse<?> result = cryptoPortfolioService.deleteById(id);
 
 		// Return
 		return new ResponseEntity<>(result, new HttpHeaders(),
@@ -61,6 +61,18 @@ public class CryptoPortfolioRestController extends BaseRestController {
 	@GetMapping(ApiPublicConstants.API_CRYPTO_PORTFOLIO + ApiPublicConstants.ID)
 	public ResponseEntity<?> getById(@PathVariable(value = "id") Long id) {
 		APIResponse<?> result = cryptoPortfolioService.getById(id);
+
+		// Return
+		return new ResponseEntity<>(result, new HttpHeaders(),
+				result.getStatus() != null ? result.getStatus() : HttpStatus.OK);
+	}
+
+	/**
+	 * Get summary portfolio
+	 */
+	@PostMapping(ApiPublicConstants.API_CRYPTO_PORTFOLIO_HISTORY)
+	public ResponseEntity<?> getPortfolioSummary(@RequestBody CryptoPortfolioHistorySCO sco) {
+		APIResponse<?> result = cryptoPortfolioHistoryService.getPortfolioSummary(sco);
 
 		// Return
 		return new ResponseEntity<>(result, new HttpHeaders(),
@@ -82,24 +94,12 @@ public class CryptoPortfolioRestController extends BaseRestController {
 	}
 
 	/**
-	 * Delete by ID
+	 * Update
 	 */
-	@DeleteMapping(ApiPublicConstants.API_CRYPTO_PORTFOLIO + ApiPublicConstants.ID)
-	public ResponseEntity<?> deleteUserById(@PathVariable(value = "id") Long id) {
-		// Delete
-		APIResponse<?> result = cryptoPortfolioService.deleteById(id);
-
-		// Return
-		return new ResponseEntity<>(result, new HttpHeaders(),
-				result.getStatus() != null ? result.getStatus() : HttpStatus.OK);
-	}
-
-	/**
-	 * Get summary portfolio
-	 */
-	@PostMapping(ApiPublicConstants.API_CRYPTO_PORTFOLIO_HISTORY)
-	public ResponseEntity<?> getPortfolioSummary(@RequestBody CryptoPortfolioHistorySCO sco) {
-		APIResponse<?> result = cryptoPortfolioHistoryService.getPortfolioSummary(sco);
+	@PutMapping(ApiPublicConstants.API_CRYPTO_PORTFOLIO)
+	public ResponseEntity<?> update(@Validated @RequestBody CryptoPortfolioTbl request) {
+		// Update Account
+		APIResponse<?> result = cryptoPortfolioService.update(request);
 
 		// Return
 		return new ResponseEntity<>(result, new HttpHeaders(),

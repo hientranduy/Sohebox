@@ -60,22 +60,106 @@ public class YoutubeChannelVideoService extends BaseService {
 	private final ObjectMapperUtil objectMapperUtil;
 
 	/**
-	 * Search
+	 * Add personal video
 	 *
-	 * @param sco
+	 * @param vo
 	 * @return
 	 */
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
-	public List<YoutubeChannelVideoTbl> search(YoutubeChannelVideoSCO sco) {
+	public APIResponse<?> addPrivateVideo(@Validated YoutubeVideoIdVO vo) {
 		// Declare result
-		List<YoutubeChannelVideoTbl> result = new ArrayList<>();
+		APIResponse<YoutubeChannelVideoTbl> result = new APIResponse<>();
 
-		// Get data
-		Page<YoutubeChannelVideoTbl> page = youtubeChannelVideoRepository.findAll(sco);
+		// Validate input
+		if (result.getStatus() == null) {
+			List<String> errors = new ArrayList<>();
 
-		// Transformer
-		if (CollectionUtils.isNotEmpty(page.getContent())) {
-			result = page.getContent();
+			// Video id must not null
+			if (vo.getVideoId() == null) {
+				errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, YoutubeVideoTblEnum.videoId.name()));
+			}
+
+			// Record error
+			if (CollectionUtils.isNotEmpty(errors)) {
+				result = new APIResponse<>(HttpStatus.BAD_REQUEST, errors);
+			}
+		}
+
+		// Get login user
+		UserTbl loggedUser = userService.getCurrentLoginUser();
+
+		// Get private channel
+		YoutubeChannelTbl privateChannel = null;
+		if (result.getStatus() == null) {
+			SearchNumberVO userIdSearch = new SearchNumberVO();
+			userIdSearch.setEq(loggedUser.getId().doubleValue());
+			YoutubeChannelSCO channelSCO = new YoutubeChannelSCO();
+			channelSCO.setUserId(userIdSearch);
+			List<YoutubeChannelTbl> userChannels = youtubeChannelRepository.findAll(channelSCO).getContent();
+			if (CollectionUtils.isNotEmpty(userChannels)) {
+				privateChannel = userChannels.get(0);
+			} else {
+				privateChannel = new YoutubeChannelTbl();
+				privateChannel.setUser(loggedUser);
+				privateChannel.setChannelId(loggedUser.getUsername());
+				privateChannel.setName(loggedUser.getFirstName() + " " + loggedUser.getLastName());
+				privateChannel.setCategory(mediaTypeCache.getType(DBConstants.TYPE_CLASS_MEDIA_YOUTUBE_CHANNEL_CATEGORY,
+						DBConstants.TYPE_CODE_MEDIA_YOUTUBE_CHANNEL_CATEGORY_PERSONAL));
+
+				privateChannel = youtubeChannelRepository.save(privateChannel);
+			}
+		}
+
+		// Get video
+		YoutubeVideoTbl videoTbl = null;
+		if (result.getStatus() == null) {
+			videoTbl = youtubeVideoService.getByVideoId(vo.getVideoId());
+
+			if (videoTbl == null) {
+				// Call Youtube API
+				Map<String, String> parameters = new HashMap<>();
+				parameters.put(GoogleConstants.YOUTUBE_PARAM_KEY,
+						configCache.getValueByKey(GoogleConstants.GOOGLE_KEY_API));
+				parameters.put(GoogleConstants.YOUTUBE_PARAM_PART, GoogleConstants.YOUTUBE_DEFAUT_VALUE_SNIPPET);
+				parameters.put(GoogleConstants.YOUTUBE_PARAM_ID, vo.getVideoId());
+				try {
+					String responseData = youtubeWebService.get(GoogleConstants.YOUTUBE_API_SEARCH_VIDEO, parameters);
+					YoutubeReponseVO response = objectMapperUtil.readValue(responseData, YoutubeReponseVO.class);
+
+					if (response.getItems() != null) {
+						List<YoutubeResponseVideoVO> youtubeVideos = new ArrayList<>();
+						youtubeVideos = objectMapperUtil.readValue(response.getItems(),
+								new TypeReference<List<YoutubeResponseVideoVO>>() {
+								});
+						if (CollectionUtils.isNotEmpty(youtubeVideos)) {
+							YoutubeResponseVideoVO video = youtubeVideos.get(0);
+							videoTbl = new YoutubeVideoTbl();
+							videoTbl.setVideoId(vo.getVideoId());
+							videoTbl.setTitle(video.getSnippet().getTitle());
+							videoTbl.setUrlThumbnail(video.getSnippet().getThumbnails().getMedium().getUrl());
+							videoTbl.setPublishedAt(video.getSnippet().getPublishedAt());
+							videoTbl = youtubeVideoRepository.save(videoTbl);
+						} else {
+							result = new APIResponse<>(HttpStatus.BAD_REQUEST,
+									ResponseCode.mapParam(ResponseCode.INEXISTED_RECORD, "youtube video"));
+						}
+
+					} else {
+						result = new APIResponse<>(HttpStatus.BAD_REQUEST,
+								ResponseCode.mapParam(ResponseCode.INEXISTED_RECORD, "youtube video"));
+
+					}
+				} catch (Exception e) {
+					result = new APIResponse<>(HttpStatus.BAD_REQUEST,
+							ResponseCode.mapParam(ResponseCode.ERROR_EXCEPTION, e.getMessage()));
+				}
+			}
+		}
+
+		// Add video channel
+		if (result.getStatus() == null) {
+			APIResponse<YoutubeChannelVideoTbl> youtubeChannelVideoTbl = mergeChannelVideo(privateChannel, videoTbl);
+			result.setData(youtubeChannelVideoTbl.getData());
 		}
 
 		// Return
@@ -239,113 +323,6 @@ public class YoutubeChannelVideoService extends BaseService {
 	}
 
 	/**
-	 * Add personal video
-	 *
-	 * @param vo
-	 * @return
-	 */
-	@Transactional(readOnly = false, rollbackFor = Exception.class)
-	public APIResponse<?> addPrivateVideo(@Validated YoutubeVideoIdVO vo) {
-		// Declare result
-		APIResponse<YoutubeChannelVideoTbl> result = new APIResponse<>();
-
-		// Validate input
-		if (result.getStatus() == null) {
-			List<String> errors = new ArrayList<>();
-
-			// Video id must not null
-			if (vo.getVideoId() == null) {
-				errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, YoutubeVideoTblEnum.videoId.name()));
-			}
-
-			// Record error
-			if (CollectionUtils.isNotEmpty(errors)) {
-				result = new APIResponse<>(HttpStatus.BAD_REQUEST, errors);
-			}
-		}
-
-		// Get login user
-		UserTbl loggedUser = userService.getCurrentLoginUser();
-
-		// Get private channel
-		YoutubeChannelTbl privateChannel = null;
-		if (result.getStatus() == null) {
-			SearchNumberVO userIdSearch = new SearchNumberVO();
-			userIdSearch.setEq(loggedUser.getId().doubleValue());
-			YoutubeChannelSCO channelSCO = new YoutubeChannelSCO();
-			channelSCO.setUserId(userIdSearch);
-			List<YoutubeChannelTbl> userChannels = youtubeChannelRepository.findAll(channelSCO).getContent();
-			if (CollectionUtils.isNotEmpty(userChannels)) {
-				privateChannel = userChannels.get(0);
-			} else {
-				privateChannel = new YoutubeChannelTbl();
-				privateChannel.setUser(loggedUser);
-				privateChannel.setChannelId(loggedUser.getUsername());
-				privateChannel.setName(loggedUser.getFirstName() + " " + loggedUser.getLastName());
-				privateChannel.setCategory(mediaTypeCache.getType(DBConstants.TYPE_CLASS_MEDIA_YOUTUBE_CHANNEL_CATEGORY,
-						DBConstants.TYPE_CODE_MEDIA_YOUTUBE_CHANNEL_CATEGORY_PERSONAL));
-
-				privateChannel = youtubeChannelRepository.save(privateChannel);
-			}
-		}
-
-		// Get video
-		YoutubeVideoTbl videoTbl = null;
-		if (result.getStatus() == null) {
-			videoTbl = youtubeVideoService.getByVideoId(vo.getVideoId());
-
-			if (videoTbl == null) {
-				// Call Youtube API
-				Map<String, String> parameters = new HashMap<>();
-				parameters.put(GoogleConstants.YOUTUBE_PARAM_KEY,
-						configCache.getValueByKey(GoogleConstants.GOOGLE_KEY_API));
-				parameters.put(GoogleConstants.YOUTUBE_PARAM_PART, GoogleConstants.YOUTUBE_DEFAUT_VALUE_SNIPPET);
-				parameters.put(GoogleConstants.YOUTUBE_PARAM_ID, vo.getVideoId());
-				try {
-					String responseData = youtubeWebService.get(GoogleConstants.YOUTUBE_API_SEARCH_VIDEO, parameters);
-					YoutubeReponseVO response = objectMapperUtil.readValue(responseData, YoutubeReponseVO.class);
-
-					if (response.getItems() != null) {
-						List<YoutubeResponseVideoVO> youtubeVideos = new ArrayList<>();
-						youtubeVideos = objectMapperUtil.readValue(response.getItems(),
-								new TypeReference<List<YoutubeResponseVideoVO>>() {
-								});
-						if (CollectionUtils.isNotEmpty(youtubeVideos)) {
-							YoutubeResponseVideoVO video = youtubeVideos.get(0);
-							videoTbl = new YoutubeVideoTbl();
-							videoTbl.setVideoId(vo.getVideoId());
-							videoTbl.setTitle(video.getSnippet().getTitle());
-							videoTbl.setUrlThumbnail(video.getSnippet().getThumbnails().getMedium().getUrl());
-							videoTbl.setPublishedAt(video.getSnippet().getPublishedAt());
-							videoTbl = youtubeVideoRepository.save(videoTbl);
-						} else {
-							result = new APIResponse<>(HttpStatus.BAD_REQUEST,
-									ResponseCode.mapParam(ResponseCode.INEXISTED_RECORD, "youtube video"));
-						}
-
-					} else {
-						result = new APIResponse<>(HttpStatus.BAD_REQUEST,
-								ResponseCode.mapParam(ResponseCode.INEXISTED_RECORD, "youtube video"));
-
-					}
-				} catch (Exception e) {
-					result = new APIResponse<>(HttpStatus.BAD_REQUEST,
-							ResponseCode.mapParam(ResponseCode.ERROR_EXCEPTION, e.getMessage()));
-				}
-			}
-		}
-
-		// Add video channel
-		if (result.getStatus() == null) {
-			APIResponse<YoutubeChannelVideoTbl> youtubeChannelVideoTbl = mergeChannelVideo(privateChannel, videoTbl);
-			result.setData(youtubeChannelVideoTbl.getData());
-		}
-
-		// Return
-		return result;
-	}
-
-	/**
 	 * Delete video by videoId
 	 *
 	 * @param id
@@ -387,6 +364,29 @@ public class YoutubeChannelVideoService extends BaseService {
 				tbl.setDeleteFlag(true);
 				youtubeChannelVideoRepository.save(tbl);
 			}
+		}
+
+		// Return
+		return result;
+	}
+
+	/**
+	 * Search
+	 *
+	 * @param sco
+	 * @return
+	 */
+	@Transactional(readOnly = false, rollbackFor = Exception.class)
+	public List<YoutubeChannelVideoTbl> search(YoutubeChannelVideoSCO sco) {
+		// Declare result
+		List<YoutubeChannelVideoTbl> result = new ArrayList<>();
+
+		// Get data
+		Page<YoutubeChannelVideoTbl> page = youtubeChannelVideoRepository.findAll(sco);
+
+		// Transformer
+		if (CollectionUtils.isNotEmpty(page.getContent())) {
+			result = page.getContent();
 		}
 
 		// Return

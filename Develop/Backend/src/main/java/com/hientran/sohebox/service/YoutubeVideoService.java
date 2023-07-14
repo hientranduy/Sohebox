@@ -29,22 +29,24 @@ public class YoutubeVideoService extends BaseService {
 	private final YoutubeVideoRepository youtubeVideoRepository;
 
 	/**
-	 * Search
 	 *
-	 * @param sco
-	 * @return
+	 * Get video by id
+	 *
 	 */
-	@Transactional(readOnly = false, rollbackFor = Exception.class)
-	public List<YoutubeVideoTbl> search(YoutubeVideoSCO sco) {
+	public YoutubeVideoTbl getByVideoId(String videoId) {
 		// Declare result
-		List<YoutubeVideoTbl> result = new ArrayList<>();
+		YoutubeVideoTbl result = null;
+
+		SearchTextVO videoSearch = new SearchTextVO();
+		videoSearch.setEq(videoId);
+
+		YoutubeVideoSCO sco = new YoutubeVideoSCO();
+		sco.setVideoId(videoSearch);
 
 		// Get data
-		Page<YoutubeVideoTbl> page = youtubeVideoRepository.findAll(sco);
-
-		// Transformer
-		if (CollectionUtils.isNotEmpty(page.getContent())) {
-			result = page.getContent();
+		List<YoutubeVideoTbl> list = youtubeVideoRepository.findAll(sco).getContent();
+		if (CollectionUtils.isNotEmpty(list)) {
+			result = list.get(0);
 		}
 
 		// Return
@@ -109,24 +111,22 @@ public class YoutubeVideoService extends BaseService {
 	}
 
 	/**
+	 * Search
 	 *
-	 * Get video by id
-	 *
+	 * @param sco
+	 * @return
 	 */
-	public YoutubeVideoTbl getByVideoId(String videoId) {
+	@Transactional(readOnly = false, rollbackFor = Exception.class)
+	public List<YoutubeVideoTbl> search(YoutubeVideoSCO sco) {
 		// Declare result
-		YoutubeVideoTbl result = null;
-
-		SearchTextVO videoSearch = new SearchTextVO();
-		videoSearch.setEq(videoId);
-
-		YoutubeVideoSCO sco = new YoutubeVideoSCO();
-		sco.setVideoId(videoSearch);
+		List<YoutubeVideoTbl> result = new ArrayList<>();
 
 		// Get data
-		List<YoutubeVideoTbl> list = youtubeVideoRepository.findAll(sco).getContent();
-		if (CollectionUtils.isNotEmpty(list)) {
-			result = list.get(0);
+		Page<YoutubeVideoTbl> page = youtubeVideoRepository.findAll(sco);
+
+		// Transformer
+		if (CollectionUtils.isNotEmpty(page.getContent())) {
+			result = page.getContent();
 		}
 
 		// Return

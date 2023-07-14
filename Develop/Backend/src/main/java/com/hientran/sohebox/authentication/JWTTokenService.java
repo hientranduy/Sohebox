@@ -30,6 +30,11 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class JWTTokenService {
 
+	public static String getJWTToken(String bearerToken) {
+		String jwtToken = bearerToken.replace("Bearer ", "");
+		return jwtToken;
+	}
+
 	@Value("${jwt.secret}")
 	private String SECRET;
 
@@ -39,10 +44,10 @@ public class JWTTokenService {
 	private String SCHEME = "Bearer";
 
 	private String HEADER = "Authorization";
-
 	private final UserService userService;
 	private final UserDetailsServiceImpl userDetailsServiceImpl;
 	private final UserActivityService userActivityService;
+
 	private final ObjectMapper objectMapper;
 
 	public void addAuthentication(HttpServletResponse res, String username) throws IOException {
@@ -71,6 +76,14 @@ public class JWTTokenService {
 		userActivityService.recordUserActivity(userVO, DBConstants.USER_ACTIVITY_LOGIN);
 	}
 
+	private Date calculateExpirationDate(Date createdDate, Long expirationMiliSecond) {
+		if (expirationMiliSecond == null || expirationMiliSecond <= 0) {
+			return new Date(createdDate.getTime() + EXPIRATIONTIME);
+		} else {
+			return new Date(createdDate.getTime() + expirationMiliSecond);
+		}
+	}
+
 	public Authentication getAuthentication(HttpServletRequest request) {
 		// Declare return
 		Authentication result = null;
@@ -92,17 +105,6 @@ public class JWTTokenService {
 		return result;
 	}
 
-	public boolean validateToken(String token) {
-		try {
-			JWTVerifier verifier = JWT.require(Algorithm.HMAC256(SECRET)).withIssuer("Sohebox").build();
-			verifier.verify(token);
-			return true;
-		} catch (JWTVerificationException e) {
-			System.out.println(e.getMessage());
-			return false;
-		}
-	}
-
 	private String getUserNameFromToken(String token) {
 		try {
 			if (validateToken(getJWTToken(token))) {
@@ -117,16 +119,14 @@ public class JWTTokenService {
 		}
 	}
 
-	private Date calculateExpirationDate(Date createdDate, Long expirationMiliSecond) {
-		if (expirationMiliSecond == null || expirationMiliSecond <= 0) {
-			return new Date(createdDate.getTime() + EXPIRATIONTIME);
-		} else {
-			return new Date(createdDate.getTime() + expirationMiliSecond);
+	public boolean validateToken(String token) {
+		try {
+			JWTVerifier verifier = JWT.require(Algorithm.HMAC256(SECRET)).withIssuer("Sohebox").build();
+			verifier.verify(token);
+			return true;
+		} catch (JWTVerificationException e) {
+			System.out.println(e.getMessage());
+			return false;
 		}
-	}
-
-	public static String getJWTToken(String bearerToken) {
-		String jwtToken = bearerToken.replace("Bearer ", "");
-		return jwtToken;
 	}
 }

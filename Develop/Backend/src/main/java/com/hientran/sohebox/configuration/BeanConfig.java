@@ -26,14 +26,13 @@ public class BeanConfig {
 
 	/**
 	 *
-	 * Bean taskScheduler
+	 * Bean objectMapper
 	 *
 	 */
-	@Bean(name = "taskScheduler")
-	public ThreadPoolTaskScheduler threadPoolTaskScheduler() {
-		ThreadPoolTaskScheduler threadPoolTaskScheduler = new ThreadPoolTaskScheduler();
-		threadPoolTaskScheduler.setPoolSize(Integer.parseInt(threadCount));
-		return threadPoolTaskScheduler;
+	@Bean(name = "objectMapper")
+	public Mapper convertObject() {
+		Mapper mapper = new DozerBeanMapper();
+		return mapper;
 	}
 
 	/**
@@ -47,21 +46,22 @@ public class BeanConfig {
 		return httpClient;
 	}
 
-	/**
-	 *
-	 * Bean objectMapper
-	 *
-	 */
-	@Bean(name = "objectMapper")
-	public Mapper convertObject() {
-		Mapper mapper = new DozerBeanMapper();
-		return mapper;
-	}
-
 	@Bean
 	public ObjectMapper objectMapperNew() {
 		return new ObjectMapper().setSerializationInclusion(JsonInclude.Include.NON_NULL)
 				.registerModule(new JavaTimeModule());
+	}
+
+	/**
+	 *
+	 * Bean taskScheduler
+	 *
+	 */
+	@Bean(name = "taskScheduler")
+	public ThreadPoolTaskScheduler threadPoolTaskScheduler() {
+		ThreadPoolTaskScheduler threadPoolTaskScheduler = new ThreadPoolTaskScheduler();
+		threadPoolTaskScheduler.setPoolSize(Integer.parseInt(threadCount));
+		return threadPoolTaskScheduler;
 	}
 
 	/**

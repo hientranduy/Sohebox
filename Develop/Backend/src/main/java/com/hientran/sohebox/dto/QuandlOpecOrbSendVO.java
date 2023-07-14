@@ -12,7 +12,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class QuandlOpecOrbSendVO  {
+public class QuandlOpecOrbSendVO {
 	private String date;
 	private Double price;
 }

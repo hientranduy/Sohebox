@@ -25,70 +25,304 @@ import jakarta.persistence.criteria.Root;
 public class GenericSpecs<T> {
 
 	/**
-	 *
-	 * Build search TEXT
+	 * Search true/false
 	 *
 	 * @param fieldName
 	 * @param value
 	 * @return
 	 */
-	protected Specification<T> buildSearchText(String fieldName, SearchTextVO value) {
-		// Declare result
-		Specification<T> result = null;
-
-		// Build search
-		if (StringUtils.isNotEmpty(fieldName) && value != null) {
-			if (value.getEq() != null) {
-				result = buildTextEqual(fieldName, value.getEq());
-			} else if (value.getLike() != null) {
-				result = buildTextLike(fieldName, value.getLike(), value.getLikeMode());
-			} else if (value.getIn() != null) {
-				result = buildTextIn(fieldName, value.getIn());
+	private Specification<T> buildBooleanEqual(String fieldName, Boolean value) {
+		return new Specification<>() {
+			@Override
+			public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+				Predicate predicate = criteriaBuilder.equal(root.get(fieldName), value);
+				return predicate;
 			}
-		}
-
-		// Return
-		return result;
+		};
 	}
 
 	/**
 	 *
-	 * Build search NUMBER
+	 * Build date criteria: EQUAL
+	 *
+	 * @param fieldName
+	 * @param value
+	 * @param excludeTime
+	 * @return
+	 */
+
+	@SuppressWarnings("hiding")
+	private <T> Specification<T> buildDateEqual(String fieldName, Date value, boolean excludeTime) {
+		return new Specification<>() {
+			@Override
+			public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+				Date minDate = value;
+				Date maxDate = value;
+				if (excludeTime) {
+					minDate = MyDateUtils.getDateMin(value);
+					maxDate = MyDateUtils.getDateMax(value);
+				}
+
+				Predicate predicate = criteriaBuilder.between(root.get(fieldName), minDate, maxDate);
+				return predicate;
+			}
+		};
+	}
+
+	/**
+	 *
+	 * Build date criteria: GREATER or EQUAL
+	 *
+	 * @param fieldName
+	 * @param value
+	 * @param excludeTime
+	 * @return
+	 */
+	private Specification<T> buildDateGe(String fieldName, Date value, boolean excludeTime) {
+		return new Specification<>() {
+			@Override
+			public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+				Date checkDate = value;
+				if (excludeTime) {
+					checkDate = MyDateUtils.getDateMin(value);
+				}
+
+				Predicate predicate = criteriaBuilder.greaterThanOrEqualTo(root.get(fieldName), checkDate);
+				return predicate;
+			}
+		};
+	}
+
+	/**
+	 *
+	 * Build date criteria: GREATER THAN
+	 *
+	 * @param fieldName
+	 * @param value
+	 * @param excludeTime
+	 * @return
+	 */
+	private Specification<T> buildDateGt(String fieldName, Date value, boolean excludeTime) {
+		return new Specification<>() {
+			@Override
+			public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+				Date checkDate = value;
+				if (excludeTime) {
+					checkDate = MyDateUtils.getDateMax(value);
+				}
+
+				Predicate predicate = criteriaBuilder.greaterThan(root.get(fieldName), checkDate);
+				return predicate;
+			}
+		};
+	}
+
+	/**
+	 *
+	 * Build date criteria: IN
+	 *
+	 * @param fieldName
+	 * @param values
+	 * @param excludeTime
+	 * @return
+	 */
+	private Specification<T> buildDateIn(String fieldName, Date[] values, boolean excludeTime) {
+		return new Specification<>() {
+			@Override
+			public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+				return root.get(fieldName).in(values);
+			}
+		};
+	}
+
+	/**
+	 *
+	 * Build date criteria: LESS THAN or EQUAL
+	 *
+	 * @param fieldName
+	 * @param value
+	 * @param excludeTime
+	 * @return
+	 */
+	private Specification<T> buildDateLe(String fieldName, Date value, boolean excludeTime) {
+		return new Specification<>() {
+			@Override
+			public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+				Date checkDate = value;
+				if (excludeTime) {
+					checkDate = MyDateUtils.getDateMax(value);
+				}
+
+				Predicate predicate = criteriaBuilder.lessThanOrEqualTo(root.get(fieldName), checkDate);
+				return predicate;
+			}
+		};
+	}
+
+	/**
+	 *
+	 * Build date criteria: LESS THAN
+	 *
+	 * @param fieldName
+	 * @param value
+	 * @param excludeTime
+	 * @return
+	 */
+	private Specification<T> buildDateLt(String fieldName, Date value, boolean excludeTime) {
+		return new Specification<>() {
+			@Override
+			public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+				Date checkDate = value;
+				if (excludeTime) {
+					checkDate = MyDateUtils.getDateMin(value);
+				}
+
+				Predicate predicate = criteriaBuilder.lessThan(root.get(fieldName), checkDate);
+				return predicate;
+			}
+		};
+	}
+
+	/**
+	 *
+	 * Build number criteria: EQUAL
 	 *
 	 * @param fieldName
 	 * @param value
 	 * @return
 	 */
-	protected Specification<T> buildSearchNumber(String fieldName, SearchNumberVO value) {
+	private Specification<T> buildNumberEqual(String fieldName, Double value) {
+		return new Specification<>() {
+			@Override
+			public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+				Predicate predicate = criteriaBuilder.equal(root.get(fieldName), value);
+				return predicate;
+			}
+		};
+	}
+
+	/**
+	 *
+	 * Build number criteria: GREATER or EQUAL
+	 *
+	 * @param fieldName
+	 * @param value
+	 * @return
+	 */
+	private Specification<T> buildNumberGe(String fieldName, Double value) {
+		return new Specification<>() {
+			@Override
+			public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+				Predicate predicate = criteriaBuilder.ge(root.get(fieldName), value);
+				return predicate;
+			}
+		};
+	}
+
+	/**
+	 *
+	 * Build number criteria: GREATER THAN
+	 *
+	 * @param fieldName
+	 * @param value
+	 * @return
+	 */
+	private Specification<T> buildNumberGt(String fieldName, Double value) {
+		return new Specification<>() {
+			@Override
+			public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+				Predicate predicate = criteriaBuilder.greaterThan(root.get(fieldName), value);
+				return predicate;
+			}
+		};
+	}
+
+	/**
+	 *
+	 * Build number criteria: IN
+	 *
+	 * @param fieldName
+	 * @param values
+	 * @return
+	 */
+	private Specification<T> buildNumberIn(String fieldName, Double[] values) {
+		return new Specification<>() {
+			@Override
+			public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+				return root.get(fieldName).in(values);
+			}
+		};
+	}
+
+	/**
+	 *
+	 * Build number criteria: LESS THAN or EQUAL
+	 *
+	 * @param fieldName
+	 * @param value
+	 * @return
+	 */
+	private Specification<T> buildNumberLe(String fieldName, Double value) {
+		return new Specification<>() {
+			@Override
+			public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+				Predicate predicate = criteriaBuilder.le(root.get(fieldName), value);
+				return predicate;
+			}
+		};
+	}
+
+	/**
+	 *
+	 * Build number criteria: LESS THAN
+	 *
+	 * @param fieldName
+	 * @param value
+	 * @return
+	 */
+	private Specification<T> buildNumberLt(String fieldName, Double value) {
+		return new Specification<>() {
+			@Override
+			public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+				Predicate predicate = criteriaBuilder.lessThan(root.get(fieldName), value);
+				return predicate;
+			}
+		};
+	}
+
+	/**
+	 *
+	 * Build number criteria: NOT EQUAL
+	 *
+	 * @param fieldName
+	 * @param value
+	 * @return
+	 */
+	private Specification<T> buildNumberNotEqual(String fieldName, Double value) {
+		return new Specification<>() {
+			@Override
+			public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+				Predicate predicate = criteriaBuilder.notEqual(root.get(fieldName), value);
+				return predicate;
+			}
+		};
+	}
+
+	/**
+	 *
+	 * Build search true/false
+	 *
+	 * @param fieldName
+	 * @param value
+	 * @return
+	 */
+	protected Specification<T> buildSearchBoolean(String fieldName, Boolean value) {
 		// Declare result
 		Specification<T> result = null;
 
 		// Build search
 		if (StringUtils.isNotEmpty(fieldName) && value != null) {
-			// Case equal
-			if (value.getEq() != null) {
-				result = buildNumberEqual(fieldName, value.getEq());
-
-			} else if (value.getNotEq() != null) {
-				// Case not equal
-				result = buildNumberNotEqual(fieldName, value.getNotEq());
-
-			} else if (value.getIn() != null && value.getIn().length > 0) {
-				// Case in
-				result = buildNumberIn(fieldName, value.getIn());
-
-			} else {
-				// Case difference
-				if (value.getGe() != null) {
-					result = buildNumberGe(fieldName, value.getGe());
-				} else if (value.getLe() != null) {
-					result = buildNumberLe(fieldName, value.getLe());
-				} else if (value.getLt() != null) {
-					result = buildNumberLt(fieldName, value.getLt());
-				} else if (value.getGt() != null) {
-					result = buildNumberGt(fieldName, value.getGt());
-				}
-			}
+			result = buildBooleanEqual(fieldName, value);
 		}
 
 		// Return
@@ -164,411 +398,41 @@ public class GenericSpecs<T> {
 
 	/**
 	 *
-	 * Build search true/false
+	 * Build search NUMBER
 	 *
 	 * @param fieldName
 	 * @param value
 	 * @return
 	 */
-	protected Specification<T> buildSearchBoolean(String fieldName, Boolean value) {
+	protected Specification<T> buildSearchNumber(String fieldName, SearchNumberVO value) {
 		// Declare result
 		Specification<T> result = null;
 
 		// Build search
 		if (StringUtils.isNotEmpty(fieldName) && value != null) {
-			result = buildBooleanEqual(fieldName, value);
-		}
-
-		// Return
-		return result;
-	}
-
-	/**
-	 * Search true/false
-	 *
-	 * @param fieldName
-	 * @param value
-	 * @return
-	 */
-	private Specification<T> buildBooleanEqual(String fieldName, Boolean value) {
-		return new Specification<>() {
-			@Override
-			public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
-				Predicate predicate = criteriaBuilder.equal(root.get(fieldName), value);
-				return predicate;
-			}
-		};
-	}
-
-	/**
-	 *
-	 * Build text criteria: EQUAL
-	 *
-	 * @param fieldName
-	 * @param value
-	 * @return
-	 */
-	@SuppressWarnings("hiding")
-	private <T> Specification<T> buildTextEqual(String fieldName, String value) {
-		return new Specification<>() {
-			@Override
-			public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
-				Predicate predicate = criteriaBuilder.equal(root.get(fieldName), value);
-				return predicate;
-			}
-		};
-	}
-
-	/**
-	 *
-	 * Build text criteria: LIKE
-	 *
-	 * @param fieldName
-	 * @param value
-	 * @param likeMode
-	 * @return
-	 */
-	@SuppressWarnings("hiding")
-	private <T> Specification<T> buildTextLike(String fieldName, String value, int likeMode) {
-		return new Specification<>() {
-			@Override
-			public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
-				String likeValue = null;
-				switch (likeMode) {
-				case DBConstants.LIKE_START:
-					likeValue = DBConstants.WILDCARD + value;
-					break;
-				case DBConstants.LIKE_END:
-					likeValue = value + DBConstants.WILDCARD;
-					break;
-				default:
-					likeValue = DBConstants.WILDCARD + value + DBConstants.WILDCARD;
-					break;
-				}
-				Predicate predicate = criteriaBuilder.like(root.get(fieldName), likeValue);
-				return predicate;
-			}
-		};
-	}
-
-	/**
-	 *
-	 * Build text criteria: IN
-	 *
-	 * @param fieldName
-	 * @param values
-	 * @return
-	 */
-	@SuppressWarnings("hiding")
-	private <T> Specification<T> buildTextIn(String fieldName, String[] values) {
-		return new Specification<>() {
-			@Override
-			public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
-				return root.get(fieldName).in(values);
-			}
-		};
-	}
-
-	/**
-	 *
-	 * Build number criteria: EQUAL
-	 *
-	 * @param fieldName
-	 * @param value
-	 * @return
-	 */
-	private Specification<T> buildNumberEqual(String fieldName, Double value) {
-		return new Specification<>() {
-			@Override
-			public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
-				Predicate predicate = criteriaBuilder.equal(root.get(fieldName), value);
-				return predicate;
-			}
-		};
-	}
-
-	/**
-	 *
-	 * Build number criteria: NOT EQUAL
-	 *
-	 * @param fieldName
-	 * @param value
-	 * @return
-	 */
-	private Specification<T> buildNumberNotEqual(String fieldName, Double value) {
-		return new Specification<>() {
-			@Override
-			public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
-				Predicate predicate = criteriaBuilder.notEqual(root.get(fieldName), value);
-				return predicate;
-			}
-		};
-	}
-
-	/**
-	 *
-	 * Build number criteria: IN
-	 *
-	 * @param fieldName
-	 * @param values
-	 * @return
-	 */
-	private Specification<T> buildNumberIn(String fieldName, Double[] values) {
-		return new Specification<>() {
-			@Override
-			public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
-				return root.get(fieldName).in(values);
-			}
-		};
-	}
-
-	/**
-	 *
-	 * Build number criteria: GREATER or EQUAL
-	 *
-	 * @param fieldName
-	 * @param value
-	 * @return
-	 */
-	private Specification<T> buildNumberGe(String fieldName, Double value) {
-		return new Specification<>() {
-			@Override
-			public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
-				Predicate predicate = criteriaBuilder.ge(root.get(fieldName), value);
-				return predicate;
-			}
-		};
-	}
-
-	/**
-	 *
-	 * Build number criteria: GREATER THAN
-	 *
-	 * @param fieldName
-	 * @param value
-	 * @return
-	 */
-	private Specification<T> buildNumberGt(String fieldName, Double value) {
-		return new Specification<>() {
-			@Override
-			public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
-				Predicate predicate = criteriaBuilder.greaterThan(root.get(fieldName), value);
-				return predicate;
-			}
-		};
-	}
-
-	/**
-	 *
-	 * Build number criteria: LESS THAN or EQUAL
-	 *
-	 * @param fieldName
-	 * @param value
-	 * @return
-	 */
-	private Specification<T> buildNumberLe(String fieldName, Double value) {
-		return new Specification<>() {
-			@Override
-			public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
-				Predicate predicate = criteriaBuilder.le(root.get(fieldName), value);
-				return predicate;
-			}
-		};
-	}
-
-	/**
-	 *
-	 * Build number criteria: LESS THAN
-	 *
-	 * @param fieldName
-	 * @param value
-	 * @return
-	 */
-	private Specification<T> buildNumberLt(String fieldName, Double value) {
-		return new Specification<>() {
-			@Override
-			public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
-				Predicate predicate = criteriaBuilder.lessThan(root.get(fieldName), value);
-				return predicate;
-			}
-		};
-	}
-
-	/**
-	 *
-	 * Build date criteria: EQUAL
-	 *
-	 * @param fieldName
-	 * @param value
-	 * @param excludeTime
-	 * @return
-	 */
-
-	@SuppressWarnings("hiding")
-	private <T> Specification<T> buildDateEqual(String fieldName, Date value, boolean excludeTime) {
-		return new Specification<>() {
-			@Override
-			public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
-				Date minDate = value;
-				Date maxDate = value;
-				if (excludeTime) {
-					minDate = MyDateUtils.getDateMin(value);
-					maxDate = MyDateUtils.getDateMax(value);
-				}
-
-				Predicate predicate = criteriaBuilder.between(root.get(fieldName), minDate, maxDate);
-				return predicate;
-			}
-		};
-	}
-
-	/**
-	 *
-	 * Build date criteria: IN
-	 *
-	 * @param fieldName
-	 * @param values
-	 * @param excludeTime
-	 * @return
-	 */
-	private Specification<T> buildDateIn(String fieldName, Date[] values, boolean excludeTime) {
-		return new Specification<>() {
-			@Override
-			public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
-				return root.get(fieldName).in(values);
-			}
-		};
-	}
-
-	/**
-	 *
-	 * Build date criteria: GREATER or EQUAL
-	 *
-	 * @param fieldName
-	 * @param value
-	 * @param excludeTime
-	 * @return
-	 */
-	private Specification<T> buildDateGe(String fieldName, Date value, boolean excludeTime) {
-		return new Specification<>() {
-			@Override
-			public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
-				Date checkDate = value;
-				if (excludeTime) {
-					checkDate = MyDateUtils.getDateMin(value);
-				}
-
-				Predicate predicate = criteriaBuilder.greaterThanOrEqualTo(root.get(fieldName), checkDate);
-				return predicate;
-			}
-		};
-	}
-
-	/**
-	 *
-	 * Build date criteria: GREATER THAN
-	 *
-	 * @param fieldName
-	 * @param value
-	 * @param excludeTime
-	 * @return
-	 */
-	private Specification<T> buildDateGt(String fieldName, Date value, boolean excludeTime) {
-		return new Specification<>() {
-			@Override
-			public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
-				Date checkDate = value;
-				if (excludeTime) {
-					checkDate = MyDateUtils.getDateMax(value);
-				}
-
-				Predicate predicate = criteriaBuilder.greaterThan(root.get(fieldName), checkDate);
-				return predicate;
-			}
-		};
-	}
-
-	/**
-	 *
-	 * Build date criteria: LESS THAN or EQUAL
-	 *
-	 * @param fieldName
-	 * @param value
-	 * @param excludeTime
-	 * @return
-	 */
-	private Specification<T> buildDateLe(String fieldName, Date value, boolean excludeTime) {
-		return new Specification<>() {
-			@Override
-			public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
-				Date checkDate = value;
-				if (excludeTime) {
-					checkDate = MyDateUtils.getDateMax(value);
-				}
-
-				Predicate predicate = criteriaBuilder.lessThanOrEqualTo(root.get(fieldName), checkDate);
-				return predicate;
-			}
-		};
-	}
-
-	/**
-	 *
-	 * Build date criteria: LESS THAN
-	 *
-	 * @param fieldName
-	 * @param value
-	 * @param excludeTime
-	 * @return
-	 */
-	private Specification<T> buildDateLt(String fieldName, Date value, boolean excludeTime) {
-		return new Specification<>() {
-			@Override
-			public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
-				Date checkDate = value;
-				if (excludeTime) {
-					checkDate = MyDateUtils.getDateMin(value);
-				}
-
-				Predicate predicate = criteriaBuilder.lessThan(root.get(fieldName), checkDate);
-				return predicate;
-			}
-		};
-	}
-
-	/**
-	 *
-	 * Build native SQL Search Text
-	 *
-	 * @param fieldName
-	 * @param value
-	 * @return
-	 */
-	public String buildSearchTextNative(String fieldName, SearchTextVO value) {
-		// Declare result
-		String result = null;
-
-		// Build search
-		if (StringUtils.isNotEmpty(fieldName) && value != null) {
+			// Case equal
 			if (value.getEq() != null) {
-				result = " AND " + fieldName + " = " + SQLUtils.normalizeSQLString(value.getEq());
+				result = buildNumberEqual(fieldName, value.getEq());
 
-			} else if (value.getLike() != null) {
-				switch (value.getLikeMode()) {
-				case DBConstants.LIKE_START:
-					result = " AND " + fieldName + " LIKE " + SQLUtils.normalizeSQLLikeStart(value.getLike());
-					break;
-				case DBConstants.LIKE_END:
-					result = " AND " + fieldName + " LIKE " + SQLUtils.normalizeSQLLikeEnd(value.getLike());
-					break;
-				default:
-					result = " AND " + fieldName + " LIKE " + SQLUtils.normalizeSQLLikeAnyWhere(value.getLike());
-					break;
+			} else if (value.getNotEq() != null) {
+				// Case not equal
+				result = buildNumberNotEqual(fieldName, value.getNotEq());
+
+			} else if (value.getIn() != null && value.getIn().length > 0) {
+				// Case in
+				result = buildNumberIn(fieldName, value.getIn());
+
+			} else {
+				// Case difference
+				if (value.getGe() != null) {
+					result = buildNumberGe(fieldName, value.getGe());
+				} else if (value.getLe() != null) {
+					result = buildNumberLe(fieldName, value.getLe());
+				} else if (value.getLt() != null) {
+					result = buildNumberLt(fieldName, value.getLt());
+				} else if (value.getGt() != null) {
+					result = buildNumberGt(fieldName, value.getGt());
 				}
-
-			} else if (value.getIn() != null) {
-				result = " AND " + fieldName + " IN "
-						+ SQLUtils.normalizeSQLString(new ArrayList<>(Arrays.asList(value.getIn())));
 			}
 		}
 
@@ -614,5 +478,141 @@ public class GenericSpecs<T> {
 
 		// Return
 		return result;
+	}
+
+	/**
+	 *
+	 * Build search TEXT
+	 *
+	 * @param fieldName
+	 * @param value
+	 * @return
+	 */
+	protected Specification<T> buildSearchText(String fieldName, SearchTextVO value) {
+		// Declare result
+		Specification<T> result = null;
+
+		// Build search
+		if (StringUtils.isNotEmpty(fieldName) && value != null) {
+			if (value.getEq() != null) {
+				result = buildTextEqual(fieldName, value.getEq());
+			} else if (value.getLike() != null) {
+				result = buildTextLike(fieldName, value.getLike(), value.getLikeMode());
+			} else if (value.getIn() != null) {
+				result = buildTextIn(fieldName, value.getIn());
+			}
+		}
+
+		// Return
+		return result;
+	}
+
+	/**
+	 *
+	 * Build native SQL Search Text
+	 *
+	 * @param fieldName
+	 * @param value
+	 * @return
+	 */
+	public String buildSearchTextNative(String fieldName, SearchTextVO value) {
+		// Declare result
+		String result = null;
+
+		// Build search
+		if (StringUtils.isNotEmpty(fieldName) && value != null) {
+			if (value.getEq() != null) {
+				result = " AND " + fieldName + " = " + SQLUtils.normalizeSQLString(value.getEq());
+
+			} else if (value.getLike() != null) {
+				switch (value.getLikeMode()) {
+				case DBConstants.LIKE_START:
+					result = " AND " + fieldName + " LIKE " + SQLUtils.normalizeSQLLikeStart(value.getLike());
+					break;
+				case DBConstants.LIKE_END:
+					result = " AND " + fieldName + " LIKE " + SQLUtils.normalizeSQLLikeEnd(value.getLike());
+					break;
+				default:
+					result = " AND " + fieldName + " LIKE " + SQLUtils.normalizeSQLLikeAnyWhere(value.getLike());
+					break;
+				}
+
+			} else if (value.getIn() != null) {
+				result = " AND " + fieldName + " IN "
+						+ SQLUtils.normalizeSQLString(new ArrayList<>(Arrays.asList(value.getIn())));
+			}
+		}
+
+		// Return
+		return result;
+	}
+
+	/**
+	 *
+	 * Build text criteria: EQUAL
+	 *
+	 * @param fieldName
+	 * @param value
+	 * @return
+	 */
+	@SuppressWarnings("hiding")
+	private <T> Specification<T> buildTextEqual(String fieldName, String value) {
+		return new Specification<>() {
+			@Override
+			public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+				Predicate predicate = criteriaBuilder.equal(root.get(fieldName), value);
+				return predicate;
+			}
+		};
+	}
+
+	/**
+	 *
+	 * Build text criteria: IN
+	 *
+	 * @param fieldName
+	 * @param values
+	 * @return
+	 */
+	@SuppressWarnings("hiding")
+	private <T> Specification<T> buildTextIn(String fieldName, String[] values) {
+		return new Specification<>() {
+			@Override
+			public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+				return root.get(fieldName).in(values);
+			}
+		};
+	}
+
+	/**
+	 *
+	 * Build text criteria: LIKE
+	 *
+	 * @param fieldName
+	 * @param value
+	 * @param likeMode
+	 * @return
+	 */
+	@SuppressWarnings("hiding")
+	private <T> Specification<T> buildTextLike(String fieldName, String value, int likeMode) {
+		return new Specification<>() {
+			@Override
+			public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+				String likeValue = null;
+				switch (likeMode) {
+				case DBConstants.LIKE_START:
+					likeValue = DBConstants.WILDCARD + value;
+					break;
+				case DBConstants.LIKE_END:
+					likeValue = value + DBConstants.WILDCARD;
+					break;
+				default:
+					likeValue = DBConstants.WILDCARD + value + DBConstants.WILDCARD;
+					break;
+				}
+				Predicate predicate = criteriaBuilder.like(root.get(fieldName), likeValue);
+				return predicate;
+			}
+		};
 	}
 }

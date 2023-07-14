@@ -32,6 +32,32 @@ public class APIResponse<Data> {
 	 * Constructor
 	 *
 	 * @param status
+	 * @param errors
+	 */
+	public APIResponse(HttpStatus status, List<String> errors) {
+		super();
+		this.status = status;
+		this.errors = errors;
+	}
+
+	/**
+	 *
+	 * Constructor
+	 *
+	 * @param status
+	 * @param message
+	 */
+	public APIResponse(HttpStatus status, String message) {
+		super();
+		this.status = status;
+		this.message = message;
+	}
+
+	/**
+	 *
+	 * Constructor
+	 *
+	 * @param status
 	 * @param message
 	 * @param errors
 	 */
@@ -58,65 +84,12 @@ public class APIResponse<Data> {
 	}
 
 	/**
+	 * Get data
 	 *
-	 * Constructor
-	 *
-	 * @param status
-	 * @param message
+	 * @return data
 	 */
-	public APIResponse(HttpStatus status, String message) {
-		super();
-		this.status = status;
-		this.message = message;
-	}
-
-	/**
-	 *
-	 * Constructor
-	 *
-	 * @param status
-	 * @param errors
-	 */
-	public APIResponse(HttpStatus status, List<String> errors) {
-		super();
-		this.status = status;
-		this.errors = errors;
-	}
-
-	/**
-	 * Get status
-	 *
-	 * @return status
-	 */
-	public HttpStatus getStatus() {
-		return status;
-	}
-
-	/**
-	 * Set status
-	 *
-	 * @param status the status to set
-	 */
-	public void setStatus(HttpStatus status) {
-		this.status = status;
-	}
-
-	/**
-	 * Get message
-	 *
-	 * @return message
-	 */
-	public String getMessage() {
-		return message;
-	}
-
-	/**
-	 * Set message
-	 *
-	 * @param message the message to set
-	 */
-	public void setMessage(String message) {
-		this.message = message;
+	public Data getData() {
+		return data;
 	}
 
 	/**
@@ -129,21 +102,21 @@ public class APIResponse<Data> {
 	}
 
 	/**
-	 * Set errors
+	 * Get message
 	 *
-	 * @param errors the errors to set
+	 * @return message
 	 */
-	public void setErrors(List<String> errors) {
-		this.errors = errors;
+	public String getMessage() {
+		return message;
 	}
 
 	/**
-	 * Get data
+	 * Get status
 	 *
-	 * @return data
+	 * @return status
 	 */
-	public Data getData() {
-		return data;
+	public HttpStatus getStatus() {
+		return status;
 	}
 
 	/**
@@ -153,6 +126,33 @@ public class APIResponse<Data> {
 	 */
 	public void setData(Data data) {
 		this.data = data;
+	}
+
+	/**
+	 * Set errors
+	 *
+	 * @param errors the errors to set
+	 */
+	public void setErrors(List<String> errors) {
+		this.errors = errors;
+	}
+
+	/**
+	 * Set message
+	 *
+	 * @param message the message to set
+	 */
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
+	/**
+	 * Set status
+	 *
+	 * @param status the status to set
+	 */
+	public void setStatus(HttpStatus status) {
+		this.status = status;
 	}
 
 	/**

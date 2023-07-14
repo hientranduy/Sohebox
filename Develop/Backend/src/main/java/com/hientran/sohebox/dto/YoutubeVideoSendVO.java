@@ -12,7 +12,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class YoutubeVideoSendVO  {
+public class YoutubeVideoSendVO {
 	private String videoId;
 	private String kind;
 	private String publishedAt;

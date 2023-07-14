@@ -21,6 +21,31 @@ public class UserTransformer extends BaseTransformer {
 	private final Mapper objectMapper;
 
 	/**
+	 * Conver return mdp
+	 *
+	 * @param description
+	 * @return
+	 */
+	private String convertMdp(String mdp) {
+		// Declare result
+		String result = "";
+
+		// Add 1 first chars
+		result = mdp.substring(0, 1);
+
+		// Add n middle chars
+		for (int i = 0; i < mdp.length() - 2; i++) {
+			result = result + "*";
+		}
+
+		// Add 1 last chars
+		result = result + mdp.substring(mdp.length() - 1);
+
+		// Return
+		return result;
+	}
+
+	/**
 	 * Convert Page<UserTbl> to PageResultVO<UserVO>
 	 *
 	 * @param Page<UserTbl>
@@ -44,6 +69,23 @@ public class UserTransformer extends BaseTransformer {
 
 		// Set header information
 		setPageHeader(pageTbl, result);
+
+		// Return
+		return result;
+	}
+
+	/**
+	 * Convert tbl to vo
+	 *
+	 * @param User
+	 * @return
+	 */
+	public UserTbl convertToTbl(UserVO vo) {
+		// Declare result
+		UserTbl result = new UserTbl();
+
+		// Transformation
+		objectMapper.map(vo, result);
 
 		// Return
 		return result;
@@ -75,48 +117,6 @@ public class UserTransformer extends BaseTransformer {
 		if (tbl.getPrivateKey() != null) {
 			result.setPrivateKey(convertMdp(tbl.getPrivateKey().getDescription()));
 		}
-
-		// Return
-		return result;
-	}
-
-	/**
-	 * Conver return mdp
-	 *
-	 * @param description
-	 * @return
-	 */
-	private String convertMdp(String mdp) {
-		// Declare result
-		String result = "";
-
-		// Add 1 first chars
-		result = mdp.substring(0, 1);
-
-		// Add n middle chars
-		for (int i = 0; i < mdp.length() - 2; i++) {
-			result = result + "*";
-		}
-
-		// Add 1 last chars
-		result = result + mdp.substring(mdp.length() - 1);
-
-		// Return
-		return result;
-	}
-
-	/**
-	 * Convert tbl to vo
-	 *
-	 * @param User
-	 * @return
-	 */
-	public UserTbl convertToTbl(UserVO vo) {
-		// Declare result
-		UserTbl result = new UserTbl();
-
-		// Transformation
-		objectMapper.map(vo, result);
 
 		// Return
 		return result;

@@ -12,18 +12,18 @@ public class SchedulerService extends BaseService {
 	private final CryptoPortfolioHistoryService cryptoPortfolioHistoryService;
 
 	/**
-	 * Extend english learn report
-	 *
-	 */
-	public void englishExtendLearnReport() {
-		englishLearnReportService.fillDailyEnglishLearn();
-	}
-
-	/**
 	 * Calculate crypto portfolio total
 	 *
 	 */
 	public void cronjobCalculTotalPortfolio() {
 		cryptoPortfolioHistoryService.cronjobCalculTotalPortfolio();
+	}
+
+	/**
+	 * Extend english learn report
+	 *
+	 */
+	public void englishExtendLearnReport() {
+		englishLearnReportService.fillDailyEnglishLearn();
 	}
 }

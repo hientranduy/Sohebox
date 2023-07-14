@@ -35,73 +35,50 @@ public class DataExternalService extends BaseService {
 	private String resourcePath;
 
 	/**
-	 * Get vietcombank foreigner rate
+	 * SJC Gold: Transform node item to object
 	 *
 	 */
-	public APIResponse<Object> getVietcombankForeignerRate() {
+	private List<SjcGoldItemVO> getCityItem(Node node) {
 		// Declare result
-		APIResponse<Object> result = new APIResponse<>();
-		String filePath = resourcePath + DataExternalConstants.REQUEST_DATA_FILE_PATH_VCB;
+		List<SjcGoldItemVO> result = new ArrayList<>();
 
-		// Check and update file
-		try {
-			refreshExternalFile(filePath);
-		} catch (Exception e) {
-			result = new APIResponse<>(HttpStatus.BAD_REQUEST,
-					ResponseCode.mapParam(ResponseCode.ERROR_EXCEPTION, e.getMessage()));
+		// Get data
+		NodeList nodeList = node.getChildNodes();
+		for (int i = 0; i < nodeList.getLength(); i++) {
+			Node currentNode = nodeList.item(i);
+			if (currentNode.getNodeType() == Node.ELEMENT_NODE) {
+				Element element = (Element) currentNode;
+				SjcGoldItemVO item = new SjcGoldItemVO();
+				item.setBuy(element.getAttribute("buy"));
+				item.setSell(element.getAttribute("sell"));
+				item.setType(element.getAttribute("type"));
+				result.add(item);
+			}
 		}
 
-		// Get data from a file
-		try {
-			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-			DocumentBuilder builder = factory.newDocumentBuilder();
-			Document document = builder.parse(new File(filePath));
+		// Return
+		return result;
+	}
 
-			if (document != null) {
-				// Transform result data list
-				VcbCurrencyVO resultItem = new VcbCurrencyVO();
-				List<VcbCurrencyItemVO> rates = new ArrayList<>();
+	/**
+	 * SJC Gold: Transform node city to object
+	 *
+	 */
+	private List<SjcGoldCityVO> getGoldbyCity(Node node) {
+		// Declare result
+		List<SjcGoldCityVO> result = new ArrayList<>();
 
-				NodeList nodeList = document.getDocumentElement().getChildNodes();
-				for (int i = 0; i < nodeList.getLength(); i++) {
-					Node currentNode = nodeList.item(i);
-					if (currentNode.getNodeType() == Node.ELEMENT_NODE) {
-						switch (currentNode.getNodeName()) {
-						case "DateTime":
-							resultItem.setDateTime(currentNode.getTextContent());
-							break;
-						case "Exrate":
-							Element elementExrate = (Element) currentNode;
-							VcbCurrencyItemVO rate = new VcbCurrencyItemVO();
-							rate.setCurrencyCode(elementExrate.getAttribute("CurrencyCode"));
-							rate.setCurrencyName(elementExrate.getAttribute("CurrencyName"));
-							rate.setBuy(elementExrate.getAttribute("Buy"));
-							rate.setTransfer(elementExrate.getAttribute("Transfer"));
-							rate.setSell(elementExrate.getAttribute("Sell"));
-							rates.add(rate);
-							break;
-						default:
-							break;
-						}
-					}
-				}
-				resultItem.setRates(rates);
-
-				// Set return data
-				List<VcbCurrencyVO> listItem = new ArrayList<>();
-				listItem.add(resultItem);
-
-				PageResultVO<VcbCurrencyVO> data = new PageResultVO<>();
-				data.setElements(listItem);
-				data.setCurrentPage(0);
-				data.setTotalPage(1);
-				data.setTotalElement(listItem.size());
-
-				// Set data return
-				result.setData(data);
+		// Get data
+		NodeList nodeList = node.getChildNodes();
+		for (int i = 0; i < nodeList.getLength(); i++) {
+			Node currentNode = nodeList.item(i);
+			if (currentNode.getNodeType() == Node.ELEMENT_NODE) {
+				Element elementCity = (Element) currentNode;
+				SjcGoldCityVO city = new SjcGoldCityVO();
+				city.setCityName(elementCity.getAttribute("name"));
+				city.setItems(getCityItem(currentNode));
+				result.add(city);
 			}
-		} catch (Exception ex) {
-			ex.printStackTrace();
 		}
 
 		// Return
@@ -179,50 +156,73 @@ public class DataExternalService extends BaseService {
 	}
 
 	/**
-	 * SJC Gold: Transform node city to object
+	 * Get vietcombank foreigner rate
 	 *
 	 */
-	private List<SjcGoldCityVO> getGoldbyCity(Node node) {
+	public APIResponse<Object> getVietcombankForeignerRate() {
 		// Declare result
-		List<SjcGoldCityVO> result = new ArrayList<>();
+		APIResponse<Object> result = new APIResponse<>();
+		String filePath = resourcePath + DataExternalConstants.REQUEST_DATA_FILE_PATH_VCB;
 
-		// Get data
-		NodeList nodeList = node.getChildNodes();
-		for (int i = 0; i < nodeList.getLength(); i++) {
-			Node currentNode = nodeList.item(i);
-			if (currentNode.getNodeType() == Node.ELEMENT_NODE) {
-				Element elementCity = (Element) currentNode;
-				SjcGoldCityVO city = new SjcGoldCityVO();
-				city.setCityName(elementCity.getAttribute("name"));
-				city.setItems(getCityItem(currentNode));
-				result.add(city);
-			}
+		// Check and update file
+		try {
+			refreshExternalFile(filePath);
+		} catch (Exception e) {
+			result = new APIResponse<>(HttpStatus.BAD_REQUEST,
+					ResponseCode.mapParam(ResponseCode.ERROR_EXCEPTION, e.getMessage()));
 		}
 
-		// Return
-		return result;
-	}
+		// Get data from a file
+		try {
+			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder builder = factory.newDocumentBuilder();
+			Document document = builder.parse(new File(filePath));
 
-	/**
-	 * SJC Gold: Transform node item to object
-	 *
-	 */
-	private List<SjcGoldItemVO> getCityItem(Node node) {
-		// Declare result
-		List<SjcGoldItemVO> result = new ArrayList<>();
+			if (document != null) {
+				// Transform result data list
+				VcbCurrencyVO resultItem = new VcbCurrencyVO();
+				List<VcbCurrencyItemVO> rates = new ArrayList<>();
 
-		// Get data
-		NodeList nodeList = node.getChildNodes();
-		for (int i = 0; i < nodeList.getLength(); i++) {
-			Node currentNode = nodeList.item(i);
-			if (currentNode.getNodeType() == Node.ELEMENT_NODE) {
-				Element element = (Element) currentNode;
-				SjcGoldItemVO item = new SjcGoldItemVO();
-				item.setBuy(element.getAttribute("buy"));
-				item.setSell(element.getAttribute("sell"));
-				item.setType(element.getAttribute("type"));
-				result.add(item);
+				NodeList nodeList = document.getDocumentElement().getChildNodes();
+				for (int i = 0; i < nodeList.getLength(); i++) {
+					Node currentNode = nodeList.item(i);
+					if (currentNode.getNodeType() == Node.ELEMENT_NODE) {
+						switch (currentNode.getNodeName()) {
+						case "DateTime":
+							resultItem.setDateTime(currentNode.getTextContent());
+							break;
+						case "Exrate":
+							Element elementExrate = (Element) currentNode;
+							VcbCurrencyItemVO rate = new VcbCurrencyItemVO();
+							rate.setCurrencyCode(elementExrate.getAttribute("CurrencyCode"));
+							rate.setCurrencyName(elementExrate.getAttribute("CurrencyName"));
+							rate.setBuy(elementExrate.getAttribute("Buy"));
+							rate.setTransfer(elementExrate.getAttribute("Transfer"));
+							rate.setSell(elementExrate.getAttribute("Sell"));
+							rates.add(rate);
+							break;
+						default:
+							break;
+						}
+					}
+				}
+				resultItem.setRates(rates);
+
+				// Set return data
+				List<VcbCurrencyVO> listItem = new ArrayList<>();
+				listItem.add(resultItem);
+
+				PageResultVO<VcbCurrencyVO> data = new PageResultVO<>();
+				data.setElements(listItem);
+				data.setCurrentPage(0);
+				data.setTotalPage(1);
+				data.setTotalElement(listItem.size());
+
+				// Set data return
+				result.setData(data);
 			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
 		}
 
 		// Return

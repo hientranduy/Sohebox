@@ -15,7 +15,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class SendEmailContentVO  {
+public class SendEmailContentVO {
 	private String mailFrom;
 	private String[] listMailTo;
 	private String subject;

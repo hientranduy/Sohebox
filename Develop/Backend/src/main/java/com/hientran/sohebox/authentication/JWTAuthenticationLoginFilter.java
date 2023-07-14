@@ -19,6 +19,23 @@ import jakarta.servlet.http.HttpServletResponse;
 
 public class JWTAuthenticationLoginFilter extends UsernamePasswordAuthenticationFilter {
 
+	/**
+	 *
+	 * Temporary UserCredentials
+	 *
+	 */
+	private static class UserCredentials {
+		private String username, password;
+
+		public String getPassword() {
+			return password;
+		}
+
+		public String getUsername() {
+			return username;
+		}
+	}
+
 	private JWTTokenService tokenAuthenticationService;
 
 	/**
@@ -72,22 +89,5 @@ public class JWTAuthenticationLoginFilter extends UsernamePasswordAuthentication
 	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
 			Authentication authResult) throws IOException, ServletException {
 		tokenAuthenticationService.addAuthentication(response, authResult.getName());
-	}
-
-	/**
-	 *
-	 * Temporary UserCredentials
-	 *
-	 */
-	private static class UserCredentials {
-		private String username, password;
-
-		public String getUsername() {
-			return username;
-		}
-
-		public String getPassword() {
-			return password;
-		}
 	}
 }

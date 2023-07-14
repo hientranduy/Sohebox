@@ -19,8 +19,6 @@ import com.hientran.sohebox.specification.EnglishTypeSpecs.EnglishTypeTblEnum;
 public interface EnglishTypeRepository
 		extends JpaRepository<EnglishTypeTbl, Long>, JpaSpecificationExecutor<EnglishTypeTbl>, BaseRepository {
 
-	EnglishTypeTbl findFirstByTypeClassAndTypeCode(String typeClass, String typeCode);
-
 	EnglishTypeSpecs specs = new EnglishTypeSpecs();
 
 	/**
@@ -61,4 +59,6 @@ public interface EnglishTypeRepository
 		result = pageData;
 		return result;
 	}
+
+	EnglishTypeTbl findFirstByTypeClassAndTypeCode(String typeClass, String typeCode);
 }

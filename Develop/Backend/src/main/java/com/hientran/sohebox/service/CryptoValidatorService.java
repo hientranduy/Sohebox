@@ -107,128 +107,6 @@ public class CryptoValidatorService extends BaseService {
 	}
 
 	/**
-	 *
-	 * Check if record is existed
-	 *
-	 * @return
-	 */
-	private boolean recordIsExisted(CryptoValidatorTbl rq) {
-		// Declare result
-		boolean result = false;
-
-		// Prepare search
-		SearchTextVO validatorAddressSearch = new SearchTextVO();
-		validatorAddressSearch.setEq(rq.getValidatorAddress());
-
-		CryptoValidatorSCO sco = new CryptoValidatorSCO();
-		sco.setValidatorAddress(validatorAddressSearch);
-
-		// Get data
-		List<CryptoValidatorTbl> listSearch = cryptoValidatorRepository.findAll(sco).getContent();
-		if (CollectionUtils.isNotEmpty(listSearch)) {
-			result = true;
-		}
-
-		// Return
-		return result;
-	}
-
-	/**
-	 *
-	 * Update
-	 *
-	 * @param rq
-	 * @return
-	 */
-	@Transactional(readOnly = false, rollbackFor = Exception.class)
-	public APIResponse<Long> update(CryptoValidatorTbl rq) {
-		// Declare result
-		APIResponse<Long> result = new APIResponse<>();
-
-		// Validate input
-		if (result.getStatus() == null) {
-			List<String> errors = new ArrayList<>();
-
-			if (rq.getValidatorAddress() == null) {
-				errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY,
-						CryptoValidatorTblEnum.validatorAddress.name()));
-			}
-
-			if (StringUtils.isBlank(rq.getValidatorName())) {
-				errors.add(
-						ResponseCode.mapParam(ResponseCode.FILED_EMPTY, CryptoValidatorTblEnum.validatorName.name()));
-			}
-
-			// Record error
-			if (CollectionUtils.isNotEmpty(errors)) {
-				result = new APIResponse<>(HttpStatus.BAD_REQUEST, errors);
-			}
-		}
-
-		// Get updated item
-		CryptoValidatorTbl updateTbl = cryptoValidatorRepository.findById(rq.getId()).get();
-		if (updateTbl == null) {
-			result = new APIResponse<>(HttpStatus.BAD_REQUEST, ResponseCode.mapParam(ResponseCode.INEXISTED_RECORD,
-					"Validator wallet " + rq.getValidatorAddress()));
-		}
-
-		// Update
-		if (result.getStatus() == null) {
-			if (!StringUtils.equals(rq.getValidatorName(), updateTbl.getValidatorName())) {
-				updateTbl.setValidatorName(rq.getValidatorName());
-			}
-
-			if (!StringUtils.equals(rq.getValidatorWebsite(), updateTbl.getValidatorWebsite())) {
-				updateTbl.setValidatorWebsite(rq.getValidatorWebsite());
-			}
-
-			if (rq.getCommissionRate() != null) {
-				updateTbl.setCommissionRate(rq.getCommissionRate());
-			}
-
-			if (rq.getTotalDeligated() != null) {
-				updateTbl.setTotalDeligated(rq.getTotalDeligated());
-			}
-
-			updateTbl.setSyncDate(new Date());
-
-			cryptoValidatorRepository.save(updateTbl);
-		}
-
-		// Return
-		return result;
-	}
-
-	/**
-	 * Search
-	 *
-	 * @param sco
-	 * @return
-	 * @throws Exception
-	 */
-	@Transactional(readOnly = false, rollbackFor = Exception.class)
-	public APIResponse<Object> search(CryptoValidatorSCO sco) {
-		// Declare result
-		APIResponse<Object> result = new APIResponse<>();
-
-		// Get data
-		Page<CryptoValidatorTbl> page = cryptoValidatorRepository.findAll(sco);
-
-		// Transformer
-		PageResultVO<CryptoValidatorTbl> data = new PageResultVO<>();
-		if (!CollectionUtils.isEmpty(page.getContent())) {
-			data.setElements(page.getContent());
-			setPageHeader(page, data);
-		}
-
-		// Set data return
-		result.setData(data);
-
-		// Return
-		return result;
-	}
-
-	/**
 	 * Get by id
 	 *
 	 * @param id
@@ -328,5 +206,127 @@ public class CryptoValidatorService extends BaseService {
 
 		// Return
 		return returnValidator;
+	}
+
+	/**
+	 *
+	 * Check if record is existed
+	 *
+	 * @return
+	 */
+	private boolean recordIsExisted(CryptoValidatorTbl rq) {
+		// Declare result
+		boolean result = false;
+
+		// Prepare search
+		SearchTextVO validatorAddressSearch = new SearchTextVO();
+		validatorAddressSearch.setEq(rq.getValidatorAddress());
+
+		CryptoValidatorSCO sco = new CryptoValidatorSCO();
+		sco.setValidatorAddress(validatorAddressSearch);
+
+		// Get data
+		List<CryptoValidatorTbl> listSearch = cryptoValidatorRepository.findAll(sco).getContent();
+		if (CollectionUtils.isNotEmpty(listSearch)) {
+			result = true;
+		}
+
+		// Return
+		return result;
+	}
+
+	/**
+	 * Search
+	 *
+	 * @param sco
+	 * @return
+	 * @throws Exception
+	 */
+	@Transactional(readOnly = false, rollbackFor = Exception.class)
+	public APIResponse<Object> search(CryptoValidatorSCO sco) {
+		// Declare result
+		APIResponse<Object> result = new APIResponse<>();
+
+		// Get data
+		Page<CryptoValidatorTbl> page = cryptoValidatorRepository.findAll(sco);
+
+		// Transformer
+		PageResultVO<CryptoValidatorTbl> data = new PageResultVO<>();
+		if (!CollectionUtils.isEmpty(page.getContent())) {
+			data.setElements(page.getContent());
+			setPageHeader(page, data);
+		}
+
+		// Set data return
+		result.setData(data);
+
+		// Return
+		return result;
+	}
+
+	/**
+	 *
+	 * Update
+	 *
+	 * @param rq
+	 * @return
+	 */
+	@Transactional(readOnly = false, rollbackFor = Exception.class)
+	public APIResponse<Long> update(CryptoValidatorTbl rq) {
+		// Declare result
+		APIResponse<Long> result = new APIResponse<>();
+
+		// Validate input
+		if (result.getStatus() == null) {
+			List<String> errors = new ArrayList<>();
+
+			if (rq.getValidatorAddress() == null) {
+				errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY,
+						CryptoValidatorTblEnum.validatorAddress.name()));
+			}
+
+			if (StringUtils.isBlank(rq.getValidatorName())) {
+				errors.add(
+						ResponseCode.mapParam(ResponseCode.FILED_EMPTY, CryptoValidatorTblEnum.validatorName.name()));
+			}
+
+			// Record error
+			if (CollectionUtils.isNotEmpty(errors)) {
+				result = new APIResponse<>(HttpStatus.BAD_REQUEST, errors);
+			}
+		}
+
+		// Get updated item
+		CryptoValidatorTbl updateTbl = cryptoValidatorRepository.findById(rq.getId()).get();
+		if (updateTbl == null) {
+			result = new APIResponse<>(HttpStatus.BAD_REQUEST, ResponseCode.mapParam(ResponseCode.INEXISTED_RECORD,
+					"Validator wallet " + rq.getValidatorAddress()));
+		}
+
+		// Update
+		if (result.getStatus() == null) {
+			if (!StringUtils.equals(rq.getValidatorName(), updateTbl.getValidatorName())) {
+				updateTbl.setValidatorName(rq.getValidatorName());
+			}
+
+			if (!StringUtils.equals(rq.getValidatorWebsite(), updateTbl.getValidatorWebsite())) {
+				updateTbl.setValidatorWebsite(rq.getValidatorWebsite());
+			}
+
+			if (rq.getCommissionRate() != null) {
+				updateTbl.setCommissionRate(rq.getCommissionRate());
+			}
+
+			if (rq.getTotalDeligated() != null) {
+				updateTbl.setTotalDeligated(rq.getTotalDeligated());
+			}
+
+			updateTbl.setSyncDate(new Date());
+
+			cryptoValidatorRepository.save(updateTbl);
+		}
+
+		// Return
+		return result;
 	}
 }

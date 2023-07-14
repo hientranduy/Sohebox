@@ -13,8 +13,6 @@ import com.hientran.sohebox.specification.TradingSymbolSpecs;
 public interface TradingSymbolRepository
 		extends JpaRepository<TradingSymbolTbl, Long>, JpaSpecificationExecutor<TradingSymbolTbl>, BaseRepository {
 
-	TradingSymbolTbl findFirstBySymbol(String symbol);
-
 	TradingSymbolSpecs specs = new TradingSymbolSpecs();
 
 	/**
@@ -42,4 +40,6 @@ public interface TradingSymbolRepository
 		result = pageData;
 		return result;
 	}
+
+	TradingSymbolTbl findFirstBySymbol(String symbol);
 }

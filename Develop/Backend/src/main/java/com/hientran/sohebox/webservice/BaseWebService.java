@@ -44,25 +44,18 @@ public class BaseWebService {
 
 	/**
 	 *
-	 * Create http GET
+	 * Validate HTTP status and get return
 	 *
-	 * @param builder
+	 * @param method
+	 * @param responseBody
 	 * @return
-	 * @throws URISyntaxException
+	 * @throws WebServiceException
+	 * @throws ParseException
+	 * @throws IOException
 	 */
-	protected HttpGet createHttpGet(URIBuilder builder) throws URISyntaxException {
-		// Configured get HTTP request
-		RequestConfig.Builder requestConfig = RequestConfig.custom();
-		requestConfig.setConnectTimeout(Timeout.ofMilliseconds(Long.valueOf(timeOutConnect)));
-		requestConfig.setConnectionRequestTimeout(Timeout.ofMilliseconds(Long.valueOf(timeOutConnect)));
-
-		// Create httpGet
-		HttpGet httpGet = new HttpGet(builder.build());
-		httpGet.addHeader("Accept", "application/json");
-		httpGet.addHeader("Accept-Charset", "utf-8");
-		httpGet.setUri(builder.build());
-		httpGet.setConfig(requestConfig.build());
-		return httpGet;
+	protected String checkAndGetResult(HttpGet httpGet, CloseableHttpResponse responseBody)
+			throws ParseException, IOException {
+		return EntityUtils.toString(responseBody.getEntity());
 	}
 
 	/**
@@ -90,35 +83,25 @@ public class BaseWebService {
 
 	/**
 	 *
-	 * Validate HTTP status and get return
+	 * Create http GET
 	 *
-	 * @param method
-	 * @param responseBody
+	 * @param builder
 	 * @return
-	 * @throws WebServiceException
-	 * @throws ParseException
-	 * @throws IOException
+	 * @throws URISyntaxException
 	 */
-	protected String checkAndGetResult(HttpGet httpGet, CloseableHttpResponse responseBody)
-			throws ParseException, IOException {
-		return EntityUtils.toString(responseBody.getEntity());
-	}
+	protected HttpGet createHttpGet(URIBuilder builder) throws URISyntaxException {
+		// Configured get HTTP request
+		RequestConfig.Builder requestConfig = RequestConfig.custom();
+		requestConfig.setConnectTimeout(Timeout.ofMilliseconds(Long.valueOf(timeOutConnect)));
+		requestConfig.setConnectionRequestTimeout(Timeout.ofMilliseconds(Long.valueOf(timeOutConnect)));
 
-	/**
-	 * Record external request
-	 *
-	 * @throws Exception
-	 *
-	 */
-	protected void recordRequestExternal(String requestUrl, String requestTypeCode, String note) throws Exception {
-		TypeTbl type = new TypeTbl();
-		type.setTypeCode(requestTypeCode);
-
-		RequestExternalTbl tbl = new RequestExternalTbl();
-		tbl.setRequestUrl(requestUrl);
-		tbl.setNote(note);
-		tbl.setRequestType(type);
-		requestExternalService.create(tbl);
+		// Create httpGet
+		HttpGet httpGet = new HttpGet(builder.build());
+		httpGet.addHeader("Accept", "application/json");
+		httpGet.addHeader("Accept-Charset", "utf-8");
+		httpGet.setUri(builder.build());
+		httpGet.setConfig(requestConfig.build());
+		return httpGet;
 	}
 
 	/**
@@ -155,5 +138,22 @@ public class BaseWebService {
 
 		// Return
 		return result;
+	}
+
+	/**
+	 * Record external request
+	 *
+	 * @throws Exception
+	 *
+	 */
+	protected void recordRequestExternal(String requestUrl, String requestTypeCode, String note) throws Exception {
+		TypeTbl type = new TypeTbl();
+		type.setTypeCode(requestTypeCode);
+
+		RequestExternalTbl tbl = new RequestExternalTbl();
+		tbl.setRequestUrl(requestUrl);
+		tbl.setNote(note);
+		tbl.setRequestType(type);
+		requestExternalService.create(tbl);
 	}
 }

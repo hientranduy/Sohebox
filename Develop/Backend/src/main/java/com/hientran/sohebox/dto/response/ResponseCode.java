@@ -22,22 +22,6 @@ public enum ResponseCode {
 
 	ERROR_EXCEPTION("ERR_9999", "Exception Error: %s");
 
-	private final String code;
-	private final String description;
-
-	ResponseCode(String code, String description) {
-		this.code = code;
-		this.description = description;
-	}
-
-	public String getCode() {
-		return code;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
 	public static ResponseCode fromValue(String code) {
 		if (StringUtils.isBlank(code)) {
 			return null;
@@ -51,6 +35,17 @@ public enum ResponseCode {
 
 		return null;
 	}
+	public static String mapParam(ResponseCode code, String param) {
+		if (ObjectUtils.isEmpty(code)) {
+			return null;
+		}
+		if (StringUtils.isNotEmpty(param)) {
+
+			return String.format(code.getDescription(), param);
+		} else {
+			return code.getDescription();
+		}
+	}
 
 	public static String mapParams(ResponseCode code, List<String> params) {
 		if (ObjectUtils.isEmpty(code)) {
@@ -63,15 +58,20 @@ public enum ResponseCode {
 		}
 	}
 
-	public static String mapParam(ResponseCode code, String param) {
-		if (ObjectUtils.isEmpty(code)) {
-			return null;
-		}
-		if (StringUtils.isNotEmpty(param)) {
+	private final String code;
 
-			return String.format(code.getDescription(), param);
-		} else {
-			return code.getDescription();
-		}
+	private final String description;
+
+	ResponseCode(String code, String description) {
+		this.code = code;
+		this.description = description;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public String getDescription() {
+		return description;
 	}
 }

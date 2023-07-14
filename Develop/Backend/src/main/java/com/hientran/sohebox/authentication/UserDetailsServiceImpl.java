@@ -20,6 +20,25 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	private final UserRepository userRepository;
 
 	/**
+	 * Get info of current logged in user
+	 *
+	 * @return
+	 */
+	public UserTbl getCurrentLoginUser() {
+		// Declare result
+		UserTbl result = null;
+
+		// Get Data
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if (principal instanceof UserDetailsImp) {
+			result = ((UserDetailsImp) principal).getUserTbl();
+		}
+
+		// Return
+		return result;
+	}
+
+	/**
 	 * {@inheritDoc}
 	 */
 	@Override
@@ -38,24 +57,5 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		}
 
 		return userDetailsImp;
-	}
-
-	/**
-	 * Get info of current logged in user
-	 *
-	 * @return
-	 */
-	public UserTbl getCurrentLoginUser() {
-		// Declare result
-		UserTbl result = null;
-
-		// Get Data
-		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		if (principal instanceof UserDetailsImp) {
-			result = ((UserDetailsImp) principal).getUserTbl();
-		}
-
-		// Return
-		return result;
 	}
 }

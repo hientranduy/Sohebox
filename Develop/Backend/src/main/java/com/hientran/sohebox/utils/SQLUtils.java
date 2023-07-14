@@ -33,11 +33,199 @@ public class SQLUtils {
 	public static final int LIKE_END = 2;
 
 	/**
-	 * Default constructor to hide me.
+	 * Convert an object to big decimal
+	 *
+	 * @param object
+	 * @return
+	 */
+	public static BigDecimal convertToBigDecimal(Object object) {
+		BigDecimal result = BigDecimal.ZERO;
+		if (object != null) {
+			result = BigDecimal.valueOf(Double.valueOf(object.toString()));
+		}
+		return result;
+	}
+
+	/**
+	 * Explanation of processing
+	 *
+	 * @param srList
+	 * @return
+	 */
+	public static Object convertToInBigNumberList(List<BigInteger> ids) {
+		StringBuilder sql = new StringBuilder();
+		sql.append(OPEN_PARANTHESE);
+		if (CollectionUtils.isNotEmpty(ids)) {
+			for (BigInteger data : ids) {
+				sql.append(data);
+				sql.append(",");
+			}
+			sql.deleteCharAt(sql.length() - 1);
+		}
+		sql.append(CLOSE_PARANTHESE);
+		return sql.toString();
+	}
+
+	/**
+	 * Convert list data as integer to applied in sql statement.
+	 *
+	 * @param codes data list
+	 * @return SQL expression
 	 *
 	 */
-	private SQLUtils() {
+	public static String convertToInIntegerList(List<String> codes) {
+		StringBuilder sql = new StringBuilder();
+		sql.append(OPEN_PARANTHESE);
+		if (CollectionUtils.isNotEmpty(codes)) {
+			for (String data : codes) {
+				sql.append(data);
+				sql.append(",");
+			}
+			sql.deleteCharAt(sql.length() - 1);
+		}
+		sql.append(CLOSE_PARANTHESE);
+		return sql.toString();
+	}
 
+	/**
+	 * Explanation of processing
+	 *
+	 * @param ids
+	 * @return a string under SQL format.
+	 */
+	public static String convertToInNumberDoubleList(Double[] ids) {
+		StringBuilder sql = new StringBuilder();
+		sql.append(OPEN_PARANTHESE);
+		if (null != ids) {
+			for (Double data : ids) {
+				sql.append(data);
+				sql.append(",");
+			}
+			sql.deleteCharAt(sql.length() - 1);
+		}
+		sql.append(CLOSE_PARANTHESE);
+		return sql.toString();
+	}
+
+	/**
+	 * Explanation of processing
+	 *
+	 * @param ids
+	 * @return a string under SQL format.
+	 */
+	public static String convertToInNumberList(List<Long> ids) {
+		StringBuilder sql = new StringBuilder();
+		sql.append(OPEN_PARANTHESE);
+		if (CollectionUtils.isNotEmpty(ids)) {
+			for (Long data : ids) {
+				sql.append(data);
+				sql.append(",");
+			}
+			sql.deleteCharAt(sql.length() - 1);
+		}
+		sql.append(CLOSE_PARANTHESE);
+		return sql.toString();
+	}
+
+	public static String convertToInStringArray(Collection<String> codes) {
+		String[] pattern = new String[1];
+		return convertToInStringArray(codes.toArray(pattern));
+
+	}
+
+	/**
+	 * Explanation of processing
+	 *
+	 * @param ids
+	 * @return a string under SQL format.
+	 */
+	public static String convertToInStringArray(String[] codes) {
+		StringBuilder sql = new StringBuilder();
+		sql.append(OPEN_PARANTHESE);
+		if (null != codes) {
+			for (String data : codes) {
+				sql.append(normalizeSQLString(data));
+				sql.append(",");
+			}
+			sql.deleteCharAt(sql.length() - 1);
+		}
+		sql.append(CLOSE_PARANTHESE);
+		return sql.toString();
+	}
+
+	/**
+	 * Convert list data as string to applied in sql statement.
+	 *
+	 * @param codes data list
+	 * @return SQL expression
+	 *
+	 */
+	public static String convertToInStringList(List<String> codes) {
+		StringBuilder sql = new StringBuilder();
+		sql.append(OPEN_PARANTHESE);
+		if (CollectionUtils.isNotEmpty(codes)) {
+			for (String data : codes) {
+				sql.append(normalizeSQLString(data));
+				sql.append(",");
+			}
+			sql.deleteCharAt(sql.length() - 1);
+		} else {
+			sql.append("''");
+		}
+		sql.append(CLOSE_PARANTHESE);
+		return sql.toString();
+	}
+
+	/**
+	 * Convert int[] to string
+	 *
+	 * @param ids
+	 * @return
+	 */
+	public static String convertToIntNumberArray(int[] ids) {
+		StringBuilder sql = new StringBuilder();
+		sql.append(OPEN_PARANTHESE);
+		for (int data : ids) {
+			sql.append(data);
+			sql.append(",");
+		}
+		sql.deleteCharAt(sql.length() - 1);
+		sql.append(CLOSE_PARANTHESE);
+		return sql.toString();
+	}
+
+	/**
+	 * Explanation of processing
+	 *
+	 * @param ids
+	 * @return a string under SQL format.
+	 */
+	public static String convertToIntNumberList(List<Integer> ids) {
+		StringBuilder sql = new StringBuilder();
+		sql.append(OPEN_PARANTHESE);
+		if (CollectionUtils.isNotEmpty(ids)) {
+			for (Integer data : ids) {
+				sql.append(data);
+				sql.append(",");
+			}
+			sql.deleteCharAt(sql.length() - 1);
+		}
+		sql.append(CLOSE_PARANTHESE);
+		return sql.toString();
+	}
+
+	/**
+	 * Convert object to String
+	 *
+	 * @param object Java Object
+	 * @return String
+	 */
+	public static String convertToString(Object object) {
+		String result = "";
+		if (object != null) {
+			result = (String) object;
+		}
+		return result;
 	}
 
 	/**
@@ -84,25 +272,6 @@ public class SQLUtils {
 
 	/**
 	 *
-	 * put sql string into double quote
-	 *
-	 * @param sqlString SQL statement
-	 * @return new SQL string
-	 */
-	public static String normalizeSQLString(final String sqlString) {
-
-		StringBuilder result = new StringBuilder();
-		result.append(QUOTE);
-		result.append(escapeString(sqlString));
-
-		result.append(QUOTE);
-
-		return result.toString();
-
-	}
-
-	/**
-	 *
 	 * Normalize search like any where condition.
 	 *
 	 * @param sqlString SQL
@@ -113,6 +282,25 @@ public class SQLUtils {
 		StringBuilder result = new StringBuilder();
 		result.append(QUOTE);
 		result.append(PERCENT);
+		result.append(escapeSpecialCharsInLike(sqlString));
+		result.append(PERCENT);
+		result.append(QUOTE);
+
+		return result.toString();
+
+	}
+
+	/**
+	 *
+	 * Normalize search like end
+	 *
+	 * @param sqlString SQL
+	 * @return new SQL String
+	 */
+	public static String normalizeSQLLikeEnd(final String sqlString) {
+
+		StringBuilder result = new StringBuilder();
+		result.append(QUOTE);
 		result.append(escapeSpecialCharsInLike(sqlString));
 		result.append(PERCENT);
 		result.append(QUOTE);
@@ -142,69 +330,6 @@ public class SQLUtils {
 
 	/**
 	 *
-	 * Normalize search like end
-	 *
-	 * @param sqlString SQL
-	 * @return new SQL String
-	 */
-	public static String normalizeSQLLikeEnd(final String sqlString) {
-
-		StringBuilder result = new StringBuilder();
-		result.append(QUOTE);
-		result.append(escapeSpecialCharsInLike(sqlString));
-		result.append(PERCENT);
-		result.append(QUOTE);
-
-		return result.toString();
-
-	}
-
-	/**
-	 * Convert list data as string to applied in sql statement.
-	 *
-	 * @param codes data list
-	 * @return SQL expression
-	 *
-	 */
-	public static String convertToInStringList(List<String> codes) {
-		StringBuilder sql = new StringBuilder();
-		sql.append(OPEN_PARANTHESE);
-		if (CollectionUtils.isNotEmpty(codes)) {
-			for (String data : codes) {
-				sql.append(normalizeSQLString(data));
-				sql.append(",");
-			}
-			sql.deleteCharAt(sql.length() - 1);
-		} else {
-			sql.append("''");
-		}
-		sql.append(CLOSE_PARANTHESE);
-		return sql.toString();
-	}
-
-	/**
-	 * Convert list data as integer to applied in sql statement.
-	 *
-	 * @param codes data list
-	 * @return SQL expression
-	 *
-	 */
-	public static String convertToInIntegerList(List<String> codes) {
-		StringBuilder sql = new StringBuilder();
-		sql.append(OPEN_PARANTHESE);
-		if (CollectionUtils.isNotEmpty(codes)) {
-			for (String data : codes) {
-				sql.append(data);
-				sql.append(",");
-			}
-			sql.deleteCharAt(sql.length() - 1);
-		}
-		sql.append(CLOSE_PARANTHESE);
-		return sql.toString();
-	}
-
-	/**
-	 *
 	 * Put a list of sql string into double quote
 	 *
 	 * @param objectList SQL statement
@@ -227,154 +352,29 @@ public class SQLUtils {
 	}
 
 	/**
-	 * Explanation of processing
 	 *
-	 * @param ids
-	 * @return a string under SQL format.
-	 */
-	public static String convertToInNumberList(List<Long> ids) {
-		StringBuilder sql = new StringBuilder();
-		sql.append(OPEN_PARANTHESE);
-		if (CollectionUtils.isNotEmpty(ids)) {
-			for (Long data : ids) {
-				sql.append(data);
-				sql.append(",");
-			}
-			sql.deleteCharAt(sql.length() - 1);
-		}
-		sql.append(CLOSE_PARANTHESE);
-		return sql.toString();
-	}
-
-	/**
-	 * Explanation of processing
+	 * put sql string into double quote
 	 *
-	 * @param ids
-	 * @return a string under SQL format.
+	 * @param sqlString SQL statement
+	 * @return new SQL string
 	 */
-	public static String convertToIntNumberList(List<Integer> ids) {
-		StringBuilder sql = new StringBuilder();
-		sql.append(OPEN_PARANTHESE);
-		if (CollectionUtils.isNotEmpty(ids)) {
-			for (Integer data : ids) {
-				sql.append(data);
-				sql.append(",");
-			}
-			sql.deleteCharAt(sql.length() - 1);
-		}
-		sql.append(CLOSE_PARANTHESE);
-		return sql.toString();
-	}
+	public static String normalizeSQLString(final String sqlString) {
 
-	/**
-	 * Convert int[] to string
-	 *
-	 * @param ids
-	 * @return
-	 */
-	public static String convertToIntNumberArray(int[] ids) {
-		StringBuilder sql = new StringBuilder();
-		sql.append(OPEN_PARANTHESE);
-		for (int data : ids) {
-			sql.append(data);
-			sql.append(",");
-		}
-		sql.deleteCharAt(sql.length() - 1);
-		sql.append(CLOSE_PARANTHESE);
-		return sql.toString();
-	}
+		StringBuilder result = new StringBuilder();
+		result.append(QUOTE);
+		result.append(escapeString(sqlString));
 
-	/**
-	 * Explanation of processing
-	 *
-	 * @param ids
-	 * @return a string under SQL format.
-	 */
-	public static String convertToInNumberDoubleList(Double[] ids) {
-		StringBuilder sql = new StringBuilder();
-		sql.append(OPEN_PARANTHESE);
-		if (null != ids) {
-			for (Double data : ids) {
-				sql.append(data);
-				sql.append(",");
-			}
-			sql.deleteCharAt(sql.length() - 1);
-		}
-		sql.append(CLOSE_PARANTHESE);
-		return sql.toString();
-	}
+		result.append(QUOTE);
 
-	/**
-	 * Explanation of processing
-	 *
-	 * @param ids
-	 * @return a string under SQL format.
-	 */
-	public static String convertToInStringArray(String[] codes) {
-		StringBuilder sql = new StringBuilder();
-		sql.append(OPEN_PARANTHESE);
-		if (null != codes) {
-			for (String data : codes) {
-				sql.append(normalizeSQLString(data));
-				sql.append(",");
-			}
-			sql.deleteCharAt(sql.length() - 1);
-		}
-		sql.append(CLOSE_PARANTHESE);
-		return sql.toString();
-	}
-
-	public static String convertToInStringArray(Collection<String> codes) {
-		String[] pattern = new String[1];
-		return convertToInStringArray(codes.toArray(pattern));
+		return result.toString();
 
 	}
 
 	/**
-	 * Convert object to String
+	 * Default constructor to hide me.
 	 *
-	 * @param object Java Object
-	 * @return String
 	 */
-	public static String convertToString(Object object) {
-		String result = "";
-		if (object != null) {
-			result = (String) object;
-		}
-		return result;
-	}
+	private SQLUtils() {
 
-	/**
-	 * Convert an object to big decimal
-	 *
-	 * @param object
-	 * @return
-	 */
-	public static BigDecimal convertToBigDecimal(Object object) {
-		BigDecimal result = BigDecimal.ZERO;
-		if (object != null) {
-			result = BigDecimal.valueOf(Double.valueOf(object.toString()));
-		}
-		return result;
-	}
-
-	/**
-	 * Explanation of processing
-	 *
-	 * @param srList
-	 * @return
-	 */
-	public static Object convertToInBigNumberList(List<BigInteger> ids) {
-		StringBuilder sql = new StringBuilder();
-		sql.append(OPEN_PARANTHESE);
-		if (CollectionUtils.isNotEmpty(ids)) {
-			for (BigInteger data : ids) {
-				sql.append(data);
-				sql.append(",");
-			}
-			sql.deleteCharAt(sql.length() - 1);
-		}
-		sql.append(CLOSE_PARANTHESE);
-		return sql.toString();
 	}
 }

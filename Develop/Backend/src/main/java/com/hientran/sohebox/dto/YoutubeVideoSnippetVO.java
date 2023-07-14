@@ -14,7 +14,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class YoutubeVideoSnippetVO  {
+public class YoutubeVideoSnippetVO {
 	private String publishedAt;
 	private String channelId;
 	private String title;

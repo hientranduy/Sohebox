@@ -46,7 +46,7 @@ import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class BaseService extends BaseTransformer{
+public class BaseService extends BaseTransformer {
 
 	@PersistenceContext
 	protected EntityManager entityManager;
@@ -65,6 +65,111 @@ public class BaseService extends BaseTransformer{
 
 	@Autowired
 	private RequestExternalService requestExternalService;
+
+	/**
+	 * Check if data is out update
+	 *
+	 * @param string
+	 * @return
+	 */
+	protected boolean dataIsOutUpdate(String url, int lateTimeSecond) {
+		// Declare result
+		boolean result = true;
+
+		// Search request
+		SearchTextVO requestUrl = new SearchTextVO();
+		requestUrl.setEq(url);
+
+		TypeTbl requestType = typeCache.getType(DBConstants.TYPE_CLASS_REQUEST_EXTERNAL_TYPE,
+				DBConstants.REQUEST_EXTERNAL_TYPE_DATA);
+		SearchNumberVO requestTypeId = new SearchNumberVO();
+		requestTypeId.setEq(requestType.getId().doubleValue());
+
+		SearchDateVO createdDate = new SearchDateVO();
+		createdDate.setGe(MyDateUtils.addMinusSecond(new Date(), lateTimeSecond * -1));
+
+		RequestExternalSCO sco = new RequestExternalSCO();
+		sco.setRequestUrl(requestUrl);
+		sco.setRequestTypeId(requestTypeId);
+		sco.setCreatedDate(createdDate);
+		List<RequestExternalTbl> requests = requestExternalService.search(sco);
+
+		if (CollectionUtils.isNotEmpty(requests)) {
+			result = false;
+		}
+
+		// Return
+		return result;
+	}
+
+	/**
+	 * Download file from URL
+	 *
+	 * @param filePath
+	 * @throws IOException
+	 * @throws NoSuchAlgorithmException
+	 * @throws KeyManagementException
+	 */
+	private void downloadUrlFile(String filePath) throws IOException, NoSuchAlgorithmException, KeyManagementException {
+
+		// ========================================================
+		// ==== REMOVE CHECKING CERTIFICATE WHEN DOWNLOAD DATA ====
+		// ========================================================
+		// Create a trust manager that does not validate certificate chains
+		final TrustManager[] trustAllCerts = new TrustManager[] { new X509TrustManager() {
+			@Override
+			public void checkClientTrusted(final X509Certificate[] chain, final String authType) {
+			}
+
+			@Override
+			public void checkServerTrusted(final X509Certificate[] chain, final String authType) {
+			}
+
+			@Override
+			public X509Certificate[] getAcceptedIssuers() {
+				return null;
+			}
+		} };
+
+		// Install the all-trusting trust manager
+		final SSLContext sslContext = SSLContext.getInstance("SSL");
+		sslContext.init(null, trustAllCerts, null);
+
+		// Create an ssl socket factory with our all-trusting manager
+		HttpsURLConnection.setDefaultSSLSocketFactory(sslContext.getSocketFactory());
+		HttpsURLConnection.setDefaultHostnameVerifier(new HostnameVerifier() {
+			@Override
+			public boolean verify(String urlHostName, SSLSession session) {
+				return true;
+			}
+		});
+
+		// ===============================
+		// ==== PROCESS DOWNLOAD DATA ====
+		// ===============================
+		// Prepare URL
+		URL url = null;
+		switch (new File(filePath).getName()) {
+		case DataExternalConstants.REQUEST_DATA_FILE_NAME_VCB:
+			url = new URL(configCache.getValueByKey(DataExternalConstants.FINANCE_VCB_XML_URL));
+			break;
+		case DataExternalConstants.REQUEST_DATA_FILE_NAME_SJC:
+			url = new URL(configCache.getValueByKey(DataExternalConstants.FINANCE_SJC_XML_URL));
+			break;
+		default:
+			break;
+		}
+
+		// Download
+		if (url != null) {
+			// fool connection to avoid 403
+			HttpURLConnection httpcon = (HttpURLConnection) url.openConnection();
+			httpcon.addRequestProperty("User-Agent", "Mozilla/4.0");
+			InputStream inputStream = httpcon.getInputStream();
+
+			FileUtils.writeFile(inputStream, new File(filePath));
+		}
+	}
 
 	/**
 	 *
@@ -145,110 +250,5 @@ public class BaseService extends BaseTransformer{
 			downloadUrlFile(filePath);
 		}
 
-	}
-
-	/**
-	 * Download file from URL
-	 *
-	 * @param filePath
-	 * @throws IOException
-	 * @throws NoSuchAlgorithmException
-	 * @throws KeyManagementException
-	 */
-	private void downloadUrlFile(String filePath) throws IOException, NoSuchAlgorithmException, KeyManagementException {
-
-		// ========================================================
-		// ==== REMOVE CHECKING CERTIFICATE WHEN DOWNLOAD DATA ====
-		// ========================================================
-		// Create a trust manager that does not validate certificate chains
-		final TrustManager[] trustAllCerts = new TrustManager[] { new X509TrustManager() {
-			@Override
-			public void checkClientTrusted(final X509Certificate[] chain, final String authType) {
-			}
-
-			@Override
-			public void checkServerTrusted(final X509Certificate[] chain, final String authType) {
-			}
-
-			@Override
-			public X509Certificate[] getAcceptedIssuers() {
-				return null;
-			}
-		} };
-
-		// Install the all-trusting trust manager
-		final SSLContext sslContext = SSLContext.getInstance("SSL");
-		sslContext.init(null, trustAllCerts, null);
-
-		// Create an ssl socket factory with our all-trusting manager
-		HttpsURLConnection.setDefaultSSLSocketFactory(sslContext.getSocketFactory());
-		HttpsURLConnection.setDefaultHostnameVerifier(new HostnameVerifier() {
-			@Override
-			public boolean verify(String urlHostName, SSLSession session) {
-				return true;
-			}
-		});
-
-		// ===============================
-		// ==== PROCESS DOWNLOAD DATA ====
-		// ===============================
-		// Prepare URL
-		URL url = null;
-		switch (new File(filePath).getName()) {
-		case DataExternalConstants.REQUEST_DATA_FILE_NAME_VCB:
-			url = new URL(configCache.getValueByKey(DataExternalConstants.FINANCE_VCB_XML_URL));
-			break;
-		case DataExternalConstants.REQUEST_DATA_FILE_NAME_SJC:
-			url = new URL(configCache.getValueByKey(DataExternalConstants.FINANCE_SJC_XML_URL));
-			break;
-		default:
-			break;
-		}
-
-		// Download
-		if (url != null) {
-			// fool connection to avoid 403
-			HttpURLConnection httpcon = (HttpURLConnection) url.openConnection();
-			httpcon.addRequestProperty("User-Agent", "Mozilla/4.0");
-			InputStream inputStream = httpcon.getInputStream();
-
-			FileUtils.writeFile(inputStream, new File(filePath));
-		}
-	}
-
-	/**
-	 * Check if data is out update
-	 *
-	 * @param string
-	 * @return
-	 */
-	protected boolean dataIsOutUpdate(String url, int lateTimeSecond) {
-		// Declare result
-		boolean result = true;
-
-		// Search request
-		SearchTextVO requestUrl = new SearchTextVO();
-		requestUrl.setEq(url);
-
-		TypeTbl requestType = typeCache.getType(DBConstants.TYPE_CLASS_REQUEST_EXTERNAL_TYPE,
-				DBConstants.REQUEST_EXTERNAL_TYPE_DATA);
-		SearchNumberVO requestTypeId = new SearchNumberVO();
-		requestTypeId.setEq(requestType.getId().doubleValue());
-
-		SearchDateVO createdDate = new SearchDateVO();
-		createdDate.setGe(MyDateUtils.addMinusSecond(new Date(), lateTimeSecond * -1));
-
-		RequestExternalSCO sco = new RequestExternalSCO();
-		sco.setRequestUrl(requestUrl);
-		sco.setRequestTypeId(requestTypeId);
-		sco.setCreatedDate(createdDate);
-		List<RequestExternalTbl> requests = requestExternalService.search(sco);
-
-		if (CollectionUtils.isNotEmpty(requests)) {
-			result = false;
-		}
-
-		// Return
-		return result;
 	}
 }

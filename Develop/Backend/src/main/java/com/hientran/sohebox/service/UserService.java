@@ -58,6 +58,82 @@ public class UserService {
 	private final UserDetailsServiceImpl userDetailsServiceImpl;
 
 	/**
+	 * Change password logged user
+	 */
+	@Transactional(readOnly = false, rollbackFor = Exception.class)
+	public APIResponse<Object> changePassword(ChangePasswordVO vo) {
+		// Declare result
+		APIResponse<Object> result = new APIResponse<>();
+
+		// Validate password
+		List<String> errors = new ArrayList<>();
+		if (isInvalidPassword(vo.getNewPassword())) {
+			errors.add(ResponseCode.mapParam(ResponseCode.INVALID_FIELD, UserTblEnum.password.name()));
+		}
+		if (CollectionUtils.isNotEmpty(errors)) {
+			return new APIResponse<>(HttpStatus.BAD_REQUEST, errors);
+		}
+
+		// Change password
+		UserTbl userTbl = userDetailsServiceImpl.getCurrentLoginUser();
+		userTbl.setMdp(mdpService.getMdp(vo.getNewPassword()));
+		userRepository.save(userTbl);
+
+		// Return
+		return result;
+	}
+
+	/**
+	 *
+	 * Change private key
+	 *
+	 * @param UserVO
+	 * @return
+	 */
+	@Transactional(readOnly = false, rollbackFor = Exception.class)
+	public APIResponse<Object> changePrivateKey(ChangePrivateKeyVO vo) {
+		// Declare result
+		APIResponse<Object> result = new APIResponse<>();
+
+		// Get current logged in user
+		UserTbl tbl = userDetailsServiceImpl.getCurrentLoginUser();
+
+		// Validate input
+		if (result.getStatus() == null) {
+			List<String> errors = new ArrayList<>();
+			if (tbl.getPrivateKey() != null && StringUtils.isBlank(vo.getOldPrivateKey())) {
+				errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, "old private key"));
+			}
+
+			if (StringUtils.isBlank(vo.getNewPrivateKey())) {
+				errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, UserTblEnum.privateKey.name()));
+			}
+
+			// Record error
+			if (CollectionUtils.isNotEmpty(errors)) {
+				result = new APIResponse<>(HttpStatus.BAD_REQUEST, errors);
+			}
+		}
+
+		// Validate old private key
+		if (result.getStatus() == null && tbl.getPrivateKey() != null) {
+			if (!mdpService.isValidPassword(vo.getOldPrivateKey(), tbl.getPrivateKey().getMdp())) {
+				result = new APIResponse<>(HttpStatus.BAD_REQUEST,
+						ResponseCode.mapParam(ResponseCode.UNAUTHORIZED_USER, null));
+			}
+		}
+
+		// Update private key
+		if (result.getStatus() == null) {
+			tbl.setPrivateKey(mdpService.getMdp(vo.getNewPrivateKey()));
+			userRepository.save(tbl);
+		}
+
+		// Return
+		return result;
+	}
+
+	/**
 	 * Create user
 	 */
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
@@ -114,6 +190,81 @@ public class UserService {
 	}
 
 	/**
+	 *
+	 * Get User by username
+	 *
+	 * @param userName
+	 * @return
+	 */
+	public UserVO getByUserName(String userName) {
+		// Declare result
+		UserVO result = null;
+
+		UserTbl tbl = userRepository.findFirstByUsername(userName);
+		if (ObjectUtils.isNotEmpty(tbl)) {
+			result = userTransformer.convertToVO(tbl);
+		}
+
+		// Return
+		return result;
+	}
+
+	/**
+	 * Get User by id
+	 */
+	public UserTbl getTblById(Long id) {
+		Optional<UserTbl> tbl = userRepository.findById(id);
+		if (tbl.isPresent()) {
+			return tbl.get();
+		}
+		return null;
+	}
+
+	/**
+	 *
+	 * Get User by username
+	 *
+	 * @param userName
+	 * @return
+	 */
+	public UserTbl getTblByUserName(String userName) {
+		return userRepository.findFirstByUsername(userName);
+	}
+
+	/**
+	 * Valid if data is belong to logged user
+	 *
+	 * @return
+	 */
+	public boolean isDataOwner(String username) {
+		boolean result = true;
+
+		UserTbl loggedUser = userDetailsServiceImpl.getCurrentLoginUser();
+
+		// Only check for role User, skip other role
+		if (StringUtils.equals(loggedUser.getRole().getRoleName(), DBConstants.USER_ROLE_USER)) {
+			if (!StringUtils.equals(loggedUser.getUsername(), username)) {
+				result = false;
+			}
+		}
+
+		// Return
+		return result;
+	}
+
+	public Boolean isInvalidPassword(String input) {
+		boolean result = false;
+		if (StringUtils.isBlank(input)) {
+			result = true;
+		} else {
+			if (input.length() < 6) {
+				result = true;
+			}
+		}
+		return result;
+	}
+
+	/**
 	 * Logout
 	 */
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
@@ -122,59 +273,112 @@ public class UserService {
 	}
 
 	/**
-	 * Update logged user
+	 *
+	 * Record user activity
+	 *
 	 */
-	@Transactional(readOnly = false, rollbackFor = Exception.class)
-	public APIResponse<Object> update(UserVO vo) {
+	protected void recordUserActivity(String activity) {
+		UserTbl userLogin = userDetailsServiceImpl.getCurrentLoginUser();
+		if (userLogin != null) {
+			userActivityService.recordUserActivity(userLogin, activity);
+		}
+	}
 
-		// Validate data
-		List<String> errors = new ArrayList<>();
-		if (StringUtils.isBlank(vo.getUsername())) {
-			errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, UserTblEnum.username.name()));
-		}
-		if (StringUtils.isBlank(vo.getFirstName())) {
-			errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, UserTblEnum.firstName.name()));
-		}
-		if (StringUtils.isBlank(vo.getLastName())) {
-			errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, UserTblEnum.lastName.name()));
-		}
-		if (CollectionUtils.isNotEmpty(errors)) {
-			return new APIResponse<>(HttpStatus.BAD_REQUEST, errors);
-		}
+	/**
+	 * Search User by condition
+	 *
+	 * Only creator
+	 *
+	 * @param UserId
+	 * @return
+	 */
+	public APIResponse<Object> search(UserSCO sco) {
+		// Declare result
+		APIResponse<Object> result = new APIResponse<>();
 
-		// Update
-		UserTbl updateTbl = userDetailsServiceImpl.getCurrentLoginUser();
-		updateTbl.setFirstName(vo.getFirstName());
-		updateTbl.setLastName(vo.getLastName());
-		userRepository.save(updateTbl);
+		// Get data
+		Page<UserTbl> page = userRepository.findAll(sco);
+
+		// Transformer
+		PageResultVO<UserVO> data = userTransformer.convertToPageReturn(page);
+
+		// Set data return
+		result.setData(data);
 
 		// Return
-		APIResponse<Object> result = new APIResponse<>();
-		result.setData(updateTbl);
 		return result;
 	}
 
 	/**
-	 * Change password logged user
+	 * Get active user
+	 *
+	 * Only role creator
+	 *
+	 * @return
 	 */
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
-	public APIResponse<Object> changePassword(ChangePasswordVO vo) {
+	public APIResponse<Object> searchActiveUser(UserSCO sco) {
 		// Declare result
 		APIResponse<Object> result = new APIResponse<>();
 
-		// Validate password
-		List<String> errors = new ArrayList<>();
-		if (isInvalidPassword(vo.getNewPassword())) {
-			errors.add(ResponseCode.mapParam(ResponseCode.INVALID_FIELD, UserTblEnum.password.name()));
-		}
-		if (CollectionUtils.isNotEmpty(errors)) {
-			return new APIResponse<>(HttpStatus.BAD_REQUEST, errors);
-		}
+		// Get All Users
+		List<Object[]> listData = userRepository.getActiveUser(sco, entityManager);
 
-		// Change password
-		UserTbl userTbl = userDetailsServiceImpl.getCurrentLoginUser();
-		userTbl.setMdp(mdpService.getMdp(vo.getNewPassword()));
-		userRepository.save(userTbl);
+		// Transform data
+		if (CollectionUtils.isNotEmpty(listData)) {
+			List<UserStatusVO> listElement = new ArrayList<>();
+
+			UserStatusVO userStatus;
+			for (Object[] object : listData) {
+				// Get user
+				UserTbl userTbl = getTblById((Long) object[0]);
+
+				// Fill result item
+				userStatus = new UserStatusVO();
+				userStatus.setId(userTbl.getId());
+				userStatus.setFirstName(userTbl.getFirstName());
+				userStatus.setLastName(userTbl.getLastName());
+				userStatus.setUsername(userTbl.getUsername());
+				userStatus.setRoleName(userTbl.getRole().getRoleName());
+				userStatus.setAvatarUrl(userTbl.getAvatarUrl());
+
+				// Get user activities
+				SearchNumberVO userIdSearch = new SearchNumberVO();
+				userIdSearch.setEq(userTbl.getId().doubleValue());
+				List<Sorter> sorters = new ArrayList<>();
+				sorters.add(new Sorter(UserActivityTblEnum.createdDate.name(), DBConstants.DIRECTION_DECCENT));
+				UserActivitySCO userActivitySCO = new UserActivitySCO();
+				userActivitySCO.setUserId(userIdSearch);
+				userActivitySCO.setSorters(sorters);
+				userActivitySCO.setMaxRecordPerPage(1);
+
+				Page<UserActivityTbl> userActivityList = userActivityRepository.findAll(userActivitySCO);
+				long seconds = 0;
+				if (CollectionUtils.isNotEmpty(userActivityList.getContent())) {
+					UserActivityTbl userActivity = userActivityList.getContent().get(0);
+					seconds = (new Date().getTime() - userActivity.getCreatedDate().getTime()) / 1000;
+
+					userStatus.setStatus(userActivity.getActivity().getTypeName());
+					userStatus.setDurationSeconds(seconds);
+					userStatus.setDurationTime(MyDateUtils.formatDate(seconds));
+				}
+
+				listElement.add(userStatus);
+			}
+
+			// Set data return
+			PageResultVO<UserStatusVO> data = new PageResultVO<>();
+			data.setElements(listElement);
+			data.setCurrentPage(sco.getPageToGet());
+			data.setPageSize(sco.getMaxRecordPerPage());
+
+			// Fill total page and element
+			Page<UserTbl> page = userRepository.findAll(sco);
+			data.setTotalPage(page.getTotalPages());
+			data.setTotalElement(page.getTotalElements());
+
+			result.setData(data);
+		}
 
 		// Return
 		return result;
@@ -269,240 +473,35 @@ public class UserService {
 	}
 
 	/**
-	 * Get active user
-	 *
-	 * Only role creator
-	 *
-	 * @return
+	 * Update logged user
 	 */
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
-	public APIResponse<Object> searchActiveUser(UserSCO sco) {
-		// Declare result
+	public APIResponse<Object> update(UserVO vo) {
+
+		// Validate data
+		List<String> errors = new ArrayList<>();
+		if (StringUtils.isBlank(vo.getUsername())) {
+			errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, UserTblEnum.username.name()));
+		}
+		if (StringUtils.isBlank(vo.getFirstName())) {
+			errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, UserTblEnum.firstName.name()));
+		}
+		if (StringUtils.isBlank(vo.getLastName())) {
+			errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, UserTblEnum.lastName.name()));
+		}
+		if (CollectionUtils.isNotEmpty(errors)) {
+			return new APIResponse<>(HttpStatus.BAD_REQUEST, errors);
+		}
+
+		// Update
+		UserTbl updateTbl = userDetailsServiceImpl.getCurrentLoginUser();
+		updateTbl.setFirstName(vo.getFirstName());
+		updateTbl.setLastName(vo.getLastName());
+		userRepository.save(updateTbl);
+
+		// Return
 		APIResponse<Object> result = new APIResponse<>();
-
-		// Get All Users
-		List<Object[]> listData = userRepository.getActiveUser(sco, entityManager);
-
-		// Transform data
-		if (CollectionUtils.isNotEmpty(listData)) {
-			List<UserStatusVO> listElement = new ArrayList<>();
-
-			UserStatusVO userStatus;
-			for (Object[] object : listData) {
-				// Get user
-				UserTbl userTbl = getTblById((Long) object[0]);
-
-				// Fill result item
-				userStatus = new UserStatusVO();
-				userStatus.setId(userTbl.getId());
-				userStatus.setFirstName(userTbl.getFirstName());
-				userStatus.setLastName(userTbl.getLastName());
-				userStatus.setUsername(userTbl.getUsername());
-				userStatus.setRoleName(userTbl.getRole().getRoleName());
-				userStatus.setAvatarUrl(userTbl.getAvatarUrl());
-
-				// Get user activities
-				SearchNumberVO userIdSearch = new SearchNumberVO();
-				userIdSearch.setEq(userTbl.getId().doubleValue());
-				List<Sorter> sorters = new ArrayList<>();
-				sorters.add(new Sorter(UserActivityTblEnum.createdDate.name(), DBConstants.DIRECTION_DECCENT));
-				UserActivitySCO userActivitySCO = new UserActivitySCO();
-				userActivitySCO.setUserId(userIdSearch);
-				userActivitySCO.setSorters(sorters);
-				userActivitySCO.setMaxRecordPerPage(1);
-
-				Page<UserActivityTbl> userActivityList = userActivityRepository.findAll(userActivitySCO);
-				long seconds = 0;
-				if (CollectionUtils.isNotEmpty(userActivityList.getContent())) {
-					UserActivityTbl userActivity = userActivityList.getContent().get(0);
-					seconds = (new Date().getTime() - userActivity.getCreatedDate().getTime()) / 1000;
-
-					userStatus.setStatus(userActivity.getActivity().getTypeName());
-					userStatus.setDurationSeconds(seconds);
-					userStatus.setDurationTime(MyDateUtils.formatDate(seconds));
-				}
-
-				listElement.add(userStatus);
-			}
-
-			// Set data return
-			PageResultVO<UserStatusVO> data = new PageResultVO<>();
-			data.setElements(listElement);
-			data.setCurrentPage(sco.getPageToGet());
-			data.setPageSize(sco.getMaxRecordPerPage());
-
-			// Fill total page and element
-			Page<UserTbl> page = userRepository.findAll(sco);
-			data.setTotalPage(page.getTotalPages());
-			data.setTotalElement(page.getTotalElements());
-
-			result.setData(data);
-		}
-
-		// Return
-		return result;
-	}
-
-	/**
-	 * Get User by id
-	 */
-	public UserTbl getTblById(Long id) {
-		Optional<UserTbl> tbl = userRepository.findById(id);
-		if (tbl.isPresent()) {
-			return tbl.get();
-		}
-		return null;
-	}
-
-
-	/**
-	 * Search User by condition
-	 *
-	 * Only creator
-	 *
-	 * @param UserId
-	 * @return
-	 */
-	public APIResponse<Object> search(UserSCO sco) {
-		// Declare result
-		APIResponse<Object> result = new APIResponse<>();
-
-		// Get data
-		Page<UserTbl> page = userRepository.findAll(sco);
-
-		// Transformer
-		PageResultVO<UserVO> data = userTransformer.convertToPageReturn(page);
-
-		// Set data return
-		result.setData(data);
-
-		// Return
-		return result;
-	}
-
-	/**
-	 *
-	 * Get User by username
-	 *
-	 * @param userName
-	 * @return
-	 */
-	public UserVO getByUserName(String userName) {
-		// Declare result
-		UserVO result = null;
-
-		UserTbl tbl = userRepository.findFirstByUsername(userName);
-		if (ObjectUtils.isNotEmpty(tbl)) {
-			result = userTransformer.convertToVO(tbl);
-		}
-
-		// Return
-		return result;
-	}
-
-	/**
-	 *
-	 * Get User by username
-	 *
-	 * @param userName
-	 * @return
-	 */
-	public UserTbl getTblByUserName(String userName) {
-		return userRepository.findFirstByUsername(userName);
-	}
-
-	/**
-	 * Valid if data is belong to logged user
-	 *
-	 * @return
-	 */
-	public boolean isDataOwner(String username) {
-		boolean result = true;
-
-		UserTbl loggedUser = userDetailsServiceImpl.getCurrentLoginUser();
-
-		// Only check for role User, skip other role
-		if (StringUtils.equals(loggedUser.getRole().getRoleName(), DBConstants.USER_ROLE_USER)) {
-			if (!StringUtils.equals(loggedUser.getUsername(), username)) {
-				result = false;
-			}
-		}
-
-		// Return
-		return result;
-	}
-
-	/**
-	 *
-	 * Change private key
-	 *
-	 * @param UserVO
-	 * @return
-	 */
-	@Transactional(readOnly = false, rollbackFor = Exception.class)
-	public APIResponse<Object> changePrivateKey(ChangePrivateKeyVO vo) {
-		// Declare result
-		APIResponse<Object> result = new APIResponse<>();
-
-		// Get current logged in user
-		UserTbl tbl = userDetailsServiceImpl.getCurrentLoginUser();
-
-		// Validate input
-		if (result.getStatus() == null) {
-			List<String> errors = new ArrayList<>();
-			if (tbl.getPrivateKey() != null && StringUtils.isBlank(vo.getOldPrivateKey())) {
-				errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, "old private key"));
-			}
-
-			if (StringUtils.isBlank(vo.getNewPrivateKey())) {
-				errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, UserTblEnum.privateKey.name()));
-			}
-
-			// Record error
-			if (CollectionUtils.isNotEmpty(errors)) {
-				result = new APIResponse<>(HttpStatus.BAD_REQUEST, errors);
-			}
-		}
-
-		// Validate old private key
-		if (result.getStatus() == null && tbl.getPrivateKey() != null) {
-			if (!mdpService.isValidPassword(vo.getOldPrivateKey(), tbl.getPrivateKey().getMdp())) {
-				result = new APIResponse<>(HttpStatus.BAD_REQUEST,
-						ResponseCode.mapParam(ResponseCode.UNAUTHORIZED_USER, null));
-			}
-		}
-
-		// Update private key
-		if (result.getStatus() == null) {
-			tbl.setPrivateKey(mdpService.getMdp(vo.getNewPrivateKey()));
-			userRepository.save(tbl);
-		}
-
-		// Return
-		return result;
-	}
-
-	/**
-	 *
-	 * Record user activity
-	 *
-	 */
-	protected void recordUserActivity(String activity) {
-		UserTbl userLogin = userDetailsServiceImpl.getCurrentLoginUser();
-		if (userLogin != null) {
-			userActivityService.recordUserActivity(userLogin, activity);
-		}
-	}
-
-	public Boolean isInvalidPassword(String input) {
-		boolean result = false;
-		if (StringUtils.isBlank(input)) {
-			result = true;
-		} else {
-			if (input.length() < 6) {
-				result = true;
-			}
-		}
+		result.setData(updateTbl);
 		return result;
 	}
 }

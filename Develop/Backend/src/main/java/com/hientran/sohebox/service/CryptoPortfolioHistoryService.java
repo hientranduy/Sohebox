@@ -150,6 +150,15 @@ public class CryptoPortfolioHistoryService extends BaseService {
 
 	}
 
+	private Date getLatestDateByUser(UserTbl loggedUser) {
+		CryptoPortfolioHistoryTbl tbl = cryptoPortfolioHistoryRepository.findTopByUserOrderByIdDesc(loggedUser);
+		if (tbl != null) {
+			return tbl.getTimeStamp();
+		} else {
+			return null;
+		}
+	}
+
 	public APIResponse<Object> getPortfolioSummary(CryptoPortfolioHistorySCO sco) {
 		// Declare result
 		APIResponse<Object> result = new APIResponse<>();
@@ -185,14 +194,5 @@ public class CryptoPortfolioHistoryService extends BaseService {
 
 		// Return
 		return result;
-	}
-
-	private Date getLatestDateByUser(UserTbl loggedUser) {
-		CryptoPortfolioHistoryTbl tbl = cryptoPortfolioHistoryRepository.findTopByUserOrderByIdDesc(loggedUser);
-		if (tbl != null) {
-			return tbl.getTimeStamp();
-		} else {
-			return null;
-		}
 	}
 }

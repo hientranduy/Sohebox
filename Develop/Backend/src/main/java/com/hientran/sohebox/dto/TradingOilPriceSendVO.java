@@ -14,7 +14,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class TradingOilPriceSendVO  {
+public class TradingOilPriceSendVO {
 	private TradingSymbolItemVO symbolCL1;
 	private TradingSymbolItemVO symbolCO1;
 	private List<TradingHistoryItemVO> historyCL1;

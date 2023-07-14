@@ -14,7 +14,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class SjcGoldVO  {
+public class SjcGoldVO {
 	private String title;
 	private String url;
 	private String updated;

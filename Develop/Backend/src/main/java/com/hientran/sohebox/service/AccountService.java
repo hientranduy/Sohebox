@@ -120,81 +120,109 @@ public class AccountService extends BaseService {
 	}
 
 	/**
+	 * Delete by id
 	 *
-	 * Update
+	 * Only role creator
 	 *
-	 * @param vo
+	 * @param User
 	 * @return
 	 */
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
-	public APIResponse<Long> update(AccountVO vo) {
+	public APIResponse<Object> deleteById(Long id) {
 		// Declare result
-		APIResponse<Long> result = new APIResponse<>();
+		APIResponse<Object> result = new APIResponse<>();
 
-		// Validate input
-		if (result.getStatus() == null) {
-			List<String> errors = new ArrayList<>();
-
-			// Account type not null
-			if (vo.getAccountType() == null) {
-				errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, AccountTblEnum.type.name()));
-			}
-
-			// Account name not null
-			if (StringUtils.isBlank(vo.getAccountName())) {
-				errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, AccountTblEnum.accountName.name()));
-			}
-
-			// Record error
-			if (CollectionUtils.isNotEmpty(errors)) {
-				result = new APIResponse<>(HttpStatus.BAD_REQUEST, errors);
-			}
+		// Check account is existed
+		Optional<AccountTbl> accountTbl = accountRepository.findById(id);
+		if (!accountTbl.isPresent()) {
+			result = new APIResponse<>(HttpStatus.BAD_REQUEST,
+					ResponseCode.mapParam(ResponseCode.UNAUTHORIZED_DATA, null));
 		}
 
-		// Get logged user
-		UserTbl loggedUser = userDetailsServiceImpl.getCurrentLoginUser();
-
-		// Get updated account
-		AccountTbl updateAccount = null;
-		if (result.getStatus() == null) {
-			updateAccount = getAccountIdByUser(loggedUser, vo.getId());
-			if (updateAccount == null) {
-				result = new APIResponse<>(HttpStatus.BAD_REQUEST, ResponseCode.mapParam(ResponseCode.INEXISTED_RECORD,
-						"account " + vo.getAccountType().getTypeCode() + "<" + vo.getAccountName() + ">"));
-			}
+		// Check logged user have permission to delete
+		if (result.getStatus() == null && !userService.isDataOwner(accountTbl.get().getUser().getUsername())) {
+			result = new APIResponse<>(HttpStatus.BAD_REQUEST,
+					ResponseCode.mapParam(ResponseCode.UNAUTHORIZED_DATA, null));
 		}
 
-		// Update
+		// Process delete
 		if (result.getStatus() == null) {
-			if (!StringUtils.equals(vo.getAccountType().getTypeCode(), updateAccount.getType().getTypeCode())) {
-				TypeTbl accountType = new TypeTbl();
-				BeanUtils.copyProperties(vo.getAccountType(), accountType);
-				updateAccount.setType(accountType);
-			}
-			if (!StringUtils.equals(vo.getAccountName(), updateAccount.getAccountName())) {
-				updateAccount.setAccountName(vo.getAccountName());
-			}
+			accountRepository.delete(accountTbl.get());
+		}
 
-			if (updateAccount.getMdp() == null && vo.getMdp() == null) {
+		// Write activity type "delete account"
+		if (accountTbl.isPresent()) {
+			userActivityService.recordUserActivity(accountTbl.get().getUser(),
+					DBConstants.USER_ACTIVITY_ACCOUNT_DELETE);
+		}
+
+		// Return
+		return result;
+	}
+
+	/**
+	 *
+	 * Get account
+	 *
+	 * @param userOwnerId
+	 * @param accountTypeId
+	 * @param accountName
+	 * @return
+	 */
+	private AccountTbl getAccountIdByUser(UserTbl loggedUser, Long accountId) {
+		// Declare result
+		AccountTbl result = null;
+
+		// Prepare search
+		SearchNumberVO userSearch = new SearchNumberVO();
+		userSearch.setEq(loggedUser.getId().doubleValue());
+		SearchNumberVO id = new SearchNumberVO();
+		id.setEq(accountId.doubleValue());
+
+		AccountSCO sco = new AccountSCO();
+		sco.setId(id);
+		if (StringUtils.equals(loggedUser.getRole().getRoleName(), DBConstants.USER_ROLE_USER)) {
+			sco.setUser(userSearch);
+		}
+
+		// Get data
+		List<AccountTbl> listAccount = accountRepository.findAll(sco).getContent();
+		if (CollectionUtils.isNotEmpty(listAccount)) {
+			result = listAccount.get(0);
+		}
+
+		// Return
+		return result;
+	}
+
+	/**
+	 * Get by id
+	 *
+	 * @param User
+	 * @return
+	 */
+	public APIResponse<Object> getById(Long id) {
+		// Declare result
+		APIResponse<Object> result = new APIResponse<>();
+
+		// Check existence
+		Optional<AccountTbl> accountTbl = accountRepository.findById(id);
+		if (!accountTbl.isPresent()) {
+			result = new APIResponse<>(HttpStatus.BAD_REQUEST,
+					ResponseCode.mapParam(ResponseCode.INEXISTED_RECORD, "account"));
+		}
+
+		// Check if user is the owner of data
+		if (result.getStatus() == null) {
+			AccountVO vo = accountTransformer.convertToAccountVO(accountTbl.get());
+			if (!userService.isDataOwner(vo.getUser().getUsername())) {
+				result = new APIResponse<>(HttpStatus.BAD_REQUEST,
+						ResponseCode.mapParam(ResponseCode.UNAUTHORIZED_DATA, null));
 			} else {
-				if (updateAccount.getMdp() == null && vo.getMdp() != null) {
-					updateAccount.setMdp(mdpService.getMdp(vo.getMdp()));
-				} else {
-					if (!StringUtils.equals(vo.getMdp(),
-							accountTransformer.convertMdp(updateAccount.getMdp().getDescription()))) {
-						updateAccount.setMdp(mdpService.getMdp(vo.getMdp()));
-					}
-				}
+				// Set return data
+				result.setData(vo);
 			}
-
-			if (!StringUtils.equals(vo.getNote(), updateAccount.getNote())) {
-				updateAccount.setNote(vo.getNote());
-			}
-			accountRepository.save(updateAccount);
 		}
-
-		// Write activity type "update account"
-		recordUserActivity(DBConstants.USER_ACTIVITY_ACCOUNT_UPDATE);
 
 		// Return
 		return result;
@@ -232,41 +260,6 @@ public class AccountService extends BaseService {
 		List<AccountTbl> listAccount = accountRepository.findAll(sco).getContent();
 		if (CollectionUtils.isNotEmpty(listAccount)) {
 			result = true;
-		}
-
-		// Return
-		return result;
-	}
-
-	/**
-	 *
-	 * Get account
-	 *
-	 * @param userOwnerId
-	 * @param accountTypeId
-	 * @param accountName
-	 * @return
-	 */
-	private AccountTbl getAccountIdByUser(UserTbl loggedUser, Long accountId) {
-		// Declare result
-		AccountTbl result = null;
-
-		// Prepare search
-		SearchNumberVO userSearch = new SearchNumberVO();
-		userSearch.setEq(loggedUser.getId().doubleValue());
-		SearchNumberVO id = new SearchNumberVO();
-		id.setEq(accountId.doubleValue());
-
-		AccountSCO sco = new AccountSCO();
-		sco.setId(id);
-		if (StringUtils.equals(loggedUser.getRole().getRoleName(), DBConstants.USER_ROLE_USER)) {
-			sco.setUser(userSearch);
-		}
-
-		// Get data
-		List<AccountTbl> listAccount = accountRepository.findAll(sco).getContent();
-		if (CollectionUtils.isNotEmpty(listAccount)) {
-			result = listAccount.get(0);
 		}
 
 		// Return
@@ -350,80 +343,6 @@ public class AccountService extends BaseService {
 	}
 
 	/**
-	 * Delete by id
-	 *
-	 * Only role creator
-	 *
-	 * @param User
-	 * @return
-	 */
-	@Transactional(readOnly = false, rollbackFor = Exception.class)
-	public APIResponse<Object> deleteById(Long id) {
-		// Declare result
-		APIResponse<Object> result = new APIResponse<>();
-
-		// Check account is existed
-		Optional<AccountTbl> accountTbl = accountRepository.findById(id);
-		if (!accountTbl.isPresent()) {
-			result = new APIResponse<>(HttpStatus.BAD_REQUEST,
-					ResponseCode.mapParam(ResponseCode.UNAUTHORIZED_DATA, null));
-		}
-
-		// Check logged user have permission to delete
-		if (result.getStatus() == null && !userService.isDataOwner(accountTbl.get().getUser().getUsername())) {
-			result = new APIResponse<>(HttpStatus.BAD_REQUEST,
-					ResponseCode.mapParam(ResponseCode.UNAUTHORIZED_DATA, null));
-		}
-
-		// Process delete
-		if (result.getStatus() == null) {
-			accountRepository.delete(accountTbl.get());
-		}
-
-		// Write activity type "delete account"
-		if (accountTbl.isPresent()) {
-			userActivityService.recordUserActivity(accountTbl.get().getUser(),
-					DBConstants.USER_ACTIVITY_ACCOUNT_DELETE);
-		}
-
-		// Return
-		return result;
-	}
-
-	/**
-	 * Get by id
-	 *
-	 * @param User
-	 * @return
-	 */
-	public APIResponse<Object> getById(Long id) {
-		// Declare result
-		APIResponse<Object> result = new APIResponse<>();
-
-		// Check existence
-		Optional<AccountTbl> accountTbl = accountRepository.findById(id);
-		if (!accountTbl.isPresent()) {
-			result = new APIResponse<>(HttpStatus.BAD_REQUEST,
-					ResponseCode.mapParam(ResponseCode.INEXISTED_RECORD, "account"));
-		}
-
-		// Check if user is the owner of data
-		if (result.getStatus() == null) {
-			AccountVO vo = accountTransformer.convertToAccountVO(accountTbl.get());
-			if (!userService.isDataOwner(vo.getUser().getUsername())) {
-				result = new APIResponse<>(HttpStatus.BAD_REQUEST,
-						ResponseCode.mapParam(ResponseCode.UNAUTHORIZED_DATA, null));
-			} else {
-				// Set return data
-				result.setData(vo);
-			}
-		}
-
-		// Return
-		return result;
-	}
-
-	/**
 	 * Get clear password
 	 *
 	 * @return
@@ -468,6 +387,87 @@ public class AccountService extends BaseService {
 
 			result.setData(data);
 		}
+
+		// Return
+		return result;
+	}
+
+	/**
+	 *
+	 * Update
+	 *
+	 * @param vo
+	 * @return
+	 */
+	@Transactional(readOnly = false, rollbackFor = Exception.class)
+	public APIResponse<Long> update(AccountVO vo) {
+		// Declare result
+		APIResponse<Long> result = new APIResponse<>();
+
+		// Validate input
+		if (result.getStatus() == null) {
+			List<String> errors = new ArrayList<>();
+
+			// Account type not null
+			if (vo.getAccountType() == null) {
+				errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, AccountTblEnum.type.name()));
+			}
+
+			// Account name not null
+			if (StringUtils.isBlank(vo.getAccountName())) {
+				errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, AccountTblEnum.accountName.name()));
+			}
+
+			// Record error
+			if (CollectionUtils.isNotEmpty(errors)) {
+				result = new APIResponse<>(HttpStatus.BAD_REQUEST, errors);
+			}
+		}
+
+		// Get logged user
+		UserTbl loggedUser = userDetailsServiceImpl.getCurrentLoginUser();
+
+		// Get updated account
+		AccountTbl updateAccount = null;
+		if (result.getStatus() == null) {
+			updateAccount = getAccountIdByUser(loggedUser, vo.getId());
+			if (updateAccount == null) {
+				result = new APIResponse<>(HttpStatus.BAD_REQUEST, ResponseCode.mapParam(ResponseCode.INEXISTED_RECORD,
+						"account " + vo.getAccountType().getTypeCode() + "<" + vo.getAccountName() + ">"));
+			}
+		}
+
+		// Update
+		if (result.getStatus() == null) {
+			if (!StringUtils.equals(vo.getAccountType().getTypeCode(), updateAccount.getType().getTypeCode())) {
+				TypeTbl accountType = new TypeTbl();
+				BeanUtils.copyProperties(vo.getAccountType(), accountType);
+				updateAccount.setType(accountType);
+			}
+			if (!StringUtils.equals(vo.getAccountName(), updateAccount.getAccountName())) {
+				updateAccount.setAccountName(vo.getAccountName());
+			}
+
+			if (updateAccount.getMdp() == null && vo.getMdp() == null) {
+			} else {
+				if (updateAccount.getMdp() == null && vo.getMdp() != null) {
+					updateAccount.setMdp(mdpService.getMdp(vo.getMdp()));
+				} else {
+					if (!StringUtils.equals(vo.getMdp(),
+							accountTransformer.convertMdp(updateAccount.getMdp().getDescription()))) {
+						updateAccount.setMdp(mdpService.getMdp(vo.getMdp()));
+					}
+				}
+			}
+
+			if (!StringUtils.equals(vo.getNote(), updateAccount.getNote())) {
+				updateAccount.setNote(vo.getNote());
+			}
+			accountRepository.save(updateAccount);
+		}
+
+		// Write activity type "update account"
+		recordUserActivity(DBConstants.USER_ACTIVITY_ACCOUNT_UPDATE);
 
 		// Return
 		return result;

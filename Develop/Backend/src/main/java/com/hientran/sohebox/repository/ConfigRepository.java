@@ -19,8 +19,6 @@ import com.hientran.sohebox.specification.ConfigSpecs.ConfigTblEnum;
 public interface ConfigRepository
 		extends JpaRepository<ConfigTbl, Long>, JpaSpecificationExecutor<ConfigTbl>, BaseRepository {
 
-	ConfigTbl findFirstByConfigKey(String configKey);
-
 	ConfigSpecs specs = new ConfigSpecs();
 
 	/**
@@ -61,5 +59,7 @@ public interface ConfigRepository
 		result = pageData;
 		return result;
 	}
+
+	ConfigTbl findFirstByConfigKey(String configKey);
 
 }

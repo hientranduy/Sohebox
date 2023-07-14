@@ -23,25 +23,33 @@ public class MyDateUtils {
 	public static final String YYYYMMDD = "yyyy-MM-dd";
 
 	/**
-	 *
-	 * Get date with time is 0:0:0
-	 *
-	 * @param aDate
-	 * @return
+	 * Add/minus date by days
 	 */
-	public static Date getDateMin(Date aDate) {
-		return changeDateTime(aDate, 0, 0, 0);
+	public static Date addMinusDate(Date date, int days) {
+		Date result = null;
+
+		if (date != null) {
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(date);
+			cal.add(Calendar.DATE, days);
+			result = cal.getTime();
+		}
+		return result;
 	}
 
 	/**
-	 *
-	 * Get date with time is 23:59:59
-	 *
-	 * @param aDate
-	 * @return
+	 * Add/minus date by days
 	 */
-	public static Date getDateMax(Date aDate) {
-		return changeDateTime(aDate, MAX_HOUR_INDEX_23, MAX_MINUTE, MAX_SECOND);
+	public static Date addMinusSecond(Date date, int second) {
+		Date result = null;
+
+		if (date != null) {
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(date);
+			cal.add(Calendar.SECOND, second);
+			result = cal.getTime();
+		}
+		return result;
 	}
 
 	/**
@@ -73,45 +81,6 @@ public class MyDateUtils {
 	}
 
 	/**
-	 *
-	 * Convert String to Date
-	 *
-	 * @param sDate
-	 * @param pattern
-	 * @return
-	 */
-	public static Date parseDate(String sDate, String pattern) {
-		Date date = null;
-		if (StringUtils.isNotBlank(sDate)) {
-			try {
-				date = DateUtils.parseDate(sDate, new String[] { pattern });
-			} catch (ParseException e) {
-				date = null;
-			}
-		}
-
-		return date;
-	}
-
-	/**
-	 *
-	 * Convert data to string
-	 *
-	 * @param date
-	 * @param pattern
-	 * @return
-	 */
-	public static String formatDate(Date date, String pattern) {
-		String formattedDate = "";
-		if (date != null) {
-			SimpleDateFormat formatter = new SimpleDateFormat(pattern);
-			formattedDate = formatter.format(date);
-		}
-
-		return formattedDate;
-	}
-
-	/**
 	 * Compare two date
 	 *
 	 * @param date1 Date 1
@@ -133,6 +102,24 @@ public class MyDateUtils {
 		}
 
 		return result;
+	}
+
+	/**
+	 *
+	 * Convert data to string
+	 *
+	 * @param date
+	 * @param pattern
+	 * @return
+	 */
+	public static String formatDate(Date date, String pattern) {
+		String formattedDate = "";
+		if (date != null) {
+			SimpleDateFormat formatter = new SimpleDateFormat(pattern);
+			formattedDate = formatter.format(date);
+		}
+
+		return formattedDate;
 	}
 
 	/**
@@ -205,32 +192,45 @@ public class MyDateUtils {
 	}
 
 	/**
-	 * Add/minus date by days
+	 *
+	 * Get date with time is 23:59:59
+	 *
+	 * @param aDate
+	 * @return
 	 */
-	public static Date addMinusDate(Date date, int days) {
-		Date result = null;
-
-		if (date != null) {
-			Calendar cal = Calendar.getInstance();
-			cal.setTime(date);
-			cal.add(Calendar.DATE, days);
-			result = cal.getTime();
-		}
-		return result;
+	public static Date getDateMax(Date aDate) {
+		return changeDateTime(aDate, MAX_HOUR_INDEX_23, MAX_MINUTE, MAX_SECOND);
 	}
 
 	/**
-	 * Add/minus date by days
+	 *
+	 * Get date with time is 0:0:0
+	 *
+	 * @param aDate
+	 * @return
 	 */
-	public static Date addMinusSecond(Date date, int second) {
-		Date result = null;
+	public static Date getDateMin(Date aDate) {
+		return changeDateTime(aDate, 0, 0, 0);
+	}
 
-		if (date != null) {
-			Calendar cal = Calendar.getInstance();
-			cal.setTime(date);
-			cal.add(Calendar.SECOND, second);
-			result = cal.getTime();
+	/**
+	 *
+	 * Convert String to Date
+	 *
+	 * @param sDate
+	 * @param pattern
+	 * @return
+	 */
+	public static Date parseDate(String sDate, String pattern) {
+		Date date = null;
+		if (StringUtils.isNotBlank(sDate)) {
+			try {
+				date = DateUtils.parseDate(sDate, new String[] { pattern });
+			} catch (ParseException e) {
+				date = null;
+			}
 		}
-		return result;
+
+		return date;
 	}
 }

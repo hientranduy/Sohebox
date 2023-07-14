@@ -38,18 +38,6 @@ public class TypeController extends BaseRestController {
 	}
 
 	/**
-	 * Update
-	 */
-	@PutMapping(ApiPublicConstants.API_TYPE)
-	public ResponseEntity<?> update(@Validated @RequestBody TypeTbl request) {
-		APIResponse<?> result = typeCache.update(request);
-
-		// Return
-		return new ResponseEntity<>(result, new HttpHeaders(),
-				result.getStatus() != null ? result.getStatus() : HttpStatus.OK);
-	}
-
-	/**
 	 * Search
 	 */
 	@PostMapping(ApiPublicConstants.API_TYPE + ApiPublicConstants.SEARCH)
@@ -61,5 +49,17 @@ public class TypeController extends BaseRestController {
 		return new ResponseEntity<>(result, new HttpHeaders(),
 				result.getStatus() != null ? result.getStatus() : HttpStatus.OK);
 
+	}
+
+	/**
+	 * Update
+	 */
+	@PutMapping(ApiPublicConstants.API_TYPE)
+	public ResponseEntity<?> update(@Validated @RequestBody TypeTbl request) {
+		APIResponse<?> result = typeCache.update(request);
+
+		// Return
+		return new ResponseEntity<>(result, new HttpHeaders(),
+				result.getStatus() != null ? result.getStatus() : HttpStatus.OK);
 	}
 }

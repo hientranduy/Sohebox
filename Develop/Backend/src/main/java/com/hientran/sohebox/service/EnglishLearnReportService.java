@@ -53,39 +53,6 @@ public class EnglishLearnReportService extends BaseService {
 	}
 
 	/**
-	 * Search
-	 *
-	 * @param sco
-	 * @return
-	 */
-	public APIResponse<Object> search(EnglishLearnReportSCO sco) {
-		// Declare result
-		APIResponse<Object> result = new APIResponse<>();
-
-		// Check data authentication
-		result = isDataAuthentication(sco.getUserId().getEq().longValue());
-
-		// Check authentication data
-		if (result.getStatus() == null) {
-			// Get data
-			Page<EnglishLearnReportTbl> page = englishLearnReportRepository.findAll(sco);
-
-			// Transformer
-			PageResultVO<EnglishLearnReportTbl> data = new PageResultVO<>();
-			if (!CollectionUtils.isEmpty(page.getContent())) {
-				data.setElements(page.getContent());
-				setPageHeader(page, data);
-			}
-
-			// Set data return
-			result.setData(data);
-		}
-
-		// Return
-		return result;
-	}
-
-	/**
 	 * Daily fill English learn data
 	 *
 	 */
@@ -116,5 +83,38 @@ public class EnglishLearnReportService extends BaseService {
 				tbl = englishLearnReportRepository.save(tbl);
 			}
 		}
+	}
+
+	/**
+	 * Search
+	 *
+	 * @param sco
+	 * @return
+	 */
+	public APIResponse<Object> search(EnglishLearnReportSCO sco) {
+		// Declare result
+		APIResponse<Object> result = new APIResponse<>();
+
+		// Check data authentication
+		result = isDataAuthentication(sco.getUserId().getEq().longValue());
+
+		// Check authentication data
+		if (result.getStatus() == null) {
+			// Get data
+			Page<EnglishLearnReportTbl> page = englishLearnReportRepository.findAll(sco);
+
+			// Transformer
+			PageResultVO<EnglishLearnReportTbl> data = new PageResultVO<>();
+			if (!CollectionUtils.isEmpty(page.getContent())) {
+				data.setElements(page.getContent());
+				setPageHeader(page, data);
+			}
+
+			// Set data return
+			result.setData(data);
+		}
+
+		// Return
+		return result;
 	}
 }

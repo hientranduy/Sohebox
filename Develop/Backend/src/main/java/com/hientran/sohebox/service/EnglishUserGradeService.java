@@ -34,6 +34,61 @@ public class EnglishUserGradeService extends BaseService {
 
 	/**
 	 *
+	 * Get record by key
+	 *
+	 * @param table key
+	 * @return table data
+	 */
+	private EnglishUserGradeTbl getByKey(Long userId) {
+		// Declare result
+		EnglishUserGradeTbl result = null;
+
+		// Prepare search
+		SearchNumberVO userIdSearch = new SearchNumberVO();
+		userIdSearch.setEq(userId.doubleValue());
+
+		EnglishUserGradeSCO sco = new EnglishUserGradeSCO();
+		sco.setUserId(userIdSearch);
+
+		// Get data
+		List<EnglishUserGradeTbl> list = EnglishUserGradeRepository.findAll(sco).getContent();
+		if (CollectionUtils.isNotEmpty(list)) {
+			result = list.get(0);
+		}
+
+		// Return
+		return result;
+	}
+
+	/**
+	 * Search
+	 *
+	 * @param sco
+	 * @return
+	 */
+	public APIResponse<Object> search(EnglishUserGradeSCO sco) {
+		// Declare result
+		APIResponse<Object> result = new APIResponse<>();
+
+		// Get data
+		Page<EnglishUserGradeTbl> page = EnglishUserGradeRepository.findAll(sco);
+
+		// Transformer
+		PageResultVO<EnglishUserGradeTbl> data = new PageResultVO<>();
+		if (!CollectionUtils.isEmpty(page.getContent())) {
+			data.setElements(page.getContent());
+			setPageHeader(page, data);
+		}
+
+		// Set data return
+		result.setData(data);
+
+		// Return
+		return result;
+	}
+
+	/**
+	 *
 	 * Set english user grade
 	 *
 	 * @param rq
@@ -106,61 +161,6 @@ public class EnglishUserGradeService extends BaseService {
 				tbl = EnglishUserGradeRepository.save(tbl);
 			}
 		}
-
-		// Return
-		return result;
-	}
-
-	/**
-	 *
-	 * Get record by key
-	 *
-	 * @param table key
-	 * @return table data
-	 */
-	private EnglishUserGradeTbl getByKey(Long userId) {
-		// Declare result
-		EnglishUserGradeTbl result = null;
-
-		// Prepare search
-		SearchNumberVO userIdSearch = new SearchNumberVO();
-		userIdSearch.setEq(userId.doubleValue());
-
-		EnglishUserGradeSCO sco = new EnglishUserGradeSCO();
-		sco.setUserId(userIdSearch);
-
-		// Get data
-		List<EnglishUserGradeTbl> list = EnglishUserGradeRepository.findAll(sco).getContent();
-		if (CollectionUtils.isNotEmpty(list)) {
-			result = list.get(0);
-		}
-
-		// Return
-		return result;
-	}
-
-	/**
-	 * Search
-	 *
-	 * @param sco
-	 * @return
-	 */
-	public APIResponse<Object> search(EnglishUserGradeSCO sco) {
-		// Declare result
-		APIResponse<Object> result = new APIResponse<>();
-
-		// Get data
-		Page<EnglishUserGradeTbl> page = EnglishUserGradeRepository.findAll(sco);
-
-		// Transformer
-		PageResultVO<EnglishUserGradeTbl> data = new PageResultVO<>();
-		if (!CollectionUtils.isEmpty(page.getContent())) {
-			data.setElements(page.getContent());
-			setPageHeader(page, data);
-		}
-
-		// Set data return
-		result.setData(data);
 
 		// Return
 		return result;

@@ -14,8 +14,6 @@ public interface CryptoValidatorRepository
 		extends JpaRepository<CryptoValidatorTbl, Long>, JpaSpecificationExecutor<CryptoValidatorTbl>, BaseRepository {
 	CryptoValidatorSpecs specs = new CryptoValidatorSpecs();
 
-	CryptoValidatorTbl findByValidatorAddress(String validatorAddress);
-
 	/**
 	 * Get all data
 	 */
@@ -38,5 +36,7 @@ public interface CryptoValidatorRepository
 		result = pageData;
 		return result;
 	}
+
+	CryptoValidatorTbl findByValidatorAddress(String validatorAddress);
 
 }

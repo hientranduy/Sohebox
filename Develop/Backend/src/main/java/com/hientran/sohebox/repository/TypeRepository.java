@@ -19,10 +19,6 @@ import com.hientran.sohebox.specification.TypeSpecs.TypeTblEnum;
 public interface TypeRepository
 		extends JpaRepository<TypeTbl, Long>, JpaSpecificationExecutor<TypeTbl>, BaseRepository {
 
-	TypeTbl findFirstByTypeClassAndTypeCode(String typeClass, String typeCode);
-
-	List<TypeTbl> findAllByTypeClassAndTypeCodeContaining(String typeClass, String typeCode);
-
 	TypeSpecs specs = new TypeSpecs();
 
 	/**
@@ -63,4 +59,8 @@ public interface TypeRepository
 		result = pageData;
 		return result;
 	}
+
+	List<TypeTbl> findAllByTypeClassAndTypeCodeContaining(String typeClass, String typeCode);
+
+	TypeTbl findFirstByTypeClassAndTypeCode(String typeClass, String typeCode);
 }

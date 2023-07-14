@@ -13,7 +13,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class QuandlDatasetVO  {
+public class QuandlDatasetVO {
 	@JsonProperty("start_date")
 	private String startDate;
 

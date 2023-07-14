@@ -14,7 +14,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class YoutubeVideoThumbnailsVO  {
+public class YoutubeVideoThumbnailsVO {
 	private YoutubeVideoThumbnailVO medium;
 	private YoutubeVideoThumbnailVO high;
 }

@@ -19,8 +19,6 @@ import com.hientran.sohebox.specification.FoodTypeSpecs.FoodTypeTblEnum;
 public interface FoodTypeRepository
 		extends JpaRepository<FoodTypeTbl, Long>, JpaSpecificationExecutor<FoodTypeTbl>, BaseRepository {
 
-	FoodTypeTbl findFirstByTypeClassAndTypeCode(String typeClass, String typeCode);
-
 	FoodTypeSpecs specs = new FoodTypeSpecs();
 
 	public default Page<FoodTypeTbl> findAll(FoodTypeSCO sco) {
@@ -55,4 +53,6 @@ public interface FoodTypeRepository
 		result = pageData;
 		return result;
 	}
+
+	FoodTypeTbl findFirstByTypeClassAndTypeCode(String typeClass, String typeCode);
 }

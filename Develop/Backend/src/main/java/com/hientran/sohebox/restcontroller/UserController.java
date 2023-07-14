@@ -26,6 +26,36 @@ public class UserController {
 	private final UserService userService;
 
 	/**
+	 * Change password
+	 */
+	@PutMapping(ApiPublicConstants.API_USER + ApiPublicConstants.CHANGE_PASSWORD_LOGGED_USER)
+	public ResponseEntity<?> changePasswordLoggedUser(@Validated @RequestBody ChangePasswordVO vo) {
+		// Change password
+		APIResponse<?> result = userService.changePassword(vo);
+
+		// Return
+		return new ResponseEntity<>(result, new HttpHeaders(),
+				result.getStatus() != null ? result.getStatus() : HttpStatus.OK);
+	}
+
+	/**
+	 *
+	 * Change password by username
+	 *
+	 * @param vo
+	 * @return
+	 */
+	@PutMapping(ApiPublicConstants.API_USER + ApiPublicConstants.CHANGE_PRIVATE_KEY)
+	public ResponseEntity<?> changePrivateKey(@Validated @RequestBody ChangePrivateKeyVO vo) {
+		// Change password
+		APIResponse<?> result = userService.changePrivateKey(vo);
+
+		// Return
+		return new ResponseEntity<>(result, new HttpHeaders(),
+				result.getStatus() != null ? result.getStatus() : HttpStatus.OK);
+	}
+
+	/**
 	 * Create
 	 */
 	@PostMapping(ApiPublicConstants.API_USER)
@@ -52,50 +82,21 @@ public class UserController {
 	}
 
 	/**
-	 * Change password
-	 */
-	@PutMapping(ApiPublicConstants.API_USER + ApiPublicConstants.CHANGE_PASSWORD_LOGGED_USER)
-	public ResponseEntity<?> changePasswordLoggedUser(@Validated @RequestBody ChangePasswordVO vo) {
-		// Change password
-		APIResponse<?> result = userService.changePassword(vo);
-
-		// Return
-		return new ResponseEntity<>(result, new HttpHeaders(),
-				result.getStatus() != null ? result.getStatus() : HttpStatus.OK);
-	}
-
-	/**
-	 *
-	 * Update info
-	 *
-	 * @param vo
-	 * @return
-	 */
-	@PutMapping(ApiPublicConstants.API_USER)
-	public ResponseEntity<?> updateUser(@Validated @RequestBody UserVO vo) {
-		// Update User
-		APIResponse<?> result = userService.update(vo);
-
-		// Return
-		return new ResponseEntity<>(result, new HttpHeaders(),
-				result.getStatus() != null ? result.getStatus() : HttpStatus.OK);
-	}
-
-	/**
 	 *
 	 * Search
 	 *
 	 * @param sco
 	 * @return
 	 */
-	@PostMapping(ApiPublicConstants.API_USER + ApiPublicConstants.API_USER_STATUS)
-	public ResponseEntity<?> searchStatus(@RequestBody UserSCO sco) {
-		// Get all User
-		APIResponse<?> result = userService.searchUserStatus(sco);
+	@PostMapping(ApiPublicConstants.API_USER + ApiPublicConstants.SEARCH)
+	public ResponseEntity<?> search(@RequestBody UserSCO sco) {
+		// Search User
+		APIResponse<?> result = userService.search(sco);
 
 		// Return
 		return new ResponseEntity<>(result, new HttpHeaders(),
 				result.getStatus() != null ? result.getStatus() : HttpStatus.OK);
+
 	}
 
 	/**
@@ -122,28 +123,27 @@ public class UserController {
 	 * @param sco
 	 * @return
 	 */
-	@PostMapping(ApiPublicConstants.API_USER + ApiPublicConstants.SEARCH)
-	public ResponseEntity<?> search(@RequestBody UserSCO sco) {
-		// Search User
-		APIResponse<?> result = userService.search(sco);
+	@PostMapping(ApiPublicConstants.API_USER + ApiPublicConstants.API_USER_STATUS)
+	public ResponseEntity<?> searchStatus(@RequestBody UserSCO sco) {
+		// Get all User
+		APIResponse<?> result = userService.searchUserStatus(sco);
 
 		// Return
 		return new ResponseEntity<>(result, new HttpHeaders(),
 				result.getStatus() != null ? result.getStatus() : HttpStatus.OK);
-
 	}
 
 	/**
 	 *
-	 * Change password by username
+	 * Update info
 	 *
 	 * @param vo
 	 * @return
 	 */
-	@PutMapping(ApiPublicConstants.API_USER + ApiPublicConstants.CHANGE_PRIVATE_KEY)
-	public ResponseEntity<?> changePrivateKey(@Validated @RequestBody ChangePrivateKeyVO vo) {
-		// Change password
-		APIResponse<?> result = userService.changePrivateKey(vo);
+	@PutMapping(ApiPublicConstants.API_USER)
+	public ResponseEntity<?> updateUser(@Validated @RequestBody UserVO vo) {
+		// Update User
+		APIResponse<?> result = userService.update(vo);
 
 		// Return
 		return new ResponseEntity<>(result, new HttpHeaders(),

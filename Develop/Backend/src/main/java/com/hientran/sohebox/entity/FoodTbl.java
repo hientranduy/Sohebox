@@ -6,6 +6,8 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
@@ -16,6 +18,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import jakarta.persistence.Transient;
 import jakarta.persistence.UniqueConstraint;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -65,4 +68,17 @@ public class FoodTbl extends GenericTbl {
 
 	@Column(name = "url_reference")
 	private String urlReference;
+
+	// Other field
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@Transient
+	private String recipeString;
+
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@Transient
+	private String imageFile;
+
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@Transient
+	private String imageExtention;
 }

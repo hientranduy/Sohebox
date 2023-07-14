@@ -23,29 +23,28 @@ public class AccountTransformer extends BaseTransformer {
 	private final Mapper objectMapper;
 
 	/**
-	 * Convert Page<AccountTbl> to PageResultVO<AccountVO>
+	 * Conver return mdp
 	 *
-	 * @param Page<AccountTbl>
-	 *
-	 * @return PageResultVO<AccountVO>
+	 * @param description
+	 * @return
 	 */
-	public PageResultVO<AccountVO> convertToPageReturn(Page<AccountTbl> pageTbl) {
+	public String convertMdp(String mdp) {
 		// Declare result
-		PageResultVO<AccountVO> result = new PageResultVO<>();
+		String result = "";
 
-		// Convert data
-		if (!CollectionUtils.isEmpty(pageTbl.getContent())) {
-			List<AccountVO> listVO = new ArrayList<>();
-			for (AccountTbl tbl : pageTbl.getContent()) {
-				listVO.add(convertToAccountVO(tbl));
+		if (mdp.length() > 0) {
+
+			// Add 1 first chars
+			result = mdp.substring(0, 1);
+
+			// Add n middle chars
+			for (int i = 0; i < mdp.length() - 2; i++) {
+				result = result + "*";
 			}
 
-			// Set return list to result
-			result.setElements(listVO);
+			// Add 1 last chars
+			result = result + mdp.substring(mdp.length() - 1);
 		}
-
-		// Set header information
-		setPageHeader(pageTbl, result);
 
 		// Return
 		return result;
@@ -78,28 +77,29 @@ public class AccountTransformer extends BaseTransformer {
 	}
 
 	/**
-	 * Conver return mdp
+	 * Convert Page<AccountTbl> to PageResultVO<AccountVO>
 	 *
-	 * @param description
-	 * @return
+	 * @param Page<AccountTbl>
+	 *
+	 * @return PageResultVO<AccountVO>
 	 */
-	public String convertMdp(String mdp) {
+	public PageResultVO<AccountVO> convertToPageReturn(Page<AccountTbl> pageTbl) {
 		// Declare result
-		String result = "";
+		PageResultVO<AccountVO> result = new PageResultVO<>();
 
-		if (mdp.length() > 0) {
-
-			// Add 1 first chars
-			result = mdp.substring(0, 1);
-
-			// Add n middle chars
-			for (int i = 0; i < mdp.length() - 2; i++) {
-				result = result + "*";
+		// Convert data
+		if (!CollectionUtils.isEmpty(pageTbl.getContent())) {
+			List<AccountVO> listVO = new ArrayList<>();
+			for (AccountTbl tbl : pageTbl.getContent()) {
+				listVO.add(convertToAccountVO(tbl));
 			}
 
-			// Add 1 last chars
-			result = result + mdp.substring(mdp.length() - 1);
+			// Set return list to result
+			result.setElements(listVO);
 		}
+
+		// Set header information
+		setPageHeader(pageTbl, result);
 
 		// Return
 		return result;

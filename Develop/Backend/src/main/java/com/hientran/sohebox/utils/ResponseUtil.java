@@ -16,66 +16,16 @@ import com.hientran.sohebox.dto.response.ResponseStatus;
 public class ResponseUtil {
 
 	/**
-	 * Response SUCCESS
-	 *
-	 * @return
-	 */
-	public static ResponseStatus createSuccessStatus() {
-		ResponseStatus status = new ResponseStatus();
-		status.setCode(Integer.valueOf(ResponseCode.SUCCESSFUL.getCode()));
-		status.setMessage(ResponseCode.SUCCESSFUL.getDescription());
-		return status;
-	}
-
-	/**
-	 * Response FAILED
-	 *
-	 * @return
-	 */
-	public static ResponseStatus createFailedStatus() {
-		ResponseStatus status = new ResponseStatus();
-		status.setCode(Integer.valueOf(ResponseCode.FAILED.getCode()));
-		status.setMessage(ResponseCode.FAILED.getDescription());
-		return status;
-	}
-
-	/**
-	 * Response by error list
-	 *
-	 * @param errors
-	 * @return
-	 */
-	public static ResponseStatus createResponseStatusFromErrorList(List<ErrorCode> errors) {
-		ResponseStatus status = null;
-		if (!CollectionUtils.isEmpty(errors)) {
-			status = createFailedStatus();
-			status.setErrors(errors);
-		}
-		return status;
-	}
-
-	/**
-	 * Response by response code with param
+	 * Prepare ErrorCode without param
 	 *
 	 * @param responseCode
 	 * @return
 	 */
-	public static ResponseStatus createErrorStatusByResponseCode(ResponseCode responseCode, String param) {
-		ResponseStatus status = createFailedStatus();
-		status.setErrors(Arrays.asList(createErrorCode(responseCode, param)));
-		return status;
-	}
-
-	/**
-	 * Response by response code without param
-	 *
-	 * @param responseCode
-	 * @return
-	 */
-	public static ResponseStatus createErrorStatusByResponseCode(ResponseCode responseCode) {
-		ResponseStatus status = createFailedStatus();
-		status.setErrors(Arrays.asList(createErrorCode(responseCode, null)));
-		return status;
+	public static ErrorCode createErrorCode(ResponseCode responseCode) {
+		ErrorCode errorCode = new ErrorCode();
+		errorCode.setCode(responseCode.getCode());
+		errorCode.setMessage(responseCode.getDescription());
+		return errorCode;
 	}
 
 	/**
@@ -96,17 +46,35 @@ public class ResponseUtil {
 		return errorCode;
 	}
 
+	public static ErrorCode createErrorCodeWithParam(ResponseCode responseCode, String param) {
+		ErrorCode errorCode = new ErrorCode();
+		errorCode.setCode(responseCode.getCode());
+		errorCode.setMessage(String.format(responseCode.getDescription(), param));
+		return errorCode;
+	}
+
 	/**
-	 * Prepare ErrorCode without param
+	 * Response by response code without param
 	 *
 	 * @param responseCode
 	 * @return
 	 */
-	public static ErrorCode createErrorCode(ResponseCode responseCode) {
-		ErrorCode errorCode = new ErrorCode();
-		errorCode.setCode(responseCode.getCode());
-		errorCode.setMessage(responseCode.getDescription());
-		return errorCode;
+	public static ResponseStatus createErrorStatusByResponseCode(ResponseCode responseCode) {
+		ResponseStatus status = createFailedStatus();
+		status.setErrors(Arrays.asList(createErrorCode(responseCode, null)));
+		return status;
+	}
+
+	/**
+	 * Response by response code with param
+	 *
+	 * @param responseCode
+	 * @return
+	 */
+	public static ResponseStatus createErrorStatusByResponseCode(ResponseCode responseCode, String param) {
+		ResponseStatus status = createFailedStatus();
+		status.setErrors(Arrays.asList(createErrorCode(responseCode, param)));
+		return status;
 	}
 
 	public static ResponseStatus createFailedInvalidInputStatus(ResponseCode responseCode, Set<String> fields) {
@@ -128,11 +96,40 @@ public class ResponseUtil {
 		return status;
 	}
 
-	public static ErrorCode createErrorCodeWithParam(ResponseCode responseCode, String param) {
-		ErrorCode errorCode = new ErrorCode();
-		errorCode.setCode(responseCode.getCode());
-		errorCode.setMessage(String.format(responseCode.getDescription(), param));
-		return errorCode;
+	/**
+	 * Response FAILED
+	 *
+	 * @return
+	 */
+	public static ResponseStatus createFailedStatus() {
+		ResponseStatus status = new ResponseStatus();
+		status.setCode(Integer.valueOf(ResponseCode.FAILED.getCode()));
+		status.setMessage(ResponseCode.FAILED.getDescription());
+		return status;
+	}
+
+	public static ResponseStatus createFailedStatus(List<ErrorCode> errorCodes) {
+		ResponseStatus status = new ResponseStatus();
+		status.setCode(Integer.valueOf(ResponseCode.FAILED.getCode()));
+		status.setMessage(ResponseCode.FAILED.getDescription());
+
+		status.setErrors(errorCodes);
+		return status;
+	}
+
+	/**
+	 * Response by error list
+	 *
+	 * @param errors
+	 * @return
+	 */
+	public static ResponseStatus createResponseStatusFromErrorList(List<ErrorCode> errors) {
+		ResponseStatus status = null;
+		if (!CollectionUtils.isEmpty(errors)) {
+			status = createFailedStatus();
+			status.setErrors(errors);
+		}
+		return status;
 	}
 
 	public static ResponseStatus createResponseStatusFromResponseCode(ResponseCode responseCode) {
@@ -150,12 +147,15 @@ public class ResponseUtil {
 		return status;
 	}
 
-	public static ResponseStatus createFailedStatus(List<ErrorCode> errorCodes) {
+	/**
+	 * Response SUCCESS
+	 *
+	 * @return
+	 */
+	public static ResponseStatus createSuccessStatus() {
 		ResponseStatus status = new ResponseStatus();
-		status.setCode(Integer.valueOf(ResponseCode.FAILED.getCode()));
-		status.setMessage(ResponseCode.FAILED.getDescription());
-
-		status.setErrors(errorCodes);
+		status.setCode(Integer.valueOf(ResponseCode.SUCCESSFUL.getCode()));
+		status.setMessage(ResponseCode.SUCCESSFUL.getDescription());
 		return status;
 	}
 }

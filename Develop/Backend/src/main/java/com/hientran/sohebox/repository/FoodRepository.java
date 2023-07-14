@@ -40,4 +40,6 @@ public interface FoodRepository
 		result = pageData;
 		return result;
 	}
+
+	FoodTbl findFirstByName(String name);
 }

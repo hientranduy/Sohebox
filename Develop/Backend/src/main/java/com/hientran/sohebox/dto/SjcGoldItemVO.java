@@ -12,7 +12,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class SjcGoldItemVO  {
+public class SjcGoldItemVO {
 	private String buy;
 	private String sell;
 	private String type;

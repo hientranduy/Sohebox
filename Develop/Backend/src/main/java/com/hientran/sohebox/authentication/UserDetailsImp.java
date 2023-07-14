@@ -29,21 +29,13 @@ public class UserDetailsImp implements UserDetails {
 	}
 
 	/**
-	 * Get userTbl
-	 *
-	 * @return UserTbl
+	 * {@inheritDoc}
 	 */
-	public UserTbl getUserTbl() {
-		return userTbl;
-	}
-
-	/**
-	 * Set userTbl
-	 *
-	 * @param UserTbl the UserTbl to set
-	 */
-	public void setUserTbl(UserTbl userTbl) {
-		this.userTbl = userTbl;
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		List<GrantedAuthority> list = new ArrayList<>();
+		list.add(new SimpleGrantedAuthority("ROLE_" + userTbl.getRole().getRoleName()));
+		return list;
 	}
 
 	/**
@@ -63,13 +55,12 @@ public class UserDetailsImp implements UserDetails {
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * Get userTbl
+	 *
+	 * @return UserTbl
 	 */
-	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities() {
-		List<GrantedAuthority> list = new ArrayList<>();
-		list.add(new SimpleGrantedAuthority("ROLE_" + userTbl.getRole().getRoleName()));
-		return list;
+	public UserTbl getUserTbl() {
+		return userTbl;
 	}
 
 	/**
@@ -106,5 +97,14 @@ public class UserDetailsImp implements UserDetails {
 		} else {
 			return true;
 		}
+	}
+
+	/**
+	 * Set userTbl
+	 *
+	 * @param UserTbl the UserTbl to set
+	 */
+	public void setUserTbl(UserTbl userTbl) {
+		this.userTbl = userTbl;
 	}
 }

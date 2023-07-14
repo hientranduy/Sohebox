@@ -39,11 +39,12 @@ public class CryptoTokenConfigRestController extends BaseRestController {
 	}
 
 	/**
-	 * Update
+	 * Get by ID
 	 */
-	@PutMapping(ApiPublicConstants.API_CRYPTO_TOKEN_CONFIG)
-	public ResponseEntity<?> update(@Validated @RequestBody CryptoTokenConfigTbl request) {
-		APIResponse<?> result = cryptoTokenConfigService.update(request);
+	@GetMapping(ApiPublicConstants.API_CRYPTO_TOKEN_CONFIG + ApiPublicConstants.ID)
+	public ResponseEntity<?> getById(@PathVariable(value = "id") Long id) {
+		// Delete
+		APIResponse<?> result = cryptoTokenConfigService.getById(id);
 
 		// Return
 		return new ResponseEntity<>(result, new HttpHeaders(),
@@ -65,12 +66,11 @@ public class CryptoTokenConfigRestController extends BaseRestController {
 	}
 
 	/**
-	 * Get by ID
+	 * Update
 	 */
-	@GetMapping(ApiPublicConstants.API_CRYPTO_TOKEN_CONFIG + ApiPublicConstants.ID)
-	public ResponseEntity<?> getById(@PathVariable(value = "id") Long id) {
-		// Delete
-		APIResponse<?> result = cryptoTokenConfigService.getById(id);
+	@PutMapping(ApiPublicConstants.API_CRYPTO_TOKEN_CONFIG)
+	public ResponseEntity<?> update(@Validated @RequestBody CryptoTokenConfigTbl request) {
+		APIResponse<?> result = cryptoTokenConfigService.update(request);
 
 		// Return
 		return new ResponseEntity<>(result, new HttpHeaders(),

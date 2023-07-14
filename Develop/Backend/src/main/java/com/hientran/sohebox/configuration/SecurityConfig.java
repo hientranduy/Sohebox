@@ -44,17 +44,6 @@ public class SecurityConfig {
 	@Autowired
 	private JWTAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
-	@Autowired
-	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-		auth.authenticationEventPublisher(authenticationEventPublisher()).userDetailsService(userService)
-				.passwordEncoder(passwordEncoder());
-	}
-
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
-
 	@Bean
 	public DefaultAuthenticationEventPublisher authenticationEventPublisher() {
 		return new DefaultAuthenticationEventPublisher();
@@ -64,6 +53,36 @@ public class SecurityConfig {
 	public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
 			throws Exception {
 		return authenticationConfiguration.getAuthenticationManager();
+	}
+
+	@Autowired
+	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+		auth.authenticationEventPublisher(authenticationEventPublisher()).userDetailsService(userService)
+				.passwordEncoder(passwordEncoder());
+	}
+
+	/**
+	 * Create Cors Configuration Source bean.
+	 *
+	 * It is for accept access from Web like AngularJS.
+	 *
+	 * @return CorsConfigurationSource object
+	 */
+	@Bean
+	public CorsConfigurationSource corsConfigurationSource() {
+		// Build CORS settings
+		CorsConfiguration corsConfiguration = new CorsConfiguration();
+		corsConfiguration.setAllowedOriginPatterns(Arrays.asList("*"));
+		corsConfiguration.setAllowedMethods(Arrays.asList(HttpMethod.GET.name(), HttpMethod.POST.name(),
+				HttpMethod.PUT.name(), HttpMethod.DELETE.name(), HttpMethod.OPTIONS.name(), HttpMethod.HEAD.name()));
+		corsConfiguration.setAllowedHeaders(Arrays.asList("*"));
+		corsConfiguration.setAllowCredentials(true);
+		corsConfiguration.setMaxAge(Long.valueOf(3600));
+
+		// Register CORS configuration
+		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		source.registerCorsConfiguration("/**", corsConfiguration);
+		return source;
 	}
 
 	@Bean
@@ -247,27 +266,8 @@ public class SecurityConfig {
 		return http.build();
 	}
 
-	/**
-	 * Create Cors Configuration Source bean.
-	 *
-	 * It is for accept access from Web like AngularJS.
-	 *
-	 * @return CorsConfigurationSource object
-	 */
 	@Bean
-	public CorsConfigurationSource corsConfigurationSource() {
-		// Build CORS settings
-		CorsConfiguration corsConfiguration = new CorsConfiguration();
-		corsConfiguration.setAllowedOriginPatterns(Arrays.asList("*"));
-		corsConfiguration.setAllowedMethods(Arrays.asList(HttpMethod.GET.name(), HttpMethod.POST.name(),
-				HttpMethod.PUT.name(), HttpMethod.DELETE.name(), HttpMethod.OPTIONS.name(), HttpMethod.HEAD.name()));
-		corsConfiguration.setAllowedHeaders(Arrays.asList("*"));
-		corsConfiguration.setAllowCredentials(true);
-		corsConfiguration.setMaxAge(Long.valueOf(3600));
-
-		// Register CORS configuration
-		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-		source.registerCorsConfiguration("/**", corsConfiguration);
-		return source;
+	public PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
 	}
 }

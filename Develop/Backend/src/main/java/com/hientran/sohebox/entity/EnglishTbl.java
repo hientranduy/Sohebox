@@ -72,12 +72,16 @@ public class EnglishTbl extends GenericTbl {
 	@ManyToOne
 	@JoinColumn(name = "vus_grade_id", foreignKey = @ForeignKey(name = "FK_EnglishTbl_EnglishTypeTbl_vusGrade"))
 	private EnglishTypeTbl vusGrade;
-	
+
 	// Other field
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@Transient
+	private String imageFile;
+
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@Transient
 	private String imageExtention;
-	
+
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@Transient
 	private Long recordTimes;

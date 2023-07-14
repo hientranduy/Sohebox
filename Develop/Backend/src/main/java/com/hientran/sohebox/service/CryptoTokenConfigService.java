@@ -97,6 +97,87 @@ public class CryptoTokenConfigService extends BaseService {
 	}
 
 	/**
+	 * Get by id
+	 *
+	 * @param id
+	 * @return
+	 */
+	public APIResponse<Object> getById(Long id) {
+		// Declare result
+		APIResponse<Object> result = new APIResponse<>();
+
+		// Check existence
+		Optional<CryptoTokenConfigTbl> CryptoTokenConfigTbl = cryptoTokenConfigRepository.findById(id);
+		if (CryptoTokenConfigTbl.isPresent()) {
+			result.setData(CryptoTokenConfigTbl.get());
+		} else {
+			result = new APIResponse<>(HttpStatus.BAD_REQUEST,
+					ResponseCode.mapParam(ResponseCode.INEXISTED_RECORD, "token"));
+		}
+
+		// Return
+		return result;
+	}
+
+	/**
+	 *
+	 * Get by name
+	 *
+	 * @param name
+	 * @return
+	 */
+	public CryptoTokenConfigTbl getByName(String nameValue) {
+		// Declare result
+		CryptoTokenConfigTbl result = null;
+
+		SearchTextVO nameSearch = new SearchTextVO();
+		nameSearch.setEq(nameValue);
+
+		CryptoTokenConfigSCO sco = new CryptoTokenConfigSCO();
+		sco.setTokenCode(nameSearch);
+
+		// Get data
+		List<CryptoTokenConfigTbl> list = cryptoTokenConfigRepository.findAll(sco).getContent();
+		if (CollectionUtils.isNotEmpty(list)) {
+			result = list.get(0);
+		}
+
+		// Return
+		return result;
+	}
+
+	/**
+	 * Search
+	 *
+	 * @param sco
+	 * @return
+	 */
+	@Transactional(readOnly = false, rollbackFor = Exception.class)
+	public APIResponse<Object> search(CryptoTokenConfigSCO sco) {
+		// Declare result
+		APIResponse<Object> result = new APIResponse<>();
+
+		// Get data
+		Page<CryptoTokenConfigTbl> page = cryptoTokenConfigRepository.findAll(sco);
+
+		// Transformer
+		PageResultVO<CryptoTokenConfigTbl> data = new PageResultVO<>();
+		if (!CollectionUtils.isEmpty(page.getContent())) {
+			data.setElements(page.getContent());
+			setPageHeader(page, data);
+		}
+
+		// Set data return
+		result.setData(data);
+
+		// Write activity
+		recordUserActivity(DBConstants.USER_ACTIVITY_CRYPTO_TOKEN_CONFIG_ACCESS);
+
+		// Return
+		return result;
+	}
+
+	/**
 	 *
 	 * Update
 	 *
@@ -181,87 +262,6 @@ public class CryptoTokenConfigService extends BaseService {
 
 			// Write activity
 			recordUserActivity(DBConstants.USER_ACTIVITY_CRYPTO_TOKEN_CONFIG_UPDATE);
-		}
-
-		// Return
-		return result;
-	}
-
-	/**
-	 * Search
-	 *
-	 * @param sco
-	 * @return
-	 */
-	@Transactional(readOnly = false, rollbackFor = Exception.class)
-	public APIResponse<Object> search(CryptoTokenConfigSCO sco) {
-		// Declare result
-		APIResponse<Object> result = new APIResponse<>();
-
-		// Get data
-		Page<CryptoTokenConfigTbl> page = cryptoTokenConfigRepository.findAll(sco);
-
-		// Transformer
-		PageResultVO<CryptoTokenConfigTbl> data = new PageResultVO<>();
-		if (!CollectionUtils.isEmpty(page.getContent())) {
-			data.setElements(page.getContent());
-			setPageHeader(page, data);
-		}
-
-		// Set data return
-		result.setData(data);
-
-		// Write activity
-		recordUserActivity(DBConstants.USER_ACTIVITY_CRYPTO_TOKEN_CONFIG_ACCESS);
-
-		// Return
-		return result;
-	}
-
-	/**
-	 *
-	 * Get by name
-	 *
-	 * @param name
-	 * @return
-	 */
-	public CryptoTokenConfigTbl getByName(String nameValue) {
-		// Declare result
-		CryptoTokenConfigTbl result = null;
-
-		SearchTextVO nameSearch = new SearchTextVO();
-		nameSearch.setEq(nameValue);
-
-		CryptoTokenConfigSCO sco = new CryptoTokenConfigSCO();
-		sco.setTokenCode(nameSearch);
-
-		// Get data
-		List<CryptoTokenConfigTbl> list = cryptoTokenConfigRepository.findAll(sco).getContent();
-		if (CollectionUtils.isNotEmpty(list)) {
-			result = list.get(0);
-		}
-
-		// Return
-		return result;
-	}
-
-	/**
-	 * Get by id
-	 *
-	 * @param id
-	 * @return
-	 */
-	public APIResponse<Object> getById(Long id) {
-		// Declare result
-		APIResponse<Object> result = new APIResponse<>();
-
-		// Check existence
-		Optional<CryptoTokenConfigTbl> CryptoTokenConfigTbl = cryptoTokenConfigRepository.findById(id);
-		if (CryptoTokenConfigTbl.isPresent()) {
-			result.setData(CryptoTokenConfigTbl.get());
-		} else {
-			result = new APIResponse<>(HttpStatus.BAD_REQUEST,
-					ResponseCode.mapParam(ResponseCode.INEXISTED_RECORD, "token"));
 		}
 
 		// Return

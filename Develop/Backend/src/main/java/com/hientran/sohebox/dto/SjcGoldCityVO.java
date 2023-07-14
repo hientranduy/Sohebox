@@ -14,7 +14,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class SjcGoldCityVO  {
+public class SjcGoldCityVO {
 	private String cityName;
 	private List<SjcGoldItemVO> items;
 }

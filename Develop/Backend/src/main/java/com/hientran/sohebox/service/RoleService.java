@@ -18,10 +18,6 @@ import lombok.RequiredArgsConstructor;
 public class RoleService {
 	private final RoleRepository roleRepository;
 
-	public RoleTbl getByRoleName(String roleName) {
-		return roleRepository.findFirstByRoleName(roleName);
-	}
-
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
 	public List<RoleTbl> create(List<RoleTbl> request) {
 		List<RoleTbl> result = new ArrayList<>();
@@ -39,5 +35,9 @@ public class RoleService {
 
 		}
 		return result;
+	}
+
+	public RoleTbl getByRoleName(String roleName) {
+		return roleRepository.findFirstByRoleName(roleName);
 	}
 }

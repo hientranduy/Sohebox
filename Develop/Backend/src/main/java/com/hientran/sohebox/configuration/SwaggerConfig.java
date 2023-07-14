@@ -16,6 +16,16 @@ import io.swagger.v3.oas.models.security.SecurityScheme;
 public class SwaggerConfig {
 
 	@Bean
+	public GroupedOpenApi actuatorApi() {
+		return GroupedOpenApi.builder().group("Admin").packagesToScan("com.hientran.sohebox.restcontroller.admin")
+				.pathsToMatch("/**").build();
+	}
+
+	private SecurityScheme createAPIKeyScheme() {
+		return new SecurityScheme().type(SecurityScheme.Type.HTTP).bearerFormat("JWT").scheme("bearer");
+	}
+
+	@Bean
 	public OpenAPI customOpenAPI(@Value("${spring.application.name}") String appName,
 			@Value("${application.description}") String appDesciption,
 			@Value("${application.version}") String appVersion, @Value("${build.date}") String buildDate) {
@@ -28,24 +38,14 @@ public class SwaggerConfig {
 	}
 
 	@Bean
-	public GroupedOpenApi publicApi() {
-		return GroupedOpenApi.builder().group("Publish").packagesToScan("com.hientran.sohebox.restcontroller")
-				.pathsToMatch("/**").build();
-	}
-
-	@Bean
-	public GroupedOpenApi actuatorApi() {
-		return GroupedOpenApi.builder().group("Admin").packagesToScan("com.hientran.sohebox.restcontroller.admin")
-				.pathsToMatch("/**").build();
-	}
-
-	@Bean
 	public OpenAPI openAPI() {
 		return new OpenAPI().addSecurityItem(new SecurityRequirement().addList("Bearer Authentication"))
 				.components(new Components().addSecuritySchemes("Bearer Authentication", createAPIKeyScheme()));
 	}
 
-	private SecurityScheme createAPIKeyScheme() {
-		return new SecurityScheme().type(SecurityScheme.Type.HTTP).bearerFormat("JWT").scheme("bearer");
+	@Bean
+	public GroupedOpenApi publicApi() {
+		return GroupedOpenApi.builder().group("Publish").packagesToScan("com.hientran.sohebox.restcontroller")
+				.pathsToMatch("/**").build();
 	}
 }

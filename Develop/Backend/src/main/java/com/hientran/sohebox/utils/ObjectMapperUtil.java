@@ -19,12 +19,23 @@ public class ObjectMapperUtil {
 
 	private final ObjectMapper objectMapper;
 
-	public String writeValueAsString(Object value) throws JsonProcessingException {
-		String jsonString = null;
-		if (null != value) {
-			jsonString = objectMapper.writeValueAsString(value);
+	public <T> T readValue(Object object, Class<T> valueType)
+			throws JsonParseException, JsonMappingException, IOException {
+		T result = null;
+		if (object != null) {
+			result = objectMapper.readValue(writeValueAsString(object), valueType);
 		}
-		return jsonString;
+		return result;
+	}
+
+	@SuppressWarnings("unchecked")
+	public <T> T readValue(Object object, TypeReference<?> valueTypeRef)
+			throws JsonParseException, JsonMappingException, IOException {
+		T result = null;
+		if (object != null) {
+			result = (T) objectMapper.readValue(writeValueAsString(object), valueTypeRef);
+		}
+		return result;
 	}
 
 	public <T> T readValue(String content, Class<T> valueType)
@@ -32,15 +43,6 @@ public class ObjectMapperUtil {
 		T result = null;
 		if (StringUtils.isNotBlank(content)) {
 			result = objectMapper.readValue(content, valueType);
-		}
-		return result;
-	}
-
-	public <T> T readValue(Object object, Class<T> valueType)
-			throws JsonParseException, JsonMappingException, IOException {
-		T result = null;
-		if (object != null) {
-			result = objectMapper.readValue(writeValueAsString(object), valueType);
 		}
 		return result;
 	}
@@ -55,13 +57,11 @@ public class ObjectMapperUtil {
 		return result;
 	}
 
-	@SuppressWarnings("unchecked")
-	public <T> T readValue(Object object, TypeReference<?> valueTypeRef)
-			throws JsonParseException, JsonMappingException, IOException {
-		T result = null;
-		if (object != null) {
-			result = (T) objectMapper.readValue(writeValueAsString(object), valueTypeRef);
+	public String writeValueAsString(Object value) throws JsonProcessingException {
+		String jsonString = null;
+		if (null != value) {
+			jsonString = objectMapper.writeValueAsString(value);
 		}
-		return result;
+		return jsonString;
 	}
 }

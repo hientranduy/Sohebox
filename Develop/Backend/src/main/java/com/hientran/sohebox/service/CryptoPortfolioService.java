@@ -116,34 +116,34 @@ public class CryptoPortfolioService extends BaseService {
 	}
 
 	/**
+	 * Delete by id
 	 *
-	 * Check if record is existed
+	 * Only role creator
 	 *
+	 * @param User
 	 * @return
 	 */
-	private boolean recordIsExisted(UserTbl user, CryptoPortfolioTbl rq) {
+	@Transactional(readOnly = false, rollbackFor = Exception.class)
+	public APIResponse<Object> deleteById(Long id) {
 		// Declare result
-		boolean result = false;
+		APIResponse<Object> result = new APIResponse<>();
 
-		// Prepare search
-		SearchNumberVO userIdSearch = new SearchNumberVO();
-		userIdSearch.setEq(user.getId().doubleValue());
+		// Check existed
+		Optional<CryptoPortfolioTbl> deleteItemTbl = cryptoPortfolioRepository.findById(id);
+		if (!deleteItemTbl.isPresent()) {
+			result = new APIResponse<>(HttpStatus.BAD_REQUEST,
+					ResponseCode.mapParam(ResponseCode.UNAUTHORIZED_DATA, null));
+		}
 
-		SearchNumberVO tokenIdSearch = new SearchNumberVO();
-		tokenIdSearch.setEq(rq.getToken().getId().doubleValue());
+		// Check logged user have permission to delete
+		if (result.getStatus() == null && !userService.isDataOwner(deleteItemTbl.get().getUser().getUsername())) {
+			result = new APIResponse<>(HttpStatus.BAD_REQUEST,
+					ResponseCode.mapParam(ResponseCode.UNAUTHORIZED_DATA, null));
+		}
 
-		SearchTextVO walletSearch = new SearchTextVO();
-		walletSearch.setEq(rq.getWallet());
-
-		CryptoPortfolioSCO sco = new CryptoPortfolioSCO();
-		sco.setUser(userIdSearch);
-		sco.setToken(tokenIdSearch);
-		sco.setWallet(walletSearch);
-
-		// Get data
-		List<CryptoPortfolioTbl> listSearch = cryptoPortfolioRepository.findAll(sco).getContent();
-		if (CollectionUtils.isNotEmpty(listSearch)) {
-			result = true;
+		// Process delete
+		if (result.getStatus() == null) {
+			cryptoPortfolioRepository.delete(deleteItemTbl.get());
 		}
 
 		// Return
@@ -151,77 +151,22 @@ public class CryptoPortfolioService extends BaseService {
 	}
 
 	/**
+	 * Get by id
 	 *
-	 * Update
-	 *
-	 * @param rq
+	 * @param id
 	 * @return
 	 */
-	@Transactional(readOnly = false, rollbackFor = Exception.class)
-	public APIResponse<Long> update(CryptoPortfolioTbl rq) {
+	public APIResponse<Object> getById(Long id) {
 		// Declare result
-		APIResponse<Long> result = new APIResponse<>();
+		APIResponse<Object> result = new APIResponse<>();
 
-		// Validate input
-		if (result.getStatus() == null) {
-			List<String> errors = new ArrayList<>();
-
-			if (rq.getToken() == null) {
-				errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, CryptoPortfolioTblEnum.token.name()));
-			}
-
-			if (StringUtils.isBlank(rq.getWallet())) {
-				errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, CryptoPortfolioTblEnum.wallet.name()));
-			}
-
-			// Record error
-			if (CollectionUtils.isNotEmpty(errors)) {
-				result = new APIResponse<>(HttpStatus.BAD_REQUEST, errors);
-			}
-		}
-
-		// Get logged user
-		UserTbl loggedUser = userDetailsServiceImpl.getCurrentLoginUser();
-
-		// Get updated account
-		CryptoPortfolioTbl updateTbl = getTokenPortfolioByUser(loggedUser, rq.getId());
-		if (updateTbl == null) {
-			result = new APIResponse<>(HttpStatus.BAD_REQUEST, ResponseCode.mapParam(ResponseCode.INEXISTED_RECORD,
-					"portfolio token " + rq.getToken().getTokenCode()));
-		}
-
-		// Update
-		if (result.getStatus() == null) {
-			if (!StringUtils.equals(rq.getWallet(), updateTbl.getWallet())) {
-				updateTbl.setWallet(rq.getWallet());
-			}
-			if (!StringUtils.equals(rq.getStarname(), updateTbl.getStarname())) {
-				updateTbl.setStarname(rq.getStarname());
-			}
-
-			if (rq.getAmtAvailable() != null) {
-				updateTbl.setAmtAvailable(rq.getAmtAvailable());
-			}
-
-			if (rq.getAmtTotalDelegated() != null) {
-				updateTbl.setAmtTotalDelegated(rq.getAmtTotalDelegated());
-			}
-
-			if (rq.getAmtTotalReward() != null) {
-				updateTbl.setAmtTotalReward(rq.getAmtTotalReward());
-			}
-
-			if (rq.getAmtTotalUnbonding() != null) {
-				updateTbl.setAmtTotalUnbonding(rq.getAmtTotalUnbonding());
-			}
-
-			if (rq.getValidator() != null) {
-				updateTbl.setValidator(rq.getValidator());
-			}
-
-			updateTbl.setSyncDate(new Date());
-
-			cryptoPortfolioRepository.save(updateTbl);
+		// Check existence
+		Optional<CryptoPortfolioTbl> CryptoPortfolioTbl = cryptoPortfolioRepository.findById(id);
+		if (CryptoPortfolioTbl.isPresent()) {
+			result.setData(CryptoPortfolioTbl.get());
+		} else {
+			result = new APIResponse<>(HttpStatus.BAD_REQUEST,
+					ResponseCode.mapParam(ResponseCode.INEXISTED_RECORD, "token"));
 		}
 
 		// Return
@@ -257,6 +202,41 @@ public class CryptoPortfolioService extends BaseService {
 		List<CryptoPortfolioTbl> listAccount = cryptoPortfolioRepository.findAll(sco).getContent();
 		if (CollectionUtils.isNotEmpty(listAccount)) {
 			result = listAccount.get(0);
+		}
+
+		// Return
+		return result;
+	}
+
+	/**
+	 *
+	 * Check if record is existed
+	 *
+	 * @return
+	 */
+	private boolean recordIsExisted(UserTbl user, CryptoPortfolioTbl rq) {
+		// Declare result
+		boolean result = false;
+
+		// Prepare search
+		SearchNumberVO userIdSearch = new SearchNumberVO();
+		userIdSearch.setEq(user.getId().doubleValue());
+
+		SearchNumberVO tokenIdSearch = new SearchNumberVO();
+		tokenIdSearch.setEq(rq.getToken().getId().doubleValue());
+
+		SearchTextVO walletSearch = new SearchTextVO();
+		walletSearch.setEq(rq.getWallet());
+
+		CryptoPortfolioSCO sco = new CryptoPortfolioSCO();
+		sco.setUser(userIdSearch);
+		sco.setToken(tokenIdSearch);
+		sco.setWallet(walletSearch);
+
+		// Get data
+		List<CryptoPortfolioTbl> listSearch = cryptoPortfolioRepository.findAll(sco).getContent();
+		if (CollectionUtils.isNotEmpty(listSearch)) {
+			result = true;
 		}
 
 		// Return
@@ -412,57 +392,77 @@ public class CryptoPortfolioService extends BaseService {
 	}
 
 	/**
-	 * Get by id
 	 *
-	 * @param id
-	 * @return
-	 */
-	public APIResponse<Object> getById(Long id) {
-		// Declare result
-		APIResponse<Object> result = new APIResponse<>();
-
-		// Check existence
-		Optional<CryptoPortfolioTbl> CryptoPortfolioTbl = cryptoPortfolioRepository.findById(id);
-		if (CryptoPortfolioTbl.isPresent()) {
-			result.setData(CryptoPortfolioTbl.get());
-		} else {
-			result = new APIResponse<>(HttpStatus.BAD_REQUEST,
-					ResponseCode.mapParam(ResponseCode.INEXISTED_RECORD, "token"));
-		}
-
-		// Return
-		return result;
-	}
-
-	/**
-	 * Delete by id
+	 * Update
 	 *
-	 * Only role creator
-	 *
-	 * @param User
+	 * @param rq
 	 * @return
 	 */
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
-	public APIResponse<Object> deleteById(Long id) {
+	public APIResponse<Long> update(CryptoPortfolioTbl rq) {
 		// Declare result
-		APIResponse<Object> result = new APIResponse<>();
+		APIResponse<Long> result = new APIResponse<>();
 
-		// Check existed
-		Optional<CryptoPortfolioTbl> deleteItemTbl = cryptoPortfolioRepository.findById(id);
-		if (!deleteItemTbl.isPresent()) {
-			result = new APIResponse<>(HttpStatus.BAD_REQUEST,
-					ResponseCode.mapParam(ResponseCode.UNAUTHORIZED_DATA, null));
-		}
-
-		// Check logged user have permission to delete
-		if (result.getStatus() == null && !userService.isDataOwner(deleteItemTbl.get().getUser().getUsername())) {
-			result = new APIResponse<>(HttpStatus.BAD_REQUEST,
-					ResponseCode.mapParam(ResponseCode.UNAUTHORIZED_DATA, null));
-		}
-
-		// Process delete
+		// Validate input
 		if (result.getStatus() == null) {
-			cryptoPortfolioRepository.delete(deleteItemTbl.get());
+			List<String> errors = new ArrayList<>();
+
+			if (rq.getToken() == null) {
+				errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, CryptoPortfolioTblEnum.token.name()));
+			}
+
+			if (StringUtils.isBlank(rq.getWallet())) {
+				errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, CryptoPortfolioTblEnum.wallet.name()));
+			}
+
+			// Record error
+			if (CollectionUtils.isNotEmpty(errors)) {
+				result = new APIResponse<>(HttpStatus.BAD_REQUEST, errors);
+			}
+		}
+
+		// Get logged user
+		UserTbl loggedUser = userDetailsServiceImpl.getCurrentLoginUser();
+
+		// Get updated account
+		CryptoPortfolioTbl updateTbl = getTokenPortfolioByUser(loggedUser, rq.getId());
+		if (updateTbl == null) {
+			result = new APIResponse<>(HttpStatus.BAD_REQUEST, ResponseCode.mapParam(ResponseCode.INEXISTED_RECORD,
+					"portfolio token " + rq.getToken().getTokenCode()));
+		}
+
+		// Update
+		if (result.getStatus() == null) {
+			if (!StringUtils.equals(rq.getWallet(), updateTbl.getWallet())) {
+				updateTbl.setWallet(rq.getWallet());
+			}
+			if (!StringUtils.equals(rq.getStarname(), updateTbl.getStarname())) {
+				updateTbl.setStarname(rq.getStarname());
+			}
+
+			if (rq.getAmtAvailable() != null) {
+				updateTbl.setAmtAvailable(rq.getAmtAvailable());
+			}
+
+			if (rq.getAmtTotalDelegated() != null) {
+				updateTbl.setAmtTotalDelegated(rq.getAmtTotalDelegated());
+			}
+
+			if (rq.getAmtTotalReward() != null) {
+				updateTbl.setAmtTotalReward(rq.getAmtTotalReward());
+			}
+
+			if (rq.getAmtTotalUnbonding() != null) {
+				updateTbl.setAmtTotalUnbonding(rq.getAmtTotalUnbonding());
+			}
+
+			if (rq.getValidator() != null) {
+				updateTbl.setValidator(rq.getValidator());
+			}
+
+			updateTbl.setSyncDate(new Date());
+
+			cryptoPortfolioRepository.save(updateTbl);
 		}
 
 		// Return

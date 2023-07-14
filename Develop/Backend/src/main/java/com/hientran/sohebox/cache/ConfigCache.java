@@ -33,32 +33,6 @@ public class ConfigCache extends BaseTransformer {
 	private String cacheName = "configCache";
 
 	/**
-	 * Get
-	 */
-	public String getValueByKey(String key) {
-		// Declare result
-		String result = null;
-
-		// Get cache
-		result = cacheManager.getCache(cacheName).get(formatConfigKey(key), String.class);
-		if (result != null) {
-			return result;
-		}
-
-		// Get from DB
-		ConfigTbl tbl = configRepository.findFirstByConfigKey(key);
-		if (tbl != null) {
-			result = tbl.getConfigValue();
-
-			// Add to cache
-			cacheManager.getCache(cacheName).put(formatConfigKey(key), tbl.getConfigValue());
-		}
-
-		// Return
-		return result;
-	}
-
-	/**
 	 * Create
 	 */
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
@@ -92,6 +66,62 @@ public class ConfigCache extends BaseTransformer {
 		// Return
 		APIResponse<Long> result = new APIResponse<>();
 		result.setData(tbl.getId());
+		return result;
+	}
+
+	/**
+	 * Format config key
+	 */
+	private String formatConfigKey(String configKey) {
+		return configKey.replaceAll(" ", "_").toUpperCase();
+	}
+
+	/**
+	 * Get
+	 */
+	public String getValueByKey(String key) {
+		// Declare result
+		String result = null;
+
+		// Get cache
+		result = cacheManager.getCache(cacheName).get(formatConfigKey(key), String.class);
+		if (result != null) {
+			return result;
+		}
+
+		// Get from DB
+		ConfigTbl tbl = configRepository.findFirstByConfigKey(key);
+		if (tbl != null) {
+			result = tbl.getConfigValue();
+
+			// Add to cache
+			cacheManager.getCache(cacheName).put(formatConfigKey(key), tbl.getConfigValue());
+		}
+
+		// Return
+		return result;
+	}
+
+	/**
+	 * Search
+	 */
+	@Transactional(readOnly = false, rollbackFor = Exception.class)
+	public APIResponse<Object> search(ConfigSCO sco) {
+		// Declare result
+		APIResponse<Object> result = new APIResponse<>();
+
+		// Get data
+		Page<ConfigTbl> page = configRepository.findAll(sco);
+
+		// Transformer
+		PageResultVO<ConfigTbl> data = new PageResultVO<>();
+		data.setElements(page.getContent());
+		setPageHeader(page, data);
+
+		// Set data return
+		result.setData(data);
+
+		// Return
 		return result;
 	}
 
@@ -134,35 +164,5 @@ public class ConfigCache extends BaseTransformer {
 
 		// Return
 		return result;
-	}
-
-	/**
-	 * Search
-	 */
-	@Transactional(readOnly = false, rollbackFor = Exception.class)
-	public APIResponse<Object> search(ConfigSCO sco) {
-		// Declare result
-		APIResponse<Object> result = new APIResponse<>();
-
-		// Get data
-		Page<ConfigTbl> page = configRepository.findAll(sco);
-
-		// Transformer
-		PageResultVO<ConfigTbl> data = new PageResultVO<>();
-		data.setElements(page.getContent());
-		setPageHeader(page, data);
-
-		// Set data return
-		result.setData(data);
-
-		// Return
-		return result;
-	}
-
-	/**
-	 * Format config key
-	 */
-	private String formatConfigKey(String configKey) {
-		return configKey.replaceAll(" ", "_").toUpperCase();
 	}
 }

@@ -9,13 +9,6 @@ public class BaseTransformer {
 	 * Set page infos
 	 */
 
-	protected void setPageHeader(Page<?> listData, PageResultVO<?> result) {
-		result.setTotalPage(listData.getTotalPages());
-		result.setTotalElement(listData.getTotalElements());
-		result.setCurrentPage(listData.getPageable().getPageNumber());
-		result.setPageSize(listData.getPageable().getPageSize());
-	}
-
 	/*
 	 * Format type class
 	 */
@@ -35,5 +28,12 @@ public class BaseTransformer {
 	 */
 	protected String formatTypeMapKey(String typeClass, String typeCode) {
 		return formatTypeClass(typeClass) + "-" + formatTypeCode(typeCode);
+	}
+
+	protected void setPageHeader(Page<?> listData, PageResultVO<?> result) {
+		result.setTotalPage(listData.getTotalPages());
+		result.setTotalElement(listData.getTotalElements());
+		result.setCurrentPage(listData.getPageable().getPageNumber());
+		result.setPageSize(listData.getPageable().getPageSize());
 	}
 }

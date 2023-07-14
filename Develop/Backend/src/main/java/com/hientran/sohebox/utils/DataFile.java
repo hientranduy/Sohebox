@@ -17,28 +17,6 @@ public class DataFile {
 	private transient DataHandler file;
 
 	/**
-	 * Get extension
-	 *
-	 * @return extension
-	 */
-	public String getExtension() {
-		return extension;
-	}
-
-	/**
-	 * Set extension
-	 *
-	 * @param extension the extension to set
-	 */
-	public void setExtension(String extension) {
-		String ext = StringUtils.trimToEmpty(extension);
-		if (StringUtils.isNotBlank(ext) && !ext.startsWith(EXT_SEPARATOR)) {
-			ext = EXT_SEPARATOR + ext;
-		}
-		this.extension = ext;
-	}
-
-	/**
 	 * DataFile constructor
 	 *
 	 */
@@ -69,21 +47,12 @@ public class DataFile {
 	}
 
 	/**
-	 * Get fileName
+	 * Get extension
 	 *
-	 * @return fileName
+	 * @return extension
 	 */
-	public String getFileName() {
-		return fileName;
-	}
-
-	/**
-	 * Set fileName
-	 *
-	 * @param fileName The fileName to set
-	 */
-	public void setFileName(String fileName) {
-		this.fileName = fileName;
+	public String getExtension() {
+		return extension;
 	}
 
 	/**
@@ -97,12 +66,43 @@ public class DataFile {
 	}
 
 	/**
+	 * Get fileName
+	 *
+	 * @return fileName
+	 */
+	public String getFileName() {
+		return fileName;
+	}
+
+	/**
+	 * Set extension
+	 *
+	 * @param extension the extension to set
+	 */
+	public void setExtension(String extension) {
+		String ext = StringUtils.trimToEmpty(extension);
+		if (StringUtils.isNotBlank(ext) && !ext.startsWith(EXT_SEPARATOR)) {
+			ext = EXT_SEPARATOR + ext;
+		}
+		this.extension = ext;
+	}
+
+	/**
 	 * Set imageData
 	 *
 	 * @param imageData The imageData to set
 	 */
 	public void setFile(DataHandler imageData) {
 		this.file = imageData;
+	}
+
+	/**
+	 * Set fileName
+	 *
+	 * @param fileName The fileName to set
+	 */
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
 	}
 
 	/**

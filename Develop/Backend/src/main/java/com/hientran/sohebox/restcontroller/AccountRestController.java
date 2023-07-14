@@ -45,24 +45,6 @@ public class AccountRestController extends BaseRestController {
 
 	/**
 	 *
-	 * Search
-	 *
-	 * @param sco
-	 * @return
-	 */
-	@PostMapping(ApiPublicConstants.API_ACCOUNT + ApiPublicConstants.SEARCH)
-	public ResponseEntity<?> search(@RequestBody AccountSCO sco) {
-		// Search
-		APIResponse<?> result = accountService.search(sco);
-
-		// Return
-		return new ResponseEntity<>(result, new HttpHeaders(),
-				result.getStatus() != null ? result.getStatus() : HttpStatus.OK);
-
-	}
-
-	/**
-	 *
 	 * Delete by ID
 	 *
 	 * @param id
@@ -72,23 +54,6 @@ public class AccountRestController extends BaseRestController {
 	public ResponseEntity<?> deleteUserById(@PathVariable(value = "id") Long id) {
 		// Delete
 		APIResponse<?> result = accountService.deleteById(id);
-
-		// Return
-		return new ResponseEntity<>(result, new HttpHeaders(),
-				result.getStatus() != null ? result.getStatus() : HttpStatus.OK);
-	}
-
-	/**
-	 *
-	 * Update
-	 *
-	 * @param vo
-	 * @return
-	 */
-	@PutMapping(ApiPublicConstants.API_ACCOUNT)
-	public ResponseEntity<?> update(@Validated @RequestBody AccountVO vo) {
-		// Update Account
-		APIResponse<?> result = accountService.update(vo);
 
 		// Return
 		return new ResponseEntity<>(result, new HttpHeaders(),
@@ -113,6 +78,24 @@ public class AccountRestController extends BaseRestController {
 
 	/**
 	 *
+	 * Search
+	 *
+	 * @param sco
+	 * @return
+	 */
+	@PostMapping(ApiPublicConstants.API_ACCOUNT + ApiPublicConstants.SEARCH)
+	public ResponseEntity<?> search(@RequestBody AccountSCO sco) {
+		// Search
+		APIResponse<?> result = accountService.search(sco);
+
+		// Return
+		return new ResponseEntity<>(result, new HttpHeaders(),
+				result.getStatus() != null ? result.getStatus() : HttpStatus.OK);
+
+	}
+
+	/**
+	 *
 	 * Get clear password
 	 *
 	 * @param id
@@ -121,6 +104,23 @@ public class AccountRestController extends BaseRestController {
 	@PostMapping(ApiPublicConstants.API_ACCOUNT + ApiPublicConstants.API_ACCOUNT_SHOW_PASSWORD)
 	public ResponseEntity<?> showPassword(@RequestBody AccountVO vo) {
 		APIResponse<?> result = accountService.showPassword(vo);
+
+		// Return
+		return new ResponseEntity<>(result, new HttpHeaders(),
+				result.getStatus() != null ? result.getStatus() : HttpStatus.OK);
+	}
+
+	/**
+	 *
+	 * Update
+	 *
+	 * @param vo
+	 * @return
+	 */
+	@PutMapping(ApiPublicConstants.API_ACCOUNT)
+	public ResponseEntity<?> update(@Validated @RequestBody AccountVO vo) {
+		// Update Account
+		APIResponse<?> result = accountService.update(vo);
 
 		// Return
 		return new ResponseEntity<>(result, new HttpHeaders(),

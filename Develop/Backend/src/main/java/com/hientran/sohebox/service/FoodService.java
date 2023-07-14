@@ -18,16 +18,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.hientran.sohebox.cache.FoodTypeCache;
 import com.hientran.sohebox.constants.DBConstants;
-import com.hientran.sohebox.dto.FoodVO;
 import com.hientran.sohebox.dto.PageResultVO;
 import com.hientran.sohebox.dto.response.APIResponse;
 import com.hientran.sohebox.dto.response.ResponseCode;
 import com.hientran.sohebox.entity.FoodTbl;
 import com.hientran.sohebox.repository.FoodRepository;
 import com.hientran.sohebox.sco.FoodSCO;
-import com.hientran.sohebox.sco.SearchTextVO;
 import com.hientran.sohebox.specification.FoodSpecs.FoodTblEnum;
-import com.hientran.sohebox.transformer.FoodTransformer;
 import com.hientran.sohebox.utils.FileUtils;
 
 import lombok.RequiredArgsConstructor;
@@ -37,22 +34,16 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class FoodService extends BaseService {
 	private final FoodRepository foodRepository;
-	private final FoodTransformer foodTransformer;
 	private final FoodTypeCache foodTypeCache;
 
 	@Value("${web.asset.food.image.path}")
 	private String WEB_FOOD_IMAGE_PATH;
 
 	/**
-	 *
 	 * Create
-	 *
-	 * @param vo
-	 * @return
-	 * @throws IOException
 	 */
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
-	public APIResponse<Long> create(FoodVO vo) {
+	public APIResponse<Long> create(FoodTbl rq) {
 		// Declare result
 		APIResponse<Long> result = new APIResponse<>();
 
@@ -61,197 +52,119 @@ public class FoodService extends BaseService {
 			List<String> errors = new ArrayList<>();
 
 			// Name must not null
-			if (StringUtils.isBlank(vo.getName())) {
+			if (StringUtils.isBlank(rq.getName())) {
 				errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, FoodTblEnum.name.name()));
 			}
 
 			// Image file must not null
-			if (StringUtils.isBlank(vo.getImageFile())) {
+			if (StringUtils.isBlank(rq.getImageFile())) {
 				errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, FoodTblEnum.imageFile.name()));
 			}
 
 			// Type must not null
-			if (vo.getType() == null) {
+			if (rq.getType() == null) {
 				errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, FoodTblEnum.type.name()));
 			}
 
 			// Category must not null
-			if (vo.getCategory() == null) {
+			if (rq.getCategory() == null) {
 				errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, FoodTblEnum.category.name()));
 			}
 
 			// Record error
 			if (CollectionUtils.isNotEmpty(errors)) {
-				result = new APIResponse<>(HttpStatus.BAD_REQUEST, errors);
+				return new APIResponse<>(HttpStatus.BAD_REQUEST, errors);
 			}
 		}
 
 		// Check existence
-		if (result.getStatus() == null) {
-			if (recordIsExisted(vo.getName())) {
-				result = new APIResponse<>(HttpStatus.BAD_REQUEST,
-						ResponseCode.mapParam(ResponseCode.EXISTED_RECORD, "food <" + vo.getName() + ">"));
-			}
+		FoodTbl searchTbl = foodRepository.findFirstByName(rq.getName());
+		if (searchTbl != null) {
+			return new APIResponse<>(HttpStatus.BAD_REQUEST,
+					ResponseCode.mapParam(ResponseCode.EXISTED_RECORD, "food <" + rq.getName() + ">"));
 		}
 
 		////////////////
 		// Save image //
 		////////////////
-		String imageName = formatImageName(vo.getName(), vo.getImageExtention());
-		if (result.getStatus() == null) {
-			if (vo.getImageFile() != null) {
-				try {
-					updateImage(vo.getImageFile(), imageName);
-				} catch (Exception e) {
-					result = new APIResponse<>(HttpStatus.BAD_REQUEST,
-							ResponseCode.mapParam(ResponseCode.ERROR_EXCEPTION, e.getMessage()));
-				}
-
+		String imageName = formatImageName(rq.getName(), rq.getImageExtention());
+		if (rq.getImageFile() != null) {
+			try {
+				updateImage(rq.getImageFile(), imageName);
+			} catch (Exception e) {
+				result = new APIResponse<>(HttpStatus.BAD_REQUEST,
+						ResponseCode.mapParam(ResponseCode.ERROR_EXCEPTION, e.getMessage()));
 			}
+
 		}
 
 		/////////////////////
 		// Record new //
 		/////////////////////
-		if (result.getStatus() == null) {
-			// Transform
-			FoodTbl tbl = foodTransformer.convertToTbl(vo);
+		// Transform
+		FoodTbl tbl = rq;
+		tbl.setRecipe(rq.getRecipeString().getBytes(StandardCharsets.UTF_8));
 
-			// Name
-			tbl.setName(formatName(vo.getName().toLowerCase()));
+		// Name
+		tbl.setName(formatName(rq.getName().toLowerCase()));
 
-			// Image name
-			tbl.setImageName(imageName);
+		// Image name
+		tbl.setImageName(imageName);
 
-			// Type
-			tbl.setType(foodTypeCache.getType(DBConstants.TYPE_CLASS_FOOD_TYPE, vo.getType().getTypeCode()));
+		// Type
+		tbl.setType(foodTypeCache.getType(DBConstants.TYPE_CLASS_FOOD_TYPE, rq.getType().getTypeCode()));
 
-			// Category
-			tbl.setCategory(
-					foodTypeCache.getType(DBConstants.TYPE_CLASS_FOOD_CATEGORY, vo.getCategory().getTypeCode()));
+		// Category
+		tbl.setCategory(foodTypeCache.getType(DBConstants.TYPE_CLASS_FOOD_CATEGORY, rq.getCategory().getTypeCode()));
 
-			// Create
-			tbl = foodRepository.save(tbl);
+		// Create
+		tbl = foodRepository.save(tbl);
 
-			// Set id return
-			result.setData(tbl.getId());
+		// Set id return
+		result.setData(tbl.getId());
 
-			// Write activity
-			recordUserActivity(DBConstants.USER_ACTIVITY_FOOD_CREATE);
-		}
+		// Write activity
+		recordUserActivity(DBConstants.USER_ACTIVITY_FOOD_CREATE);
 
 		// Return
 		return result;
 	}
 
 	/**
+	 * Format image name
 	 *
-	 * Update
+	 * @return
+	 */
+	private String formatImageName(String foodName, String imageExtention) {
+		return foodName.toLowerCase().replaceAll(" ", "_") + "." + imageExtention;
+	}
+
+	/**
+	 * Format
 	 *
 	 * @param vo
 	 * @return
 	 */
-	@Transactional(readOnly = false, rollbackFor = Exception.class)
-	public APIResponse<Long> update(FoodVO vo) {
+	private String formatName(String nameValue) {
+		return nameValue.toLowerCase();
+	}
+
+	/**
+	 * Get by id
+	 */
+	public APIResponse<Object> getById(Long id) {
 		// Declare result
-		APIResponse<Long> result = new APIResponse<>();
+		APIResponse<Object> result = new APIResponse<>();
 
-		// Validate input
-		if (result.getStatus() == null) {
-			List<String> errors = new ArrayList<>();
-
-			// Name must not null
-			if (StringUtils.isBlank(vo.getName())) {
-				errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, FoodTblEnum.name.name()));
-			}
-
-			// Record error
-			if (CollectionUtils.isNotEmpty(errors)) {
-				result = new APIResponse<>(HttpStatus.BAD_REQUEST, errors);
-			}
-		}
-
-		// Get the old record
-		FoodTbl updateTbl = null;
-		if (result.getStatus() == null) {
-			updateTbl = getByName(vo.getName());
-			if (updateTbl == null) {
-				result = new APIResponse<>(HttpStatus.BAD_REQUEST,
-						ResponseCode.mapParam(ResponseCode.INEXISTED_RECORD, "food <" + vo.getName() + ">"));
-			}
-		}
-
-		// PROCESS UPDATE
-
-		////////////////
-		// Save image //
-		////////////////
-		String imageName = formatImageName(vo.getName(), vo.getImageExtention());
-		if (result.getStatus() == null) {
-			if (vo.getImageFile() != null) {
-				try {
-					updateImage(vo.getImageFile(), imageName);
-				} catch (Exception e) {
-					result = new APIResponse<>(HttpStatus.BAD_REQUEST,
-							ResponseCode.mapParam(ResponseCode.ERROR_EXCEPTION, e.getMessage()));
-				}
-			}
-		}
-
-		/////////////////////
-		// Update //
-		/////////////////////
-		if (result.getStatus() == null) {
-
-			// Image name
-			if (vo.getImageFile() != null) {
-				updateTbl.setImageName(imageName);
-			}
-
-			// Description
-			if (vo.getDescription() != null) {
-				updateTbl.setDescription(vo.getDescription());
-			}
-
-			// Location Note
-			if (vo.getLocationNote() != null) {
-				updateTbl.setLocationNote(vo.getLocationNote());
-			}
-
-			// Type
-			if (vo.getType() != null) {
-				updateTbl.setType(foodTypeCache.getType(DBConstants.TYPE_CLASS_FOOD_TYPE, vo.getType().getTypeCode()));
-			}
-
-			// Category
-			if (vo.getCategory() != null) {
-				updateTbl.setCategory(
-						foodTypeCache.getType(DBConstants.TYPE_CLASS_FOOD_CATEGORY, vo.getCategory().getTypeCode()));
-			}
-
-			// Is fast food
-			if (vo.getIsFastFood() != null) {
-				updateTbl.setIsFastFood(vo.getIsFastFood());
-			}
-
-			// Recipe
-			if (StringUtils.isNotBlank(vo.getRecipeString())) {
-				updateTbl.setRecipe(vo.getRecipeString().getBytes(StandardCharsets.UTF_8));
-			}
-
-			// Location Note
-			if (vo.getUrlReference() != null) {
-				updateTbl.setUrlReference(vo.getUrlReference());
-			}
-
-			// Update
-			updateTbl = foodRepository.save(updateTbl);
-
-			// Set id return
-			result.setData(updateTbl.getId());
-
-			// Write activity
-			recordUserActivity(DBConstants.USER_ACTIVITY_FOOD_UPDATE);
+		// Check existence
+		Optional<FoodTbl> foodTbl = foodRepository.findById(id);
+		if (foodTbl.isPresent()) {
+			FoodTbl tbl = foodTbl.get();
+			tbl.setRecipeString(new String(tbl.getRecipe(), StandardCharsets.UTF_8));
+			result.setData(tbl);
+		} else {
+			result = new APIResponse<>(HttpStatus.BAD_REQUEST,
+					ResponseCode.mapParam(ResponseCode.INEXISTED_RECORD, "food"));
 		}
 
 		// Return
@@ -273,7 +186,16 @@ public class FoodService extends BaseService {
 		Page<FoodTbl> page = foodRepository.findAll(sco);
 
 		// Transformer
-		PageResultVO<FoodVO> data = foodTransformer.convertToPageReturn(page);
+		PageResultVO<FoodTbl> data = new PageResultVO<>();
+		if (!CollectionUtils.isEmpty(page.getContent())) {
+			List<FoodTbl> formatData = new ArrayList<>();
+			for (FoodTbl item : page.getContent()) {
+				item.setRecipeString(new String(item.getRecipe(), StandardCharsets.UTF_8));
+				formatData.add(item);
+			}
+			data.setElements(formatData);
+			setPageHeader(page, data);
+		}
 
 		// Set data return
 		result.setData(data);
@@ -286,100 +208,105 @@ public class FoodService extends BaseService {
 	}
 
 	/**
-	 *
-	 * Check existence
-	 *
-	 * @param name
-	 * @return
+	 * Update
 	 */
-	private boolean recordIsExisted(String nameValue) {
+	@Transactional(readOnly = false, rollbackFor = Exception.class)
+	public APIResponse<Long> update(FoodTbl rq) {
 		// Declare result
-		boolean result = false;
+		APIResponse<Long> result = new APIResponse<>();
 
-		SearchTextVO nameSearch = new SearchTextVO();
-		nameSearch.setEq(formatName(nameValue));
+		// Validate input
+		if (result.getStatus() == null) {
+			List<String> errors = new ArrayList<>();
 
-		FoodSCO sco = new FoodSCO();
-		sco.setName(nameSearch);
+			// Name must not null
+			if (StringUtils.isBlank(rq.getName())) {
+				errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, FoodTblEnum.name.name()));
+			}
 
-		// Get data
-		List<FoodTbl> list = foodRepository.findAll(sco).getContent();
-		if (CollectionUtils.isNotEmpty(list)) {
-			result = true;
+			// Record error
+			if (CollectionUtils.isNotEmpty(errors)) {
+				return new APIResponse<>(HttpStatus.BAD_REQUEST, errors);
+			}
 		}
+
+		// Get the old record
+		FoodTbl updateTbl = foodRepository.findFirstByName(rq.getName());
+		if (updateTbl == null) {
+			return new APIResponse<>(HttpStatus.BAD_REQUEST,
+					ResponseCode.mapParam(ResponseCode.INEXISTED_RECORD, "food <" + rq.getName() + ">"));
+		}
+
+		// PROCESS UPDATE
+
+		////////////////
+		// Save image //
+		////////////////
+		String imageName = formatImageName(rq.getName(), rq.getImageExtention());
+		if (rq.getImageFile() != null) {
+			try {
+				updateImage(rq.getImageFile(), imageName);
+			} catch (Exception e) {
+				return new APIResponse<>(HttpStatus.BAD_REQUEST,
+						ResponseCode.mapParam(ResponseCode.ERROR_EXCEPTION, e.getMessage()));
+			}
+		}
+
+		/////////////////////
+		// Update //
+		/////////////////////
+		// Image name
+		if (rq.getImageFile() != null) {
+			updateTbl.setImageName(imageName);
+		}
+
+		// Description
+		if (rq.getDescription() != null) {
+			updateTbl.setDescription(rq.getDescription());
+		}
+
+		// Location Note
+		if (rq.getLocationNote() != null) {
+			updateTbl.setLocationNote(rq.getLocationNote());
+		}
+
+		// Type
+		if (rq.getType() != null) {
+			updateTbl.setType(foodTypeCache.getType(DBConstants.TYPE_CLASS_FOOD_TYPE, rq.getType().getTypeCode()));
+		}
+
+		// Category
+		if (rq.getCategory() != null) {
+			updateTbl.setCategory(
+					foodTypeCache.getType(DBConstants.TYPE_CLASS_FOOD_CATEGORY, rq.getCategory().getTypeCode()));
+		}
+
+		// Is fast food
+		if (rq.getIsFastFood() != null) {
+			updateTbl.setIsFastFood(rq.getIsFastFood());
+		}
+
+		// Recipe
+		if (StringUtils.isNotBlank(rq.getRecipeString())) {
+			updateTbl.setRecipe(rq.getRecipeString().getBytes(StandardCharsets.UTF_8));
+		}
+
+		// Location Note
+		if (rq.getUrlReference() != null) {
+			updateTbl.setUrlReference(rq.getUrlReference());
+		}
+
+		// Update
+		updateTbl = foodRepository.save(updateTbl);
+
+		// Set id return
+		result.setData(updateTbl.getId());
+
+		// Write activity
+		recordUserActivity(DBConstants.USER_ACTIVITY_FOOD_UPDATE);
 
 		// Return
 		return result;
-	}
-
-	/**
-	 *
-	 * Get by name
-	 *
-	 * @param name
-	 * @return
-	 */
-	public FoodTbl getByName(String nameValue) {
-		// Declare result
-		FoodTbl result = null;
-
-		SearchTextVO nameSearch = new SearchTextVO();
-		nameSearch.setEq(formatName(nameValue));
-
-		FoodSCO sco = new FoodSCO();
-		sco.setName(nameSearch);
-
-		// Get data
-		List<FoodTbl> list = foodRepository.findAll(sco).getContent();
-		if (CollectionUtils.isNotEmpty(list)) {
-			result = list.get(0);
-		}
-
-		// Return
-		return result;
-	}
-
-	/**
-	 * Get by id
-	 *
-	 * @param id
-	 * @return
-	 */
-	public APIResponse<Object> getById(Long id) {
-		// Declare result
-		APIResponse<Object> result = new APIResponse<>();
-
-		// Check existence
-		Optional<FoodTbl> foodTbl = foodRepository.findById(id);
-		if (foodTbl.isPresent()) {
-			FoodVO vo = foodTransformer.convertToVO(foodTbl.get());
-			result.setData(vo);
-		} else {
-			result = new APIResponse<>(HttpStatus.BAD_REQUEST,
-					ResponseCode.mapParam(ResponseCode.INEXISTED_RECORD, "food"));
-		}
-
-		// Return
-		return result;
-	}
-
-	/**
-	 * Format
-	 *
-	 * @param vo
-	 * @return
-	 */
-	private String formatName(String nameValue) {
-		return nameValue.toLowerCase();
-	}
-
-	/**
-	 * Format image name
-	 *
-	 * @return
-	 */
-	private String formatImageName(String foodName, String imageExtention) {
-		return foodName.toLowerCase().replaceAll(" ", "_") + "." + imageExtention;
 	}
 
 	/**

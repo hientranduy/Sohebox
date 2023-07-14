@@ -12,7 +12,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class VcbCurrencyItemVO  {
+public class VcbCurrencyItemVO {
 	private String currencyCode;
 	private String currencyName;
 	private String buy;

@@ -34,6 +34,21 @@ public class YoutubeRestController extends BaseRestController {
 
 	/**
 	 *
+	 * Add private youtube video
+	 *
+	 * @param vo
+	 * @return
+	 */
+	@PostMapping(ApiPublicConstants.API_YOUTUBE_VIDEO + ApiPublicConstants.API_YOUTUBE_PRIVATE_VIDEO)
+	public ResponseEntity<?> addPrivateVideo(@Validated @RequestBody YoutubeVideoIdVO vo) {
+		APIResponse<?> result = youtubeChannelVideoService.addPrivateVideo(vo);
+
+		return new ResponseEntity<>(result, new HttpHeaders(),
+				result.getStatus() != null ? result.getStatus() : HttpStatus.OK);
+	}
+
+	/**
+	 *
 	 * Add new channel
 	 *
 	 * @param vo
@@ -49,6 +64,39 @@ public class YoutubeRestController extends BaseRestController {
 
 	/**
 	 *
+	 * Delete video by videoId
+	 *
+	 * @return
+	 */
+	@DeleteMapping(ApiPublicConstants.API_YOUTUBE_VIDEO + ApiPublicConstants.API_YOUTUBE_PRIVATE_VIDEO
+			+ ApiPublicConstants.ID)
+	public ResponseEntity<?> deleteUserById(@PathVariable(value = "id") String id) {
+		// Delete
+		APIResponse<?> result = youtubeChannelVideoService.removeVideo(id);
+
+		// Return
+		return new ResponseEntity<>(result, new HttpHeaders(),
+				result.getStatus() != null ? result.getStatus() : HttpStatus.OK);
+	}
+
+	/**
+	 *
+	 * Search youtube video
+	 *
+	 * @param sco
+	 * @return
+	 */
+	@GetMapping(ApiPublicConstants.API_YOUTUBE_VIDEO + ApiPublicConstants.API_YOUTUBE_PRIVATE_VIDEO)
+	public ResponseEntity<?> getPrivateVideo() {
+		APIResponse<?> result = youtubeChannelVideoService.getPrivateVideo();
+
+		return new ResponseEntity<>(result, new HttpHeaders(),
+				result.getStatus() != null ? result.getStatus() : HttpStatus.OK);
+
+	}
+
+	/**
+	 *
 	 * Search channel
 	 *
 	 * @param sco
@@ -57,6 +105,22 @@ public class YoutubeRestController extends BaseRestController {
 	@PostMapping(ApiPublicConstants.API_YOUTUBE_CHANNEL + ApiPublicConstants.SEARCH)
 	public ResponseEntity<?> search(@RequestBody YoutubeChannelSCO sco) {
 		APIResponse<?> result = youtubeChannelService.search(sco);
+
+		return new ResponseEntity<>(result, new HttpHeaders(),
+				result.getStatus() != null ? result.getStatus() : HttpStatus.OK);
+
+	}
+
+	/**
+	 *
+	 * Search youtube video
+	 *
+	 * @param sco
+	 * @return
+	 */
+	@PostMapping(ApiPublicConstants.API_YOUTUBE_VIDEO + ApiPublicConstants.SEARCH_BY_CHANNEL)
+	public ResponseEntity<?> search(@RequestBody YoutubeChannelVideoSCO sco) {
+		APIResponse<?> result = youtubeService.searchChannelVideo(sco);
 
 		return new ResponseEntity<>(result, new HttpHeaders(),
 				result.getStatus() != null ? result.getStatus() : HttpStatus.OK);
@@ -90,70 +154,6 @@ public class YoutubeRestController extends BaseRestController {
 	public ResponseEntity<?> update(@Validated @RequestBody YoutubeChannelTbl request) {
 		APIResponse<?> result = youtubeChannelService.update(request);
 
-		return new ResponseEntity<>(result, new HttpHeaders(),
-				result.getStatus() != null ? result.getStatus() : HttpStatus.OK);
-	}
-
-	/**
-	 *
-	 * Search youtube video
-	 *
-	 * @param sco
-	 * @return
-	 */
-	@PostMapping(ApiPublicConstants.API_YOUTUBE_VIDEO + ApiPublicConstants.SEARCH_BY_CHANNEL)
-	public ResponseEntity<?> search(@RequestBody YoutubeChannelVideoSCO sco) {
-		APIResponse<?> result = youtubeService.searchChannelVideo(sco);
-
-		return new ResponseEntity<>(result, new HttpHeaders(),
-				result.getStatus() != null ? result.getStatus() : HttpStatus.OK);
-
-	}
-
-	/**
-	 *
-	 * Add private youtube video
-	 *
-	 * @param vo
-	 * @return
-	 */
-	@PostMapping(ApiPublicConstants.API_YOUTUBE_VIDEO + ApiPublicConstants.API_YOUTUBE_PRIVATE_VIDEO)
-	public ResponseEntity<?> addPrivateVideo(@Validated @RequestBody YoutubeVideoIdVO vo) {
-		APIResponse<?> result = youtubeChannelVideoService.addPrivateVideo(vo);
-
-		return new ResponseEntity<>(result, new HttpHeaders(),
-				result.getStatus() != null ? result.getStatus() : HttpStatus.OK);
-	}
-
-	/**
-	 *
-	 * Search youtube video
-	 *
-	 * @param sco
-	 * @return
-	 */
-	@GetMapping(ApiPublicConstants.API_YOUTUBE_VIDEO + ApiPublicConstants.API_YOUTUBE_PRIVATE_VIDEO)
-	public ResponseEntity<?> getPrivateVideo() {
-		APIResponse<?> result = youtubeChannelVideoService.getPrivateVideo();
-
-		return new ResponseEntity<>(result, new HttpHeaders(),
-				result.getStatus() != null ? result.getStatus() : HttpStatus.OK);
-
-	}
-
-	/**
-	 *
-	 * Delete video by videoId
-	 *
-	 * @return
-	 */
-	@DeleteMapping(ApiPublicConstants.API_YOUTUBE_VIDEO + ApiPublicConstants.API_YOUTUBE_PRIVATE_VIDEO
-			+ ApiPublicConstants.ID)
-	public ResponseEntity<?> deleteUserById(@PathVariable(value = "id") String id) {
-		// Delete
-		APIResponse<?> result = youtubeChannelVideoService.removeVideo(id);
-
-		// Return
 		return new ResponseEntity<>(result, new HttpHeaders(),
 				result.getStatus() != null ? result.getStatus() : HttpStatus.OK);
 	}

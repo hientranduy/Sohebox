@@ -12,7 +12,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class UserStatusVO  {
+public class UserStatusVO {
 	private Long id;
 	private String firstName;
 	private String lastName;

@@ -33,46 +33,6 @@ public class TypeCache extends BaseTransformer {
 	private String cacheName = "typeCache";
 
 	/**
-	 * Get
-	 */
-	public TypeTbl getType(String typeClass, String typeCode) {
-		// Declare result
-		TypeTbl result = null;
-
-		// Retrieve type cache
-		result = cacheManager.getCache(cacheName).get(formatTypeMapKey(typeClass, typeCode), TypeTbl.class);
-		if (result != null) {
-			return result;
-		}
-
-		// Search DB
-		TypeTbl tbl = typeRepository.findFirstByTypeClassAndTypeCode(formatTypeClass(typeClass),
-				formatTypeCode(typeCode));
-		if (tbl != null) {
-			result = tbl;
-		} else {
-			// Create new type
-			TypeTbl tblNew = new TypeTbl();
-			tblNew.setTypeClass(formatTypeClass(typeClass));
-			tblNew.setTypeCode(formatTypeCode(typeCode));
-			tblNew.setTypeName(typeCode.substring(0, 1).toUpperCase() + typeCode.substring(1).toLowerCase());
-			tblNew.setDescription(typeCode);
-			if (StringUtils.isBlank(tblNew.getIconUrl())) {
-				if (StringUtils.equals(tblNew.getTypeClass(), DBConstants.TYPE_CLASS_ACCOUNT)) {
-					tblNew.setIconUrl(DBConstants.ACCOUNT_TYPE_DEFAUT_ICON);
-				}
-			}
-			result = typeRepository.save(tblNew);
-		}
-
-		// Add to cache
-		cacheManager.getCache(cacheName).put(formatTypeMapKey(result.getTypeClass(), result.getTypeCode()), result);
-
-		// Return
-		return result;
-	}
-
-	/**
 	 * Create new
 	 */
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
@@ -114,6 +74,69 @@ public class TypeCache extends BaseTransformer {
 		// Return
 		APIResponse<Long> result = new APIResponse<>();
 		result.setData(tbl.getId());
+		return result;
+	}
+
+	/**
+	 * Get
+	 */
+	public TypeTbl getType(String typeClass, String typeCode) {
+		// Declare result
+		TypeTbl result = null;
+
+		// Retrieve type cache
+		result = cacheManager.getCache(cacheName).get(formatTypeMapKey(typeClass, typeCode), TypeTbl.class);
+		if (result != null) {
+			return result;
+		}
+
+		// Search DB
+		TypeTbl tbl = typeRepository.findFirstByTypeClassAndTypeCode(formatTypeClass(typeClass),
+				formatTypeCode(typeCode));
+		if (tbl != null) {
+			result = tbl;
+		} else {
+			// Create new type
+			TypeTbl tblNew = new TypeTbl();
+			tblNew.setTypeClass(formatTypeClass(typeClass));
+			tblNew.setTypeCode(formatTypeCode(typeCode));
+			tblNew.setTypeName(typeCode.substring(0, 1).toUpperCase() + typeCode.substring(1).toLowerCase());
+			tblNew.setDescription(typeCode);
+			if (StringUtils.isBlank(tblNew.getIconUrl())) {
+				if (StringUtils.equals(tblNew.getTypeClass(), DBConstants.TYPE_CLASS_ACCOUNT)) {
+					tblNew.setIconUrl(DBConstants.ACCOUNT_TYPE_DEFAUT_ICON);
+				}
+			}
+			result = typeRepository.save(tblNew);
+		}
+
+		// Add to cache
+		cacheManager.getCache(cacheName).put(formatTypeMapKey(result.getTypeClass(), result.getTypeCode()), result);
+
+		// Return
+		return result;
+	}
+
+	/**
+	 * Search
+	 */
+	@Transactional(readOnly = false, rollbackFor = Exception.class)
+	public APIResponse<Object> search(TypeSCO sco) {
+		// Declare result
+		APIResponse<Object> result = new APIResponse<>();
+
+		// Get data
+		Page<TypeTbl> page = typeRepository.findAll(sco);
+
+		// Transformer
+		PageResultVO<TypeTbl> data = new PageResultVO<>();
+		data.setElements(page.getContent());
+		setPageHeader(page, data);
+
+		// Set data return
+		result.setData(data);
+
+		// Return
 		return result;
 	}
 
@@ -168,29 +191,6 @@ public class TypeCache extends BaseTransformer {
 
 		// Update cache
 		cacheManager.getCache(cacheName).put(formatTypeMapKey(tbl.getTypeClass(), tbl.getTypeCode()), tbl);
-
-		// Return
-		return result;
-	}
-
-	/**
-	 * Search
-	 */
-	@Transactional(readOnly = false, rollbackFor = Exception.class)
-	public APIResponse<Object> search(TypeSCO sco) {
-		// Declare result
-		APIResponse<Object> result = new APIResponse<>();
-
-		// Get data
-		Page<TypeTbl> page = typeRepository.findAll(sco);
-
-		// Transformer
-		PageResultVO<TypeTbl> data = new PageResultVO<>();
-		data.setElements(page.getContent());
-		setPageHeader(page, data);
-
-		// Set data return
-		result.setData(data);
 
 		// Return
 		return result;

@@ -25,6 +25,19 @@ public class ConfigController extends BaseRestController {
 	private final ConfigCache configCache;
 
 	/**
+	 * Create
+	 */
+	@PostMapping(ApiPublicConstants.API_CONFIG)
+	public ResponseEntity<?> create(@Validated @RequestBody ConfigTbl request) {
+		// Create Account
+		APIResponse<?> result = configCache.create(request);
+
+		// Return
+		return new ResponseEntity<>(result, new HttpHeaders(),
+				result.getStatus() != null ? result.getStatus() : HttpStatus.OK);
+	}
+
+	/**
 	 * Search
 	 */
 	@PostMapping(ApiPublicConstants.API_CONFIG + ApiPublicConstants.SEARCH)
@@ -44,19 +57,6 @@ public class ConfigController extends BaseRestController {
 	@PutMapping(ApiPublicConstants.API_CONFIG)
 	public ResponseEntity<?> update(@Validated @RequestBody ConfigTbl request) {
 		APIResponse<?> result = configCache.update(request);
-
-		// Return
-		return new ResponseEntity<>(result, new HttpHeaders(),
-				result.getStatus() != null ? result.getStatus() : HttpStatus.OK);
-	}
-
-	/**
-	 * Create
-	 */
-	@PostMapping(ApiPublicConstants.API_CONFIG)
-	public ResponseEntity<?> create(@Validated @RequestBody ConfigTbl request) {
-		// Create Account
-		APIResponse<?> result = configCache.create(request);
 
 		// Return
 		return new ResponseEntity<>(result, new HttpHeaders(),

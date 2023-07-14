@@ -35,8 +35,12 @@ public class MYSQLConfig {
 	}
 
 	@Bean
-	public JpaTransactionManager transactionManager(EntityManagerFactory emf) {
-		return new JpaTransactionManager(emf);
+	public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
+		LocalContainerEntityManagerFactoryBean lemfb = new LocalContainerEntityManagerFactoryBean();
+		lemfb.setDataSource(dataSource());
+		lemfb.setJpaVendorAdapter(jpaVendorAdapter());
+		lemfb.setPackagesToScan("com.hientran.sohebox.entity");
+		return lemfb;
 	}
 
 	@Bean
@@ -48,11 +52,7 @@ public class MYSQLConfig {
 	}
 
 	@Bean
-	public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
-		LocalContainerEntityManagerFactoryBean lemfb = new LocalContainerEntityManagerFactoryBean();
-		lemfb.setDataSource(dataSource());
-		lemfb.setJpaVendorAdapter(jpaVendorAdapter());
-		lemfb.setPackagesToScan("com.hientran.sohebox.entity");
-		return lemfb;
+	public JpaTransactionManager transactionManager(EntityManagerFactory emf) {
+		return new JpaTransactionManager(emf);
 	}
 }

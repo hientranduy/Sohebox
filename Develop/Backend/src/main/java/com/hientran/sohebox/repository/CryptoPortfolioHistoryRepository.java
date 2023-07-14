@@ -22,10 +22,6 @@ public interface CryptoPortfolioHistoryRepository extends JpaRepository<CryptoPo
 		JpaSpecificationExecutor<CryptoPortfolioHistoryTbl>, BaseRepository {
 	CryptoPortfolioHistorySpecs specs = new CryptoPortfolioHistorySpecs();
 
-	CryptoPortfolioHistoryTbl findTopByUserOrderByIdDesc(UserTbl user);
-
-	CryptoPortfolioHistoryTbl findTopByUserAndTokenOrderByTimeStampDesc(UserTbl user, CryptoTokenConfigTbl token);
-
 	/**
 	 * Get all data
 	 */
@@ -55,5 +51,9 @@ public interface CryptoPortfolioHistoryRepository extends JpaRepository<CryptoPo
 		result = pageData;
 		return result;
 	}
+
+	CryptoPortfolioHistoryTbl findTopByUserAndTokenOrderByTimeStampDesc(UserTbl user, CryptoTokenConfigTbl token);
+
+	CryptoPortfolioHistoryTbl findTopByUserOrderByIdDesc(UserTbl user);
 
 }

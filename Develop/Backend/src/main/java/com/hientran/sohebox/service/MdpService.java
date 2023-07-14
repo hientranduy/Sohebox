@@ -20,6 +20,11 @@ public class MdpService {
 
 	private final MdpRepository mdpRepository;
 
+	private String encryptMdp(String mdp) {
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		return encoder.encode(mdp);
+	}
+
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
 	public MdpTbl getMdp(String mdp) {
 		Validate.notNull(mdp, "Fail validation, Password is null");
@@ -48,11 +53,6 @@ public class MdpService {
 
 		// Return
 		return result;
-	}
-
-	private String encryptMdp(String mdp) {
-		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-		return encoder.encode(mdp);
 	}
 
 	public boolean isValidPassword(String newPassword, String oldPassword) {

@@ -14,7 +14,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class PageResultVO<T>  {
+public class PageResultVO<T> {
 	private long totalPage;
 	private long totalElement;
 	private long currentPage;

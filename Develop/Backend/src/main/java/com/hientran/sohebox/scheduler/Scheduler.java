@@ -14,17 +14,6 @@ public class Scheduler {
 
 	/**
 	 *
-	 * CRON schedule_ Extend english learn report
-	 *
-	 * @throws Exception
-	 */
-	@Scheduled(cron = "${schedule.english.learn_report}")
-	public void englishExtendLearnReport() throws Exception {
-		schedulerService.englishExtendLearnReport();
-	}
-
-	/**
-	 *
 	 * CRON schedule_ Calculate crypto portfolio total
 	 *
 	 * @throws Exception
@@ -32,5 +21,16 @@ public class Scheduler {
 	@Scheduled(cron = "${schedule.english.learn_report}")
 	public void cronjobCalculTotalPortfolio() throws Exception {
 		schedulerService.cronjobCalculTotalPortfolio();
+	}
+
+	/**
+	 *
+	 * CRON schedule_ Extend english learn report
+	 *
+	 * @throws Exception
+	 */
+	@Scheduled(cron = "${schedule.english.learn_report}")
+	public void englishExtendLearnReport() throws Exception {
+		schedulerService.englishExtendLearnReport();
 	}
 }

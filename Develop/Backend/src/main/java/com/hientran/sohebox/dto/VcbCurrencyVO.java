@@ -14,7 +14,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class VcbCurrencyVO  {
+public class VcbCurrencyVO {
 	private String dateTime;
 	private List<VcbCurrencyItemVO> rates;
 }
