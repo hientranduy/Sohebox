@@ -179,20 +179,16 @@ public class SecurityConfig {
 				.requestMatchers(HttpMethod.DELETE, ApiPublicConstants.API_USER + "/*")
 				.hasRole(DBConstants.USER_ROLE_CREATOR)
 
-				// Config: create-update-search
+				// Config: create-update
 				.requestMatchers(HttpMethod.POST, "/api" + ApiPublicConstants.API_CONFIG)
 				.hasRole(DBConstants.USER_ROLE_CREATOR)
 				.requestMatchers(HttpMethod.PUT, "/api" + ApiPublicConstants.API_CONFIG)
 				.hasRole(DBConstants.USER_ROLE_CREATOR)
-				.requestMatchers(HttpMethod.POST, "/api" + ApiPublicConstants.API_CONFIG + ApiPublicConstants.SEARCH)
-				.hasRole(DBConstants.USER_ROLE_CREATOR)
 
-				// Type: create-update-search
+				// Type: create-update
 				.requestMatchers(HttpMethod.POST, "/api" + ApiPublicConstants.API_TYPE)
 				.hasRole(DBConstants.USER_ROLE_CREATOR)
 				.requestMatchers(HttpMethod.PUT, "/api" + ApiPublicConstants.API_TYPE)
-				.hasRole(DBConstants.USER_ROLE_CREATOR)
-				.requestMatchers(HttpMethod.POST, "/api" + ApiPublicConstants.API_TYPE + ApiPublicConstants.SEARCH)
 				.hasRole(DBConstants.USER_ROLE_CREATOR)
 
 				// EnglishType: update-search
