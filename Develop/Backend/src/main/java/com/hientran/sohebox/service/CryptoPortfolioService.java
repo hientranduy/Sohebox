@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.hientran.sohebox.authentication.UserDetailsServiceImpl;
 import com.hientran.sohebox.cache.ConfigCache;
@@ -341,9 +342,16 @@ public class CryptoPortfolioService extends BaseService {
 			jsonObject = new Gson().fromJson(cosmosWebService.get(builder), JsonObject.class);
 
 			if (jsonObject.getAsJsonArray("total").size() > 0) {
-				tbl.setAmtTotalReward(Double.parseDouble(df
-						.format(jsonObject.getAsJsonArray("total").get(0).getAsJsonObject().get("amount").getAsDouble()
-								/ tbl.getToken().getDecimalExponent())));
+				JsonArray array = jsonObject.getAsJsonArray("total");
+				for (JsonElement jsonElement : array) {
+					if (StringUtils.equals("uatom", jsonElement.getAsJsonObject().get("denom").getAsString())) {
+						tbl.setAmtTotalReward(
+								Double.parseDouble(df.format(jsonElement.getAsJsonObject().get("amount").getAsDouble()
+										/ tbl.getToken().getDecimalExponent())));
+						break;
+					}
+				}
+
 			} else {
 				tbl.setAmtTotalReward(Double.valueOf(0));
 			}
