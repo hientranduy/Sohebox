@@ -3,32 +3,26 @@ Sohebox Website powered by Angular
 ---------
 - SETUP -
 ---------
- - Install NodeJS             ==> download https://nodejs.org/en/
- - Clone source code
- - Install Angular CLI        ==> npm install -g @angular/cli
- - Generate defaut component  ==> npm install
- - Update npm                 ==> npm install -g npm
-
- - Install Visual Studio Code ==> goto https://code.visualstudio.com/
-   + Add extention keymaps for eclipse
-   + Add extention debugger for chrome
-   + Add extention preview html, hint hlml, ....
-   
+ - Install NodeJS              ==> download https://nodejs.org/en/
  - Create new variable NODEJS_HOME = "C:\Program Files\nodejs", add NODEJS_HOME to PATH  
+ - Install Visual Studio Code  ==> goto https://code.visualstudio.com/
+
+ - Install sohebox             ==> npm install
+                                   npm install --save --legacy-peer-deps
+
 
 ---------------
 - DEVELOPMENT -
 ---------------
-- update C:\Windows\System32\Drivers\Etc\hosts
 - Generate component         ==> ng generate component pages/crypto
-- Update angular             ==> ng update --all --force
-                                 ng update --all --force --allow-dirty
-                                 npm update
+- Update angular             ==> ng update @angular/core@14 @angular/cli@14 --force
+                                 ng update @angular/cdk@14         --force
+                                 ng update @angular/material@14    --force
+                                 ng update @angular/flex-layout@14 --force
+
+
         
 - Remove package                 npm uninstall @aws-amplify/ui-angular                                   
-- Update type scrip          ==> npm install @angular/flex-layout@13.0.0-beta.38 --save-dev --save-exact
-- Check and fix format       ==> ng lint --fix
-- Audit                      ==> npm audit fix
 - Check package outupdate    ==> npm outdated 
 - Check unused dependency    ==> depcheck or npm-check
 
