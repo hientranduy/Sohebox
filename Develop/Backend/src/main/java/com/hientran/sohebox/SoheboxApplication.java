@@ -29,7 +29,7 @@ public class SoheboxApplication extends SpringBootServletInitializer {
 		env.getPropertySources();
 		env.getDefaultProfiles();
 
-		if (env.getProperty("server.ssl.key-store") != null) {
+		if (Boolean.parseBoolean(env.getProperty("server.ssl.enabled"))) {
 			protocol = "https";
 		}
 		log.info(

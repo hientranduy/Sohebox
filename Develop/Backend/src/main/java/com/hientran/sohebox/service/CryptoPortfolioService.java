@@ -344,7 +344,8 @@ public class CryptoPortfolioService extends BaseService {
 			if (jsonObject.getAsJsonArray("total").size() > 0) {
 				JsonArray array = jsonObject.getAsJsonArray("total");
 				for (JsonElement jsonElement : array) {
-					if (StringUtils.equals("uatom", jsonElement.getAsJsonObject().get("denom").getAsString())) {
+					String demon = jsonElement.getAsJsonObject().get("denom").getAsString();
+					if (!demon.contains("ibc")) {
 						tbl.setAmtTotalReward(
 								Double.parseDouble(df.format(jsonElement.getAsJsonObject().get("amount").getAsDouble()
 										/ tbl.getToken().getDecimalExponent())));
