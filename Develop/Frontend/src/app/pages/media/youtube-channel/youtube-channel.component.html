@@ -7,11 +7,8 @@
     <div class="col-sm-12">
         <!-- Youtube Channel -->
         <mat-form-field style="width:50%">
-            <input matInput [(ngModel)]="channelSelect" [formControl]="channelFormControl"
+            <input matInput placeholder="Type or select your favourite youtube channel" [(ngModel)]="channelSelect" [formControl]="channelFormControl"
                 [matAutocomplete]="autoChannel">
-            <mat-placeholder *ngIf="this.channelFormControl.valid && !this.channelFormControl.value"
-                class="placeholder">Type or select your favourite
-                youtube channel</mat-placeholder>
             <mat-autocomplete #autoChannel="matAutocomplete" [displayWith]="displayChannel">
                 <mat-option *ngFor="let channel of filteredChannels | async" [value]="channel"
                     (onSelectionChange)="searchMovieByChannel(channel)">

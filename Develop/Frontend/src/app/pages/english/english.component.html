@@ -15,10 +15,8 @@
             &nbsp;
             <!-- Category -->
             <mat-form-field style="width:30%">
-                <input matInput type="text" [formControl]="categoryControl" [matAutocomplete]="autoCategory"
+                <input matInput type="text" placeholder="All category" [formControl]="categoryControl" [matAutocomplete]="autoCategory"
                     [(ngModel)]="categoryValue">
-                <mat-placeholder *ngIf="this.categoryControl.valid && !this.categoryControl.value" class="placeholder">
-                    All category</mat-placeholder>
                 <mat-autocomplete #autoCategory="matAutocomplete" [displayWith]="displayCategory">
                     <mat-option *ngFor="let category of filteredCategories | async" [value]="category">
                         {{category.typeName}}
@@ -31,10 +29,8 @@
             &nbsp;
             <!-- Grade -->
             <mat-form-field style="width:30%">
-                <input matInput type="text" [formControl]="gradeControl" [matAutocomplete]="autoGrade"
+                <input matInput type="text" placeholder="All grade" [formControl]="gradeControl" [matAutocomplete]="autoGrade"
                     [(ngModel)]="gradeValue">
-                <mat-placeholder *ngIf="this.gradeControl.valid && !this.gradeControl.value" class="placeholder">
-                    All grade</mat-placeholder>
                 <mat-autocomplete #autoGrade="matAutocomplete" [displayWith]="displayGrade">
                     <mat-option *ngFor="let grade of filteredGrades | async" [value]="grade">
                         {{grade.typeName}}

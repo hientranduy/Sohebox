@@ -1,7 +1,6 @@
 @import "@angular/material/prebuilt-themes/indigo-pink.css";
-@import '~@swimlane/ngx-datatable/index.css';
-@import '~@swimlane/ngx-datatable/assets/icons.css';
-@import '~@swimlane/ngx-datatable/themes/material.css';
+
+
 
 /* Mat Autocomplete on Modal Fixes */
 .cdk-overlay-container {
