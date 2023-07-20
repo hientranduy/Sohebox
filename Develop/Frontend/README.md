@@ -15,10 +15,10 @@ Sohebox Website powered by Angular
 - DEVELOPMENT -
 ---------------
 - Generate component         ==> ng generate component pages/crypto
-- Update angular             ==> ng update @angular/core@14 @angular/cli@14 --force
-                                 ng update @angular/cdk@15         --force
-                                 ng update @angular/material@15    --force
-                                 ng update @angular/flex-layout@15 --force
+- Update angular             ==> ng update @angular/core@14 @angular/cli@14 --allow-dirty --force
+                                 ng update @angular/cdk@15         --allow-dirty --force
+                                 ng update @angular/material@15    --allow-dirty --force
+                                 ng update @angular/flex-layout@15 --allow-dirty --force
 
 
         
