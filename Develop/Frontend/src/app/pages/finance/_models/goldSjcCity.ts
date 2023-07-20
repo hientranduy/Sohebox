@@ -1,6 +1,6 @@
-import { GoldSjcItem } from './goldSjcItem';
+import { GoldSjcItem } from "./goldSjcItem";
 
 export class GoldSjcCity {
-    cityName: string;
-    items: Array<GoldSjcItem>;
+  cityName: string;
+  items: Array<GoldSjcItem>;
 }

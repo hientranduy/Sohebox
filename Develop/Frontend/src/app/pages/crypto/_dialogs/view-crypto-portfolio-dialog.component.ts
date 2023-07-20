@@ -1,20 +1,16 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
-import { RequireMatchForm } from '@app/_common/_services';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { Observable } from 'rxjs';
-import { CryptoPortfolio, CryptoTokenConfig } from '../_models';
+import { Component, Input, OnInit } from "@angular/core";
+import { FormControl, Validators } from "@angular/forms";
+import { RequireMatchForm } from "@app/_common/_services";
+import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
+import { Observable } from "rxjs";
+import { CryptoPortfolio, CryptoTokenConfig } from "../_models";
 
 @Component({
-  styleUrls: ['view-crypto-portfolio-dialog.component.css'],
-  templateUrl: 'view-crypto-portfolio-dialog.component.html',
+  styleUrls: ["view-crypto-portfolio-dialog.component.css"],
+  templateUrl: "view-crypto-portfolio-dialog.component.html",
 })
 export class ViewCryptoPortfolioDialogComponent implements OnInit {
-
-  constructor(
-    private activeModal: NgbActiveModal,
-  ) {
-  }
+  constructor(private activeModal: NgbActiveModal) {}
 
   // Form value
   @Input() title: string;
@@ -27,28 +23,24 @@ export class ViewCryptoPortfolioDialogComponent implements OnInit {
   // Field token
   tokenValue: CryptoTokenConfig;
   filteredTokens: Observable<CryptoTokenConfig[]>;
-  tokenFormControl = new FormControl('', [
+  tokenFormControl = new FormControl("", [
     Validators.required,
     RequireMatchForm,
   ]);
 
   // Field wallet
   walletValue: string;
-  walletFormControl = new FormControl('', [
-    Validators.required,
-  ]);
+  walletFormControl = new FormControl("", [Validators.required]);
 
   // Field starname
   starnameValue: string;
-  starnameFormControl = new FormControl('', [
-  ]);
+  starnameFormControl = new FormControl("", []);
 
   ngOnInit() {
     // Set current value
     this.tokenValue = this.cryptoPortfolio.token;
     this.walletValue = this.cryptoPortfolio.wallet;
     this.starnameValue = this.cryptoPortfolio.starname;
-
   }
 
   public displayToken(item: CryptoTokenConfig) {

@@ -1,6 +1,6 @@
-import { CurrencyVietcombankItem } from './currencyVietcombankItem';
+import { CurrencyVietcombankItem } from "./currencyVietcombankItem";
 
 export class CurrencyVietcombank {
-    dateTime: string;
-    rates: Array<CurrencyVietcombankItem>;
+  dateTime: string;
+  rates: Array<CurrencyVietcombankItem>;
 }

@@ -1,33 +1,34 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { ErrorStateMatcher } from '@angular/material/core';
-import { AppSettings } from '@app/appSettings';
-import { AuthenticationService } from '@app/user/_service';
-import { SpinnerService } from '@app/_common/_services';
-import { environment } from '@environments/environment';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { ToastrService } from 'ngx-toastr';
-import { English } from '../_model';
-import { EnglishService } from '../_services';
+import { Component, Input, OnInit } from "@angular/core";
+import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
+import { ErrorStateMatcher } from "@angular/material/core";
+import { AppSettings } from "@app/appSettings";
+import { AuthenticationService } from "@app/user/_service";
+import { SpinnerService } from "@app/_common/_services";
+import { environment } from "@environments/environment";
+import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
+import { ToastrService } from "ngx-toastr";
+import { English } from "../_model";
+import { EnglishService } from "../_services";
 
 @Component({
-  selector: 'app-download-voice',
-  templateUrl: './download-voice.component.html',
-  styleUrls: ['./download-voice.component.css']
+  selector: "app-download-voice",
+  templateUrl: "./download-voice.component.html",
+  styleUrls: ["./download-voice.component.css"],
 })
 export class DownloadVoiceComponent implements OnInit {
-
   constructor(
     private formBuilder: FormBuilder,
     private activeModal: NgbActiveModal,
     private englishService: EnglishService,
     private authenticationService: AuthenticationService,
     private toastr: ToastrService,
-    private spinner: SpinnerService
-  ) {
-  }
+    private spinner: SpinnerService,
+  ) {}
   cambridgeDictionaryUrl = AppSettings.CAMBRIDGE_DICTIONATY_URL;
-  englishAccessSoundPath = environment.soheboxRepo + AppSettings.SOHEBOX_WEB_SRC_PATH + AppSettings.ENGLISH_SOUND_PATH;
+  englishAccessSoundPath =
+    environment.soheboxRepo +
+    AppSettings.SOHEBOX_WEB_SRC_PATH +
+    AppSettings.ENGLISH_SOUND_PATH;
 
   // Form value
   @Input() title: string;
@@ -47,19 +48,12 @@ export class DownloadVoiceComponent implements OnInit {
   matcher = new ErrorStateMatcher();
 
   // Field : Voice UK
-  ukVoiceFormControl = new FormControl('', [
-    urlValidator,
-    urlUkVoice
-  ]);
+  ukVoiceFormControl = new FormControl("", [urlValidator, urlUkVoice]);
 
   // Field : Voice US
-  usVoiceFormControl = new FormControl('', [
-    urlValidator,
-    urlUsVoice
-  ]);
+  usVoiceFormControl = new FormControl("", [urlValidator, urlUsVoice]);
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   /////////////////////////////////////
   // FORM BUTTON CONTROL             //
@@ -79,23 +73,25 @@ export class DownloadVoiceComponent implements OnInit {
   }
 
   /**
-  * Click accept button
-  */
+   * Click accept button
+   */
   public accept() {
     switch (true) {
       // Case data is unchanged
-      case (!this.isHaveUpdateValue()):
+      case !this.isHaveUpdateValue():
         // Send warning toast message
-        this.toastr.warning('Skip voice downloading because the URLs are not filled');
+        this.toastr.warning(
+          "Skip voice downloading because the URLs are not filled",
+        );
 
         // Close dialog as cancel
         this.activeModal.close(false);
         break;
 
       // Case data is invalid
-      case (!this.isFormValid()):
+      case !this.isFormValid():
         this.message = null;
-        this.messageError = 'Invalid fields, please check your input';
+        this.messageError = "Invalid fields, please check your input";
         break;
 
       // Case ok
@@ -108,12 +104,15 @@ export class DownloadVoiceComponent implements OnInit {
 
         // Download UK Voice
         if (this.ukVoiceUrlValue != null) {
-          voiceUkFileName = this.english.imageName.split('.').slice(0, -1).join('.') + '_uk.mp3';
+          voiceUkFileName =
+            this.english.imageName.split(".").slice(0, -1).join(".") +
+            "_uk.mp3";
 
           if (this.ukVoiceUrlValue.includes(this.cambridgeDictionaryUrl)) {
             downloadVoiceFullUrl = this.ukVoiceUrlValue;
           } else {
-            downloadVoiceFullUrl = this.cambridgeDictionaryUrl + this.ukVoiceUrlValue;
+            downloadVoiceFullUrl =
+              this.cambridgeDictionaryUrl + this.ukVoiceUrlValue;
           }
 
           downloadFileForm = this.formBuilder.group({
@@ -126,33 +125,39 @@ export class DownloadVoiceComponent implements OnInit {
           this.spinner.show();
 
           // Download
-          this.englishService.downloadFileMp3(downloadFileForm.value)
-            .subscribe(
-              data => {
-                // Send success toast message
-                this.toastr.success('UK Voice of word <' + this.english.keyWord + '> is downloaded successfull');
+          this.englishService.downloadFileMp3(downloadFileForm.value).subscribe(
+            (data) => {
+              // Send success toast message
+              this.toastr.success(
+                "UK Voice of word <" +
+                  this.english.keyWord +
+                  "> is downloaded successfull",
+              );
 
-                // Hide loading
-                this.spinner.hide();
-              },
-              error => {
-                // Hide loading
-                this.spinner.hide();
+              // Hide loading
+              this.spinner.hide();
+            },
+            (error) => {
+              // Hide loading
+              this.spinner.hide();
 
-                // Send error toast message
-                this.toastr.error(error + ' is not found');
-
-              });
+              // Send error toast message
+              this.toastr.error(error + " is not found");
+            },
+          );
         }
 
         // Download US Voice
         if (this.usVoiceUrlValue != null) {
-          voiceUsFileName = this.english.imageName.split('.').slice(0, -1).join('.') + '_us.mp3';
+          voiceUsFileName =
+            this.english.imageName.split(".").slice(0, -1).join(".") +
+            "_us.mp3";
 
           if (this.usVoiceUrlValue.includes(this.cambridgeDictionaryUrl)) {
             downloadVoiceFullUrl = this.usVoiceUrlValue;
           } else {
-            downloadVoiceFullUrl = this.cambridgeDictionaryUrl + this.usVoiceUrlValue;
+            downloadVoiceFullUrl =
+              this.cambridgeDictionaryUrl + this.usVoiceUrlValue;
           }
 
           downloadFileForm = this.formBuilder.group({
@@ -165,22 +170,26 @@ export class DownloadVoiceComponent implements OnInit {
           this.spinner.show();
 
           // Download
-          this.englishService.downloadFileMp3(downloadFileForm.value)
-            .subscribe(
-              data => {
-                // Send success toast message
-                this.toastr.success('US Voice of word <' + this.english.keyWord + '> is downloaded successfull');
+          this.englishService.downloadFileMp3(downloadFileForm.value).subscribe(
+            (data) => {
+              // Send success toast message
+              this.toastr.success(
+                "US Voice of word <" +
+                  this.english.keyWord +
+                  "> is downloaded successfull",
+              );
 
-                // Hide loading
-                this.spinner.hide();
-              },
-              error => {
-                // Hide loading
-                this.spinner.hide();
+              // Hide loading
+              this.spinner.hide();
+            },
+            (error) => {
+              // Hide loading
+              this.spinner.hide();
 
-                // Send error toast message
-                this.toastr.error(error + ' is not found');
-              });
+              // Send error toast message
+              this.toastr.error(error + " is not found");
+            },
+          );
         }
 
         // Update voice file name database
@@ -196,32 +205,32 @@ export class DownloadVoiceComponent implements OnInit {
         // Show loading
         this.spinner.show();
 
-        this.englishService.updateWord(englishUpdate)
-          .subscribe(
-            data => {
-              // Hide loading
-              this.spinner.hide();
+        this.englishService.updateWord(englishUpdate).subscribe(
+          (data) => {
+            // Hide loading
+            this.spinner.hide();
 
-              // Close dialog
-              this.activeModal.close(true);
-            },
-            error => {
-              // Hide loading
-              this.spinner.hide();
+            // Close dialog
+            this.activeModal.close(true);
+          },
+          (error) => {
+            // Hide loading
+            this.spinner.hide();
 
-              // Send error toast message
-              this.toastr.error(error);
-            });
+            // Send error toast message
+            this.toastr.error(error);
+          },
+        );
     }
   }
 
   // Validate all fields
   public isFormValid() {
     let result = true;
-    if (this.ukVoiceFormControl.status === 'INVALID') {
+    if (this.ukVoiceFormControl.status === "INVALID") {
       result = false;
     }
-    if (this.usVoiceFormControl.status === 'INVALID') {
+    if (this.usVoiceFormControl.status === "INVALID") {
       result = false;
     }
     return result;
@@ -240,7 +249,6 @@ export class DownloadVoiceComponent implements OnInit {
   }
 }
 
-
 /**
  * Function validator voice URL
  *  - Must have text ".mp3"
@@ -252,22 +260,21 @@ function urlValidator(control: FormControl) {
 
   // Validate URL if have input
   if (url) {
-
     // Voice URL must have text ".mp3"
-    if (url.indexOf('.mp3') === -1) {
+    if (url.indexOf(".mp3") === -1) {
       return {
         notFileMp3: {
-          parsedUrln: url
-        }
+          parsedUrln: url,
+        },
       };
     }
 
     // Voice URL must have text "/us/media/english/"
-    if (url.indexOf('/media/english/') === -1) {
+    if (url.indexOf("/media/english/") === -1) {
       return {
         notCambridgeUrl: {
-          parsedUrln: url
-        }
+          parsedUrln: url,
+        },
       };
     }
   }
@@ -285,11 +292,11 @@ function urlUkVoice(control: FormControl) {
   // Validate URL if have input
   if (url) {
     // Voice not UK voice "/uk_pron/"
-    if (url.indexOf('/uk_pron/') === -1) {
+    if (url.indexOf("/uk_pron/") === -1) {
       return {
         notUkVoice: {
-          parsedUrln: url
-        }
+          parsedUrln: url,
+        },
       };
     }
   }
@@ -307,11 +314,11 @@ function urlUsVoice(control: FormControl) {
   // Validate URL if have input
   if (url) {
     // Voice not US voice "/us_pron/"
-    if (url.indexOf('/us_pron/') === -1) {
+    if (url.indexOf("/us_pron/") === -1) {
       return {
         notUkVoice: {
-          parsedUrln: url
-        }
+          parsedUrln: url,
+        },
       };
     }
   }

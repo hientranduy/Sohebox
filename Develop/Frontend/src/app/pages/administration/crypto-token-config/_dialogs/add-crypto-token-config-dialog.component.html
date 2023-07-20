@@ -1,116 +1,202 @@
-<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-atom" [fullScreen]="true">
-    <p style="color: white"> Loading... </p>
+<ngx-spinner
+  bdColor="rgba(51,51,51,0.8)"
+  size="medium"
+  color="#fff"
+  type="ball-atom"
+  [fullScreen]="true"
+>
+  <p style="color: white">Loading...</p>
 </ngx-spinner>
 
 <div class="modal-header">
-    <h4 class="modal-title">{{ title }}</h4>
-    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="dismiss()">
-        <span aria-hidden="true">&times;</span>
-    </button>
+  <h4 class="modal-title">{{ title }}</h4>
+  <button
+    type="button"
+    class="close"
+    data-dismiss="modal"
+    aria-label="Close"
+    (click)="dismiss()"
+  >
+    <span aria-hidden="true">&times;</span>
+  </button>
 </div>
 
 <div class="modal-body">
-    <p><strong>{{ message }}</strong>
-        <strong><span class="text-danger">{{ messageError }}</span></strong>
-    </p>
+  <p>
+    <strong>{{ message }}</strong>
+    <strong
+      ><span class="text-danger">{{ messageError }}</span></strong
+    >
+  </p>
 
-    <form class="crypto-token-config-form">
+  <form class="crypto-token-config-form">
+    <!-- tokenCode -->
+    <mat-form-field class="field-full-width">
+      <input
+        class="field-input-value"
+        matInput
+        type="text"
+        placeholder="Token Code"
+        [formControl]="tokenCodeFormControl"
+        [errorStateMatcher]="matcher"
+        [(ngModel)]="tokenCodeValue"
+      />
+      <mat-error *ngIf="tokenCodeFormControl.hasError('required')">
+        <strong>Required</strong>
+      </mat-error>
+    </mat-form-field>
 
-        <!-- tokenCode -->
-        <mat-form-field class="field-full-width">
-            <input class="field-input-value" matInput type="text" placeholder="Token Code"
-                [formControl]="tokenCodeFormControl" [errorStateMatcher]="matcher" [(ngModel)]="tokenCodeValue">
-            <mat-error *ngIf="tokenCodeFormControl.hasError('required')">
-                <strong>Required</strong>
-            </mat-error>
-        </mat-form-field>
+    <!-- tokenName -->
+    <mat-form-field class="field-full-width">
+      <input
+        class="field-input-value"
+        matInput
+        type="text"
+        placeholder="Token Name"
+        [formControl]="tokenNameFormControl"
+        [errorStateMatcher]="matcher"
+        [(ngModel)]="tokenNameValue"
+      />
+      <mat-error *ngIf="tokenNameFormControl.hasError('required')">
+        <strong>Required</strong>
+      </mat-error>
+    </mat-form-field>
 
-        <!-- tokenName -->
-        <mat-form-field class="field-full-width">
-            <input class="field-input-value" matInput type="text" placeholder="Token Name"
-                [formControl]="tokenNameFormControl" [errorStateMatcher]="matcher" [(ngModel)]="tokenNameValue">
-            <mat-error *ngIf="tokenNameFormControl.hasError('required')">
-                <strong>Required</strong>
-            </mat-error>
-        </mat-form-field>
+    <!-- iconUrl -->
+    <mat-form-field class="field-full-width">
+      <input
+        class="field-input-value"
+        matInput
+        type="text"
+        placeholder="Icon URL"
+        [formControl]="iconUrlFormControl"
+        [errorStateMatcher]="matcher"
+        [(ngModel)]="iconUrlValue"
+      />
+      <mat-error *ngIf="iconUrlFormControl.hasError('required')">
+        <strong>Required</strong>
+      </mat-error>
+    </mat-form-field>
 
-        <!-- iconUrl -->
-        <mat-form-field class="field-full-width">
-            <input class="field-input-value" matInput type="text" placeholder="Icon URL"
-                [formControl]="iconUrlFormControl" [errorStateMatcher]="matcher" [(ngModel)]="iconUrlValue">
-            <mat-error *ngIf="iconUrlFormControl.hasError('required')">
-                <strong>Required</strong>
-            </mat-error>
-        </mat-form-field>
+    <!-- nodeUrl -->
+    <mat-form-field class="field-full-width">
+      <input
+        class="field-input-value"
+        matInput
+        type="text"
+        placeholder="Node URL"
+        [formControl]="nodeUrlFormControl"
+        [errorStateMatcher]="matcher"
+        [(ngModel)]="nodeUrlValue"
+      />
+      <mat-error *ngIf="nodeUrlFormControl.hasError('required')">
+        <strong>Required</strong>
+      </mat-error>
+    </mat-form-field>
 
-        <!-- nodeUrl -->
-        <mat-form-field class="field-full-width">
-            <input class="field-input-value" matInput type="text" placeholder="Node URL"
-                [formControl]="nodeUrlFormControl" [errorStateMatcher]="matcher" [(ngModel)]="nodeUrlValue">
-            <mat-error *ngIf="nodeUrlFormControl.hasError('required')">
-                <strong>Required</strong>
-            </mat-error>
-        </mat-form-field>
+    <!-- rpcUrl -->
+    <mat-form-field class="field-full-width">
+      <input
+        class="field-input-value"
+        matInput
+        type="text"
+        placeholder="RPC URL"
+        [formControl]="rpcUrlFormControl"
+        [errorStateMatcher]="matcher"
+        [(ngModel)]="rpcUrlValue"
+      />
+      <mat-error *ngIf="rpcUrlFormControl.hasError('required')">
+        <strong>Required</strong>
+      </mat-error>
+    </mat-form-field>
 
-        <!-- rpcUrl -->
-        <mat-form-field class="field-full-width">
-            <input class="field-input-value" matInput type="text" placeholder="RPC URL"
-                [formControl]="rpcUrlFormControl" [errorStateMatcher]="matcher" [(ngModel)]="rpcUrlValue">
-            <mat-error *ngIf="rpcUrlFormControl.hasError('required')">
-                <strong>Required</strong>
-            </mat-error>
-        </mat-form-field>
+    <!-- denom -->
+    <mat-form-field class="field-full-width">
+      <input
+        class="field-input-value"
+        matInput
+        type="text"
+        placeholder="Denom"
+        [formControl]="denomFormControl"
+        [errorStateMatcher]="matcher"
+        [(ngModel)]="denomValue"
+      />
+      <mat-error *ngIf="denomFormControl.hasError('required')">
+        <strong>Required</strong>
+      </mat-error>
+    </mat-form-field>
 
-        <!-- denom -->
-        <mat-form-field class="field-full-width">
-            <input class="field-input-value" matInput type="text" placeholder="Denom" [formControl]="denomFormControl"
-                [errorStateMatcher]="matcher" [(ngModel)]="denomValue">
-            <mat-error *ngIf="denomFormControl.hasError('required')">
-                <strong>Required</strong>
-            </mat-error>
-        </mat-form-field>
+    <!-- decimalExponent -->
+    <mat-form-field class="field-full-width">
+      <input
+        class="field-input-value"
+        matInput
+        type="number"
+        placeholder="Exponent"
+        [formControl]="decimalExponentFormControl"
+        [errorStateMatcher]="matcher"
+        [(ngModel)]="decimalExponentValue"
+      />
+      <mat-error *ngIf="decimalExponentFormControl.hasError('required')">
+        <strong>Required</strong>
+      </mat-error>
+    </mat-form-field>
 
-        <!-- decimalExponent -->
-        <mat-form-field class="field-full-width">
-            <input class="field-input-value" matInput type="number" placeholder="Exponent"
-                [formControl]="decimalExponentFormControl" [errorStateMatcher]="matcher"
-                [(ngModel)]="decimalExponentValue">
-            <mat-error *ngIf="decimalExponentFormControl.hasError('required')">
-                <strong>Required</strong>
-            </mat-error>
-        </mat-form-field>
+    <!-- addressPrefix -->
+    <mat-form-field class="field-full-width">
+      <input
+        class="field-input-value"
+        matInput
+        type="text"
+        placeholder="Address Prefix"
+        [formControl]="addressPrefixFormControl"
+        [errorStateMatcher]="matcher"
+        [(ngModel)]="addressPrefixValue"
+      />
+      <mat-error *ngIf="addressPrefixFormControl.hasError('required')">
+        <strong>Required</strong>
+      </mat-error>
+    </mat-form-field>
 
-        <!-- addressPrefix -->
-        <mat-form-field class="field-full-width">
-            <input class="field-input-value" matInput type="text" placeholder="Address Prefix"
-                [formControl]="addressPrefixFormControl" [errorStateMatcher]="matcher" [(ngModel)]="addressPrefixValue">
-            <mat-error *ngIf="addressPrefixFormControl.hasError('required')">
-                <strong>Required</strong>
-            </mat-error>
-        </mat-form-field>
+    <!-- mintscanPrefix -->
+    <mat-form-field class="field-full-width">
+      <input
+        class="field-input-value"
+        matInput
+        type="text"
+        placeholder="Mintscan Prefix"
+        [formControl]="mintscanPrefixFormControl"
+        [errorStateMatcher]="matcher"
+        [(ngModel)]="mintscanPrefixValue"
+      />
+      <mat-error *ngIf="mintscanPrefixFormControl.hasError('required')">
+        <strong>Required</strong>
+      </mat-error>
+    </mat-form-field>
 
-        <!-- mintscanPrefix -->
-        <mat-form-field class="field-full-width">
-            <input class="field-input-value" matInput type="text" placeholder="Mintscan Prefix"
-                [formControl]="mintscanPrefixFormControl" [errorStateMatcher]="matcher"
-                [(ngModel)]="mintscanPrefixValue">
-            <mat-error *ngIf="mintscanPrefixFormControl.hasError('required')">
-                <strong>Required</strong>
-            </mat-error>
-        </mat-form-field>
-
-        <!-- deligateUrl -->
-        <mat-form-field class="field-full-width">
-            <input class="field-input-value" matInput type="text" placeholder="Delicate URL"
-                [formControl]="deligateUrlFormControl" [errorStateMatcher]="matcher" [(ngModel)]="deligateUrlValue">
-            <mat-error *ngIf="deligateUrlFormControl.hasError('required')">
-                <strong>Required</strong>
-            </mat-error>
-        </mat-form-field>
-    </form>
+    <!-- deligateUrl -->
+    <mat-form-field class="field-full-width">
+      <input
+        class="field-input-value"
+        matInput
+        type="text"
+        placeholder="Delicate URL"
+        [formControl]="deligateUrlFormControl"
+        [errorStateMatcher]="matcher"
+        [(ngModel)]="deligateUrlValue"
+      />
+      <mat-error *ngIf="deligateUrlFormControl.hasError('required')">
+        <strong>Required</strong>
+      </mat-error>
+    </mat-form-field>
+  </form>
 </div>
 
 <div class="modal-footer">
-    <button type="button" class="btn btn-danger" (click)="decline()" ngbAutofocus>{{ btnCancelText }} </button>
-    <button type="button" class="btn btn-primary" (click)="accept()">{{ btnOkText }}</button>
+  <button type="button" class="btn btn-danger" (click)="decline()" ngbAutofocus>
+    {{ btnCancelText }}
+  </button>
+  <button type="button" class="btn btn-primary" (click)="accept()">
+    {{ btnOkText }}
+  </button>
 </div>

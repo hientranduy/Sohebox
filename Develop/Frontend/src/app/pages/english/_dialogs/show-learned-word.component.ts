@@ -1,30 +1,31 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { User } from '@app/user/_models';
-import { AuthenticationService } from '@app/user/_service';
-import { ApiReponse } from '@app/_common/_models';
-import { EnglishLearnRecordSCO } from '@app/_common/_sco';
-import { SearchDate, SearchNumber } from '@app/_common/_sco/core_sco';
-import { SpinnerService } from '@app/_common/_services';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { EnglishLearnRecord } from '../_model';
-import { EnglishService } from '../_services';
+import { Component, Input, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
+import { User } from "@app/user/_models";
+import { AuthenticationService } from "@app/user/_service";
+import { ApiReponse } from "@app/_common/_models";
+import { EnglishLearnRecordSCO } from "@app/_common/_sco";
+import { SearchDate, SearchNumber } from "@app/_common/_sco/core_sco";
+import { SpinnerService } from "@app/_common/_services";
+import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
+import { EnglishLearnRecord } from "../_model";
+import { EnglishService } from "../_services";
 
 @Component({
-  styleUrls: ['show-learned-word.component.css'],
-  templateUrl: 'show-learned-word.component.html',
+  styleUrls: ["show-learned-word.component.css"],
+  templateUrl: "show-learned-word.component.html",
 })
 export class ShowLearnedWordComponent implements OnInit {
-
   constructor(
     private router: Router,
     private activeModal: NgbActiveModal,
     private authenticationService: AuthenticationService,
     private englishService: EnglishService,
-    private spinner: SpinnerService
+    private spinner: SpinnerService,
   ) {
     // Get logged user
-    this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
+    this.authenticationService.currentUser.subscribe(
+      (x) => (this.currentUser = x),
+    );
 
     // Get learned record
     this.getLearnedListByToday();
@@ -41,8 +42,7 @@ export class ShowLearnedWordComponent implements OnInit {
   @Input() message: string;
   @Input() btnCancelText: string;
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   /**
    * Get learned record list by today
@@ -61,8 +61,8 @@ export class ShowLearnedWordComponent implements OnInit {
     this.spinner.show();
 
     // Search
-    this.englishService.searchLearnRecord(sco)
-      .subscribe(data => {
+    this.englishService.searchLearnRecord(sco).subscribe(
+      (data) => {
         // Get data
         const responseAPi: any = data;
         const typeResponse: ApiReponse<EnglishLearnRecord> = responseAPi;
@@ -72,9 +72,11 @@ export class ShowLearnedWordComponent implements OnInit {
 
         // Hide Loading
         this.spinner.hide();
-      }, error => {
+      },
+      (error) => {
         this.processError(error);
-      });
+      },
+    );
   }
 
   /**
@@ -92,8 +94,8 @@ export class ShowLearnedWordComponent implements OnInit {
   // FORM BUTTON CONTROL             //
   /////////////////////////////////////
   /**
-  * Click decline button
-  */
+   * Click decline button
+   */
   public decline() {
     this.activeModal.close(false);
   }
@@ -106,8 +108,8 @@ export class ShowLearnedWordComponent implements OnInit {
   }
 
   /**
-  * Click accept button
-  */
+   * Click accept button
+   */
   public accept() {
     this.activeModal.close(true);
   }

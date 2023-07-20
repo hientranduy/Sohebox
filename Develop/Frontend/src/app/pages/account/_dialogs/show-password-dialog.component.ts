@@ -1,24 +1,22 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { ApiReponse } from '@app/_common/_models';
-import { SpinnerService } from '@app/_common/_services';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { ToastrService } from 'ngx-toastr';
-import { Account } from '../_models';
-import { AccountService } from '../_services';
+import { Component, Input, OnInit } from "@angular/core";
+import { ApiReponse } from "@app/_common/_models";
+import { SpinnerService } from "@app/_common/_services";
+import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
+import { ToastrService } from "ngx-toastr";
+import { Account } from "../_models";
+import { AccountService } from "../_services";
 
 @Component({
-  styleUrls: ['show-password-dialog.component.css'],
-  templateUrl: 'show-password-dialog.component.html',
+  styleUrls: ["show-password-dialog.component.css"],
+  templateUrl: "show-password-dialog.component.html",
 })
 export class ShowPasswordDialogComponent implements OnInit {
-
   constructor(
     private activeModal: NgbActiveModal,
     private toastr: ToastrService,
     private accountService: AccountService,
-    private spinner: SpinnerService
-  ) {
-  }
+    private spinner: SpinnerService,
+  ) {}
 
   // Form value
   @Input() messageError: string;
@@ -49,8 +47,8 @@ export class ShowPasswordDialogComponent implements OnInit {
       // Show Loading
       this.spinner.show();
 
-      this.accountService.showPassword(this.account)
-        .subscribe(data => {
+      this.accountService.showPassword(this.account).subscribe(
+        (data) => {
           // Get data
           const responseAPi: any = data;
           const typeResponse: ApiReponse<Account> = responseAPi;
@@ -63,18 +61,19 @@ export class ShowPasswordDialogComponent implements OnInit {
             this.messageError = typeResponse.message;
             this.displayPassword = this.account.mdp;
           } else {
-            this.messageError = '';
+            this.messageError = "";
           }
 
           // Hide Loading
           this.spinner.hide();
-        }, error => {
-
+        },
+        (error) => {
           // Hide Loading
           this.spinner.hide();
-        });
+        },
+      );
     } else {
-      this.messageError = 'Input missing';
+      this.messageError = "Input missing";
     }
   }
 }

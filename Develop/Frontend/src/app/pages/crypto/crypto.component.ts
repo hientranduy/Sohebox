@@ -1,18 +1,17 @@
-import { Component, HostListener, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { SEOService } from '@app/_common/_services';
+import { Component, HostListener, OnInit } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
+import { SEOService } from "@app/_common/_services";
 
 @Component({
-  selector: 'app-crypto',
-  templateUrl: './crypto.component.html',
-  styleUrls: ['./crypto.component.css']
+  selector: "app-crypto",
+  templateUrl: "./crypto.component.html",
+  styleUrls: ["./crypto.component.css"],
 })
 export class CryptoComponent implements OnInit {
-
   constructor(
     private route: ActivatedRoute,
-    private seoService: SEOService
-  ) { }
+    private seoService: SEOService,
+  ) {}
 
   ngOnInit(): void {
     // CEO
@@ -22,12 +21,12 @@ export class CryptoComponent implements OnInit {
   // Width change
   windownInnerWidth = window.innerWidth;
 
-  @HostListener('window:resize', ['$event'])
+  @HostListener("window:resize", ["$event"])
   onResize(event) {
     this.windownInnerWidth = window.innerWidth;
   }
 
-  @HostListener('window:orientationchange', ['$event'])
+  @HostListener("window:orientationchange", ["$event"])
   onOrientationChange(event) {
     this.windownInnerWidth = window.innerWidth;
   }

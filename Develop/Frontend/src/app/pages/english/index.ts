@@ -1,1 +1,1 @@
-﻿export * from './english.component';
+﻿export * from "./english.component";

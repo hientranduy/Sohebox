@@ -4,11 +4,10 @@ Sohebox Website powered by Angular
 - SETUP -
 ---------
  - Install NodeJS              ==> download https://nodejs.org/en/
- - Create new variable NODEJS_HOME = "C:\Program Files\nodejs", add NODEJS_HOME to PATH  
+ - Create variable NODEJS_HOME = "C:\Program Files\nodejs", add NODEJS_HOME to PATH  
  - Install Visual Studio Code  ==> goto https://code.visualstudio.com/
 
- - Install sohebox             ==> npm install
-                                   npm install --save --legacy-peer-deps
+ - Install sohebox             ==> npm install --save --legacy-peer-deps
 
 
 ---------------
@@ -19,12 +18,12 @@ Sohebox Website powered by Angular
                                  ng update @angular/cdk@15         --allow-dirty --force
                                  ng update @angular/material@15    --allow-dirty --force
                                  ng update @angular/flex-layout@15 --allow-dirty --force
-
-
-        
-- Remove package                 npm uninstall @aws-amplify/ui-angular                                   
-- Check package outupdate    ==> npm outdated 
-- Check unused dependency    ==> depcheck or npm-check
+                                 ng add @ng-bootstrap/ng-bootstrap
+                                 ng update
+- Check all version of current Angular version ==> ng update             
+- Check package outupdate                      ==> npm outdated 
+- Check unused dependency                      ==> depcheck or npm-check
+- Format all source code    npx prettier --write "**/*.ts" "**/*.css" "**/*.html" "**/*.json"
 
 
 - Create web icon by using https://icoconvert.com/

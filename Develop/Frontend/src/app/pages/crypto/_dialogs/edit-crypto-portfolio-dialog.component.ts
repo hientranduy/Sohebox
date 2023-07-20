@@ -1,31 +1,29 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
-import { AlertService } from '@app/_common/alert';
-import { ApiReponse } from '@app/_common/_models';
-import { RequireMatchForm, SpinnerService } from '@app/_common/_services';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { ToastrService } from 'ngx-toastr';
-import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
-import { CryptoPortfolio, CryptoTokenConfig } from '../_models';
-import { CryptoTokenConfigSCO } from '../_sco';
-import { CryptoPortfolioService, CryptoTokenConfigService } from '../_services';
+import { Component, Input, OnInit } from "@angular/core";
+import { FormControl, Validators } from "@angular/forms";
+import { AlertService } from "@app/_common/alert";
+import { ApiReponse } from "@app/_common/_models";
+import { RequireMatchForm, SpinnerService } from "@app/_common/_services";
+import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
+import { ToastrService } from "ngx-toastr";
+import { Observable } from "rxjs";
+import { map, startWith } from "rxjs/operators";
+import { CryptoPortfolio, CryptoTokenConfig } from "../_models";
+import { CryptoTokenConfigSCO } from "../_sco";
+import { CryptoPortfolioService, CryptoTokenConfigService } from "../_services";
 
 @Component({
-  styleUrls: ['edit-crypto-portfolio-dialog.component.css'],
-  templateUrl: 'edit-crypto-portfolio-dialog.component.html',
+  styleUrls: ["edit-crypto-portfolio-dialog.component.css"],
+  templateUrl: "edit-crypto-portfolio-dialog.component.html",
 })
 export class EditCryptoPortfolioDialogComponent implements OnInit {
-
   constructor(
     private activeModal: NgbActiveModal,
     private cryptoPortfolioService: CryptoPortfolioService,
     private alertService: AlertService,
     private cryptoTokenConfigService: CryptoTokenConfigService,
     private toastr: ToastrService,
-    private spinner: SpinnerService
-  ) {
-  }
+    private spinner: SpinnerService,
+  ) {}
 
   // Form value
   @Input() title: string;
@@ -38,22 +36,18 @@ export class EditCryptoPortfolioDialogComponent implements OnInit {
   // Field token
   tokenValue: CryptoTokenConfig;
   filteredTokens: Observable<CryptoTokenConfig[]>;
-  tokenFormControl = new FormControl('', [
+  tokenFormControl = new FormControl("", [
     Validators.required,
     RequireMatchForm,
   ]);
 
   // Field wallet
   walletValue: string;
-  walletFormControl = new FormControl('', [
-    Validators.required,
-  ]);
+  walletFormControl = new FormControl("", [Validators.required]);
 
   // Field starname
   starnameValue: string;
-  starnameFormControl = new FormControl('', [
-  ]);
-
+  starnameFormControl = new FormControl("", []);
 
   ngOnInit() {
     // Set current value
@@ -71,8 +65,8 @@ export class EditCryptoPortfolioDialogComponent implements OnInit {
   }
 
   /**
-    * Get list 
-    */
+   * Get list
+   */
   getTokenList() {
     // Prepare search condition
     const sco = new CryptoTokenConfigSCO();
@@ -81,30 +75,36 @@ export class EditCryptoPortfolioDialogComponent implements OnInit {
     this.spinner.show();
 
     // Get list type
-    this.cryptoTokenConfigService.search(sco)
-      .subscribe(
-        data => {
-          // Get data
-          const responseAPi: any = data;
-          const typeResponse: ApiReponse<CryptoTokenConfig> = responseAPi;
-          if (typeResponse.data != null) {
-            const items: CryptoTokenConfig[] = typeResponse.data.elements;
-            this.filteredTokens = this.tokenFormControl.valueChanges
-              .pipe(
-                startWith(''),
-                map(value => items.filter(valueFilter => valueFilter.tokenCode.toLowerCase().includes(value.toString().toLowerCase()))));
-          }
+    this.cryptoTokenConfigService.search(sco).subscribe(
+      (data) => {
+        // Get data
+        const responseAPi: any = data;
+        const typeResponse: ApiReponse<CryptoTokenConfig> = responseAPi;
+        if (typeResponse.data != null) {
+          const items: CryptoTokenConfig[] = typeResponse.data.elements;
+          this.filteredTokens = this.tokenFormControl.valueChanges.pipe(
+            startWith(""),
+            map((value) =>
+              items.filter((valueFilter) =>
+                valueFilter.tokenCode
+                  .toLowerCase()
+                  .includes(value.toString().toLowerCase()),
+              ),
+            ),
+          );
+        }
 
-          // Hide loading
-          this.spinner.hide();
-        },
-        error => {
-          // Hide loading
-          this.spinner.hide();
+        // Hide loading
+        this.spinner.hide();
+      },
+      (error) => {
+        // Hide loading
+        this.spinner.hide();
 
-          // Show alert message
-          this.alertService.error(error);
-        });
+        // Show alert message
+        this.alertService.error(error);
+      },
+    );
   }
 
   /////////////////////////////////////
@@ -125,25 +125,25 @@ export class EditCryptoPortfolioDialogComponent implements OnInit {
   }
 
   /**
-  * Click accept button
-  */
+   * Click accept button
+   */
   public accept() {
     switch (true) {
       // Case data is unchanged
-      case (!this.isHaveUpdateValue()):
+      case !this.isHaveUpdateValue():
         this.message = null;
-        this.messageError = 'Skip update because the value is not changed';
+        this.messageError = "Skip update because the value is not changed";
         break;
 
       // Case data is invalid
-      case (!this.isFormValid()):
+      case !this.isFormValid():
         this.message = null;
-        this.messageError = 'Invalid fields, please check your input';
+        this.messageError = "Invalid fields, please check your input";
         break;
 
       // Case ok
       default:
-        // Prepare update 
+        // Prepare update
         const updateItem: CryptoPortfolio = this.cryptoPortfolio;
         updateItem.token = this.tokenValue;
         updateItem.wallet = this.walletValue;
@@ -153,26 +153,33 @@ export class EditCryptoPortfolioDialogComponent implements OnInit {
         this.spinner.show();
 
         // Edit account
-        this.cryptoPortfolioService.update(updateItem)
-          .subscribe(
-            data => {
-              // Send success toast message
-              this.toastr.success('Wallet ' + this.walletValue + '<' + this.tokenValue.tokenCode + '>' + ' is updated successful');
+        this.cryptoPortfolioService.update(updateItem).subscribe(
+          (data) => {
+            // Send success toast message
+            this.toastr.success(
+              "Wallet " +
+                this.walletValue +
+                "<" +
+                this.tokenValue.tokenCode +
+                ">" +
+                " is updated successful",
+            );
 
-              // Hide loading
-              this.spinner.hide();
+            // Hide loading
+            this.spinner.hide();
 
-              // Close dialog
-              this.activeModal.close(true);
-            },
-            error => {
-              // Hide loading
-              this.spinner.hide();
+            // Close dialog
+            this.activeModal.close(true);
+          },
+          (error) => {
+            // Hide loading
+            this.spinner.hide();
 
-              // Send error
-              this.message = null;
-              this.messageError = error;
-            });
+            // Send error
+            this.message = null;
+            this.messageError = error;
+          },
+        );
     }
   }
 
@@ -181,13 +188,13 @@ export class EditCryptoPortfolioDialogComponent implements OnInit {
    */
   public isFormValid() {
     let result = true;
-    if (this.tokenFormControl.status === 'INVALID') {
+    if (this.tokenFormControl.status === "INVALID") {
       result = false;
     }
-    if (this.walletFormControl.status === 'INVALID') {
+    if (this.walletFormControl.status === "INVALID") {
       result = false;
     }
-    if (this.starnameFormControl.status === 'INVALID') {
+    if (this.starnameFormControl.status === "INVALID") {
       result = false;
     }
     return result;

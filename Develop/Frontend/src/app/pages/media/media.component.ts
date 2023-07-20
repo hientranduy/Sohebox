@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { SEOService, UtilsService } from '@app/_common/_services';
+import { Component, OnInit } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
+import { SEOService, UtilsService } from "@app/_common/_services";
 
 @Component({
-  selector: 'app-media',
-  templateUrl: './media.component.html',
-  styleUrls: ['./media.component.css']
+  selector: "app-media",
+  templateUrl: "./media.component.html",
+  styleUrls: ["./media.component.css"],
 })
 export class MediaComponent implements OnInit {
   selectOpion = 1;
@@ -16,12 +16,10 @@ export class MediaComponent implements OnInit {
   constructor(
     private seoService: SEOService,
     private route: ActivatedRoute,
-    public utilsService: UtilsService
-  ) {
-  }
+    public utilsService: UtilsService,
+  ) {}
 
-  ngOnInit(
-  ) {
+  ngOnInit() {
     // CEO
     this.seoService.updateCEO(this.route);
   }

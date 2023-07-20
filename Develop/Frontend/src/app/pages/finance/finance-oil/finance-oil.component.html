@@ -1,242 +1,423 @@
 <!-- Loading spinner -->
-<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-atom" [fullScreen]="true">
-    <p style="color: white"> Loading... </p>
+<ngx-spinner
+  bdColor="rgba(51,51,51,0.8)"
+  size="medium"
+  color="#fff"
+  type="ball-atom"
+  [fullScreen]="true"
+>
+  <p style="color: white">Loading...</p>
 </ngx-spinner>
 
 <div class="finance-energy-container">
-    <div style="color: darkblue;margin-left: 10px;">
-        <strong>
-            <i>*** Unit: USD/Barrel (159 Liters)</i>
-        </strong>
-    </div>
+  <div style="color: darkblue; margin-left: 10px">
+    <strong>
+      <i>*** Unit: USD/Barrel (159 Liters)</i>
+    </strong>
+  </div>
 
-    <div class="row nopadding">
-        <div class="col-sm-6 nopadding" *ngIf="tradingOilPrice">
-            <div class="finance-oil-container">
-                <ngx-datatable class="material" [rows]="tradingOilPrice.historyCL1" [columnMode]="'flex'"
-                    [headerHeight]="50" rowHeight="auto" [limit]="10">
-                    <!-- Date -->
-                    <ngx-datatable-column name="Day" prop="Date" [flexGrow]="2">
-                        <ng-template let-value="value" ngx-datatable-cell-template>
-                            {{ value }}
-                        </ng-template>
-                    </ngx-datatable-column>
-                    <!-- Open -->
-                    <!-- <ngx-datatable-column name="Open" prop="Open">
-                        <ng-template let-value="value" ngx-datatable-cell-template>
-                            {{ value }}
-                        </ng-template>
-                    </ngx-datatable-column> -->
-                    <!-- High -->
-                    <ngx-datatable-column name="High" prop="High" [flexGrow]="1">
-                        <ng-template let-value="value" ngx-datatable-cell-template>
-                            {{ value }}
-                        </ng-template>
-                    </ngx-datatable-column>
-                    <!-- Low -->
-                    <ngx-datatable-column name="Low" prop="Low" [flexGrow]="1">
-                        <ng-template let-value="value" ngx-datatable-cell-template>
-                            {{ value }}
-                        </ng-template>
-                    </ngx-datatable-column>
-                    <!-- Close -->
-                    <ngx-datatable-column name="Close" prop="Close" [flexGrow]="1">
-                        <ng-template let-value="value" ngx-datatable-cell-template>
-                            {{ value }}
-                        </ng-template>
-                    </ngx-datatable-column>
-                </ngx-datatable>
-            </div>
-        </div>
-
-        <div class="col-sm-6 padding-left">
-            <div class="finance-oil-container">
-                <div class="finance-oil-title">
-                    <span>WTI Crude Oil</span>
-                </div>
-
-                <div>
-                    <span style="font-size: 22px; font-weight: bold; color: #000000"> ${{currentWTIPrice}} </span>
-                    &nbsp;
-                    <span *ngIf="currentWTIPriceChange < 0" style="font-size: 16px; font-weight: bold; color: red">
-                        ▼{{currentWTIPriceChange}} </span>
-                    <span *ngIf="currentWTIPriceChange >= 0" style="font-size: 16px; font-weight: bold; color: green">
-                        ▲{{currentWTIPriceChange}} </span>
-                    &nbsp;
-                    <span *ngIf="currentWTIPercentChange < 0" style="font-size: 16px; font-weight: bold; color: red">
-                        {{currentWTIPercentChange}}% </span>
-                    <span *ngIf="currentWTIPercentChange >= 0" style="font-size: 16px; font-weight: bold; color: green">
-                        {{currentWTIPercentChange}}% </span>
-                    &nbsp;
-                    &nbsp;
-                    <span *ngIf="tradingOilPrice" style="font-size: 14px; font-weight: bold; color: dimgray">
-                        {{ tradingOilPrice.symbolCL1.LastUpdate | date : "HH:mm" }} GMT0</span>
-                </div>
-
-                <div>
-                    <img class="finance-oil-chart-image" src="//oil-price.net/1m_small.gif"
-                        *ngIf="selectWTICrudeOil === '1m'">
-                    <img class="finance-oil-chart-image" src="//oil-price.net/1q_small.gif"
-                        *ngIf="selectWTICrudeOil === '1q'">
-                    <img class="finance-oil-chart-image" src="//oil-price.net/1y_small.gif"
-                        *ngIf="selectWTICrudeOil === '1y'">
-                    <img class="finance-oil-chart-image" src="//oil-price.net/5y_small.gif"
-                        *ngIf="selectWTICrudeOil === '5y'">
-                </div>
-                <div>
-                    <img class="finance-oil-opt-image" src="assets/finance/button_1m.png"
-                        *ngIf="selectWTICrudeOil !== '1m'" (click)="changeWTICrudeOil1m()">
-                    <img class="finance-oil-opt-image" src="assets/finance/hover_1m.png"
-                        *ngIf="selectWTICrudeOil === '1m'">
-                    <img class="finance-oil-opt-image" src="assets/finance/button_1q.png"
-                        *ngIf="selectWTICrudeOil !== '1q'" (click)="changeWTICrudeOil1q()">
-                    <img class="finance-oil-opt-image" src="assets/finance/hover_1q.png"
-                        *ngIf="selectWTICrudeOil === '1q'">
-                    <img class="finance-oil-opt-image" src="assets/finance/button_1y.png"
-                        *ngIf="selectWTICrudeOil !== '1y'" (click)="changeWTICrudeOil1y()">
-                    <img class="finance-oil-opt-image" src="assets/finance/hover_1y.png"
-                        *ngIf="selectWTICrudeOil === '1y'">
-                    <img class="finance-oil-opt-image" src="assets/finance/button_5y.png"
-                        *ngIf="selectWTICrudeOil !== '5y'" (click)="changeWTICrudeOil5y()">
-                    <img class="finance-oil-opt-image" src="assets/finance/hover_5y.png"
-                        *ngIf="selectWTICrudeOil === '5y'">
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row nopadding">
-        <div class="col-sm-6 nopadding" *ngIf="tradingOilPrice">
-            <div class="finance-oil-container">
-                <ngx-datatable class="material" [rows]="tradingOilPrice.historyCO1" [columnMode]="'flex'"
-                    [headerHeight]="50" rowHeight="auto" [limit]="10">
-                    <!-- Date -->
-                    <ngx-datatable-column name="Day" prop="Date" [flexGrow]="2">
-                        <ng-template let-value="value" ngx-datatable-cell-template>
-                            {{ value }}
-                        </ng-template>
-                    </ngx-datatable-column>
-                    <!-- Open -->
-                    <!-- <ngx-datatable-column name="Open" prop="Open">
+  <div class="row nopadding">
+    <div class="col-sm-6 nopadding" *ngIf="tradingOilPrice">
+      <div class="finance-oil-container">
+        <ngx-datatable
+          class="material"
+          [rows]="tradingOilPrice.historyCL1"
+          [columnMode]="'flex'"
+          [headerHeight]="50"
+          rowHeight="auto"
+          [limit]="10"
+        >
+          <!-- Date -->
+          <ngx-datatable-column name="Day" prop="Date" [flexGrow]="2">
+            <ng-template let-value="value" ngx-datatable-cell-template>
+              {{ value }}
+            </ng-template>
+          </ngx-datatable-column>
+          <!-- Open -->
+          <!-- <ngx-datatable-column name="Open" prop="Open">
                         <ng-template let-value="value" ngx-datatable-cell-template>
                             {{ value }}
                         </ng-template>
                     </ngx-datatable-column> -->
-                    <!-- High -->
-                    <ngx-datatable-column name="High" prop="High" [flexGrow]="1">
-                        <ng-template let-value="value" ngx-datatable-cell-template>
-                            {{ value }}
-                        </ng-template>
-                    </ngx-datatable-column>
-
-                    <!-- Low -->
-                    <ngx-datatable-column name="Low" prop="Low" [flexGrow]="1">
-                        <ng-template let-value="value" ngx-datatable-cell-template>
-                            {{ value }}
-                        </ng-template>
-                    </ngx-datatable-column>
-                    <!-- Close -->
-                    <ngx-datatable-column name="Close" prop="Close" [flexGrow]="1">
-                        <ng-template let-value="value" ngx-datatable-cell-template>
-                            {{ value }}
-                        </ng-template>
-                    </ngx-datatable-column>
-                </ngx-datatable>
-            </div>
-        </div>
-
-        <div class="col-sm-6 padding-left">
-            <div class="finance-oil-container">
-                <div class="finance-oil-title">
-                    <span>Brent Crude Oil</span>
-                </div>
-
-                <div>
-                    <span style="font-size: 22px; font-weight: bold; color: #000000"> ${{currentBrentPrice}} </span>
-                    &nbsp;
-                    <span *ngIf="currentBrentPriceChange < 0" style="font-size: 16px; font-weight: bold; color: red">
-                        ▼{{currentBrentPriceChange}} </span>
-                    <span *ngIf="currentBrentPriceChange >= 0" style="font-size: 16px; font-weight: bold; color: green">
-                        ▲{{currentBrentPriceChange}} </span>
-                    &nbsp;
-                    <span *ngIf="currentBrentPercentChange < 0" style="font-size: 16px; font-weight: bold; color: red">
-                        {{currentBrentPercentChange}}% </span>
-                    <span *ngIf="currentBrentPercentChange >= 0"
-                        style="font-size: 16px; font-weight: bold; color: green">
-                        {{currentBrentPercentChange}}% </span>
-                    &nbsp;
-                    &nbsp;
-                    <span *ngIf="tradingOilPrice" style="font-size: 14px; font-weight: bold; color: dimgray">
-                        {{ tradingOilPrice.symbolCO1.LastUpdate | date : "HH:mm" }} GMT0</span>
-                </div>
-
-                <div>
-                    <img class="finance-oil-chart-image" src="//oil-price.net/BRENT/1m_small.gif"
-                        *ngIf="selectBrentCrudeOil === '1m'">
-                    <img class="finance-oil-chart-image" src="//oil-price.net/BRENT/1q_small.gif"
-                        *ngIf="selectBrentCrudeOil === '1q'">
-                    <img class="finance-oil-chart-image" src="//oil-price.net/BRENT/1y_small.gif"
-                        *ngIf="selectBrentCrudeOil === '1y'">
-                    <img class="finance-oil-chart-image" src="//oil-price.net/BRENT/5y_small.gif"
-                        *ngIf="selectBrentCrudeOil === '5y'">
-                </div>
-                <div>
-                    <img class="finance-oil-opt-image" src="assets/finance/button_1m.png"
-                        *ngIf="selectBrentCrudeOil !== '1m'" (click)="changeBrentCrudeOil1m()">
-                    <img class="finance-oil-opt-image" src="assets/finance/hover_1m.png"
-                        *ngIf="selectBrentCrudeOil === '1m'">
-                    <img class="finance-oil-opt-image" src="assets/finance/button_1q.png"
-                        *ngIf="selectBrentCrudeOil !== '1q'" (click)="changeBrentCrudeOil1q()">
-                    <img class="finance-oil-opt-image" src="assets/finance/hover_1q.png"
-                        *ngIf="selectBrentCrudeOil === '1q'">
-                    <img class="finance-oil-opt-image" src="assets/finance/button_1y.png"
-                        *ngIf="selectBrentCrudeOil !== '1y'" (click)="changeBrentCrudeOil1y()">
-                    <img class="finance-oil-opt-image" src="assets/finance/hover_1y.png"
-                        *ngIf="selectBrentCrudeOil === '1y'">
-                    <img class="finance-oil-opt-image" src="assets/finance/button_5y.png"
-                        *ngIf="selectBrentCrudeOil !== '5y'" (click)="changeBrentCrudeOil5y()">
-                    <img class="finance-oil-opt-image" src="assets/finance/hover_5y.png"
-                        *ngIf="selectBrentCrudeOil === '5y'">
-                </div>
-            </div>
-        </div>
+          <!-- High -->
+          <ngx-datatable-column name="High" prop="High" [flexGrow]="1">
+            <ng-template let-value="value" ngx-datatable-cell-template>
+              {{ value }}
+            </ng-template>
+          </ngx-datatable-column>
+          <!-- Low -->
+          <ngx-datatable-column name="Low" prop="Low" [flexGrow]="1">
+            <ng-template let-value="value" ngx-datatable-cell-template>
+              {{ value }}
+            </ng-template>
+          </ngx-datatable-column>
+          <!-- Close -->
+          <ngx-datatable-column name="Close" prop="Close" [flexGrow]="1">
+            <ng-template let-value="value" ngx-datatable-cell-template>
+              {{ value }}
+            </ng-template>
+          </ngx-datatable-column>
+        </ngx-datatable>
+      </div>
     </div>
 
-    <div class="row nopadding">
-        <div class="col-sm-6 nopadding">
-            <div class="finance-oil-container">
-                <div class="finance-oil-title">
-                    <span>Natural Gas</span>
-                </div>
-                <div>
-                    <img class="finance-oil-chart-image" src="http://oil-price.net/NG/1m_small.gif"
-                        *ngIf="selectNatureGas === '1m'">
-                    <img class="finance-oil-chart-image" src="http://oil-price.net/NG/1q_small.gif"
-                        *ngIf="selectNatureGas === '1q'">
-                    <img class="finance-oil-chart-image" src="http://oil-price.net/NG/1y_small.gif"
-                        *ngIf="selectNatureGas === '1y'">
-                    <img class="finance-oil-chart-image" src="http://oil-price.net/NG/5y_small.gif"
-                        *ngIf="selectNatureGas === '5y'">
-                </div>
-                <div>
-                    <img class="finance-oil-opt-image" src="assets/finance/button_1m.png"
-                        *ngIf="selectNatureGas !== '1m'" (click)="changeNatureGas1m()">
-                    <img class="finance-oil-opt-image" src="assets/finance/hover_1m.png"
-                        *ngIf="selectNatureGas === '1m'">
-                    <img class="finance-oil-opt-image" src="assets/finance/button_1q.png"
-                        *ngIf="selectNatureGas !== '1q'" (click)="changeNatureGas1q()">
-                    <img class="finance-oil-opt-image" src="assets/finance/hover_1q.png"
-                        *ngIf="selectNatureGas === '1q'">
-                    <img class="finance-oil-opt-image" src="assets/finance/button_1y.png"
-                        *ngIf="selectNatureGas !== '1y'" (click)="changeNatureGas1y()">
-                    <img class="finance-oil-opt-image" src="assets/finance/hover_1y.png"
-                        *ngIf="selectNatureGas === '1y'">
-                    <img class="finance-oil-opt-image" src="assets/finance/button_5y.png"
-                        *ngIf="selectNatureGas !== '5y'" (click)="changeNatureGas5y()">
-                    <img class="finance-oil-opt-image" src="assets/finance/hover_5y.png"
-                        *ngIf="selectNatureGas === '5y'">
-                </div>
-            </div>
+    <div class="col-sm-6 padding-left">
+      <div class="finance-oil-container">
+        <div class="finance-oil-title">
+          <span>WTI Crude Oil</span>
         </div>
+
+        <div>
+          <span style="font-size: 22px; font-weight: bold; color: #000000">
+            ${{ currentWTIPrice }}
+          </span>
+          &nbsp;
+          <span
+            *ngIf="currentWTIPriceChange < 0"
+            style="font-size: 16px; font-weight: bold; color: red"
+          >
+            ▼{{ currentWTIPriceChange }}
+          </span>
+          <span
+            *ngIf="currentWTIPriceChange >= 0"
+            style="font-size: 16px; font-weight: bold; color: green"
+          >
+            ▲{{ currentWTIPriceChange }}
+          </span>
+          &nbsp;
+          <span
+            *ngIf="currentWTIPercentChange < 0"
+            style="font-size: 16px; font-weight: bold; color: red"
+          >
+            {{ currentWTIPercentChange }}%
+          </span>
+          <span
+            *ngIf="currentWTIPercentChange >= 0"
+            style="font-size: 16px; font-weight: bold; color: green"
+          >
+            {{ currentWTIPercentChange }}%
+          </span>
+          &nbsp; &nbsp;
+          <span
+            *ngIf="tradingOilPrice"
+            style="font-size: 14px; font-weight: bold; color: dimgray"
+          >
+            {{ tradingOilPrice.symbolCL1.LastUpdate | date: "HH:mm" }}
+            GMT0</span
+          >
+        </div>
+
+        <div>
+          <img
+            class="finance-oil-chart-image"
+            src="//oil-price.net/1m_small.gif"
+            *ngIf="selectWTICrudeOil === '1m'"
+          />
+          <img
+            class="finance-oil-chart-image"
+            src="//oil-price.net/1q_small.gif"
+            *ngIf="selectWTICrudeOil === '1q'"
+          />
+          <img
+            class="finance-oil-chart-image"
+            src="//oil-price.net/1y_small.gif"
+            *ngIf="selectWTICrudeOil === '1y'"
+          />
+          <img
+            class="finance-oil-chart-image"
+            src="//oil-price.net/5y_small.gif"
+            *ngIf="selectWTICrudeOil === '5y'"
+          />
+        </div>
+        <div>
+          <img
+            class="finance-oil-opt-image"
+            src="assets/finance/button_1m.png"
+            *ngIf="selectWTICrudeOil !== '1m'"
+            (click)="changeWTICrudeOil1m()"
+          />
+          <img
+            class="finance-oil-opt-image"
+            src="assets/finance/hover_1m.png"
+            *ngIf="selectWTICrudeOil === '1m'"
+          />
+          <img
+            class="finance-oil-opt-image"
+            src="assets/finance/button_1q.png"
+            *ngIf="selectWTICrudeOil !== '1q'"
+            (click)="changeWTICrudeOil1q()"
+          />
+          <img
+            class="finance-oil-opt-image"
+            src="assets/finance/hover_1q.png"
+            *ngIf="selectWTICrudeOil === '1q'"
+          />
+          <img
+            class="finance-oil-opt-image"
+            src="assets/finance/button_1y.png"
+            *ngIf="selectWTICrudeOil !== '1y'"
+            (click)="changeWTICrudeOil1y()"
+          />
+          <img
+            class="finance-oil-opt-image"
+            src="assets/finance/hover_1y.png"
+            *ngIf="selectWTICrudeOil === '1y'"
+          />
+          <img
+            class="finance-oil-opt-image"
+            src="assets/finance/button_5y.png"
+            *ngIf="selectWTICrudeOil !== '5y'"
+            (click)="changeWTICrudeOil5y()"
+          />
+          <img
+            class="finance-oil-opt-image"
+            src="assets/finance/hover_5y.png"
+            *ngIf="selectWTICrudeOil === '5y'"
+          />
+        </div>
+      </div>
     </div>
+  </div>
+
+  <div class="row nopadding">
+    <div class="col-sm-6 nopadding" *ngIf="tradingOilPrice">
+      <div class="finance-oil-container">
+        <ngx-datatable
+          class="material"
+          [rows]="tradingOilPrice.historyCO1"
+          [columnMode]="'flex'"
+          [headerHeight]="50"
+          rowHeight="auto"
+          [limit]="10"
+        >
+          <!-- Date -->
+          <ngx-datatable-column name="Day" prop="Date" [flexGrow]="2">
+            <ng-template let-value="value" ngx-datatable-cell-template>
+              {{ value }}
+            </ng-template>
+          </ngx-datatable-column>
+          <!-- Open -->
+          <!-- <ngx-datatable-column name="Open" prop="Open">
+                        <ng-template let-value="value" ngx-datatable-cell-template>
+                            {{ value }}
+                        </ng-template>
+                    </ngx-datatable-column> -->
+          <!-- High -->
+          <ngx-datatable-column name="High" prop="High" [flexGrow]="1">
+            <ng-template let-value="value" ngx-datatable-cell-template>
+              {{ value }}
+            </ng-template>
+          </ngx-datatable-column>
+
+          <!-- Low -->
+          <ngx-datatable-column name="Low" prop="Low" [flexGrow]="1">
+            <ng-template let-value="value" ngx-datatable-cell-template>
+              {{ value }}
+            </ng-template>
+          </ngx-datatable-column>
+          <!-- Close -->
+          <ngx-datatable-column name="Close" prop="Close" [flexGrow]="1">
+            <ng-template let-value="value" ngx-datatable-cell-template>
+              {{ value }}
+            </ng-template>
+          </ngx-datatable-column>
+        </ngx-datatable>
+      </div>
+    </div>
+
+    <div class="col-sm-6 padding-left">
+      <div class="finance-oil-container">
+        <div class="finance-oil-title">
+          <span>Brent Crude Oil</span>
+        </div>
+
+        <div>
+          <span style="font-size: 22px; font-weight: bold; color: #000000">
+            ${{ currentBrentPrice }}
+          </span>
+          &nbsp;
+          <span
+            *ngIf="currentBrentPriceChange < 0"
+            style="font-size: 16px; font-weight: bold; color: red"
+          >
+            ▼{{ currentBrentPriceChange }}
+          </span>
+          <span
+            *ngIf="currentBrentPriceChange >= 0"
+            style="font-size: 16px; font-weight: bold; color: green"
+          >
+            ▲{{ currentBrentPriceChange }}
+          </span>
+          &nbsp;
+          <span
+            *ngIf="currentBrentPercentChange < 0"
+            style="font-size: 16px; font-weight: bold; color: red"
+          >
+            {{ currentBrentPercentChange }}%
+          </span>
+          <span
+            *ngIf="currentBrentPercentChange >= 0"
+            style="font-size: 16px; font-weight: bold; color: green"
+          >
+            {{ currentBrentPercentChange }}%
+          </span>
+          &nbsp; &nbsp;
+          <span
+            *ngIf="tradingOilPrice"
+            style="font-size: 14px; font-weight: bold; color: dimgray"
+          >
+            {{ tradingOilPrice.symbolCO1.LastUpdate | date: "HH:mm" }}
+            GMT0</span
+          >
+        </div>
+
+        <div>
+          <img
+            class="finance-oil-chart-image"
+            src="//oil-price.net/BRENT/1m_small.gif"
+            *ngIf="selectBrentCrudeOil === '1m'"
+          />
+          <img
+            class="finance-oil-chart-image"
+            src="//oil-price.net/BRENT/1q_small.gif"
+            *ngIf="selectBrentCrudeOil === '1q'"
+          />
+          <img
+            class="finance-oil-chart-image"
+            src="//oil-price.net/BRENT/1y_small.gif"
+            *ngIf="selectBrentCrudeOil === '1y'"
+          />
+          <img
+            class="finance-oil-chart-image"
+            src="//oil-price.net/BRENT/5y_small.gif"
+            *ngIf="selectBrentCrudeOil === '5y'"
+          />
+        </div>
+        <div>
+          <img
+            class="finance-oil-opt-image"
+            src="assets/finance/button_1m.png"
+            *ngIf="selectBrentCrudeOil !== '1m'"
+            (click)="changeBrentCrudeOil1m()"
+          />
+          <img
+            class="finance-oil-opt-image"
+            src="assets/finance/hover_1m.png"
+            *ngIf="selectBrentCrudeOil === '1m'"
+          />
+          <img
+            class="finance-oil-opt-image"
+            src="assets/finance/button_1q.png"
+            *ngIf="selectBrentCrudeOil !== '1q'"
+            (click)="changeBrentCrudeOil1q()"
+          />
+          <img
+            class="finance-oil-opt-image"
+            src="assets/finance/hover_1q.png"
+            *ngIf="selectBrentCrudeOil === '1q'"
+          />
+          <img
+            class="finance-oil-opt-image"
+            src="assets/finance/button_1y.png"
+            *ngIf="selectBrentCrudeOil !== '1y'"
+            (click)="changeBrentCrudeOil1y()"
+          />
+          <img
+            class="finance-oil-opt-image"
+            src="assets/finance/hover_1y.png"
+            *ngIf="selectBrentCrudeOil === '1y'"
+          />
+          <img
+            class="finance-oil-opt-image"
+            src="assets/finance/button_5y.png"
+            *ngIf="selectBrentCrudeOil !== '5y'"
+            (click)="changeBrentCrudeOil5y()"
+          />
+          <img
+            class="finance-oil-opt-image"
+            src="assets/finance/hover_5y.png"
+            *ngIf="selectBrentCrudeOil === '5y'"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row nopadding">
+    <div class="col-sm-6 nopadding">
+      <div class="finance-oil-container">
+        <div class="finance-oil-title">
+          <span>Natural Gas</span>
+        </div>
+        <div>
+          <img
+            class="finance-oil-chart-image"
+            src="http://oil-price.net/NG/1m_small.gif"
+            *ngIf="selectNatureGas === '1m'"
+          />
+          <img
+            class="finance-oil-chart-image"
+            src="http://oil-price.net/NG/1q_small.gif"
+            *ngIf="selectNatureGas === '1q'"
+          />
+          <img
+            class="finance-oil-chart-image"
+            src="http://oil-price.net/NG/1y_small.gif"
+            *ngIf="selectNatureGas === '1y'"
+          />
+          <img
+            class="finance-oil-chart-image"
+            src="http://oil-price.net/NG/5y_small.gif"
+            *ngIf="selectNatureGas === '5y'"
+          />
+        </div>
+        <div>
+          <img
+            class="finance-oil-opt-image"
+            src="assets/finance/button_1m.png"
+            *ngIf="selectNatureGas !== '1m'"
+            (click)="changeNatureGas1m()"
+          />
+          <img
+            class="finance-oil-opt-image"
+            src="assets/finance/hover_1m.png"
+            *ngIf="selectNatureGas === '1m'"
+          />
+          <img
+            class="finance-oil-opt-image"
+            src="assets/finance/button_1q.png"
+            *ngIf="selectNatureGas !== '1q'"
+            (click)="changeNatureGas1q()"
+          />
+          <img
+            class="finance-oil-opt-image"
+            src="assets/finance/hover_1q.png"
+            *ngIf="selectNatureGas === '1q'"
+          />
+          <img
+            class="finance-oil-opt-image"
+            src="assets/finance/button_1y.png"
+            *ngIf="selectNatureGas !== '1y'"
+            (click)="changeNatureGas1y()"
+          />
+          <img
+            class="finance-oil-opt-image"
+            src="assets/finance/hover_1y.png"
+            *ngIf="selectNatureGas === '1y'"
+          />
+          <img
+            class="finance-oil-opt-image"
+            src="assets/finance/button_5y.png"
+            *ngIf="selectNatureGas !== '5y'"
+            (click)="changeNatureGas5y()"
+          />
+          <img
+            class="finance-oil-opt-image"
+            src="assets/finance/hover_5y.png"
+            *ngIf="selectNatureGas === '5y'"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

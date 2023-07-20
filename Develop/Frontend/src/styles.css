@@ -1,7 +1,5 @@
 @import "@angular/material/prebuilt-themes/indigo-pink.css";
 
-
-
 /* Mat Autocomplete on Modal Fixes */
 .cdk-overlay-container {
   z-index: 999999 !important;
@@ -17,12 +15,12 @@ body {
 
 body {
   /* background-image: url(https://lh4.googleusercontent.com/-XplyTa1Za-I/VMSgIyAYkHI/AAAAAAAADxM/oL-rD6VP4ts/w1184-h666/Android-Lollipop-wallpapers-Google-Now-Wallpaper-2.png); */
-  background-image: url('/assets/background/Google-Now.png');
+  background-image: url("/assets/background/Google-Now.png");
   background-position: top;
   background-size: cover;
   background-repeat: inherit;
   min-height: 100vh;
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
 }
 
 /* -------------------------------------------- */
@@ -40,7 +38,7 @@ body {
 .mat-toolbar-style {
   background-color: transparent;
   color: white;
-  font-size: 0.75em
+  font-size: 0.75em;
 }
 
 /* Toolbar Spacer */
@@ -70,7 +68,7 @@ body {
 .ngx-datatable.material .datatable-header .datatable-header-cell {
   font-weight: bold;
   color: white;
-  background-color: rgb(61, 102, 236)
+  background-color: rgb(61, 102, 236);
 }
 
 /* Hide placeholder when select fron drop down list */

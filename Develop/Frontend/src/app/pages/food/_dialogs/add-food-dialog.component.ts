@@ -1,28 +1,32 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatCheckboxChange } from '@angular/material/checkbox';
-import { ErrorStateMatcher } from '@angular/material/core';
-import { AuthenticationService } from '@app/user/_service';
-import { AlertService } from '@app/_common/alert';
-import { ApiReponse } from '@app/_common/_models';
-import { FoodType } from '@app/_common/_models/foodType';
-import { SearchText, Sorter } from '@app/_common/_sco/core_sco';
-import { FoodSCO } from '@app/_common/_sco/foodSCO';
-import { FoodTypeSCO } from '@app/_common/_sco/foodTypeSCO';
-import { SpinnerService } from '@app/_common/_services';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { ToastrService } from 'ngx-toastr';
-import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
-import { FoodService, FoodTypeService } from '../_services';
+import { Component, Input, OnInit } from "@angular/core";
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from "@angular/forms";
+import { MatCheckboxChange } from "@angular/material/checkbox";
+import { ErrorStateMatcher } from "@angular/material/core";
+import { AuthenticationService } from "@app/user/_service";
+import { AlertService } from "@app/_common/alert";
+import { ApiReponse } from "@app/_common/_models";
+import { FoodType } from "@app/_common/_models/foodType";
+import { SearchText, Sorter } from "@app/_common/_sco/core_sco";
+import { FoodSCO } from "@app/_common/_sco/foodSCO";
+import { FoodTypeSCO } from "@app/_common/_sco/foodTypeSCO";
+import { SpinnerService } from "@app/_common/_services";
+import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
+import { ToastrService } from "ngx-toastr";
+import { Observable } from "rxjs";
+import { map, startWith } from "rxjs/operators";
+import { FoodService, FoodTypeService } from "../_services";
 
 @Component({
-  selector: 'app-add-food-dialog',
-  templateUrl: './add-food-dialog.component.html',
-  styleUrls: ['./add-food-dialog.component.css']
+  selector: "app-add-food-dialog",
+  templateUrl: "./add-food-dialog.component.html",
+  styleUrls: ["./add-food-dialog.component.css"],
 })
 export class AddFoodDialogComponent implements OnInit {
-
   constructor(
     private formBuilder: FormBuilder,
     private activeModal: NgbActiveModal,
@@ -31,9 +35,8 @@ export class AddFoodDialogComponent implements OnInit {
     private authenticationService: AuthenticationService,
     private foodTypeService: FoodTypeService,
     private toastr: ToastrService,
-    private spinner: SpinnerService
-  ) {
-  }
+    private spinner: SpinnerService,
+  ) {}
 
   // Form value
   @Input() title: string;
@@ -69,36 +72,25 @@ export class AddFoodDialogComponent implements OnInit {
   matcher = new ErrorStateMatcher();
 
   // Field : name
-  nameFormControl = new FormControl('', [
-    validFoodName,
-    Validators.required,
-  ]);
+  nameFormControl = new FormControl("", [validFoodName, Validators.required]);
 
   // Field : description
-  descriptionFormControl = new FormControl('', [
-  ]);
+  descriptionFormControl = new FormControl("", []);
 
   // Field : location note
-  locationNoteFormControl = new FormControl('', [
-  ]);
+  locationNoteFormControl = new FormControl("", []);
 
   // Field : type
-  typeFormControl = new FormControl('', [
-    Validators.required,
-  ]);
+  typeFormControl = new FormControl("", [Validators.required]);
 
   // Field : category
-  categoryFormControl = new FormControl('', [
-    Validators.required,
-  ]);
+  categoryFormControl = new FormControl("", [Validators.required]);
 
   // Field : Recipe
-  recipeFormControl = new FormControl('', [
-  ]);
+  recipeFormControl = new FormControl("", []);
 
   // Field : url reference
-  urlReferenceFormControl = new FormControl('', [
-  ]);
+  urlReferenceFormControl = new FormControl("", []);
 
   // Field: is fast food
   onChangeIsFastFood($event: MatCheckboxChange) {
@@ -120,9 +112,9 @@ export class AddFoodDialogComponent implements OnInit {
   getFilterTypes() {
     // Prepare search condition
     const typeClass = new SearchText();
-    typeClass.eq = 'FOOD_TYPE';
+    typeClass.eq = "FOOD_TYPE";
     const sorters: Array<Sorter> = [];
-    sorters.push(new Sorter('id', 'ASC'));
+    sorters.push(new Sorter("id", "ASC"));
 
     const sco = new FoodTypeSCO();
     sco.typeClass = typeClass;
@@ -133,27 +125,35 @@ export class AddFoodDialogComponent implements OnInit {
     this.spinner.show();
 
     // Get list
-    this.foodTypeService.search(sco)
-      .subscribe(data => {
+    this.foodTypeService.search(sco).subscribe(
+      (data) => {
         // Get data
         const responseAPi: any = data;
         const response: ApiReponse<FoodType> = responseAPi;
         const types: FoodType[] = response.data.elements;
         if (response.data.elements != null) {
-          this.filteredTypes = this.typeFormControl.valueChanges
-            .pipe(startWith(''), map(value => types.filter
-              (valueFilter => valueFilter.typeCode.toLowerCase().includes(value.toLowerCase()))
-            ));
+          this.filteredTypes = this.typeFormControl.valueChanges.pipe(
+            startWith(""),
+            map((value) =>
+              types.filter((valueFilter) =>
+                valueFilter.typeCode
+                  .toLowerCase()
+                  .includes(value.toLowerCase()),
+              ),
+            ),
+          );
         }
 
         // Hide loading
         this.spinner.hide();
-      }, error => {
+      },
+      (error) => {
         // Hide loading
         this.spinner.hide();
 
         this.alertService.error(error);
-      });
+      },
+    );
   }
 
   /**
@@ -165,9 +165,9 @@ export class AddFoodDialogComponent implements OnInit {
 
     // Prepare search condition
     const typeClass = new SearchText();
-    typeClass.eq = 'FOOD_CATEGORY';
+    typeClass.eq = "FOOD_CATEGORY";
     const sorters: Array<Sorter> = [];
-    sorters.push(new Sorter('id', 'ASC'));
+    sorters.push(new Sorter("id", "ASC"));
 
     const sco = new FoodTypeSCO();
     sco.typeClass = typeClass;
@@ -175,27 +175,35 @@ export class AddFoodDialogComponent implements OnInit {
     sco.sorters = sorters;
 
     // Get list
-    this.foodTypeService.search(sco)
-      .subscribe(data => {
+    this.foodTypeService.search(sco).subscribe(
+      (data) => {
         // Get data
         const responseAPi: any = data;
         const response: ApiReponse<FoodType> = responseAPi;
         const categories: FoodType[] = response.data.elements;
         if (response.data.elements != null) {
-          this.filteredCategories = this.categoryFormControl.valueChanges
-            .pipe(startWith(''), map(value => categories.filter
-              (valueFilter => valueFilter.typeCode.toLowerCase().includes(value.toLowerCase()))
-            ));
+          this.filteredCategories = this.categoryFormControl.valueChanges.pipe(
+            startWith(""),
+            map((value) =>
+              categories.filter((valueFilter) =>
+                valueFilter.typeCode
+                  .toLowerCase()
+                  .includes(value.toLowerCase()),
+              ),
+            ),
+          );
         }
 
         // Hide loading
         this.spinner.hide();
-      }, error => {
+      },
+      (error) => {
         // Hide loading
         this.spinner.hide();
 
         this.alertService.error(error);
-      });
+      },
+    );
   }
 
   //////////////////
@@ -211,14 +219,14 @@ export class AddFoodDialogComponent implements OnInit {
     const mimeType = files[0].type;
     if (mimeType.match(/image\/*/) == null) {
       this.message = null;
-      this.messageError = 'Only images are supported.';
+      this.messageError = "Only images are supported.";
       return;
     }
 
     // Return if file is too big
     if (files[0].size > 2000000) {
       this.message = null;
-      this.messageError = 'Max image size is 2Mbs, please update image';
+      this.messageError = "Max image size is 2Mbs, please update image";
       return;
     }
 
@@ -229,7 +237,7 @@ export class AddFoodDialogComponent implements OnInit {
       this.imageFile = reader.result;
 
       // Set image extention
-      this.imageExtention = files[0].name.split('.').pop();
+      this.imageExtention = files[0].name.split(".").pop();
     };
 
     // Remove error message
@@ -253,10 +261,9 @@ export class AddFoodDialogComponent implements OnInit {
     this.activeModal.dismiss();
   }
 
-
   /**
-  * Click accept button
-  */
+   * Click accept button
+   */
   public accept() {
     if (this.isFormValid()) {
       const typeFoodVO: FoodType = new FoodType();
@@ -275,37 +282,38 @@ export class AddFoodDialogComponent implements OnInit {
         category: [categoryFoodVO],
         recipeString: [this.recipeValue],
         isFastFood: [this.isFastFoodValue],
-        urlReference: [this.urlReferenceValue]
+        urlReference: [this.urlReferenceValue],
       });
 
       // Show loading
       this.spinner.show();
 
       // Add
-      this.foodService.addFood(addForm.value)
-        .subscribe(
-          data => {
-            // Send success toast message
-            this.toastr.success('New Food ' + this.nameValue + ' is added successful');
+      this.foodService.addFood(addForm.value).subscribe(
+        (data) => {
+          // Send success toast message
+          this.toastr.success(
+            "New Food " + this.nameValue + " is added successful",
+          );
 
-            // Hide loading
-            this.spinner.hide();
+          // Hide loading
+          this.spinner.hide();
 
-            // Close dialog
-            this.activeModal.close(true);
+          // Close dialog
+          this.activeModal.close(true);
+        },
+        (error) => {
+          // Hide loading
+          this.spinner.hide();
 
-          },
-          error => {
-            // Hide loading
-            this.spinner.hide();
-
-            // Send error message to dialog
-            this.message = null;
-            this.messageError = error;
-          });
+          // Send error message to dialog
+          this.message = null;
+          this.messageError = error;
+        },
+      );
     } else {
       this.message = null;
-      this.messageError = 'Invalid fields, please check your input';
+      this.messageError = "Invalid fields, please check your input";
     }
   }
 
@@ -313,25 +321,25 @@ export class AddFoodDialogComponent implements OnInit {
   public isFormValid() {
     let result = true;
 
-    if (this.nameFormControl.status === 'INVALID') {
+    if (this.nameFormControl.status === "INVALID") {
       result = false;
     }
-    if (this.descriptionFormControl.status === 'INVALID') {
+    if (this.descriptionFormControl.status === "INVALID") {
       result = false;
     }
-    if (this.locationNoteFormControl.status === 'INVALID') {
+    if (this.locationNoteFormControl.status === "INVALID") {
       result = false;
     }
-    if (this.typeFormControl.status === 'INVALID') {
+    if (this.typeFormControl.status === "INVALID") {
       result = false;
     }
-    if (this.categoryFormControl.status === 'INVALID') {
+    if (this.categoryFormControl.status === "INVALID") {
       result = false;
     }
-    if (this.recipeFormControl.status === 'INVALID') {
+    if (this.recipeFormControl.status === "INVALID") {
       result = false;
     }
-    if (this.urlReferenceFormControl.status === 'INVALID') {
+    if (this.urlReferenceFormControl.status === "INVALID") {
       result = false;
     }
 
@@ -342,25 +350,24 @@ export class AddFoodDialogComponent implements OnInit {
   }
 
   /**
-  * Change type
-  */
+   * Change type
+   */
   public onChangeFoodType(foodType: FoodType) {
     this.selectedTypeFood = foodType;
   }
 
   /**
-  * Change category
-  */
+   * Change category
+   */
   public onChangeFoodCategory(foodCategory: FoodType) {
     this.selectedCategoryFood = foodCategory;
   }
 }
 
-
 /**
-* Check inexistence
-*
-*/
+ * Check inexistence
+ *
+ */
 function validFoodName(control: FormControl) {
   const foodName = control.value;
 

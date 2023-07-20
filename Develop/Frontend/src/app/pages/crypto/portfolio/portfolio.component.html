@@ -1,197 +1,304 @@
-<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-atom" [fullScreen]="true">
-    <p style="color: white"> Loading... </p>
+<ngx-spinner
+  bdColor="rgba(51,51,51,0.8)"
+  size="medium"
+  color="#fff"
+  type="ball-atom"
+  [fullScreen]="true"
+>
+  <p style="color: white">Loading...</p>
 </ngx-spinner>
 
 <div class="portfolio-container">
-    <mat-toolbar class="mat-toolbar-style">
-        <!-- 1st toolbar row -->
-        <mat-toolbar-row>
+  <mat-toolbar class="mat-toolbar-style">
+    <!-- 1st toolbar row -->
+    <mat-toolbar-row>
+      <!-- Add -->
+      <button mat-button class="toolbar-button-style" (click)="add()">
+        <mat-icon>add</mat-icon>
+        <strong>New</strong>
+      </button>
 
-            <!-- Add -->
-            <button mat-button class="toolbar-button-style" (click)="add()">
-                <mat-icon>add</mat-icon>
-                <strong>New</strong>
+      <!-- View mode -->
+      <button
+        mat-button
+        class="toolbar-button-style"
+        [matMenuTriggerFor]="menuMode"
+      >
+        <mat-icon>swipe</mat-icon>
+        <strong>Mode</strong>
+      </button>
+      <mat-menu #menuMode="matMenu">
+        <button mat-menu-item (click)="selectDeligatorMode()">
+          Deligator
+          <mat-icon *ngIf="isDeligatorMode">check_circle</mat-icon>
+        </button>
+        <button mat-menu-item (click)="selectValidatorMode()">
+          Validator
+          <mat-icon *ngIf="isValidatorMode">check_circle</mat-icon>
+        </button>
+        <button mat-menu-item (click)="selectSummaryMode()">
+          Summary
+          <mat-icon *ngIf="isSummaryMode">check_circle</mat-icon>
+        </button>
+      </mat-menu>
+
+      <!-- Add spaces   -->
+      <span class="toolbar-spacer-style"></span>
+
+      <h1 class="toolbar-title-style" fxHide.xs>LIST WALLETS</h1>
+
+      <!-- Add spaces   -->
+      <span class="toolbar-spacer-style"></span>
+    </mat-toolbar-row>
+  </mat-toolbar>
+
+  <div *ngIf="isDeligatorMode || isValidatorMode">
+    <!-- Table data -->
+    <mat-paginator
+      class="mat-table-paginator-style"
+      [length]="pageResult.totalElement"
+      [pageIndex]="pageResult.currentPage"
+      [pageSize]="pageResult.pageSize"
+      [pageSizeOptions]="[5, 10, 15, 20, 50]"
+      (page)="handlePaginatorEvent($event)"
+      showLastButtons
+    >
+    </mat-paginator>
+
+    <ngx-datatable
+      class="material"
+      [rows]="pageResult.elements"
+      [columnMode]="'flex'"
+      [headerHeight]="50"
+      [footerHeight]="50"
+      rowHeight="auto"
+      [externalPaging]="true"
+      [externalSorting]="true"
+      [count]="pageResult.totalElement"
+      [offset]="pageResult.currentPage"
+      [limit]="pageResult.pageSize"
+      (page)="setPage($event)"
+      (sort)="onSort($event)"
+    >
+      <!-- token -->
+      <ngx-datatable-column name="Token" prop="token" [flexGrow]="1.2">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <p *ngIf="windownInnerWidth >= 550">
+            <img
+              class="img-responsive"
+              src="assets/crypto/{{ row.token.iconUrl }}"
+              class="icon__image"
+            />
+            {{ row.token.tokenCode }} {{ row.starname }}
+          </p>
+          <p *ngIf="windownInnerWidth < 550">
+            <img
+              class="img-responsive"
+              src="assets/crypto/{{ row.token.iconUrl }}"
+              class="icon__image"
+            />
+            {{ row.starname }}
+          </p>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <!-- wallet -->
+      <ngx-datatable-column
+        name="Wallet"
+        prop="wallet"
+        *ngIf="windownInnerWidth >= 850"
+        [flexGrow]="1"
+      >
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          {{ value }}
+        </ng-template>
+      </ngx-datatable-column>
+
+      <!-- amount available -->
+      <ngx-datatable-column
+        name="Available"
+        prop="amtAvailable"
+        *ngIf="isDeligatorMode"
+        [flexGrow]="0.8"
+      >
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          {{ value }}
+        </ng-template>
+      </ngx-datatable-column>
+
+      <!-- amount delegated -->
+      <ngx-datatable-column
+        name="Delegated"
+        prop="amtTotalDelegated"
+        *ngIf="isDeligatorMode"
+        [flexGrow]="0.8"
+      >
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          {{ value }}
+        </ng-template>
+      </ngx-datatable-column>
+
+      <!-- amount reward -->
+      <ngx-datatable-column
+        name="Reward"
+        prop="amtTotalReward"
+        *ngIf="isDeligatorMode"
+        [flexGrow]="0.8"
+      >
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          {{ value }}
+        </ng-template>
+      </ngx-datatable-column>
+
+      <!-- validator name -->
+      <ngx-datatable-column
+        name="Validator name"
+        prop="validator.validatorName"
+        *ngIf="isValidatorMode"
+        [flexGrow]="1.8"
+      >
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          {{ value }}
+        </ng-template>
+      </ngx-datatable-column>
+
+      <!-- validator commission -->
+      <ngx-datatable-column
+        name="Com"
+        prop="validator.commissionRate"
+        *ngIf="isValidatorMode"
+        [flexGrow]="0.6"
+      >
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          {{ value * 100 }}%
+        </ng-template>
+      </ngx-datatable-column>
+
+      <!-- Edit -->
+      <ngx-datatable-column [sortable]="false" [flexGrow]="0.8">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <button mat-button [matMenuTriggerFor]="menuEdit">
+            <mat-icon>drag_indicator</mat-icon>
+          </button>
+          <mat-menu #menuEdit="matMenu">
+            <button mat-menu-item (click)="viewDetailChoose(row)">
+              Detail
             </button>
-
-            <!-- View mode -->
-            <button mat-button class="toolbar-button-style" [matMenuTriggerFor]="menuMode">
-                <mat-icon>swipe</mat-icon>
-                <strong>Mode</strong>
+            <button mat-menu-item (click)="editChoose(row)">Edit</button>
+            <button mat-menu-item (click)="deleteChoose(row)">Delete</button>
+            <button
+              mat-menu-item
+              (click)="viewExplorer(row)"
+              *ngIf="row.token.mintscanPrefix"
+            >
+              View Explorer
             </button>
-            <mat-menu #menuMode="matMenu">
-                <button mat-menu-item (click)="selectDeligatorMode()">
-                    Deligator
-                    <mat-icon *ngIf="isDeligatorMode">check_circle</mat-icon>
-                </button>
-                <button mat-menu-item (click)="selectValidatorMode()">
-                    Validator
-                    <mat-icon *ngIf="isValidatorMode">check_circle</mat-icon>
-                </button>
-                <button mat-menu-item (click)="selectSummaryMode()">
-                    Summary
-                    <mat-icon *ngIf="isSummaryMode">check_circle</mat-icon>
-                </button>
-            </mat-menu>
+            <button
+              mat-menu-item
+              (click)="viewValidator(row)"
+              *ngIf="row.token.mintscanPrefix"
+            >
+              View Validator
+            </button>
+            <button
+              mat-menu-item
+              (click)="deligatePage(row)"
+              *ngIf="row.token.deligateUrl"
+            >
+              Go Staking
+            </button>
+          </mat-menu>
+        </ng-template>
+      </ngx-datatable-column>
+    </ngx-datatable>
+  </div>
 
-            <!-- Add spaces   -->
-            <span class="toolbar-spacer-style"></span>
+  <div *ngIf="isSummaryMode">
+    <!-- Table data -->
+    <mat-paginator
+      class="mat-table-paginator-style"
+      [length]="pageResultSummary.totalElement"
+      [pageIndex]="pageResultSummary.currentPage"
+      [pageSize]="pageResultSummary.pageSize"
+      [pageSizeOptions]="[5, 10, 15, 20]"
+      (page)="handleSummaryPaginatorEvent($event)"
+      showLastButtons
+    >
+    </mat-paginator>
 
-            <h1 class="toolbar-title-style" fxHide.xs>LIST WALLETS</h1>
+    <ngx-datatable
+      class="material"
+      [rows]="pageResultSummary.elements"
+      [columnMode]="'flex'"
+      [headerHeight]="50"
+      [footerHeight]="50"
+      rowHeight="auto"
+      [externalPaging]="true"
+      [externalSorting]="true"
+      [count]="pageResultSummary.totalElement"
+      [offset]="pageResultSummary.currentPage"
+      [limit]="pageResultSummary.pageSize"
+      (page)="setPageSummary($event)"
+      (sort)="onSortSummary($event)"
+    >
+      <!-- token -->
+      <ngx-datatable-column name="Token" prop="token" [flexGrow]="0.8">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <img
+            class="img-responsive"
+            src="assets/crypto/{{ row.token.iconUrl }}"
+            class="icon__image"
+          />
+          {{ row.token.tokenCode }}
+        </ng-template>
+      </ngx-datatable-column>
 
-            <!-- Add spaces   -->
-            <span class="toolbar-spacer-style"></span>
-        </mat-toolbar-row>
-    </mat-toolbar>
+      <!-- Last sync Date -->
+      <ngx-datatable-column name="Sync Time" prop="lastSyncDate" [flexGrow]="1">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          {{ value | date: "MMM d y, H:mm:ss" }}
+        </ng-template>
+      </ngx-datatable-column>
 
-    <div *ngIf="isDeligatorMode || isValidatorMode">
-        <!-- Table data -->
-        <mat-paginator class="mat-table-paginator-style" [length]="pageResult.totalElement"
-            [pageIndex]="pageResult.currentPage" [pageSize]="pageResult.pageSize" [pageSizeOptions]="[5,10,15,20,50]"
-            (page)="handlePaginatorEvent($event)" showLastButtons>
-        </mat-paginator>
+      <!-- Total available -->
+      <ngx-datatable-column
+        name="Available"
+        prop="totalAvailable"
+        [flexGrow]="0.8"
+      >
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          {{ value }}
+        </ng-template>
+      </ngx-datatable-column>
 
-        <ngx-datatable class="material" [rows]="pageResult.elements" [columnMode]="'flex'" [headerHeight]="50"
-            [footerHeight]="50" rowHeight="auto" [externalPaging]="true" [externalSorting]="true"
-            [count]="pageResult.totalElement" [offset]="pageResult.currentPage" [limit]="pageResult.pageSize"
-            (page)="setPage($event)" (sort)="onSort($event)">
+      <!-- Total deligate -->
+      <ngx-datatable-column
+        name="Delegated"
+        prop="totalDelegated"
+        [flexGrow]="0.8"
+      >
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          {{ value }}
+        </ng-template>
+      </ngx-datatable-column>
 
-            <!-- token -->
-            <ngx-datatable-column name="Token" prop="token" [flexGrow]="1.2">
-                <ng-template let-row="row" ngx-datatable-cell-template>
+      <!-- Total award -->
+      <ngx-datatable-column name="Reward" prop="totalReward" [flexGrow]="0.8">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          {{ value }}
+        </ng-template>
+      </ngx-datatable-column>
 
-                    <p *ngIf="windownInnerWidth >= 550">
-                        <img class="img-responsive" src="assets/crypto/{{row.token.iconUrl}}" class="icon__image">
-                        {{row.token.tokenCode}} {{row.starname}}
-                    </p>
-                    <p *ngIf="windownInnerWidth < 550">
-                        <img class="img-responsive" src="assets/crypto/{{row.token.iconUrl}}" class="icon__image">
-                        {{row.starname}}
-                    </p>
-                </ng-template>
-            </ngx-datatable-column>
-
-            <!-- wallet -->
-            <ngx-datatable-column name="Wallet" prop="wallet" *ngIf="windownInnerWidth >= 850" [flexGrow]="1">
-                <ng-template let-value="value" ngx-datatable-cell-template>
-                    {{ value }}
-                </ng-template>
-            </ngx-datatable-column>
-
-            <!-- amount available -->
-            <ngx-datatable-column name="Available" prop="amtAvailable" *ngIf="isDeligatorMode" [flexGrow]="0.8">
-                <ng-template let-value="value" ngx-datatable-cell-template>
-                    {{ value }}
-                </ng-template>
-            </ngx-datatable-column>
-
-            <!-- amount delegated -->
-            <ngx-datatable-column name="Delegated" prop="amtTotalDelegated" *ngIf="isDeligatorMode" [flexGrow]="0.8">
-                <ng-template let-value="value" ngx-datatable-cell-template>
-                    {{ value }}
-                </ng-template>
-            </ngx-datatable-column>
-
-            <!-- amount reward -->
-            <ngx-datatable-column name="Reward" prop="amtTotalReward" *ngIf="isDeligatorMode" [flexGrow]="0.8">
-                <ng-template let-value="value" ngx-datatable-cell-template>
-                    {{ value }}
-                </ng-template>
-            </ngx-datatable-column>
-
-            <!-- validator name -->
-            <ngx-datatable-column name="Validator name" prop="validator.validatorName" *ngIf="isValidatorMode"
-                [flexGrow]="1.8">
-                <ng-template let-value="value" ngx-datatable-cell-template>
-                    {{ value }}
-                </ng-template>
-            </ngx-datatable-column>
-
-            <!-- validator commission -->
-            <ngx-datatable-column name="Com" prop="validator.commissionRate" *ngIf="isValidatorMode" [flexGrow]="0.6">
-                <ng-template let-value="value" ngx-datatable-cell-template>
-                    {{ value * 100 }}%
-                </ng-template>
-            </ngx-datatable-column>
-
-            <!-- Edit -->
-            <ngx-datatable-column [sortable]="false" [flexGrow]="0.8">
-                <ng-template let-row="row" ngx-datatable-cell-template>
-                    <button mat-button [matMenuTriggerFor]="menuEdit">
-                        <mat-icon>drag_indicator</mat-icon>
-                    </button>
-                    <mat-menu #menuEdit="matMenu">
-                        <button mat-menu-item (click)="viewDetailChoose(row)">Detail</button>
-                        <button mat-menu-item (click)="editChoose(row)">Edit</button>
-                        <button mat-menu-item (click)="deleteChoose(row)">Delete</button>
-                        <button mat-menu-item (click)="viewExplorer(row)" *ngIf="row.token.mintscanPrefix">
-                            View Explorer
-                        </button>
-                        <button mat-menu-item (click)="viewValidator(row)" *ngIf="row.token.mintscanPrefix">
-                            View Validator
-                        </button>
-                        <button mat-menu-item (click)="deligatePage(row)" *ngIf="row.token.deligateUrl">
-                            Go Staking
-                        </button>
-                    </mat-menu>
-                </ng-template>
-            </ngx-datatable-column>
-        </ngx-datatable>
-    </div>
-
-    <div *ngIf="isSummaryMode">
-        <!-- Table data -->
-        <mat-paginator class="mat-table-paginator-style" [length]="pageResultSummary.totalElement"
-            [pageIndex]="pageResultSummary.currentPage" [pageSize]="pageResultSummary.pageSize"
-            [pageSizeOptions]="[5,10,15,20]" (page)="handleSummaryPaginatorEvent($event)" showLastButtons>
-        </mat-paginator>
-
-        <ngx-datatable class="material" [rows]="pageResultSummary.elements" [columnMode]="'flex'" [headerHeight]="50"
-            [footerHeight]="50" rowHeight="auto" [externalPaging]="true" [externalSorting]="true"
-            [count]="pageResultSummary.totalElement" [offset]="pageResultSummary.currentPage"
-            [limit]="pageResultSummary.pageSize" (page)="setPageSummary($event)" (sort)="onSortSummary($event)">
-
-            <!-- token -->
-            <ngx-datatable-column name="Token" prop="token" [flexGrow]="0.8">
-                <ng-template let-row="row" ngx-datatable-cell-template>
-                    <img class="img-responsive" src="assets/crypto/{{row.token.iconUrl}}" class="icon__image">
-                    {{row.token.tokenCode}}
-                </ng-template>
-            </ngx-datatable-column>
-
-            <!-- Last sync Date -->
-            <ngx-datatable-column name="Sync Time" prop="lastSyncDate" [flexGrow]="1">
-                <ng-template let-value="value" ngx-datatable-cell-template>
-                    {{ value | date : "MMM d y, H:mm:ss"}}
-                </ng-template>
-            </ngx-datatable-column>
-
-            <!-- Total available -->
-            <ngx-datatable-column name="Available" prop="totalAvailable" [flexGrow]="0.8">
-                <ng-template let-value="value" ngx-datatable-cell-template>
-                    {{ value }}
-                </ng-template>
-            </ngx-datatable-column>
-
-            <!-- Total deligate -->
-            <ngx-datatable-column name="Delegated" prop="totalDelegated" [flexGrow]="0.8">
-                <ng-template let-value="value" ngx-datatable-cell-template>
-                    {{ value }}
-                </ng-template>
-            </ngx-datatable-column>
-
-            <!-- Total award -->
-            <ngx-datatable-column name="Reward" prop="totalReward" [flexGrow]="0.8">
-                <ng-template let-value="value" ngx-datatable-cell-template>
-                    {{ value }}
-                </ng-template>
-            </ngx-datatable-column>
-
-            <!-- Total Increase -->
-            <ngx-datatable-column name="Increase" prop="totalIncrease" [flexGrow]="0.8">
-                <ng-template let-value="value" ngx-datatable-cell-template>
-                    {{ value }}
-                </ng-template>
-            </ngx-datatable-column>
-        </ngx-datatable>
-    </div>
+      <!-- Total Increase -->
+      <ngx-datatable-column
+        name="Increase"
+        prop="totalIncrease"
+        [flexGrow]="0.8"
+      >
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          {{ value }}
+        </ng-template>
+      </ngx-datatable-column>
+    </ngx-datatable>
+  </div>
 </div>

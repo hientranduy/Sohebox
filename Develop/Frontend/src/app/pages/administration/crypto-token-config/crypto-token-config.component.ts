@@ -1,23 +1,22 @@
-import { Component, OnInit } from '@angular/core';
-import { CryptoTokenConfig } from '@app/pages/crypto/_models';
-import { CryptoTokenConfigSCO } from '@app/pages/crypto/_sco';
-import { CryptoTokenConfigService } from '@app/pages/crypto/_services';
-import { AuthenticationService } from '@app/user/_service';
-import { AlertService } from '@app/_common/alert';
-import { ApiReponse } from '@app/_common/_models';
-import { PageResultVO } from '@app/_common/_models/pageResultVO';
-import { SearchText, Sorter } from '@app/_common/_sco/core_sco';
-import { SpinnerService } from '@app/_common/_services';
-import { ToastrService } from 'ngx-toastr';
-import { CryptoTokenDialogService } from './_dialogs';
+import { Component, OnInit } from "@angular/core";
+import { CryptoTokenConfig } from "@app/pages/crypto/_models";
+import { CryptoTokenConfigSCO } from "@app/pages/crypto/_sco";
+import { CryptoTokenConfigService } from "@app/pages/crypto/_services";
+import { AuthenticationService } from "@app/user/_service";
+import { AlertService } from "@app/_common/alert";
+import { ApiReponse } from "@app/_common/_models";
+import { PageResultVO } from "@app/_common/_models/pageResultVO";
+import { SearchText, Sorter } from "@app/_common/_sco/core_sco";
+import { SpinnerService } from "@app/_common/_services";
+import { ToastrService } from "ngx-toastr";
+import { CryptoTokenDialogService } from "./_dialogs";
 
 @Component({
-  selector: 'app-crypto-token-config',
-  templateUrl: './crypto-token-config.component.html',
-  styleUrls: ['./crypto-token-config.component.css']
+  selector: "app-crypto-token-config",
+  templateUrl: "./crypto-token-config.component.html",
+  styleUrls: ["./crypto-token-config.component.css"],
 })
 export class CryptoTokenConfigComponent implements OnInit {
-
   // Table elements
   pageResult: PageResultVO<CryptoTokenConfig>;
   currentSort: Sorter;
@@ -32,7 +31,7 @@ export class CryptoTokenConfigComponent implements OnInit {
     private toastr: ToastrService,
     private spinner: SpinnerService,
     private cryptoTokenService: CryptoTokenConfigService,
-    private cryptoTokenDialogService: CryptoTokenDialogService
+    private cryptoTokenDialogService: CryptoTokenDialogService,
   ) {
     // Set default
     this.pageResult = new PageResultVO<CryptoTokenConfig>();
@@ -48,7 +47,7 @@ export class CryptoTokenConfigComponent implements OnInit {
       this.pageResult.currentPage,
       this.pageResult.pageSize,
       this.currentSort,
-      this.currentFilterValue
+      this.currentFilterValue,
     );
   }
 
@@ -64,7 +63,7 @@ export class CryptoTokenConfigComponent implements OnInit {
       0,
       this.pageResult.pageSize,
       null,
-      this.currentFilterValue
+      this.currentFilterValue,
     );
   }
 
@@ -78,7 +77,7 @@ export class CryptoTokenConfigComponent implements OnInit {
       0,
       this.pageResult.pageSize,
       this.currentSort,
-      this.currentFilterValue
+      this.currentFilterValue,
     );
   }
 
@@ -90,7 +89,7 @@ export class CryptoTokenConfigComponent implements OnInit {
       e.pageIndex,
       e.pageSize,
       this.currentSort,
-      this.currentFilterValue
+      this.currentFilterValue,
     );
   }
 
@@ -102,7 +101,7 @@ export class CryptoTokenConfigComponent implements OnInit {
       pageInfo.offset,
       this.pageResult.pageSize,
       this.currentSort,
-      this.currentFilterValue
+      this.currentFilterValue,
     );
   }
 
@@ -113,7 +112,7 @@ export class CryptoTokenConfigComponent implements OnInit {
     pageNumber: number,
     pageRecord: number,
     sorter: Sorter,
-    filterValue: string
+    filterValue: string,
   ) {
     // Prepare search condition
     const sco = new CryptoTokenConfigSCO();
@@ -126,7 +125,7 @@ export class CryptoTokenConfigComponent implements OnInit {
       sco.sorters = sorters;
     } else {
       const sorters: Array<Sorter> = [];
-      sorters.push(new Sorter('id', 'ASC'));
+      sorters.push(new Sorter("id", "ASC"));
       sco.sorters = sorters;
     }
 
@@ -155,7 +154,7 @@ export class CryptoTokenConfigComponent implements OnInit {
 
     // Search
     this.cryptoTokenService.search(sco).subscribe(
-      data => {
+      (data) => {
         const responseAPi: any = data;
         const typeResponse: ApiReponse<CryptoTokenConfig> = responseAPi;
         if (typeResponse.data != null) {
@@ -167,12 +166,12 @@ export class CryptoTokenConfigComponent implements OnInit {
         // Hide Loading
         this.spinner.hide();
       },
-      error => {
+      (error) => {
         // Hide Loading
         this.spinner.hide();
 
         this.alertService.error(error);
-      }
+      },
     );
   }
 
@@ -183,21 +182,21 @@ export class CryptoTokenConfigComponent implements OnInit {
    * Add button
    */
   public add() {
-    this.cryptoTokenDialogService.add('Add token', '').then(
-      result => {
+    this.cryptoTokenDialogService.add("Add token", "").then(
+      (result) => {
         if (result) {
           // Refresh table
           this.getPageResult(
             0,
             this.pageResult.pageSize,
             this.currentSort,
-            this.currentFilterValue
+            this.currentFilterValue,
           );
         }
       },
-      reason => {
-        console.log('ADD reason:' + reason);
-      }
+      (reason) => {
+        console.log("ADD reason:" + reason);
+      },
     );
   }
 
@@ -212,20 +211,20 @@ export class CryptoTokenConfigComponent implements OnInit {
    * Edit chosen
    */
   public editChoosen(item: CryptoTokenConfig) {
-    this.cryptoTokenDialogService.edit('EDIT', '', item).then(
-      result => {
+    this.cryptoTokenDialogService.edit("EDIT", "", item).then(
+      (result) => {
         if (result) {
           this.getPageResult(
             this.pageResult.currentPage,
             this.pageResult.pageSize,
             this.currentSort,
-            this.currentFilterValue
+            this.currentFilterValue,
           );
         }
       },
-      reason => {
-        console.log('EDIT reason:' + reason);
-      }
+      (reason) => {
+        console.log("EDIT reason:" + reason);
+      },
     );
   }
 }

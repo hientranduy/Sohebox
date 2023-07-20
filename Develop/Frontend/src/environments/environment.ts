@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  soheboxRepo: 'C:/Hien/svn_checkout/Sohebox/',
-  soheboxUrl: 'http://localhost:8080'
+  soheboxRepo: "C:/Hien/svn_checkout/Sohebox/",
+  soheboxUrl: "http://localhost:8080",
 };
 
 /*

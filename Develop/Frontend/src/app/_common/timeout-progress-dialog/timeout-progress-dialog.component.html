@@ -4,15 +4,30 @@
 
 <div class="modal-body">
   You will be timed out in
-  {{(countMinutes !== 0 ? + countMinutes+' Minute'+(countMinutes > 1 ? 's ' : ' ') : '') + countSeconds+' Seconds'}}
+  {{
+    (countMinutes !== 0
+      ? +countMinutes + " Minute" + (countMinutes > 1 ? "s " : " ")
+      : "") +
+      countSeconds +
+      " Seconds"
+  }}
   <p>
-    <ngb-progressbar type="danger" [value]="progressCount" [max]="progressCountMax" animate="false"
-      class="progress-striped active">
+    <ngb-progressbar
+      type="danger"
+      [value]="progressCount"
+      [max]="progressCountMax"
+      animate="false"
+      class="progress-striped active"
+    >
     </ngb-progressbar>
   </p>
 </div>
 
 <div class="modal-footer">
-  <button type="button" class="btn btn-primary" (click)="continue()">Continue</button>
-  <button type="button" class="btn btn-primary" (click)="logout()">Logout</button>
+  <button type="button" class="btn btn-primary" (click)="continue()">
+    Continue
+  </button>
+  <button type="button" class="btn btn-primary" (click)="logout()">
+    Logout
+  </button>
 </div>

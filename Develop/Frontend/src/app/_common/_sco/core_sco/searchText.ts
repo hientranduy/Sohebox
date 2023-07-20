@@ -1,6 +1,6 @@
 export class SearchText {
-    eq: string;
-    like: string;
-    likeMode: number;
-    in: Array<string>;
+  eq: string;
+  like: string;
+  likeMode: number;
+  in: Array<string>;
 }

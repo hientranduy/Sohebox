@@ -1,13 +1,11 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { SpinnerService } from '@app/_common/_services';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { Component, Input, OnInit } from "@angular/core";
+import { SpinnerService } from "@app/_common/_services";
+import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
-  templateUrl: 'delete-config-dialog.component.html',
+  templateUrl: "delete-config-dialog.component.html",
 })
-
 export class DeleteConfigDialogComponent implements OnInit {
-
   @Input() title: string;
   @Input() message: string;
   @Input() btnOkText: string;
@@ -15,11 +13,10 @@ export class DeleteConfigDialogComponent implements OnInit {
 
   constructor(
     private activeModal: NgbActiveModal,
-    private spinner: SpinnerService
-  ) { }
+    private spinner: SpinnerService,
+  ) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   public decline() {
     // Return false

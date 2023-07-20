@@ -1,15 +1,14 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { AuthenticationService, UserService } from '@app/user/_service';
-import { AlertService } from '@app/_common/alert';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { SpinnerService } from '@app/_common/_services';
+import { Component, Input, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
+import { AuthenticationService, UserService } from "@app/user/_service";
+import { AlertService } from "@app/_common/alert";
+import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
+import { SpinnerService } from "@app/_common/_services";
 
 @Component({
-  templateUrl: 'delete-confirmation-dialog.component.html',
+  templateUrl: "delete-confirmation-dialog.component.html",
 })
 export class DeleteConfirmationDialogComponent implements OnInit {
-
   @Input() title: string;
   @Input() message: string;
   @Input() btnOkText: string;
@@ -21,11 +20,10 @@ export class DeleteConfirmationDialogComponent implements OnInit {
     private authenticationService: AuthenticationService,
     private userService: UserService,
     private alertService: AlertService,
-    private spinner: SpinnerService
-    ) {  }
+    private spinner: SpinnerService,
+  ) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   public decline() {
     this.activeModal.close(false);
@@ -34,24 +32,24 @@ export class DeleteConfirmationDialogComponent implements OnInit {
   public accept() {
     // Delete user
     this.spinner.show();
-    this.userService.deleteLoggedUser()
-      .subscribe(
-        data => {
-          // Logout current user
-          this.authenticationService.logout();
+    this.userService.deleteLoggedUser().subscribe(
+      (data) => {
+        // Logout current user
+        this.authenticationService.logout();
 
-          // Send alert message
-          this.alertService.success('User delete successful', true);
+        // Send alert message
+        this.alertService.success("User delete successful", true);
 
-          // Navigate to login page
-          this.router.navigate(['/login']);
+        // Navigate to login page
+        this.router.navigate(["/login"]);
 
-          this.spinner.hide();
-        },
-        error => {
-          this.spinner.hide();
-          this.alertService.error(error);
-        });
+        this.spinner.hide();
+      },
+      (error) => {
+        this.spinner.hide();
+        this.alertService.error(error);
+      },
+    );
 
     // Close dialog
     this.activeModal.close(true);

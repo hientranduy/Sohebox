@@ -1,3 +1,3 @@
-export * from './cryptoTokenConfigSCO';
-export * from './cryptoPortfolioSCO';
-export * from './cryptoPortfolioHistorySCO';
+export * from "./cryptoTokenConfigSCO";
+export * from "./cryptoPortfolioSCO";
+export * from "./cryptoPortfolioHistorySCO";

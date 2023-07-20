@@ -1,68 +1,119 @@
-<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-atom" [fullScreen]="true">
-  <p style="color: white"> Loading... </p>
+<ngx-spinner
+  bdColor="rgba(51,51,51,0.8)"
+  size="medium"
+  color="#fff"
+  type="ball-atom"
+  [fullScreen]="true"
+>
+  <p style="color: white">Loading...</p>
 </ngx-spinner>
 
 <div class="modal-header">
   <h4 class="modal-title">{{ title }}</h4>
-  <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="dismiss()">
+  <button
+    type="button"
+    class="close"
+    data-dismiss="modal"
+    aria-label="Close"
+    (click)="dismiss()"
+  >
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
 
 <div class="modal-body">
-  <p><strong>{{ message }}</strong>
-    <strong><span class="text-danger">{{ messageError }}</span></strong>
+  <p>
+    <strong>{{ message }}</strong>
+    <strong
+      ><span class="text-danger">{{ messageError }}</span></strong
+    >
   </p>
 
   <form class="english-form">
     <!-- Field : keyword vus grade -->
     <mat-form-field class="field-full-width">
-      <input matInput type="text" placeholder="VUS grade" [matAutocomplete]="autoGrade" [formControl]="gradeControl"
-        [errorStateMatcher]="matcher" [(ngModel)]="gradeValue">
+      <input
+        matInput
+        type="text"
+        placeholder="VUS grade"
+        [matAutocomplete]="autoGrade"
+        [formControl]="gradeControl"
+        [errorStateMatcher]="matcher"
+        [(ngModel)]="gradeValue"
+      />
       <mat-hint>Required</mat-hint>
       <mat-error *ngIf="gradeControl.hasError('required')">
         <strong>Required</strong>
       </mat-error>
       <mat-autocomplete #autoGrade="matAutocomplete">
-        <mat-option *ngFor="let grade of filteredGrades | async" [value]="grade.typeCode">
-          {{grade.typeName}}
+        <mat-option
+          *ngFor="let grade of filteredGrades | async"
+          [value]="grade.typeCode"
+        >
+          {{ grade.typeName }}
         </mat-option>
       </mat-autocomplete>
     </mat-form-field>
 
     <!-- Field : keyword category -->
     <mat-form-field class="field-full-width">
-      <input matInput type="text" placeholder="Pick or type new category" [matAutocomplete]="autoCategory"
-        [formControl]="categoryControl" [errorStateMatcher]="matcher" [(ngModel)]="categoryValue">
+      <input
+        matInput
+        type="text"
+        placeholder="Pick or type new category"
+        [matAutocomplete]="autoCategory"
+        [formControl]="categoryControl"
+        [errorStateMatcher]="matcher"
+        [(ngModel)]="categoryValue"
+      />
       <mat-hint>Required</mat-hint>
       <mat-error *ngIf="categoryControl.hasError('required')">
         <strong>Required</strong>
       </mat-error>
       <mat-autocomplete #autoCategory="matAutocomplete">
-        <mat-option *ngFor="let category of filteredCategories | async" [value]="category.typeCode">
-          {{category.typeName}}
+        <mat-option
+          *ngFor="let category of filteredCategories | async"
+          [value]="category.typeCode"
+        >
+          {{ category.typeName }}
         </mat-option>
       </mat-autocomplete>
     </mat-form-field>
 
     <!-- Field : keyword learn day -->
     <mat-form-field class="field-full-width">
-      <input matInput type="text" placeholder="Pick or type new lean day" [matAutocomplete]="autoLearnDay"
-        [formControl]="learnDayControl" [errorStateMatcher]="matcher" [(ngModel)]="learnDayValue">
+      <input
+        matInput
+        type="text"
+        placeholder="Pick or type new lean day"
+        [matAutocomplete]="autoLearnDay"
+        [formControl]="learnDayControl"
+        [errorStateMatcher]="matcher"
+        [(ngModel)]="learnDayValue"
+      />
       <mat-error *ngIf="learnDayControl.hasError('required')">
         <strong>Required</strong>
       </mat-error>
       <mat-autocomplete #autoLearnDay="matAutocomplete">
-        <mat-option *ngFor="let learnDay of filteredLearnDays | async" [value]="learnDay.typeCode">
-          {{learnDay.typeName}}
+        <mat-option
+          *ngFor="let learnDay of filteredLearnDays | async"
+          [value]="learnDay.typeCode"
+        >
+          {{ learnDay.typeName }}
         </mat-option>
       </mat-autocomplete>
     </mat-form-field>
 
     <!-- Field : New Word -->
     <mat-form-field class="field-full-width">
-      <input matInput type="text" placeholder="New word" [formControl]="wordFormControl" [errorStateMatcher]="matcher"
-        [(ngModel)]="keyWord">
+      <input
+        matInput
+        type="text"
+        placeholder="New word"
+        [formControl]="wordFormControl"
+        [errorStateMatcher]="matcher"
+        [(ngModel)]="keyWord"
+      />
       <mat-hint>Required</mat-hint>
       <mat-error *ngIf="wordFormControl.hasError('required')">
         <strong>Required</strong>
@@ -74,8 +125,14 @@
 
     <!-- Field : Explanation en -->
     <mat-form-field class="field-full-width">
-      <input matInput type="text" placeholder="Explanation in English" [formControl]="explanationEnFormControl"
-        [errorStateMatcher]="matcher" [(ngModel)]="explanationEnForm">
+      <input
+        matInput
+        type="text"
+        placeholder="Explanation in English"
+        [formControl]="explanationEnFormControl"
+        [errorStateMatcher]="matcher"
+        [(ngModel)]="explanationEnForm"
+      />
       <mat-error *ngIf="explanationEnFormControl.hasError('required')">
         <strong>Required</strong>
       </mat-error>
@@ -83,21 +140,30 @@
 
     <!-- Field : Explanation vn -->
     <mat-form-field class="field-full-width">
-      <input matInput type="text" placeholder="Explanation in Vietname" [formControl]="explanationVnFormControl"
-        [errorStateMatcher]="matcher" [(ngModel)]="explanationVnForm">
+      <input
+        matInput
+        type="text"
+        placeholder="Explanation in Vietname"
+        [formControl]="explanationVnFormControl"
+        [errorStateMatcher]="matcher"
+        [(ngModel)]="explanationVnForm"
+      />
       <mat-error *ngIf="explanationVnFormControl.hasError('required')">
         <strong>Required</strong>
       </mat-error>
     </mat-form-field>
 
     <!-- Field : image -->
-    <input #file type="file" accept='image/*' (change)="preview(file.files)" />
-    <img [src]="imageFile" height="300" *ngIf="imageFile">
-
+    <input #file type="file" accept="image/*" (change)="preview(file.files)" />
+    <img [src]="imageFile" height="300" *ngIf="imageFile" />
   </form>
 </div>
 
 <div class="modal-footer">
-  <button type="button" class="btn btn-danger" (click)="decline()" ngbAutofocus>{{ btnCancelText }} </button>
-  <button type="button" class="btn btn-primary" (click)="accept()">{{ btnOkText }}</button>
+  <button type="button" class="btn btn-danger" (click)="decline()" ngbAutofocus>
+    {{ btnCancelText }}
+  </button>
+  <button type="button" class="btn btn-primary" (click)="accept()">
+    {{ btnOkText }}
+  </button>
 </div>

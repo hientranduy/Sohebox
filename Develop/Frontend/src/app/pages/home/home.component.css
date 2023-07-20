@@ -1,57 +1,57 @@
 .function-container {
-    display: flex;
-    flex-wrap: wrap;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .function-card {
-    min-width: 100px;
-    max-width: 250px;
-    min-height: 100px;
-    max-height: 300px;
-    margin: 0px 0px 10px 10px;
-    cursor: pointer;
-    box-shadow: 0 0 15px rgba(27, 23, 27, 0.7);
-    border-radius: 12px;
-    background: linear-gradient(to bottom, rgb(255, 255, 255), rgb(74, 78, 180));
+  min-width: 100px;
+  max-width: 250px;
+  min-height: 100px;
+  max-height: 300px;
+  margin: 0px 0px 10px 10px;
+  cursor: pointer;
+  box-shadow: 0 0 15px rgba(27, 23, 27, 0.7);
+  border-radius: 12px;
+  background: linear-gradient(to bottom, rgb(255, 255, 255), rgb(74, 78, 180));
 }
 
 .function-card-button {
-    color: white;
-    font-weight: bold;
-    font-size: 12px;
+  color: white;
+  font-weight: bold;
+  font-size: 12px;
 }
 
 .account-avatar-image {
-    background-image: url('/assets/home_function/ic_account.gif');
-    background-size: cover;
+  background-image: url("/assets/home_function/ic_account.gif");
+  background-size: cover;
 }
 
 .administration-avatar-image {
-    background-image: url('/assets/home_function/ic_administration.gif');
-    background-size: cover;
+  background-image: url("/assets/home_function/ic_administration.gif");
+  background-size: cover;
 }
 
 .food-avatar-image {
-    background-image: url('/assets/home_function/ic_food.gif');
-    background-size: cover;
+  background-image: url("/assets/home_function/ic_food.gif");
+  background-size: cover;
 }
 
 .english-avatar-image {
-    background-image: url('/assets/home_function/ic_english.gif');
-    background-size: cover;
+  background-image: url("/assets/home_function/ic_english.gif");
+  background-size: cover;
 }
 
 .media-avatar-image {
-    background-image: url('/assets/home_function/ic_media.gif');
-    background-size: cover;
+  background-image: url("/assets/home_function/ic_media.gif");
+  background-size: cover;
 }
 
 .finance-avatar-image {
-    background-image: url('/assets/home_function/ic_finance.gif');
-    background-size: cover;
+  background-image: url("/assets/home_function/ic_finance.gif");
+  background-size: cover;
 }
 
 .crypto-avatar-image {
-    background-image: url('/assets/home_function/ic_crypto.gif');
-    background-size: cover;
+  background-image: url("/assets/home_function/ic_crypto.gif");
+  background-size: cover;
 }

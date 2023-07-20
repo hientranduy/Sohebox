@@ -1,16 +1,15 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { AuthenticationService, UserService } from '@app/user/_service';
-import { AlertService } from '@app/_common/alert';
-import { SpinnerService } from '@app/_common/_services';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { User } from '../_models';
+import { Component, Input, OnInit } from "@angular/core";
+import { FormBuilder, FormGroup } from "@angular/forms";
+import { AuthenticationService, UserService } from "@app/user/_service";
+import { AlertService } from "@app/_common/alert";
+import { SpinnerService } from "@app/_common/_services";
+import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
+import { User } from "../_models";
 
 @Component({
-  templateUrl: 'update-infor-dialog.component.html',
+  templateUrl: "update-infor-dialog.component.html",
 })
 export class UpdateInforDialogComponent implements OnInit {
-
   @Input() title: string;
   @Input() message: string;
   @Input() messageError: string;
@@ -28,9 +27,11 @@ export class UpdateInforDialogComponent implements OnInit {
     private activeModal: NgbActiveModal,
     private userService: UserService,
     private alertService: AlertService,
-    private spinner: SpinnerService
+    private spinner: SpinnerService,
   ) {
-    this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
+    this.authenticationService.currentUser.subscribe(
+      (x) => (this.currentUser = x),
+    );
   }
 
   ngOnInit() {
@@ -47,7 +48,7 @@ export class UpdateInforDialogComponent implements OnInit {
 
     if (!this.firstName || !this.lastName) {
       this.message = null;
-      this.messageError = 'First name and last name must be not null';
+      this.messageError = "First name and last name must be not null";
       this.validData = false;
     }
 
@@ -56,28 +57,28 @@ export class UpdateInforDialogComponent implements OnInit {
       this.updateUserForm = this.formBuilder.group({
         username: [this.currentUser.username],
         firstName: [this.firstName],
-        lastName: [this.lastName]
+        lastName: [this.lastName],
       });
 
       // Update user
       this.spinner.show();
-      this.userService.updateUser(this.updateUserForm.value)
-        .subscribe(
-          data => {
-            // Send alert message
-            this.alertService.success('User update successful', true);
+      this.userService.updateUser(this.updateUserForm.value).subscribe(
+        (data) => {
+          // Send alert message
+          this.alertService.success("User update successful", true);
 
-            // Update current storage user
-            this.currentUser.firstName = this.firstName;
-            this.currentUser.lastName = this.lastName;
-            localStorage.setItem('currentUser', JSON.stringify(this.currentUser));
+          // Update current storage user
+          this.currentUser.firstName = this.firstName;
+          this.currentUser.lastName = this.lastName;
+          localStorage.setItem("currentUser", JSON.stringify(this.currentUser));
 
-            this.spinner.hide();
-          },
-          error => {
-            this.spinner.hide();
-            this.alertService.error(error);
-          });
+          this.spinner.hide();
+        },
+        (error) => {
+          this.spinner.hide();
+          this.alertService.error(error);
+        },
+      );
 
       // Close dialog
       this.activeModal.close(true);

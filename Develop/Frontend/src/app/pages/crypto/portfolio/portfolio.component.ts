@@ -1,24 +1,23 @@
-import { Component, HostListener, OnInit } from '@angular/core';
-import { AppSettings } from '@app/appSettings';
-import { User } from '@app/user/_models';
-import { AuthenticationService } from '@app/user/_service';
-import { AlertService } from '@app/_common/alert';
-import { ApiReponse } from '@app/_common/_models';
-import { PageResultVO } from '@app/_common/_models/pageResultVO';
-import { SearchText, Sorter } from '@app/_common/_sco/core_sco';
-import { SpinnerService, UtilsService } from '@app/_common/_services';
-import { CryptoPortfolioDialogService } from '../_dialogs';
-import { CryptoPortfolio, CryptoPortfolioHistory } from '../_models';
-import { CryptoPortfolioHistorySCO, CryptoPortfolioSCO } from '../_sco';
-import { CryptoPortfolioService } from '../_services';
+import { Component, HostListener, OnInit } from "@angular/core";
+import { AppSettings } from "@app/appSettings";
+import { User } from "@app/user/_models";
+import { AuthenticationService } from "@app/user/_service";
+import { AlertService } from "@app/_common/alert";
+import { ApiReponse } from "@app/_common/_models";
+import { PageResultVO } from "@app/_common/_models/pageResultVO";
+import { SearchText, Sorter } from "@app/_common/_sco/core_sco";
+import { SpinnerService, UtilsService } from "@app/_common/_services";
+import { CryptoPortfolioDialogService } from "../_dialogs";
+import { CryptoPortfolio, CryptoPortfolioHistory } from "../_models";
+import { CryptoPortfolioHistorySCO, CryptoPortfolioSCO } from "../_sco";
+import { CryptoPortfolioService } from "../_services";
 
 @Component({
-  selector: 'app-crypto-portfolio',
-  templateUrl: './portfolio.component.html',
-  styleUrls: ['./portfolio.component.css']
+  selector: "app-crypto-portfolio",
+  templateUrl: "./portfolio.component.html",
+  styleUrls: ["./portfolio.component.css"],
 })
 export class PortfolioComponent implements OnInit {
-
   /**
    * Constructor
    */
@@ -28,10 +27,12 @@ export class PortfolioComponent implements OnInit {
     private cryptoPortfolioService: CryptoPortfolioService,
     private alertService: AlertService,
     private spinner: SpinnerService,
-    public utilsService: UtilsService
+    public utilsService: UtilsService,
   ) {
     // Get user info
-    this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
+    this.authenticationService.currentUser.subscribe(
+      (x) => (this.currentUser = x),
+    );
 
     // Set default
     this.pageResult = new PageResultVO<CryptoPortfolio>();
@@ -62,11 +63,11 @@ export class PortfolioComponent implements OnInit {
 
   // Width change
   windownInnerWidth = window.innerWidth;
-  @HostListener('window:resize', ['$event'])
+  @HostListener("window:resize", ["$event"])
   onResize(event) {
     this.windownInnerWidth = window.innerWidth;
   }
-  @HostListener('window:orientationchange', ['$event'])
+  @HostListener("window:orientationchange", ["$event"])
   onOrientationChange(event) {
     this.windownInnerWidth = window.innerWidth;
   }
@@ -79,7 +80,7 @@ export class PortfolioComponent implements OnInit {
       this.pageResult.currentPage,
       this.pageResult.pageSize,
       this.currentSort,
-      this.currentFilterValue
+      this.currentFilterValue,
     );
 
     this.getPageResultSummary(
@@ -101,7 +102,7 @@ export class PortfolioComponent implements OnInit {
       0,
       this.pageResult.pageSize,
       null,
-      this.currentFilterValue
+      this.currentFilterValue,
     );
   }
 
@@ -115,20 +116,20 @@ export class PortfolioComponent implements OnInit {
       0,
       this.pageResult.pageSize,
       this.currentSort,
-      this.currentFilterValue
+      this.currentFilterValue,
     );
   }
 
   /**
- * Handle sort event summary
- */
+   * Handle sort event summary
+   */
   onSortSummary(event) {
     const sort = event.sorts[0];
     this.currentSummarySort = new Sorter(sort.prop, sort.dir);
     this.getPageResultSummary(
       0,
       this.pageResultSummary.pageSize,
-      this.currentSummarySort
+      this.currentSummarySort,
     );
   }
 
@@ -140,19 +141,15 @@ export class PortfolioComponent implements OnInit {
       e.pageIndex,
       e.pageSize,
       this.currentSort,
-      this.currentFilterValue
+      this.currentFilterValue,
     );
   }
 
   /**
- * Handle paginator event summary
- */
+   * Handle paginator event summary
+   */
   handleSummaryPaginatorEvent(e: any) {
-    this.getPageResultSummary(
-      e.pageIndex,
-      e.pageSize,
-      this.currentSummarySort,
-    );
+    this.getPageResultSummary(e.pageIndex, e.pageSize, this.currentSummarySort);
   }
 
   /**
@@ -163,7 +160,7 @@ export class PortfolioComponent implements OnInit {
       pageInfo.offset,
       this.pageResult.pageSize,
       this.currentSort,
-      this.currentFilterValue
+      this.currentFilterValue,
     );
   }
 
@@ -174,7 +171,7 @@ export class PortfolioComponent implements OnInit {
     this.getPageResultSummary(
       pageInfo.offset,
       this.pageResultSummary.pageSize,
-      this.currentSummarySort
+      this.currentSummarySort,
     );
   }
 
@@ -185,7 +182,7 @@ export class PortfolioComponent implements OnInit {
     pageNumber: number,
     pageRecord: number,
     sorter: Sorter,
-    filterValue: string
+    filterValue: string,
   ) {
     this.alertService.clear();
 
@@ -196,15 +193,15 @@ export class PortfolioComponent implements OnInit {
     if (sorter) {
       const sorters: Array<Sorter> = [];
       sorters.push(sorter);
-      if (sorter.property === 'token') {
-        sorters.push(new Sorter('starname', 'ASC'));
+      if (sorter.property === "token") {
+        sorters.push(new Sorter("starname", "ASC"));
       }
       sco.sorters = sorters;
     } else {
       const sorters: Array<Sorter> = [];
       // sorters.push(new Sorter('id', 'ASC'));
-      sorters.push(new Sorter('token', 'ASC'));
-      sorters.push(new Sorter('starname', 'ASC'));
+      sorters.push(new Sorter("token", "ASC"));
+      sorters.push(new Sorter("starname", "ASC"));
       sco.sorters = sorters;
     }
     if (filterValue) {
@@ -225,7 +222,7 @@ export class PortfolioComponent implements OnInit {
 
     // Search
     this.cryptoPortfolioService.search(sco).subscribe(
-      data => {
+      (data) => {
         const responseAPi: any = data;
         const typeResponse: ApiReponse<CryptoPortfolio> = responseAPi;
         if (typeResponse.data != null) {
@@ -233,14 +230,13 @@ export class PortfolioComponent implements OnInit {
         } else {
           this.pageResult = new PageResultVO<CryptoPortfolio>();
         }
-
       },
-      error => {
+      (error) => {
         // Hide Loading
         this.spinner.hide();
 
         this.alertService.error(error);
-      }
+      },
     );
   }
 
@@ -264,13 +260,13 @@ export class PortfolioComponent implements OnInit {
       sco.sorters = sorters;
     } else {
       const sorters: Array<Sorter> = [];
-      sorters.push(new Sorter('token', 'ASC'));
+      sorters.push(new Sorter("token", "ASC"));
       sco.sorters = sorters;
     }
 
     // Search
     this.cryptoPortfolioService.getPortfolioSummary(sco).subscribe(
-      data => {
+      (data) => {
         const responseAPi: any = data;
         const typeResponse: ApiReponse<CryptoPortfolioHistory> = responseAPi;
         if (typeResponse.data != null) {
@@ -279,12 +275,12 @@ export class PortfolioComponent implements OnInit {
           this.pageResultSummary = new PageResultVO<CryptoPortfolioHistory>();
         }
       },
-      error => {
+      (error) => {
         // Hide Loading
         this.spinner.hide();
 
         this.alertService.error(error);
-      }
+      },
     );
   }
 
@@ -295,21 +291,21 @@ export class PortfolioComponent implements OnInit {
    * Add button
    */
   public add() {
-    this.cryptoPortfolioDialogService.add('ADD WALLET', '').then(
-      result => {
+    this.cryptoPortfolioDialogService.add("ADD WALLET", "").then(
+      (result) => {
         if (result) {
           // Refresh table
           this.getPageResult(
             0,
             this.pageResult.pageSize,
             this.currentSort,
-            this.currentFilterValue
+            this.currentFilterValue,
           );
         }
       },
-      reason => {
-        console.log('ADD reason:' + reason);
-      }
+      (reason) => {
+        console.log("ADD reason:" + reason);
+      },
     );
   }
 
@@ -324,14 +320,14 @@ export class PortfolioComponent implements OnInit {
    * View detail chosen
    */
   public viewDetailChoose(item: CryptoPortfolio) {
-    this.cryptoPortfolioDialogService.view('DETAIL WALLET', '', item).then(
-      result => {
+    this.cryptoPortfolioDialogService.view("DETAIL WALLET", "", item).then(
+      (result) => {
         if (result) {
         }
       },
-      reason => {
-        console.log('DETAIL reason:' + reason);
-      }
+      (reason) => {
+        console.log("DETAIL reason:" + reason);
+      },
     );
   }
 
@@ -339,20 +335,20 @@ export class PortfolioComponent implements OnInit {
    * Edit chosen
    */
   public editChoose(item: CryptoPortfolio) {
-    this.cryptoPortfolioDialogService.edit('EDIT WALLET', '', item).then(
-      result => {
+    this.cryptoPortfolioDialogService.edit("EDIT WALLET", "", item).then(
+      (result) => {
         if (result) {
           this.getPageResult(
             this.pageResult.currentPage,
             this.pageResult.pageSize,
             this.currentSort,
-            this.currentFilterValue
+            this.currentFilterValue,
           );
         }
       },
-      reason => {
-        console.log('EDIT reason:' + reason);
-      }
+      (reason) => {
+        console.log("EDIT reason:" + reason);
+      },
     );
   }
 
@@ -361,13 +357,9 @@ export class PortfolioComponent implements OnInit {
    */
   public deleteChoose(item: CryptoPortfolio) {
     this.cryptoPortfolioDialogService
-      .delete(
-        'DELETION',
-        'Are you sure deleting: ' + item.wallet + ' ?',
-        item
-      )
+      .delete("DELETION", "Are you sure deleting: " + item.wallet + " ?", item)
       .then(
-        result => {
+        (result) => {
           if (result) {
             // Refresh page
             if (result) {
@@ -375,41 +367,51 @@ export class PortfolioComponent implements OnInit {
                 this.pageResult.currentPage,
                 this.pageResult.pageSize,
                 this.currentSort,
-                this.currentFilterValue
+                this.currentFilterValue,
               );
             }
           }
         },
-        reason => {
-          console.log('DELETE reason:' + reason);
-        }
+        (reason) => {
+          console.log("DELETE reason:" + reason);
+        },
       );
   }
 
   /**
-  * View explorer
-  */
+   * View explorer
+   */
   public viewExplorer(item: CryptoPortfolio) {
-    window.open(AppSettings.CRYPTO_MINTSCAN + item.token.mintscanPrefix + "/account/" + item.wallet);
+    window.open(
+      AppSettings.CRYPTO_MINTSCAN +
+        item.token.mintscanPrefix +
+        "/account/" +
+        item.wallet,
+    );
   }
 
   /**
-  * View validator
-  */
-     public viewValidator(item: CryptoPortfolio) {
-      window.open(AppSettings.CRYPTO_MINTSCAN + item.token.mintscanPrefix + "/validators/" + item.validator.validatorAddress);
-    }
+   * View validator
+   */
+  public viewValidator(item: CryptoPortfolio) {
+    window.open(
+      AppSettings.CRYPTO_MINTSCAN +
+        item.token.mintscanPrefix +
+        "/validators/" +
+        item.validator.validatorAddress,
+    );
+  }
 
   /**
-  * Go deligate
-  */
+   * Go deligate
+   */
   public deligatePage(item: CryptoPortfolio) {
     window.open(item.token.deligateUrl);
   }
 
   /**
-  * Select view mode
-  */
+   * Select view mode
+   */
   public selectDeligatorMode() {
     this.isDeligatorMode = true;
     this.isValidatorMode = false;

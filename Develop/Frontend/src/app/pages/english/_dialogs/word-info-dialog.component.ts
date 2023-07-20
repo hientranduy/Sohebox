@@ -1,13 +1,13 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { AppSettings } from '@app/appSettings';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { ToastrService } from 'ngx-toastr';
-import { English } from '../_model';
+import { Component, Input, OnInit } from "@angular/core";
+import { AppSettings } from "@app/appSettings";
+import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
+import { ToastrService } from "ngx-toastr";
+import { English } from "../_model";
 
 @Component({
-  selector: 'app-word-info-dialog',
-  templateUrl: './word-info-dialog.component.html',
-  styleUrls: ['./word-info-dialog.component.css']
+  selector: "app-word-info-dialog",
+  templateUrl: "./word-info-dialog.component.html",
+  styleUrls: ["./word-info-dialog.component.css"],
 })
 export class WordInfoDialogComponent implements OnInit {
   // Form value
@@ -20,7 +20,7 @@ export class WordInfoDialogComponent implements OnInit {
 
   constructor(
     private activeModal: NgbActiveModal,
-    private toastr: ToastrService
+    private toastr: ToastrService,
   ) {}
 
   ngOnInit() {
@@ -57,7 +57,7 @@ export class WordInfoDialogComponent implements OnInit {
       window.open(AppSettings.GOOGLE_TRANSLATE_WORD_URL + this.english.keyWord);
     } else {
       // Toast warning if not found
-      this.toastr.warning('Need to generate a WORD first');
+      this.toastr.warning("Need to generate a WORD first");
     }
   }
 
@@ -68,11 +68,11 @@ export class WordInfoDialogComponent implements OnInit {
     if (this.english) {
       window.open(
         AppSettings.CAMBRIDGE_DICTIONATY_WORD_URL +
-          this.english.keyWord.split(' ').join('-')
+          this.english.keyWord.split(" ").join("-"),
       );
     } else {
       // Toast warning if not found
-      this.toastr.warning('Need to generate a WORD first');
+      this.toastr.warning("Need to generate a WORD first");
     }
   }
 

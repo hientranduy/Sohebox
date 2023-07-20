@@ -16,9 +16,7 @@
     "paths": {
       "@app/*": ["src/app/*"],
       "@environments/*": ["src/environments/*"],
-      "core-js/es7/reflect": [
-        "node_modules/core-js/proposals/reflect-metadata"
-      ]
+      "core-js/es7/reflect": ["node_modules/core-js/proposals/reflect-metadata"]
     }
   }
 }

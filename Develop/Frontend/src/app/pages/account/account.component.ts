@@ -1,25 +1,24 @@
-import { Component, HostListener, OnInit } from '@angular/core';
-import { AppSettings } from '@app/appSettings';
-import { User } from '@app/user/_models';
-import { AuthenticationService } from '@app/user/_service';
-import { AlertService } from '@app/_common/alert';
-import { ApiReponse } from '@app/_common/_models';
-import { PageResultVO } from '@app/_common/_models/pageResultVO';
-import { AccountSCO } from '@app/_common/_sco';
-import { SearchText, Sorter } from '@app/_common/_sco/core_sco';
-import { SpinnerService, UtilsService } from '@app/_common/_services';
-import { ToastrService } from 'ngx-toastr';
-import { AccountDialogService } from './_dialogs';
-import { Account } from './_models';
-import { AccountService } from './_services';
+import { Component, HostListener, OnInit } from "@angular/core";
+import { AppSettings } from "@app/appSettings";
+import { User } from "@app/user/_models";
+import { AuthenticationService } from "@app/user/_service";
+import { AlertService } from "@app/_common/alert";
+import { ApiReponse } from "@app/_common/_models";
+import { PageResultVO } from "@app/_common/_models/pageResultVO";
+import { AccountSCO } from "@app/_common/_sco";
+import { SearchText, Sorter } from "@app/_common/_sco/core_sco";
+import { SpinnerService, UtilsService } from "@app/_common/_services";
+import { ToastrService } from "ngx-toastr";
+import { AccountDialogService } from "./_dialogs";
+import { Account } from "./_models";
+import { AccountService } from "./_services";
 
 @Component({
-  selector: 'app-account',
-  templateUrl: './account.component.html',
-  styleUrls: ['./account.component.css']
+  selector: "app-account",
+  templateUrl: "./account.component.html",
+  styleUrls: ["./account.component.css"],
 })
 export class AccountComponent implements OnInit {
-
   /**
    * Constructor
    */
@@ -30,10 +29,12 @@ export class AccountComponent implements OnInit {
     private alertService: AlertService,
     private toastr: ToastrService,
     private spinner: SpinnerService,
-    public utilsService: UtilsService
+    public utilsService: UtilsService,
   ) {
     // Get user info
-    this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
+    this.authenticationService.currentUser.subscribe(
+      (x) => (this.currentUser = x),
+    );
 
     // Set default
     this.pageResult = new PageResultVO<Account>();
@@ -51,11 +52,11 @@ export class AccountComponent implements OnInit {
 
   // Width change
   windownInnerWidth = window.innerWidth;
-  @HostListener('window:resize', ['$event'])
+  @HostListener("window:resize", ["$event"])
   onResize(event) {
     this.windownInnerWidth = window.innerWidth;
   }
-  @HostListener('window:orientationchange', ['$event'])
+  @HostListener("window:orientationchange", ["$event"])
   onOrientationChange(event) {
     this.windownInnerWidth = window.innerWidth;
   }
@@ -68,7 +69,7 @@ export class AccountComponent implements OnInit {
       this.pageResult.currentPage,
       this.pageResult.pageSize,
       this.currentSort,
-      this.currentFilterValue
+      this.currentFilterValue,
     );
   }
 
@@ -84,7 +85,7 @@ export class AccountComponent implements OnInit {
       0,
       this.pageResult.pageSize,
       null,
-      this.currentFilterValue
+      this.currentFilterValue,
     );
   }
 
@@ -98,7 +99,7 @@ export class AccountComponent implements OnInit {
       0,
       this.pageResult.pageSize,
       this.currentSort,
-      this.currentFilterValue
+      this.currentFilterValue,
     );
   }
 
@@ -110,7 +111,7 @@ export class AccountComponent implements OnInit {
       e.pageIndex,
       e.pageSize,
       this.currentSort,
-      this.currentFilterValue
+      this.currentFilterValue,
     );
   }
 
@@ -122,7 +123,7 @@ export class AccountComponent implements OnInit {
       pageInfo.offset,
       this.pageResult.pageSize,
       this.currentSort,
-      this.currentFilterValue
+      this.currentFilterValue,
     );
   }
 
@@ -133,7 +134,7 @@ export class AccountComponent implements OnInit {
     pageNumber: number,
     pageRecord: number,
     sorter: Sorter,
-    filterValue: string
+    filterValue: string,
   ) {
     // Prepare search condition
     const sco = new AccountSCO();
@@ -145,7 +146,7 @@ export class AccountComponent implements OnInit {
       sco.sorters = sorters;
     } else {
       const sorters: Array<Sorter> = [];
-      sorters.push(new Sorter('id', 'ASC'));
+      sorters.push(new Sorter("id", "ASC"));
       sco.sorters = sorters;
     }
     if (filterValue) {
@@ -177,7 +178,7 @@ export class AccountComponent implements OnInit {
 
     // Search
     this.accountService.searchAccount(sco).subscribe(
-      data => {
+      (data) => {
         const responseAPi: any = data;
         const typeResponse: ApiReponse<Account> = responseAPi;
         if (typeResponse.data != null) {
@@ -189,12 +190,12 @@ export class AccountComponent implements OnInit {
         // Hide Loading
         this.spinner.hide();
       },
-      error => {
+      (error) => {
         // Hide Loading
         this.spinner.hide();
 
         this.alertService.error(error);
-      }
+      },
     );
   }
 
@@ -205,21 +206,21 @@ export class AccountComponent implements OnInit {
    * Add button
    */
   public add() {
-    this.accountDialogService.addAccount('ADD ACCOUNT', '').then(
-      result => {
+    this.accountDialogService.addAccount("ADD ACCOUNT", "").then(
+      (result) => {
         if (result) {
           // Refresh table
           this.getPageResult(
             0,
             this.pageResult.pageSize,
             this.currentSort,
-            this.currentFilterValue
+            this.currentFilterValue,
           );
         }
       },
-      reason => {
-        console.log('ADD reason:' + reason);
-      }
+      (reason) => {
+        console.log("ADD reason:" + reason);
+      },
     );
   }
 
@@ -236,16 +237,16 @@ export class AccountComponent implements OnInit {
   public showPassword(item: Account) {
     if (item.mdp) {
       this.accountDialogService.showPassword(item).then(
-        result => {
+        (result) => {
           if (result) {
           }
         },
-        reason => {
-          console.log('Show password reason:' + reason);
-        }
+        (reason) => {
+          console.log("Show password reason:" + reason);
+        },
       );
     } else {
-      this.toastr.info('This account does not set password');
+      this.toastr.info("This account does not set password");
     }
   }
 
@@ -253,14 +254,14 @@ export class AccountComponent implements OnInit {
    * View detail chosen
    */
   public viewDetailChoose(item: Account) {
-    this.accountDialogService.viewAccount('DETAIL ACCOUNT', '', item).then(
-      result => {
+    this.accountDialogService.viewAccount("DETAIL ACCOUNT", "", item).then(
+      (result) => {
         if (result) {
         }
       },
-      reason => {
-        console.log('DETAIL reason:' + reason);
-      }
+      (reason) => {
+        console.log("DETAIL reason:" + reason);
+      },
     );
   }
 
@@ -268,20 +269,20 @@ export class AccountComponent implements OnInit {
    * Edit chosen
    */
   public editChoose(item: Account) {
-    this.accountDialogService.editAccount('EDIT ACCOUNT', '', item).then(
-      result => {
+    this.accountDialogService.editAccount("EDIT ACCOUNT", "", item).then(
+      (result) => {
         if (result) {
           this.getPageResult(
             this.pageResult.currentPage,
             this.pageResult.pageSize,
             this.currentSort,
-            this.currentFilterValue
+            this.currentFilterValue,
           );
         }
       },
-      reason => {
-        console.log('EDIT reason:' + reason);
-      }
+      (reason) => {
+        console.log("EDIT reason:" + reason);
+      },
     );
   }
 
@@ -291,12 +292,12 @@ export class AccountComponent implements OnInit {
   public deleteChoose(item: Account) {
     this.accountDialogService
       .deleteAccount(
-        'DELETION',
-        'Are you sure deleting: ' + item.accountName + ' ?',
-        item
+        "DELETION",
+        "Are you sure deleting: " + item.accountName + " ?",
+        item,
       )
       .then(
-        result => {
+        (result) => {
           if (result) {
             // Refresh page
             if (result) {
@@ -304,14 +305,14 @@ export class AccountComponent implements OnInit {
                 this.pageResult.currentPage,
                 this.pageResult.pageSize,
                 this.currentSort,
-                this.currentFilterValue
+                this.currentFilterValue,
               );
             }
           }
         },
-        reason => {
-          console.log('DELETE reason:' + reason);
-        }
+        (reason) => {
+          console.log("DELETE reason:" + reason);
+        },
       );
   }
 
@@ -323,13 +324,13 @@ export class AccountComponent implements OnInit {
       case AppSettings.ACCOUNT_TYPE_GMAIL:
       case AppSettings.ACCOUNT_TYPE_GOOGLE: {
         window.open(
-          AppSettings.GOOGLE_LOGIN_URL + account.accountName + '#password'
+          AppSettings.GOOGLE_LOGIN_URL + account.accountName + "#password",
         );
         break;
       }
 
       default: {
-        this.toastr.info('In construction: You are opening login page');
+        this.toastr.info("In construction: You are opening login page");
         break;
       }
     }
@@ -347,7 +348,7 @@ export class AccountComponent implements OnInit {
       }
 
       default: {
-        this.toastr.info('In construction: You are opening login page');
+        this.toastr.info("In construction: You are opening login page");
         break;
       }
     }
@@ -365,7 +366,7 @@ export class AccountComponent implements OnInit {
       }
 
       default: {
-        this.toastr.info('In construction: You are opening login page');
+        this.toastr.info("In construction: You are opening login page");
         break;
       }
     }

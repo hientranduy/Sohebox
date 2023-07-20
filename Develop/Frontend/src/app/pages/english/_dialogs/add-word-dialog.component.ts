@@ -1,22 +1,27 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ErrorStateMatcher } from '@angular/material/core';
-import { AuthenticationService } from '@app/user/_service';
-import { AlertService } from '@app/_common/alert';
-import { ApiReponse, EnglishType } from '@app/_common/_models';
-import { EnglishSCO, EnglishTypeSCO } from '@app/_common/_sco';
-import { SearchText, Sorter } from '@app/_common/_sco/core_sco';
-import { SpinnerService } from '@app/_common/_services';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { ToastrService } from 'ngx-toastr';
-import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
-import { EnglishService, EnglishTypeService } from '../_services';
+import { Component, Input, OnInit } from "@angular/core";
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from "@angular/forms";
+import { ErrorStateMatcher } from "@angular/material/core";
+import { AuthenticationService } from "@app/user/_service";
+import { AlertService } from "@app/_common/alert";
+import { ApiReponse, EnglishType } from "@app/_common/_models";
+import { EnglishSCO, EnglishTypeSCO } from "@app/_common/_sco";
+import { SearchText, Sorter } from "@app/_common/_sco/core_sco";
+import { SpinnerService } from "@app/_common/_services";
+import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
+import { ToastrService } from "ngx-toastr";
+import { Observable } from "rxjs";
+import { map, startWith } from "rxjs/operators";
+import { EnglishService, EnglishTypeService } from "../_services";
 
 @Component({
-  selector: 'app-add-word-dialog',
-  templateUrl: './add-word-dialog.component.html',
-  styleUrls: ['./add-word-dialog.component.css']
+  selector: "app-add-word-dialog",
+  templateUrl: "./add-word-dialog.component.html",
+  styleUrls: ["./add-word-dialog.component.css"],
 })
 export class AddWordDialogComponent implements OnInit {
   constructor(
@@ -27,9 +32,8 @@ export class AddWordDialogComponent implements OnInit {
     private authenticationService: AuthenticationService,
     private englishTypeService: EnglishTypeService,
     private toastr: ToastrService,
-    private spinner: SpinnerService
-  ) {
-  }
+    private spinner: SpinnerService,
+  ) {}
 
   // Form value
   @Input() title: string;
@@ -63,22 +67,22 @@ export class AddWordDialogComponent implements OnInit {
   matcher = new ErrorStateMatcher();
 
   // Field : grade
-  gradeControl = new FormControl('', [Validators.required]);
+  gradeControl = new FormControl("", [Validators.required]);
 
   // Field : category
-  categoryControl = new FormControl('', [Validators.required]);
+  categoryControl = new FormControl("", [Validators.required]);
 
   // Field : learn day
-  learnDayControl = new FormControl('', [Validators.required]);
+  learnDayControl = new FormControl("", [Validators.required]);
 
   // Field : key word
-  wordFormControl = new FormControl('', [englishKeyWord, Validators.required]);
+  wordFormControl = new FormControl("", [englishKeyWord, Validators.required]);
 
   // Field : Explanation English
-  explanationEnFormControl = new FormControl('', []);
+  explanationEnFormControl = new FormControl("", []);
 
   // Field : Explanation Vietnamese
-  explanationVnFormControl = new FormControl('', []);
+  explanationVnFormControl = new FormControl("", []);
 
   ngOnInit() {
     this.getFilterGrades();
@@ -92,9 +96,9 @@ export class AddWordDialogComponent implements OnInit {
   getFilterGrades() {
     // Prepare search condition
     const typeClass = new SearchText();
-    typeClass.eq = 'ENGLISH_VUS_GRADE';
+    typeClass.eq = "ENGLISH_VUS_GRADE";
     const sorters: Array<Sorter> = [];
-    sorters.push(new Sorter('id', 'ASC'));
+    sorters.push(new Sorter("id", "ASC"));
 
     const typeSCO = new EnglishTypeSCO();
     typeSCO.typeClass = typeClass;
@@ -106,31 +110,33 @@ export class AddWordDialogComponent implements OnInit {
 
     // Get list type
     this.englishTypeService.search(typeSCO).subscribe(
-      data => {
+      (data) => {
         // Get data
         const responseAPi: any = data;
         const typeResponse: ApiReponse<EnglishType> = responseAPi;
         const grades: EnglishType[] = typeResponse.data.elements;
         if (typeResponse.data.elements != null) {
           this.filteredGrades = this.gradeControl.valueChanges.pipe(
-            startWith(''),
-            map(value =>
-              grades.filter(valueFilter =>
-                valueFilter.typeCode.toLowerCase().includes(value.toLowerCase())
-              )
-            )
+            startWith(""),
+            map((value) =>
+              grades.filter((valueFilter) =>
+                valueFilter.typeCode
+                  .toLowerCase()
+                  .includes(value.toLowerCase()),
+              ),
+            ),
           );
         }
 
         // Hide loading
         this.spinner.hide();
       },
-      error => {
+      (error) => {
         // Hide loading
         this.spinner.hide();
 
         this.alertService.error(error);
-      }
+      },
     );
   }
 
@@ -143,14 +149,14 @@ export class AddWordDialogComponent implements OnInit {
 
     // Prepare search condition
     const typeClass = new SearchText();
-    typeClass.eq = 'ENGLISH_CATEGORY';
+    typeClass.eq = "ENGLISH_CATEGORY";
     const typeSCO = new EnglishTypeSCO();
     typeSCO.typeClass = typeClass;
     typeSCO.deleteFlag = false;
 
     // Get list type
     this.englishTypeService.search(typeSCO).subscribe(
-      data => {
+      (data) => {
         // Get data
         const responseAPi: any = data;
         const typeResponse: ApiReponse<EnglishType> = responseAPi;
@@ -158,24 +164,26 @@ export class AddWordDialogComponent implements OnInit {
         if (typeResponse.data.elements != null) {
           // Prepare data for account types
           this.filteredCategories = this.categoryControl.valueChanges.pipe(
-            startWith(''),
-            map(value =>
-              categories.filter(valueFilter =>
-                valueFilter.typeCode.toLowerCase().includes(value.toLowerCase())
-              )
-            )
+            startWith(""),
+            map((value) =>
+              categories.filter((valueFilter) =>
+                valueFilter.typeCode
+                  .toLowerCase()
+                  .includes(value.toLowerCase()),
+              ),
+            ),
           );
         }
 
         // Hide loading
         this.spinner.hide();
       },
-      error => {
+      (error) => {
         // Hide loading
         this.spinner.hide();
 
         this.alertService.error(error);
-      }
+      },
     );
   }
 
@@ -185,7 +193,7 @@ export class AddWordDialogComponent implements OnInit {
   getFilterLearnDays() {
     // Prepare search condition
     const typeClass = new SearchText();
-    typeClass.eq = 'ENGLISH_LEARN_DAY';
+    typeClass.eq = "ENGLISH_LEARN_DAY";
     const englishTypeSCO = new EnglishTypeSCO();
     englishTypeSCO.typeClass = typeClass;
     englishTypeSCO.deleteFlag = false;
@@ -195,7 +203,7 @@ export class AddWordDialogComponent implements OnInit {
 
     // Get list type
     this.englishTypeService.search(englishTypeSCO).subscribe(
-      data => {
+      (data) => {
         // Get dataa
         const responseAPi: any = data;
         const typeResponse: ApiReponse<EnglishType> = responseAPi;
@@ -203,24 +211,26 @@ export class AddWordDialogComponent implements OnInit {
         if (typeResponse.data.elements != null) {
           // Prepare data for account types
           this.filteredLearnDays = this.learnDayControl.valueChanges.pipe(
-            startWith(''),
-            map(value =>
-              learnDays.filter(valueFilter =>
-                valueFilter.typeCode.toLowerCase().includes(value.toLowerCase())
-              )
-            )
+            startWith(""),
+            map((value) =>
+              learnDays.filter((valueFilter) =>
+                valueFilter.typeCode
+                  .toLowerCase()
+                  .includes(value.toLowerCase()),
+              ),
+            ),
           );
         }
 
         // Hide loading
         this.spinner.hide();
       },
-      error => {
+      (error) => {
         // Hide loading
         this.spinner.hide();
 
         this.alertService.error(error);
-      }
+      },
     );
   }
 
@@ -237,25 +247,25 @@ export class AddWordDialogComponent implements OnInit {
     const mimeType = files[0].type;
     if (mimeType.match(/image\/*/) == null) {
       this.message = null;
-      this.messageError = 'Only images are supported.';
+      this.messageError = "Only images are supported.";
       return;
     }
 
     // Return if file is too big
     if (files[0].size > 300000) {
       this.message = null;
-      this.messageError = 'Max image size is 300kb, please update image';
+      this.messageError = "Max image size is 300kb, please update image";
       return;
     }
 
     // Preview
     const reader = new FileReader();
     reader.readAsDataURL(files[0]);
-    reader.onload = _event => {
+    reader.onload = (_event) => {
       this.imageFile = reader.result;
 
       // Set image extention
-      this.imageExtention = files[0].name.split('.').pop();
+      this.imageExtention = files[0].name.split(".").pop();
     };
 
     // Remove error message
@@ -300,7 +310,7 @@ export class AddWordDialogComponent implements OnInit {
         explanationVn: [this.explanationVnForm],
         imageFile: [this.imageFile],
         imageExtention: [this.imageExtention],
-        vusGrade: [gradeTypeVO]
+        vusGrade: [gradeTypeVO],
       });
 
       // Show loading
@@ -308,10 +318,10 @@ export class AddWordDialogComponent implements OnInit {
 
       // Add account
       this.englishService.addWord(addWordForm.value).subscribe(
-        data => {
+        (data) => {
           // Send success toast message
           this.toastr.success(
-            'New Word ' + this.keyWord + ' is added successful'
+            "New Word " + this.keyWord + " is added successful",
           );
 
           // Hide loading
@@ -320,18 +330,18 @@ export class AddWordDialogComponent implements OnInit {
           // Close dialog
           this.activeModal.close(true);
         },
-        error => {
+        (error) => {
           // Hide loading
           this.spinner.hide();
 
           // Send error message to dialog
           this.message = null;
           this.messageError = error;
-        }
+        },
       );
     } else {
       this.message = null;
-      this.messageError = 'Invalid fields, please check your input';
+      this.messageError = "Invalid fields, please check your input";
     }
   }
 
@@ -339,22 +349,22 @@ export class AddWordDialogComponent implements OnInit {
   public isFormValid() {
     let result = true;
 
-    if (this.gradeControl.status === 'INVALID') {
+    if (this.gradeControl.status === "INVALID") {
       result = false;
     }
-    if (this.categoryControl.status === 'INVALID') {
+    if (this.categoryControl.status === "INVALID") {
       result = false;
     }
-    if (this.learnDayControl.status === 'INVALID') {
+    if (this.learnDayControl.status === "INVALID") {
       result = false;
     }
-    if (this.wordFormControl.status === 'INVALID') {
+    if (this.wordFormControl.status === "INVALID") {
       result = false;
     }
-    if (this.explanationEnFormControl.status === 'INVALID') {
+    if (this.explanationEnFormControl.status === "INVALID") {
       result = false;
     }
-    if (this.explanationVnFormControl.status === 'INVALID') {
+    if (this.explanationVnFormControl.status === "INVALID") {
       result = false;
     }
 

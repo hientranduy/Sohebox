@@ -1,19 +1,23 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ErrorStateMatcher } from '@angular/material/core';
-import { AuthenticationService } from '@app/user/_service';
-import { AlertService } from '@app/_common/alert';
-import { Type } from '@app/_common/_models';
-import { SpinnerService, TypeService } from '@app/_common/_services';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { ToastrService } from 'ngx-toastr';
+import { Component, Input, OnInit } from "@angular/core";
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from "@angular/forms";
+import { ErrorStateMatcher } from "@angular/material/core";
+import { AuthenticationService } from "@app/user/_service";
+import { AlertService } from "@app/_common/alert";
+import { Type } from "@app/_common/_models";
+import { SpinnerService, TypeService } from "@app/_common/_services";
+import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
+import { ToastrService } from "ngx-toastr";
 
 @Component({
-  styleUrls: ['edit-type-dialog.component.css'],
-  templateUrl: 'edit-type-dialog.component.html',
+  styleUrls: ["edit-type-dialog.component.css"],
+  templateUrl: "edit-type-dialog.component.html",
 })
 export class EditTypeDialogComponent implements OnInit {
-
   constructor(
     private formBuilder: FormBuilder,
     private activeModal: NgbActiveModal,
@@ -21,9 +25,8 @@ export class EditTypeDialogComponent implements OnInit {
     private authenticationService: AuthenticationService,
     private typeService: TypeService,
     private toastr: ToastrService,
-    private spinner: SpinnerService
-  ) {
-  }
+    private spinner: SpinnerService,
+  ) {}
 
   // Form value
   @Input() title: string;
@@ -47,29 +50,22 @@ export class EditTypeDialogComponent implements OnInit {
   matcher = new ErrorStateMatcher();
 
   // Field : type class
-  typeClassFormControl = new FormControl('', [
-  ]);
+  typeClassFormControl = new FormControl("", []);
 
   // Field : type code
-  typeCodeFormControl = new FormControl('', [
-  ]);
+  typeCodeFormControl = new FormControl("", []);
 
   // Field : type name
-  typeNameFormControl = new FormControl('', [
-    Validators.required,
-  ]);
+  typeNameFormControl = new FormControl("", [Validators.required]);
 
   // Field : description
-  descriptionFormControl = new FormControl('', [
-  ]);
+  descriptionFormControl = new FormControl("", []);
 
   // Field : icon URL
-  iconUrlFormControl = new FormControl('', [
-  ]);
+  iconUrlFormControl = new FormControl("", []);
 
   // Field : URL
-  urlFormControl = new FormControl('', [
-  ]);
+  urlFormControl = new FormControl("", []);
 
   ngOnInit() {
     // Set current value
@@ -99,23 +95,25 @@ export class EditTypeDialogComponent implements OnInit {
   }
 
   /**
-  * Click accept button
-  */
+   * Click accept button
+   */
   public accept() {
     switch (true) {
       // Case data is unchanged
-      case (!this.isHaveUpdateValue()):
+      case !this.isHaveUpdateValue():
         // Send warning toast message
-        this.toastr.warning('Skip update type because the value is not changed');
+        this.toastr.warning(
+          "Skip update type because the value is not changed",
+        );
 
         // Close dialog as cancel
         this.activeModal.close(false);
         break;
 
       // Case data is invalid
-      case (!this.isFormValid()):
+      case !this.isFormValid():
         this.message = null;
-        this.messageError = 'Invalid fields, please check your input';
+        this.messageError = "Invalid fields, please check your input";
         break;
 
       // Case ok
@@ -136,51 +134,56 @@ export class EditTypeDialogComponent implements OnInit {
         this.spinner.show();
 
         // Update
-        this.typeService.update(typeForm.value)
-          .subscribe(
-            data => {
-              // Send success toast message
-              this.toastr.success('<Type class ' + this.typeClass + ' & type code ' + this.typeCode + '> is updated successful');
+        this.typeService.update(typeForm.value).subscribe(
+          (data) => {
+            // Send success toast message
+            this.toastr.success(
+              "<Type class " +
+                this.typeClass +
+                " & type code " +
+                this.typeCode +
+                "> is updated successful",
+            );
 
-              // Hide loading
-              this.spinner.hide();
+            // Hide loading
+            this.spinner.hide();
 
-              // Close dialog
-              this.activeModal.close(true);
+            // Close dialog
+            this.activeModal.close(true);
+          },
+          (error) => {
+            // Hide loading
+            this.spinner.hide();
 
-            },
-            error => {
-              // Hide loading
-              this.spinner.hide();
+            // Send error toast message
+            this.toastr.error(error);
 
-              // Send error toast message
-              this.toastr.error(error);
-
-              // Close dialog
-              this.activeModal.close(false);
-            });
+            // Close dialog
+            this.activeModal.close(false);
+          },
+        );
     }
   }
 
   // Validate all fields
   public isFormValid() {
     let result = true;
-    if (this.typeClassFormControl.status === 'INVALID') {
+    if (this.typeClassFormControl.status === "INVALID") {
       result = false;
     }
-    if (this.typeCodeFormControl.status === 'INVALID') {
+    if (this.typeCodeFormControl.status === "INVALID") {
       result = false;
     }
-    if (this.typeNameFormControl.status === 'INVALID') {
+    if (this.typeNameFormControl.status === "INVALID") {
       result = false;
     }
-    if (this.descriptionFormControl.status === 'INVALID') {
+    if (this.descriptionFormControl.status === "INVALID") {
       result = false;
     }
-    if (this.iconUrlFormControl.status === 'INVALID') {
+    if (this.iconUrlFormControl.status === "INVALID") {
       result = false;
     }
-    if (this.urlFormControl.status === 'INVALID') {
+    if (this.urlFormControl.status === "INVALID") {
       result = false;
     }
     return result;

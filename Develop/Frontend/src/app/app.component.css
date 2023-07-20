@@ -1,21 +1,21 @@
 .main-toolbar-edit {
-    background-image: url('/assets/background/Google-Now-Header.png');
-    background-size: cover;
-    background-position: top;
+  background-image: url("/assets/background/Google-Now-Header.png");
+  background-size: cover;
+  background-position: top;
 
-    position: sticky;
-    position: -webkit-sticky; /* For macOS/iOS Safari */
-    top: 0; /* Sets the sticky toolbar to be on top */
-    z-index: 1000; /* Ensure that your app's content doesn't overlap the toolbar */
+  position: sticky;
+  position: -webkit-sticky; /* For macOS/iOS Safari */
+  top: 0; /* Sets the sticky toolbar to be on top */
+  z-index: 1000; /* Ensure that your app's content doesn't overlap the toolbar */
 }
 
 .main-sidenav-container-edit {
-    background-color: transparent;
-    /* height: 100%; */
-    /* width: 100%; */
+  background-color: transparent;
+  /* height: 100%; */
+  /* width: 100%; */
 }
 
 .main-sidenav-edit {
-    background-color: transparent;
-    border-right-color: transparent;
+  background-color: transparent;
+  border-right-color: transparent;
 }

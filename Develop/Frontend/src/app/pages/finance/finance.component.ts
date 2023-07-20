@@ -1,17 +1,17 @@
-import { Component, HostListener, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { SEOService } from '@app/_common/_services';
+import { Component, HostListener, OnInit } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
+import { SEOService } from "@app/_common/_services";
 
 @Component({
-  selector: 'app-finance',
-  templateUrl: './finance.component.html',
-  styleUrls: ['./finance.component.css']
+  selector: "app-finance",
+  templateUrl: "./finance.component.html",
+  styleUrls: ["./finance.component.css"],
 })
 export class FinanceComponent implements OnInit {
-
   constructor(
     private route: ActivatedRoute,
-    private seoService: SEOService) { }
+    private seoService: SEOService,
+  ) {}
 
   get isGoldOpen() {
     return this.selectOpion === 1;
@@ -37,11 +37,11 @@ export class FinanceComponent implements OnInit {
     // CEO
     this.seoService.updateCEO(this.route);
   }
-  @HostListener('window:resize', ['$event'])
+  @HostListener("window:resize", ["$event"])
   onResize(event) {
     this.windownInnerWidth = window.innerWidth;
   }
-  @HostListener('window:orientationchange', ['$event'])
+  @HostListener("window:orientationchange", ["$event"])
   onOrientationChange(event) {
     this.windownInnerWidth = window.innerWidth;
   }

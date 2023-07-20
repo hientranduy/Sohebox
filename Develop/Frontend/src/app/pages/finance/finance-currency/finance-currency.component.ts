@@ -1,25 +1,25 @@
-import { Component, HostListener, OnInit } from '@angular/core';
-import { AlertService } from '@app/_common/alert';
-import { ApiReponse } from '@app/_common/_models';
-import { SpinnerService } from '@app/_common/_services';
-import { CurrencyVietcombank } from '../_models';
-import { FinanceService } from '../_services';
+import { Component, HostListener, OnInit } from "@angular/core";
+import { AlertService } from "@app/_common/alert";
+import { ApiReponse } from "@app/_common/_models";
+import { SpinnerService } from "@app/_common/_services";
+import { CurrencyVietcombank } from "../_models";
+import { FinanceService } from "../_services";
 
 @Component({
-  selector: 'app-finance-currency',
-  templateUrl: './finance-currency.component.html',
-  styleUrls: ['./finance-currency.component.css']
+  selector: "app-finance-currency",
+  templateUrl: "./finance-currency.component.html",
+  styleUrls: ["./finance-currency.component.css"],
 })
 export class FinanceCurrencyComponent implements OnInit {
   currencyVCB: CurrencyVietcombank;
 
   // Width change
   windownInnerWidth = window.innerWidth;
-  @HostListener('window:resize', ['$event'])
+  @HostListener("window:resize", ["$event"])
   onResize(event) {
     this.windownInnerWidth = window.innerWidth;
   }
-  @HostListener('window:orientationchange', ['$event'])
+  @HostListener("window:orientationchange", ["$event"])
   onOrientationChange(event) {
     this.windownInnerWidth = window.innerWidth;
   }
@@ -27,8 +27,8 @@ export class FinanceCurrencyComponent implements OnInit {
   constructor(
     private spinner: SpinnerService,
     private financeService: FinanceService,
-    private alertService: AlertService
-  ) { }
+    private alertService: AlertService,
+  ) {}
 
   ngOnInit(): void {
     this.loadCurrencyVcb();
@@ -42,8 +42,8 @@ export class FinanceCurrencyComponent implements OnInit {
     this.spinner.show();
 
     // Get list
-    this.financeService.getCurrencyVcbRate()
-      .subscribe(data => {
+    this.financeService.getCurrencyVcbRate().subscribe(
+      (data) => {
         // Get data
         const responseAPi: any = data;
         const typeResponse: ApiReponse<CurrencyVietcombank> = responseAPi;
@@ -55,10 +55,11 @@ export class FinanceCurrencyComponent implements OnInit {
 
         // Hide loading
         this.spinner.hide();
-
-      }, error => {
+      },
+      (error) => {
         this.processError(error);
-      });
+      },
+    );
   }
 
   ///////////////////

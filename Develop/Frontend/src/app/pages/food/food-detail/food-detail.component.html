@@ -1,57 +1,93 @@
-<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-atom" [fullScreen]="true">
-    <p style="color: white"> Loading... </p>
+<ngx-spinner
+  bdColor="rgba(51,51,51,0.8)"
+  size="medium"
+  color="#fff"
+  type="ball-atom"
+  [fullScreen]="true"
+>
+  <p style="color: white">Loading...</p>
 </ngx-spinner>
 
 <div class="food-detail-container" *ngIf="food">
-    <h1 class="food-name-title">{{food.name}}</h1>
+  <h1 class="food-name-title">{{ food.name }}</h1>
 
-    <div class="icon-food-type-container">
-        <img *ngIf="food.type.iconUrl" class="img-responsive" src="assets/food/function/{{food.type.iconUrl}}"
-            class="icon-food-type" matTooltip={{food.type.typeName}}> &nbsp;
-        <img *ngIf="food.category.iconUrl" class="img-responsive" src="assets/food/function/{{food.category.iconUrl}}"
-            class="icon-food-type" matTooltip={{food.category.typeName}}> &nbsp;
-        <img *ngIf="food.isFastFood === true" class="img-responsive" src="assets/food/function/isFastFood.jpg"
-            class="icon-food-type" matTooltip="Fast Food">
-        <img *ngIf="food.isFastFood === false" class="img-responsive" src="assets/food/function/isNotFastFood.jpg"
-            class="icon-food-type" matTooltip="Non Fast Food">
+  <div class="icon-food-type-container">
+    <img
+      *ngIf="food.type.iconUrl"
+      class="img-responsive"
+      src="assets/food/function/{{ food.type.iconUrl }}"
+      class="icon-food-type"
+      matTooltip="{{ food.type.typeName }}"
+    />
+    &nbsp;
+    <img
+      *ngIf="food.category.iconUrl"
+      class="img-responsive"
+      src="assets/food/function/{{ food.category.iconUrl }}"
+      class="icon-food-type"
+      matTooltip="{{ food.category.typeName }}"
+    />
+    &nbsp;
+    <img
+      *ngIf="food.isFastFood === true"
+      class="img-responsive"
+      src="assets/food/function/isFastFood.jpg"
+      class="icon-food-type"
+      matTooltip="Fast Food"
+    />
+    <img
+      *ngIf="food.isFastFood === false"
+      class="img-responsive"
+      src="assets/food/function/isNotFastFood.jpg"
+      class="icon-food-type"
+      matTooltip="Non Fast Food"
+    />
+  </div>
+
+  <div id="foodImage" (click)="onClickImage()" class="image-container">
+    <lib-ngx-image-zoom
+      [thumbImage]="displayImageUrl"
+      [magnification]="1"
+      [enableScrollZoom]="true"
+      [enableLens]="true"
+      [lensWidth]="150"
+      [lensHeight]="150"
+      [circularLens]="true"
+    >
+    </lib-ngx-image-zoom>
+  </div>
+
+  <!-- Break line -->
+  <P></P>
+
+  <div
+    *ngIf="food.description || food.locationNote"
+    class="icon-food-description-container"
+  >
+    <div *ngIf="food.description">
+      <h5 class="food-header-text">Description</h5>
+      {{ food.description }}
+      <br />
+      <br />
     </div>
 
-    <div id=foodImage (click)="onClickImage()" class="image-container">
-        <lib-ngx-image-zoom [thumbImage]=displayImageUrl [magnification]="1" [enableScrollZoom]="true"
-            [enableLens]="true" [lensWidth]="150" [lensHeight]="150" [circularLens]="true">
-        </lib-ngx-image-zoom>
+    <div *ngIf="food.locationNote">
+      <h5 class="food-header-text">Locations</h5>
+      {{ food.locationNote }}
     </div>
+  </div>
 
-    <!-- Break line -->
-    <P></P>
+  <!-- Break line -->
+  <P></P>
 
-    <div *ngIf="food.description||food.locationNote" class="icon-food-description-container">
-        <div *ngIf="food.description">
-            <h5 class="food-header-text">Description</h5>
-            {{food.description}}
-            <br>
-            <br>
-        </div>
-
-        <div *ngIf="food.locationNote">
-            <h5 class="food-header-text">Locations</h5>
-            {{food.locationNote}}
-        </div>
-    </div>
-
-    <!-- Break line -->
-    <P></P>
-
-    <div *ngIf="food.recipeString" class="icon-food-recipe-container">
-        <h5 class="food-header-text">Materials</h5>
-        <pre class="food-recipe-text">{{food.recipeString}}</pre>
-    </div>
+  <div *ngIf="food.recipeString" class="icon-food-recipe-container">
+    <h5 class="food-header-text">Materials</h5>
+    <pre class="food-recipe-text">{{ food.recipeString }}</pre>
+  </div>
 </div>
 
 <!-- Break line -->
 <P></P>
 
 <!--Back to food home -->
-<button mat-button class="foot-close-button" (click)="closeTab()">
-    CLOSE
-</button>
+<button mat-button class="foot-close-button" (click)="closeTab()">CLOSE</button>

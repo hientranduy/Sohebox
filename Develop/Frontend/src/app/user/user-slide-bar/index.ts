@@ -1,1 +1,1 @@
-﻿export * from './user-slide-bar.component';
+﻿export * from "./user-slide-bar.component";

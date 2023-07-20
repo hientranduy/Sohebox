@@ -1,23 +1,22 @@
-import { Component, HostListener, OnInit } from '@angular/core';
-import { FoodTypeService } from '@app/pages/food/_services';
-import { AuthenticationService } from '@app/user/_service';
-import { AlertService } from '@app/_common/alert';
-import { ApiReponse } from '@app/_common/_models';
-import { FoodType } from '@app/_common/_models/foodType';
-import { PageResultVO } from '@app/_common/_models/pageResultVO';
-import { SearchText, Sorter } from '@app/_common/_sco/core_sco';
-import { FoodTypeSCO } from '@app/_common/_sco/foodTypeSCO';
-import { SpinnerService } from '@app/_common/_services';
-import { ToastrService } from 'ngx-toastr';
-import { FoodTypeDialogService } from './_dialogs';
+import { Component, HostListener, OnInit } from "@angular/core";
+import { FoodTypeService } from "@app/pages/food/_services";
+import { AuthenticationService } from "@app/user/_service";
+import { AlertService } from "@app/_common/alert";
+import { ApiReponse } from "@app/_common/_models";
+import { FoodType } from "@app/_common/_models/foodType";
+import { PageResultVO } from "@app/_common/_models/pageResultVO";
+import { SearchText, Sorter } from "@app/_common/_sco/core_sco";
+import { FoodTypeSCO } from "@app/_common/_sco/foodTypeSCO";
+import { SpinnerService } from "@app/_common/_services";
+import { ToastrService } from "ngx-toastr";
+import { FoodTypeDialogService } from "./_dialogs";
 
 @Component({
-  selector: 'app-food-type',
-  templateUrl: './food-type.component.html',
-  styleUrls: ['./food-type.component.css']
+  selector: "app-food-type",
+  templateUrl: "./food-type.component.html",
+  styleUrls: ["./food-type.component.css"],
 })
 export class FoodTypeComponent implements OnInit {
-
   // Table elements
   pageResult: PageResultVO<FoodType>;
   currentSort: Sorter;
@@ -26,11 +25,11 @@ export class FoodTypeComponent implements OnInit {
 
   // Width change
   windownInnerWidth = window.innerWidth;
-  @HostListener('window:resize', ['$event'])
+  @HostListener("window:resize", ["$event"])
   onResize(event) {
     this.windownInnerWidth = window.innerWidth;
   }
-  @HostListener('window:orientationchange', ['$event'])
+  @HostListener("window:orientationchange", ["$event"])
   onOrientationChange(event) {
     this.windownInnerWidth = window.innerWidth;
   }
@@ -44,7 +43,7 @@ export class FoodTypeComponent implements OnInit {
     private foodTypeService: FoodTypeService,
     private alertService: AlertService,
     private toastr: ToastrService,
-    private spinner: SpinnerService
+    private spinner: SpinnerService,
   ) {
     // Set default
     this.pageResult = new PageResultVO<FoodType>();
@@ -60,7 +59,7 @@ export class FoodTypeComponent implements OnInit {
       this.pageResult.currentPage,
       this.pageResult.pageSize,
       this.currentSort,
-      this.currentFilterValue
+      this.currentFilterValue,
     );
   }
 
@@ -76,7 +75,7 @@ export class FoodTypeComponent implements OnInit {
       0,
       this.pageResult.pageSize,
       null,
-      this.currentFilterValue
+      this.currentFilterValue,
     );
   }
 
@@ -90,7 +89,7 @@ export class FoodTypeComponent implements OnInit {
       0,
       this.pageResult.pageSize,
       this.currentSort,
-      this.currentFilterValue
+      this.currentFilterValue,
     );
   }
 
@@ -102,7 +101,7 @@ export class FoodTypeComponent implements OnInit {
       e.pageIndex,
       e.pageSize,
       this.currentSort,
-      this.currentFilterValue
+      this.currentFilterValue,
     );
   }
 
@@ -114,7 +113,7 @@ export class FoodTypeComponent implements OnInit {
       pageInfo.offset,
       this.pageResult.pageSize,
       this.currentSort,
-      this.currentFilterValue
+      this.currentFilterValue,
     );
   }
 
@@ -133,7 +132,7 @@ export class FoodTypeComponent implements OnInit {
     pageNumber: number,
     pageRecord: number,
     sorter: Sorter,
-    filterValue: string
+    filterValue: string,
   ) {
     // Prepare search condition
     const sco = new FoodTypeSCO();
@@ -145,7 +144,7 @@ export class FoodTypeComponent implements OnInit {
       sco.sorters = sorters;
     } else {
       const sorters: Array<Sorter> = [];
-      sorters.push(new Sorter('id', 'ASC'));
+      sorters.push(new Sorter("id", "ASC"));
       sco.sorters = sorters;
     }
     if (filterValue) {
@@ -173,7 +172,7 @@ export class FoodTypeComponent implements OnInit {
 
     // Search
     this.foodTypeService.search(sco).subscribe(
-      data => {
+      (data) => {
         const responseAPi: any = data;
         const typeResponse: ApiReponse<FoodType> = responseAPi;
         if (typeResponse.data != null) {
@@ -185,12 +184,12 @@ export class FoodTypeComponent implements OnInit {
         // Hide Loading
         this.spinner.hide();
       },
-      error => {
+      (error) => {
         // Hide Loading
         this.spinner.hide();
 
         this.alertService.error(error);
-      }
+      },
     );
   }
 
@@ -201,7 +200,7 @@ export class FoodTypeComponent implements OnInit {
    * Add button
    */
   public add() {
-    this.toastr.warning('[Admin notice] Not allow to create');
+    this.toastr.warning("[Admin notice] Not allow to create");
     // this.foodTypeDialogService.add("ADD", "").then(
     //   result => {
     //     if (result) {
@@ -225,12 +224,12 @@ export class FoodTypeComponent implements OnInit {
    */
   public delete() {
     if (this.selected.length > 0) {
-      this.selected.forEach(element => {
+      this.selected.forEach((element) => {
         this.deleteChoose(element);
       });
     } else {
-      this.toastr.info('No selected item', 'Information', {
-        timeOut: 2000
+      this.toastr.info("No selected item", "Information", {
+        timeOut: 2000,
       });
     }
   }
@@ -246,14 +245,14 @@ export class FoodTypeComponent implements OnInit {
    * View detail chosen
    */
   public viewDetailChoose(item: FoodType) {
-    this.foodTypeDialogService.view('DETAIL', '', item).then(
-      result => {
+    this.foodTypeDialogService.view("DETAIL", "", item).then(
+      (result) => {
         if (result) {
         }
       },
-      reason => {
-        console.log('DETAIL reason:' + reason);
-      }
+      (reason) => {
+        console.log("DETAIL reason:" + reason);
+      },
     );
   }
 
@@ -261,20 +260,20 @@ export class FoodTypeComponent implements OnInit {
    * Edit chosen
    */
   public editChoose(item: FoodType) {
-    this.foodTypeDialogService.edit('EDIT', '', item).then(
-      result => {
+    this.foodTypeDialogService.edit("EDIT", "", item).then(
+      (result) => {
         if (result) {
           this.getPageResult(
             this.pageResult.currentPage,
             this.pageResult.pageSize,
             this.currentSort,
-            this.currentFilterValue
+            this.currentFilterValue,
           );
         }
       },
-      reason => {
-        console.log('EDIT reason:' + reason);
-      }
+      (reason) => {
+        console.log("EDIT reason:" + reason);
+      },
     );
   }
 
@@ -283,11 +282,11 @@ export class FoodTypeComponent implements OnInit {
    */
   public deleteChoose(item: FoodType) {
     this.foodTypeDialogService
-      .delete('DELETION', 'Are you sure deleting: ' + item.typeCode + ' ?')
+      .delete("DELETION", "Are you sure deleting: " + item.typeCode + " ?")
       .then(
-        result => {
+        (result) => {
           if (result) {
-            this.toastr.warning('[Admin notice] Not allow to delete');
+            this.toastr.warning("[Admin notice] Not allow to delete");
 
             // this.configService.delete(item.id).subscribe(
             //   data => {
@@ -312,9 +311,9 @@ export class FoodTypeComponent implements OnInit {
             // );
           }
         },
-        reason => {
-          console.log('DELETE reason:' + reason);
-        }
+        (reason) => {
+          console.log("DELETE reason:" + reason);
+        },
       );
   }
 }

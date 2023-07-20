@@ -1,21 +1,21 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
-import { AppSettings } from '@app/appSettings';
-import { User } from '@app/user/_models';
-import { AuthenticationService } from '@app/user/_service';
-import { AlertService } from '@app/_common/alert';
-import { ApiReponse } from '@app/_common/_models';
-import { YoutubeChannelVideoSCO } from '@app/_common/_sco';
-import { SearchNumber } from '@app/_common/_sco/core_sco';
-import { SEOService, SpinnerService } from '@app/_common/_services';
-import { ToastrService } from 'ngx-toastr';
-import { YoutubeVideo } from '../_models';
-import { YoutubeService } from '../_services';
+import { Component, OnInit } from "@angular/core";
+import { ActivatedRoute, Params } from "@angular/router";
+import { AppSettings } from "@app/appSettings";
+import { User } from "@app/user/_models";
+import { AuthenticationService } from "@app/user/_service";
+import { AlertService } from "@app/_common/alert";
+import { ApiReponse } from "@app/_common/_models";
+import { YoutubeChannelVideoSCO } from "@app/_common/_sco";
+import { SearchNumber } from "@app/_common/_sco/core_sco";
+import { SEOService, SpinnerService } from "@app/_common/_services";
+import { ToastrService } from "ngx-toastr";
+import { YoutubeVideo } from "../_models";
+import { YoutubeService } from "../_services";
 
 @Component({
-  selector: 'app-youtube-player-channel',
-  templateUrl: './youtube-player-channel.component.html',
-  styleUrls: ['./youtube-player-channel.component.css']
+  selector: "app-youtube-player-channel",
+  templateUrl: "./youtube-player-channel.component.html",
+  styleUrls: ["./youtube-player-channel.component.css"],
 })
 export class YoutubePlayerChannelComponent implements OnInit {
   currentUser: User;
@@ -35,13 +35,17 @@ export class YoutubePlayerChannelComponent implements OnInit {
     private alertService: AlertService,
     private youtubeService: YoutubeService,
     private authenticationService: AuthenticationService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
   ) {
     // Get logged user
-    this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
+    this.authenticationService.currentUser.subscribe(
+      (x) => (this.currentUser = x),
+    );
 
     // Get channel id from parameter
-    this.route.params.subscribe((params: Params) => this.channelId = params['channelId']);
+    this.route.params.subscribe(
+      (params: Params) => (this.channelId = params["channelId"]),
+    );
 
     this.videoWidth = window.innerWidth;
     this.videoHeight = window.innerHeight;
@@ -59,14 +63,14 @@ export class YoutubePlayerChannelComponent implements OnInit {
     }
 
     // Initial video
-    const tag = document.createElement('script');
+    const tag = document.createElement("script");
     tag.src = AppSettings.GOOGLE_YOUTUBE_IFRAME;
     document.body.appendChild(tag);
   }
 
   /**
-  * Load video list
-  */
+   * Load video list
+   */
   public loadVideoList() {
     // Prepare search condition
     const channelSearch = new SearchNumber();
@@ -80,8 +84,8 @@ export class YoutubePlayerChannelComponent implements OnInit {
     this.spinner.show();
 
     // Get list
-    this.youtubeService.searchChannelVideo(sco)
-      .subscribe(data => {
+    this.youtubeService.searchChannelVideo(sco).subscribe(
+      (data) => {
         // Get data
         const responseAPi: any = data;
         const typeResponse: ApiReponse<YoutubeVideo> = responseAPi;
@@ -90,17 +94,17 @@ export class YoutubePlayerChannelComponent implements OnInit {
 
           // Set first video
           this.videoId = this.getRandomVideoId();
-
         } else {
           this.videos = new Array<YoutubeVideo>();
         }
 
         // Hide loading
         this.spinner.hide();
-
-      }, error => {
+      },
+      (error) => {
         this.processError(error);
-      });
+      },
+    );
   }
 
   /**
@@ -111,8 +115,8 @@ export class YoutubePlayerChannelComponent implements OnInit {
     this.spinner.show();
 
     // Get list
-    this.youtubeService.getPrivateVideo()
-      .subscribe(data => {
+    this.youtubeService.getPrivateVideo().subscribe(
+      (data) => {
         // Get data
         const responseAPi: any = data;
         const typeResponse: ApiReponse<YoutubeVideo> = responseAPi;
@@ -127,17 +131,19 @@ export class YoutubePlayerChannelComponent implements OnInit {
 
         // Hide loading
         this.spinner.hide();
-
-      }, error => {
+      },
+      (error) => {
         this.processError(error);
-      });
+      },
+    );
   }
 
   public getRandomVideoId() {
     let result = null;
 
     if (this.videos.length > 0) {
-      const itemRandom = this.videos[Math.floor(Math.random() * this.videos.length)];
+      const itemRandom =
+        this.videos[Math.floor(Math.random() * this.videos.length)];
       result = itemRandom.videoId;
 
       // Remove item
@@ -187,12 +193,12 @@ export class YoutubePlayerChannelComponent implements OnInit {
    *
    */
   public onErrorEvent(event) {
-    this.toastr.error('[Youtube Player] Error:' + event.data);
+    this.toastr.error("[Youtube Player] Error:" + event.data);
   }
 
   /**
- * Process error in case have error call API
- */
+   * Process error in case have error call API
+   */
   public processError(error: any) {
     // Hide loading
     this.spinner.hide();
