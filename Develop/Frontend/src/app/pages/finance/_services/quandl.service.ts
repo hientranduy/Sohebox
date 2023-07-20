@@ -4,12 +4,10 @@ import { environment } from '@environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class QuandlService {
+  constructor(private http: HttpClient) {}
 
-    constructor(private http: HttpClient) {
-    }
-
-    // Search WTI oil price
-    getWTIOilPrices() {
-        return this.http.get(`${environment.soheboxUrl}/api/quandl/OPECORB`);
-    }
+  // Search WTI oil price
+  getWTIOilPrices() {
+    return this.http.get(`${environment.soheboxUrl}/api/quandl/OPECORB`);
+  }
 }

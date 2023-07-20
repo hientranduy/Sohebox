@@ -1,34 +1,40 @@
 <section class="menu-header">
-    <span class="greeting__text">Welcome Back</span>
+  <span class="greeting__text">Welcome Back</span>
 
-    <div class="profile-image__container">
-        <img class="img-responsive" src="assets/avatar/{{currentUser.avatarUrl}}" class=" profile__image">
-    </div>
+  <div class="profile-image__container">
+    <img
+      class="img-responsive"
+      src="assets/avatar/{{ currentUser.avatarUrl }}"
+      class="profile__image"
+    />
+  </div>
 
-    <div class="user-details">
-        <span class="name__text">{{currentUser.firstName}} {{currentUser.lastName}}</span>
-    </div>
+  <div class="user-details">
+    <span class="name__text"
+      >{{ currentUser.firstName }} {{ currentUser.lastName }}</span
+    >
+  </div>
 </section>
 
 <div class="body__text">
-    <ngx-spinner>
-        <p class="loading">Updating user ...</p>
-    </ngx-spinner>
+  <ngx-spinner>
+    <p class="loading">Updating user ...</p>
+  </ngx-spinner>
 
-    <a (click)="logout()">Logout</a>
-    <br>
-    <a (click)="changePassword()">Change Password</a>
-    <br>
-    <a (click)="changePrivateKey()">Change Private Key</a>
-    <br>
-    <a (click)="updateUser()">Update Infomation</a>
-    <br>
-    <a (click)="deleteUser()">Delete User</a>
-    <br>
-    <br>
-    <a>English</a>
-    <br>
-    <a (click)="setEnglishGrade()"><i>-- Update level</i></a>
-    <br>
-    <a (click)="navigateEnglishReport()"><i>-- E-Dashboard</i></a>
+  <a (click)="logout()">Logout</a>
+  <br />
+  <a (click)="changePassword()">Change Password</a>
+  <br />
+  <a (click)="changePrivateKey()">Change Private Key</a>
+  <br />
+  <a (click)="updateUser()">Update Infomation</a>
+  <br />
+  <a (click)="deleteUser()">Delete User</a>
+  <br />
+  <br />
+  <a>English</a>
+  <br />
+  <a (click)="setEnglishGrade()"><i>-- Update level</i></a>
+  <br />
+  <a (click)="navigateEnglishReport()"><i>-- E-Dashboard</i></a>
 </div>

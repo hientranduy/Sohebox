@@ -10,7 +10,6 @@ import { User } from '../_models';
   templateUrl: 'change-private-key-dialog.component.html',
 })
 export class ChangePrivateKeyDialogComponent implements OnInit {
-
   @Input() title: string;
   @Input() message: string;
   @Input() messageError: string;
@@ -31,14 +30,15 @@ export class ChangePrivateKeyDialogComponent implements OnInit {
     private userService: UserService,
     private alertService: AlertService,
     private spinner: SpinnerService,
-    private authenticationService: AuthenticationService
+    private authenticationService: AuthenticationService,
   ) {
     // Get logged user
-    this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
+    this.authenticationService.currentUser.subscribe(
+      (x) => (this.currentUser = x),
+    );
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   public accept() {
     // Validate data
@@ -49,7 +49,8 @@ export class ChangePrivateKeyDialogComponent implements OnInit {
       this.validData = false;
     } else if (this.newPrivateKey !== this.retypePrivateKey) {
       this.message = null;
-      this.messageError = 'Your new private key is not map with retype private key';
+      this.messageError =
+        'Your new private key is not map with retype private key';
       this.validData = false;
     } else if (this.newPrivateKey.length < 6) {
       this.message = null;
@@ -64,11 +65,12 @@ export class ChangePrivateKeyDialogComponent implements OnInit {
       // Change private key
       this.changePrivateKeyForm = this.formBuilder.group({
         oldPrivateKey: [this.oldPrivateKey],
-        newPrivateKey: [this.newPrivateKey]
+        newPrivateKey: [this.newPrivateKey],
       });
-      this.userService.changePrivatekey(this.changePrivateKeyForm.value)
+      this.userService
+        .changePrivatekey(this.changePrivateKeyForm.value)
         .subscribe(
-          data => {
+          (data) => {
             this.alertService.success('Private key change successful', true);
 
             this.spinner.hide();
@@ -76,11 +78,12 @@ export class ChangePrivateKeyDialogComponent implements OnInit {
             // Close dialog
             this.activeModal.close(true);
           },
-          error => {
+          (error) => {
             this.spinner.hide();
 
             this.messageError = error;
-          });
+          },
+        );
     }
   }
 

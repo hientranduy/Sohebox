@@ -4,17 +4,17 @@ import { environment } from '@environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class FinanceService {
+  constructor(private http: HttpClient) {}
 
-    constructor(private http: HttpClient) {
-    }
+  // Get currency VCB
+  getCurrencyVcbRate() {
+    return this.http.get(
+      `${environment.soheboxUrl}/api/finance/vietcombankRate`,
+    );
+  }
 
-    // Get currency VCB
-    getCurrencyVcbRate() {
-        return this.http.get(`${environment.soheboxUrl}/api/finance/vietcombankRate`);
-    }
-
-    // Get gold price SJC
-    getGoldSjcPrice() {
-        return this.http.get(`${environment.soheboxUrl}/api/finance/goldSjc`);
-    }
+  // Get gold price SJC
+  getGoldSjcPrice() {
+    return this.http.get(`${environment.soheboxUrl}/api/finance/goldSjc`);
+  }
 }

@@ -9,7 +9,6 @@ import { SpinnerService } from '@app/_common/_services';
   templateUrl: 'change-password-dialog.component.html',
 })
 export class ChangePasswordDialogComponent implements OnInit {
-
   @Input() title: string;
   @Input() message: string;
   @Input() messageError: string;
@@ -25,11 +24,10 @@ export class ChangePasswordDialogComponent implements OnInit {
     private activeModal: NgbActiveModal,
     private userService: UserService,
     private alertService: AlertService,
-    private spinner: SpinnerService
-    ) {  }
+    private spinner: SpinnerService,
+  ) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   public decline() {
     this.activeModal.close(false);
@@ -55,22 +53,24 @@ export class ChangePasswordDialogComponent implements OnInit {
     if (this.validData) {
       // Prepare change password form
       this.changePasswordForm = this.formBuilder.group({
-        newPassword: [this.newPassword]
+        newPassword: [this.newPassword],
       });
 
       // Change password
       this.spinner.show();
-      this.userService.changePasswordByLoggedUser(this.changePasswordForm.value)
+      this.userService
+        .changePasswordByLoggedUser(this.changePasswordForm.value)
         .subscribe(
-          data => {
+          (data) => {
             // Send alert message
             this.alertService.success('Password change successful', true);
             this.spinner.hide();
           },
-          error => {
+          (error) => {
             this.spinner.hide();
             this.alertService.error(error);
-          });
+          },
+        );
 
       // Close dialog
       this.activeModal.close(true);
@@ -81,4 +81,3 @@ export class ChangePasswordDialogComponent implements OnInit {
     this.activeModal.dismiss();
   }
 }
-

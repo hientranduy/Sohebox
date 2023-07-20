@@ -1,32 +1,32 @@
 .finance-energy-container {
-    margin: 10px;
-} 
-
-.finance-oil-container{
-    width: 100%;
-    background-color:#efefef; 
-    text-align: center;
-    border-collapse: collapse; 
-    border: 1px solid #000000; 
-    margin: 10px 0px;
+  margin: 10px;
 }
 
-.finance-oil-title{
-    background-color:#cecfce; 
-    font-size: 18px; 
-    font-weight: bold; 
-    color: #000000;
-    margin: 2px;
+.finance-oil-container {
+  width: 100%;
+  background-color: #efefef;
+  text-align: center;
+  border-collapse: collapse;
+  border: 1px solid #000000;
+  margin: 10px 0px;
 }
 
-.finance-oil-chart-image{
-    width: 98%;
-    height: auto;
+.finance-oil-title {
+  background-color: #cecfce;
+  font-size: 18px;
+  font-weight: bold;
+  color: #000000;
+  margin: 2px;
 }
 
-.finance-oil-opt-image{
-    width: 22%;
-    max-width: 70px;
-    height: auto;
-    cursor: pointer;
+.finance-oil-chart-image {
+  width: 98%;
+  height: auto;
+}
+
+.finance-oil-opt-image {
+  width: 22%;
+  max-width: 70px;
+  height: auto;
+  cursor: pointer;
 }

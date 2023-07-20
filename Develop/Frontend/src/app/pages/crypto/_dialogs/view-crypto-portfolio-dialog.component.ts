@@ -10,11 +10,7 @@ import { CryptoPortfolio, CryptoTokenConfig } from '../_models';
   templateUrl: 'view-crypto-portfolio-dialog.component.html',
 })
 export class ViewCryptoPortfolioDialogComponent implements OnInit {
-
-  constructor(
-    private activeModal: NgbActiveModal,
-  ) {
-  }
+  constructor(private activeModal: NgbActiveModal) {}
 
   // Form value
   @Input() title: string;
@@ -34,26 +30,22 @@ export class ViewCryptoPortfolioDialogComponent implements OnInit {
 
   // Field wallet
   walletValue: string;
-  walletFormControl = new FormControl('', [
-    Validators.required,
-  ]);
+  walletFormControl = new FormControl('', [Validators.required]);
 
   // Field starname
   starnameValue: string;
-  starnameFormControl = new FormControl('', [
-  ]);
+  starnameFormControl = new FormControl('', []);
 
   ngOnInit() {
     // Set current value
     this.tokenValue = this.cryptoPortfolio.token;
     this.walletValue = this.cryptoPortfolio.wallet;
     this.starnameValue = this.cryptoPortfolio.starname;
-
   }
 
   public displayToken(item: CryptoTokenConfig) {
     if (item) {
-      return item.tokenCode + " (" + item.tokenName + ")";
+      return item.tokenCode + ' (' + item.tokenName + ')';
     }
   }
 

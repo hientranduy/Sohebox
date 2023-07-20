@@ -6,15 +6,14 @@ import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-administration',
   templateUrl: './administration.component.html',
-  styleUrls: ['./administration.component.css']
+  styleUrls: ['./administration.component.css'],
 })
 export class AdministrationComponent implements OnInit {
-
   constructor(
     private route: ActivatedRoute,
     private seoService: SEOService,
-    private toastr: ToastrService
-  ) { }
+    private toastr: ToastrService,
+  ) {}
 
   get isUserControlOpen() {
     return this.selectOpion === 1;

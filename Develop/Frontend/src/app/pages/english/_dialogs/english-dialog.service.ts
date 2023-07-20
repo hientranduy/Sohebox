@@ -9,7 +9,10 @@ import { WordInfoDialogComponent } from './word-info-dialog.component';
 
 @Injectable({ providedIn: 'root' })
 export class EnglishDialogService {
-  constructor(config: NgbModalConfig, private modalService: NgbModal) {
+  constructor(
+    config: NgbModalConfig,
+    private modalService: NgbModal,
+  ) {
     config.backdrop = 'static';
     config.keyboard = false;
   }
@@ -17,10 +20,10 @@ export class EnglishDialogService {
   public addWord(
     title: string,
     message: string,
-    dialogSize: 'sm' | 'lg' = 'lg'
+    dialogSize: 'sm' | 'lg' = 'lg',
   ): Promise<boolean> {
     const modalRef = this.modalService.open(AddWordDialogComponent, {
-      size: dialogSize
+      size: dialogSize,
     });
     modalRef.componentInstance.title = title;
     modalRef.componentInstance.message = message;
@@ -33,10 +36,10 @@ export class EnglishDialogService {
     title: string,
     message: string,
     english: English,
-    dialogSize: 'sm' | 'lg' = 'lg'
+    dialogSize: 'sm' | 'lg' = 'lg',
   ): Promise<boolean> {
     const modalRef = this.modalService.open(EditWordDialogComponent, {
-      size: dialogSize
+      size: dialogSize,
     });
     modalRef.componentInstance.title = title;
     modalRef.componentInstance.message = message;
@@ -48,10 +51,10 @@ export class EnglishDialogService {
 
   public viewWordInfo(
     english: English,
-    dialogSize: 'sm' | 'lg' = 'lg'
+    dialogSize: 'sm' | 'lg' = 'lg',
   ): Promise<boolean> {
     const modalRef = this.modalService.open(WordInfoDialogComponent, {
-      size: dialogSize
+      size: dialogSize,
     });
     modalRef.componentInstance.btnCancelText = 'Cancel';
     modalRef.componentInstance.english = english;
@@ -62,10 +65,10 @@ export class EnglishDialogService {
     title: string,
     message: string,
     english: English,
-    dialogSize: 'sm' | 'lg' = 'lg'
+    dialogSize: 'sm' | 'lg' = 'lg',
   ): Promise<boolean> {
     const modalRef = this.modalService.open(DownloadVoiceComponent, {
-      size: dialogSize
+      size: dialogSize,
     });
     modalRef.componentInstance.title = title;
     modalRef.componentInstance.message = message;
@@ -78,10 +81,10 @@ export class EnglishDialogService {
   public showLearnedWord(
     title: string,
     message: string,
-    dialogSize: 'sm' | 'lg' = 'lg'
+    dialogSize: 'sm' | 'lg' = 'lg',
   ): Promise<boolean> {
     const modalRef = this.modalService.open(ShowLearnedWordComponent, {
-      size: dialogSize
+      size: dialogSize,
     });
     modalRef.componentInstance.title = title;
     modalRef.componentInstance.message = message;

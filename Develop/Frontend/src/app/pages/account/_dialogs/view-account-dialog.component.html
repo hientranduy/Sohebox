@@ -1,28 +1,59 @@
-<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-atom" [fullScreen]="true">
-  <p style="color: white"> Loading... </p>
+<ngx-spinner
+  bdColor="rgba(51,51,51,0.8)"
+  size="medium"
+  color="#fff"
+  type="ball-atom"
+  [fullScreen]="true"
+>
+  <p style="color: white">Loading...</p>
 </ngx-spinner>
 
 <div class="modal-header">
   <h4 class="modal-title">{{ title }}</h4>
-  <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="dismiss()">
+  <button
+    type="button"
+    class="close"
+    data-dismiss="modal"
+    aria-label="Close"
+    (click)="dismiss()"
+  >
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
 
 <div class="modal-body">
-  <p><strong>{{ message }}</strong>
-    <strong><span class="text-danger">{{ messageError }}</span></strong>
+  <p>
+    <strong>{{ message }}</strong>
+    <strong
+      ><span class="text-danger">{{ messageError }}</span></strong
+    >
   </p>
 
   <form class="account-form">
     <!-- Field : Account Type -->
     <mat-form-field class="field-full-width">
-      <input matInput readonly placeholder="Choose account" [formControl]="accountTypeFormControl"
-        [matAutocomplete]="autoAccountType" [(ngModel)]="accountTypeValue">
-      <mat-autocomplete #autoAccountType="matAutocomplete" [displayWith]="displayAccountType">
-        <mat-option *ngFor="let accountType of filteredAccountTypes | async" [value]="accountType">
-          <img class="img-responsive" src="assets/account/{{accountType.iconUrl}}" class="icon__image">
-          {{accountType.typeName}}
+      <input
+        matInput
+        readonly
+        placeholder="Choose account"
+        [formControl]="accountTypeFormControl"
+        [matAutocomplete]="autoAccountType"
+        [(ngModel)]="accountTypeValue"
+      />
+      <mat-autocomplete
+        #autoAccountType="matAutocomplete"
+        [displayWith]="displayAccountType"
+      >
+        <mat-option
+          *ngFor="let accountType of filteredAccountTypes | async"
+          [value]="accountType"
+        >
+          <img
+            class="img-responsive"
+            src="assets/account/{{ accountType.iconUrl }}"
+            class="icon__image"
+          />
+          {{ accountType.typeName }}
         </mat-option>
       </mat-autocomplete>
       <mat-error *ngIf="accountTypeFormControl.hasError('required')">
@@ -35,8 +66,13 @@
 
     <!-- Field : Account Name -->
     <mat-form-field class="field-full-width">
-      <input matInput readonly placeholder="Account name" [formControl]="accountNameFormControl"
-        [(ngModel)]="accountNameValue">
+      <input
+        matInput
+        readonly
+        placeholder="Account name"
+        [formControl]="accountNameFormControl"
+        [(ngModel)]="accountNameValue"
+      />
       <mat-error *ngIf="accountNameFormControl.hasError('required')">
         <strong>Required</strong>
       </mat-error>
@@ -44,16 +80,30 @@
 
     <!-- Field : Password -->
     <mat-form-field class="field-full-width">
-      <input matInput readonly placeholder="Password" [formControl]="passwordFormControl" [(ngModel)]="passwordValue">
+      <input
+        matInput
+        readonly
+        placeholder="Password"
+        [formControl]="passwordFormControl"
+        [(ngModel)]="passwordValue"
+      />
     </mat-form-field>
 
     <!-- Field : Note -->
     <mat-form-field class="field-full-width">
-      <input matInput readonly placeholder="Note" [formControl]="noteFormControl" [(ngModel)]="noteValue">
+      <input
+        matInput
+        readonly
+        placeholder="Note"
+        [formControl]="noteFormControl"
+        [(ngModel)]="noteValue"
+      />
     </mat-form-field>
   </form>
 </div>
 
 <div class="modal-footer">
-  <button type="button" class="btn btn-danger" (click)="decline()" ngbAutofocus>{{ btnCancelText }} </button>
+  <button type="button" class="btn btn-danger" (click)="decline()" ngbAutofocus>
+    {{ btnCancelText }}
+  </button>
 </div>

@@ -6,32 +6,33 @@ import { environment } from '@environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class EnglishTypeService {
+  constructor(private http: HttpClient) {}
 
-    constructor(private http: HttpClient) {
-    }
+  // Search
+  search(sco: EnglishTypeSCO) {
+    return this.http.post(
+      `${environment.soheboxUrl}/api/englishTypes/search`,
+      sco,
+    );
+  }
 
-    // Search
-    search(sco: EnglishTypeSCO) {
-        return this.http.post(`${environment.soheboxUrl}/api/englishTypes/search`, sco);
-    }
+  // Add new
+  create(item: EnglishType) {
+    return this.http.post(`${environment.soheboxUrl}/api/englishTypes`, item);
+  }
 
-    // Add new
-    create(item: EnglishType) {
-        return this.http.post(`${environment.soheboxUrl}/api/englishTypes`, item);
-    }
+  // Delete
+  delete(id: Number) {
+    return this.http.delete(`${environment.soheboxUrl}/api/englishTypes/${id}`);
+  }
 
-    // Delete
-    delete(id: Number) {
-        return this.http.delete(`${environment.soheboxUrl}/api/englishTypes/${id}`);
-    }
+  // Update
+  update(item: EnglishType) {
+    return this.http.put(`${environment.soheboxUrl}/api/englishTypes`, item);
+  }
 
-    // Update
-    update(item: EnglishType) {
-        return this.http.put(`${environment.soheboxUrl}/api/englishTypes`, item);
-    }
-
-    // Get
-    get(id: number) {
-        return this.http.get(`${environment.soheboxUrl}/api/englishTypes/${id}`);
-    }
+  // Get
+  get(id: number) {
+    return this.http.get(`${environment.soheboxUrl}/api/englishTypes/${id}`);
+  }
 }

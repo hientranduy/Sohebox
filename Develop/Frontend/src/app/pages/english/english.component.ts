@@ -6,9 +6,24 @@ import { User } from '@app/user/_models';
 import { AuthenticationService } from '@app/user/_service';
 import { AlertService } from '@app/_common/alert';
 import { ApiReponse, EnglishType } from '@app/_common/_models';
-import { EnglishLearnRecordSCO, EnglishSCO, EnglishTypeSCO, EnglishUserGradeSCO } from '@app/_common/_sco';
-import { SearchDate, SearchNumber, SearchText, Sorter } from '@app/_common/_sco/core_sco';
-import { RequireMatchForm, SEOService, SpinnerService, UtilsService } from '@app/_common/_services';
+import {
+  EnglishLearnRecordSCO,
+  EnglishSCO,
+  EnglishTypeSCO,
+  EnglishUserGradeSCO,
+} from '@app/_common/_sco';
+import {
+  SearchDate,
+  SearchNumber,
+  SearchText,
+  Sorter,
+} from '@app/_common/_sco/core_sco';
+import {
+  RequireMatchForm,
+  SEOService,
+  SpinnerService,
+  UtilsService,
+} from '@app/_common/_services';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
@@ -19,7 +34,7 @@ import { EnglishService, EnglishTypeService } from './_services';
 @Component({
   selector: 'app-english',
   templateUrl: './english.component.html',
-  styleUrls: ['./english.component.css']
+  styleUrls: ['./english.component.css'],
 })
 export class EnglishComponent implements OnInit {
   @ViewChild('searchButtonEnglish') public searchButton: any;
@@ -43,10 +58,12 @@ export class EnglishComponent implements OnInit {
     private alertService: AlertService,
     private toastr: ToastrService,
     private spinner: SpinnerService,
-    private utilsService: UtilsService
+    private utilsService: UtilsService,
   ) {
     // Get logged user
-    this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
+    this.authenticationService.currentUser.subscribe(
+      (x) => (this.currentUser = x),
+    );
 
     // Get learned record
     this.getLearnedListByToday();
@@ -174,21 +191,29 @@ export class EnglishComponent implements OnInit {
     englishTypeSCO.typeClass = typeClass;
 
     // Get list category
-    this.englishTypeService.search(englishTypeSCO)
-      .subscribe(data => {
+    this.englishTypeService.search(englishTypeSCO).subscribe(
+      (data) => {
         // Get data
         const responseAPi: any = data;
         const typeResponse: ApiReponse<EnglishType> = responseAPi;
         if (typeResponse.data != null) {
           const categories: EnglishType[] = typeResponse.data.elements;
-          this.filteredCategories = this.categoryControl.valueChanges
-            .pipe(
-              startWith(''),
-              map(value => categories.filter(valueFilter => valueFilter.typeCode.toLowerCase().includes(value.toString().toLowerCase()))));
+          this.filteredCategories = this.categoryControl.valueChanges.pipe(
+            startWith(''),
+            map((value) =>
+              categories.filter((valueFilter) =>
+                valueFilter.typeCode
+                  .toLowerCase()
+                  .includes(value.toString().toLowerCase()),
+              ),
+            ),
+          );
         }
-      }, error => {
+      },
+      (error) => {
         this.processError(error);
-      });
+      },
+    );
   }
 
   /**
@@ -207,21 +232,29 @@ export class EnglishComponent implements OnInit {
     englishTypeSCO.sorters = sorters;
 
     // Get list grade
-    this.englishTypeService.search(englishTypeSCO)
-      .subscribe(data => {
+    this.englishTypeService.search(englishTypeSCO).subscribe(
+      (data) => {
         // Get data
         const responseAPi: any = data;
         const typeResponse: ApiReponse<EnglishType> = responseAPi;
         if (typeResponse.data != null) {
           const grades: EnglishType[] = typeResponse.data.elements;
-          this.filteredGrades = this.gradeControl.valueChanges
-            .pipe(
-              startWith(''),
-              map(value => grades.filter(valueFilter => valueFilter.typeCode.toLowerCase().includes(value.toString().toLowerCase()))));
+          this.filteredGrades = this.gradeControl.valueChanges.pipe(
+            startWith(''),
+            map((value) =>
+              grades.filter((valueFilter) =>
+                valueFilter.typeCode
+                  .toLowerCase()
+                  .includes(value.toString().toLowerCase()),
+              ),
+            ),
+          );
         }
-      }, error => {
+      },
+      (error) => {
         this.processError(error);
-      });
+      },
+    );
   }
 
   /**
@@ -238,8 +271,8 @@ export class EnglishComponent implements OnInit {
     sco.userId = userIdSearch;
 
     // Search
-    this.englishService.searchLearnRecord(sco)
-      .subscribe(data => {
+    this.englishService.searchLearnRecord(sco).subscribe(
+      (data) => {
         // Get data
         const responseAPi: any = data;
         const typeResponse: ApiReponse<EnglishLearnRecord> = responseAPi;
@@ -248,21 +281,24 @@ export class EnglishComponent implements OnInit {
 
           // Calculate total times of learn
           if (this.learnedRecords != null) {
-            this.learnedRecords.forEach(element => {
-              this.numberOfLearned = this.numberOfLearned + element.learnedToday;
+            this.learnedRecords.forEach((element) => {
+              this.numberOfLearned =
+                this.numberOfLearned + element.learnedToday;
             });
           } else {
             this.numberOfLearned = 0;
           }
         }
-      }, error => {
+      },
+      (error) => {
         this.processError(error);
-      });
+      },
+    );
   }
 
   /**
-  * Get english level of current user
-  */
+   * Get english level of current user
+   */
   public getCurrentUserlevelAndFirstWord() {
     // Prepare search condition
     const userId = new SearchNumber();
@@ -275,8 +311,8 @@ export class EnglishComponent implements OnInit {
     this.spinner.show();
 
     // Search
-    this.englishService.searchEnglishLevel(englishUserGradeSCO)
-      .subscribe(data => {
+    this.englishService.searchEnglishLevel(englishUserGradeSCO).subscribe(
+      (data) => {
         // Get data
         const responseAPi: any = data;
         const typeResponse: ApiReponse<EnglishUserGrade> = responseAPi;
@@ -290,14 +326,15 @@ export class EnglishComponent implements OnInit {
         this.spinner.hide();
 
         this.generateWord();
-      }, error => {
+      },
+      (error) => {
         // Hide loading
         this.spinner.hide();
 
         this.alertService.error(error);
-      });
+      },
+    );
   }
-
 
   /**
    * Set display image & voice
@@ -307,21 +344,23 @@ export class EnglishComponent implements OnInit {
     this.displayImageUrl = AppSettings.ENGLISH_IMAGE_PATH + english.imageName;
 
     if (english.voiceUkFile != null) {
-      this.displayUkVoiceUrl = AppSettings.ENGLISH_SOUND_PATH + english.voiceUkFile;
+      this.displayUkVoiceUrl =
+        AppSettings.ENGLISH_SOUND_PATH + english.voiceUkFile;
     } else {
       this.displayUkVoiceUrl = null;
     }
 
     if (english.voiceUsFile != null) {
-      this.displayUsVoiceUrl = AppSettings.ENGLISH_SOUND_PATH + english.voiceUsFile;
+      this.displayUsVoiceUrl =
+        AppSettings.ENGLISH_SOUND_PATH + english.voiceUsFile;
     } else {
       this.displayUsVoiceUrl = null;
     }
   }
 
   /**
-  * Search Word from server
-  */
+   * Search Word from server
+   */
   public searchWord() {
     // Prepare search condition
     const englishSCO = new EnglishSCO();
@@ -366,8 +405,8 @@ export class EnglishComponent implements OnInit {
     this.spinner.show();
 
     // Get list word
-    this.englishService.searchLowLearnEnglish(englishSCO)
-      .subscribe(data => {
+    this.englishService.searchLowLearnEnglish(englishSCO).subscribe(
+      (data) => {
         // Get data
         const responseAPi: any = data;
         const typeResponse: ApiReponse<English> = responseAPi;
@@ -382,14 +421,16 @@ export class EnglishComponent implements OnInit {
           this.setDisplayWordElements(english);
 
           // Remove selected word from list
-          const index = this.searchListWord.findIndex(d => d === english);
+          const index = this.searchListWord.findIndex((d) => d === english);
           this.searchListWord.splice(index, 1);
 
           // Check if have excellent icon
           this.checkShowExcelenceStar(english);
         } else {
           // Toast warning if not found
-          this.toastr.warning('No WORD with search condition, please select others');
+          this.toastr.warning(
+            'No WORD with search condition, please select others',
+          );
 
           // Set display word elements to null
           this.displayWord = null;
@@ -400,9 +441,11 @@ export class EnglishComponent implements OnInit {
 
         // Hide loading
         this.spinner.hide();
-      }, error => {
+      },
+      (error) => {
         this.processError(error);
-      });
+      },
+    );
   }
 
   ////////////////////
@@ -410,11 +453,13 @@ export class EnglishComponent implements OnInit {
   ////////////////////
 
   /**
- * Go to google translate button
- */
+   * Go to google translate button
+   */
   public goToGooleTranslate() {
     if (this.displayWord) {
-      window.open(AppSettings.GOOGLE_TRANSLATE_WORD_URL + this.displayWord.keyWord);
+      window.open(
+        AppSettings.GOOGLE_TRANSLATE_WORD_URL + this.displayWord.keyWord,
+      );
     } else {
       // Toast warning if not found
       this.toastr.warning('Need to generate a WORD first');
@@ -426,13 +471,15 @@ export class EnglishComponent implements OnInit {
    */
   public goToCambridgeDictionary() {
     if (this.displayWord) {
-      window.open(AppSettings.CAMBRIDGE_DICTIONATY_WORD_URL + this.displayWord.keyWord.split(' ').join('-'));
+      window.open(
+        AppSettings.CAMBRIDGE_DICTIONATY_WORD_URL +
+          this.displayWord.keyWord.split(' ').join('-'),
+      );
     } else {
       // Toast warning if not found
       this.toastr.warning('Need to generate a WORD first');
     }
   }
-
 
   /**
    * Generate new word
@@ -448,7 +495,11 @@ export class EnglishComponent implements OnInit {
       this.playVoiceDate = new Date();
 
       // Process to get new word
-      if (this.isHaveNewSearch() || this.searchListWord == null || this.searchListWord.length === 0) {
+      if (
+        this.isHaveNewSearch() ||
+        this.searchListWord == null ||
+        this.searchListWord.length === 0
+      ) {
         // Search from server
         this.searchWord();
 
@@ -465,7 +516,7 @@ export class EnglishComponent implements OnInit {
         this.setDisplayWordElements(english);
 
         // Remove selected word from list
-        const index = this.searchListWord.findIndex(d => d === english);
+        const index = this.searchListWord.findIndex((d) => d === english);
         this.searchListWord.splice(index, 1);
 
         // Check if have excellent icon
@@ -488,11 +539,14 @@ export class EnglishComponent implements OnInit {
 
     if (elem.requestFullscreen) {
       elem.requestFullscreen();
-    } else if (elem.mozRequestFullScreen) { /* Firefox */
+    } else if (elem.mozRequestFullScreen) {
+      /* Firefox */
       elem.mozRequestFullScreen();
-    } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
+    } else if (elem.webkitRequestFullscreen) {
+      /* Chrome, Safari and Opera */
       elem.webkitRequestFullscreen();
-    } else if (elem.msRequestFullscreen) { /* IE/Edge */
+    } else if (elem.msRequestFullscreen) {
+      /* IE/Edge */
       elem.msRequestFullscreen();
     }
   }
@@ -509,21 +563,24 @@ export class EnglishComponent implements OnInit {
     };
     if (elem.exitFullscreen) {
       elem.exitFullscreen();
-    } else if (elem.mozCancelFullScreen) { /* Firefox */
+    } else if (elem.mozCancelFullScreen) {
+      /* Firefox */
       elem.mozCancelFullScreen();
-    } else if (elem.webkitExitFullscreen) { /* Chrome, Safari and Opera */
+    } else if (elem.webkitExitFullscreen) {
+      /* Chrome, Safari and Opera */
       elem.webkitExitFullscreen();
-    } else if (elem.msExitFullscreen) { /* IE/Edge */
+    } else if (elem.msExitFullscreen) {
+      /* IE/Edge */
       elem.msExitFullscreen();
     }
   }
-
 
   /**
    * Play UK Voice botton
    */
   public playUkVoice() {
-    const durationVoiceTime = (new Date().getTime() - this.playVoiceDate.getTime()) / 1000;
+    const durationVoiceTime =
+      (new Date().getTime() - this.playVoiceDate.getTime()) / 1000;
     if (durationVoiceTime < 1) {
       // Toast warning if not found
       this.toastr.warning('Click too fast - Nhấn nhanh quá');
@@ -557,7 +614,8 @@ export class EnglishComponent implements OnInit {
    * Play US Voice botton
    */
   public playUsVoice() {
-    const durationVoiceTime = (new Date().getTime() - this.playVoiceDate.getTime()) / 1000;
+    const durationVoiceTime =
+      (new Date().getTime() - this.playVoiceDate.getTime()) / 1000;
     if (durationVoiceTime < 1) {
       // Toast warning if not found
       this.toastr.warning('Click too fast - Nhấn nhanh quá');
@@ -587,7 +645,6 @@ export class EnglishComponent implements OnInit {
     this.forcusObjet(this.searchButton);
   }
 
-
   /**
    * Add Learn
    */
@@ -599,37 +656,45 @@ export class EnglishComponent implements OnInit {
       englishLearnRecord.english = english;
 
       // Call API count learn
-      this.englishService.addLearnRecord(englishLearnRecord)
-        .subscribe(
-          data => {
-            // Success
-            // Increase learned times
-            this.numberOfLearned = this.numberOfLearned + 1;
+      this.englishService.addLearnRecord(englishLearnRecord).subscribe(
+        (data) => {
+          // Success
+          // Increase learned times
+          this.numberOfLearned = this.numberOfLearned + 1;
 
-            // Check add learn flag to true
-            this.isAddLearn = true;
-          },
-          error => {
-            // Error
-          });
+          // Check add learn flag to true
+          this.isAddLearn = true;
+        },
+        (error) => {
+          // Error
+        },
+      );
     }
   }
-
 
   /**
    * Show dialog list word
    */
   public showDialogLearnedWord() {
     if (this.numberOfLearned > 0) {
-      this.englishDialogService.showLearnedWord('LEARNED WORDS',
-        'You are seeing your list of word that learned by today').then((result) => {
-          if (result) {
-          }
-        }, (reason) => {
-          console.log('showDialogLearnedWord reason:' + reason);
-        });
+      this.englishDialogService
+        .showLearnedWord(
+          'LEARNED WORDS',
+          'You are seeing your list of word that learned by today',
+        )
+        .then(
+          (result) => {
+            if (result) {
+            }
+          },
+          (reason) => {
+            console.log('showDialogLearnedWord reason:' + reason);
+          },
+        );
     } else {
-      this.toastr.warning('You have not learned any word by today, let try hard');
+      this.toastr.warning(
+        'You have not learned any word by today, let try hard',
+      );
     }
   }
 
@@ -654,7 +719,7 @@ export class EnglishComponent implements OnInit {
 
       if (inputWord.toUpperCase() === this.displayWord.keyWord.toUpperCase()) {
         // Show success message
-        this.toastr.success(inputWord + " is the corrected word");
+        this.toastr.success(inputWord + ' is the corrected word');
 
         // Check click image to true
         this.isClickImage = true;
@@ -665,7 +730,7 @@ export class EnglishComponent implements OnInit {
         // Add learn
         this.addLearn(this.currentUser, this.displayWord);
       } else {
-        this.toastr.warning("Not corrected ! Try again");
+        this.toastr.warning('Not corrected ! Try again');
       }
     }
   }
@@ -733,7 +798,6 @@ export class EnglishComponent implements OnInit {
     this.isDisplayStart4 = false;
     this.isDisplayStart5 = false;
 
-
     // Set display exellence based on number of learned
     if (english != null) {
       const learnTime = english.recordTimes;
@@ -778,7 +842,8 @@ export class EnglishComponent implements OnInit {
       }
 
       // Valid if learn >= 20 seconds
-      const learnTime = (new Date().getTime() - this.getWordDate.getTime()) / 1000;
+      const learnTime =
+        (new Date().getTime() - this.getWordDate.getTime()) / 1000;
       if (learnTime >= this.secondToPass) {
         result = true;
       }

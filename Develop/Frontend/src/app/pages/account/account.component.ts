@@ -16,10 +16,9 @@ import { AccountService } from './_services';
 @Component({
   selector: 'app-account',
   templateUrl: './account.component.html',
-  styleUrls: ['./account.component.css']
+  styleUrls: ['./account.component.css'],
 })
 export class AccountComponent implements OnInit {
-
   /**
    * Constructor
    */
@@ -30,10 +29,12 @@ export class AccountComponent implements OnInit {
     private alertService: AlertService,
     private toastr: ToastrService,
     private spinner: SpinnerService,
-    public utilsService: UtilsService
+    public utilsService: UtilsService,
   ) {
     // Get user info
-    this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
+    this.authenticationService.currentUser.subscribe(
+      (x) => (this.currentUser = x),
+    );
 
     // Set default
     this.pageResult = new PageResultVO<Account>();
@@ -68,7 +69,7 @@ export class AccountComponent implements OnInit {
       this.pageResult.currentPage,
       this.pageResult.pageSize,
       this.currentSort,
-      this.currentFilterValue
+      this.currentFilterValue,
     );
   }
 
@@ -84,7 +85,7 @@ export class AccountComponent implements OnInit {
       0,
       this.pageResult.pageSize,
       null,
-      this.currentFilterValue
+      this.currentFilterValue,
     );
   }
 
@@ -98,7 +99,7 @@ export class AccountComponent implements OnInit {
       0,
       this.pageResult.pageSize,
       this.currentSort,
-      this.currentFilterValue
+      this.currentFilterValue,
     );
   }
 
@@ -110,7 +111,7 @@ export class AccountComponent implements OnInit {
       e.pageIndex,
       e.pageSize,
       this.currentSort,
-      this.currentFilterValue
+      this.currentFilterValue,
     );
   }
 
@@ -122,7 +123,7 @@ export class AccountComponent implements OnInit {
       pageInfo.offset,
       this.pageResult.pageSize,
       this.currentSort,
-      this.currentFilterValue
+      this.currentFilterValue,
     );
   }
 
@@ -133,7 +134,7 @@ export class AccountComponent implements OnInit {
     pageNumber: number,
     pageRecord: number,
     sorter: Sorter,
-    filterValue: string
+    filterValue: string,
   ) {
     // Prepare search condition
     const sco = new AccountSCO();
@@ -177,7 +178,7 @@ export class AccountComponent implements OnInit {
 
     // Search
     this.accountService.searchAccount(sco).subscribe(
-      data => {
+      (data) => {
         const responseAPi: any = data;
         const typeResponse: ApiReponse<Account> = responseAPi;
         if (typeResponse.data != null) {
@@ -189,12 +190,12 @@ export class AccountComponent implements OnInit {
         // Hide Loading
         this.spinner.hide();
       },
-      error => {
+      (error) => {
         // Hide Loading
         this.spinner.hide();
 
         this.alertService.error(error);
-      }
+      },
     );
   }
 
@@ -206,20 +207,20 @@ export class AccountComponent implements OnInit {
    */
   public add() {
     this.accountDialogService.addAccount('ADD ACCOUNT', '').then(
-      result => {
+      (result) => {
         if (result) {
           // Refresh table
           this.getPageResult(
             0,
             this.pageResult.pageSize,
             this.currentSort,
-            this.currentFilterValue
+            this.currentFilterValue,
           );
         }
       },
-      reason => {
+      (reason) => {
         console.log('ADD reason:' + reason);
-      }
+      },
     );
   }
 
@@ -236,13 +237,13 @@ export class AccountComponent implements OnInit {
   public showPassword(item: Account) {
     if (item.mdp) {
       this.accountDialogService.showPassword(item).then(
-        result => {
+        (result) => {
           if (result) {
           }
         },
-        reason => {
+        (reason) => {
           console.log('Show password reason:' + reason);
-        }
+        },
       );
     } else {
       this.toastr.info('This account does not set password');
@@ -254,13 +255,13 @@ export class AccountComponent implements OnInit {
    */
   public viewDetailChoose(item: Account) {
     this.accountDialogService.viewAccount('DETAIL ACCOUNT', '', item).then(
-      result => {
+      (result) => {
         if (result) {
         }
       },
-      reason => {
+      (reason) => {
         console.log('DETAIL reason:' + reason);
-      }
+      },
     );
   }
 
@@ -269,19 +270,19 @@ export class AccountComponent implements OnInit {
    */
   public editChoose(item: Account) {
     this.accountDialogService.editAccount('EDIT ACCOUNT', '', item).then(
-      result => {
+      (result) => {
         if (result) {
           this.getPageResult(
             this.pageResult.currentPage,
             this.pageResult.pageSize,
             this.currentSort,
-            this.currentFilterValue
+            this.currentFilterValue,
           );
         }
       },
-      reason => {
+      (reason) => {
         console.log('EDIT reason:' + reason);
-      }
+      },
     );
   }
 
@@ -293,10 +294,10 @@ export class AccountComponent implements OnInit {
       .deleteAccount(
         'DELETION',
         'Are you sure deleting: ' + item.accountName + ' ?',
-        item
+        item,
       )
       .then(
-        result => {
+        (result) => {
           if (result) {
             // Refresh page
             if (result) {
@@ -304,14 +305,14 @@ export class AccountComponent implements OnInit {
                 this.pageResult.currentPage,
                 this.pageResult.pageSize,
                 this.currentSort,
-                this.currentFilterValue
+                this.currentFilterValue,
               );
             }
           }
         },
-        reason => {
+        (reason) => {
           console.log('DELETE reason:' + reason);
-        }
+        },
       );
   }
 
@@ -323,7 +324,7 @@ export class AccountComponent implements OnInit {
       case AppSettings.ACCOUNT_TYPE_GMAIL:
       case AppSettings.ACCOUNT_TYPE_GOOGLE: {
         window.open(
-          AppSettings.GOOGLE_LOGIN_URL + account.accountName + '#password'
+          AppSettings.GOOGLE_LOGIN_URL + account.accountName + '#password',
         );
         break;
       }

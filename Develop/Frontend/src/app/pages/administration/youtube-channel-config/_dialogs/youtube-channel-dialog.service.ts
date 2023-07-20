@@ -6,7 +6,10 @@ import { EditYoutubeChannelDialogComponent } from './edit-youtube-channel-dialog
 
 @Injectable({ providedIn: 'root' })
 export class YoutubeChannelDialogService {
-  constructor(config: NgbModalConfig, private modalService: NgbModal) {
+  constructor(
+    config: NgbModalConfig,
+    private modalService: NgbModal,
+  ) {
     config.backdrop = 'static';
     config.keyboard = false;
   }
@@ -14,10 +17,10 @@ export class YoutubeChannelDialogService {
   public add(
     title: string,
     message: string,
-    dialogSize: 'sm' | 'lg' = 'lg'
+    dialogSize: 'sm' | 'lg' = 'lg',
   ): Promise<boolean> {
     const modalRef = this.modalService.open(AddYoutubeChannelDialogComponent, {
-      size: dialogSize
+      size: dialogSize,
     });
     modalRef.componentInstance.title = title;
     modalRef.componentInstance.message = message;
@@ -30,10 +33,10 @@ export class YoutubeChannelDialogService {
     title: string,
     message: string,
     youtubeChannel: YoutubeChannel,
-    dialogSize: 'sm' | 'lg' = 'lg'
+    dialogSize: 'sm' | 'lg' = 'lg',
   ): Promise<boolean> {
     const modalRef = this.modalService.open(EditYoutubeChannelDialogComponent, {
-      size: dialogSize
+      size: dialogSize,
     });
     modalRef.componentInstance.title = title;
     modalRef.componentInstance.message = message;

@@ -11,14 +11,12 @@ import { AccountService } from '../_services';
   templateUrl: 'show-password-dialog.component.html',
 })
 export class ShowPasswordDialogComponent implements OnInit {
-
   constructor(
     private activeModal: NgbActiveModal,
     private toastr: ToastrService,
     private accountService: AccountService,
-    private spinner: SpinnerService
-  ) {
-  }
+    private spinner: SpinnerService,
+  ) {}
 
   // Form value
   @Input() messageError: string;
@@ -49,8 +47,8 @@ export class ShowPasswordDialogComponent implements OnInit {
       // Show Loading
       this.spinner.show();
 
-      this.accountService.showPassword(this.account)
-        .subscribe(data => {
+      this.accountService.showPassword(this.account).subscribe(
+        (data) => {
           // Get data
           const responseAPi: any = data;
           const typeResponse: ApiReponse<Account> = responseAPi;
@@ -68,11 +66,12 @@ export class ShowPasswordDialogComponent implements OnInit {
 
           // Hide Loading
           this.spinner.hide();
-        }, error => {
-
+        },
+        (error) => {
           // Hide Loading
           this.spinner.hide();
-        });
+        },
+      );
     } else {
       this.messageError = 'Input missing';
     }

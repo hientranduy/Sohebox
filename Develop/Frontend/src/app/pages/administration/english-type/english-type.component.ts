@@ -14,10 +14,9 @@ import { EnglishTypeDialogService } from './_dialogs';
 @Component({
   selector: 'app-english-type',
   templateUrl: './english-type.component.html',
-  styleUrls: ['./english-type.component.css']
+  styleUrls: ['./english-type.component.css'],
 })
 export class EnglishTypeComponent implements OnInit {
-
   // Table elements
   pageResult: PageResultVO<EnglishType>;
   currentSort: Sorter;
@@ -44,7 +43,7 @@ export class EnglishTypeComponent implements OnInit {
     private englishTypeService: EnglishTypeService,
     private alertService: AlertService,
     private toastr: ToastrService,
-    private spinner: SpinnerService
+    private spinner: SpinnerService,
   ) {
     // Set default
     this.pageResult = new PageResultVO<EnglishType>();
@@ -60,7 +59,7 @@ export class EnglishTypeComponent implements OnInit {
       this.pageResult.currentPage,
       this.pageResult.pageSize,
       this.currentSort,
-      this.currentFilterValue
+      this.currentFilterValue,
     );
   }
 
@@ -76,7 +75,7 @@ export class EnglishTypeComponent implements OnInit {
       0,
       this.pageResult.pageSize,
       null,
-      this.currentFilterValue
+      this.currentFilterValue,
     );
   }
 
@@ -90,7 +89,7 @@ export class EnglishTypeComponent implements OnInit {
       0,
       this.pageResult.pageSize,
       this.currentSort,
-      this.currentFilterValue
+      this.currentFilterValue,
     );
   }
 
@@ -102,7 +101,7 @@ export class EnglishTypeComponent implements OnInit {
       e.pageIndex,
       e.pageSize,
       this.currentSort,
-      this.currentFilterValue
+      this.currentFilterValue,
     );
   }
 
@@ -114,7 +113,7 @@ export class EnglishTypeComponent implements OnInit {
       pageInfo.offset,
       this.pageResult.pageSize,
       this.currentSort,
-      this.currentFilterValue
+      this.currentFilterValue,
     );
   }
 
@@ -133,7 +132,7 @@ export class EnglishTypeComponent implements OnInit {
     pageNumber: number,
     pageRecord: number,
     sorter: Sorter,
-    filterValue: string
+    filterValue: string,
   ) {
     // Prepare search condition
     const sco = new EnglishTypeSCO();
@@ -173,7 +172,7 @@ export class EnglishTypeComponent implements OnInit {
 
     // Search
     this.englishTypeService.search(sco).subscribe(
-      data => {
+      (data) => {
         const responseAPi: any = data;
         const typeResponse: ApiReponse<EnglishType> = responseAPi;
         if (typeResponse.data != null) {
@@ -185,12 +184,12 @@ export class EnglishTypeComponent implements OnInit {
         // Hide Loading
         this.spinner.hide();
       },
-      error => {
+      (error) => {
         // Hide Loading
         this.spinner.hide();
 
         this.alertService.error(error);
-      }
+      },
     );
   }
 
@@ -225,12 +224,12 @@ export class EnglishTypeComponent implements OnInit {
    */
   public delete() {
     if (this.selected.length > 0) {
-      this.selected.forEach(element => {
+      this.selected.forEach((element) => {
         this.deleteChoose(element);
       });
     } else {
       this.toastr.info('No selected item', 'Information', {
-        timeOut: 2000
+        timeOut: 2000,
       });
     }
   }
@@ -247,13 +246,13 @@ export class EnglishTypeComponent implements OnInit {
    */
   public viewDetailChoose(item: EnglishType) {
     this.englishTypeDialogService.view('DETAIL', '', item).then(
-      result => {
+      (result) => {
         if (result) {
         }
       },
-      reason => {
+      (reason) => {
         console.log('DETAIL reason:' + reason);
-      }
+      },
     );
   }
 
@@ -262,19 +261,19 @@ export class EnglishTypeComponent implements OnInit {
    */
   public editChoose(item: EnglishType) {
     this.englishTypeDialogService.edit('EDIT', '', item).then(
-      result => {
+      (result) => {
         if (result) {
           this.getPageResult(
             this.pageResult.currentPage,
             this.pageResult.pageSize,
             this.currentSort,
-            this.currentFilterValue
+            this.currentFilterValue,
           );
         }
       },
-      reason => {
+      (reason) => {
         console.log('EDIT reason:' + reason);
-      }
+      },
     );
   }
 
@@ -285,7 +284,7 @@ export class EnglishTypeComponent implements OnInit {
     this.englishTypeDialogService
       .delete('DELETION', 'Are you sure deleting: ' + item.typeCode + ' ?')
       .then(
-        result => {
+        (result) => {
           if (result) {
             this.toastr.warning('[Admin notice] Not allow to delete');
 
@@ -312,9 +311,9 @@ export class EnglishTypeComponent implements OnInit {
             // );
           }
         },
-        reason => {
+        (reason) => {
           console.log('DELETE reason:' + reason);
-        }
+        },
       );
   }
 }

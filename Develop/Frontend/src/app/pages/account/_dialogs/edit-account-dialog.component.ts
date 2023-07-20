@@ -4,7 +4,11 @@ import { AlertService } from '@app/_common/alert';
 import { ApiReponse, Type } from '@app/_common/_models';
 import { TypeSCO } from '@app/_common/_sco';
 import { SearchText } from '@app/_common/_sco/core_sco';
-import { RequireMatchForm, SpinnerService, TypeService } from '@app/_common/_services';
+import {
+  RequireMatchForm,
+  SpinnerService,
+  TypeService,
+} from '@app/_common/_services';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
@@ -17,16 +21,14 @@ import { AccountService } from '../_services';
   templateUrl: 'edit-account-dialog.component.html',
 })
 export class EditAccountDialogComponent implements OnInit {
-
   constructor(
     private activeModal: NgbActiveModal,
     private accountService: AccountService,
     private alertService: AlertService,
     private typeService: TypeService,
     private toastr: ToastrService,
-    private spinner: SpinnerService
-  ) {
-  }
+    private spinner: SpinnerService,
+  ) {}
 
   // Form value
   @Input() title: string;
@@ -46,19 +48,15 @@ export class EditAccountDialogComponent implements OnInit {
 
   // Field account name
   accountNameValue: string;
-  accountNameFormControl = new FormControl('', [
-    Validators.required,
-  ]);
+  accountNameFormControl = new FormControl('', [Validators.required]);
 
   // Field password
   passwordValue: string;
-  passwordFormControl = new FormControl('', [
-  ]);
+  passwordFormControl = new FormControl('', []);
 
   // Field note
   noteValue: string;
-  noteFormControl = new FormControl('', [
-  ]);
+  noteFormControl = new FormControl('', []);
 
   ngOnInit() {
     // Set current value
@@ -89,30 +87,37 @@ export class EditAccountDialogComponent implements OnInit {
     this.spinner.show();
 
     // Get list type
-    this.typeService.search(typeSCO)
-      .subscribe(
-        data => {
-          // Get data
-          const responseAPi: any = data;
-          const typeResponse: ApiReponse<Type> = responseAPi;
-          if (typeResponse.data != null) {
-            const accountTypes: Type[] = typeResponse.data.elements;
-            this.filteredAccountTypes = this.accountTypeFormControl.valueChanges
-              .pipe(
-                startWith(''),
-                map(value => accountTypes.filter(valueFilter => valueFilter.typeCode.toLowerCase().includes(value.toString().toLowerCase()))));
-          }
+    this.typeService.search(typeSCO).subscribe(
+      (data) => {
+        // Get data
+        const responseAPi: any = data;
+        const typeResponse: ApiReponse<Type> = responseAPi;
+        if (typeResponse.data != null) {
+          const accountTypes: Type[] = typeResponse.data.elements;
+          this.filteredAccountTypes =
+            this.accountTypeFormControl.valueChanges.pipe(
+              startWith(''),
+              map((value) =>
+                accountTypes.filter((valueFilter) =>
+                  valueFilter.typeCode
+                    .toLowerCase()
+                    .includes(value.toString().toLowerCase()),
+                ),
+              ),
+            );
+        }
 
-          // Hide loading
-          this.spinner.hide();
-        },
-        error => {
-          // Hide loading
-          this.spinner.hide();
+        // Hide loading
+        this.spinner.hide();
+      },
+      (error) => {
+        // Hide loading
+        this.spinner.hide();
 
-          // Show alert message
-          this.alertService.error(error);
-        });
+        // Show alert message
+        this.alertService.error(error);
+      },
+    );
   }
 
   /////////////////////////////////////
@@ -133,18 +138,19 @@ export class EditAccountDialogComponent implements OnInit {
   }
 
   /**
-  * Click accept button
-  */
+   * Click accept button
+   */
   public accept() {
     switch (true) {
       // Case data is unchanged
-      case (!this.isHaveUpdateValue()):
+      case !this.isHaveUpdateValue():
         this.message = null;
-        this.messageError = 'Skip update account because the value is not changed';
+        this.messageError =
+          'Skip update account because the value is not changed';
         break;
 
       // Case data is invalid
-      case (!this.isFormValid()):
+      case !this.isFormValid():
         this.message = null;
         this.messageError = 'Invalid fields, please check your input';
         break;
@@ -166,26 +172,33 @@ export class EditAccountDialogComponent implements OnInit {
         this.spinner.show();
 
         // Edit account
-        this.accountService.updateAccount(updateAccount)
-          .subscribe(
-            data => {
-              // Send success toast message
-              this.toastr.success('Account ' + this.accountTypeValue.typeCode + '<' + this.accountNameValue + '>' + ' is updated successful');
+        this.accountService.updateAccount(updateAccount).subscribe(
+          (data) => {
+            // Send success toast message
+            this.toastr.success(
+              'Account ' +
+                this.accountTypeValue.typeCode +
+                '<' +
+                this.accountNameValue +
+                '>' +
+                ' is updated successful',
+            );
 
-              // Hide loading
-              this.spinner.hide();
+            // Hide loading
+            this.spinner.hide();
 
-              // Close dialog
-              this.activeModal.close(true);
-            },
-            error => {
-              // Hide loading
-              this.spinner.hide();
+            // Close dialog
+            this.activeModal.close(true);
+          },
+          (error) => {
+            // Hide loading
+            this.spinner.hide();
 
-              // Send error
-              this.message = null;
-              this.messageError = error;
-            });
+            // Send error
+            this.message = null;
+            this.messageError = error;
+          },
+        );
     }
   }
 

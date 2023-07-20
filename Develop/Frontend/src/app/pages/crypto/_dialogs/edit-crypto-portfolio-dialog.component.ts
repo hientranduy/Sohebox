@@ -16,16 +16,14 @@ import { CryptoPortfolioService, CryptoTokenConfigService } from '../_services';
   templateUrl: 'edit-crypto-portfolio-dialog.component.html',
 })
 export class EditCryptoPortfolioDialogComponent implements OnInit {
-
   constructor(
     private activeModal: NgbActiveModal,
     private cryptoPortfolioService: CryptoPortfolioService,
     private alertService: AlertService,
     private cryptoTokenConfigService: CryptoTokenConfigService,
     private toastr: ToastrService,
-    private spinner: SpinnerService
-  ) {
-  }
+    private spinner: SpinnerService,
+  ) {}
 
   // Form value
   @Input() title: string;
@@ -45,15 +43,11 @@ export class EditCryptoPortfolioDialogComponent implements OnInit {
 
   // Field wallet
   walletValue: string;
-  walletFormControl = new FormControl('', [
-    Validators.required,
-  ]);
+  walletFormControl = new FormControl('', [Validators.required]);
 
   // Field starname
   starnameValue: string;
-  starnameFormControl = new FormControl('', [
-  ]);
-
+  starnameFormControl = new FormControl('', []);
 
   ngOnInit() {
     // Set current value
@@ -66,13 +60,13 @@ export class EditCryptoPortfolioDialogComponent implements OnInit {
 
   public displayToken(item: CryptoTokenConfig) {
     if (item) {
-      return item.tokenCode + " (" + item.tokenName + ")";
+      return item.tokenCode + ' (' + item.tokenName + ')';
     }
   }
 
   /**
-    * Get list 
-    */
+   * Get list
+   */
   getTokenList() {
     // Prepare search condition
     const sco = new CryptoTokenConfigSCO();
@@ -81,30 +75,36 @@ export class EditCryptoPortfolioDialogComponent implements OnInit {
     this.spinner.show();
 
     // Get list type
-    this.cryptoTokenConfigService.search(sco)
-      .subscribe(
-        data => {
-          // Get data
-          const responseAPi: any = data;
-          const typeResponse: ApiReponse<CryptoTokenConfig> = responseAPi;
-          if (typeResponse.data != null) {
-            const items: CryptoTokenConfig[] = typeResponse.data.elements;
-            this.filteredTokens = this.tokenFormControl.valueChanges
-              .pipe(
-                startWith(''),
-                map(value => items.filter(valueFilter => valueFilter.tokenCode.toLowerCase().includes(value.toString().toLowerCase()))));
-          }
+    this.cryptoTokenConfigService.search(sco).subscribe(
+      (data) => {
+        // Get data
+        const responseAPi: any = data;
+        const typeResponse: ApiReponse<CryptoTokenConfig> = responseAPi;
+        if (typeResponse.data != null) {
+          const items: CryptoTokenConfig[] = typeResponse.data.elements;
+          this.filteredTokens = this.tokenFormControl.valueChanges.pipe(
+            startWith(''),
+            map((value) =>
+              items.filter((valueFilter) =>
+                valueFilter.tokenCode
+                  .toLowerCase()
+                  .includes(value.toString().toLowerCase()),
+              ),
+            ),
+          );
+        }
 
-          // Hide loading
-          this.spinner.hide();
-        },
-        error => {
-          // Hide loading
-          this.spinner.hide();
+        // Hide loading
+        this.spinner.hide();
+      },
+      (error) => {
+        // Hide loading
+        this.spinner.hide();
 
-          // Show alert message
-          this.alertService.error(error);
-        });
+        // Show alert message
+        this.alertService.error(error);
+      },
+    );
   }
 
   /////////////////////////////////////
@@ -125,25 +125,25 @@ export class EditCryptoPortfolioDialogComponent implements OnInit {
   }
 
   /**
-  * Click accept button
-  */
+   * Click accept button
+   */
   public accept() {
     switch (true) {
       // Case data is unchanged
-      case (!this.isHaveUpdateValue()):
+      case !this.isHaveUpdateValue():
         this.message = null;
         this.messageError = 'Skip update because the value is not changed';
         break;
 
       // Case data is invalid
-      case (!this.isFormValid()):
+      case !this.isFormValid():
         this.message = null;
         this.messageError = 'Invalid fields, please check your input';
         break;
 
       // Case ok
       default:
-        // Prepare update 
+        // Prepare update
         const updateItem: CryptoPortfolio = this.cryptoPortfolio;
         updateItem.token = this.tokenValue;
         updateItem.wallet = this.walletValue;
@@ -153,26 +153,33 @@ export class EditCryptoPortfolioDialogComponent implements OnInit {
         this.spinner.show();
 
         // Edit account
-        this.cryptoPortfolioService.update(updateItem)
-          .subscribe(
-            data => {
-              // Send success toast message
-              this.toastr.success('Wallet ' + this.walletValue + '<' + this.tokenValue.tokenCode + '>' + ' is updated successful');
+        this.cryptoPortfolioService.update(updateItem).subscribe(
+          (data) => {
+            // Send success toast message
+            this.toastr.success(
+              'Wallet ' +
+                this.walletValue +
+                '<' +
+                this.tokenValue.tokenCode +
+                '>' +
+                ' is updated successful',
+            );
 
-              // Hide loading
-              this.spinner.hide();
+            // Hide loading
+            this.spinner.hide();
 
-              // Close dialog
-              this.activeModal.close(true);
-            },
-            error => {
-              // Hide loading
-              this.spinner.hide();
+            // Close dialog
+            this.activeModal.close(true);
+          },
+          (error) => {
+            // Hide loading
+            this.spinner.hide();
 
-              // Send error
-              this.message = null;
-              this.messageError = error;
-            });
+            // Send error
+            this.message = null;
+            this.messageError = error;
+          },
+        );
     }
   }
 

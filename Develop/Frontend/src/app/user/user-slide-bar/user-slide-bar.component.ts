@@ -8,7 +8,7 @@ import { AuthenticationService } from '../_service';
 @Component({
   selector: 'app-user-slide-bar',
   templateUrl: './user-slide-bar.component.html',
-  styleUrls: ['./user-slide-bar.component.css']
+  styleUrls: ['./user-slide-bar.component.css'],
 })
 export class UserSlideBarComponent implements OnInit, OnDestroy {
   currentUser: User;
@@ -20,15 +20,15 @@ export class UserSlideBarComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private authenticationService: AuthenticationService,
-    private userDialogService: UserDialogService
+    private userDialogService: UserDialogService,
   ) {
-    this.currentUserSubscription = this.authenticationService.currentUser.subscribe(user => {
-      this.currentUser = user;
-    });
+    this.currentUserSubscription =
+      this.authenticationService.currentUser.subscribe((user) => {
+        this.currentUser = user;
+      });
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   ngOnDestroy() {
     this.currentUserSubscription.unsubscribe();
@@ -41,9 +41,17 @@ export class UserSlideBarComponent implements OnInit, OnDestroy {
 
   public deleteUser() {
     this.title = 'User Deletion';
-    this.message = 'Do you really want to delete your user <' + this.currentUser.username + '> ?';
-    this.information = 'All information associated to this user profile will be permanently deleted.';
-    this.userDialogService.deleteUser(this.title, this.message, this.information);
+    this.message =
+      'Do you really want to delete your user <' +
+      this.currentUser.username +
+      '> ?';
+    this.information =
+      'All information associated to this user profile will be permanently deleted.';
+    this.userDialogService.deleteUser(
+      this.title,
+      this.message,
+      this.information,
+    );
   }
 
   public changePassword() {

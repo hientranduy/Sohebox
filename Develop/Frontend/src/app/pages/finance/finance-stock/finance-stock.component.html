@@ -1,305 +1,527 @@
 <!-- Loading spinner -->
-<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-atom" [fullScreen]="true">
-    <p style="color: white"> Loading... </p>
+<ngx-spinner
+  bdColor="rgba(51,51,51,0.8)"
+  size="medium"
+  color="#fff"
+  type="ball-atom"
+  [fullScreen]="true"
+>
+  <p style="color: white">Loading...</p>
 </ngx-spinner>
 
 <div class="finance-stock-container">
-    <!-- AMERICA -->
-    <div style="color: darkblue;margin-left: 10px;">
-        <strong>
-            AMERICA
-        </strong>
-    </div>
-    <ngx-datatable *ngIf="stocks && stocks.america" class="material" [rows]="stocks.america" [columnMode]="'flex'"
-        [headerHeight]="50" rowHeight="auto" [limit]="15">
-        <!-- Country -->
-        <ngx-datatable-column name="Country" prop="country.name" [flexGrow]="2">
-            <ng-template let-row="row" ngx-datatable-cell-template>
-                {{row.country.name}}
-            </ng-template>
-        </ngx-datatable-column>
+  <!-- AMERICA -->
+  <div style="color: darkblue; margin-left: 10px">
+    <strong> AMERICA </strong>
+  </div>
+  <ngx-datatable
+    *ngIf="stocks && stocks.america"
+    class="material"
+    [rows]="stocks.america"
+    [columnMode]="'flex'"
+    [headerHeight]="50"
+    rowHeight="auto"
+    [limit]="15"
+  >
+    <!-- Country -->
+    <ngx-datatable-column name="Country" prop="country.name" [flexGrow]="2">
+      <ng-template let-row="row" ngx-datatable-cell-template>
+        {{ row.country.name }}
+      </ng-template>
+    </ngx-datatable-column>
 
-        <!-- Name -->
-        <ngx-datatable-column name="Name" prop="Name" [flexGrow]="2">
-            <ng-template let-value="value" ngx-datatable-cell-template>
-                {{ value }}
-            </ng-template>
-        </ngx-datatable-column>
+    <!-- Name -->
+    <ngx-datatable-column name="Name" prop="Name" [flexGrow]="2">
+      <ng-template let-value="value" ngx-datatable-cell-template>
+        {{ value }}
+      </ng-template>
+    </ngx-datatable-column>
 
-        <!-- Price -->
-        <ngx-datatable-column name="Price" prop="Last" [flexGrow]="3">
-            <ng-template let-row="row" ngx-datatable-cell-template>
-                {{row.Last.toFixed(0) }}
-                <span *ngIf="row.DailyChange < 0" style="font-size: 12px; font-weight: bold; color: red">
-                    ▼{{row.DailyChange.toFixed(0)}}
-                </span>
-                <span *ngIf="row.DailyChange >= 0" style="font-size: 12px; font-weight: bold; color: green">
-                    ▲{{row.DailyChange.toFixed(0)}}
-                </span>
-            </ng-template>
-        </ngx-datatable-column>
+    <!-- Price -->
+    <ngx-datatable-column name="Price" prop="Last" [flexGrow]="3">
+      <ng-template let-row="row" ngx-datatable-cell-template>
+        {{ row.Last.toFixed(0) }}
+        <span
+          *ngIf="row.DailyChange < 0"
+          style="font-size: 12px; font-weight: bold; color: red"
+        >
+          ▼{{ row.DailyChange.toFixed(0) }}
+        </span>
+        <span
+          *ngIf="row.DailyChange >= 0"
+          style="font-size: 12px; font-weight: bold; color: green"
+        >
+          ▲{{ row.DailyChange.toFixed(0) }}
+        </span>
+      </ng-template>
+    </ngx-datatable-column>
 
-        <!-- % Day change -->
-        <ngx-datatable-column name="Day" prop="DailyPercentualChange" [flexGrow]="2">
-            <ng-template let-value="value" ngx-datatable-cell-template>
-                <span *ngIf="value < 0" style="font-size: 12px; font-weight: bold; color: red">
-                    ▼{{value.toFixed(2)}}%
-                </span>
-                <span *ngIf="value >= 0" style="font-size: 12px; font-weight: bold; color: green">
-                    ▲{{value.toFixed(2)}}%
-                </span>
-            </ng-template>
-        </ngx-datatable-column>
+    <!-- % Day change -->
+    <ngx-datatable-column
+      name="Day"
+      prop="DailyPercentualChange"
+      [flexGrow]="2"
+    >
+      <ng-template let-value="value" ngx-datatable-cell-template>
+        <span
+          *ngIf="value < 0"
+          style="font-size: 12px; font-weight: bold; color: red"
+        >
+          ▼{{ value.toFixed(2) }}%
+        </span>
+        <span
+          *ngIf="value >= 0"
+          style="font-size: 12px; font-weight: bold; color: green"
+        >
+          ▲{{ value.toFixed(2) }}%
+        </span>
+      </ng-template>
+    </ngx-datatable-column>
 
-        <!-- % Week change -->
-        <ngx-datatable-column name="Week" prop="WeeklyPercentualChange" [flexGrow]="2" *ngIf="windownInnerWidth >= 450">
-            <ng-template let-value="value" ngx-datatable-cell-template>
-                <span *ngIf="value < 0" style="font-size: 12px; font-weight: bold; color: red">
-                    ▼{{value.toFixed(2)}}%
-                </span>
-                <span *ngIf="value >= 0" style="font-size: 12px; font-weight: bold; color: green">
-                    ▲{{value.toFixed(2)}}%
-                </span>
-            </ng-template>
-        </ngx-datatable-column>
+    <!-- % Week change -->
+    <ngx-datatable-column
+      name="Week"
+      prop="WeeklyPercentualChange"
+      [flexGrow]="2"
+      *ngIf="windownInnerWidth >= 450"
+    >
+      <ng-template let-value="value" ngx-datatable-cell-template>
+        <span
+          *ngIf="value < 0"
+          style="font-size: 12px; font-weight: bold; color: red"
+        >
+          ▼{{ value.toFixed(2) }}%
+        </span>
+        <span
+          *ngIf="value >= 0"
+          style="font-size: 12px; font-weight: bold; color: green"
+        >
+          ▲{{ value.toFixed(2) }}%
+        </span>
+      </ng-template>
+    </ngx-datatable-column>
 
-        <!-- % Month change -->
-        <ngx-datatable-column name="Month" prop="MonthlyPercentualChange" [flexGrow]="2"
-            *ngIf="windownInnerWidth >= 550">
-            <ng-template let-value="value" ngx-datatable-cell-template>
-                <span *ngIf="value < 0" style="font-size: 12px; font-weight: bold; color: red">
-                    ▼{{value.toFixed(2)}}%
-                </span>
-                <span *ngIf="value >= 0" style="font-size: 12px; font-weight: bold; color: green">
-                    ▲{{value.toFixed(2)}}%
-                </span>
-            </ng-template>
-        </ngx-datatable-column>
+    <!-- % Month change -->
+    <ngx-datatable-column
+      name="Month"
+      prop="MonthlyPercentualChange"
+      [flexGrow]="2"
+      *ngIf="windownInnerWidth >= 550"
+    >
+      <ng-template let-value="value" ngx-datatable-cell-template>
+        <span
+          *ngIf="value < 0"
+          style="font-size: 12px; font-weight: bold; color: red"
+        >
+          ▼{{ value.toFixed(2) }}%
+        </span>
+        <span
+          *ngIf="value >= 0"
+          style="font-size: 12px; font-weight: bold; color: green"
+        >
+          ▲{{ value.toFixed(2) }}%
+        </span>
+      </ng-template>
+    </ngx-datatable-column>
 
-        <!-- % Year change -->
-        <ngx-datatable-column name="Year" prop="YearlyPercentualChange" [flexGrow]="2" *ngIf="windownInnerWidth >= 750">
-            <ng-template let-value="value" ngx-datatable-cell-template>
-                <span *ngIf="value < 0" style="font-size: 12px; font-weight: bold; color: red">
-                    ▼{{value.toFixed(2)}}%
-                </span>
-                <span *ngIf="value >= 0" style="font-size: 12px; font-weight: bold; color: green">
-                    ▲{{value.toFixed(2)}}%
-                </span>
-            </ng-template>
-        </ngx-datatable-column>
+    <!-- % Year change -->
+    <ngx-datatable-column
+      name="Year"
+      prop="YearlyPercentualChange"
+      [flexGrow]="2"
+      *ngIf="windownInnerWidth >= 750"
+    >
+      <ng-template let-value="value" ngx-datatable-cell-template>
+        <span
+          *ngIf="value < 0"
+          style="font-size: 12px; font-weight: bold; color: red"
+        >
+          ▼{{ value.toFixed(2) }}%
+        </span>
+        <span
+          *ngIf="value >= 0"
+          style="font-size: 12px; font-weight: bold; color: green"
+        >
+          ▲{{ value.toFixed(2) }}%
+        </span>
+      </ng-template>
+    </ngx-datatable-column>
 
-        <!-- State -->
-        <ngx-datatable-column name="State" prop="state" [flexGrow]="2" *ngIf="windownInnerWidth >= 650">
-            <ng-template let-value="value" ngx-datatable-cell-template>
-                <span *ngIf="value.trim() === 'CLOSED'"
-                    style="font-size: 12px; font-weight: bold; background: red;color: aliceblue;">
-                    {{value}}
-                </span>
-                <span *ngIf="value.trim() === 'OPEN'"
-                    style="font-size: 12px; font-weight: bold; background: green;color: aliceblue">
-                    {{value}}
-                </span>
-            </ng-template>
-        </ngx-datatable-column>
-    </ngx-datatable>
+    <!-- State -->
+    <ngx-datatable-column
+      name="State"
+      prop="state"
+      [flexGrow]="2"
+      *ngIf="windownInnerWidth >= 650"
+    >
+      <ng-template let-value="value" ngx-datatable-cell-template>
+        <span
+          *ngIf="value.trim() === 'CLOSED'"
+          style="
+            font-size: 12px;
+            font-weight: bold;
+            background: red;
+            color: aliceblue;
+          "
+        >
+          {{ value }}
+        </span>
+        <span
+          *ngIf="value.trim() === 'OPEN'"
+          style="
+            font-size: 12px;
+            font-weight: bold;
+            background: green;
+            color: aliceblue;
+          "
+        >
+          {{ value }}
+        </span>
+      </ng-template>
+    </ngx-datatable-column>
+  </ngx-datatable>
 
-    <br>
-    <!-- EUROPE -->
-    <div style="color: darkblue;margin-left: 10px;">
-        <strong>
-            EUROPE
-        </strong>
-    </div>
-    <ngx-datatable *ngIf="stocks && stocks.europe" class="material" [rows]="stocks.europe" [columnMode]="'flex'"
-        [headerHeight]="50" rowHeight="auto" [limit]="15">
-        <!-- Country -->
-        <ngx-datatable-column name="Country" prop="country.name" [flexGrow]="2">
-            <ng-template let-row="row" ngx-datatable-cell-template>
-                {{row.country.name}}
-            </ng-template>
-        </ngx-datatable-column>
+  <br />
+  <!-- EUROPE -->
+  <div style="color: darkblue; margin-left: 10px">
+    <strong> EUROPE </strong>
+  </div>
+  <ngx-datatable
+    *ngIf="stocks && stocks.europe"
+    class="material"
+    [rows]="stocks.europe"
+    [columnMode]="'flex'"
+    [headerHeight]="50"
+    rowHeight="auto"
+    [limit]="15"
+  >
+    <!-- Country -->
+    <ngx-datatable-column name="Country" prop="country.name" [flexGrow]="2">
+      <ng-template let-row="row" ngx-datatable-cell-template>
+        {{ row.country.name }}
+      </ng-template>
+    </ngx-datatable-column>
 
-        <!-- Name -->
-        <ngx-datatable-column name="Name" prop="Name" [flexGrow]="2">
-            <ng-template let-value="value" ngx-datatable-cell-template>
-                {{ value }}
-            </ng-template>
-        </ngx-datatable-column>
+    <!-- Name -->
+    <ngx-datatable-column name="Name" prop="Name" [flexGrow]="2">
+      <ng-template let-value="value" ngx-datatable-cell-template>
+        {{ value }}
+      </ng-template>
+    </ngx-datatable-column>
 
-        <!-- Price -->
-        <ngx-datatable-column name="Price" prop="Last" [flexGrow]="3">
-            <ng-template let-row="row" ngx-datatable-cell-template>
-                {{row.Last.toFixed(0) }}
-                <span *ngIf="row.DailyChange < 0" style="font-size: 12px; font-weight: bold; color: red">
-                    ▼{{row.DailyChange.toFixed(0)}}
-                </span>
-                <span *ngIf="row.DailyChange >= 0" style="font-size: 12px; font-weight: bold; color: green">
-                    ▲{{row.DailyChange.toFixed(0)}}
-                </span>
-            </ng-template>
-        </ngx-datatable-column>
+    <!-- Price -->
+    <ngx-datatable-column name="Price" prop="Last" [flexGrow]="3">
+      <ng-template let-row="row" ngx-datatable-cell-template>
+        {{ row.Last.toFixed(0) }}
+        <span
+          *ngIf="row.DailyChange < 0"
+          style="font-size: 12px; font-weight: bold; color: red"
+        >
+          ▼{{ row.DailyChange.toFixed(0) }}
+        </span>
+        <span
+          *ngIf="row.DailyChange >= 0"
+          style="font-size: 12px; font-weight: bold; color: green"
+        >
+          ▲{{ row.DailyChange.toFixed(0) }}
+        </span>
+      </ng-template>
+    </ngx-datatable-column>
 
-        <!-- % Day change -->
-        <ngx-datatable-column name="Day" prop="DailyPercentualChange" [flexGrow]="2">
-            <ng-template let-value="value" ngx-datatable-cell-template>
-                <span *ngIf="value < 0" style="font-size: 12px; font-weight: bold; color: red">
-                    ▼{{value.toFixed(2)}}%
-                </span>
-                <span *ngIf="value >= 0" style="font-size: 12px; font-weight: bold; color: green">
-                    ▲{{value.toFixed(2)}}%
-                </span>
-            </ng-template>
-        </ngx-datatable-column>
+    <!-- % Day change -->
+    <ngx-datatable-column
+      name="Day"
+      prop="DailyPercentualChange"
+      [flexGrow]="2"
+    >
+      <ng-template let-value="value" ngx-datatable-cell-template>
+        <span
+          *ngIf="value < 0"
+          style="font-size: 12px; font-weight: bold; color: red"
+        >
+          ▼{{ value.toFixed(2) }}%
+        </span>
+        <span
+          *ngIf="value >= 0"
+          style="font-size: 12px; font-weight: bold; color: green"
+        >
+          ▲{{ value.toFixed(2) }}%
+        </span>
+      </ng-template>
+    </ngx-datatable-column>
 
-        <!-- % Week change -->
-        <ngx-datatable-column name="Week" prop="WeeklyPercentualChange" [flexGrow]="2" *ngIf="windownInnerWidth >= 450">
-            <ng-template let-value="value" ngx-datatable-cell-template>
-                <span *ngIf="value < 0" style="font-size: 12px; font-weight: bold; color: red">
-                    ▼{{value.toFixed(2)}}%
-                </span>
-                <span *ngIf="value >= 0" style="font-size: 12px; font-weight: bold; color: green">
-                    ▲{{value.toFixed(2)}}%
-                </span>
-            </ng-template>
-        </ngx-datatable-column>
+    <!-- % Week change -->
+    <ngx-datatable-column
+      name="Week"
+      prop="WeeklyPercentualChange"
+      [flexGrow]="2"
+      *ngIf="windownInnerWidth >= 450"
+    >
+      <ng-template let-value="value" ngx-datatable-cell-template>
+        <span
+          *ngIf="value < 0"
+          style="font-size: 12px; font-weight: bold; color: red"
+        >
+          ▼{{ value.toFixed(2) }}%
+        </span>
+        <span
+          *ngIf="value >= 0"
+          style="font-size: 12px; font-weight: bold; color: green"
+        >
+          ▲{{ value.toFixed(2) }}%
+        </span>
+      </ng-template>
+    </ngx-datatable-column>
 
-        <!-- % Month change -->
-        <ngx-datatable-column name="Month" prop="MonthlyPercentualChange" [flexGrow]="2"
-            *ngIf="windownInnerWidth >= 550">
-            <ng-template let-value="value" ngx-datatable-cell-template>
-                <span *ngIf="value < 0" style="font-size: 12px; font-weight: bold; color: red">
-                    ▼{{value.toFixed(2)}}%
-                </span>
-                <span *ngIf="value >= 0" style="font-size: 12px; font-weight: bold; color: green">
-                    ▲{{value.toFixed(2)}}%
-                </span>
-            </ng-template>
-        </ngx-datatable-column>
+    <!-- % Month change -->
+    <ngx-datatable-column
+      name="Month"
+      prop="MonthlyPercentualChange"
+      [flexGrow]="2"
+      *ngIf="windownInnerWidth >= 550"
+    >
+      <ng-template let-value="value" ngx-datatable-cell-template>
+        <span
+          *ngIf="value < 0"
+          style="font-size: 12px; font-weight: bold; color: red"
+        >
+          ▼{{ value.toFixed(2) }}%
+        </span>
+        <span
+          *ngIf="value >= 0"
+          style="font-size: 12px; font-weight: bold; color: green"
+        >
+          ▲{{ value.toFixed(2) }}%
+        </span>
+      </ng-template>
+    </ngx-datatable-column>
 
-        <!-- % Year change -->
-        <ngx-datatable-column name="Year" prop="YearlyPercentualChange" [flexGrow]="2" *ngIf="windownInnerWidth >= 750">
-            <ng-template let-value="value" ngx-datatable-cell-template>
-                <span *ngIf="value < 0" style="font-size: 12px; font-weight: bold; color: red">
-                    ▼{{value.toFixed(2)}}%
-                </span>
-                <span *ngIf="value >= 0" style="font-size: 12px; font-weight: bold; color: green">
-                    ▲{{value.toFixed(2)}}%
-                </span>
-            </ng-template>
-        </ngx-datatable-column>
+    <!-- % Year change -->
+    <ngx-datatable-column
+      name="Year"
+      prop="YearlyPercentualChange"
+      [flexGrow]="2"
+      *ngIf="windownInnerWidth >= 750"
+    >
+      <ng-template let-value="value" ngx-datatable-cell-template>
+        <span
+          *ngIf="value < 0"
+          style="font-size: 12px; font-weight: bold; color: red"
+        >
+          ▼{{ value.toFixed(2) }}%
+        </span>
+        <span
+          *ngIf="value >= 0"
+          style="font-size: 12px; font-weight: bold; color: green"
+        >
+          ▲{{ value.toFixed(2) }}%
+        </span>
+      </ng-template>
+    </ngx-datatable-column>
 
-        <!-- State -->
-        <ngx-datatable-column name="State" prop="state" [flexGrow]="2" *ngIf="windownInnerWidth >= 650">
-            <ng-template let-value="value" ngx-datatable-cell-template>
-                <span *ngIf="value.trim() === 'CLOSED'"
-                    style="font-size: 12px; font-weight: bold; background: red;color: aliceblue;">
-                    {{value}}
-                </span>
-                <span *ngIf="value.trim() === 'OPEN'"
-                    style="font-size: 12px; font-weight: bold; background: green;color: aliceblue">
-                    {{value}}
-                </span>
-            </ng-template>
-        </ngx-datatable-column>
-    </ngx-datatable>
+    <!-- State -->
+    <ngx-datatable-column
+      name="State"
+      prop="state"
+      [flexGrow]="2"
+      *ngIf="windownInnerWidth >= 650"
+    >
+      <ng-template let-value="value" ngx-datatable-cell-template>
+        <span
+          *ngIf="value.trim() === 'CLOSED'"
+          style="
+            font-size: 12px;
+            font-weight: bold;
+            background: red;
+            color: aliceblue;
+          "
+        >
+          {{ value }}
+        </span>
+        <span
+          *ngIf="value.trim() === 'OPEN'"
+          style="
+            font-size: 12px;
+            font-weight: bold;
+            background: green;
+            color: aliceblue;
+          "
+        >
+          {{ value }}
+        </span>
+      </ng-template>
+    </ngx-datatable-column>
+  </ngx-datatable>
 
-    <br>
-    <!-- ASIA -->
-    <div style="color: darkblue;margin-left: 10px;">
-        <strong>
-            ASIA
-        </strong>
-    </div>
-    <ngx-datatable *ngIf="stocks && stocks.asia" class="material" [rows]="stocks.asia" [columnMode]="'flex'"
-        [headerHeight]="50" rowHeight="auto" [limit]="15">
-        <!-- Country -->
-        <ngx-datatable-column name="Country" prop="country.name" [flexGrow]="2">
-            <ng-template let-row="row" ngx-datatable-cell-template>
-                {{row.country.name}}
-            </ng-template>
-        </ngx-datatable-column>
+  <br />
+  <!-- ASIA -->
+  <div style="color: darkblue; margin-left: 10px">
+    <strong> ASIA </strong>
+  </div>
+  <ngx-datatable
+    *ngIf="stocks && stocks.asia"
+    class="material"
+    [rows]="stocks.asia"
+    [columnMode]="'flex'"
+    [headerHeight]="50"
+    rowHeight="auto"
+    [limit]="15"
+  >
+    <!-- Country -->
+    <ngx-datatable-column name="Country" prop="country.name" [flexGrow]="2">
+      <ng-template let-row="row" ngx-datatable-cell-template>
+        {{ row.country.name }}
+      </ng-template>
+    </ngx-datatable-column>
 
-        <!-- Name -->
-        <ngx-datatable-column name="Name" prop="Name" [flexGrow]="2">
-            <ng-template let-value="value" ngx-datatable-cell-template>
-                {{ value }}
-            </ng-template>
-        </ngx-datatable-column>
+    <!-- Name -->
+    <ngx-datatable-column name="Name" prop="Name" [flexGrow]="2">
+      <ng-template let-value="value" ngx-datatable-cell-template>
+        {{ value }}
+      </ng-template>
+    </ngx-datatable-column>
 
-        <!-- Price -->
-        <ngx-datatable-column name="Price" prop="Last" [flexGrow]="3">
-            <ng-template let-row="row" ngx-datatable-cell-template>
-                {{row.Last.toFixed(0) }}
-                <span *ngIf="row.DailyChange < 0" style="font-size: 12px; font-weight: bold; color: red">
-                    ▼{{row.DailyChange.toFixed(0)}}
-                </span>
-                <span *ngIf="row.DailyChange >= 0" style="font-size: 12px; font-weight: bold; color: green">
-                    ▲{{row.DailyChange.toFixed(0)}}
-                </span>
-            </ng-template>
-        </ngx-datatable-column>
+    <!-- Price -->
+    <ngx-datatable-column name="Price" prop="Last" [flexGrow]="3">
+      <ng-template let-row="row" ngx-datatable-cell-template>
+        {{ row.Last.toFixed(0) }}
+        <span
+          *ngIf="row.DailyChange < 0"
+          style="font-size: 12px; font-weight: bold; color: red"
+        >
+          ▼{{ row.DailyChange.toFixed(0) }}
+        </span>
+        <span
+          *ngIf="row.DailyChange >= 0"
+          style="font-size: 12px; font-weight: bold; color: green"
+        >
+          ▲{{ row.DailyChange.toFixed(0) }}
+        </span>
+      </ng-template>
+    </ngx-datatable-column>
 
-        <!-- % Day change -->
-        <ngx-datatable-column name="Day" prop="DailyPercentualChange" [flexGrow]="2">
-            <ng-template let-value="value" ngx-datatable-cell-template>
-                <span *ngIf="value < 0" style="font-size: 12px; font-weight: bold; color: red">
-                    ▼{{value.toFixed(2)}}%
-                </span>
-                <span *ngIf="value >= 0" style="font-size: 12px; font-weight: bold; color: green">
-                    ▲{{value.toFixed(2)}}%
-                </span>
-            </ng-template>
-        </ngx-datatable-column>
+    <!-- % Day change -->
+    <ngx-datatable-column
+      name="Day"
+      prop="DailyPercentualChange"
+      [flexGrow]="2"
+    >
+      <ng-template let-value="value" ngx-datatable-cell-template>
+        <span
+          *ngIf="value < 0"
+          style="font-size: 12px; font-weight: bold; color: red"
+        >
+          ▼{{ value.toFixed(2) }}%
+        </span>
+        <span
+          *ngIf="value >= 0"
+          style="font-size: 12px; font-weight: bold; color: green"
+        >
+          ▲{{ value.toFixed(2) }}%
+        </span>
+      </ng-template>
+    </ngx-datatable-column>
 
-        <!-- % Week change -->
-        <ngx-datatable-column name="Week" prop="WeeklyPercentualChange" [flexGrow]="2" *ngIf="windownInnerWidth >= 450">
-            <ng-template let-value="value" ngx-datatable-cell-template>
-                <span *ngIf="value < 0" style="font-size: 12px; font-weight: bold; color: red">
-                    ▼{{value.toFixed(2)}}%
-                </span>
-                <span *ngIf="value >= 0" style="font-size: 12px; font-weight: bold; color: green">
-                    ▲{{value.toFixed(2)}}%
-                </span>
-            </ng-template>
-        </ngx-datatable-column>
+    <!-- % Week change -->
+    <ngx-datatable-column
+      name="Week"
+      prop="WeeklyPercentualChange"
+      [flexGrow]="2"
+      *ngIf="windownInnerWidth >= 450"
+    >
+      <ng-template let-value="value" ngx-datatable-cell-template>
+        <span
+          *ngIf="value < 0"
+          style="font-size: 12px; font-weight: bold; color: red"
+        >
+          ▼{{ value.toFixed(2) }}%
+        </span>
+        <span
+          *ngIf="value >= 0"
+          style="font-size: 12px; font-weight: bold; color: green"
+        >
+          ▲{{ value.toFixed(2) }}%
+        </span>
+      </ng-template>
+    </ngx-datatable-column>
 
-        <!-- % Month change -->
-        <ngx-datatable-column name="Month" prop="MonthlyPercentualChange" [flexGrow]="2"
-            *ngIf="windownInnerWidth >= 550">
-            <ng-template let-value="value" ngx-datatable-cell-template>
-                <span *ngIf="value < 0" style="font-size: 12px; font-weight: bold; color: red">
-                    ▼{{value.toFixed(2)}}%
-                </span>
-                <span *ngIf="value >= 0" style="font-size: 12px; font-weight: bold; color: green">
-                    ▲{{value.toFixed(2)}}%
-                </span>
-            </ng-template>
-        </ngx-datatable-column>
+    <!-- % Month change -->
+    <ngx-datatable-column
+      name="Month"
+      prop="MonthlyPercentualChange"
+      [flexGrow]="2"
+      *ngIf="windownInnerWidth >= 550"
+    >
+      <ng-template let-value="value" ngx-datatable-cell-template>
+        <span
+          *ngIf="value < 0"
+          style="font-size: 12px; font-weight: bold; color: red"
+        >
+          ▼{{ value.toFixed(2) }}%
+        </span>
+        <span
+          *ngIf="value >= 0"
+          style="font-size: 12px; font-weight: bold; color: green"
+        >
+          ▲{{ value.toFixed(2) }}%
+        </span>
+      </ng-template>
+    </ngx-datatable-column>
 
-        <!-- % Year change -->
-        <ngx-datatable-column name="Year" prop="YearlyPercentualChange" [flexGrow]="2" *ngIf="windownInnerWidth >= 750">
-            <ng-template let-value="value" ngx-datatable-cell-template>
-                <span *ngIf="value < 0" style="font-size: 12px; font-weight: bold; color: red">
-                    ▼{{value.toFixed(2)}}%
-                </span>
-                <span *ngIf="value >= 0" style="font-size: 12px; font-weight: bold; color: green">
-                    ▲{{value.toFixed(2)}}%
-                </span>
-            </ng-template>
-        </ngx-datatable-column>
+    <!-- % Year change -->
+    <ngx-datatable-column
+      name="Year"
+      prop="YearlyPercentualChange"
+      [flexGrow]="2"
+      *ngIf="windownInnerWidth >= 750"
+    >
+      <ng-template let-value="value" ngx-datatable-cell-template>
+        <span
+          *ngIf="value < 0"
+          style="font-size: 12px; font-weight: bold; color: red"
+        >
+          ▼{{ value.toFixed(2) }}%
+        </span>
+        <span
+          *ngIf="value >= 0"
+          style="font-size: 12px; font-weight: bold; color: green"
+        >
+          ▲{{ value.toFixed(2) }}%
+        </span>
+      </ng-template>
+    </ngx-datatable-column>
 
-        <!-- State -->
-        <ngx-datatable-column name="State" prop="state" [flexGrow]="2" *ngIf="windownInnerWidth >= 650">
-            <ng-template let-value="value" ngx-datatable-cell-template>
-                <span *ngIf="value.trim() === 'CLOSED'"
-                    style="font-size: 12px; font-weight: bold; background: red;color: aliceblue;">
-                    {{value}}
-                </span>
-                <span *ngIf="value.trim() === 'OPEN'"
-                    style="font-size: 12px; font-weight: bold; background: green;color: aliceblue">
-                    {{value}}
-                </span>
-            </ng-template>
-        </ngx-datatable-column>
-    </ngx-datatable>
+    <!-- State -->
+    <ngx-datatable-column
+      name="State"
+      prop="state"
+      [flexGrow]="2"
+      *ngIf="windownInnerWidth >= 650"
+    >
+      <ng-template let-value="value" ngx-datatable-cell-template>
+        <span
+          *ngIf="value.trim() === 'CLOSED'"
+          style="
+            font-size: 12px;
+            font-weight: bold;
+            background: red;
+            color: aliceblue;
+          "
+        >
+          {{ value }}
+        </span>
+        <span
+          *ngIf="value.trim() === 'OPEN'"
+          style="
+            font-size: 12px;
+            font-weight: bold;
+            background: green;
+            color: aliceblue;
+          "
+        >
+          {{ value }}
+        </span>
+      </ng-template>
+    </ngx-datatable-column>
+  </ngx-datatable>
 </div>

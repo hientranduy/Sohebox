@@ -6,11 +6,12 @@ import { DeleteTypeDialogComponent } from './delete-type-dialog.component';
 import { EditTypeDialogComponent } from './edit-type-dialog.component';
 import { ViewTypeDialogComponent } from './view-type-dialog.component';
 
-
 @Injectable({ providedIn: 'root' })
 export class TypeDialogService {
-
-  constructor(config: NgbModalConfig, private modalService: NgbModal) {
+  constructor(
+    config: NgbModalConfig,
+    private modalService: NgbModal,
+  ) {
     config.backdrop = 'static';
     config.keyboard = false;
   }
@@ -18,8 +19,11 @@ export class TypeDialogService {
   public add(
     title: string,
     message: string,
-    dialogSize: 'sm' | 'lg' = 'lg'): Promise<boolean> {
-    const modalRef = this.modalService.open(AddTypeDialogComponent, { size: dialogSize });
+    dialogSize: 'sm' | 'lg' = 'lg',
+  ): Promise<boolean> {
+    const modalRef = this.modalService.open(AddTypeDialogComponent, {
+      size: dialogSize,
+    });
     modalRef.componentInstance.title = title;
     modalRef.componentInstance.message = message;
     modalRef.componentInstance.btnOkText = 'Add';
@@ -30,8 +34,11 @@ export class TypeDialogService {
   public delete(
     title: string,
     message: string,
-    dialogSize: 'sm' | 'lg' = 'lg'): Promise<boolean> {
-    const modalRef = this.modalService.open(DeleteTypeDialogComponent, { size: dialogSize });
+    dialogSize: 'sm' | 'lg' = 'lg',
+  ): Promise<boolean> {
+    const modalRef = this.modalService.open(DeleteTypeDialogComponent, {
+      size: dialogSize,
+    });
     modalRef.componentInstance.title = title;
     modalRef.componentInstance.message = message;
     modalRef.componentInstance.btnOkText = 'Delete';
@@ -43,8 +50,11 @@ export class TypeDialogService {
     title: string,
     message: string,
     type: Type,
-    dialogSize: 'sm' | 'lg' = 'lg'): Promise<boolean> {
-    const modalRef = this.modalService.open(EditTypeDialogComponent, { size: dialogSize });
+    dialogSize: 'sm' | 'lg' = 'lg',
+  ): Promise<boolean> {
+    const modalRef = this.modalService.open(EditTypeDialogComponent, {
+      size: dialogSize,
+    });
     modalRef.componentInstance.title = title;
     modalRef.componentInstance.message = message;
     modalRef.componentInstance.btnOkText = 'Edit';
@@ -57,8 +67,11 @@ export class TypeDialogService {
     title: string,
     message: string,
     type: Type,
-    dialogSize: 'sm' | 'lg' = 'lg'): Promise<boolean> {
-    const modalRef = this.modalService.open(ViewTypeDialogComponent, { size: dialogSize });
+    dialogSize: 'sm' | 'lg' = 'lg',
+  ): Promise<boolean> {
+    const modalRef = this.modalService.open(ViewTypeDialogComponent, {
+      size: dialogSize,
+    });
     modalRef.componentInstance.title = title;
     modalRef.componentInstance.message = message;
     modalRef.componentInstance.btnCancelText = 'Cancel';

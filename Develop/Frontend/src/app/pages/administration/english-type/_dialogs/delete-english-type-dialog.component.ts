@@ -5,11 +5,9 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 @Component({
   selector: 'app-delete-english-type-dialog',
   templateUrl: './delete-english-type-dialog.component.html',
-  styleUrls: ['./delete-english-type-dialog.component.css']
+  styleUrls: ['./delete-english-type-dialog.component.css'],
 })
-
 export class DeleteEnglishTypeDialogComponent implements OnInit {
-
   @Input() title: string;
   @Input() message: string;
   @Input() btnOkText: string;
@@ -17,11 +15,10 @@ export class DeleteEnglishTypeDialogComponent implements OnInit {
 
   constructor(
     private activeModal: NgbActiveModal,
-    private spinner: SpinnerService
-  ) { }
+    private spinner: SpinnerService,
+  ) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   public decline() {
     // Return false

@@ -6,27 +6,36 @@ import { CryptoTokenConfigSCO } from '../_sco/cryptoTokenConfigSCO';
 
 @Injectable({ providedIn: 'root' })
 export class CryptoTokenConfigService {
+  constructor(private http: HttpClient) {}
 
-    constructor(private http: HttpClient) {
-    }
+  // Add
+  add(item: CryptoTokenConfig) {
+    return this.http.post(
+      `${environment.soheboxUrl}/api/cryptoTokenConfig`,
+      item,
+    );
+  }
 
-    // Add
-    add(item: CryptoTokenConfig) {
-        return this.http.post(`${environment.soheboxUrl}/api/cryptoTokenConfig`, item);
-    }
+  // Update
+  update(item: CryptoTokenConfig) {
+    return this.http.put(
+      `${environment.soheboxUrl}/api/cryptoTokenConfig`,
+      item,
+    );
+  }
 
-    // Update
-    update(item: CryptoTokenConfig) {
-        return this.http.put(`${environment.soheboxUrl}/api/cryptoTokenConfig`, item);
-    }
+  // Search
+  search(sco: CryptoTokenConfigSCO) {
+    return this.http.post(
+      `${environment.soheboxUrl}/api/cryptoTokenConfig/search`,
+      sco,
+    );
+  }
 
-    // Search
-    search(sco: CryptoTokenConfigSCO) {
-        return this.http.post(`${environment.soheboxUrl}/api/cryptoTokenConfig/search`, sco);
-    }
-
-    // Get by id
-    getById(id: number) {
-        return this.http.get(`${environment.soheboxUrl}/api/cryptoTokenConfig/${id}`);
-    }
+  // Get by id
+  getById(id: number) {
+    return this.http.get(
+      `${environment.soheboxUrl}/api/cryptoTokenConfig/${id}`,
+    );
+  }
 }

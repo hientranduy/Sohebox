@@ -1,5 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { AuthenticationService } from '@app/user/_service';
 import { AlertService } from '@app/_common/alert';
@@ -16,7 +21,7 @@ import { EnglishService, EnglishTypeService } from '../_services';
 @Component({
   selector: 'app-add-word-dialog',
   templateUrl: './add-word-dialog.component.html',
-  styleUrls: ['./add-word-dialog.component.css']
+  styleUrls: ['./add-word-dialog.component.css'],
 })
 export class AddWordDialogComponent implements OnInit {
   constructor(
@@ -27,9 +32,8 @@ export class AddWordDialogComponent implements OnInit {
     private authenticationService: AuthenticationService,
     private englishTypeService: EnglishTypeService,
     private toastr: ToastrService,
-    private spinner: SpinnerService
-  ) {
-  }
+    private spinner: SpinnerService,
+  ) {}
 
   // Form value
   @Input() title: string;
@@ -106,7 +110,7 @@ export class AddWordDialogComponent implements OnInit {
 
     // Get list type
     this.englishTypeService.search(typeSCO).subscribe(
-      data => {
+      (data) => {
         // Get data
         const responseAPi: any = data;
         const typeResponse: ApiReponse<EnglishType> = responseAPi;
@@ -114,23 +118,25 @@ export class AddWordDialogComponent implements OnInit {
         if (typeResponse.data.elements != null) {
           this.filteredGrades = this.gradeControl.valueChanges.pipe(
             startWith(''),
-            map(value =>
-              grades.filter(valueFilter =>
-                valueFilter.typeCode.toLowerCase().includes(value.toLowerCase())
-              )
-            )
+            map((value) =>
+              grades.filter((valueFilter) =>
+                valueFilter.typeCode
+                  .toLowerCase()
+                  .includes(value.toLowerCase()),
+              ),
+            ),
           );
         }
 
         // Hide loading
         this.spinner.hide();
       },
-      error => {
+      (error) => {
         // Hide loading
         this.spinner.hide();
 
         this.alertService.error(error);
-      }
+      },
     );
   }
 
@@ -150,7 +156,7 @@ export class AddWordDialogComponent implements OnInit {
 
     // Get list type
     this.englishTypeService.search(typeSCO).subscribe(
-      data => {
+      (data) => {
         // Get data
         const responseAPi: any = data;
         const typeResponse: ApiReponse<EnglishType> = responseAPi;
@@ -159,23 +165,25 @@ export class AddWordDialogComponent implements OnInit {
           // Prepare data for account types
           this.filteredCategories = this.categoryControl.valueChanges.pipe(
             startWith(''),
-            map(value =>
-              categories.filter(valueFilter =>
-                valueFilter.typeCode.toLowerCase().includes(value.toLowerCase())
-              )
-            )
+            map((value) =>
+              categories.filter((valueFilter) =>
+                valueFilter.typeCode
+                  .toLowerCase()
+                  .includes(value.toLowerCase()),
+              ),
+            ),
           );
         }
 
         // Hide loading
         this.spinner.hide();
       },
-      error => {
+      (error) => {
         // Hide loading
         this.spinner.hide();
 
         this.alertService.error(error);
-      }
+      },
     );
   }
 
@@ -195,7 +203,7 @@ export class AddWordDialogComponent implements OnInit {
 
     // Get list type
     this.englishTypeService.search(englishTypeSCO).subscribe(
-      data => {
+      (data) => {
         // Get dataa
         const responseAPi: any = data;
         const typeResponse: ApiReponse<EnglishType> = responseAPi;
@@ -204,23 +212,25 @@ export class AddWordDialogComponent implements OnInit {
           // Prepare data for account types
           this.filteredLearnDays = this.learnDayControl.valueChanges.pipe(
             startWith(''),
-            map(value =>
-              learnDays.filter(valueFilter =>
-                valueFilter.typeCode.toLowerCase().includes(value.toLowerCase())
-              )
-            )
+            map((value) =>
+              learnDays.filter((valueFilter) =>
+                valueFilter.typeCode
+                  .toLowerCase()
+                  .includes(value.toLowerCase()),
+              ),
+            ),
           );
         }
 
         // Hide loading
         this.spinner.hide();
       },
-      error => {
+      (error) => {
         // Hide loading
         this.spinner.hide();
 
         this.alertService.error(error);
-      }
+      },
     );
   }
 
@@ -251,7 +261,7 @@ export class AddWordDialogComponent implements OnInit {
     // Preview
     const reader = new FileReader();
     reader.readAsDataURL(files[0]);
-    reader.onload = _event => {
+    reader.onload = (_event) => {
       this.imageFile = reader.result;
 
       // Set image extention
@@ -300,7 +310,7 @@ export class AddWordDialogComponent implements OnInit {
         explanationVn: [this.explanationVnForm],
         imageFile: [this.imageFile],
         imageExtention: [this.imageExtention],
-        vusGrade: [gradeTypeVO]
+        vusGrade: [gradeTypeVO],
       });
 
       // Show loading
@@ -308,10 +318,10 @@ export class AddWordDialogComponent implements OnInit {
 
       // Add account
       this.englishService.addWord(addWordForm.value).subscribe(
-        data => {
+        (data) => {
           // Send success toast message
           this.toastr.success(
-            'New Word ' + this.keyWord + ' is added successful'
+            'New Word ' + this.keyWord + ' is added successful',
           );
 
           // Hide loading
@@ -320,14 +330,14 @@ export class AddWordDialogComponent implements OnInit {
           // Close dialog
           this.activeModal.close(true);
         },
-        error => {
+        (error) => {
           // Hide loading
           this.spinner.hide();
 
           // Send error message to dialog
           this.message = null;
           this.messageError = error;
-        }
+        },
       );
     } else {
       this.message = null;

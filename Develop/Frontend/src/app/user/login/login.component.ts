@@ -7,82 +7,86 @@ import { first } from 'rxjs/operators';
 import { AuthenticationService } from '../_service';
 
 @Component({
-    templateUrl: './login.component.html',
-    styleUrls: ['./login.component.css']
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit {
-    loginForm: FormGroup;
-    submitted = false;
-    returnUrl: string;
+  loginForm: FormGroup;
+  submitted = false;
+  returnUrl: string;
 
-    accountDisplay: string;
-    passwordDisplay: string;
+  accountDisplay: string;
+  passwordDisplay: string;
 
-    constructor(
-        private formBuilder: FormBuilder,
-        private route: ActivatedRoute,
-        private router: Router,
-        private seoService: SEOService,
-        private authenticationService: AuthenticationService,
-        private alertService: AlertService,
-        private spinner: SpinnerService
-    ) {
-        // redirect to home if already logged in
-        if (this.authenticationService.currentUserValue) {
-            this.router.navigate(['/']);
-        }
+  constructor(
+    private formBuilder: FormBuilder,
+    private route: ActivatedRoute,
+    private router: Router,
+    private seoService: SEOService,
+    private authenticationService: AuthenticationService,
+    private alertService: AlertService,
+    private spinner: SpinnerService,
+  ) {
+    // redirect to home if already logged in
+    if (this.authenticationService.currentUserValue) {
+      this.router.navigate(['/']);
+    }
+  }
+
+  ngOnInit() {
+    // CEO
+    this.seoService.updateCEO(this.route);
+
+    this.loginForm = this.formBuilder.group({
+      username: ['', Validators.required],
+      password: ['', Validators.required],
+    });
+
+    // get return url from route parameters or default to '/'
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+  }
+
+  // convenience getter for easy access to form fields
+  get f() {
+    return this.loginForm.controls;
+  }
+
+  onSubmit() {
+    this.submitted = true;
+
+    // stop here if form is invalid
+    if (this.loginForm.invalid) {
+      return;
     }
 
-    ngOnInit() {
-        // CEO
-        this.seoService.updateCEO(this.route);
+    // Show loading
+    this.spinner.show();
 
-        this.loginForm = this.formBuilder.group({
-            username: ['', Validators.required],
-            password: ['', Validators.required]
-        });
+    // Authenticate
+    this.authenticationService
+      .login(this.f.username.value, this.f.password.value)
+      .pipe(first())
+      .subscribe(
+        (data) => {
+          // Hide loading
+          this.spinner.hide();
 
-        // get return url from route parameters or default to '/'
-        this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
-    }
+          // Navigate to page "/"
+          this.router.navigate([this.returnUrl]);
+        },
+        (error) => {
+          // Hide loading
+          this.spinner.hide();
 
-    // convenience getter for easy access to form fields
-    get f() { return this.loginForm.controls; }
+          // Alert error message
+          this.alertService.error(error);
+        },
+      );
+  }
 
-    onSubmit() {
-        this.submitted = true;
-
-        // stop here if form is invalid
-        if (this.loginForm.invalid) {
-            return;
-        }
-
-        // Show loading
-        this.spinner.show();
-
-        // Authenticate
-        this.authenticationService.login(this.f.username.value, this.f.password.value)
-            .pipe(first())
-            .subscribe(
-                data => {
-                    // Hide loading
-                    this.spinner.hide();
-
-                    // Navigate to page "/"
-                    this.router.navigate([this.returnUrl]);
-                },
-                error => {
-                    // Hide loading
-                    this.spinner.hide();
-
-                    // Alert error message
-                    this.alertService.error(error);
-                });
-    }
-
-    fillVisitorAccount() {
-        this.accountDisplay = 'visitor';
-        this.passwordDisplay = 'visitor';
-        this.onSubmit();
-    }
+  fillVisitorAccount() {
+    this.accountDisplay = 'visitor';
+    this.passwordDisplay = 'visitor';
+    this.onSubmit();
+  }
 }

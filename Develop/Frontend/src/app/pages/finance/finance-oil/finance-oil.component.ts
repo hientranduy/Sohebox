@@ -9,7 +9,7 @@ import { TradingService } from '../_services';
 @Component({
   selector: 'app-finance-oil',
   templateUrl: './finance-oil.component.html',
-  styleUrls: ['./finance-oil.component.css']
+  styleUrls: ['./finance-oil.component.css'],
 })
 export class FinanceOilComponent implements OnInit {
   selectWTICrudeOil = '1m';
@@ -28,24 +28,23 @@ export class FinanceOilComponent implements OnInit {
     private spinner: SpinnerService,
     private tradingService: TradingService,
     private toastr: ToastrService,
-    private alertService: AlertService
-  ) { }
+    private alertService: AlertService,
+  ) {}
 
   ngOnInit(): void {
     this.loadOilPrice();
   }
 
-
   /**
    * Load oil price
-    */
+   */
   public loadOilPrice() {
     // Show loading
     this.spinner.show();
 
     // Get list
-    this.tradingService.getOilPrice()
-      .subscribe(data => {
+    this.tradingService.getOilPrice().subscribe(
+      (data) => {
         // Get data
         const responseAPi: any = data;
         const typeResponse: ApiReponse<TradingOilPrice> = responseAPi;
@@ -53,20 +52,25 @@ export class FinanceOilComponent implements OnInit {
           this.tradingOilPrice = typeResponse.data.elements[0];
 
           this.currentWTIPrice = this.tradingOilPrice.symbolCL1.Last;
-          this.currentWTIPriceChange = (this.tradingOilPrice.symbolCL1.DailyChange).toFixed(2);
-          this.currentWTIPercentChange = (this.tradingOilPrice.symbolCL1.DailyPercentualChange).toFixed(2);
+          this.currentWTIPriceChange =
+            this.tradingOilPrice.symbolCL1.DailyChange.toFixed(2);
+          this.currentWTIPercentChange =
+            this.tradingOilPrice.symbolCL1.DailyPercentualChange.toFixed(2);
 
           this.currentBrentPrice = this.tradingOilPrice.symbolCO1.Last;
-          this.currentBrentPriceChange = (this.tradingOilPrice.symbolCO1.DailyChange).toFixed(2);
-          this.currentBrentPercentChange = (this.tradingOilPrice.symbolCO1.DailyPercentualChange).toFixed(2);
+          this.currentBrentPriceChange =
+            this.tradingOilPrice.symbolCO1.DailyChange.toFixed(2);
+          this.currentBrentPercentChange =
+            this.tradingOilPrice.symbolCO1.DailyPercentualChange.toFixed(2);
         }
 
         // Hide loading
         this.spinner.hide();
-
-      }, error => {
+      },
+      (error) => {
         this.processError(error);
-      });
+      },
+    );
   }
 
   /**
@@ -108,8 +112,8 @@ export class FinanceOilComponent implements OnInit {
   }
 
   /**
-  * Nature gas options
-  */
+   * Nature gas options
+   */
   public changeNatureGas1m() {
     this.selectNatureGas = '1m';
   }

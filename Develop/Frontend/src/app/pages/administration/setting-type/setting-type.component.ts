@@ -13,7 +13,7 @@ import { TypeDialogService } from './_dialogs';
 @Component({
   selector: 'app-setting-type',
   templateUrl: './setting-type.component.html',
-  styleUrls: ['./setting-type.component.css']
+  styleUrls: ['./setting-type.component.css'],
 })
 export class SettingTypeComponent implements OnInit {
   // Table elements
@@ -42,7 +42,7 @@ export class SettingTypeComponent implements OnInit {
     private typeService: TypeService,
     private alertService: AlertService,
     private toastr: ToastrService,
-    private spinner: SpinnerService
+    private spinner: SpinnerService,
   ) {
     // Set default
     this.pageResult = new PageResultVO<Type>();
@@ -58,7 +58,7 @@ export class SettingTypeComponent implements OnInit {
       this.pageResult.currentPage,
       this.pageResult.pageSize,
       this.currentSort,
-      this.currentFilterValue
+      this.currentFilterValue,
     );
   }
 
@@ -74,7 +74,7 @@ export class SettingTypeComponent implements OnInit {
       0,
       this.pageResult.pageSize,
       null,
-      this.currentFilterValue
+      this.currentFilterValue,
     );
   }
 
@@ -88,7 +88,7 @@ export class SettingTypeComponent implements OnInit {
       0,
       this.pageResult.pageSize,
       this.currentSort,
-      this.currentFilterValue
+      this.currentFilterValue,
     );
   }
 
@@ -100,7 +100,7 @@ export class SettingTypeComponent implements OnInit {
       e.pageIndex,
       e.pageSize,
       this.currentSort,
-      this.currentFilterValue
+      this.currentFilterValue,
     );
   }
 
@@ -112,7 +112,7 @@ export class SettingTypeComponent implements OnInit {
       pageInfo.offset,
       this.pageResult.pageSize,
       this.currentSort,
-      this.currentFilterValue
+      this.currentFilterValue,
     );
   }
 
@@ -131,7 +131,7 @@ export class SettingTypeComponent implements OnInit {
     pageNumber: number,
     pageRecord: number,
     sorter: Sorter,
-    filterValue: string
+    filterValue: string,
   ) {
     // Prepare search condition
     const sco = new TypeSCO();
@@ -171,7 +171,7 @@ export class SettingTypeComponent implements OnInit {
 
     // Search
     this.typeService.search(sco).subscribe(
-      data => {
+      (data) => {
         const responseAPi: any = data;
         const typeResponse: ApiReponse<Type> = responseAPi;
         if (typeResponse.data != null) {
@@ -183,12 +183,12 @@ export class SettingTypeComponent implements OnInit {
         // Hide Loading
         this.spinner.hide();
       },
-      error => {
+      (error) => {
         // Hide Loading
         this.spinner.hide();
 
         this.alertService.error(error);
-      }
+      },
     );
   }
 
@@ -200,20 +200,20 @@ export class SettingTypeComponent implements OnInit {
    */
   public add() {
     this.typeDialogService.add('ADD', '').then(
-      result => {
+      (result) => {
         if (result) {
           // Refresh table
           this.getPageResult(
             0,
             this.pageResult.pageSize,
             this.currentSort,
-            this.currentFilterValue
+            this.currentFilterValue,
           );
         }
       },
-      reason => {
+      (reason) => {
         console.log('ADD reason:' + reason);
-      }
+      },
     );
   }
 
@@ -222,12 +222,12 @@ export class SettingTypeComponent implements OnInit {
    */
   public delete() {
     if (this.selected.length > 0) {
-      this.selected.forEach(element => {
+      this.selected.forEach((element) => {
         this.deleteChoose(element);
       });
     } else {
       this.toastr.info('No selected item', 'Information', {
-        timeOut: 2000
+        timeOut: 2000,
       });
     }
   }
@@ -244,13 +244,13 @@ export class SettingTypeComponent implements OnInit {
    */
   public viewDetailChoose(item: Type) {
     this.typeDialogService.view('DETAIL', '', item).then(
-      result => {
+      (result) => {
         if (result) {
         }
       },
-      reason => {
+      (reason) => {
         console.log('DETAIL reason:' + reason);
-      }
+      },
     );
   }
 
@@ -259,19 +259,19 @@ export class SettingTypeComponent implements OnInit {
    */
   public editChoose(item: Type) {
     this.typeDialogService.edit('EDIT', '', item).then(
-      result => {
+      (result) => {
         if (result) {
           this.getPageResult(
             this.pageResult.currentPage,
             this.pageResult.pageSize,
             this.currentSort,
-            this.currentFilterValue
+            this.currentFilterValue,
           );
         }
       },
-      reason => {
+      (reason) => {
         console.log('EDIT reason:' + reason);
-      }
+      },
     );
   }
 
@@ -282,7 +282,7 @@ export class SettingTypeComponent implements OnInit {
     this.typeDialogService
       .delete('DELETION', 'Are you sure deleting: ' + item.typeCode + ' ?')
       .then(
-        result => {
+        (result) => {
           if (result) {
             this.toastr.warning('[Admin notice] Not allow to delete');
 
@@ -309,9 +309,9 @@ export class SettingTypeComponent implements OnInit {
             // );
           }
         },
-        reason => {
+        (reason) => {
           console.log('DELETE reason:' + reason);
-        }
+        },
       );
   }
 }

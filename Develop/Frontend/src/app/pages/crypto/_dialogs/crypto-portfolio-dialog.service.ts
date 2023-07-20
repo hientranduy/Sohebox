@@ -8,8 +8,10 @@ import { ViewCryptoPortfolioDialogComponent } from './view-crypto-portfolio-dial
 
 @Injectable({ providedIn: 'root' })
 export class CryptoPortfolioDialogService {
-
-  constructor(config: NgbModalConfig, private modalService: NgbModal) {
+  constructor(
+    config: NgbModalConfig,
+    private modalService: NgbModal,
+  ) {
     config.backdrop = 'static';
     config.keyboard = false;
   }
@@ -17,8 +19,11 @@ export class CryptoPortfolioDialogService {
   public add(
     title: string,
     message: string,
-    dialogSize: 'sm' | 'lg' = 'lg'): Promise<boolean> {
-    const modalRef = this.modalService.open(AddCryptoFortfolioDialogComponent, { size: dialogSize });
+    dialogSize: 'sm' | 'lg' = 'lg',
+  ): Promise<boolean> {
+    const modalRef = this.modalService.open(AddCryptoFortfolioDialogComponent, {
+      size: dialogSize,
+    });
     modalRef.componentInstance.title = title;
     modalRef.componentInstance.message = message;
     modalRef.componentInstance.btnOkText = 'Add';
@@ -30,8 +35,12 @@ export class CryptoPortfolioDialogService {
     title: string,
     message: string,
     cryptoPortfolio: CryptoPortfolio,
-    dialogSize: 'sm' | 'lg' = 'lg'): Promise<boolean> {
-    const modalRef = this.modalService.open(DeleteCryptoPortfolioDialogComponent, { size: dialogSize });
+    dialogSize: 'sm' | 'lg' = 'lg',
+  ): Promise<boolean> {
+    const modalRef = this.modalService.open(
+      DeleteCryptoPortfolioDialogComponent,
+      { size: dialogSize },
+    );
     modalRef.componentInstance.title = title;
     modalRef.componentInstance.message = message;
     modalRef.componentInstance.btnOkText = 'Delete';
@@ -44,8 +53,12 @@ export class CryptoPortfolioDialogService {
     title: string,
     message: string,
     cryptoPortfolio: CryptoPortfolio,
-    dialogSize: 'sm' | 'lg' = 'lg'): Promise<boolean> {
-    const modalRef = this.modalService.open(EditCryptoPortfolioDialogComponent, { size: dialogSize });
+    dialogSize: 'sm' | 'lg' = 'lg',
+  ): Promise<boolean> {
+    const modalRef = this.modalService.open(
+      EditCryptoPortfolioDialogComponent,
+      { size: dialogSize },
+    );
     modalRef.componentInstance.title = title;
     modalRef.componentInstance.message = message;
     modalRef.componentInstance.btnOkText = 'Edit';
@@ -58,8 +71,12 @@ export class CryptoPortfolioDialogService {
     title: string,
     message: string,
     cryptoPortfolio: CryptoPortfolio,
-    dialogSize: 'sm' | 'lg' = 'lg'): Promise<boolean> {
-    const modalRef = this.modalService.open(ViewCryptoPortfolioDialogComponent, { size: dialogSize });
+    dialogSize: 'sm' | 'lg' = 'lg',
+  ): Promise<boolean> {
+    const modalRef = this.modalService.open(
+      ViewCryptoPortfolioDialogComponent,
+      { size: dialogSize },
+    );
     modalRef.componentInstance.title = title;
     modalRef.componentInstance.message = message;
     modalRef.componentInstance.btnCancelText = 'Cancel';

@@ -14,7 +14,7 @@ import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-food-config',
   templateUrl: './food-config.component.html',
-  styleUrls: ['./food-config.component.css']
+  styleUrls: ['./food-config.component.css'],
 })
 export class FoodConfigComponent implements OnInit {
   // Table elements
@@ -31,7 +31,7 @@ export class FoodConfigComponent implements OnInit {
     private foodService: FoodService,
     private alertService: AlertService,
     private toastr: ToastrService,
-    private spinner: SpinnerService
+    private spinner: SpinnerService,
   ) {
     // Set default
     this.pageResult = new PageResultVO<Food>();
@@ -47,7 +47,7 @@ export class FoodConfigComponent implements OnInit {
       this.pageResult.currentPage,
       this.pageResult.pageSize,
       this.currentSort,
-      this.currentFilterValue
+      this.currentFilterValue,
     );
   }
 
@@ -63,7 +63,7 @@ export class FoodConfigComponent implements OnInit {
       0,
       this.pageResult.pageSize,
       null,
-      this.currentFilterValue
+      this.currentFilterValue,
     );
   }
 
@@ -77,7 +77,7 @@ export class FoodConfigComponent implements OnInit {
       0,
       this.pageResult.pageSize,
       this.currentSort,
-      this.currentFilterValue
+      this.currentFilterValue,
     );
   }
 
@@ -89,7 +89,7 @@ export class FoodConfigComponent implements OnInit {
       e.pageIndex,
       e.pageSize,
       this.currentSort,
-      this.currentFilterValue
+      this.currentFilterValue,
     );
   }
 
@@ -101,7 +101,7 @@ export class FoodConfigComponent implements OnInit {
       pageInfo.offset,
       this.pageResult.pageSize,
       this.currentSort,
-      this.currentFilterValue
+      this.currentFilterValue,
     );
   }
 
@@ -112,7 +112,7 @@ export class FoodConfigComponent implements OnInit {
     pageNumber: number,
     pageRecord: number,
     sorter: Sorter,
-    filterValue: string
+    filterValue: string,
   ) {
     // Prepare search condition
     const sco = new FoodSCO();
@@ -138,7 +138,7 @@ export class FoodConfigComponent implements OnInit {
 
     // Search
     this.foodService.searchFood(sco).subscribe(
-      data => {
+      (data) => {
         const responseAPi: any = data;
         const typeResponse: ApiReponse<Food> = responseAPi;
         if (typeResponse.data != null) {
@@ -150,12 +150,12 @@ export class FoodConfigComponent implements OnInit {
         // Hide Loading
         this.spinner.hide();
       },
-      error => {
+      (error) => {
         // Hide Loading
         this.spinner.hide();
 
         this.alertService.error(error);
-      }
+      },
     );
   }
 
@@ -167,20 +167,20 @@ export class FoodConfigComponent implements OnInit {
    */
   public add() {
     this.foodDialogService.add('Add word', '').then(
-      result => {
+      (result) => {
         if (result) {
           // Refresh table
           this.getPageResult(
             0,
             this.pageResult.pageSize,
             this.currentSort,
-            this.currentFilterValue
+            this.currentFilterValue,
           );
         }
       },
-      reason => {
+      (reason) => {
         console.log('ADD reason:' + reason);
-      }
+      },
     );
   }
 
@@ -196,19 +196,19 @@ export class FoodConfigComponent implements OnInit {
    */
   public editChoosen(item: Food) {
     this.foodDialogService.edit('EDIT', '', item).then(
-      result => {
+      (result) => {
         if (result) {
           this.getPageResult(
             this.pageResult.currentPage,
             this.pageResult.pageSize,
             this.currentSort,
-            this.currentFilterValue
+            this.currentFilterValue,
           );
         }
       },
-      reason => {
+      (reason) => {
         console.log('EDIT reason:' + reason);
-      }
+      },
     );
   }
 }

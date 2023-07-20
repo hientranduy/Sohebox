@@ -12,13 +12,12 @@ import { MediaTypeDialogService } from './media-type.service';
 @Component({
   selector: 'app-media-type',
   templateUrl: './media-type.component.html',
-  styleUrls: ['./media-type.component.css']
+  styleUrls: ['./media-type.component.css'],
 })
 export class MediaTypeComponent implements OnInit {
-
   // Table elements
   pageResult: PageResultVO<MediaType>;
-  currentSort: Sorter; 
+  currentSort: Sorter;
   currentFilterValue: string;
   selected = [];
 
@@ -40,7 +39,7 @@ export class MediaTypeComponent implements OnInit {
     private mediaTypeDialogService: MediaTypeDialogService,
     private alertService: AlertService,
     private toastr: ToastrService,
-    private spinner: SpinnerService
+    private spinner: SpinnerService,
   ) {
     // Set default
     this.pageResult = new PageResultVO<MediaType>();
@@ -56,7 +55,7 @@ export class MediaTypeComponent implements OnInit {
       this.pageResult.currentPage,
       this.pageResult.pageSize,
       this.currentSort,
-      this.currentFilterValue
+      this.currentFilterValue,
     );
   }
 
@@ -72,7 +71,7 @@ export class MediaTypeComponent implements OnInit {
       0,
       this.pageResult.pageSize,
       null,
-      this.currentFilterValue
+      this.currentFilterValue,
     );
   }
 
@@ -86,7 +85,7 @@ export class MediaTypeComponent implements OnInit {
       0,
       this.pageResult.pageSize,
       this.currentSort,
-      this.currentFilterValue
+      this.currentFilterValue,
     );
   }
 
@@ -98,7 +97,7 @@ export class MediaTypeComponent implements OnInit {
       e.pageIndex,
       e.pageSize,
       this.currentSort,
-      this.currentFilterValue
+      this.currentFilterValue,
     );
   }
 
@@ -110,7 +109,7 @@ export class MediaTypeComponent implements OnInit {
       pageInfo.offset,
       this.pageResult.pageSize,
       this.currentSort,
-      this.currentFilterValue
+      this.currentFilterValue,
     );
   }
 
@@ -129,7 +128,7 @@ export class MediaTypeComponent implements OnInit {
     pageNumber: number,
     pageRecord: number,
     sorter: Sorter,
-    filterValue: string
+    filterValue: string,
   ) {
     // Prepare search condition
     const sco = new MediaTypeSCO();
@@ -169,7 +168,7 @@ export class MediaTypeComponent implements OnInit {
 
     // Search
     this.mediaTypeDialogService.search(sco).subscribe(
-      data => {
+      (data) => {
         const responseAPi: any = data;
         const typeResponse: ApiReponse<MediaType> = responseAPi;
         if (typeResponse.data != null) {
@@ -181,12 +180,12 @@ export class MediaTypeComponent implements OnInit {
         // Hide Loading
         this.spinner.hide();
       },
-      error => {
+      (error) => {
         // Hide Loading
         this.spinner.hide();
 
         this.alertService.error(error);
-      }
+      },
     );
   }
 
@@ -205,13 +204,13 @@ export class MediaTypeComponent implements OnInit {
    */
   public viewDetailChoose(item: MediaType) {
     this.mediaTypeDialogService.view('DETAIL', '', item).then(
-      result => {
+      (result) => {
         if (result) {
         }
       },
-      reason => {
+      (reason) => {
         console.log('DETAIL reason:' + reason);
-      }
+      },
     );
   }
 
@@ -220,19 +219,19 @@ export class MediaTypeComponent implements OnInit {
    */
   public editChoose(item: MediaType) {
     this.mediaTypeDialogService.edit('EDIT', '', item).then(
-      result => {
+      (result) => {
         if (result) {
           this.getPageResult(
             this.pageResult.currentPage,
             this.pageResult.pageSize,
             this.currentSort,
-            this.currentFilterValue
+            this.currentFilterValue,
           );
         }
       },
-      reason => {
+      (reason) => {
         console.log('EDIT reason:' + reason);
-      }
+      },
     );
   }
 }

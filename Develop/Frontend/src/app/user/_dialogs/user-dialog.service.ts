@@ -9,8 +9,10 @@ import { UpdateInforDialogComponent } from './update-infor-dialog.component';
 
 @Injectable({ providedIn: 'root' })
 export class UserDialogService {
-
-  constructor(config: NgbModalConfig, private modalService: NgbModal) {
+  constructor(
+    config: NgbModalConfig,
+    private modalService: NgbModal,
+  ) {
     config.backdrop = 'static';
     config.keyboard = false;
   }
@@ -19,8 +21,11 @@ export class UserDialogService {
     title: string,
     message: string,
     information: string,
-    dialogSize: 'sm' | 'lg' = 'sm'): Promise<boolean> {
-    const modalRef = this.modalService.open(DeleteConfirmationDialogComponent, { size: 'lg' });
+    dialogSize: 'sm' | 'lg' = 'sm',
+  ): Promise<boolean> {
+    const modalRef = this.modalService.open(DeleteConfirmationDialogComponent, {
+      size: 'lg',
+    });
     modalRef.componentInstance.title = title;
     modalRef.componentInstance.message = message;
     modalRef.componentInstance.btnOkText = 'Delete';
@@ -31,8 +36,11 @@ export class UserDialogService {
   public changePassword(
     title: string,
     message: string,
-    dialogSize: 'sm' | 'lg' = 'sm'): Promise<boolean> {
-    const modalRef = this.modalService.open(ChangePasswordDialogComponent, { size: dialogSize });
+    dialogSize: 'sm' | 'lg' = 'sm',
+  ): Promise<boolean> {
+    const modalRef = this.modalService.open(ChangePasswordDialogComponent, {
+      size: dialogSize,
+    });
     modalRef.componentInstance.title = title;
     modalRef.componentInstance.message = message;
     modalRef.componentInstance.btnOkText = 'Change';
@@ -43,8 +51,11 @@ export class UserDialogService {
   public updateUser(
     title: string,
     message: string,
-    dialogSize: 'sm' | 'lg' = 'sm'): Promise<boolean> {
-    const modalRef = this.modalService.open(UpdateInforDialogComponent, { size: 'lg' });
+    dialogSize: 'sm' | 'lg' = 'sm',
+  ): Promise<boolean> {
+    const modalRef = this.modalService.open(UpdateInforDialogComponent, {
+      size: 'lg',
+    });
     modalRef.componentInstance.title = title;
     modalRef.componentInstance.message = message;
     modalRef.componentInstance.btnOkText = 'Update';
@@ -55,8 +66,11 @@ export class UserDialogService {
   public updateEnglishLevel(
     title: string,
     message: string,
-    dialogSize: 'sm' | 'lg' = 'sm'): Promise<boolean> {
-    const modalRef = this.modalService.open(UpdateEnglishLevelDialogComponent, { size: 'lg' });
+    dialogSize: 'sm' | 'lg' = 'sm',
+  ): Promise<boolean> {
+    const modalRef = this.modalService.open(UpdateEnglishLevelDialogComponent, {
+      size: 'lg',
+    });
     modalRef.componentInstance.title = title;
     modalRef.componentInstance.message = message;
     modalRef.componentInstance.btnOkText = 'Update';
@@ -64,9 +78,10 @@ export class UserDialogService {
     return modalRef.result;
   }
 
-  public openHelpGuest(
-    dialogSize: 'sm' | 'lg' = 'sm'): Promise<boolean> {
-    const modalRef = this.modalService.open(HelpGuestDialogComponent, { size: 'lg' });
+  public openHelpGuest(dialogSize: 'sm' | 'lg' = 'sm'): Promise<boolean> {
+    const modalRef = this.modalService.open(HelpGuestDialogComponent, {
+      size: 'lg',
+    });
     modalRef.componentInstance.btnCancelText = 'Cancel';
     return modalRef.result;
   }
@@ -74,8 +89,11 @@ export class UserDialogService {
   public changePrivateKey(
     title: string,
     message: string,
-    dialogSize: 'sm' | 'lg' = 'sm'): Promise<boolean> {
-    const modalRef = this.modalService.open(ChangePrivateKeyDialogComponent, { size: dialogSize });
+    dialogSize: 'sm' | 'lg' = 'sm',
+  ): Promise<boolean> {
+    const modalRef = this.modalService.open(ChangePrivateKeyDialogComponent, {
+      size: dialogSize,
+    });
     modalRef.componentInstance.title = title;
     modalRef.componentInstance.message = message;
     modalRef.componentInstance.btnOkText = 'Change';

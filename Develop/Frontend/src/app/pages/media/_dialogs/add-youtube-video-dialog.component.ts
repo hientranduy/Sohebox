@@ -9,17 +9,15 @@ import { YoutubeVideo } from '../_models';
 @Component({
   selector: 'app-add-youtube-video-dialog',
   templateUrl: './add-youtube-video-dialog.component.html',
-  styleUrls: ['./add-youtube-video-dialog.component.css']
+  styleUrls: ['./add-youtube-video-dialog.component.css'],
 })
 export class AddYoutubeVideoDialogComponent implements OnInit {
-
   constructor(
     private activeModal: NgbActiveModal,
     private youtubeService: YoutubeService,
     private toastr: ToastrService,
-    private spinner: SpinnerService
-  ) {
-  }
+    private spinner: SpinnerService,
+  ) {}
 
   // Form value
   @Input() title: string;
@@ -29,14 +27,11 @@ export class AddYoutubeVideoDialogComponent implements OnInit {
   @Input() btnCancelText: string;
 
   // Field : channel ID
-  videoIdFormControl = new FormControl('', [
-    Validators.required,
-  ]);
+  videoIdFormControl = new FormControl('', [Validators.required]);
 
   validVideoId: string;
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   /////////////////////////////////////
   // FORM BUTTON CONTROL             //
@@ -55,10 +50,9 @@ export class AddYoutubeVideoDialogComponent implements OnInit {
     this.activeModal.dismiss();
   }
 
-
   /**
-  * Click accept button
-  */
+   * Click accept button
+   */
   public accept() {
     if (this.isFormValid()) {
       if (this.isVideoValid()) {
@@ -69,26 +63,30 @@ export class AddYoutubeVideoDialogComponent implements OnInit {
         video.videoId = this.validVideoId;
 
         // Add
-        this.youtubeService.addPrivateVideo(video)
-          .subscribe(
-            data => {
-              // Send success toast message
-              this.toastr.success('New video ' + this.videoIdFormControl.value + ' is added successful');
+        this.youtubeService.addPrivateVideo(video).subscribe(
+          (data) => {
+            // Send success toast message
+            this.toastr.success(
+              'New video ' +
+                this.videoIdFormControl.value +
+                ' is added successful',
+            );
 
-              // Hide loading
-              this.spinner.hide();
+            // Hide loading
+            this.spinner.hide();
 
-              // Close dialog
-              this.activeModal.close(true);
-            },
-            error => {
-              // Hide loading
-              this.spinner.hide();
+            // Close dialog
+            this.activeModal.close(true);
+          },
+          (error) => {
+            // Hide loading
+            this.spinner.hide();
 
-              // Send error message to dialog
-              this.message = null;
-              this.messageError = error;
-            });
+            // Send error message to dialog
+            this.message = null;
+            this.messageError = error;
+          },
+        );
       } else {
         this.message = null;
         this.messageError = 'Not a valid youtube video or URL';
@@ -118,10 +116,11 @@ export class AddYoutubeVideoDialogComponent implements OnInit {
     const inputString = this.videoIdFormControl.value;
     this.validVideoId = '';
 
-    if (inputString.includes('youtube.com/watch?') ||
+    if (
+      inputString.includes('youtube.com/watch?') ||
       inputString.includes('youtu.be/') ||
-      inputString.includes('youtube.com/embed/')) {
-
+      inputString.includes('youtube.com/embed/')
+    ) {
       if (inputString.includes('youtube.com/watch?')) {
         this.validVideoId = inputString.split('v=')[1].split('&')[0];
       }

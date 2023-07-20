@@ -10,7 +10,6 @@ import { User } from '../_models';
   templateUrl: 'update-infor-dialog.component.html',
 })
 export class UpdateInforDialogComponent implements OnInit {
-
   @Input() title: string;
   @Input() message: string;
   @Input() messageError: string;
@@ -28,9 +27,11 @@ export class UpdateInforDialogComponent implements OnInit {
     private activeModal: NgbActiveModal,
     private userService: UserService,
     private alertService: AlertService,
-    private spinner: SpinnerService
+    private spinner: SpinnerService,
   ) {
-    this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
+    this.authenticationService.currentUser.subscribe(
+      (x) => (this.currentUser = x),
+    );
   }
 
   ngOnInit() {
@@ -56,28 +57,28 @@ export class UpdateInforDialogComponent implements OnInit {
       this.updateUserForm = this.formBuilder.group({
         username: [this.currentUser.username],
         firstName: [this.firstName],
-        lastName: [this.lastName]
+        lastName: [this.lastName],
       });
 
       // Update user
       this.spinner.show();
-      this.userService.updateUser(this.updateUserForm.value)
-        .subscribe(
-          data => {
-            // Send alert message
-            this.alertService.success('User update successful', true);
+      this.userService.updateUser(this.updateUserForm.value).subscribe(
+        (data) => {
+          // Send alert message
+          this.alertService.success('User update successful', true);
 
-            // Update current storage user
-            this.currentUser.firstName = this.firstName;
-            this.currentUser.lastName = this.lastName;
-            localStorage.setItem('currentUser', JSON.stringify(this.currentUser));
+          // Update current storage user
+          this.currentUser.firstName = this.firstName;
+          this.currentUser.lastName = this.lastName;
+          localStorage.setItem('currentUser', JSON.stringify(this.currentUser));
 
-            this.spinner.hide();
-          },
-          error => {
-            this.spinner.hide();
-            this.alertService.error(error);
-          });
+          this.spinner.hide();
+        },
+        (error) => {
+          this.spinner.hide();
+          this.alertService.error(error);
+        },
+      );
 
       // Close dialog
       this.activeModal.close(true);

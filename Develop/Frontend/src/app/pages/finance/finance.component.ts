@@ -5,13 +5,13 @@ import { SEOService } from '@app/_common/_services';
 @Component({
   selector: 'app-finance',
   templateUrl: './finance.component.html',
-  styleUrls: ['./finance.component.css']
+  styleUrls: ['./finance.component.css'],
 })
 export class FinanceComponent implements OnInit {
-
   constructor(
     private route: ActivatedRoute,
-    private seoService: SEOService) { }
+    private seoService: SEOService,
+  ) {}
 
   get isGoldOpen() {
     return this.selectOpion === 1;

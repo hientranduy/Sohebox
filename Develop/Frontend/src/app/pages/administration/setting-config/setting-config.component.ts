@@ -12,7 +12,7 @@ import { ConfigDialogService } from './_dialogs';
 @Component({
   selector: 'app-setting-config',
   templateUrl: './setting-config.component.html',
-  styleUrls: ['./setting-config.component.css']
+  styleUrls: ['./setting-config.component.css'],
 })
 export class SettingConfigComponent implements OnInit {
   // Table elements
@@ -41,7 +41,7 @@ export class SettingConfigComponent implements OnInit {
     private configService: ConfigService,
     private alertService: AlertService,
     private toastr: ToastrService,
-    private spinner: SpinnerService
+    private spinner: SpinnerService,
   ) {
     // Set default
     this.pageResult = new PageResultVO<Config>();
@@ -57,7 +57,7 @@ export class SettingConfigComponent implements OnInit {
       this.pageResult.currentPage,
       this.pageResult.pageSize,
       this.currentSort,
-      this.currentFilterValue
+      this.currentFilterValue,
     );
   }
 
@@ -73,7 +73,7 @@ export class SettingConfigComponent implements OnInit {
       0,
       this.pageResult.pageSize,
       null,
-      this.currentFilterValue
+      this.currentFilterValue,
     );
   }
 
@@ -87,7 +87,7 @@ export class SettingConfigComponent implements OnInit {
       0,
       this.pageResult.pageSize,
       this.currentSort,
-      this.currentFilterValue
+      this.currentFilterValue,
     );
   }
 
@@ -99,7 +99,7 @@ export class SettingConfigComponent implements OnInit {
       e.pageIndex,
       e.pageSize,
       this.currentSort,
-      this.currentFilterValue
+      this.currentFilterValue,
     );
   }
 
@@ -111,7 +111,7 @@ export class SettingConfigComponent implements OnInit {
       pageInfo.offset,
       this.pageResult.pageSize,
       this.currentSort,
-      this.currentFilterValue
+      this.currentFilterValue,
     );
   }
 
@@ -130,7 +130,7 @@ export class SettingConfigComponent implements OnInit {
     pageNumber: number,
     pageRecord: number,
     sorter: Sorter,
-    filterValue: string
+    filterValue: string,
   ) {
     // Prepare search condition
     const sco = new ConfigSCO();
@@ -166,7 +166,7 @@ export class SettingConfigComponent implements OnInit {
 
     // Search
     this.configService.search(sco).subscribe(
-      data => {
+      (data) => {
         const responseAPi: any = data;
         const typeResponse: ApiReponse<Config> = responseAPi;
         if (typeResponse.data != null) {
@@ -178,12 +178,12 @@ export class SettingConfigComponent implements OnInit {
         // Hide Loading
         this.spinner.hide();
       },
-      error => {
+      (error) => {
         // Hide Loading
         this.spinner.hide();
 
         this.alertService.error(error);
-      }
+      },
     );
   }
 
@@ -195,20 +195,20 @@ export class SettingConfigComponent implements OnInit {
    */
   public add() {
     this.configDialogService.add('ADD', '').then(
-      result => {
+      (result) => {
         if (result) {
           // Refresh table
           this.getPageResult(
             0,
             this.pageResult.pageSize,
             this.currentSort,
-            this.currentFilterValue
+            this.currentFilterValue,
           );
         }
       },
-      reason => {
+      (reason) => {
         console.log('ADD reason:' + reason);
-      }
+      },
     );
   }
 
@@ -217,12 +217,12 @@ export class SettingConfigComponent implements OnInit {
    */
   public delete() {
     if (this.selected.length > 0) {
-      this.selected.forEach(element => {
+      this.selected.forEach((element) => {
         this.deleteChoose(element);
       });
     } else {
       this.toastr.info('No selected item', 'Information', {
-        timeOut: 2000
+        timeOut: 2000,
       });
     }
   }
@@ -239,13 +239,13 @@ export class SettingConfigComponent implements OnInit {
    */
   public viewDetailChoose(item: Config) {
     this.configDialogService.view('DETAIL', '', item).then(
-      result => {
+      (result) => {
         if (result) {
         }
       },
-      reason => {
+      (reason) => {
         console.log('DETAIL reason:' + reason);
-      }
+      },
     );
   }
 
@@ -254,19 +254,19 @@ export class SettingConfigComponent implements OnInit {
    */
   public editChoose(item: Config) {
     this.configDialogService.edit('EDIT', '', item).then(
-      result => {
+      (result) => {
         if (result) {
           this.getPageResult(
             this.pageResult.currentPage,
             this.pageResult.pageSize,
             this.currentSort,
-            this.currentFilterValue
+            this.currentFilterValue,
           );
         }
       },
-      reason => {
+      (reason) => {
         console.log('EDIT reason:' + reason);
-      }
+      },
     );
   }
 
@@ -277,7 +277,7 @@ export class SettingConfigComponent implements OnInit {
     this.configDialogService
       .delete('DELETION', 'Are you sure deleting: ' + item.configKey + ' ?')
       .then(
-        result => {
+        (result) => {
           if (result) {
             this.toastr.warning('[Admin notice] Not allow to delete');
 
@@ -304,9 +304,9 @@ export class SettingConfigComponent implements OnInit {
             // );
           }
         },
-        reason => {
+        (reason) => {
           console.log('DELETE reason:' + reason);
-        }
+        },
       );
   }
 }

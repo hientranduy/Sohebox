@@ -15,10 +15,9 @@ import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-english-config',
   templateUrl: './english-config.component.html',
-  styleUrls: ['./english-config.component.css']
+  styleUrls: ['./english-config.component.css'],
 })
 export class EnglishConfigComponent implements OnInit {
-
   // Table elements
   pageResult: PageResultVO<English>;
   currentSort: Sorter;
@@ -44,7 +43,7 @@ export class EnglishConfigComponent implements OnInit {
     private englishService: EnglishService,
     private alertService: AlertService,
     private toastr: ToastrService,
-    private spinner: SpinnerService
+    private spinner: SpinnerService,
   ) {
     // Set default
     this.pageResult = new PageResultVO<English>();
@@ -60,7 +59,7 @@ export class EnglishConfigComponent implements OnInit {
       this.pageResult.currentPage,
       this.pageResult.pageSize,
       this.currentSort,
-      this.currentFilterValue
+      this.currentFilterValue,
     );
   }
 
@@ -76,7 +75,7 @@ export class EnglishConfigComponent implements OnInit {
       0,
       this.pageResult.pageSize,
       null,
-      this.currentFilterValue
+      this.currentFilterValue,
     );
   }
 
@@ -90,7 +89,7 @@ export class EnglishConfigComponent implements OnInit {
       0,
       this.pageResult.pageSize,
       this.currentSort,
-      this.currentFilterValue
+      this.currentFilterValue,
     );
   }
 
@@ -102,7 +101,7 @@ export class EnglishConfigComponent implements OnInit {
       e.pageIndex,
       e.pageSize,
       this.currentSort,
-      this.currentFilterValue
+      this.currentFilterValue,
     );
   }
 
@@ -114,7 +113,7 @@ export class EnglishConfigComponent implements OnInit {
       pageInfo.offset,
       this.pageResult.pageSize,
       this.currentSort,
-      this.currentFilterValue
+      this.currentFilterValue,
     );
   }
 
@@ -125,7 +124,7 @@ export class EnglishConfigComponent implements OnInit {
     pageNumber: number,
     pageRecord: number,
     sorter: Sorter,
-    filterValue: string
+    filterValue: string,
   ) {
     // Prepare search condition
     const sco = new EnglishSCO();
@@ -151,7 +150,7 @@ export class EnglishConfigComponent implements OnInit {
 
     // Search
     this.englishService.searchEnglish(sco).subscribe(
-      data => {
+      (data) => {
         const responseAPi: any = data;
         const typeResponse: ApiReponse<English> = responseAPi;
         if (typeResponse.data != null) {
@@ -163,12 +162,12 @@ export class EnglishConfigComponent implements OnInit {
         // Hide Loading
         this.spinner.hide();
       },
-      error => {
+      (error) => {
         // Hide Loading
         this.spinner.hide();
 
         this.alertService.error(error);
-      }
+      },
     );
   }
 
@@ -180,19 +179,19 @@ export class EnglishConfigComponent implements OnInit {
    */
   public add() {
     this.englishDialogService.addWord('Add word', '').then(
-      result => {
+      (result) => {
         if (result) {
           this.getPageResult(
             0,
             this.pageResult.pageSize,
             this.currentSort,
-            this.currentFilterValue
+            this.currentFilterValue,
           );
         }
       },
-      reason => {
+      (reason) => {
         console.log('ADD reason:' + reason);
-      }
+      },
     );
   }
 
@@ -208,19 +207,19 @@ export class EnglishConfigComponent implements OnInit {
    */
   public editChoosen(item: English) {
     this.englishDialogService.editWord('EDIT', '', item).then(
-      result => {
+      (result) => {
         if (result) {
           this.getPageResult(
             this.pageResult.currentPage,
             this.pageResult.pageSize,
             this.currentSort,
-            this.currentFilterValue
+            this.currentFilterValue,
           );
         }
       },
-      reason => {
+      (reason) => {
         console.log('EDIT reason:' + reason);
-      }
+      },
     );
   }
   /**
@@ -233,22 +232,22 @@ export class EnglishConfigComponent implements OnInit {
       .downloadVoice(
         'Download Voice',
         'You are downloading voice of word <' + english.keyWord + '>',
-        english
+        english,
       )
       .then(
-        result => {
+        (result) => {
           if (result) {
             this.getPageResult(
               this.pageResult.currentPage,
               this.pageResult.pageSize,
               this.currentSort,
-              this.currentFilterValue
+              this.currentFilterValue,
             );
           }
         },
-        reason => {
+        (reason) => {
           console.log('downloadVoice reason:' + reason);
-        }
+        },
       );
   }
 
@@ -265,7 +264,7 @@ export class EnglishConfigComponent implements OnInit {
   public gotoCambridgeDictionary(english: English) {
     window.open(
       AppSettings.CAMBRIDGE_DICTIONATY_WORD_URL +
-      english.keyWord.split(' ').join('-')
+        english.keyWord.split(' ').join('-'),
     );
   }
 }

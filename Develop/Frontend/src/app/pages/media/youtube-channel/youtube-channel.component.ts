@@ -6,7 +6,11 @@ import { AlertService } from '@app/_common/alert';
 import { ApiReponse } from '@app/_common/_models';
 import { YoutubeChannelSCO, YoutubeChannelVideoSCO } from '@app/_common/_sco';
 import { SearchNumber } from '@app/_common/_sco/core_sco';
-import { RequireMatchForm, SpinnerService, UtilsService } from '@app/_common/_services';
+import {
+  RequireMatchForm,
+  SpinnerService,
+  UtilsService,
+} from '@app/_common/_services';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
@@ -17,7 +21,7 @@ import { YoutubeVideoDialogService } from '../_services/youtube-video-dialog.ser
 @Component({
   selector: 'app-youtube-channel',
   templateUrl: './youtube-channel.component.html',
-  styleUrls: ['./youtube-channel.component.css']
+  styleUrls: ['./youtube-channel.component.css'],
 })
 export class YoutubeChannelComponent implements OnInit {
   currentUser: User;
@@ -32,10 +36,12 @@ export class YoutubeChannelComponent implements OnInit {
     private alertService: AlertService,
     private toastr: ToastrService,
     private authenticationService: AuthenticationService,
-    private youtubeVideoDialogService: YoutubeVideoDialogService
+    private youtubeVideoDialogService: YoutubeVideoDialogService,
   ) {
     // Get logged user
-    this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
+    this.authenticationService.currentUser.subscribe(
+      (x) => (this.currentUser = x),
+    );
   }
   // Loading
   isPrivateChannel: Boolean = false;
@@ -86,8 +92,15 @@ export class YoutubeChannelComponent implements OnInit {
    * Refresh movie list
    */
   public searchMovie() {
-    if (this.isFormValid() && this.channelSelect && this.channelSelect.channelId) {
-      if (!this.currentUser || this.channelSelect.channelId !== this.currentUser.username) {
+    if (
+      this.isFormValid() &&
+      this.channelSelect &&
+      this.channelSelect.channelId
+    ) {
+      if (
+        !this.currentUser ||
+        this.channelSelect.channelId !== this.currentUser.username
+      ) {
         this.loadVideoListByChannel(this.channelSelect);
       } else {
         this.getPrivateVideo();
@@ -101,7 +114,10 @@ export class YoutubeChannelComponent implements OnInit {
    * Search movide by channel id
    */
   public searchMovieByChannel(selectedChannel) {
-    if (!this.currentUser || selectedChannel.channelId !== this.currentUser.username) {
+    if (
+      !this.currentUser ||
+      selectedChannel.channelId !== this.currentUser.username
+    ) {
       this.loadVideoListByChannel(selectedChannel);
     } else {
       this.getPrivateVideo();
@@ -113,20 +129,28 @@ export class YoutubeChannelComponent implements OnInit {
    */
   public playMovieButton() {
     if (this.currentUser) {
-      if (this.channelSelect && this.channelSelect.channelId && this.channelSelect.channelId !== this.currentUser.username) {
+      if (
+        this.channelSelect &&
+        this.channelSelect.channelId &&
+        this.channelSelect.channelId !== this.currentUser.username
+      ) {
         window.open('/media/youtubeplayerchannel/' + this.channelSelect.id);
       } else {
         if (this.isHavePrivateVideo) {
           window.open('/media/youtubeplayerchannel/' + 0);
         } else {
-          this.toastr.info('Let login and add personal videos or select a channel to play');
+          this.toastr.info(
+            'Let login and add personal videos or select a channel to play',
+          );
         }
       }
     } else {
       if (this.channelSelect && this.channelSelect.channelId) {
         window.open('/media/youtubeplayerchannel/' + this.channelSelect.id);
       } else {
-        this.toastr.info('Let login and add personal videos or select a channel to play');
+        this.toastr.info(
+          'Let login and add personal videos or select a channel to play',
+        );
       }
     }
   }
@@ -145,16 +169,20 @@ export class YoutubeChannelComponent implements OnInit {
     this.youtubeVideoDialogService
       .deletePrivateVideo(
         'DELETION',
-        'Are you sure remove video: ' + video.title + ' _ id:' + video.videoId + ' ?',
-        video
+        'Are you sure remove video: ' +
+          video.title +
+          ' _ id:' +
+          video.videoId +
+          ' ?',
+        video,
       )
       .then(
-        result => {
+        (result) => {
           this.getPrivateVideo();
         },
-        reason => {
+        (reason) => {
           console.log('DELETE reason:' + reason);
-        }
+        },
       );
   }
 
@@ -162,17 +190,19 @@ export class YoutubeChannelComponent implements OnInit {
    * Add private video
    */
   public addPrivateVideo() {
-    this.youtubeVideoDialogService.addPrivateVideo('Add private video', '').then(
-      result => {
-        if (result) {
-          this.getChannelList();
-          this.getPrivateVideo();
-        }
-      },
-      reason => {
-        console.log('ADD video reason:' + reason);
-      }
-    );
+    this.youtubeVideoDialogService
+      .addPrivateVideo('Add private video', '')
+      .then(
+        (result) => {
+          if (result) {
+            this.getChannelList();
+            this.getPrivateVideo();
+          }
+        },
+        (reason) => {
+          console.log('ADD video reason:' + reason);
+        },
+      );
   }
 
   ///////////////////////
@@ -190,29 +220,37 @@ export class YoutubeChannelComponent implements OnInit {
     this.spinner.show();
 
     // Get list
-    this.youTubeService.searchMyChannel(sco)
-      .subscribe(data => {
+    this.youTubeService.searchMyChannel(sco).subscribe(
+      (data) => {
         // Get data
         const responseAPi: any = data;
         const typeResponse: ApiReponse<YoutubeChannel> = responseAPi;
         if (typeResponse.data != null) {
           const channels: YoutubeChannel[] = typeResponse.data.elements;
-          this.filteredChannels = this.channelFormControl.valueChanges
-            .pipe(
-              startWith(''),
-              map(value => channels.filter(valueFilter => valueFilter.name.toLowerCase().includes(value.toString().toLowerCase()))));
+          this.filteredChannels = this.channelFormControl.valueChanges.pipe(
+            startWith(''),
+            map((value) =>
+              channels.filter((valueFilter) =>
+                valueFilter.name
+                  .toLowerCase()
+                  .includes(value.toString().toLowerCase()),
+              ),
+            ),
+          );
         }
 
         // Hide loading
         this.spinner.hide();
-      }, error => {
+      },
+      (error) => {
         this.processError(error);
-      });
+      },
+    );
   }
 
   /**
-  * Load video list
-  */
+   * Load video list
+   */
   public loadVideoListByChannel(channel: YoutubeChannel) {
     // Prepare search condition
     const channelSearch = new SearchNumber();
@@ -226,8 +264,8 @@ export class YoutubeChannelComponent implements OnInit {
     // this.spinner.show();
 
     // Get list
-    this.youTubeService.searchChannelVideo(sco)
-      .subscribe(data => {
+    this.youTubeService.searchChannelVideo(sco).subscribe(
+      (data) => {
         // Get data
         const responseAPi: any = data;
         const typeResponse: ApiReponse<YoutubeVideo> = responseAPi;
@@ -245,10 +283,11 @@ export class YoutubeChannelComponent implements OnInit {
 
         // Hide loading
         this.spinner.hide();
-
-      }, error => {
+      },
+      (error) => {
         this.processError(error);
-      });
+      },
+    );
   }
 
   /**
@@ -259,8 +298,8 @@ export class YoutubeChannelComponent implements OnInit {
     this.spinner.show();
 
     // Get list
-    this.youTubeService.getPrivateVideo()
-      .subscribe(data => {
+    this.youTubeService.getPrivateVideo().subscribe(
+      (data) => {
         // Get data
         const responseAPi: any = data;
         const typeResponse: ApiReponse<YoutubeVideo> = responseAPi;
@@ -277,10 +316,11 @@ export class YoutubeChannelComponent implements OnInit {
 
         // Hide loading
         this.spinner.hide();
-
-      }, error => {
+      },
+      (error) => {
         this.processError(error);
-      });
+      },
+    );
   }
 
   ///////////////////

@@ -11,10 +11,9 @@ import { FoodService } from './_services';
 @Component({
   selector: 'app-food',
   templateUrl: './food.component.html',
-  styleUrls: ['./food.component.css']
+  styleUrls: ['./food.component.css'],
 })
 export class FoodComponent implements OnInit {
-
   foods: Array<Food>;
 
   constructor(
@@ -22,9 +21,8 @@ export class FoodComponent implements OnInit {
     private spinner: SpinnerService,
     private foodService: FoodService,
     private seoService: SEOService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
   ) {
-
     // Get all food
     this.refreshAllFood();
   }
@@ -47,25 +45,25 @@ export class FoodComponent implements OnInit {
     const foodSCO = new FoodSCO();
     foodSCO.sorters = sorters;
 
-    this.foodService.searchFood(foodSCO)
-      .subscribe(
-        data => {
-          // Get data
-          const responseAPi: any = data;
-          const foodResponse: ApiReponse<Food> = responseAPi;
+    this.foodService.searchFood(foodSCO).subscribe(
+      (data) => {
+        // Get data
+        const responseAPi: any = data;
+        const foodResponse: ApiReponse<Food> = responseAPi;
 
-          if (foodResponse.data.elements != null) {
-            this.foods = foodResponse.data.elements;
-          }
+        if (foodResponse.data.elements != null) {
+          this.foods = foodResponse.data.elements;
+        }
 
-          // Hide loading
-          this.spinner.hide();
-        },
-        error => {
-          // Hide loading
-          this.spinner.hide();
+        // Hide loading
+        this.spinner.hide();
+      },
+      (error) => {
+        // Hide loading
+        this.spinner.hide();
 
-          this.alertService.error(error);
-        });
+        this.alertService.error(error);
+      },
+    );
   }
 }

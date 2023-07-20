@@ -1,5 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { AuthenticationService } from '@app/user/_service';
 import { AlertService } from '@app/_common/alert';
@@ -13,7 +18,6 @@ import { ToastrService } from 'ngx-toastr';
   templateUrl: 'edit-config-dialog.component.html',
 })
 export class EditConfigDialogComponent implements OnInit {
-
   constructor(
     private formBuilder: FormBuilder,
     private activeModal: NgbActiveModal,
@@ -21,9 +25,8 @@ export class EditConfigDialogComponent implements OnInit {
     private authenticationService: AuthenticationService,
     private configService: ConfigService,
     private toastr: ToastrService,
-    private spinner: SpinnerService
-  ) {
-  }
+    private spinner: SpinnerService,
+  ) {}
 
   // Form value
   @Input() title: string;
@@ -44,18 +47,13 @@ export class EditConfigDialogComponent implements OnInit {
   matcher = new ErrorStateMatcher();
 
   // Field : config key
-  configKeyFormControl = new FormControl('', [
-  ]);
+  configKeyFormControl = new FormControl('', []);
 
   // Field : config value
-  configValueFormControl = new FormControl('', [
-    Validators.required,
-  ]);
+  configValueFormControl = new FormControl('', [Validators.required]);
 
   // Field : description
-  descriptionFormControl = new FormControl('', [
-  ]);
-
+  descriptionFormControl = new FormControl('', []);
 
   ngOnInit() {
     // Set current value
@@ -82,12 +80,12 @@ export class EditConfigDialogComponent implements OnInit {
   }
 
   /**
-  * Click accept button
-  */
+   * Click accept button
+   */
   public accept() {
     switch (true) {
       // Case data is unchanged
-      case (!this.isHaveUpdateValue()):
+      case !this.isHaveUpdateValue():
         // Send warning toast message
         this.toastr.warning('Skip update because the value is not changed');
 
@@ -96,7 +94,7 @@ export class EditConfigDialogComponent implements OnInit {
         break;
 
       // Case data is invalid
-      case (!this.isFormValid()):
+      case !this.isFormValid():
         this.message = null;
         this.messageError = 'Invalid fields, please check your input';
         break;
@@ -116,29 +114,30 @@ export class EditConfigDialogComponent implements OnInit {
         this.spinner.show();
 
         // Update
-        this.configService.update(configForm.value)
-          .subscribe(
-            data => {
-              // Send success toast message
-              this.toastr.success('<Config Key ' + this.item.configKey + '> is updated successful');
+        this.configService.update(configForm.value).subscribe(
+          (data) => {
+            // Send success toast message
+            this.toastr.success(
+              '<Config Key ' + this.item.configKey + '> is updated successful',
+            );
 
-              // Hide loading
-              this.spinner.hide();
+            // Hide loading
+            this.spinner.hide();
 
-              // Close dialog
-              this.activeModal.close(true);
+            // Close dialog
+            this.activeModal.close(true);
+          },
+          (error) => {
+            // Hide loading
+            this.spinner.hide();
 
-            },
-            error => {
-              // Hide loading
-              this.spinner.hide();
+            // Send error toast message
+            this.toastr.error(error);
 
-              // Send error toast message
-              this.toastr.error(error);
-
-              // Close dialog
-              this.activeModal.close(false);
-            });
+            // Close dialog
+            this.activeModal.close(false);
+          },
+        );
     }
   }
 

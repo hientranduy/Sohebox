@@ -9,11 +9,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
   templateUrl: 'view-config-dialog.component.html',
 })
 export class ViewConfigDialogComponent implements OnInit {
-
-  constructor(
-    private activeModal: NgbActiveModal,
-  ) {
-  }
+  constructor(private activeModal: NgbActiveModal) {}
 
   // Form value
   @Input() title: string;
@@ -33,17 +29,13 @@ export class ViewConfigDialogComponent implements OnInit {
   matcher = new ErrorStateMatcher();
 
   // Field : config key
-  configKeyFormControl = new FormControl('', [
-  ]);
+  configKeyFormControl = new FormControl('', []);
 
   // Field : config value
-  configValueFormControl = new FormControl('', [
-    Validators.required,
-  ]);
+  configValueFormControl = new FormControl('', [Validators.required]);
 
   // Field : description
-  descriptionFormControl = new FormControl('', [
-  ]);
+  descriptionFormControl = new FormControl('', []);
 
   ngOnInit() {
     // Set current value
@@ -56,8 +48,8 @@ export class ViewConfigDialogComponent implements OnInit {
   // FORM BUTTON CONTROL             //
   /////////////////////////////////////
   /**
-  * Click decline button
-  */
+   * Click decline button
+   */
   public decline() {
     this.activeModal.close(false);
   }
@@ -70,8 +62,8 @@ export class ViewConfigDialogComponent implements OnInit {
   }
 
   /**
-  * Click accept button
-  */
+   * Click accept button
+   */
   public accept() {
     this.activeModal.close(true);
   }

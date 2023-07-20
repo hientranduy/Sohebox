@@ -14,7 +14,7 @@ import { YoutubeChannelDialogService } from './_dialogs';
 @Component({
   selector: 'app-youtube-channel-config',
   templateUrl: './youtube-channel-config.component.html',
-  styleUrls: ['./youtube-channel-config.component.css']
+  styleUrls: ['./youtube-channel-config.component.css'],
 })
 export class YoutubeChannelConfigComponent implements OnInit {
   // Table elements
@@ -31,7 +31,7 @@ export class YoutubeChannelConfigComponent implements OnInit {
     private toastr: ToastrService,
     private spinner: SpinnerService,
     private youtubeService: YoutubeService,
-    private youtubeChannelDialogService: YoutubeChannelDialogService
+    private youtubeChannelDialogService: YoutubeChannelDialogService,
   ) {
     // Set default
     this.pageResult = new PageResultVO<YoutubeChannel>();
@@ -47,7 +47,7 @@ export class YoutubeChannelConfigComponent implements OnInit {
       this.pageResult.currentPage,
       this.pageResult.pageSize,
       this.currentSort,
-      this.currentFilterValue
+      this.currentFilterValue,
     );
   }
 
@@ -63,7 +63,7 @@ export class YoutubeChannelConfigComponent implements OnInit {
       0,
       this.pageResult.pageSize,
       null,
-      this.currentFilterValue
+      this.currentFilterValue,
     );
   }
 
@@ -77,7 +77,7 @@ export class YoutubeChannelConfigComponent implements OnInit {
       0,
       this.pageResult.pageSize,
       this.currentSort,
-      this.currentFilterValue
+      this.currentFilterValue,
     );
   }
 
@@ -89,7 +89,7 @@ export class YoutubeChannelConfigComponent implements OnInit {
       e.pageIndex,
       e.pageSize,
       this.currentSort,
-      this.currentFilterValue
+      this.currentFilterValue,
     );
   }
 
@@ -101,7 +101,7 @@ export class YoutubeChannelConfigComponent implements OnInit {
       pageInfo.offset,
       this.pageResult.pageSize,
       this.currentSort,
-      this.currentFilterValue
+      this.currentFilterValue,
     );
   }
 
@@ -112,7 +112,7 @@ export class YoutubeChannelConfigComponent implements OnInit {
     pageNumber: number,
     pageRecord: number,
     sorter: Sorter,
-    filterValue: string
+    filterValue: string,
   ) {
     // Prepare search condition
     const sco = new YoutubeChannelSCO();
@@ -148,7 +148,7 @@ export class YoutubeChannelConfigComponent implements OnInit {
 
     // Search
     this.youtubeService.searchChannel(sco).subscribe(
-      data => {
+      (data) => {
         const responseAPi: any = data;
         const typeResponse: ApiReponse<YoutubeChannel> = responseAPi;
         if (typeResponse.data != null) {
@@ -160,12 +160,12 @@ export class YoutubeChannelConfigComponent implements OnInit {
         // Hide Loading
         this.spinner.hide();
       },
-      error => {
+      (error) => {
         // Hide Loading
         this.spinner.hide();
 
         this.alertService.error(error);
-      }
+      },
     );
   }
 
@@ -177,20 +177,20 @@ export class YoutubeChannelConfigComponent implements OnInit {
    */
   public add() {
     this.youtubeChannelDialogService.add('Add channel', '').then(
-      result => {
+      (result) => {
         if (result) {
           // Refresh table
           this.getPageResult(
             0,
             this.pageResult.pageSize,
             this.currentSort,
-            this.currentFilterValue
+            this.currentFilterValue,
           );
         }
       },
-      reason => {
+      (reason) => {
         console.log('ADD reason:' + reason);
-      }
+      },
     );
   }
 
@@ -206,19 +206,19 @@ export class YoutubeChannelConfigComponent implements OnInit {
    */
   public editChoosen(item: YoutubeChannel) {
     this.youtubeChannelDialogService.edit('EDIT', '', item).then(
-      result => {
+      (result) => {
         if (result) {
           this.getPageResult(
             this.pageResult.currentPage,
             this.pageResult.pageSize,
             this.currentSort,
-            this.currentFilterValue
+            this.currentFilterValue,
           );
         }
       },
-      reason => {
+      (reason) => {
         console.log('EDIT reason:' + reason);
-      }
+      },
     );
   }
 }

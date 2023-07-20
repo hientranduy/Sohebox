@@ -7,7 +7,7 @@ import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-youtube-player',
   templateUrl: './youtube-player.component.html',
-  styleUrls: ['./youtube-player.component.css']
+  styleUrls: ['./youtube-player.component.css'],
 })
 export class YoutubePlayerComponent implements OnInit {
   videoId: String;
@@ -18,10 +18,12 @@ export class YoutubePlayerComponent implements OnInit {
   constructor(
     private seoService: SEOService,
     private route: ActivatedRoute,
-    private toastr: ToastrService
+    private toastr: ToastrService,
   ) {
     // Get video id from parameter
-    this.route.params.subscribe((params: Params) => this.videoId = params['videoId']);
+    this.route.params.subscribe(
+      (params: Params) => (this.videoId = params['videoId']),
+    );
 
     this.videoWidth = window.innerWidth;
     this.videoHeight = window.innerHeight;

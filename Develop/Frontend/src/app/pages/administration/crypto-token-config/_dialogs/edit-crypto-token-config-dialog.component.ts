@@ -1,5 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { CryptoTokenConfig } from '@app/pages/crypto/_models';
 import { CryptoTokenConfigService } from '@app/pages/crypto/_services';
@@ -12,10 +17,9 @@ import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-edit-crypto-token-config-dialog',
   templateUrl: './edit-crypto-token-config-dialog.component.html',
-  styleUrls: ['./edit-crypto-token-config-dialog.component.css']
+  styleUrls: ['./edit-crypto-token-config-dialog.component.css'],
 })
 export class EditCryptoTokenConfigDialogComponent implements OnInit {
-
   constructor(
     private formBuilder: FormBuilder,
     private activeModal: NgbActiveModal,
@@ -23,9 +27,8 @@ export class EditCryptoTokenConfigDialogComponent implements OnInit {
     private authenticationService: AuthenticationService,
     private cryptoTokenConfigService: CryptoTokenConfigService,
     private toastr: ToastrService,
-    private spinner: SpinnerService
-  ) {
-  }
+    private spinner: SpinnerService,
+  ) {}
 
   // Form value
   @Input() title: string;
@@ -47,53 +50,40 @@ export class EditCryptoTokenConfigDialogComponent implements OnInit {
   mintscanPrefixValue: string;
   deligateUrlValue: string;
 
-
   /////////////////////////////////////
   // FORM FIELD VALIDATION           //
   /////////////////////////////////////
   matcher = new ErrorStateMatcher();
 
   // tokenCode
-  tokenCodeFormControl = new FormControl('', [
-    Validators.required,
-  ]);
+  tokenCodeFormControl = new FormControl('', [Validators.required]);
 
   // tokenName
-  tokenNameFormControl = new FormControl('', [
-    Validators.required,
-  ]);
+  tokenNameFormControl = new FormControl('', [Validators.required]);
 
   // iconUrl
-  iconUrlFormControl = new FormControl('', [
-  ]);
+  iconUrlFormControl = new FormControl('', []);
 
   // nodeUrl
-  nodeUrlFormControl = new FormControl('', [
-  ]);
+  nodeUrlFormControl = new FormControl('', []);
 
   // rpcUrl
-  rpcUrlFormControl = new FormControl('', [
-  ]);
+  rpcUrlFormControl = new FormControl('', []);
 
   // denom
-  denomFormControl = new FormControl('', [
-  ]);
+  denomFormControl = new FormControl('', []);
 
   // decimalExponent
-  decimalExponentFormControl = new FormControl('', [
-  ]);
+  decimalExponentFormControl = new FormControl('', []);
 
   // addressPrefix
-  addressPrefixFormControl = new FormControl('', [
-  ]);
+  addressPrefixFormControl = new FormControl('', []);
 
   // mintscanPrefix
-  mintscanPrefixFormControl = new FormControl('', [
-  ]);
+  mintscanPrefixFormControl = new FormControl('', []);
 
   // deligateUrl
-  deligateUrlFormControl = new FormControl('', [
-  ]);
+  deligateUrlFormControl = new FormControl('', []);
 
   ngOnInit() {
     // Set old data
@@ -126,13 +116,11 @@ export class EditCryptoTokenConfigDialogComponent implements OnInit {
     this.activeModal.dismiss();
   }
 
-
   /**
-  * Click accept button
-  */
+   * Click accept button
+   */
   public accept() {
     if (this.isFormValid()) {
-
       // Prepare adding word form
       const editForm: FormGroup = this.formBuilder.group({
         id: [this.cryptoTokenConfig.id],
@@ -145,34 +133,35 @@ export class EditCryptoTokenConfigDialogComponent implements OnInit {
         decimalExponent: [this.decimalExponentValue],
         addressPrefix: [this.addressPrefixValue],
         mintscanPrefix: [this.mintscanPrefixValue],
-        deligateUrl: [this.deligateUrlValue]
+        deligateUrl: [this.deligateUrlValue],
       });
 
       // Show loading
       this.spinner.show();
 
       // Add
-      this.cryptoTokenConfigService.update(editForm.value)
-        .subscribe(
-          data => {
-            // Send success toast message
-            this.toastr.success('Token ' + this.tokenCodeValue + ' is updated successful');
+      this.cryptoTokenConfigService.update(editForm.value).subscribe(
+        (data) => {
+          // Send success toast message
+          this.toastr.success(
+            'Token ' + this.tokenCodeValue + ' is updated successful',
+          );
 
-            // Hide loading
-            this.spinner.hide();
+          // Hide loading
+          this.spinner.hide();
 
-            // Close dialog
-            this.activeModal.close(true);
+          // Close dialog
+          this.activeModal.close(true);
+        },
+        (error) => {
+          // Hide loading
+          this.spinner.hide();
 
-          },
-          error => {
-            // Hide loading
-            this.spinner.hide();
-
-            // Send error message to dialog
-            this.message = null;
-            this.messageError = error;
-          });
+          // Send error message to dialog
+          this.message = null;
+          this.messageError = error;
+        },
+      );
     } else {
       this.message = null;
       this.messageError = 'Invalid fields, please check your input';

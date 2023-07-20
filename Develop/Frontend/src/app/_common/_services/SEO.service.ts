@@ -4,7 +4,10 @@ import { ActivatedRoute } from '@angular/router';
 
 @Injectable({ providedIn: 'root' })
 export class SEOService {
-  constructor(private title: Title, private meta: Meta) { }
+  constructor(
+    private title: Title,
+    private meta: Meta,
+  ) {}
 
   updateCEO(route: ActivatedRoute) {
     if (route.snapshot.data['title']) {
@@ -12,15 +15,24 @@ export class SEOService {
     }
 
     if (route.snapshot.data['ogUrl']) {
-      this.meta.updateTag({ name: 'og:url', content: route.snapshot.data['ogUrl'] });
+      this.meta.updateTag({
+        name: 'og:url',
+        content: route.snapshot.data['ogUrl'],
+      });
     }
 
     if (route.snapshot.data['description']) {
-      this.meta.updateTag({ name: 'description', content: route.snapshot.data['description'] });
+      this.meta.updateTag({
+        name: 'description',
+        content: route.snapshot.data['description'],
+      });
     }
 
     if (route.snapshot.data['keywords']) {
-      this.meta.updateTag({ name: 'keywords', content: route.snapshot.data['keywords'] });
+      this.meta.updateTag({
+        name: 'keywords',
+        content: route.snapshot.data['keywords'],
+      });
     }
   }
 }

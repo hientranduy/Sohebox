@@ -1,169 +1,274 @@
-<div class="english-container" id=englishFunction>
-    <!-- Loading spinner -->
-    <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-atom" [fullScreen]="true">
-        <p style="color: white"> Loading... </p>
-    </ngx-spinner>
+<div class="english-container" id="englishFunction">
+  <!-- Loading spinner -->
+  <ngx-spinner
+    bdColor="rgba(51,51,51,0.8)"
+    size="medium"
+    color="#fff"
+    type="ball-atom"
+    [fullScreen]="true"
+  >
+    <p style="color: white">Loading...</p>
+  </ngx-spinner>
 
-    <!-- Toolbar -->
-    <div class="row nopadding" style="background-color: transparent;font-size: 0.9em;">
-        <div class="col-sm-6 nopadding" (keyup.enter)="generateWord()">
-            <!-- key word -->
-            <mat-form-field style="width:30%">
-                <input matInput type="text" placeholder="All word" [formControl]="wordFormControl"
-                    [(ngModel)]="keyWordValue">
-            </mat-form-field>
-            &nbsp;
-            <!-- Category -->
-            <mat-form-field style="width:30%">
-                <input matInput type="text" placeholder="All category" [formControl]="categoryControl" [matAutocomplete]="autoCategory"
-                    [(ngModel)]="categoryValue">
-                <mat-autocomplete #autoCategory="matAutocomplete" [displayWith]="displayCategory">
-                    <mat-option *ngFor="let category of filteredCategories | async" [value]="category">
-                        {{category.typeName}}
-                    </mat-option>
-                </mat-autocomplete>
-                <mat-error *ngIf="categoryControl.hasError('incorrect')">
-                    Invalid category
-                </mat-error>
-            </mat-form-field>
-            &nbsp;
-            <!-- Grade -->
-            <mat-form-field style="width:30%">
-                <input matInput type="text" placeholder="All grade" [formControl]="gradeControl" [matAutocomplete]="autoGrade"
-                    [(ngModel)]="gradeValue">
-                <mat-autocomplete #autoGrade="matAutocomplete" [displayWith]="displayGrade">
-                    <mat-option *ngFor="let grade of filteredGrades | async" [value]="grade">
-                        {{grade.typeName}}
-                    </mat-option>
-                </mat-autocomplete>
-                <mat-error *ngIf="categoryControl.hasError('incorrect')">
-                    Invalid grade
-                </mat-error>
-            </mat-form-field>
-        </div>
-
-        <div class="col-sm-4 nopadding">
-            <!-- Go to other pages -->
-            <button mat-button [matMenuTriggerFor]="menuGoTo" *ngIf="displayWord" class="english-mat-button"
-                style="width:25%">
-                <img style="width: 24px;" src="assets/common/ic_goto.png">
-                <strong style="color: blue;"> GO</strong>
-            </button>
-            <mat-menu #menuGoTo="matMenu">
-                <button mat-menu-item (click)="goToGooleTranslate()">
-                    <img style="width: 24px;" src="assets/english/ic_google_translate.png">
-                    Google Translate
-                </button>
-                <button mat-menu-item (click)="goToCambridgeDictionary()">
-                    <img style="width: 26px;" src="assets/english/ic_cambridge_dictionary.png">
-                    Cambridge Dictionary
-                </button>
-            </mat-menu>
-
-            <!-- Get random word  -->
-            <button #searchButtonEnglish appAutoFocus mat-button (click)="generateWord()" class="english-mat-button"
-                style="width:30%">
-                <img style="width: 26px;" src="assets/common/ic_search.png">
-                <strong style="color: blue;">FIND</strong>
-            </button>
-
-            <!-- Fullscreen  -->
-            <button mat-button *ngIf="isAllowFullScreen && !isFullScreen" (click)="clickFullScreen()"
-                class="english-mat-button" style="width:15%">
-                <mat-icon style="color: blue;font-size: 28px;">fullscreen</mat-icon>
-            </button>
-
-            <!-- Exit Fullscreen  -->
-            <button mat-button *ngIf="isAllowFullScreen && isFullScreen" (click)="clickExitFullScreen()"
-                class="english-mat-button" style="width:15%">
-                <mat-icon style="color: blue;font-size: 28px;">fullscreen_exit</mat-icon>
-            </button>
-        </div>
-
-        <div class="col-sm-2 nopadding">
-            <!-- Count total learn  -->
-            <button mat-button class="english-result-bottom" (click)="showDialogLearnedWord()">
-                {{numberOfLearned}}
-            </button>
-        </div>
+  <!-- Toolbar -->
+  <div
+    class="row nopadding"
+    style="background-color: transparent; font-size: 0.9em"
+  >
+    <div class="col-sm-6 nopadding" (keyup.enter)="generateWord()">
+      <!-- key word -->
+      <mat-form-field style="width: 30%">
+        <input
+          matInput
+          type="text"
+          placeholder="All word"
+          [formControl]="wordFormControl"
+          [(ngModel)]="keyWordValue"
+        />
+      </mat-form-field>
+      &nbsp;
+      <!-- Category -->
+      <mat-form-field style="width: 30%">
+        <input
+          matInput
+          type="text"
+          placeholder="All category"
+          [formControl]="categoryControl"
+          [matAutocomplete]="autoCategory"
+          [(ngModel)]="categoryValue"
+        />
+        <mat-autocomplete
+          #autoCategory="matAutocomplete"
+          [displayWith]="displayCategory"
+        >
+          <mat-option
+            *ngFor="let category of filteredCategories | async"
+            [value]="category"
+          >
+            {{ category.typeName }}
+          </mat-option>
+        </mat-autocomplete>
+        <mat-error *ngIf="categoryControl.hasError('incorrect')">
+          Invalid category
+        </mat-error>
+      </mat-form-field>
+      &nbsp;
+      <!-- Grade -->
+      <mat-form-field style="width: 30%">
+        <input
+          matInput
+          type="text"
+          placeholder="All grade"
+          [formControl]="gradeControl"
+          [matAutocomplete]="autoGrade"
+          [(ngModel)]="gradeValue"
+        />
+        <mat-autocomplete
+          #autoGrade="matAutocomplete"
+          [displayWith]="displayGrade"
+        >
+          <mat-option
+            *ngFor="let grade of filteredGrades | async"
+            [value]="grade"
+          >
+            {{ grade.typeName }}
+          </mat-option>
+        </mat-autocomplete>
+        <mat-error *ngIf="categoryControl.hasError('incorrect')">
+          Invalid grade
+        </mat-error>
+      </mat-form-field>
     </div>
 
-    <!-- Image place -->
-    <div class="row nopadding" *ngIf="displayWord">
-        <div class="col-sm-8 nopadding">
-            <!-- Image -->
-            <img class="img-responsive" src="{{displayImageUrl}}" class="display_image" (click)="onClickImage()">
+    <div class="col-sm-4 nopadding">
+      <!-- Go to other pages -->
+      <button
+        mat-button
+        [matMenuTriggerFor]="menuGoTo"
+        *ngIf="displayWord"
+        class="english-mat-button"
+        style="width: 25%"
+      >
+        <img style="width: 24px" src="assets/common/ic_goto.png" />
+        <strong style="color: blue"> GO</strong>
+      </button>
+      <mat-menu #menuGoTo="matMenu">
+        <button mat-menu-item (click)="goToGooleTranslate()">
+          <img
+            style="width: 24px"
+            src="assets/english/ic_google_translate.png"
+          />
+          Google Translate
+        </button>
+        <button mat-menu-item (click)="goToCambridgeDictionary()">
+          <img
+            style="width: 26px"
+            src="assets/english/ic_cambridge_dictionary.png"
+          />
+          Cambridge Dictionary
+        </button>
+      </mat-menu>
 
-            <!-- Break line -->
-            <P></P>
+      <!-- Get random word  -->
+      <button
+        #searchButtonEnglish
+        appAutoFocus
+        mat-button
+        (click)="generateWord()"
+        class="english-mat-button"
+        style="width: 30%"
+      >
+        <img style="width: 26px" src="assets/common/ic_search.png" />
+        <strong style="color: blue">FIND</strong>
+      </button>
 
-            <!-- Excellence icon -->
-            <div align="center">
-                <img class="img-responsive" src="assets/english/star1.png" class="display_image_star"
-                    *ngIf="isDisplayStart1">
-                <img class="img-responsive" src="assets/english/star2.png" class="display_image_star"
-                    *ngIf="isDisplayStart2">
-                <img class="img-responsive" src="assets/english/star3.png" class="display_image_star"
-                    *ngIf="isDisplayStart3">
-                <img class="img-responsive" src="assets/english/star4.png" class="display_image_star"
-                    *ngIf="isDisplayStart4">
-                <img class="img-responsive" src="assets/english/star5.png" class="display_image_star"
-                    *ngIf="isDisplayStart5">
-            </div>
-        </div>
+      <!-- Fullscreen  -->
+      <button
+        mat-button
+        *ngIf="isAllowFullScreen && !isFullScreen"
+        (click)="clickFullScreen()"
+        class="english-mat-button"
+        style="width: 15%"
+      >
+        <mat-icon style="color: blue; font-size: 28px">fullscreen</mat-icon>
+      </button>
 
-        <div class="col-sm-4 nopadding">
-            <div *ngIf="isClickImage" class="display_answer">
-                <!-- Break line -->
-                <P></P>
-
-                <!-- UK Voice button -->
-                <button mat-button *ngIf="displayUkVoiceUrl" (click)="playUkVoice()">
-                    <font size="3" color="blue"><strong>UK </strong></font>
-                    <mat-icon>record_voice_over</mat-icon>
-                </button>
-
-                <!-- US Voice button -->
-                <button mat-button *ngIf="displayUsVoiceUrl" (click)="playUsVoice()">
-                    <font size="3" color="red"><strong>US </strong></font>
-                    <mat-icon>record_voice_over</mat-icon>
-                </button>
-
-                <!-- Break line -->
-                <P></P>
-
-                <!-- Content of answer -->
-                <div style="margin-left: 15px;">
-                    <h1 style="word-wrap: break-word;color:white;">
-                        {{this.displayWord.keyWord.toUpperCase()}}
-                    </h1>
-
-                    <br>
-
-                    <h4 style="word-wrap: break-word;color:white;"> * Definition</h4>
-                    <div style="word-wrap: break-word;color:white;"><i> {{displayWord.explanationEn}}</i></div>
-
-                    <br>
-
-                    <h4 style="word-wrap: break-word;color:white;"> * Translation</h4>
-                    <div style="word-wrap: break-word;color:white;"><i> {{displayWord.explanationVn}}</i></div>
-                </div>
-            </div>
-
-            <div *ngIf="!isClickImage">
-                <!-- Break line -->
-                <br>
-                <br>
-
-                <!-- Content of answer -->
-                <div style="margin-left: 15px;">
-                    <form>
-                        <input #inputTypeWord (blur)="onSubmitTypeWord(inputTypeWord.value)"
-                            (keyup.enter)="onSubmitTypeWord(inputTypeWord.value)" class="input_answer" type="text"
-                            placeholder="Type the word here.">
-                    </form>
-                </div>
-            </div>
-        </div>
+      <!-- Exit Fullscreen  -->
+      <button
+        mat-button
+        *ngIf="isAllowFullScreen && isFullScreen"
+        (click)="clickExitFullScreen()"
+        class="english-mat-button"
+        style="width: 15%"
+      >
+        <mat-icon style="color: blue; font-size: 28px"
+          >fullscreen_exit</mat-icon
+        >
+      </button>
     </div>
+
+    <div class="col-sm-2 nopadding">
+      <!-- Count total learn  -->
+      <button
+        mat-button
+        class="english-result-bottom"
+        (click)="showDialogLearnedWord()"
+      >
+        {{ numberOfLearned }}
+      </button>
+    </div>
+  </div>
+
+  <!-- Image place -->
+  <div class="row nopadding" *ngIf="displayWord">
+    <div class="col-sm-8 nopadding">
+      <!-- Image -->
+      <img
+        class="img-responsive"
+        src="{{ displayImageUrl }}"
+        class="display_image"
+        (click)="onClickImage()"
+      />
+
+      <!-- Break line -->
+      <P></P>
+
+      <!-- Excellence icon -->
+      <div align="center">
+        <img
+          class="img-responsive"
+          src="assets/english/star1.png"
+          class="display_image_star"
+          *ngIf="isDisplayStart1"
+        />
+        <img
+          class="img-responsive"
+          src="assets/english/star2.png"
+          class="display_image_star"
+          *ngIf="isDisplayStart2"
+        />
+        <img
+          class="img-responsive"
+          src="assets/english/star3.png"
+          class="display_image_star"
+          *ngIf="isDisplayStart3"
+        />
+        <img
+          class="img-responsive"
+          src="assets/english/star4.png"
+          class="display_image_star"
+          *ngIf="isDisplayStart4"
+        />
+        <img
+          class="img-responsive"
+          src="assets/english/star5.png"
+          class="display_image_star"
+          *ngIf="isDisplayStart5"
+        />
+      </div>
+    </div>
+
+    <div class="col-sm-4 nopadding">
+      <div *ngIf="isClickImage" class="display_answer">
+        <!-- Break line -->
+        <P></P>
+
+        <!-- UK Voice button -->
+        <button mat-button *ngIf="displayUkVoiceUrl" (click)="playUkVoice()">
+          <font size="3" color="blue"><strong>UK </strong></font>
+          <mat-icon>record_voice_over</mat-icon>
+        </button>
+
+        <!-- US Voice button -->
+        <button mat-button *ngIf="displayUsVoiceUrl" (click)="playUsVoice()">
+          <font size="3" color="red"><strong>US </strong></font>
+          <mat-icon>record_voice_over</mat-icon>
+        </button>
+
+        <!-- Break line -->
+        <P></P>
+
+        <!-- Content of answer -->
+        <div style="margin-left: 15px">
+          <h1 style="word-wrap: break-word; color: white">
+            {{ this.displayWord.keyWord.toUpperCase() }}
+          </h1>
+
+          <br />
+
+          <h4 style="word-wrap: break-word; color: white">* Definition</h4>
+          <div style="word-wrap: break-word; color: white">
+            <i> {{ displayWord.explanationEn }}</i>
+          </div>
+
+          <br />
+
+          <h4 style="word-wrap: break-word; color: white">* Translation</h4>
+          <div style="word-wrap: break-word; color: white">
+            <i> {{ displayWord.explanationVn }}</i>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="!isClickImage">
+        <!-- Break line -->
+        <br />
+        <br />
+
+        <!-- Content of answer -->
+        <div style="margin-left: 15px">
+          <form>
+            <input
+              #inputTypeWord
+              (blur)="onSubmitTypeWord(inputTypeWord.value)"
+              (keyup.enter)="onSubmitTypeWord(inputTypeWord.value)"
+              class="input_answer"
+              type="text"
+              placeholder="Type the word here."
+            />
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

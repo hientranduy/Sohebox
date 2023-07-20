@@ -1,5 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { EnglishTypeService } from '@app/pages/english/_services';
 import { AuthenticationService } from '@app/user/_service';
@@ -14,7 +19,6 @@ import { ToastrService } from 'ngx-toastr';
   templateUrl: 'edit-english-type-dialog.component.html',
 })
 export class EditEnglishTypeDialogComponent implements OnInit {
-
   constructor(
     private formBuilder: FormBuilder,
     private activeModal: NgbActiveModal,
@@ -22,9 +26,8 @@ export class EditEnglishTypeDialogComponent implements OnInit {
     private authenticationService: AuthenticationService,
     private englishTypeService: EnglishTypeService,
     private toastr: ToastrService,
-    private spinner: SpinnerService
-  ) {
-  }
+    private spinner: SpinnerService,
+  ) {}
 
   // Form value
   @Input() title: string;
@@ -47,25 +50,19 @@ export class EditEnglishTypeDialogComponent implements OnInit {
   matcher = new ErrorStateMatcher();
 
   // Field : type class
-  typeClassFormControl = new FormControl('', [
-  ]);
+  typeClassFormControl = new FormControl('', []);
 
   // Field : type code
-  typeCodeFormControl = new FormControl('', [
-  ]);
+  typeCodeFormControl = new FormControl('', []);
 
   // Field : type name
-  typeNameFormControl = new FormControl('', [
-    Validators.required,
-  ]);
+  typeNameFormControl = new FormControl('', [Validators.required]);
 
   // Field : description
-  descriptionFormControl = new FormControl('', [
-  ]);
+  descriptionFormControl = new FormControl('', []);
 
   // Field : icon URL
-  iconUrlFormControl = new FormControl('', [
-  ]);
+  iconUrlFormControl = new FormControl('', []);
 
   ngOnInit() {
     // Set current value
@@ -94,12 +91,12 @@ export class EditEnglishTypeDialogComponent implements OnInit {
   }
 
   /**
-  * Click accept button
-  */
+   * Click accept button
+   */
   public accept() {
     switch (true) {
       // Case data is unchanged
-      case (!this.isHaveUpdateValue()):
+      case !this.isHaveUpdateValue():
         // Send warning toast message
         this.toastr.warning('Skip update because the value is not changed');
 
@@ -108,7 +105,7 @@ export class EditEnglishTypeDialogComponent implements OnInit {
         break;
 
       // Case data is invalid
-      case (!this.isFormValid()):
+      case !this.isFormValid():
         this.message = null;
         this.messageError = 'Invalid fields, please check your input';
         break;
@@ -130,29 +127,34 @@ export class EditEnglishTypeDialogComponent implements OnInit {
         this.spinner.show();
 
         // Update
-        this.englishTypeService.update(updateForm.value)
-          .subscribe(
-            data => {
-              // Send success toast message
-              this.toastr.success('<Type class ' + this.typeClass + ' & type code ' + this.typeCode + '> is updated successful');
+        this.englishTypeService.update(updateForm.value).subscribe(
+          (data) => {
+            // Send success toast message
+            this.toastr.success(
+              '<Type class ' +
+                this.typeClass +
+                ' & type code ' +
+                this.typeCode +
+                '> is updated successful',
+            );
 
-              // Hide loading
-              this.spinner.hide();
+            // Hide loading
+            this.spinner.hide();
 
-              // Close dialog
-              this.activeModal.close(true);
+            // Close dialog
+            this.activeModal.close(true);
+          },
+          (error) => {
+            // Hide loading
+            this.spinner.hide();
 
-            },
-            error => {
-              // Hide loading
-              this.spinner.hide();
+            // Send error toast message
+            this.toastr.error(error);
 
-              // Send error toast message
-              this.toastr.error(error);
-
-              // Close dialog
-              this.activeModal.close(false);
-            });
+            // Close dialog
+            this.activeModal.close(false);
+          },
+        );
     }
   }
 

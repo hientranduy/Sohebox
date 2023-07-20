@@ -6,13 +6,19 @@
 </div>
 
 <div class="modal-body">
-  <p><strong>{{ helpTitle }}</strong></p>
+  <p>
+    <strong>{{ helpTitle }}</strong>
+  </p>
 
-  <pre style="white-space: pre-line;font-family: 'Roboto', sans-serif">
+  <pre
+    style="white-space: pre-line; font-family: &quot;Roboto&quot;, sans-serif"
+  >
     <p>{{ helpContent }}</p>
   </pre>
 </div>
 
 <div class="modal-footer">
-  <button type="button" class="btn btn-danger" (click)="decline()" ngbAutofocus>{{ btnCancelText }} </button>
+  <button type="button" class="btn btn-danger" (click)="decline()" ngbAutofocus>
+    {{ btnCancelText }}
+  </button>
 </div>

@@ -1,83 +1,116 @@
-<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-atom" [fullScreen]="true">
-    <p style="color: white"> Loading... </p>
+<ngx-spinner
+  bdColor="rgba(51,51,51,0.8)"
+  size="medium"
+  color="#fff"
+  type="ball-atom"
+  [fullScreen]="true"
+>
+  <p style="color: white">Loading...</p>
 </ngx-spinner>
 
 <div>
-    <button mat-button class="english-title-bottom">
-        E-DASHBOARD
-    </button>
+  <button mat-button class="english-title-bottom">E-DASHBOARD</button>
 </div>
 
 <div>
-    <br>
-    <button mat-button class="english-report-bottom" *ngIf="numberOfLearned > 0">
-        Detail of {{ today | date : "mediumDate" }} ({{numberOfLearned}} times)
-    </button>
-    <button mat-button class="english-report-bottom" *ngIf="numberOfLearned <= 0">
-        Detail of {{ today | date : "mediumDate" }}
-    </button>
+  <br />
+  <button mat-button class="english-report-bottom" *ngIf="numberOfLearned > 0">
+    Detail of {{ today | date: "mediumDate" }} ({{ numberOfLearned }} times)
+  </button>
+  <button mat-button class="english-report-bottom" *ngIf="numberOfLearned <= 0">
+    Detail of {{ today | date: "mediumDate" }}
+  </button>
 
-    <mat-paginator class="mat-table-paginator-style" [length]="pageResultLearnRecord.totalElement"
-        [pageIndex]="pageResultLearnRecord.currentPage" [pageSize]="pageResultLearnRecord.pageSize"
-        [pageSizeOptions]="[5, 10, 20, 50]" (page)="handlePaginatorEventLearnRecord($event)" showFirstLastButtons>
-    </mat-paginator>
+  <mat-paginator
+    class="mat-table-paginator-style"
+    [length]="pageResultLearnRecord.totalElement"
+    [pageIndex]="pageResultLearnRecord.currentPage"
+    [pageSize]="pageResultLearnRecord.pageSize"
+    [pageSizeOptions]="[5, 10, 20, 50]"
+    (page)="handlePaginatorEventLearnRecord($event)"
+    showFirstLastButtons
+  >
+  </mat-paginator>
 
-    <ngx-datatable class="material" [rows]="pageResultLearnRecord.elements" [columnMode]="'force'" [headerHeight]="50"
-        rowHeight="auto" [externalPaging]="true" [externalSorting]="true" [count]="pageResultLearnRecord.totalElement"
-        [offset]="pageResultLearnRecord.currentPage" [limit]="pageResultLearnRecord.pageSize"
-        (page)="setPageLearnRecord($event)" (sort)="onSortLearnRecord($event)">
+  <ngx-datatable
+    class="material"
+    [rows]="pageResultLearnRecord.elements"
+    [columnMode]="'force'"
+    [headerHeight]="50"
+    rowHeight="auto"
+    [externalPaging]="true"
+    [externalSorting]="true"
+    [count]="pageResultLearnRecord.totalElement"
+    [offset]="pageResultLearnRecord.currentPage"
+    [limit]="pageResultLearnRecord.pageSize"
+    (page)="setPageLearnRecord($event)"
+    (sort)="onSortLearnRecord($event)"
+  >
+    <ngx-datatable-column name="Timing" prop="updatedDate">
+      <ng-template let-value="value" ngx-datatable-cell-template>
+        {{ value | date: "HH:mm" }}
+      </ng-template>
+    </ngx-datatable-column>
 
-        <ngx-datatable-column name="Timing" prop="updatedDate">
-            <ng-template let-value="value" ngx-datatable-cell-template>
-                {{ value | date : "HH:mm" }}
-            </ng-template>
-        </ngx-datatable-column>
+    <ngx-datatable-column name="Word" prop="english.keyWord">
+      <ng-template let-row="row" ngx-datatable-cell-template>
+        <div (click)="viewEnglishInfo(row)" class="english-report-word-info">
+          {{ row.english.keyWord }}
+        </div>
+      </ng-template>
+    </ngx-datatable-column>
 
-        <ngx-datatable-column name="Word" prop="english.keyWord">
-            <ng-template let-row="row" ngx-datatable-cell-template>
-                <div (click)="viewEnglishInfo(row)" class="english-report-word-info">
-                    {{ row.english.keyWord }}
-                </div>
-            </ng-template>
-        </ngx-datatable-column>
-
-        <ngx-datatable-column name="Times" prop="learnedToday">
-            <ng-template let-value="value" ngx-datatable-cell-template>
-                {{ value }}
-            </ng-template>
-        </ngx-datatable-column>
-    </ngx-datatable>
+    <ngx-datatable-column name="Times" prop="learnedToday">
+      <ng-template let-value="value" ngx-datatable-cell-template>
+        {{ value }}
+      </ng-template>
+    </ngx-datatable-column>
+  </ngx-datatable>
 </div>
 
 <div>
-    <br>
-    <br>
-    <button mat-button class="english-report-bottom">
-        Summary
-    </button>
+  <br />
+  <br />
+  <button mat-button class="english-report-bottom">Summary</button>
 
-    <mat-paginator class="mat-table-paginator-style" [length]="pageResultLearnReport.totalElement"
-        [pageIndex]="pageResultLearnReport.currentPage" [pageSize]="pageResultLearnReport.pageSize"
-        [pageSizeOptions]="[5, 10, 15, 20, 50]" (page)="handlePaginatorEventLearnReport($event)" showFirstLastButtons>
-    </mat-paginator>
+  <mat-paginator
+    class="mat-table-paginator-style"
+    [length]="pageResultLearnReport.totalElement"
+    [pageIndex]="pageResultLearnReport.currentPage"
+    [pageSize]="pageResultLearnReport.pageSize"
+    [pageSizeOptions]="[5, 10, 15, 20, 50]"
+    (page)="handlePaginatorEventLearnReport($event)"
+    showFirstLastButtons
+  >
+  </mat-paginator>
 
-    <ngx-datatable class="material" [rows]="pageResultLearnReport.elements" [columnMode]="'force'" [headerHeight]="50"
-        [footerHeight]="50" rowHeight="auto" [externalPaging]="true" [externalSorting]="true"
-        [count]="pageResultLearnReport.totalElement" [offset]="pageResultLearnReport.currentPage"
-        [limit]="pageResultLearnReport.pageSize" (page)="setPageLearnReport($event)" (sort)="onSortLearnReport($event)">
+  <ngx-datatable
+    class="material"
+    [rows]="pageResultLearnReport.elements"
+    [columnMode]="'force'"
+    [headerHeight]="50"
+    [footerHeight]="50"
+    rowHeight="auto"
+    [externalPaging]="true"
+    [externalSorting]="true"
+    [count]="pageResultLearnReport.totalElement"
+    [offset]="pageResultLearnReport.currentPage"
+    [limit]="pageResultLearnReport.pageSize"
+    (page)="setPageLearnReport($event)"
+    (sort)="onSortLearnReport($event)"
+  >
+    <ngx-datatable-column name="Date" prop="learnedDate">
+      <ng-template let-value="value" ngx-datatable-cell-template>
+        {{ value | date: "yyyy-MM-dd" }}
+      </ng-template>
+    </ngx-datatable-column>
 
-        <ngx-datatable-column name="Date" prop="learnedDate">
-            <ng-template let-value="value" ngx-datatable-cell-template>
-                {{ value | date : "yyyy-MM-dd" }}
-            </ng-template>
-        </ngx-datatable-column>
-
-        <ngx-datatable-column name="Total" prop="learnedTotal">
-            <ng-template let-value="value" ngx-datatable-cell-template>
-                {{ value }}
-            </ng-template>
-        </ngx-datatable-column>
-    </ngx-datatable>
+    <ngx-datatable-column name="Total" prop="learnedTotal">
+      <ng-template let-value="value" ngx-datatable-cell-template>
+        {{ value }}
+      </ng-template>
+    </ngx-datatable-column>
+  </ngx-datatable>
 </div>
 
 <!-- Break line -->
@@ -85,7 +118,7 @@
 
 <!--Back to food home -->
 <button mat-button class="english-close-button" (click)="closeTab()">
-    CLOSE
+  CLOSE
 </button>
 
 <!-- Break line -->

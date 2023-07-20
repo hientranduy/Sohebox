@@ -1,7 +1,16 @@
-<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-atom" [fullScreen]="true">
-    <p style="color: white"> Loading... </p>
+<ngx-spinner
+  bdColor="rgba(51,51,51,0.8)"
+  size="medium"
+  color="#fff"
+  type="ball-atom"
+  [fullScreen]="true"
+>
+  <p style="color: white">Loading...</p>
 </ngx-spinner>
 
 <div class="food-container">
-    <app-food-item *ngFor="let foodItem of foods" [food]="foodItem"></app-food-item>
+  <app-food-item
+    *ngFor="let foodItem of foods"
+    [food]="foodItem"
+  ></app-food-item>
 </div>

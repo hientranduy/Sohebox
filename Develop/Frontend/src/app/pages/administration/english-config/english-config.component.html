@@ -1,116 +1,151 @@
-<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-atom" [fullScreen]="true">
-    <p style="color: white"> Loading... </p>
+<ngx-spinner
+  bdColor="rgba(51,51,51,0.8)"
+  size="medium"
+  color="#fff"
+  type="ball-atom"
+  [fullScreen]="true"
+>
+  <p style="color: white">Loading...</p>
 </ngx-spinner>
 
 <mat-toolbar class="mat-toolbar-style">
-    <!-- 1st toolbar row -->
-    <mat-toolbar-row>
-        <!-- Add -->
-        <button mat-button class="toolbar-button-style" (click)="add()">
-            <mat-icon>add</mat-icon>
-            <strong>New</strong>
-        </button>
+  <!-- 1st toolbar row -->
+  <mat-toolbar-row>
+    <!-- Add -->
+    <button mat-button class="toolbar-button-style" (click)="add()">
+      <mat-icon>add</mat-icon>
+      <strong>New</strong>
+    </button>
 
-        <!-- Add spaces   -->
-        <span class="toolbar-spacer-style"></span>
+    <!-- Add spaces   -->
+    <span class="toolbar-spacer-style"></span>
 
-        <h1 class="toolbar-title-style" fxHide.xs>LIST WORDS</h1>
+    <h1 class="toolbar-title-style" fxHide.xs>LIST WORDS</h1>
 
-        <!-- Add spaces   -->
-        <span class="toolbar-spacer-style"></span>
+    <!-- Add spaces   -->
+    <span class="toolbar-spacer-style"></span>
 
-        <!-- Refresh -->
-        <button mat-button class="toolbar-button-style" (click)="refresh()">
-            <mat-icon>refresh</mat-icon>
-            <strong>Refresh</strong>
-        </button>
-    </mat-toolbar-row>
+    <!-- Refresh -->
+    <button mat-button class="toolbar-button-style" (click)="refresh()">
+      <mat-icon>refresh</mat-icon>
+      <strong>Refresh</strong>
+    </button>
+  </mat-toolbar-row>
 </mat-toolbar>
 
 <!-- Table data -->
-<input matInput class="page-input-filter" (keyup)="onFilter($event)" placeholder="Type to search value...">
+<input
+  matInput
+  class="page-input-filter"
+  (keyup)="onFilter($event)"
+  placeholder="Type to search value..."
+/>
 
-<mat-paginator class="mat-table-paginator-style" [length]="pageResult.totalElement" [pageIndex]="pageResult.currentPage"
-    [pageSize]="pageResult.pageSize" [pageSizeOptions]="[5, 10, 20, 50]" (page)="handlePaginatorEvent($event)"
-    showFirstLastButtons>
+<mat-paginator
+  class="mat-table-paginator-style"
+  [length]="pageResult.totalElement"
+  [pageIndex]="pageResult.currentPage"
+  [pageSize]="pageResult.pageSize"
+  [pageSizeOptions]="[5, 10, 20, 50]"
+  (page)="handlePaginatorEvent($event)"
+  showFirstLastButtons
+>
 </mat-paginator>
 
-<ngx-datatable class="material" [rows]="pageResult.elements" [columnMode]="'force'" [headerHeight]="50"
-    [footerHeight]="50" rowHeight="auto" [externalPaging]="true" [externalSorting]="true"
-    [count]="pageResult.totalElement" [offset]="pageResult.currentPage" [limit]="pageResult.pageSize"
-    (page)="setPage($event)" (sort)="onSort($event)">
+<ngx-datatable
+  class="material"
+  [rows]="pageResult.elements"
+  [columnMode]="'force'"
+  [headerHeight]="50"
+  [footerHeight]="50"
+  rowHeight="auto"
+  [externalPaging]="true"
+  [externalSorting]="true"
+  [count]="pageResult.totalElement"
+  [offset]="pageResult.currentPage"
+  [limit]="pageResult.pageSize"
+  (page)="setPage($event)"
+  (sort)="onSort($event)"
+>
+  <!-- English Word -->
+  <ngx-datatable-column name="English Word" prop="keyWord">
+    <ng-template let-value="value" ngx-datatable-cell-template>
+      <div style="text-transform: capitalize">
+        {{ value }}
+      </div>
+    </ng-template>
+  </ngx-datatable-column>
 
-    <!-- English Word -->
-    <ngx-datatable-column name="English Word" prop="keyWord">
-        <ng-template let-value="value" ngx-datatable-cell-template>
-            <div style="text-transform: capitalize">
-                {{ value }}
-            </div>
-        </ng-template>
-    </ngx-datatable-column>
+  <!-- Learn Day -->
+  <ngx-datatable-column name="Learn Day">
+    <ng-template let-row="row" ngx-datatable-cell-template>
+      <ng-container *ngIf="row.learnDay; else defaultValue">
+        {{ row.learnDay.typeName }}
+      </ng-container>
+    </ng-template>
+    <ng-template #defaultValue> Null </ng-template>
+  </ngx-datatable-column>
 
-    <!-- Learn Day -->
-    <ngx-datatable-column name="Learn Day">
-        <ng-template let-row="row" ngx-datatable-cell-template>
-            <ng-container *ngIf="row.learnDay; else defaultValue">
-                {{row.learnDay.typeName}}
-            </ng-container>
-        </ng-template>
-        <ng-template #defaultValue>
-            Null
-        </ng-template>
-    </ngx-datatable-column>
+  <!-- Category -->
+  <ngx-datatable-column name="Category">
+    <ng-template let-row="row" ngx-datatable-cell-template>
+      <ng-container *ngIf="row.category; else defaultValue">
+        {{ row.category.typeName }}
+      </ng-container>
+    </ng-template>
+    <ng-template #defaultValue> Null </ng-template>
+  </ngx-datatable-column>
 
-    <!-- Category -->
-    <ngx-datatable-column name="Category">
-        <ng-template let-row="row" ngx-datatable-cell-template>
-            <ng-container *ngIf="row.category; else defaultValue">
-                {{row.category.typeName}}
-            </ng-container>
-        </ng-template>
-        <ng-template #defaultValue>
-            Null
-        </ng-template>
-    </ngx-datatable-column>
+  <!-- Grade -->
+  <ngx-datatable-column name="Grade" prop="vusGrade">
+    <ng-template let-row="row" ngx-datatable-cell-template>
+      <ng-container *ngIf="row.vusGrade; else defaultValue">
+        {{ row.vusGrade.typeName }}
+      </ng-container>
+    </ng-template>
+    <ng-template #defaultValue> Null </ng-template>
+  </ngx-datatable-column>
 
-    <!-- Grade -->
-    <ngx-datatable-column name="Grade" prop="vusGrade">
-        <ng-template let-row="row" ngx-datatable-cell-template>
-            <ng-container *ngIf="row.vusGrade; else defaultValue">
-                {{row.vusGrade.typeName}}
-            </ng-container>
-        </ng-template>
-        <ng-template #defaultValue>
-            Null
-        </ng-template>
-    </ngx-datatable-column>
+  <!-- Definition -->
+  <ngx-datatable-column
+    name="Definition"
+    prop="explanationEn"
+    *ngIf="windownInnerWidth >= 500"
+  >
+    <ng-template let-value="value" ngx-datatable-cell-template>
+      {{ value }}
+    </ng-template>
+  </ngx-datatable-column>
 
-    <!-- Definition -->
-    <ngx-datatable-column name="Definition" prop="explanationEn" *ngIf="windownInnerWidth >= 500">
-        <ng-template let-value="value" ngx-datatable-cell-template>
-            {{ value }}
-        </ng-template>
-    </ngx-datatable-column>
+  <!-- Translation -->
+  <ngx-datatable-column
+    name="Translation"
+    prop="explanationVn"
+    *ngIf="windownInnerWidth >= 600"
+  >
+    <ng-template let-value="value" ngx-datatable-cell-template>
+      {{ value }}
+    </ng-template>
+  </ngx-datatable-column>
 
-    <!-- Translation -->
-    <ngx-datatable-column name="Translation" prop="explanationVn" *ngIf="windownInnerWidth >= 600">
-        <ng-template let-value="value" ngx-datatable-cell-template>
-            {{ value }}
-        </ng-template>
-    </ngx-datatable-column>
-
-    <!-- Edit Column -->
-    <ngx-datatable-column [sortable]="false">
-        <ng-template let-row="row" ngx-datatable-cell-template>
-            <button mat-button [matMenuTriggerFor]="menu">
-                <mat-icon>drag_indicator</mat-icon>
-            </button>
-            <mat-menu #menu="matMenu">
-                <button mat-menu-item (click)="editChoosen(row)">Edit</button>
-                <button mat-menu-item (click)="downloadVoice(row)">Download voice</button>
-                <button mat-menu-item (click)="gotoGoogleTranslate(row)">Google Translate</button>
-                <button mat-menu-item (click)="gotoCambridgeDictionary(row)">Cambridge Dictionary</button>
-            </mat-menu>
-        </ng-template>
-    </ngx-datatable-column>
+  <!-- Edit Column -->
+  <ngx-datatable-column [sortable]="false">
+    <ng-template let-row="row" ngx-datatable-cell-template>
+      <button mat-button [matMenuTriggerFor]="menu">
+        <mat-icon>drag_indicator</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="editChoosen(row)">Edit</button>
+        <button mat-menu-item (click)="downloadVoice(row)">
+          Download voice
+        </button>
+        <button mat-menu-item (click)="gotoGoogleTranslate(row)">
+          Google Translate
+        </button>
+        <button mat-menu-item (click)="gotoCambridgeDictionary(row)">
+          Cambridge Dictionary
+        </button>
+      </mat-menu>
+    </ng-template>
+  </ngx-datatable-column>
 </ngx-datatable>

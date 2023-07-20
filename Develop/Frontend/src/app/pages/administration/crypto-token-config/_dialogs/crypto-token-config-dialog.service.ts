@@ -6,7 +6,10 @@ import { EditCryptoTokenConfigDialogComponent } from './edit-crypto-token-config
 
 @Injectable({ providedIn: 'root' })
 export class CryptoTokenDialogService {
-  constructor(config: NgbModalConfig, private modalService: NgbModal) {
+  constructor(
+    config: NgbModalConfig,
+    private modalService: NgbModal,
+  ) {
     config.backdrop = 'static';
     config.keyboard = false;
   }
@@ -14,11 +17,14 @@ export class CryptoTokenDialogService {
   public add(
     title: string,
     message: string,
-    dialogSize: 'sm' | 'lg' = 'lg'
+    dialogSize: 'sm' | 'lg' = 'lg',
   ): Promise<boolean> {
-    const modalRef = this.modalService.open(AddCryptoTokenConfigDialogComponent, {
-      size: dialogSize
-    });
+    const modalRef = this.modalService.open(
+      AddCryptoTokenConfigDialogComponent,
+      {
+        size: dialogSize,
+      },
+    );
     modalRef.componentInstance.title = title;
     modalRef.componentInstance.message = message;
     modalRef.componentInstance.btnOkText = 'Add';
@@ -30,11 +36,14 @@ export class CryptoTokenDialogService {
     title: string,
     message: string,
     cryptoTokenConfig: CryptoTokenConfig,
-    dialogSize: 'sm' | 'lg' = 'lg'
+    dialogSize: 'sm' | 'lg' = 'lg',
   ): Promise<boolean> {
-    const modalRef = this.modalService.open(EditCryptoTokenConfigDialogComponent, {
-      size: dialogSize
-    });
+    const modalRef = this.modalService.open(
+      EditCryptoTokenConfigDialogComponent,
+      {
+        size: dialogSize,
+      },
+    );
     modalRef.componentInstance.title = title;
     modalRef.componentInstance.message = message;
     modalRef.componentInstance.btnOkText = 'Edit';

@@ -1,5 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { ApiReponse, MediaType } from '@app/_common/_models';
 import { YoutubeChannelSCO } from '@app/_common/_sco';
@@ -17,10 +22,9 @@ import { MediaTypeDialogService } from '../../media-type/media-type.service';
 @Component({
   selector: 'app-add-youtube-channel-dialog',
   templateUrl: './add-youtube-channel-dialog.component.html',
-  styleUrls: ['./add-youtube-channel-dialog.component.css']
+  styleUrls: ['./add-youtube-channel-dialog.component.css'],
 })
 export class AddYoutubeChannelDialogComponent implements OnInit {
-
   constructor(
     private formBuilder: FormBuilder,
     private activeModal: NgbActiveModal,
@@ -28,9 +32,8 @@ export class AddYoutubeChannelDialogComponent implements OnInit {
     private mediaTypeDialogService: MediaTypeDialogService,
     private youtubeService: YoutubeService,
     private toastr: ToastrService,
-    private spinner: SpinnerService
-  ) {
-  }
+    private spinner: SpinnerService,
+  ) {}
 
   // Form value
   @Input() title: string;
@@ -63,18 +66,13 @@ export class AddYoutubeChannelDialogComponent implements OnInit {
   ]);
 
   // Field : Name
-  nameFormControl = new FormControl('', [
-    Validators.required,
-  ]);
+  nameFormControl = new FormControl('', [Validators.required]);
 
   // Field : description
-  descriptionFormControl = new FormControl('', [
-  ]);
+  descriptionFormControl = new FormControl('', []);
 
   // Field : category
-  categoryFormControl = new FormControl('', [
-    Validators.required,
-  ]);
+  categoryFormControl = new FormControl('', [Validators.required]);
 
   ngOnInit() {
     this.getFilterCategories();
@@ -99,27 +97,35 @@ export class AddYoutubeChannelDialogComponent implements OnInit {
     sco.sorters = sorters;
 
     // Get list
-    this.mediaTypeDialogService.search(sco)
-      .subscribe(data => {
+    this.mediaTypeDialogService.search(sco).subscribe(
+      (data) => {
         // Get data
         const responseAPi: any = data;
         const response: ApiReponse<MediaType> = responseAPi;
         const categories: MediaType[] = response.data.elements;
         if (response.data.elements != null) {
-          this.filteredCategories = this.categoryFormControl.valueChanges
-            .pipe(startWith(''), map(value => categories.filter
-              (valueFilter => valueFilter.typeCode.toLowerCase().includes(value.toLowerCase()))
-            ));
+          this.filteredCategories = this.categoryFormControl.valueChanges.pipe(
+            startWith(''),
+            map((value) =>
+              categories.filter((valueFilter) =>
+                valueFilter.typeCode
+                  .toLowerCase()
+                  .includes(value.toLowerCase()),
+              ),
+            ),
+          );
         }
 
         // Hide loading
         this.spinner.hide();
-      }, error => {
+      },
+      (error) => {
         // Hide loading
         this.spinner.hide();
 
         this.alertService.error(error);
-      });
+      },
+    );
   }
 
   /////////////////////////////////////
@@ -139,10 +145,9 @@ export class AddYoutubeChannelDialogComponent implements OnInit {
     this.activeModal.dismiss();
   }
 
-
   /**
-  * Click accept button
-  */
+   * Click accept button
+   */
   public accept() {
     if (this.isFormValid()) {
       const categoryChannelVO: MediaType = new MediaType();
@@ -153,34 +158,35 @@ export class AddYoutubeChannelDialogComponent implements OnInit {
         channelId: [this.channelIdValue],
         name: [this.nameValue],
         description: [this.descriptionValue],
-        category: [categoryChannelVO]
+        category: [categoryChannelVO],
       });
 
       // Show loading
       this.spinner.show();
 
       // Add
-      this.youtubeService.addChannel(addForm.value)
-        .subscribe(
-          data => {
-            // Send success toast message
-            this.toastr.success('New channel ' + this.nameValue + ' is added successful');
+      this.youtubeService.addChannel(addForm.value).subscribe(
+        (data) => {
+          // Send success toast message
+          this.toastr.success(
+            'New channel ' + this.nameValue + ' is added successful',
+          );
 
-            // Hide loading
-            this.spinner.hide();
+          // Hide loading
+          this.spinner.hide();
 
-            // Close dialog
-            this.activeModal.close(true);
+          // Close dialog
+          this.activeModal.close(true);
+        },
+        (error) => {
+          // Hide loading
+          this.spinner.hide();
 
-          },
-          error => {
-            // Hide loading
-            this.spinner.hide();
-
-            // Send error message to dialog
-            this.message = null;
-            this.messageError = error;
-          });
+          // Send error message to dialog
+          this.message = null;
+          this.messageError = error;
+        },
+      );
     } else {
       this.message = null;
       this.messageError = 'Invalid fields, please check your input';
@@ -207,20 +213,18 @@ export class AddYoutubeChannelDialogComponent implements OnInit {
     return result;
   }
 
-
   /**
-  * Change category
-  */
+   * Change category
+   */
   public onChangeChannelIdCategory(channelCategory: MediaType) {
     this.selectedCategoryChannel = channelCategory;
   }
 }
 
-
 /**
-* Check inexistence
-*
-*/
+ * Check inexistence
+ *
+ */
 function validChannel(control: FormControl) {
   const channelId = control.value;
 

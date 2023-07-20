@@ -1,5 +1,4 @@
-
 export class QuandlOpecOrb {
-    date: string;
-    price: number;
+  date: string;
+  price: number;
 }

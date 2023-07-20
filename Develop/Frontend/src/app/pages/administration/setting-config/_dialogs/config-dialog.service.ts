@@ -6,11 +6,12 @@ import { DeleteConfigDialogComponent } from './delete-config-dialog.component';
 import { EditConfigDialogComponent } from './edit-config-dialog.component';
 import { ViewConfigDialogComponent } from './view-config-dialog.component';
 
-
 @Injectable({ providedIn: 'root' })
 export class ConfigDialogService {
-
-  constructor(modal: NgbModalConfig, private modalService: NgbModal) {
+  constructor(
+    modal: NgbModalConfig,
+    private modalService: NgbModal,
+  ) {
     modal.backdrop = 'static';
     modal.keyboard = false;
   }
@@ -18,8 +19,11 @@ export class ConfigDialogService {
   public add(
     title: string,
     message: string,
-    dialogSize: 'sm' | 'lg' = 'lg'): Promise<boolean> {
-    const modalRef = this.modalService.open(AddConfigDialogComponent, { size: dialogSize });
+    dialogSize: 'sm' | 'lg' = 'lg',
+  ): Promise<boolean> {
+    const modalRef = this.modalService.open(AddConfigDialogComponent, {
+      size: dialogSize,
+    });
     modalRef.componentInstance.title = title;
     modalRef.componentInstance.message = message;
     modalRef.componentInstance.btnOkText = 'Add';
@@ -30,8 +34,11 @@ export class ConfigDialogService {
   public delete(
     title: string,
     message: string,
-    dialogSize: 'sm' | 'lg' = 'lg'): Promise<boolean> {
-    const modalRef = this.modalService.open(DeleteConfigDialogComponent, { size: dialogSize });
+    dialogSize: 'sm' | 'lg' = 'lg',
+  ): Promise<boolean> {
+    const modalRef = this.modalService.open(DeleteConfigDialogComponent, {
+      size: dialogSize,
+    });
     modalRef.componentInstance.title = title;
     modalRef.componentInstance.message = message;
     modalRef.componentInstance.btnOkText = 'Delete';
@@ -43,8 +50,11 @@ export class ConfigDialogService {
     title: string,
     message: string,
     item: Config,
-    dialogSize: 'sm' | 'lg' = 'lg'): Promise<boolean> {
-    const modalRef = this.modalService.open(EditConfigDialogComponent, { size: dialogSize });
+    dialogSize: 'sm' | 'lg' = 'lg',
+  ): Promise<boolean> {
+    const modalRef = this.modalService.open(EditConfigDialogComponent, {
+      size: dialogSize,
+    });
     modalRef.componentInstance.title = title;
     modalRef.componentInstance.message = message;
     modalRef.componentInstance.btnOkText = 'Edit';
@@ -57,8 +67,11 @@ export class ConfigDialogService {
     title: string,
     message: string,
     item: Config,
-    dialogSize: 'sm' | 'lg' = 'lg'): Promise<boolean> {
-    const modalRef = this.modalService.open(ViewConfigDialogComponent, { size: dialogSize });
+    dialogSize: 'sm' | 'lg' = 'lg',
+  ): Promise<boolean> {
+    const modalRef = this.modalService.open(ViewConfigDialogComponent, {
+      size: dialogSize,
+    });
     modalRef.componentInstance.title = title;
     modalRef.componentInstance.message = message;
     modalRef.componentInstance.btnCancelText = 'Cancel';

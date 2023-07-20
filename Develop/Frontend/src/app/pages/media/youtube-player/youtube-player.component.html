@@ -1,12 +1,12 @@
 <youtube-player
-    width="{{videoWidth}}" 
-    height="{{videoHeight}}" 
-    videoId="{{videoId}}" 
-    frameborder="0" 
-    allowfullscreen
-    suggestedQuality="highres"
-    (stateChange)="onStateChangeEvent($event)"
-    (ready)="onStateReady($event)"
-    (error)="onErrorEvent($event)"
-    >
+  width="{{ videoWidth }}"
+  height="{{ videoHeight }}"
+  videoId="{{ videoId }}"
+  frameborder="0"
+  allowfullscreen
+  suggestedQuality="highres"
+  (stateChange)="onStateChangeEvent($event)"
+  (ready)="onStateReady($event)"
+  (error)="onErrorEvent($event)"
+>
 </youtube-player>

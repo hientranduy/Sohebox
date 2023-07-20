@@ -1,5 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { SpinnerService, TypeService } from '@app/_common/_services';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
@@ -8,7 +13,7 @@ import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-add-type-dialog',
   templateUrl: './add-type-dialog.component.html',
-  styleUrls: ['./add-type-dialog.component.css']
+  styleUrls: ['./add-type-dialog.component.css'],
 })
 export class AddTypeDialogComponent implements OnInit {
   // Form value
@@ -31,8 +36,8 @@ export class AddTypeDialogComponent implements OnInit {
     private activeModal: NgbActiveModal,
     private typeService: TypeService,
     private toastr: ToastrService,
-    private spinner: SpinnerService
-  ) { }
+    private spinner: SpinnerService,
+  ) {}
 
   /////////////////////////////////////
   // FORM FIELD VALIDATION           //
@@ -40,34 +45,24 @@ export class AddTypeDialogComponent implements OnInit {
   matcher = new ErrorStateMatcher();
 
   // Field : type class
-  typeClassFormControl = new FormControl('', [
-    Validators.required,
-  ]);
+  typeClassFormControl = new FormControl('', [Validators.required]);
 
   // Field : type code
-  typeCodeFormControl = new FormControl('', [
-    Validators.required,
-  ]);
+  typeCodeFormControl = new FormControl('', [Validators.required]);
 
   // Field : type name
-  typeNameFormControl = new FormControl('', [
-    Validators.required,
-  ]);
+  typeNameFormControl = new FormControl('', [Validators.required]);
 
   // Field : description
-  descriptionFormControl = new FormControl('', [
-  ]);
+  descriptionFormControl = new FormControl('', []);
 
   // Field : icon URL
-  iconUrlFormControl = new FormControl('', [
-  ]);
+  iconUrlFormControl = new FormControl('', []);
 
   // Field : URL
-  urlFormControl = new FormControl('', [
-  ]);
+  urlFormControl = new FormControl('', []);
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   /////////////////////////////////////
   // FORM BUTTON CONTROL             //
@@ -87,12 +82,12 @@ export class AddTypeDialogComponent implements OnInit {
   }
 
   /**
-  * Click accept button
-  */
+   * Click accept button
+   */
   public accept() {
     switch (true) {
       // Case data is invalid
-      case (!this.isFormValid()):
+      case !this.isFormValid():
         this.message = null;
         this.messageError = 'Invalid fields, please check your input';
         break;
@@ -114,29 +109,34 @@ export class AddTypeDialogComponent implements OnInit {
         this.spinner.show();
 
         // Create
-        this.typeService.create(typeForm.value)
-          .subscribe(
-            data => {
-              // Send success toast message
-              this.toastr.success('<Type class ' + this.typeClass + ' & type code ' + this.typeCode + '> is updated successful');
+        this.typeService.create(typeForm.value).subscribe(
+          (data) => {
+            // Send success toast message
+            this.toastr.success(
+              '<Type class ' +
+                this.typeClass +
+                ' & type code ' +
+                this.typeCode +
+                '> is updated successful',
+            );
 
-              // Hide loading
-              this.spinner.hide();
+            // Hide loading
+            this.spinner.hide();
 
-              // Close dialog
-              this.activeModal.close(true);
+            // Close dialog
+            this.activeModal.close(true);
+          },
+          (error) => {
+            // Hide loading
+            this.spinner.hide();
 
-            },
-            error => {
-              // Hide loading
-              this.spinner.hide();
+            // Send error toast message
+            this.toastr.error(error);
 
-              // Send error toast message
-              this.toastr.error(error);
-
-              // Close dialog
-              this.activeModal.close(false);
-            });
+            // Close dialog
+            this.activeModal.close(false);
+          },
+        );
     }
   }
 

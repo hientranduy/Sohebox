@@ -5,7 +5,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-timeout-progress-dialog',
-  templateUrl: './timeout-progress-dialog.component.html'
+  templateUrl: './timeout-progress-dialog.component.html',
 })
 export class TimeoutProgressDialogComponent implements OnInit {
   @Input() countMinutes: number;
@@ -16,11 +16,10 @@ export class TimeoutProgressDialogComponent implements OnInit {
   constructor(
     public activeModal: NgbActiveModal,
     private router: Router,
-    private authenticationService: AuthenticationService
-  ) { }
+    private authenticationService: AuthenticationService,
+  ) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   /**
    * Continue button

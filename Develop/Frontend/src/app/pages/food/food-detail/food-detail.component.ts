@@ -9,7 +9,7 @@ import { FoodService } from '../_services';
 @Component({
   selector: 'app-food-detail',
   templateUrl: './food-detail.component.html',
-  styleUrls: ['./food-detail.component.css']
+  styleUrls: ['./food-detail.component.css'],
 })
 export class FoodDetailComponent implements OnInit {
   food: Food;
@@ -19,8 +19,8 @@ export class FoodDetailComponent implements OnInit {
     private route: ActivatedRoute,
     private alertService: AlertService,
     private spinner: SpinnerService,
-    private foodService: FoodService
-  ) { }
+    private foodService: FoodService,
+  ) {}
 
   ngOnInit() {
     // Show loading
@@ -28,30 +28,31 @@ export class FoodDetailComponent implements OnInit {
 
     // Get food id from parameters
     let foodId: number;
-    this.route.params.subscribe((params: Params) => foodId = params['id']);
+    this.route.params.subscribe((params: Params) => (foodId = params['id']));
 
     // Get food infos
-    this.foodService.getFood(foodId)
-      .subscribe(
-        data => {
-          // Get data
-          const responseAPi: any = data;
-          if (responseAPi.data != null) {
-            this.food = responseAPi.data;
-          }
+    this.foodService.getFood(foodId).subscribe(
+      (data) => {
+        // Get data
+        const responseAPi: any = data;
+        if (responseAPi.data != null) {
+          this.food = responseAPi.data;
+        }
 
-          // Set image path
-          this.displayImageUrl = AppSettings.FOOD_IMAGE_PATH + this.food.imageName;
+        // Set image path
+        this.displayImageUrl =
+          AppSettings.FOOD_IMAGE_PATH + this.food.imageName;
 
-          // Hide loading
-          this.spinner.hide();
-        },
-        error => {
-          // Hide loading
-          this.spinner.hide();
+        // Hide loading
+        this.spinner.hide();
+      },
+      (error) => {
+        // Hide loading
+        this.spinner.hide();
 
-          this.alertService.error(error);
-        });
+        this.alertService.error(error);
+      },
+    );
   }
 
   /**
@@ -64,14 +65,16 @@ export class FoodDetailComponent implements OnInit {
       msRequestFullscreen(): Promise<void>;
     };
 
-
     if (elem.requestFullscreen) {
       elem.requestFullscreen();
-    } else if (elem.mozRequestFullScreen) { /* Firefox */
+    } else if (elem.mozRequestFullScreen) {
+      /* Firefox */
       elem.mozRequestFullScreen();
-    } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
+    } else if (elem.webkitRequestFullscreen) {
+      /* Chrome, Safari and Opera */
       elem.webkitRequestFullscreen();
-    } else if (elem.msRequestFullscreen) { /* IE/Edge */
+    } else if (elem.msRequestFullscreen) {
+      /* IE/Edge */
       elem.msRequestFullscreen();
     }
   }

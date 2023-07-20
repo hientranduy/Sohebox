@@ -13,16 +13,14 @@ import { ToastrService } from 'ngx-toastr';
   templateUrl: 'view-type-dialog.component.html',
 })
 export class ViewTypeDialogComponent implements OnInit {
-
   constructor(
     private formBuilder: FormBuilder,
     private activeModal: NgbActiveModal,
     private alertService: AlertService,
     private authenticationService: AuthenticationService,
     private typeService: TypeService,
-    private toastr: ToastrService
-  ) {
-  }
+    private toastr: ToastrService,
+  ) {}
 
   // Form value
   @Input() title: string;
@@ -46,29 +44,22 @@ export class ViewTypeDialogComponent implements OnInit {
   matcher = new ErrorStateMatcher();
 
   // Field : type class
-  typeClassFormControl = new FormControl('', [
-  ]);
+  typeClassFormControl = new FormControl('', []);
 
   // Field : type code
-  typeCodeFormControl = new FormControl('', [
-  ]);
+  typeCodeFormControl = new FormControl('', []);
 
   // Field : type name
-  typeNameFormControl = new FormControl('', [
-    Validators.required,
-  ]);
+  typeNameFormControl = new FormControl('', [Validators.required]);
 
   // Field : description
-  descriptionFormControl = new FormControl('', [
-  ]);
+  descriptionFormControl = new FormControl('', []);
 
   // Field : icon URL
-  iconUrlFormControl = new FormControl('', [
-  ]);
+  iconUrlFormControl = new FormControl('', []);
 
   // Field : URL
-  urlFormControl = new FormControl('', [
-  ]);
+  urlFormControl = new FormControl('', []);
 
   ngOnInit() {
     // Set current value
@@ -84,8 +75,8 @@ export class ViewTypeDialogComponent implements OnInit {
   // FORM BUTTON CONTROL             //
   /////////////////////////////////////
   /**
-  * Click decline button
-  */
+   * Click decline button
+   */
   public decline() {
     this.activeModal.close(false);
   }
@@ -98,8 +89,8 @@ export class ViewTypeDialogComponent implements OnInit {
   }
 
   /**
-  * Click accept button
-  */
+   * Click accept button
+   */
   public accept() {
     this.activeModal.close(true);
   }

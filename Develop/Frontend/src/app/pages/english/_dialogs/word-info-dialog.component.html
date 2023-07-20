@@ -1,8 +1,11 @@
 <div class="modal-body">
-  <img class="img-responsive" src="{{displayImageUrl}}" class="display_image">
+  <img
+    class="img-responsive"
+    src="{{ displayImageUrl }}"
+    class="display_image"
+  />
 
   <div>
-
     <div class="row">
       <div class="col-sm-4">
         <!-- UK Voice button -->
@@ -20,13 +23,23 @@
 
       <div class="col-sm-8">
         <button mat-button (click)="goToGooleTranslate()">
-          <img style="width: 24px;" src="assets/english/ic_google_translate.png">
-          <font size="2.5" color="black"><strong>Google Translate</strong></font>
+          <img
+            style="width: 24px"
+            src="assets/english/ic_google_translate.png"
+          />
+          <font size="2.5" color="black"
+            ><strong>Google Translate</strong></font
+          >
         </button>
 
         <button mat-button (click)="goToCambridgeDictionary()">
-          <img style="width: 24px;" src="assets/english/ic_cambridge_dictionary.png">
-          <font size="2.5" color="black"><strong>Cambridge Dictionary</strong></font>
+          <img
+            style="width: 24px"
+            src="assets/english/ic_cambridge_dictionary.png"
+          />
+          <font size="2.5" color="black"
+            ><strong>Cambridge Dictionary</strong></font
+          >
         </button>
       </div>
     </div>
@@ -35,23 +48,28 @@
     <P></P>
 
     <!-- Content of answer -->
-    <div style="margin-left: 15px;">
-      <h1 style="word-wrap: break-word;color:black;">
-        {{english.keyWord.toUpperCase()}}
+    <div style="margin-left: 15px">
+      <h1 style="word-wrap: break-word; color: black">
+        {{ english.keyWord.toUpperCase() }}
       </h1>
 
-      <br>
-      <h4 style="word-wrap: break-word;color:black;"> * Definition</h4>
-      <div style="word-wrap: break-word;color:black;"><i> {{english.explanationEn}}</i></div>
+      <br />
+      <h4 style="word-wrap: break-word; color: black">* Definition</h4>
+      <div style="word-wrap: break-word; color: black">
+        <i> {{ english.explanationEn }}</i>
+      </div>
 
-      <br>
-      <h4 style="word-wrap: break-word;color:black;"> * Translation</h4>
-      <div style="word-wrap: break-word;color:black;"><i> {{english.explanationVn}}</i></div>
-
+      <br />
+      <h4 style="word-wrap: break-word; color: black">* Translation</h4>
+      <div style="word-wrap: break-word; color: black">
+        <i> {{ english.explanationVn }}</i>
+      </div>
     </div>
   </div>
 </div>
 
 <div class="modal-footer">
-  <button type="button" class="btn btn-danger" (click)="decline()" ngbAutofocus>{{ btnCancelText }} </button>
+  <button type="button" class="btn btn-danger" (click)="decline()" ngbAutofocus>
+    {{ btnCancelText }}
+  </button>
 </div>

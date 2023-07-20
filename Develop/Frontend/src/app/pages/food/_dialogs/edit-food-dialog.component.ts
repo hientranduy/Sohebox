@@ -1,5 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { AuthenticationService } from '@app/user/_service';
@@ -20,10 +25,9 @@ import { FoodService, FoodTypeService } from '../_services';
 @Component({
   selector: 'app-edit-food-dialog',
   templateUrl: './edit-food-dialog.component.html',
-  styleUrls: ['./edit-food-dialog.component.css']
+  styleUrls: ['./edit-food-dialog.component.css'],
 })
 export class EditFoodDialogComponent implements OnInit {
-
   constructor(
     private formBuilder: FormBuilder,
     private activeModal: NgbActiveModal,
@@ -32,9 +36,8 @@ export class EditFoodDialogComponent implements OnInit {
     private authenticationService: AuthenticationService,
     private foodTypeService: FoodTypeService,
     private toastr: ToastrService,
-    private spinner: SpinnerService
-  ) {
-  }
+    private spinner: SpinnerService,
+  ) {}
 
   // Form value
   @Input() title: string;
@@ -68,36 +71,25 @@ export class EditFoodDialogComponent implements OnInit {
   matcher = new ErrorStateMatcher();
 
   // Field : name
-  nameFormControl = new FormControl('', [
-    validFoodName,
-    Validators.required,
-  ]);
+  nameFormControl = new FormControl('', [validFoodName, Validators.required]);
 
   // Field : description
-  descriptionFormControl = new FormControl('', [
-  ]);
+  descriptionFormControl = new FormControl('', []);
 
   // Field : location note
-  locationNoteFormControl = new FormControl('', [
-  ]);
+  locationNoteFormControl = new FormControl('', []);
 
   // Field : type
-  typeFormControl = new FormControl('', [
-    Validators.required,
-  ]);
+  typeFormControl = new FormControl('', [Validators.required]);
 
   // Field : category
-  categoryFormControl = new FormControl('', [
-    Validators.required,
-  ]);
+  categoryFormControl = new FormControl('', [Validators.required]);
 
   // Field : Recipe
-  recipeFormControl = new FormControl('', [
-  ]);
+  recipeFormControl = new FormControl('', []);
 
   // Field : url reference
-  urlReferenceFormControl = new FormControl('', [
-  ]);
+  urlReferenceFormControl = new FormControl('', []);
 
   // Field: is fast food
   onChangeIsFastFood($event: MatCheckboxChange) {
@@ -146,27 +138,35 @@ export class EditFoodDialogComponent implements OnInit {
     this.spinner.show();
 
     // Get list
-    this.foodTypeService.search(sco)
-      .subscribe(data => {
+    this.foodTypeService.search(sco).subscribe(
+      (data) => {
         // Get data
         const responseAPi: any = data;
         const response: ApiReponse<FoodType> = responseAPi;
         const types: FoodType[] = response.data.elements;
         if (response.data.elements != null) {
-          this.filteredTypes = this.typeFormControl.valueChanges
-            .pipe(startWith(''), map(value => types.filter
-              (valueFilter => valueFilter.typeCode.toLowerCase().includes(value.toLowerCase()))
-            ));
+          this.filteredTypes = this.typeFormControl.valueChanges.pipe(
+            startWith(''),
+            map((value) =>
+              types.filter((valueFilter) =>
+                valueFilter.typeCode
+                  .toLowerCase()
+                  .includes(value.toLowerCase()),
+              ),
+            ),
+          );
         }
 
         // Hide loading
         this.spinner.hide();
-      }, error => {
+      },
+      (error) => {
         // Hide loading
         this.spinner.hide();
 
         this.alertService.error(error);
-      });
+      },
+    );
   }
 
   /**
@@ -188,27 +188,35 @@ export class EditFoodDialogComponent implements OnInit {
     sco.sorters = sorters;
 
     // Get list
-    this.foodTypeService.search(sco)
-      .subscribe(data => {
+    this.foodTypeService.search(sco).subscribe(
+      (data) => {
         // Get data
         const responseAPi: any = data;
         const response: ApiReponse<FoodType> = responseAPi;
         const categories: FoodType[] = response.data.elements;
         if (response.data.elements != null) {
-          this.filteredCategories = this.categoryFormControl.valueChanges
-            .pipe(startWith(''), map(value => categories.filter
-              (valueFilter => valueFilter.typeCode.toLowerCase().includes(value.toLowerCase()))
-            ));
+          this.filteredCategories = this.categoryFormControl.valueChanges.pipe(
+            startWith(''),
+            map((value) =>
+              categories.filter((valueFilter) =>
+                valueFilter.typeCode
+                  .toLowerCase()
+                  .includes(value.toLowerCase()),
+              ),
+            ),
+          );
         }
 
         // Hide loading
         this.spinner.hide();
-      }, error => {
+      },
+      (error) => {
         // Hide loading
         this.spinner.hide();
 
         this.alertService.error(error);
-      });
+      },
+    );
   }
 
   //////////////////
@@ -267,22 +275,22 @@ export class EditFoodDialogComponent implements OnInit {
   }
 
   /**
-  * Change type
-  */
+   * Change type
+   */
   public onChangeFoodType(foodType: FoodType) {
     this.food.type = foodType;
   }
 
   /**
-  * Change category
-  */
+   * Change category
+   */
   public onChangeFoodCategory(foodCategory: FoodType) {
     this.food.category = foodCategory;
   }
 
   /**
-  * Click accept button
-  */
+   * Click accept button
+   */
   public accept() {
     if (this.isFormValid()) {
       const typeFoodVO: FoodType = new FoodType();
@@ -301,34 +309,35 @@ export class EditFoodDialogComponent implements OnInit {
         category: [categoryFoodVO],
         recipeString: [this.recipeValue],
         isFastFood: [this.isFastFoodValue],
-        urlReference: [this.urlReferenceValue]
+        urlReference: [this.urlReferenceValue],
       });
 
       // Show loading
       this.spinner.show();
 
       // Add
-      this.foodService.editFood(editForm.value)
-        .subscribe(
-          data => {
-            // Send success toast message
-            this.toastr.success('Food ' + this.nameValue + ' is updated successful');
+      this.foodService.editFood(editForm.value).subscribe(
+        (data) => {
+          // Send success toast message
+          this.toastr.success(
+            'Food ' + this.nameValue + ' is updated successful',
+          );
 
-            // Hide loading
-            this.spinner.hide();
+          // Hide loading
+          this.spinner.hide();
 
-            // Close dialog
-            this.activeModal.close(true);
+          // Close dialog
+          this.activeModal.close(true);
+        },
+        (error) => {
+          // Hide loading
+          this.spinner.hide();
 
-          },
-          error => {
-            // Hide loading
-            this.spinner.hide();
-
-            // Send error message to dialog
-            this.message = null;
-            this.messageError = error;
-          });
+          // Send error message to dialog
+          this.message = null;
+          this.messageError = error;
+        },
+      );
     } else {
       this.message = null;
       this.messageError = 'Invalid fields, please check your input';
@@ -366,9 +375,9 @@ export class EditFoodDialogComponent implements OnInit {
 }
 
 /**
-* Check inexistence
-*
-*/
+ * Check inexistence
+ *
+ */
 function validFoodName(control: FormControl) {
   const foodName = control.value;
 

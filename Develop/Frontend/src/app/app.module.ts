@@ -15,41 +15,114 @@ import { ToastrModule } from 'ngx-toastr';
 import { AppComponent } from './app.component';
 import { routing } from './app.routing';
 import { AccountComponent } from './pages/account';
-import { AddAccountDialogComponent, DeleteAccountDialogComponent, EditAccountDialogComponent, ShowPasswordDialogComponent, ViewAccountDialogComponent } from './pages/account/_dialogs';
-import { EnglishConfigComponent, EnglishTypeComponent, FoodConfigComponent, FoodTypeComponent, MediaTypeComponent, SettingConfigComponent, SettingTypeComponent, YoutubeChannelConfigComponent } from './pages/administration';
+import {
+  AddAccountDialogComponent,
+  DeleteAccountDialogComponent,
+  EditAccountDialogComponent,
+  ShowPasswordDialogComponent,
+  ViewAccountDialogComponent,
+} from './pages/account/_dialogs';
+import {
+  EnglishConfigComponent,
+  EnglishTypeComponent,
+  FoodConfigComponent,
+  FoodTypeComponent,
+  MediaTypeComponent,
+  SettingConfigComponent,
+  SettingTypeComponent,
+  YoutubeChannelConfigComponent,
+} from './pages/administration';
 import { AdministrationComponent } from './pages/administration/administration.component';
 import { CryptoTokenConfigComponent } from './pages/administration/crypto-token-config/crypto-token-config.component';
-import { AddCryptoTokenConfigDialogComponent, EditCryptoTokenConfigDialogComponent } from './pages/administration/crypto-token-config/_dialogs';
-import { AddEnglishTypeDialogComponent, DeleteEnglishTypeDialogComponent, EditEnglishTypeDialogComponent, ViewEnglishTypeDialogComponent } from './pages/administration/english-type/_dialogs';
+import {
+  AddCryptoTokenConfigDialogComponent,
+  EditCryptoTokenConfigDialogComponent,
+} from './pages/administration/crypto-token-config/_dialogs';
+import {
+  AddEnglishTypeDialogComponent,
+  DeleteEnglishTypeDialogComponent,
+  EditEnglishTypeDialogComponent,
+  ViewEnglishTypeDialogComponent,
+} from './pages/administration/english-type/_dialogs';
 import { EnglishUserReportComponent } from './pages/administration/english-user-report/english-user-report.component';
-import { AddFoodTypeDialogComponent, DeleteFoodTypeDialogComponent, EditFoodTypeDialogComponent, ViewFoodTypeDialogComponent } from './pages/administration/food-type/_dialogs';
-import { AddConfigDialogComponent, DeleteConfigDialogComponent, EditConfigDialogComponent, ViewConfigDialogComponent } from './pages/administration/setting-config/_dialogs';
-import { AddTypeDialogComponent, DeleteTypeDialogComponent, EditTypeDialogComponent, ViewTypeDialogComponent } from './pages/administration/setting-type/_dialogs';
+import {
+  AddFoodTypeDialogComponent,
+  DeleteFoodTypeDialogComponent,
+  EditFoodTypeDialogComponent,
+  ViewFoodTypeDialogComponent,
+} from './pages/administration/food-type/_dialogs';
+import {
+  AddConfigDialogComponent,
+  DeleteConfigDialogComponent,
+  EditConfigDialogComponent,
+  ViewConfigDialogComponent,
+} from './pages/administration/setting-config/_dialogs';
+import {
+  AddTypeDialogComponent,
+  DeleteTypeDialogComponent,
+  EditTypeDialogComponent,
+  ViewTypeDialogComponent,
+} from './pages/administration/setting-type/_dialogs';
 import { UserControlComponent } from './pages/administration/user-control/user-control.component';
-import { AddYoutubeChannelDialogComponent, EditYoutubeChannelDialogComponent } from './pages/administration/youtube-channel-config/_dialogs';
+import {
+  AddYoutubeChannelDialogComponent,
+  EditYoutubeChannelDialogComponent,
+} from './pages/administration/youtube-channel-config/_dialogs';
 import { CoinComponent } from './pages/crypto/coin/coin.component';
 import { CryptoComponent } from './pages/crypto/crypto.component';
 import { PortfolioComponent } from './pages/crypto/portfolio/portfolio.component';
-import { AddCryptoFortfolioDialogComponent, DeleteCryptoPortfolioDialogComponent, EditCryptoPortfolioDialogComponent, ViewCryptoPortfolioDialogComponent } from './pages/crypto/_dialogs';
+import {
+  AddCryptoFortfolioDialogComponent,
+  DeleteCryptoPortfolioDialogComponent,
+  EditCryptoPortfolioDialogComponent,
+  ViewCryptoPortfolioDialogComponent,
+} from './pages/crypto/_dialogs';
 import { EnglishComponent } from './pages/english';
 import { EnglishReportComponent } from './pages/english-report';
-import { AddWordDialogComponent, DownloadVoiceComponent, EditWordDialogComponent, WordInfoDialogComponent } from './pages/english/_dialogs';
+import {
+  AddWordDialogComponent,
+  DownloadVoiceComponent,
+  EditWordDialogComponent,
+  WordInfoDialogComponent,
+} from './pages/english/_dialogs';
 import { ShowLearnedWordComponent } from './pages/english/_dialogs/show-learned-word.component';
-import { FinanceComponent, FinanceCurrencyComponent, FinanceGoldComponent, FinanceOilComponent, FinanceStockComponent } from './pages/finance';
+import {
+  FinanceComponent,
+  FinanceCurrencyComponent,
+  FinanceGoldComponent,
+  FinanceOilComponent,
+  FinanceStockComponent,
+} from './pages/finance';
 import { FoodComponent } from './pages/food';
 import { FoodDetailComponent } from './pages/food/food-detail/food-detail.component';
 import { FoodItemComponent } from './pages/food/food-item/food-item.component';
-import { AddFoodDialogComponent, EditFoodDialogComponent } from './pages/food/_dialogs';
+import {
+  AddFoodDialogComponent,
+  EditFoodDialogComponent,
+} from './pages/food/_dialogs';
 import { HomeComponent } from './pages/home';
-import { MoviePlayerComponent, PhimmoiPlayerComponent, YoutubeChannelComponent, YoutubePlayerChannelComponent, YoutubePlayerComponent } from './pages/media';
+import {
+  MoviePlayerComponent,
+  PhimmoiPlayerComponent,
+  YoutubeChannelComponent,
+  YoutubePlayerChannelComponent,
+  YoutubePlayerComponent,
+} from './pages/media';
 import { MediaComponent } from './pages/media/media.component';
-import { AddYoutubeVideoDialogComponent, DeleteYoutubeVideoDialogComponent } from './pages/media/_dialogs';
+import {
+  AddYoutubeVideoDialogComponent,
+  DeleteYoutubeVideoDialogComponent,
+} from './pages/media/_dialogs';
 import { LoginComponent } from './user/login';
 import { RegisterComponent } from './user/register';
 import { UserSlideBarComponent } from './user/user-slide-bar';
 import {
-    ChangePasswordDialogComponent, ChangePrivateKeyDialogComponent, DeleteConfirmationDialogComponent, HelpGuestDialogComponent,
-    UpdateEnglishLevelDialogComponent, UpdateInforDialogComponent
+  ChangePasswordDialogComponent,
+  ChangePrivateKeyDialogComponent,
+  DeleteConfirmationDialogComponent,
+  HelpGuestDialogComponent,
+  UpdateEnglishLevelDialogComponent,
+  UpdateInforDialogComponent,
 } from './user/_dialogs';
 import { AlertComponent } from './_common/alert';
 import { AutoFocusDirective } from './_common/directive';
@@ -59,148 +132,148 @@ import { EditMediaTypeDialogComponent } from './pages/administration/media-type/
 import { ViewMediaTypeDialogComponent } from './pages/administration/media-type/_dialogs/view-media-type.component';
 
 @NgModule({
-    imports: [
-        BrowserModule,
-        BrowserAnimationsModule,
-        FormsModule,
-        HttpClientModule,
-        ReactiveFormsModule,
-        routing,
-        NgbModule,
-        MaterialModule,
-        NgIdleKeepaliveModule.forRoot(),
-        NgxImageZoomModule,
-        NgxDatatableModule,
-        YouTubePlayerModule,
-        ToastrModule.forRoot({
-            timeOut: 5000,
-            positionClass: 'toast-top-full-width'
-        }),
-        NgxSpinnerModule,
-        FlexLayoutModule
-    ],
-    declarations: [
-        AppComponent,
-        HomeComponent,
-        AlertComponent,
-        AutoFocusDirective,
-        TimeoutProgressDialogComponent,
-        UserSlideBarComponent,
-        HelpGuestDialogComponent,
+  imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    FormsModule,
+    HttpClientModule,
+    ReactiveFormsModule,
+    routing,
+    NgbModule,
+    MaterialModule,
+    NgIdleKeepaliveModule.forRoot(),
+    NgxImageZoomModule,
+    NgxDatatableModule,
+    YouTubePlayerModule,
+    ToastrModule.forRoot({
+      timeOut: 5000,
+      positionClass: 'toast-top-full-width',
+    }),
+    NgxSpinnerModule,
+    FlexLayoutModule,
+  ],
+  declarations: [
+    AppComponent,
+    HomeComponent,
+    AlertComponent,
+    AutoFocusDirective,
+    TimeoutProgressDialogComponent,
+    UserSlideBarComponent,
+    HelpGuestDialogComponent,
 
-        // Admin
-        AdministrationComponent,
-        SettingConfigComponent,
-        SettingTypeComponent,
+    // Admin
+    AdministrationComponent,
+    SettingConfigComponent,
+    SettingTypeComponent,
 
-        // Dialog
-        AddTypeDialogComponent,
-        EditTypeDialogComponent,
-        DeleteTypeDialogComponent,
-        ViewTypeDialogComponent,
-        AddConfigDialogComponent,
-        EditConfigDialogComponent,
-        DeleteConfigDialogComponent,
-        ViewConfigDialogComponent,
+    // Dialog
+    AddTypeDialogComponent,
+    EditTypeDialogComponent,
+    DeleteTypeDialogComponent,
+    ViewTypeDialogComponent,
+    AddConfigDialogComponent,
+    EditConfigDialogComponent,
+    DeleteConfigDialogComponent,
+    ViewConfigDialogComponent,
 
-        // User
-        LoginComponent,
-        RegisterComponent,
+    // User
+    LoginComponent,
+    RegisterComponent,
 
-        // Dialog
-        DeleteConfirmationDialogComponent,
-        ChangePasswordDialogComponent,
-        UpdateInforDialogComponent,
-        UserControlComponent,
-        ChangePrivateKeyDialogComponent,
+    // Dialog
+    DeleteConfirmationDialogComponent,
+    ChangePasswordDialogComponent,
+    UpdateInforDialogComponent,
+    UserControlComponent,
+    ChangePrivateKeyDialogComponent,
 
-        // Account
-        AccountComponent,
-        // Dialog
-        AddAccountDialogComponent,
-        EditAccountDialogComponent,
-        DeleteAccountDialogComponent,
-        ViewAccountDialogComponent,
-        ShowPasswordDialogComponent,
+    // Account
+    AccountComponent,
+    // Dialog
+    AddAccountDialogComponent,
+    EditAccountDialogComponent,
+    DeleteAccountDialogComponent,
+    ViewAccountDialogComponent,
+    ShowPasswordDialogComponent,
 
-        // English
-        EnglishComponent,
-        EnglishConfigComponent,
-        EnglishTypeComponent,
-        ShowLearnedWordComponent,
-        DownloadVoiceComponent,
-        EnglishUserReportComponent,
-        EnglishReportComponent,
-        EnglishUserReportComponent,
+    // English
+    EnglishComponent,
+    EnglishConfigComponent,
+    EnglishTypeComponent,
+    ShowLearnedWordComponent,
+    DownloadVoiceComponent,
+    EnglishUserReportComponent,
+    EnglishReportComponent,
+    EnglishUserReportComponent,
 
-        // Dialog
-        AddEnglishTypeDialogComponent,
-        DeleteEnglishTypeDialogComponent,
-        EditEnglishTypeDialogComponent,
-        ViewEnglishTypeDialogComponent,
-        UpdateEnglishLevelDialogComponent,
-        AddWordDialogComponent,
-        EditWordDialogComponent,
-        WordInfoDialogComponent,
+    // Dialog
+    AddEnglishTypeDialogComponent,
+    DeleteEnglishTypeDialogComponent,
+    EditEnglishTypeDialogComponent,
+    ViewEnglishTypeDialogComponent,
+    UpdateEnglishLevelDialogComponent,
+    AddWordDialogComponent,
+    EditWordDialogComponent,
+    WordInfoDialogComponent,
 
-        // Food
-        FoodComponent,
-        FoodItemComponent,
-        FoodConfigComponent,
-        FoodTypeComponent,
-        FoodDetailComponent,
+    // Food
+    FoodComponent,
+    FoodItemComponent,
+    FoodConfigComponent,
+    FoodTypeComponent,
+    FoodDetailComponent,
 
-        // Dialog
-        AddFoodDialogComponent,
-        EditFoodDialogComponent,
-        AddFoodTypeDialogComponent,
-        DeleteFoodTypeDialogComponent,
-        EditFoodTypeDialogComponent,
-        ViewFoodTypeDialogComponent,
+    // Dialog
+    AddFoodDialogComponent,
+    EditFoodDialogComponent,
+    AddFoodTypeDialogComponent,
+    DeleteFoodTypeDialogComponent,
+    EditFoodTypeDialogComponent,
+    ViewFoodTypeDialogComponent,
 
-        // Media
-        MediaComponent,
-        MediaTypeComponent,
-        YoutubeChannelConfigComponent,
-        YoutubeChannelComponent,
-        YoutubePlayerComponent,
-        YoutubePlayerChannelComponent,
-        MoviePlayerComponent,
-        PhimmoiPlayerComponent,
+    // Media
+    MediaComponent,
+    MediaTypeComponent,
+    YoutubeChannelConfigComponent,
+    YoutubeChannelComponent,
+    YoutubePlayerComponent,
+    YoutubePlayerChannelComponent,
+    MoviePlayerComponent,
+    PhimmoiPlayerComponent,
 
-        // Dialog
-        EditMediaTypeDialogComponent,
-        ViewMediaTypeDialogComponent,
-        AddYoutubeChannelDialogComponent,
-        EditYoutubeChannelDialogComponent,
-        AddYoutubeVideoDialogComponent,
-        DeleteYoutubeVideoDialogComponent,
+    // Dialog
+    EditMediaTypeDialogComponent,
+    ViewMediaTypeDialogComponent,
+    AddYoutubeChannelDialogComponent,
+    EditYoutubeChannelDialogComponent,
+    AddYoutubeVideoDialogComponent,
+    DeleteYoutubeVideoDialogComponent,
 
-        // Finance
-        FinanceComponent,
-        FinanceGoldComponent,
-        FinanceOilComponent,
-        FinanceCurrencyComponent,
-        FinanceStockComponent,
+    // Finance
+    FinanceComponent,
+    FinanceGoldComponent,
+    FinanceOilComponent,
+    FinanceCurrencyComponent,
+    FinanceStockComponent,
 
-        // Crypto
-        CryptoComponent,
-        CoinComponent,
+    // Crypto
+    CryptoComponent,
+    CoinComponent,
 
-        CryptoTokenConfigComponent,
-        AddCryptoTokenConfigDialogComponent,
-        EditCryptoTokenConfigDialogComponent,
+    CryptoTokenConfigComponent,
+    AddCryptoTokenConfigDialogComponent,
+    EditCryptoTokenConfigDialogComponent,
 
-        PortfolioComponent,
-        AddCryptoFortfolioDialogComponent,
-        EditCryptoPortfolioDialogComponent,
-        DeleteCryptoPortfolioDialogComponent,
-        ViewCryptoPortfolioDialogComponent
-    ],
-    providers: [
-        { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-        { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
-    ],
-    bootstrap: [AppComponent]
+    PortfolioComponent,
+    AddCryptoFortfolioDialogComponent,
+    EditCryptoPortfolioDialogComponent,
+    DeleteCryptoPortfolioDialogComponent,
+    ViewCryptoPortfolioDialogComponent,
+  ],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+  ],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

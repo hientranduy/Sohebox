@@ -1,5 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { MediaType } from '@app/_common/_models/mediaType';
 import { SpinnerService } from '@app/_common/_services';
@@ -12,15 +17,13 @@ import { MediaTypeDialogService } from '../media-type.service';
   templateUrl: 'edit-media-type.component.html',
 })
 export class EditMediaTypeDialogComponent implements OnInit {
-
   constructor(
     private formBuilder: FormBuilder,
     private activeModal: NgbActiveModal,
     private mediaTypeDialogService: MediaTypeDialogService,
     private toastr: ToastrService,
-    private spinner: SpinnerService
-  ) {
-  }
+    private spinner: SpinnerService,
+  ) {}
 
   // Form value
   @Input() title: string;
@@ -43,25 +46,19 @@ export class EditMediaTypeDialogComponent implements OnInit {
   matcher = new ErrorStateMatcher();
 
   // Field : type class
-  typeClassFormControl = new FormControl('', [
-  ]);
+  typeClassFormControl = new FormControl('', []);
 
   // Field : type code
-  typeCodeFormControl = new FormControl('', [
-  ]);
+  typeCodeFormControl = new FormControl('', []);
 
   // Field : type name
-  typeNameFormControl = new FormControl('', [
-    Validators.required,
-  ]);
+  typeNameFormControl = new FormControl('', [Validators.required]);
 
   // Field : description
-  descriptionFormControl = new FormControl('', [
-  ]);
+  descriptionFormControl = new FormControl('', []);
 
   // Field : icon URL
-  iconUrlFormControl = new FormControl('', [
-  ]);
+  iconUrlFormControl = new FormControl('', []);
 
   ngOnInit() {
     // Set current value
@@ -90,12 +87,12 @@ export class EditMediaTypeDialogComponent implements OnInit {
   }
 
   /**
-  * Click accept button
-  */
+   * Click accept button
+   */
   public accept() {
     switch (true) {
       // Case data is unchanged
-      case (!this.isHaveUpdateValue()):
+      case !this.isHaveUpdateValue():
         // Send warning toast message
         this.toastr.warning('Skip update because the value is not changed');
 
@@ -104,7 +101,7 @@ export class EditMediaTypeDialogComponent implements OnInit {
         break;
 
       // Case data is invalid
-      case (!this.isFormValid()):
+      case !this.isFormValid():
         this.message = null;
         this.messageError = 'Invalid fields, please check your input';
         break;
@@ -129,7 +126,13 @@ export class EditMediaTypeDialogComponent implements OnInit {
         this.mediaTypeDialogService.update(updateForm.value).subscribe({
           next: async (response) => {
             // Send success toast message
-            this.toastr.success('<Type class ' + this.typeClass + ' & type code ' + this.typeCode + '> is updated successful');
+            this.toastr.success(
+              '<Type class ' +
+                this.typeClass +
+                ' & type code ' +
+                this.typeCode +
+                '> is updated successful',
+            );
 
             // Hide loading
             this.spinner.hide();
@@ -146,8 +149,8 @@ export class EditMediaTypeDialogComponent implements OnInit {
 
             // Close dialog
             this.activeModal.close(false);
-          }
-        })
+          },
+        });
     }
   }
 

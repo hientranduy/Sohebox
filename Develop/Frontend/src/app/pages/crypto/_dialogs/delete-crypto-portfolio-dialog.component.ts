@@ -9,7 +9,6 @@ import { CryptoPortfolioService } from '../_services';
   templateUrl: 'delete-crypto-portfolio-dialog.component.html',
 })
 export class DeleteCryptoPortfolioDialogComponent implements OnInit {
-
   @Input() title: string;
   @Input() message: string;
   @Input() btnOkText: string;
@@ -20,11 +19,11 @@ export class DeleteCryptoPortfolioDialogComponent implements OnInit {
     private cryptoPortfolioService: CryptoPortfolioService,
     private toastr: ToastrService,
     private activeModal: NgbActiveModal,
-    private spinner: SpinnerService
-  ) { } a
+    private spinner: SpinnerService,
+  ) {}
+  a;
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   public decline() {
     // Return false
@@ -32,33 +31,38 @@ export class DeleteCryptoPortfolioDialogComponent implements OnInit {
   }
 
   public accept() {
-
     // Show loading
     this.spinner.show();
 
-    const infoData = this.cryptoPortfolio.wallet + '<' + this.cryptoPortfolio.token.tokenCode + '>';
-    this.cryptoPortfolioService.delete(this.cryptoPortfolio.id)
-      .subscribe(
-        data => {
-          // Send toast success
-          this.toastr.success('Your wallet ' + infoData + ' is successful deleted');
+    const infoData =
+      this.cryptoPortfolio.wallet +
+      '<' +
+      this.cryptoPortfolio.token.tokenCode +
+      '>';
+    this.cryptoPortfolioService.delete(this.cryptoPortfolio.id).subscribe(
+      (data) => {
+        // Send toast success
+        this.toastr.success(
+          'Your wallet ' + infoData + ' is successful deleted',
+        );
 
-          // Hide loading
-          this.spinner.hide();
+        // Hide loading
+        this.spinner.hide();
 
-          // Return true
-          this.activeModal.close(true);
-        },
-        error => {
-          // Hide loading
-          this.spinner.hide();
+        // Return true
+        this.activeModal.close(true);
+      },
+      (error) => {
+        // Hide loading
+        this.spinner.hide();
 
-          // Send error toast message
-          this.toastr.error(error);
+        // Send error toast message
+        this.toastr.error(error);
 
-          // Return false
-          this.activeModal.close(false);
-        });
+        // Return false
+        this.activeModal.close(false);
+      },
+    );
   }
 
   public dismiss() {

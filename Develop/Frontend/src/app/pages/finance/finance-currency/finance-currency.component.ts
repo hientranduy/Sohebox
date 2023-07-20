@@ -8,7 +8,7 @@ import { FinanceService } from '../_services';
 @Component({
   selector: 'app-finance-currency',
   templateUrl: './finance-currency.component.html',
-  styleUrls: ['./finance-currency.component.css']
+  styleUrls: ['./finance-currency.component.css'],
 })
 export class FinanceCurrencyComponent implements OnInit {
   currencyVCB: CurrencyVietcombank;
@@ -27,8 +27,8 @@ export class FinanceCurrencyComponent implements OnInit {
   constructor(
     private spinner: SpinnerService,
     private financeService: FinanceService,
-    private alertService: AlertService
-  ) { }
+    private alertService: AlertService,
+  ) {}
 
   ngOnInit(): void {
     this.loadCurrencyVcb();
@@ -42,8 +42,8 @@ export class FinanceCurrencyComponent implements OnInit {
     this.spinner.show();
 
     // Get list
-    this.financeService.getCurrencyVcbRate()
-      .subscribe(data => {
+    this.financeService.getCurrencyVcbRate().subscribe(
+      (data) => {
         // Get data
         const responseAPi: any = data;
         const typeResponse: ApiReponse<CurrencyVietcombank> = responseAPi;
@@ -55,10 +55,11 @@ export class FinanceCurrencyComponent implements OnInit {
 
         // Hide loading
         this.spinner.hide();
-
-      }, error => {
+      },
+      (error) => {
         this.processError(error);
-      });
+      },
+    );
   }
 
   ///////////////////

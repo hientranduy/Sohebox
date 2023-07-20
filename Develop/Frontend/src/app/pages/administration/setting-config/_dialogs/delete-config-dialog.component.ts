@@ -5,9 +5,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 @Component({
   templateUrl: 'delete-config-dialog.component.html',
 })
-
 export class DeleteConfigDialogComponent implements OnInit {
-
   @Input() title: string;
   @Input() message: string;
   @Input() btnOkText: string;
@@ -15,11 +13,10 @@ export class DeleteConfigDialogComponent implements OnInit {
 
   constructor(
     private activeModal: NgbActiveModal,
-    private spinner: SpinnerService
-  ) { }
+    private spinner: SpinnerService,
+  ) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   public decline() {
     // Return false

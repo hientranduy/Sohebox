@@ -14,10 +14,9 @@ import { FoodTypeDialogService } from './_dialogs';
 @Component({
   selector: 'app-food-type',
   templateUrl: './food-type.component.html',
-  styleUrls: ['./food-type.component.css']
+  styleUrls: ['./food-type.component.css'],
 })
 export class FoodTypeComponent implements OnInit {
-
   // Table elements
   pageResult: PageResultVO<FoodType>;
   currentSort: Sorter;
@@ -44,7 +43,7 @@ export class FoodTypeComponent implements OnInit {
     private foodTypeService: FoodTypeService,
     private alertService: AlertService,
     private toastr: ToastrService,
-    private spinner: SpinnerService
+    private spinner: SpinnerService,
   ) {
     // Set default
     this.pageResult = new PageResultVO<FoodType>();
@@ -60,7 +59,7 @@ export class FoodTypeComponent implements OnInit {
       this.pageResult.currentPage,
       this.pageResult.pageSize,
       this.currentSort,
-      this.currentFilterValue
+      this.currentFilterValue,
     );
   }
 
@@ -76,7 +75,7 @@ export class FoodTypeComponent implements OnInit {
       0,
       this.pageResult.pageSize,
       null,
-      this.currentFilterValue
+      this.currentFilterValue,
     );
   }
 
@@ -90,7 +89,7 @@ export class FoodTypeComponent implements OnInit {
       0,
       this.pageResult.pageSize,
       this.currentSort,
-      this.currentFilterValue
+      this.currentFilterValue,
     );
   }
 
@@ -102,7 +101,7 @@ export class FoodTypeComponent implements OnInit {
       e.pageIndex,
       e.pageSize,
       this.currentSort,
-      this.currentFilterValue
+      this.currentFilterValue,
     );
   }
 
@@ -114,7 +113,7 @@ export class FoodTypeComponent implements OnInit {
       pageInfo.offset,
       this.pageResult.pageSize,
       this.currentSort,
-      this.currentFilterValue
+      this.currentFilterValue,
     );
   }
 
@@ -133,7 +132,7 @@ export class FoodTypeComponent implements OnInit {
     pageNumber: number,
     pageRecord: number,
     sorter: Sorter,
-    filterValue: string
+    filterValue: string,
   ) {
     // Prepare search condition
     const sco = new FoodTypeSCO();
@@ -173,7 +172,7 @@ export class FoodTypeComponent implements OnInit {
 
     // Search
     this.foodTypeService.search(sco).subscribe(
-      data => {
+      (data) => {
         const responseAPi: any = data;
         const typeResponse: ApiReponse<FoodType> = responseAPi;
         if (typeResponse.data != null) {
@@ -185,12 +184,12 @@ export class FoodTypeComponent implements OnInit {
         // Hide Loading
         this.spinner.hide();
       },
-      error => {
+      (error) => {
         // Hide Loading
         this.spinner.hide();
 
         this.alertService.error(error);
-      }
+      },
     );
   }
 
@@ -225,12 +224,12 @@ export class FoodTypeComponent implements OnInit {
    */
   public delete() {
     if (this.selected.length > 0) {
-      this.selected.forEach(element => {
+      this.selected.forEach((element) => {
         this.deleteChoose(element);
       });
     } else {
       this.toastr.info('No selected item', 'Information', {
-        timeOut: 2000
+        timeOut: 2000,
       });
     }
   }
@@ -247,13 +246,13 @@ export class FoodTypeComponent implements OnInit {
    */
   public viewDetailChoose(item: FoodType) {
     this.foodTypeDialogService.view('DETAIL', '', item).then(
-      result => {
+      (result) => {
         if (result) {
         }
       },
-      reason => {
+      (reason) => {
         console.log('DETAIL reason:' + reason);
-      }
+      },
     );
   }
 
@@ -262,19 +261,19 @@ export class FoodTypeComponent implements OnInit {
    */
   public editChoose(item: FoodType) {
     this.foodTypeDialogService.edit('EDIT', '', item).then(
-      result => {
+      (result) => {
         if (result) {
           this.getPageResult(
             this.pageResult.currentPage,
             this.pageResult.pageSize,
             this.currentSort,
-            this.currentFilterValue
+            this.currentFilterValue,
           );
         }
       },
-      reason => {
+      (reason) => {
         console.log('EDIT reason:' + reason);
-      }
+      },
     );
   }
 
@@ -285,7 +284,7 @@ export class FoodTypeComponent implements OnInit {
     this.foodTypeDialogService
       .delete('DELETION', 'Are you sure deleting: ' + item.typeCode + ' ?')
       .then(
-        result => {
+        (result) => {
           if (result) {
             this.toastr.warning('[Admin notice] Not allow to delete');
 
@@ -312,9 +311,9 @@ export class FoodTypeComponent implements OnInit {
             // );
           }
         },
-        reason => {
+        (reason) => {
           console.log('DELETE reason:' + reason);
-        }
+        },
       );
   }
 }

@@ -1,5 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { ConfigService, SpinnerService } from '@app/_common/_services';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
@@ -10,15 +15,13 @@ import { ToastrService } from 'ngx-toastr';
   templateUrl: 'add-config-dialog.component.html',
 })
 export class AddConfigDialogComponent implements OnInit {
-
   constructor(
     private formBuilder: FormBuilder,
     private activeModal: NgbActiveModal,
     private configService: ConfigService,
     private toastr: ToastrService,
-    private spinner: SpinnerService
-  ) {
-  }
+    private spinner: SpinnerService,
+  ) {}
 
   // Form value
   @Input() title: string;
@@ -38,22 +41,15 @@ export class AddConfigDialogComponent implements OnInit {
   matcher = new ErrorStateMatcher();
 
   // Field : config key
-  configKeyFormControl = new FormControl('', [
-    Validators.required,
-  ]);
+  configKeyFormControl = new FormControl('', [Validators.required]);
 
   // Field : config value
-  configValueFormControl = new FormControl('', [
-    Validators.required,
-  ]);
+  configValueFormControl = new FormControl('', [Validators.required]);
 
   // Field : description
-  descriptionFormControl = new FormControl('', [
-  ]);
+  descriptionFormControl = new FormControl('', []);
 
-
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   /////////////////////////////////////
   // FORM BUTTON CONTROL             //
@@ -73,12 +69,12 @@ export class AddConfigDialogComponent implements OnInit {
   }
 
   /**
-  * Click accept button
-  */
+   * Click accept button
+   */
   public accept() {
     switch (true) {
       // Case data is invalid
-      case (!this.isFormValid()):
+      case !this.isFormValid():
         this.message = null;
         this.messageError = 'Invalid fields, please check your input';
         break;
@@ -97,29 +93,30 @@ export class AddConfigDialogComponent implements OnInit {
         this.spinner.show();
 
         // Update
-        this.configService.create(configForm.value)
-          .subscribe(
-            data => {
-              // Send success toast message
-              this.toastr.success('<Config Key ' + this.configKey + '> is created successful');
+        this.configService.create(configForm.value).subscribe(
+          (data) => {
+            // Send success toast message
+            this.toastr.success(
+              '<Config Key ' + this.configKey + '> is created successful',
+            );
 
-              // Hide loading
-              this.spinner.hide();
+            // Hide loading
+            this.spinner.hide();
 
-              // Close dialog
-              this.activeModal.close(true);
+            // Close dialog
+            this.activeModal.close(true);
+          },
+          (error) => {
+            // Hide loading
+            this.spinner.hide();
 
-            },
-            error => {
-              // Hide loading
-              this.spinner.hide();
+            // Send error toast message
+            this.toastr.error(error);
 
-              // Send error toast message
-              this.toastr.error(error);
-
-              // Close dialog
-              this.activeModal.close(false);
-            });
+            // Close dialog
+            this.activeModal.close(false);
+          },
+        );
     }
   }
 

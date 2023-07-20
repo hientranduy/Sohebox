@@ -12,7 +12,7 @@ import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-user-control',
   templateUrl: './user-control.component.html',
-  styleUrls: ['./user-control.component.css']
+  styleUrls: ['./user-control.component.css'],
 })
 export class UserControlComponent implements OnInit, OnDestroy {
   pageResult: PageResultVO<UserStatus>;
@@ -42,7 +42,7 @@ export class UserControlComponent implements OnInit, OnDestroy {
     private userService: UserService,
     private alertService: AlertService,
     private toastr: ToastrService,
-    private spinner: SpinnerService
+    private spinner: SpinnerService,
   ) {
     // Set default
     this.pageResult = new PageResultVO<UserStatus>();
@@ -75,41 +75,65 @@ export class UserControlComponent implements OnInit, OnDestroy {
   }
 
   /**
-  * handle event of select page
-  */
+   * handle event of select page
+   */
   setPage(pageInfo) {
-    this.getPageResult(pageInfo.offset, this.pageResult.pageSize, this.currentSort, this.currentFilterValue);
+    this.getPageResult(
+      pageInfo.offset,
+      this.pageResult.pageSize,
+      this.currentSort,
+      this.currentFilterValue,
+    );
   }
 
   /**
-  * handle event of sort
-  */
+   * handle event of sort
+   */
   onSort(event) {
     const sort = event.sorts[0];
     this.currentSort = new Sorter(sort.prop, sort.dir);
-    this.getPageResult(0, this.pageResult.pageSize, this.currentSort, this.currentFilterValue);
-
+    this.getPageResult(
+      0,
+      this.pageResult.pageSize,
+      this.currentSort,
+      this.currentFilterValue,
+    );
   }
 
   /**
-  * handle event of filter
-  */
+   * handle event of filter
+   */
   onFilter(event) {
     this.currentFilterValue = event.target.value;
-    this.getPageResult(0, this.pageResult.pageSize, this.currentSort, this.currentFilterValue);
+    this.getPageResult(
+      0,
+      this.pageResult.pageSize,
+      this.currentSort,
+      this.currentFilterValue,
+    );
   }
 
   /**
-  * handle event of paginator
-  */
+   * handle event of paginator
+   */
   handlePaginatorEvent(e: any) {
-    this.getPageResult(e.pageIndex, e.pageSize, this.currentSort, this.currentFilterValue);
+    this.getPageResult(
+      e.pageIndex,
+      e.pageSize,
+      this.currentSort,
+      this.currentFilterValue,
+    );
   }
 
   /**
    * Get page result
    */
-  public getPageResult(pageNumber: number, pageRecord: number, sorter: Sorter, filterValue: string) {
+  public getPageResult(
+    pageNumber: number,
+    pageRecord: number,
+    sorter: Sorter,
+    filterValue: string,
+  ) {
     // Prepare search condition
     const sco = new UserSCO();
     sco.pageToGet = pageNumber;
@@ -139,8 +163,8 @@ export class UserControlComponent implements OnInit, OnDestroy {
     this.spinner.show();
 
     // Search
-    this.userService.searchUserStatus(sco)
-      .subscribe(data => {
+    this.userService.searchUserStatus(sco).subscribe(
+      (data) => {
         // Get data
         const responseAPi: any = data;
         const typeResponse: ApiReponse<UserStatus> = responseAPi;
@@ -152,18 +176,19 @@ export class UserControlComponent implements OnInit, OnDestroy {
 
         // Hide Loading
         this.spinner.hide();
-
-      }, error => {
+      },
+      (error) => {
         // Hide Loading
         this.spinner.hide();
 
         this.alertService.error(error);
-      });
+      },
+    );
   }
 
   /**
-    * Get page result
-    */
+   * Get page result
+   */
   public getActiveUser(pageNumber: number, pageRecord: number) {
     // Prepare search condition
     const sco = new UserSCO();
@@ -174,8 +199,8 @@ export class UserControlComponent implements OnInit, OnDestroy {
     this.spinner.show();
 
     // Search
-    this.userService.searchActiveUser(sco)
-      .subscribe(data => {
+    this.userService.searchActiveUser(sco).subscribe(
+      (data) => {
         // Get data
         const responseAPi: any = data;
         const typeResponse: ApiReponse<UserStatus> = responseAPi;
@@ -185,12 +210,13 @@ export class UserControlComponent implements OnInit, OnDestroy {
 
         // Hide Loading
         this.spinner.hide();
-
-      }, error => {
+      },
+      (error) => {
         // Hide Loading
         this.spinner.hide();
 
         this.alertService.error(error);
-      });
+      },
+    );
   }
 }

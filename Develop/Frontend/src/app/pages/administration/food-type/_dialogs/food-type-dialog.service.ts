@@ -6,11 +6,12 @@ import { DeleteFoodTypeDialogComponent } from './delete-food-type-dialog.compone
 import { EditFoodTypeDialogComponent } from './edit-food-type-dialog.component';
 import { ViewFoodTypeDialogComponent } from './view-food-type-dialog.component';
 
-
 @Injectable({ providedIn: 'root' })
 export class FoodTypeDialogService {
-
-  constructor(config: NgbModalConfig, private modalService: NgbModal) {
+  constructor(
+    config: NgbModalConfig,
+    private modalService: NgbModal,
+  ) {
     config.backdrop = 'static';
     config.keyboard = false;
   }
@@ -18,8 +19,11 @@ export class FoodTypeDialogService {
   public add(
     title: string,
     message: string,
-    dialogSize: 'sm' | 'lg' = 'lg'): Promise<boolean> {
-    const modalRef = this.modalService.open(AddFoodTypeDialogComponent, { size: dialogSize });
+    dialogSize: 'sm' | 'lg' = 'lg',
+  ): Promise<boolean> {
+    const modalRef = this.modalService.open(AddFoodTypeDialogComponent, {
+      size: dialogSize,
+    });
     modalRef.componentInstance.title = title;
     modalRef.componentInstance.message = message;
     modalRef.componentInstance.btnOkText = 'Add';
@@ -30,8 +34,11 @@ export class FoodTypeDialogService {
   public delete(
     title: string,
     message: string,
-    dialogSize: 'sm' | 'lg' = 'lg'): Promise<boolean> {
-    const modalRef = this.modalService.open(DeleteFoodTypeDialogComponent, { size: dialogSize });
+    dialogSize: 'sm' | 'lg' = 'lg',
+  ): Promise<boolean> {
+    const modalRef = this.modalService.open(DeleteFoodTypeDialogComponent, {
+      size: dialogSize,
+    });
     modalRef.componentInstance.title = title;
     modalRef.componentInstance.message = message;
     modalRef.componentInstance.btnOkText = 'Delete';
@@ -43,8 +50,11 @@ export class FoodTypeDialogService {
     title: string,
     message: string,
     item: FoodType,
-    dialogSize: 'sm' | 'lg' = 'lg'): Promise<boolean> {
-    const modalRef = this.modalService.open(EditFoodTypeDialogComponent, { size: dialogSize });
+    dialogSize: 'sm' | 'lg' = 'lg',
+  ): Promise<boolean> {
+    const modalRef = this.modalService.open(EditFoodTypeDialogComponent, {
+      size: dialogSize,
+    });
     modalRef.componentInstance.title = title;
     modalRef.componentInstance.message = message;
     modalRef.componentInstance.btnOkText = 'Edit';
@@ -57,8 +67,11 @@ export class FoodTypeDialogService {
     title: string,
     message: string,
     item: FoodType,
-    dialogSize: 'sm' | 'lg' = 'lg'): Promise<boolean> {
-    const modalRef = this.modalService.open(ViewFoodTypeDialogComponent, { size: dialogSize });
+    dialogSize: 'sm' | 'lg' = 'lg',
+  ): Promise<boolean> {
+    const modalRef = this.modalService.open(ViewFoodTypeDialogComponent, {
+      size: dialogSize,
+    });
     modalRef.componentInstance.title = title;
     modalRef.componentInstance.message = message;
     modalRef.componentInstance.btnCancelText = 'Cancel';

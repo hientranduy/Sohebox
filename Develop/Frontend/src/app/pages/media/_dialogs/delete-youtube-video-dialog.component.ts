@@ -9,7 +9,6 @@ import { YoutubeService } from '../_services';
   templateUrl: 'delete-youtube-video-dialog.component.html',
 })
 export class DeleteYoutubeVideoDialogComponent implements OnInit {
-
   @Input() title: string;
   @Input() message: string;
   @Input() btnOkText: string;
@@ -20,11 +19,10 @@ export class DeleteYoutubeVideoDialogComponent implements OnInit {
     private youtubeService: YoutubeService,
     private toastr: ToastrService,
     private activeModal: NgbActiveModal,
-    private spinner: SpinnerService
-  ) { }
+    private spinner: SpinnerService,
+  ) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   public decline() {
     // Return false
@@ -32,32 +30,33 @@ export class DeleteYoutubeVideoDialogComponent implements OnInit {
   }
 
   public accept() {
-
     // Show loading
     this.spinner.show();
 
-    this.youtubeService.deletePrivateVideo(this.video.videoId)
-      .subscribe(
-        data => {
-          // Send toast success
-          this.toastr.success('Your video ' + this.video.videoId + ' is successful deleted');
+    this.youtubeService.deletePrivateVideo(this.video.videoId).subscribe(
+      (data) => {
+        // Send toast success
+        this.toastr.success(
+          'Your video ' + this.video.videoId + ' is successful deleted',
+        );
 
-          // Hide loading
-          this.spinner.hide();
+        // Hide loading
+        this.spinner.hide();
 
-          // Return true
-          this.activeModal.close(true);
-        },
-        error => {
-          // Hide loading
-          this.spinner.hide();
+        // Return true
+        this.activeModal.close(true);
+      },
+      (error) => {
+        // Hide loading
+        this.spinner.hide();
 
-          // Send error toast message
-          this.toastr.error(error);
+        // Send error toast message
+        this.toastr.error(error);
 
-          // Return false
-          this.activeModal.close(false);
-        });
+        // Return false
+        this.activeModal.close(false);
+      },
+    );
   }
 
   public dismiss() {

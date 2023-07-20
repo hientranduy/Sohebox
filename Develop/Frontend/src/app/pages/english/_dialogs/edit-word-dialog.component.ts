@@ -1,5 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { AuthenticationService } from '@app/user/_service';
 import { AlertService } from '@app/_common/alert';
@@ -17,10 +22,9 @@ import { EnglishService, EnglishTypeService } from '../_services';
 @Component({
   selector: 'app-edit-word-dialog',
   templateUrl: './edit-word-dialog.component.html',
-  styleUrls: ['./edit-word-dialog.component.css']
+  styleUrls: ['./edit-word-dialog.component.css'],
 })
 export class EditWordDialogComponent implements OnInit {
-
   constructor(
     private formBuilder: FormBuilder,
     private activeModal: NgbActiveModal,
@@ -29,9 +33,8 @@ export class EditWordDialogComponent implements OnInit {
     private authenticationService: AuthenticationService,
     private englishTypeService: EnglishTypeService,
     private toastr: ToastrService,
-    private spinner: SpinnerService
-  ) {
-  }
+    private spinner: SpinnerService,
+  ) {}
 
   // Form value
   @Input() title: string;
@@ -66,32 +69,22 @@ export class EditWordDialogComponent implements OnInit {
   matcher = new ErrorStateMatcher();
 
   // Field : grade
-  gradeControl = new FormControl('', [
-    Validators.required,
-  ]);
+  gradeControl = new FormControl('', [Validators.required]);
 
   // Field : category
-  categoryControl = new FormControl('', [
-    Validators.required,
-  ]);
+  categoryControl = new FormControl('', [Validators.required]);
 
   // Field : learn day
-  learnDayControl = new FormControl('', [
-    Validators.required,
-  ]);
+  learnDayControl = new FormControl('', [Validators.required]);
 
   // Field : key word
-  wordFormControl = new FormControl('', [
-    Validators.required,
-  ]);
+  wordFormControl = new FormControl('', [Validators.required]);
 
   // Field : Explanation English
-  explanationEnFormControl = new FormControl('', [
-  ]);
+  explanationEnFormControl = new FormControl('', []);
 
   // Field : Explanation Vietnamese
-  explanationVnFormControl = new FormControl('', [
-  ]);
+  explanationVnFormControl = new FormControl('', []);
 
   ngOnInit() {
     // Set old data
@@ -133,27 +126,35 @@ export class EditWordDialogComponent implements OnInit {
     this.spinner.show();
 
     // Get list type
-    this.englishTypeService.search(typeSCO)
-      .subscribe(data => {
+    this.englishTypeService.search(typeSCO).subscribe(
+      (data) => {
         // Get data
         const responseAPi: any = data;
         const typeResponse: ApiReponse<EnglishType> = responseAPi;
         const grades: EnglishType[] = typeResponse.data.elements;
         if (typeResponse.data.elements != null) {
-          this.filteredGrades = this.gradeControl.valueChanges
-            .pipe(startWith(''), map(value => grades.filter
-              (valueFilter => valueFilter.typeCode.toLowerCase().includes(value.toLowerCase()))
-            ));
+          this.filteredGrades = this.gradeControl.valueChanges.pipe(
+            startWith(''),
+            map((value) =>
+              grades.filter((valueFilter) =>
+                valueFilter.typeCode
+                  .toLowerCase()
+                  .includes(value.toLowerCase()),
+              ),
+            ),
+          );
         }
 
         // Hide loading
         this.spinner.hide();
-      }, error => {
+      },
+      (error) => {
         // Hide loading
         this.spinner.hide();
 
         this.alertService.error(error);
-      });
+      },
+    );
   }
 
   /**
@@ -171,28 +172,36 @@ export class EditWordDialogComponent implements OnInit {
     this.spinner.show();
 
     // Get list type
-    this.englishTypeService.search(typeSCO)
-      .subscribe(data => {
+    this.englishTypeService.search(typeSCO).subscribe(
+      (data) => {
         // Get dataa
         const responseAPi: any = data;
         const typeResponse: ApiReponse<EnglishType> = responseAPi;
         const categories: EnglishType[] = typeResponse.data.elements;
         if (typeResponse.data.elements != null) {
           // Prepare data for account types
-          this.filteredCategories = this.categoryControl.valueChanges
-            .pipe(startWith(''), map(value => categories.filter
-              (valueFilter => valueFilter.typeCode.toLowerCase().includes(value.toLowerCase()))
-            ));
+          this.filteredCategories = this.categoryControl.valueChanges.pipe(
+            startWith(''),
+            map((value) =>
+              categories.filter((valueFilter) =>
+                valueFilter.typeCode
+                  .toLowerCase()
+                  .includes(value.toLowerCase()),
+              ),
+            ),
+          );
         }
 
         // Hide loading
         this.spinner.hide();
-      }, error => {
+      },
+      (error) => {
         // Hide loading
         this.spinner.hide();
 
         this.alertService.error(error);
-      });
+      },
+    );
   }
 
   /**
@@ -210,28 +219,36 @@ export class EditWordDialogComponent implements OnInit {
     this.spinner.show();
 
     // Get list type
-    this.englishTypeService.search(englishTypeSCO)
-      .subscribe(data => {
+    this.englishTypeService.search(englishTypeSCO).subscribe(
+      (data) => {
         // Get dataa
         const responseAPi: any = data;
         const typeResponse: ApiReponse<EnglishType> = responseAPi;
         const learnDays: EnglishType[] = typeResponse.data.elements;
         if (typeResponse.data.elements != null) {
           // Prepare data for account types
-          this.filteredLearnDays = this.learnDayControl.valueChanges
-            .pipe(startWith(''), map(value => learnDays.filter
-              (valueFilter => valueFilter.typeCode.toLowerCase().includes(value.toLowerCase()))
-            ));
+          this.filteredLearnDays = this.learnDayControl.valueChanges.pipe(
+            startWith(''),
+            map((value) =>
+              learnDays.filter((valueFilter) =>
+                valueFilter.typeCode
+                  .toLowerCase()
+                  .includes(value.toLowerCase()),
+              ),
+            ),
+          );
         }
 
         // Hide loading
         this.spinner.hide();
-      }, error => {
+      },
+      (error) => {
         // Hide loading
         this.spinner.hide();
 
         this.alertService.error(error);
-      });
+      },
+    );
   }
 
   //////////////////
@@ -290,20 +307,22 @@ export class EditWordDialogComponent implements OnInit {
   }
 
   /**
-  * Click accept button
-  */
+   * Click accept button
+   */
   public accept() {
     switch (true) {
       // Case data is invalid
-      case (!this.isFormValid()):
+      case !this.isFormValid():
         this.message = null;
         this.messageError = 'Invalid fields, please check your input';
         break;
 
       // Case data is unchanged
-      case (!this.isHaveUpdateValue()):
+      case !this.isHaveUpdateValue():
         // Send warning toast message
-        this.toastr.warning('Skip update account because the value is not changed');
+        this.toastr.warning(
+          'Skip update account because the value is not changed',
+        );
 
         // Close dialog as cancel
         this.activeModal.close(false);
@@ -330,7 +349,7 @@ export class EditWordDialogComponent implements OnInit {
             explanationVn: [this.explanationVnForm],
             imageFile: [this.imageFile],
             imageExtention: [this.imageExtention],
-            vusGrade: [gradeTypeVO]
+            vusGrade: [gradeTypeVO],
           });
         } else {
           editWordForm = this.formBuilder.group({
@@ -339,7 +358,7 @@ export class EditWordDialogComponent implements OnInit {
             keyWord: [this.keyWord],
             explanationEn: [this.explanationEnForm],
             explanationVn: [this.explanationVnForm],
-            vusGrade: [gradeTypeVO]
+            vusGrade: [gradeTypeVO],
           });
         }
 
@@ -347,28 +366,30 @@ export class EditWordDialogComponent implements OnInit {
         this.spinner.show();
 
         // Edit word
-        this.englishService.updateWord(editWordForm.value)
-          .subscribe(
-            data => {
-              // Send success toast message
-              this.toastr.success('The Word ' + this.keyWord + ' is updated successful');
+        this.englishService.updateWord(editWordForm.value).subscribe(
+          (data) => {
+            // Send success toast message
+            this.toastr.success(
+              'The Word ' + this.keyWord + ' is updated successful',
+            );
 
-              // Hide loading
-              this.spinner.hide();
+            // Hide loading
+            this.spinner.hide();
 
-              // Close dialog
-              this.activeModal.close(true);
-            },
-            error => {
-              // Send error toast message
-              this.toastr.error(error);
+            // Close dialog
+            this.activeModal.close(true);
+          },
+          (error) => {
+            // Send error toast message
+            this.toastr.error(error);
 
-              // Hide loading
-              this.spinner.hide();
+            // Hide loading
+            this.spinner.hide();
 
-              // Close dialog
-              this.activeModal.close(false);
-            });
+            // Close dialog
+            this.activeModal.close(false);
+          },
+        );
     }
   }
 

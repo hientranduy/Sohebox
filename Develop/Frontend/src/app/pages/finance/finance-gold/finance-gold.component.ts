@@ -8,7 +8,7 @@ import { FinanceService } from '../_services';
 @Component({
   selector: 'app-finance-gold',
   templateUrl: './finance-gold.component.html',
-  styleUrls: ['./finance-gold.component.css']
+  styleUrls: ['./finance-gold.component.css'],
 })
 export class FinanceGoldComponent implements OnInit {
   goldSjc: GoldSjc;
@@ -16,23 +16,23 @@ export class FinanceGoldComponent implements OnInit {
   constructor(
     private spinner: SpinnerService,
     private financeService: FinanceService,
-    private alertService: AlertService
-  ) { }
+    private alertService: AlertService,
+  ) {}
 
   ngOnInit(): void {
     this.loadGoldSjc();
   }
 
   /**
-     * Load godl SJC
-     */
+   * Load godl SJC
+   */
   public loadGoldSjc() {
     // Show loading
     this.spinner.show();
 
     // Get list
-    this.financeService.getGoldSjcPrice()
-      .subscribe(data => {
+    this.financeService.getGoldSjcPrice().subscribe(
+      (data) => {
         // Get data
         const responseAPi: any = data;
         const typeResponse: ApiReponse<GoldSjc> = responseAPi;
@@ -44,10 +44,11 @@ export class FinanceGoldComponent implements OnInit {
 
         // Hide loading
         this.spinner.hide();
-
-      }, error => {
+      },
+      (error) => {
         this.processError(error);
-      });
+      },
+    );
   }
 
   ///////////////////
@@ -62,5 +63,4 @@ export class FinanceGoldComponent implements OnInit {
 
     this.alertService.error(error);
   }
-
 }

@@ -7,7 +7,7 @@ import { English } from '../_model';
 @Component({
   selector: 'app-word-info-dialog',
   templateUrl: './word-info-dialog.component.html',
-  styleUrls: ['./word-info-dialog.component.css']
+  styleUrls: ['./word-info-dialog.component.css'],
 })
 export class WordInfoDialogComponent implements OnInit {
   // Form value
@@ -20,7 +20,7 @@ export class WordInfoDialogComponent implements OnInit {
 
   constructor(
     private activeModal: NgbActiveModal,
-    private toastr: ToastrService
+    private toastr: ToastrService,
   ) {}
 
   ngOnInit() {
@@ -68,7 +68,7 @@ export class WordInfoDialogComponent implements OnInit {
     if (this.english) {
       window.open(
         AppSettings.CAMBRIDGE_DICTIONATY_WORD_URL +
-          this.english.keyWord.split(' ').join('-')
+          this.english.keyWord.split(' ').join('-'),
       );
     } else {
       // Toast warning if not found

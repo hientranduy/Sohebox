@@ -9,8 +9,10 @@ import { ViewAccountDialogComponent } from './view-account-dialog.component';
 
 @Injectable({ providedIn: 'root' })
 export class AccountDialogService {
-
-  constructor(config: NgbModalConfig, private modalService: NgbModal) {
+  constructor(
+    config: NgbModalConfig,
+    private modalService: NgbModal,
+  ) {
     config.backdrop = 'static';
     config.keyboard = false;
   }
@@ -18,8 +20,11 @@ export class AccountDialogService {
   public addAccount(
     title: string,
     message: string,
-    dialogSize: 'sm' | 'lg' = 'lg'): Promise<boolean> {
-    const modalRef = this.modalService.open(AddAccountDialogComponent, { size: dialogSize });
+    dialogSize: 'sm' | 'lg' = 'lg',
+  ): Promise<boolean> {
+    const modalRef = this.modalService.open(AddAccountDialogComponent, {
+      size: dialogSize,
+    });
     modalRef.componentInstance.title = title;
     modalRef.componentInstance.message = message;
     modalRef.componentInstance.btnOkText = 'Add';
@@ -31,8 +36,11 @@ export class AccountDialogService {
     title: string,
     message: string,
     account: Account,
-    dialogSize: 'sm' | 'lg' = 'lg'): Promise<boolean> {
-    const modalRef = this.modalService.open(DeleteAccountDialogComponent, { size: dialogSize });
+    dialogSize: 'sm' | 'lg' = 'lg',
+  ): Promise<boolean> {
+    const modalRef = this.modalService.open(DeleteAccountDialogComponent, {
+      size: dialogSize,
+    });
     modalRef.componentInstance.title = title;
     modalRef.componentInstance.message = message;
     modalRef.componentInstance.btnOkText = 'Delete';
@@ -45,8 +53,11 @@ export class AccountDialogService {
     title: string,
     message: string,
     account: Account,
-    dialogSize: 'sm' | 'lg' = 'lg'): Promise<boolean> {
-    const modalRef = this.modalService.open(EditAccountDialogComponent, { size: dialogSize });
+    dialogSize: 'sm' | 'lg' = 'lg',
+  ): Promise<boolean> {
+    const modalRef = this.modalService.open(EditAccountDialogComponent, {
+      size: dialogSize,
+    });
     modalRef.componentInstance.title = title;
     modalRef.componentInstance.message = message;
     modalRef.componentInstance.btnOkText = 'Edit';
@@ -59,8 +70,11 @@ export class AccountDialogService {
     title: string,
     message: string,
     account: Account,
-    dialogSize: 'sm' | 'lg' = 'lg'): Promise<boolean> {
-    const modalRef = this.modalService.open(ViewAccountDialogComponent, { size: dialogSize });
+    dialogSize: 'sm' | 'lg' = 'lg',
+  ): Promise<boolean> {
+    const modalRef = this.modalService.open(ViewAccountDialogComponent, {
+      size: dialogSize,
+    });
     modalRef.componentInstance.title = title;
     modalRef.componentInstance.message = message;
     modalRef.componentInstance.btnCancelText = 'Cancel';
@@ -70,8 +84,11 @@ export class AccountDialogService {
 
   public showPassword(
     account: Account,
-    dialogSize: 'sm' | 'sm' = 'sm'): Promise<boolean> {
-    const modalRef = this.modalService.open(ShowPasswordDialogComponent, { size: dialogSize });
+    dialogSize: 'sm' | 'sm' = 'sm',
+  ): Promise<boolean> {
+    const modalRef = this.modalService.open(ShowPasswordDialogComponent, {
+      size: dialogSize,
+    });
     modalRef.componentInstance.btnCancelText = 'Cancel';
     modalRef.componentInstance.account = account;
     return modalRef.result;
