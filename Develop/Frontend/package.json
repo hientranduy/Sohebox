@@ -11,18 +11,18 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "^15.2.9",
+    "@angular/animations": "^16.1.6",
     "@angular/cdk": "^15.2.9",
-    "@angular/common": "^15.2.9",
-    "@angular/compiler": "^15.2.9",
-    "@angular/core": "^15.2.9",
+    "@angular/common": "^16.1.6",
+    "@angular/compiler": "^16.1.6",
+    "@angular/core": "^16.1.6",
     "@angular/flex-layout": "^14.0.0-beta.41",
-    "@angular/forms": "^15.2.9",
-    "@angular/localize": "^15.2.9",
+    "@angular/forms": "^16.1.6",
+    "@angular/localize": "^16.1.6",
     "@angular/material": "^15.2.9",
-    "@angular/platform-browser": "^15.2.9",
-    "@angular/platform-browser-dynamic": "^15.2.9",
-    "@angular/router": "^15.2.9",
+    "@angular/platform-browser": "^16.1.6",
+    "@angular/platform-browser-dynamic": "^16.1.6",
+    "@angular/router": "^16.1.6",
     "@angular/youtube-player": "^14.2.7",
     "@ng-bootstrap/ng-bootstrap": "^11.0.0",
     "@ng-idle/core": "^11.1.0",
@@ -33,17 +33,17 @@
     "ngx-spinner": "^14.0.0",
     "ngx-toastr": "^15.2.2",
     "rxjs": "^7.8.1",
-    "zone.js": "~0.11.4"
+    "zone.js": "~0.13.1"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^15.2.9",
+    "@angular-devkit/build-angular": "^16.1.4",
     "@angular-eslint/builder": "14.4.0",
     "@angular-eslint/eslint-plugin": "14.4.0",
     "@angular-eslint/eslint-plugin-template": "13.5.0",
     "@angular-eslint/schematics": "14.4.0",
     "@angular-eslint/template-parser": "14.4.0",
-    "@angular/cli": "^15.2.9",
-    "@angular/compiler-cli": "^15.2.9",
+    "@angular/cli": "^16.1.4",
+    "@angular/compiler-cli": "^16.1.6",
     "@typescript-eslint/eslint-plugin": "5.27.1",
     "jasmine-core": "^4.6.0",
     "karma": "~6.3.20",
@@ -53,6 +53,6 @@
     "karma-jasmine-html-reporter": "^2.1.0",
     "protractor": "~7.0.0",
     "tslib": "^2.6.0",
-    "typescript": "4.8"
+    "typescript": "5.1.6"
   }
 }
