@@ -1,15 +1,15 @@
-import { Component, Input, OnInit } from "@angular/core";
-import { FormControl, Validators } from "@angular/forms";
-import { YoutubeService } from "@app/pages/media/_services";
-import { SpinnerService } from "@app/_common/_services";
-import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
-import { ToastrService } from "ngx-toastr";
-import { YoutubeVideo } from "../_models";
+import { Component, Input, OnInit } from '@angular/core';
+import { FormControl, Validators } from '@angular/forms';
+import { YoutubeService } from '@app/pages/media/_services';
+import { SpinnerService } from '@app/_common/_services';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { ToastrService } from 'ngx-toastr';
+import { YoutubeVideo } from '../_models';
 
 @Component({
-  selector: "app-add-youtube-video-dialog",
-  templateUrl: "./add-youtube-video-dialog.component.html",
-  styleUrls: ["./add-youtube-video-dialog.component.css"],
+  selector: 'app-add-youtube-video-dialog',
+  templateUrl: './add-youtube-video-dialog.component.html',
+  styleUrls: ['./add-youtube-video-dialog.component.css'],
 })
 export class AddYoutubeVideoDialogComponent implements OnInit {
   constructor(
@@ -27,7 +27,7 @@ export class AddYoutubeVideoDialogComponent implements OnInit {
   @Input() btnCancelText: string;
 
   // Field : channel ID
-  videoIdFormControl = new FormControl("", [Validators.required]);
+  videoIdFormControl = new FormControl('', [Validators.required]);
 
   validVideoId: string;
 
@@ -67,9 +67,9 @@ export class AddYoutubeVideoDialogComponent implements OnInit {
           (data) => {
             // Send success toast message
             this.toastr.success(
-              "New video " +
+              'New video ' +
                 this.videoIdFormControl.value +
-                " is added successful",
+                ' is added successful',
             );
 
             // Hide loading
@@ -89,11 +89,11 @@ export class AddYoutubeVideoDialogComponent implements OnInit {
         );
       } else {
         this.message = null;
-        this.messageError = "Not a valid youtube video or URL";
+        this.messageError = 'Not a valid youtube video or URL';
       }
     } else {
       this.message = null;
-      this.messageError = "Invalid fields, please check your input";
+      this.messageError = 'Invalid fields, please check your input';
     }
   }
 
@@ -102,7 +102,7 @@ export class AddYoutubeVideoDialogComponent implements OnInit {
    */
   public isFormValid() {
     let result = true;
-    if (this.videoIdFormControl.status === "INVALID") {
+    if (this.videoIdFormControl.status === 'INVALID') {
       result = false;
     }
     return result;
@@ -114,21 +114,21 @@ export class AddYoutubeVideoDialogComponent implements OnInit {
   public isVideoValid() {
     let result = false;
     const inputString = this.videoIdFormControl.value;
-    this.validVideoId = "";
+    this.validVideoId = '';
 
     if (
-      inputString.includes("youtube.com/watch?") ||
-      inputString.includes("youtu.be/") ||
-      inputString.includes("youtube.com/embed/")
+      inputString.includes('youtube.com/watch?') ||
+      inputString.includes('youtu.be/') ||
+      inputString.includes('youtube.com/embed/')
     ) {
-      if (inputString.includes("youtube.com/watch?")) {
-        this.validVideoId = inputString.split("v=")[1].split("&")[0];
+      if (inputString.includes('youtube.com/watch?')) {
+        this.validVideoId = inputString.split('v=')[1].split('&')[0];
       }
-      if (inputString.includes("youtu.be/")) {
-        this.validVideoId = inputString.split("be/")[1];
+      if (inputString.includes('youtu.be/')) {
+        this.validVideoId = inputString.split('be/')[1];
       }
-      if (inputString.includes("youtube.com/embed/")) {
-        this.validVideoId = inputString.split("embed/")[1];
+      if (inputString.includes('youtube.com/embed/')) {
+        this.validVideoId = inputString.split('embed/')[1];
       }
 
       result = true;

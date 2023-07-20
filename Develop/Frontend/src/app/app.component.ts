@@ -1,25 +1,25 @@
-import { Component, ElementRef, ViewChild } from "@angular/core";
-import { MatSidenav } from "@angular/material/sidenav";
-import { Router } from "@angular/router";
-import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
-import { NgbModalRef } from "@ng-bootstrap/ng-bootstrap/modal/modal.module";
-import { EventTargetInterruptSource, Idle } from "@ng-idle/core";
-import { Keepalive } from "@ng-idle/keepalive";
-import { UserDialogService } from "./user/_dialogs";
-import { User } from "./user/_models";
-import { AuthenticationService } from "./user/_service";
-import { TimeoutProgressDialogComponent } from "./_common/timeout-progress-dialog";
+import { Component, ElementRef, ViewChild } from '@angular/core';
+import { MatSidenav } from '@angular/material/sidenav';
+import { Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal/modal.module';
+import { EventTargetInterruptSource, Idle } from '@ng-idle/core';
+import { Keepalive } from '@ng-idle/keepalive';
+import { UserDialogService } from './user/_dialogs';
+import { User } from './user/_models';
+import { AuthenticationService } from './user/_service';
+import { TimeoutProgressDialogComponent } from './_common/timeout-progress-dialog';
 
 @Component({
-  selector: "app-sohebox",
-  templateUrl: "app.component.html",
-  styleUrls: ["app.component.css"],
+  selector: 'app-sohebox',
+  templateUrl: 'app.component.html',
+  styleUrls: ['app.component.css'],
 })
 export class AppComponent {
   currentUser: User;
   isShowMainToolbar: Boolean;
 
-  @ViewChild("sidenav") public sidenav: MatSidenav;
+  @ViewChild('sidenav') public sidenav: MatSidenav;
 
   private progressBarPopup: NgbModalRef;
   private timeoutCount: number;
@@ -42,9 +42,9 @@ export class AppComponent {
     router.events.subscribe((val) => {
       const currentURL = this.router.url;
       if (
-        currentURL.includes("/media/youtubeplayer/") ||
-        currentURL.includes("/foodDetail/") ||
-        currentURL.includes("/media/youtubeplayerchannel/")
+        currentURL.includes('/media/youtubeplayer/') ||
+        currentURL.includes('/foodDetail/') ||
+        currentURL.includes('/media/youtubeplayerchannel/')
       ) {
         this.isShowMainToolbar = false;
       } else {
@@ -68,7 +68,7 @@ export class AppComponent {
     idle.setInterrupts([
       new EventTargetInterruptSource(
         this.element.nativeElement,
-        "keydown DOMMouseScroll mousewheel mousedown touchstart touchmove scroll",
+        'keydown DOMMouseScroll mousewheel mousedown touchstart touchmove scroll',
       ),
     ]);
 
@@ -96,7 +96,7 @@ export class AppComponent {
       this.closeProgressForm();
       this.authenticationService.logout();
       this.logout();
-      this.router.navigate(["/"]);
+      this.router.navigate(['/']);
     });
 
     // End idle
@@ -123,12 +123,12 @@ export class AppComponent {
    */
   private openProgressForm(count: number) {
     this.progressBarPopup = this.ngbModal.open(TimeoutProgressDialogComponent, {
-      backdrop: "static",
+      backdrop: 'static',
       keyboard: false,
     });
     this.progressBarPopup.componentInstance.count = count;
     this.progressBarPopup.result.then((result: any) => {
-      if (result !== "" && "logout" === result) {
+      if (result !== '' && 'logout' === result) {
         this.logout();
       } else {
         this.reset();

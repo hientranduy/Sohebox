@@ -1,15 +1,15 @@
-import { Component, OnInit } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { ActivatedRoute, Router } from "@angular/router";
-import { AlertService } from "@app/_common/alert";
-import { SEOService, SpinnerService } from "@app/_common/_services";
-import { ToastrService } from "ngx-toastr";
-import { first } from "rxjs/operators";
-import { AuthenticationService, UserService } from "../_service";
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AlertService } from '@app/_common/alert';
+import { SEOService, SpinnerService } from '@app/_common/_services';
+import { ToastrService } from 'ngx-toastr';
+import { first } from 'rxjs/operators';
+import { AuthenticationService, UserService } from '../_service';
 
 @Component({
-  templateUrl: "./register.component.html",
-  styleUrls: ["./register.component.css"],
+  templateUrl: './register.component.html',
+  styleUrls: ['./register.component.css'],
 })
 export class RegisterComponent implements OnInit {
   registerForm: FormGroup;
@@ -28,7 +28,7 @@ export class RegisterComponent implements OnInit {
   ) {
     // redirect to home if already logged in
     if (this.authenticationService.currentUserValue) {
-      this.router.navigate(["/"]);
+      this.router.navigate(['/']);
     }
   }
 
@@ -37,10 +37,10 @@ export class RegisterComponent implements OnInit {
     this.seoService.updateCEO(this.route);
 
     this.registerForm = this.formBuilder.group({
-      firstName: ["", Validators.required],
-      lastName: ["", Validators.required],
-      username: ["", Validators.required],
-      password: ["", [Validators.required, Validators.minLength(6)]],
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+      username: ['', Validators.required],
+      password: ['', [Validators.required, Validators.minLength(6)]],
     });
   }
 
@@ -71,13 +71,13 @@ export class RegisterComponent implements OnInit {
 
           // Send toast success
           this.toastr.success(
-            "Your account " +
+            'Your account ' +
               this.registerForm.value.username +
-              " is successful created",
+              ' is successful created',
           );
 
-          this.alertService.success("Registration successful", true);
-          this.router.navigate(["/login"]);
+          this.alertService.success('Registration successful', true);
+          this.router.navigate(['/login']);
         },
         (error) => {
           // Hide loading

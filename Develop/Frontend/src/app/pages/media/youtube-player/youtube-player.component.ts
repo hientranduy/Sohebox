@@ -1,13 +1,13 @@
-import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute, Params } from "@angular/router";
-import { AppSettings } from "@app/appSettings";
-import { SEOService } from "@app/_common/_services";
-import { ToastrService } from "ngx-toastr";
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Params } from '@angular/router';
+import { AppSettings } from '@app/appSettings';
+import { SEOService } from '@app/_common/_services';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  selector: "app-youtube-player",
-  templateUrl: "./youtube-player.component.html",
-  styleUrls: ["./youtube-player.component.css"],
+  selector: 'app-youtube-player',
+  templateUrl: './youtube-player.component.html',
+  styleUrls: ['./youtube-player.component.css'],
 })
 export class YoutubePlayerComponent implements OnInit {
   videoId: String;
@@ -22,7 +22,7 @@ export class YoutubePlayerComponent implements OnInit {
   ) {
     // Get video id from parameter
     this.route.params.subscribe(
-      (params: Params) => (this.videoId = params["videoId"]),
+      (params: Params) => (this.videoId = params['videoId']),
     );
 
     this.videoWidth = window.innerWidth;
@@ -34,7 +34,7 @@ export class YoutubePlayerComponent implements OnInit {
     this.seoService.updateCEO(this.route);
 
     // Initial video
-    const tag = document.createElement("script");
+    const tag = document.createElement('script');
     tag.src = AppSettings.GOOGLE_YOUTUBE_IFRAME;
     document.body.appendChild(tag);
   }
@@ -73,6 +73,6 @@ export class YoutubePlayerComponent implements OnInit {
    *
    */
   public onErrorEvent(event) {
-    this.toastr.error("[Youtube Player] Error:" + event.data);
+    this.toastr.error('[Youtube Player] Error:' + event.data);
   }
 }

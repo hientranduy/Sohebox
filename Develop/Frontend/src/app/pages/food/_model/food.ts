@@ -1,4 +1,4 @@
-import { FoodType } from "@app/_common/_models/foodType";
+import { FoodType } from '@app/_common/_models/foodType';
 
 export class Food {
   id: number;

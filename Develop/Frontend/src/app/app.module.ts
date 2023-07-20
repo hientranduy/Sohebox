@@ -1,27 +1,27 @@
-import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
-import { NgModule } from "@angular/core";
-import { FlexLayoutModule } from "@angular/flex-layout";
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { BrowserModule } from "@angular/platform-browser";
-import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { YouTubePlayerModule } from "@angular/youtube-player";
-import { MaterialModule } from "@app/material-module";
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { NgIdleKeepaliveModule } from "@ng-idle/keepalive";
-import { NgxDatatableModule } from "@swimlane/ngx-datatable";
-import { NgxImageZoomModule } from "ngx-image-zoom";
-import { NgxSpinnerModule } from "ngx-spinner";
-import { ToastrModule } from "ngx-toastr";
-import { AppComponent } from "./app.component";
-import { routing } from "./app.routing";
-import { AccountComponent } from "./pages/account";
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { NgModule } from '@angular/core';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { YouTubePlayerModule } from '@angular/youtube-player';
+import { MaterialModule } from '@app/material-module';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgIdleKeepaliveModule } from '@ng-idle/keepalive';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import { NgxImageZoomModule } from 'ngx-image-zoom';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { ToastrModule } from 'ngx-toastr';
+import { AppComponent } from './app.component';
+import { routing } from './app.routing';
+import { AccountComponent } from './pages/account';
 import {
   AddAccountDialogComponent,
   DeleteAccountDialogComponent,
   EditAccountDialogComponent,
   ShowPasswordDialogComponent,
   ViewAccountDialogComponent,
-} from "./pages/account/_dialogs";
+} from './pages/account/_dialogs';
 import {
   EnglishConfigComponent,
   EnglishTypeComponent,
@@ -31,91 +31,91 @@ import {
   SettingConfigComponent,
   SettingTypeComponent,
   YoutubeChannelConfigComponent,
-} from "./pages/administration";
-import { AdministrationComponent } from "./pages/administration/administration.component";
-import { CryptoTokenConfigComponent } from "./pages/administration/crypto-token-config/crypto-token-config.component";
+} from './pages/administration';
+import { AdministrationComponent } from './pages/administration/administration.component';
+import { CryptoTokenConfigComponent } from './pages/administration/crypto-token-config/crypto-token-config.component';
 import {
   AddCryptoTokenConfigDialogComponent,
   EditCryptoTokenConfigDialogComponent,
-} from "./pages/administration/crypto-token-config/_dialogs";
+} from './pages/administration/crypto-token-config/_dialogs';
 import {
   AddEnglishTypeDialogComponent,
   DeleteEnglishTypeDialogComponent,
   EditEnglishTypeDialogComponent,
   ViewEnglishTypeDialogComponent,
-} from "./pages/administration/english-type/_dialogs";
-import { EnglishUserReportComponent } from "./pages/administration/english-user-report/english-user-report.component";
+} from './pages/administration/english-type/_dialogs';
+import { EnglishUserReportComponent } from './pages/administration/english-user-report/english-user-report.component';
 import {
   AddFoodTypeDialogComponent,
   DeleteFoodTypeDialogComponent,
   EditFoodTypeDialogComponent,
   ViewFoodTypeDialogComponent,
-} from "./pages/administration/food-type/_dialogs";
+} from './pages/administration/food-type/_dialogs';
 import {
   AddConfigDialogComponent,
   DeleteConfigDialogComponent,
   EditConfigDialogComponent,
   ViewConfigDialogComponent,
-} from "./pages/administration/setting-config/_dialogs";
+} from './pages/administration/setting-config/_dialogs';
 import {
   AddTypeDialogComponent,
   DeleteTypeDialogComponent,
   EditTypeDialogComponent,
   ViewTypeDialogComponent,
-} from "./pages/administration/setting-type/_dialogs";
-import { UserControlComponent } from "./pages/administration/user-control/user-control.component";
+} from './pages/administration/setting-type/_dialogs';
+import { UserControlComponent } from './pages/administration/user-control/user-control.component';
 import {
   AddYoutubeChannelDialogComponent,
   EditYoutubeChannelDialogComponent,
-} from "./pages/administration/youtube-channel-config/_dialogs";
-import { CoinComponent } from "./pages/crypto/coin/coin.component";
-import { CryptoComponent } from "./pages/crypto/crypto.component";
-import { PortfolioComponent } from "./pages/crypto/portfolio/portfolio.component";
+} from './pages/administration/youtube-channel-config/_dialogs';
+import { CoinComponent } from './pages/crypto/coin/coin.component';
+import { CryptoComponent } from './pages/crypto/crypto.component';
+import { PortfolioComponent } from './pages/crypto/portfolio/portfolio.component';
 import {
   AddCryptoFortfolioDialogComponent,
   DeleteCryptoPortfolioDialogComponent,
   EditCryptoPortfolioDialogComponent,
   ViewCryptoPortfolioDialogComponent,
-} from "./pages/crypto/_dialogs";
-import { EnglishComponent } from "./pages/english";
-import { EnglishReportComponent } from "./pages/english-report";
+} from './pages/crypto/_dialogs';
+import { EnglishComponent } from './pages/english';
+import { EnglishReportComponent } from './pages/english-report';
 import {
   AddWordDialogComponent,
   DownloadVoiceComponent,
   EditWordDialogComponent,
   WordInfoDialogComponent,
-} from "./pages/english/_dialogs";
-import { ShowLearnedWordComponent } from "./pages/english/_dialogs/show-learned-word.component";
+} from './pages/english/_dialogs';
+import { ShowLearnedWordComponent } from './pages/english/_dialogs/show-learned-word.component';
 import {
   FinanceComponent,
   FinanceCurrencyComponent,
   FinanceGoldComponent,
   FinanceOilComponent,
   FinanceStockComponent,
-} from "./pages/finance";
-import { FoodComponent } from "./pages/food";
-import { FoodDetailComponent } from "./pages/food/food-detail/food-detail.component";
-import { FoodItemComponent } from "./pages/food/food-item/food-item.component";
+} from './pages/finance';
+import { FoodComponent } from './pages/food';
+import { FoodDetailComponent } from './pages/food/food-detail/food-detail.component';
+import { FoodItemComponent } from './pages/food/food-item/food-item.component';
 import {
   AddFoodDialogComponent,
   EditFoodDialogComponent,
-} from "./pages/food/_dialogs";
-import { HomeComponent } from "./pages/home";
+} from './pages/food/_dialogs';
+import { HomeComponent } from './pages/home';
 import {
   MoviePlayerComponent,
   PhimmoiPlayerComponent,
   YoutubeChannelComponent,
   YoutubePlayerChannelComponent,
   YoutubePlayerComponent,
-} from "./pages/media";
-import { MediaComponent } from "./pages/media/media.component";
+} from './pages/media';
+import { MediaComponent } from './pages/media/media.component';
 import {
   AddYoutubeVideoDialogComponent,
   DeleteYoutubeVideoDialogComponent,
-} from "./pages/media/_dialogs";
-import { LoginComponent } from "./user/login";
-import { RegisterComponent } from "./user/register";
-import { UserSlideBarComponent } from "./user/user-slide-bar";
+} from './pages/media/_dialogs';
+import { LoginComponent } from './user/login';
+import { RegisterComponent } from './user/register';
+import { UserSlideBarComponent } from './user/user-slide-bar';
 import {
   ChangePasswordDialogComponent,
   ChangePrivateKeyDialogComponent,
@@ -123,13 +123,13 @@ import {
   HelpGuestDialogComponent,
   UpdateEnglishLevelDialogComponent,
   UpdateInforDialogComponent,
-} from "./user/_dialogs";
-import { AlertComponent } from "./_common/alert";
-import { AutoFocusDirective } from "./_common/directive";
-import { TimeoutProgressDialogComponent } from "./_common/timeout-progress-dialog/timeout-progress-dialog.component";
-import { ErrorInterceptor, JwtInterceptor } from "./_common/_helpers";
-import { EditMediaTypeDialogComponent } from "./pages/administration/media-type/_dialogs/edit-media-type.component";
-import { ViewMediaTypeDialogComponent } from "./pages/administration/media-type/_dialogs/view-media-type.component";
+} from './user/_dialogs';
+import { AlertComponent } from './_common/alert';
+import { AutoFocusDirective } from './_common/directive';
+import { TimeoutProgressDialogComponent } from './_common/timeout-progress-dialog/timeout-progress-dialog.component';
+import { ErrorInterceptor, JwtInterceptor } from './_common/_helpers';
+import { EditMediaTypeDialogComponent } from './pages/administration/media-type/_dialogs/edit-media-type.component';
+import { ViewMediaTypeDialogComponent } from './pages/administration/media-type/_dialogs/view-media-type.component';
 
 @NgModule({
   imports: [
@@ -147,7 +147,7 @@ import { ViewMediaTypeDialogComponent } from "./pages/administration/media-type/
     YouTubePlayerModule,
     ToastrModule.forRoot({
       timeOut: 5000,
-      positionClass: "toast-top-full-width",
+      positionClass: 'toast-top-full-width',
     }),
     NgxSpinnerModule,
     FlexLayoutModule,

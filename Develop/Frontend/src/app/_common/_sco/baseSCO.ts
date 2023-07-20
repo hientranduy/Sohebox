@@ -1,4 +1,4 @@
-import { Sorter } from "./core_sco";
+import { Sorter } from './core_sco';
 
 export class BaseSCO {
   deleteFlag: boolean;

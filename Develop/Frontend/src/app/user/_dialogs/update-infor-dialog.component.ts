@@ -1,13 +1,13 @@
-import { Component, Input, OnInit } from "@angular/core";
-import { FormBuilder, FormGroup } from "@angular/forms";
-import { AuthenticationService, UserService } from "@app/user/_service";
-import { AlertService } from "@app/_common/alert";
-import { SpinnerService } from "@app/_common/_services";
-import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
-import { User } from "../_models";
+import { Component, Input, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { AuthenticationService, UserService } from '@app/user/_service';
+import { AlertService } from '@app/_common/alert';
+import { SpinnerService } from '@app/_common/_services';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { User } from '../_models';
 
 @Component({
-  templateUrl: "update-infor-dialog.component.html",
+  templateUrl: 'update-infor-dialog.component.html',
 })
 export class UpdateInforDialogComponent implements OnInit {
   @Input() title: string;
@@ -48,7 +48,7 @@ export class UpdateInforDialogComponent implements OnInit {
 
     if (!this.firstName || !this.lastName) {
       this.message = null;
-      this.messageError = "First name and last name must be not null";
+      this.messageError = 'First name and last name must be not null';
       this.validData = false;
     }
 
@@ -65,12 +65,12 @@ export class UpdateInforDialogComponent implements OnInit {
       this.userService.updateUser(this.updateUserForm.value).subscribe(
         (data) => {
           // Send alert message
-          this.alertService.success("User update successful", true);
+          this.alertService.success('User update successful', true);
 
           // Update current storage user
           this.currentUser.firstName = this.firstName;
           this.currentUser.lastName = this.lastName;
-          localStorage.setItem("currentUser", JSON.stringify(this.currentUser));
+          localStorage.setItem('currentUser', JSON.stringify(this.currentUser));
 
           this.spinner.hide();
         },

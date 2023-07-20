@@ -1,21 +1,21 @@
-import { Component, Input, OnInit } from "@angular/core";
-import { FormControl, Validators } from "@angular/forms";
-import { AlertService } from "@app/_common/alert";
-import { Type } from "@app/_common/_models";
+import { Component, Input, OnInit } from '@angular/core';
+import { FormControl, Validators } from '@angular/forms';
+import { AlertService } from '@app/_common/alert';
+import { Type } from '@app/_common/_models';
 import {
   RequireMatchForm,
   SpinnerService,
   TypeService,
-} from "@app/_common/_services";
-import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
-import { ToastrService } from "ngx-toastr";
-import { Observable } from "rxjs";
-import { Account } from "../_models";
-import { AccountService } from "../_services";
+} from '@app/_common/_services';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { ToastrService } from 'ngx-toastr';
+import { Observable } from 'rxjs';
+import { Account } from '../_models';
+import { AccountService } from '../_services';
 
 @Component({
-  styleUrls: ["view-account-dialog.component.css"],
-  templateUrl: "view-account-dialog.component.html",
+  styleUrls: ['view-account-dialog.component.css'],
+  templateUrl: 'view-account-dialog.component.html',
 })
 export class ViewAccountDialogComponent implements OnInit {
   constructor(
@@ -38,22 +38,22 @@ export class ViewAccountDialogComponent implements OnInit {
   // Field account type
   accountTypeValue: Type;
   filteredAccountTypes: Observable<Type[]>;
-  accountTypeFormControl = new FormControl("", [
+  accountTypeFormControl = new FormControl('', [
     Validators.required,
     RequireMatchForm,
   ]);
 
   // Field account name
   accountNameValue: string;
-  accountNameFormControl = new FormControl("", [Validators.required]);
+  accountNameFormControl = new FormControl('', [Validators.required]);
 
   // Field password
   passwordValue: string;
-  passwordFormControl = new FormControl("", []);
+  passwordFormControl = new FormControl('', []);
 
   // Field note
   noteValue: string;
-  noteFormControl = new FormControl("", []);
+  noteFormControl = new FormControl('', []);
 
   ngOnInit() {
     // Set current value

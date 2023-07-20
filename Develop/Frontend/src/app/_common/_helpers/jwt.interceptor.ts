@@ -3,10 +3,10 @@ import {
   HttpHandler,
   HttpInterceptor,
   HttpRequest,
-} from "@angular/common/http";
-import { Injectable } from "@angular/core";
-import { AuthenticationService } from "@app/user/_service";
-import { Observable } from "rxjs";
+} from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { AuthenticationService } from '@app/user/_service';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {

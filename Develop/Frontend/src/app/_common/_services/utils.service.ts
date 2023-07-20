@@ -1,8 +1,8 @@
-import { Injectable } from "@angular/core";
-import { User } from "@app/user/_models";
-import { AuthenticationService } from "@app/user/_service";
+import { Injectable } from '@angular/core';
+import { User } from '@app/user/_models';
+import { AuthenticationService } from '@app/user/_service';
 
-@Injectable({ providedIn: "root" })
+@Injectable({ providedIn: 'root' })
 export class UtilsService {
   // Logged user
   currentUser: User;
@@ -16,7 +16,7 @@ export class UtilsService {
 
   get isAdmin() {
     let result = false;
-    if (this.currentUser && this.currentUser.roleName === "creator") {
+    if (this.currentUser && this.currentUser.roleName === 'creator') {
       result = true;
     }
     return result;
@@ -26,7 +26,7 @@ export class UtilsService {
     let result = false;
 
     const vendor = navigator.vendor.toLowerCase();
-    if (vendor && vendor.indexOf("apple") !== -1) {
+    if (vendor && vendor.indexOf('apple') !== -1) {
       result = true;
     }
 
@@ -37,7 +37,7 @@ export class UtilsService {
     let result = false;
 
     const vendor = navigator.vendor.toLowerCase();
-    if (vendor && vendor.indexOf("google") !== -1) {
+    if (vendor && vendor.indexOf('google') !== -1) {
       result = true;
     }
 

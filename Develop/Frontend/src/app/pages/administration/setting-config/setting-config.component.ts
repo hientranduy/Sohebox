@@ -1,18 +1,18 @@
-import { Component, HostListener, OnInit } from "@angular/core";
-import { AuthenticationService } from "@app/user/_service";
-import { AlertService } from "@app/_common/alert";
-import { ApiReponse, Config } from "@app/_common/_models";
-import { PageResultVO } from "@app/_common/_models/pageResultVO";
-import { ConfigSCO } from "@app/_common/_sco";
-import { SearchText, Sorter } from "@app/_common/_sco/core_sco";
-import { ConfigService, SpinnerService } from "@app/_common/_services";
-import { ToastrService } from "ngx-toastr";
-import { ConfigDialogService } from "./_dialogs";
+import { Component, HostListener, OnInit } from '@angular/core';
+import { AuthenticationService } from '@app/user/_service';
+import { AlertService } from '@app/_common/alert';
+import { ApiReponse, Config } from '@app/_common/_models';
+import { PageResultVO } from '@app/_common/_models/pageResultVO';
+import { ConfigSCO } from '@app/_common/_sco';
+import { SearchText, Sorter } from '@app/_common/_sco/core_sco';
+import { ConfigService, SpinnerService } from '@app/_common/_services';
+import { ToastrService } from 'ngx-toastr';
+import { ConfigDialogService } from './_dialogs';
 
 @Component({
-  selector: "app-setting-config",
-  templateUrl: "./setting-config.component.html",
-  styleUrls: ["./setting-config.component.css"],
+  selector: 'app-setting-config',
+  templateUrl: './setting-config.component.html',
+  styleUrls: ['./setting-config.component.css'],
 })
 export class SettingConfigComponent implements OnInit {
   // Table elements
@@ -23,11 +23,11 @@ export class SettingConfigComponent implements OnInit {
 
   // Width change
   windownInnerWidth = window.innerWidth;
-  @HostListener("window:resize", ["$event"])
+  @HostListener('window:resize', ['$event'])
   onResize(event) {
     this.windownInnerWidth = window.innerWidth;
   }
-  @HostListener("window:orientationchange", ["$event"])
+  @HostListener('window:orientationchange', ['$event'])
   onOrientationChange(event) {
     this.windownInnerWidth = window.innerWidth;
   }
@@ -142,7 +142,7 @@ export class SettingConfigComponent implements OnInit {
       sco.sorters = sorters;
     } else {
       const sorters: Array<Sorter> = [];
-      sorters.push(new Sorter("id", "ASC"));
+      sorters.push(new Sorter('id', 'ASC'));
       sco.sorters = sorters;
     }
     if (filterValue) {
@@ -194,7 +194,7 @@ export class SettingConfigComponent implements OnInit {
    * Add button
    */
   public add() {
-    this.configDialogService.add("ADD", "").then(
+    this.configDialogService.add('ADD', '').then(
       (result) => {
         if (result) {
           // Refresh table
@@ -207,7 +207,7 @@ export class SettingConfigComponent implements OnInit {
         }
       },
       (reason) => {
-        console.log("ADD reason:" + reason);
+        console.log('ADD reason:' + reason);
       },
     );
   }
@@ -221,7 +221,7 @@ export class SettingConfigComponent implements OnInit {
         this.deleteChoose(element);
       });
     } else {
-      this.toastr.info("No selected item", "Information", {
+      this.toastr.info('No selected item', 'Information', {
         timeOut: 2000,
       });
     }
@@ -238,13 +238,13 @@ export class SettingConfigComponent implements OnInit {
    * View detail chosen
    */
   public viewDetailChoose(item: Config) {
-    this.configDialogService.view("DETAIL", "", item).then(
+    this.configDialogService.view('DETAIL', '', item).then(
       (result) => {
         if (result) {
         }
       },
       (reason) => {
-        console.log("DETAIL reason:" + reason);
+        console.log('DETAIL reason:' + reason);
       },
     );
   }
@@ -253,7 +253,7 @@ export class SettingConfigComponent implements OnInit {
    * Edit chosen
    */
   public editChoose(item: Config) {
-    this.configDialogService.edit("EDIT", "", item).then(
+    this.configDialogService.edit('EDIT', '', item).then(
       (result) => {
         if (result) {
           this.getPageResult(
@@ -265,7 +265,7 @@ export class SettingConfigComponent implements OnInit {
         }
       },
       (reason) => {
-        console.log("EDIT reason:" + reason);
+        console.log('EDIT reason:' + reason);
       },
     );
   }
@@ -275,11 +275,11 @@ export class SettingConfigComponent implements OnInit {
    */
   public deleteChoose(item: Config) {
     this.configDialogService
-      .delete("DELETION", "Are you sure deleting: " + item.configKey + " ?")
+      .delete('DELETION', 'Are you sure deleting: ' + item.configKey + ' ?')
       .then(
         (result) => {
           if (result) {
-            this.toastr.warning("[Admin notice] Not allow to delete");
+            this.toastr.warning('[Admin notice] Not allow to delete');
 
             // this.configService.delete(item.id).subscribe(
             //   data => {
@@ -305,7 +305,7 @@ export class SettingConfigComponent implements OnInit {
           }
         },
         (reason) => {
-          console.log("DELETE reason:" + reason);
+          console.log('DELETE reason:' + reason);
         },
       );
   }

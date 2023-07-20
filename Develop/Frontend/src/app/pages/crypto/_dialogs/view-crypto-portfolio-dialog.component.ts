@@ -1,13 +1,13 @@
-import { Component, Input, OnInit } from "@angular/core";
-import { FormControl, Validators } from "@angular/forms";
-import { RequireMatchForm } from "@app/_common/_services";
-import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
-import { Observable } from "rxjs";
-import { CryptoPortfolio, CryptoTokenConfig } from "../_models";
+import { Component, Input, OnInit } from '@angular/core';
+import { FormControl, Validators } from '@angular/forms';
+import { RequireMatchForm } from '@app/_common/_services';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { Observable } from 'rxjs';
+import { CryptoPortfolio, CryptoTokenConfig } from '../_models';
 
 @Component({
-  styleUrls: ["view-crypto-portfolio-dialog.component.css"],
-  templateUrl: "view-crypto-portfolio-dialog.component.html",
+  styleUrls: ['view-crypto-portfolio-dialog.component.css'],
+  templateUrl: 'view-crypto-portfolio-dialog.component.html',
 })
 export class ViewCryptoPortfolioDialogComponent implements OnInit {
   constructor(private activeModal: NgbActiveModal) {}
@@ -23,18 +23,18 @@ export class ViewCryptoPortfolioDialogComponent implements OnInit {
   // Field token
   tokenValue: CryptoTokenConfig;
   filteredTokens: Observable<CryptoTokenConfig[]>;
-  tokenFormControl = new FormControl("", [
+  tokenFormControl = new FormControl('', [
     Validators.required,
     RequireMatchForm,
   ]);
 
   // Field wallet
   walletValue: string;
-  walletFormControl = new FormControl("", [Validators.required]);
+  walletFormControl = new FormControl('', [Validators.required]);
 
   // Field starname
   starnameValue: string;
-  starnameFormControl = new FormControl("", []);
+  starnameFormControl = new FormControl('', []);
 
   ngOnInit() {
     // Set current value
@@ -45,7 +45,7 @@ export class ViewCryptoPortfolioDialogComponent implements OnInit {
 
   public displayToken(item: CryptoTokenConfig) {
     if (item) {
-      return item.tokenCode + " (" + item.tokenName + ")";
+      return item.tokenCode + ' (' + item.tokenName + ')';
     }
   }
 

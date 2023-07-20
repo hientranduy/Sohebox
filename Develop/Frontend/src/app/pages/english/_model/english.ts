@@ -1,4 +1,4 @@
-import { EnglishType, Type } from "@app/_common/_models";
+import { EnglishType, Type } from '@app/_common/_models';
 
 export class English {
   id: number;

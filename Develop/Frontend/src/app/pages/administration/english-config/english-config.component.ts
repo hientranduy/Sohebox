@@ -1,21 +1,21 @@
-import { Component, HostListener, OnInit } from "@angular/core";
-import { AppSettings } from "@app/appSettings";
-import { EnglishDialogService } from "@app/pages/english/_dialogs";
-import { English } from "@app/pages/english/_model";
-import { EnglishService } from "@app/pages/english/_services";
-import { AuthenticationService } from "@app/user/_service";
-import { AlertService } from "@app/_common/alert";
-import { ApiReponse } from "@app/_common/_models";
-import { PageResultVO } from "@app/_common/_models/pageResultVO";
-import { EnglishSCO } from "@app/_common/_sco";
-import { SearchText, Sorter } from "@app/_common/_sco/core_sco";
-import { SpinnerService } from "@app/_common/_services";
-import { ToastrService } from "ngx-toastr";
+import { Component, HostListener, OnInit } from '@angular/core';
+import { AppSettings } from '@app/appSettings';
+import { EnglishDialogService } from '@app/pages/english/_dialogs';
+import { English } from '@app/pages/english/_model';
+import { EnglishService } from '@app/pages/english/_services';
+import { AuthenticationService } from '@app/user/_service';
+import { AlertService } from '@app/_common/alert';
+import { ApiReponse } from '@app/_common/_models';
+import { PageResultVO } from '@app/_common/_models/pageResultVO';
+import { EnglishSCO } from '@app/_common/_sco';
+import { SearchText, Sorter } from '@app/_common/_sco/core_sco';
+import { SpinnerService } from '@app/_common/_services';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  selector: "app-english-config",
-  templateUrl: "./english-config.component.html",
-  styleUrls: ["./english-config.component.css"],
+  selector: 'app-english-config',
+  templateUrl: './english-config.component.html',
+  styleUrls: ['./english-config.component.css'],
 })
 export class EnglishConfigComponent implements OnInit {
   // Table elements
@@ -25,11 +25,11 @@ export class EnglishConfigComponent implements OnInit {
 
   // Width change
   windownInnerWidth = window.innerWidth;
-  @HostListener("window:resize", ["$event"])
+  @HostListener('window:resize', ['$event'])
   onResize(event) {
     this.windownInnerWidth = window.innerWidth;
   }
-  @HostListener("window:orientationchange", ["$event"])
+  @HostListener('window:orientationchange', ['$event'])
   onOrientationChange(event) {
     this.windownInnerWidth = window.innerWidth;
   }
@@ -136,7 +136,7 @@ export class EnglishConfigComponent implements OnInit {
       sco.sorters = sorters;
     } else {
       const sorters: Array<Sorter> = [];
-      sorters.push(new Sorter("id", "ASC"));
+      sorters.push(new Sorter('id', 'ASC'));
       sco.sorters = sorters;
     }
     if (filterValue) {
@@ -178,7 +178,7 @@ export class EnglishConfigComponent implements OnInit {
    * Add button
    */
   public add() {
-    this.englishDialogService.addWord("Add word", "").then(
+    this.englishDialogService.addWord('Add word', '').then(
       (result) => {
         if (result) {
           this.getPageResult(
@@ -190,7 +190,7 @@ export class EnglishConfigComponent implements OnInit {
         }
       },
       (reason) => {
-        console.log("ADD reason:" + reason);
+        console.log('ADD reason:' + reason);
       },
     );
   }
@@ -206,7 +206,7 @@ export class EnglishConfigComponent implements OnInit {
    * Edit chosen
    */
   public editChoosen(item: English) {
-    this.englishDialogService.editWord("EDIT", "", item).then(
+    this.englishDialogService.editWord('EDIT', '', item).then(
       (result) => {
         if (result) {
           this.getPageResult(
@@ -218,7 +218,7 @@ export class EnglishConfigComponent implements OnInit {
         }
       },
       (reason) => {
-        console.log("EDIT reason:" + reason);
+        console.log('EDIT reason:' + reason);
       },
     );
   }
@@ -230,8 +230,8 @@ export class EnglishConfigComponent implements OnInit {
 
     this.englishDialogService
       .downloadVoice(
-        "Download Voice",
-        "You are downloading voice of word <" + english.keyWord + ">",
+        'Download Voice',
+        'You are downloading voice of word <' + english.keyWord + '>',
         english,
       )
       .then(
@@ -246,7 +246,7 @@ export class EnglishConfigComponent implements OnInit {
           }
         },
         (reason) => {
-          console.log("downloadVoice reason:" + reason);
+          console.log('downloadVoice reason:' + reason);
         },
       );
   }
@@ -264,7 +264,7 @@ export class EnglishConfigComponent implements OnInit {
   public gotoCambridgeDictionary(english: English) {
     window.open(
       AppSettings.CAMBRIDGE_DICTIONATY_WORD_URL +
-        english.keyWord.split(" ").join("-"),
+        english.keyWord.split(' ').join('-'),
     );
   }
 }

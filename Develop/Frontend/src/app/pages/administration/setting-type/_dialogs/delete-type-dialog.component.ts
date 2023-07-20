@@ -1,9 +1,9 @@
-import { Component, Input, OnInit } from "@angular/core";
-import { SpinnerService } from "@app/_common/_services";
-import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
+import { Component, Input, OnInit } from '@angular/core';
+import { SpinnerService } from '@app/_common/_services';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-  templateUrl: "delete-type-dialog.component.html",
+  templateUrl: 'delete-type-dialog.component.html',
 })
 export class DeleteTypeDialogComponent implements OnInit {
   @Input() title: string;

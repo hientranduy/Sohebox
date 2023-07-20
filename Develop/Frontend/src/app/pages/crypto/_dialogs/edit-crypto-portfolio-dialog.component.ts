@@ -1,19 +1,19 @@
-import { Component, Input, OnInit } from "@angular/core";
-import { FormControl, Validators } from "@angular/forms";
-import { AlertService } from "@app/_common/alert";
-import { ApiReponse } from "@app/_common/_models";
-import { RequireMatchForm, SpinnerService } from "@app/_common/_services";
-import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
-import { ToastrService } from "ngx-toastr";
-import { Observable } from "rxjs";
-import { map, startWith } from "rxjs/operators";
-import { CryptoPortfolio, CryptoTokenConfig } from "../_models";
-import { CryptoTokenConfigSCO } from "../_sco";
-import { CryptoPortfolioService, CryptoTokenConfigService } from "../_services";
+import { Component, Input, OnInit } from '@angular/core';
+import { FormControl, Validators } from '@angular/forms';
+import { AlertService } from '@app/_common/alert';
+import { ApiReponse } from '@app/_common/_models';
+import { RequireMatchForm, SpinnerService } from '@app/_common/_services';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { ToastrService } from 'ngx-toastr';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
+import { CryptoPortfolio, CryptoTokenConfig } from '../_models';
+import { CryptoTokenConfigSCO } from '../_sco';
+import { CryptoPortfolioService, CryptoTokenConfigService } from '../_services';
 
 @Component({
-  styleUrls: ["edit-crypto-portfolio-dialog.component.css"],
-  templateUrl: "edit-crypto-portfolio-dialog.component.html",
+  styleUrls: ['edit-crypto-portfolio-dialog.component.css'],
+  templateUrl: 'edit-crypto-portfolio-dialog.component.html',
 })
 export class EditCryptoPortfolioDialogComponent implements OnInit {
   constructor(
@@ -36,18 +36,18 @@ export class EditCryptoPortfolioDialogComponent implements OnInit {
   // Field token
   tokenValue: CryptoTokenConfig;
   filteredTokens: Observable<CryptoTokenConfig[]>;
-  tokenFormControl = new FormControl("", [
+  tokenFormControl = new FormControl('', [
     Validators.required,
     RequireMatchForm,
   ]);
 
   // Field wallet
   walletValue: string;
-  walletFormControl = new FormControl("", [Validators.required]);
+  walletFormControl = new FormControl('', [Validators.required]);
 
   // Field starname
   starnameValue: string;
-  starnameFormControl = new FormControl("", []);
+  starnameFormControl = new FormControl('', []);
 
   ngOnInit() {
     // Set current value
@@ -60,7 +60,7 @@ export class EditCryptoPortfolioDialogComponent implements OnInit {
 
   public displayToken(item: CryptoTokenConfig) {
     if (item) {
-      return item.tokenCode + " (" + item.tokenName + ")";
+      return item.tokenCode + ' (' + item.tokenName + ')';
     }
   }
 
@@ -83,7 +83,7 @@ export class EditCryptoPortfolioDialogComponent implements OnInit {
         if (typeResponse.data != null) {
           const items: CryptoTokenConfig[] = typeResponse.data.elements;
           this.filteredTokens = this.tokenFormControl.valueChanges.pipe(
-            startWith(""),
+            startWith(''),
             map((value) =>
               items.filter((valueFilter) =>
                 valueFilter.tokenCode
@@ -132,13 +132,13 @@ export class EditCryptoPortfolioDialogComponent implements OnInit {
       // Case data is unchanged
       case !this.isHaveUpdateValue():
         this.message = null;
-        this.messageError = "Skip update because the value is not changed";
+        this.messageError = 'Skip update because the value is not changed';
         break;
 
       // Case data is invalid
       case !this.isFormValid():
         this.message = null;
-        this.messageError = "Invalid fields, please check your input";
+        this.messageError = 'Invalid fields, please check your input';
         break;
 
       // Case ok
@@ -157,12 +157,12 @@ export class EditCryptoPortfolioDialogComponent implements OnInit {
           (data) => {
             // Send success toast message
             this.toastr.success(
-              "Wallet " +
+              'Wallet ' +
                 this.walletValue +
-                "<" +
+                '<' +
                 this.tokenValue.tokenCode +
-                ">" +
-                " is updated successful",
+                '>' +
+                ' is updated successful',
             );
 
             // Hide loading
@@ -188,13 +188,13 @@ export class EditCryptoPortfolioDialogComponent implements OnInit {
    */
   public isFormValid() {
     let result = true;
-    if (this.tokenFormControl.status === "INVALID") {
+    if (this.tokenFormControl.status === 'INVALID') {
       result = false;
     }
-    if (this.walletFormControl.status === "INVALID") {
+    if (this.walletFormControl.status === 'INVALID') {
       result = false;
     }
-    if (this.starnameFormControl.status === "INVALID") {
+    if (this.starnameFormControl.status === 'INVALID') {
       result = false;
     }
     return result;

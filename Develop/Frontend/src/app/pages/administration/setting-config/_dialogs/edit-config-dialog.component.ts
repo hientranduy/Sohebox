@@ -1,21 +1,21 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, Input, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
   FormGroup,
   Validators,
-} from "@angular/forms";
-import { ErrorStateMatcher } from "@angular/material/core";
-import { AuthenticationService } from "@app/user/_service";
-import { AlertService } from "@app/_common/alert";
-import { Config } from "@app/_common/_models";
-import { ConfigService, SpinnerService } from "@app/_common/_services";
-import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
-import { ToastrService } from "ngx-toastr";
+} from '@angular/forms';
+import { ErrorStateMatcher } from '@angular/material/core';
+import { AuthenticationService } from '@app/user/_service';
+import { AlertService } from '@app/_common/alert';
+import { Config } from '@app/_common/_models';
+import { ConfigService, SpinnerService } from '@app/_common/_services';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  styleUrls: ["edit-config-dialog.component.css"],
-  templateUrl: "edit-config-dialog.component.html",
+  styleUrls: ['edit-config-dialog.component.css'],
+  templateUrl: 'edit-config-dialog.component.html',
 })
 export class EditConfigDialogComponent implements OnInit {
   constructor(
@@ -47,13 +47,13 @@ export class EditConfigDialogComponent implements OnInit {
   matcher = new ErrorStateMatcher();
 
   // Field : config key
-  configKeyFormControl = new FormControl("", []);
+  configKeyFormControl = new FormControl('', []);
 
   // Field : config value
-  configValueFormControl = new FormControl("", [Validators.required]);
+  configValueFormControl = new FormControl('', [Validators.required]);
 
   // Field : description
-  descriptionFormControl = new FormControl("", []);
+  descriptionFormControl = new FormControl('', []);
 
   ngOnInit() {
     // Set current value
@@ -87,7 +87,7 @@ export class EditConfigDialogComponent implements OnInit {
       // Case data is unchanged
       case !this.isHaveUpdateValue():
         // Send warning toast message
-        this.toastr.warning("Skip update because the value is not changed");
+        this.toastr.warning('Skip update because the value is not changed');
 
         // Close dialog as cancel
         this.activeModal.close(false);
@@ -96,7 +96,7 @@ export class EditConfigDialogComponent implements OnInit {
       // Case data is invalid
       case !this.isFormValid():
         this.message = null;
-        this.messageError = "Invalid fields, please check your input";
+        this.messageError = 'Invalid fields, please check your input';
         break;
 
       // Case ok
@@ -118,7 +118,7 @@ export class EditConfigDialogComponent implements OnInit {
           (data) => {
             // Send success toast message
             this.toastr.success(
-              "<Config Key " + this.item.configKey + "> is updated successful",
+              '<Config Key ' + this.item.configKey + '> is updated successful',
             );
 
             // Hide loading
@@ -144,13 +144,13 @@ export class EditConfigDialogComponent implements OnInit {
   // Validate all fields
   public isFormValid() {
     let result = true;
-    if (this.configKeyFormControl.status === "INVALID") {
+    if (this.configKeyFormControl.status === 'INVALID') {
       result = false;
     }
-    if (this.configValueFormControl.status === "INVALID") {
+    if (this.configValueFormControl.status === 'INVALID') {
       result = false;
     }
-    if (this.descriptionFormControl.status === "INVALID") {
+    if (this.descriptionFormControl.status === 'INVALID') {
       result = false;
     }
     return result;

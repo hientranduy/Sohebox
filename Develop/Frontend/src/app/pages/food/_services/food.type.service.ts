@@ -1,10 +1,10 @@
-import { HttpClient } from "@angular/common/http";
-import { Injectable } from "@angular/core";
-import { FoodType } from "@app/_common/_models/foodType";
-import { FoodTypeSCO } from "@app/_common/_sco/foodTypeSCO";
-import { environment } from "@environments/environment";
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { FoodType } from '@app/_common/_models/foodType';
+import { FoodTypeSCO } from '@app/_common/_sco/foodTypeSCO';
+import { environment } from '@environments/environment';
 
-@Injectable({ providedIn: "root" })
+@Injectable({ providedIn: 'root' })
 export class FoodTypeService {
   constructor(private http: HttpClient) {}
 

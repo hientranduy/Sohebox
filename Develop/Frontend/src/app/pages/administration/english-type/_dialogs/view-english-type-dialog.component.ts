@@ -1,16 +1,16 @@
-import { Component, Input, OnInit } from "@angular/core";
-import { FormBuilder, FormControl, Validators } from "@angular/forms";
-import { ErrorStateMatcher } from "@angular/material/core";
-import { EnglishTypeService } from "@app/pages/english/_services";
-import { AuthenticationService } from "@app/user/_service";
-import { AlertService } from "@app/_common/alert";
-import { EnglishType } from "@app/_common/_models";
-import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
-import { ToastrService } from "ngx-toastr";
+import { Component, Input, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { ErrorStateMatcher } from '@angular/material/core';
+import { EnglishTypeService } from '@app/pages/english/_services';
+import { AuthenticationService } from '@app/user/_service';
+import { AlertService } from '@app/_common/alert';
+import { EnglishType } from '@app/_common/_models';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  styleUrls: ["view-english-type-dialog.component.css"],
-  templateUrl: "view-english-type-dialog.component.html",
+  styleUrls: ['view-english-type-dialog.component.css'],
+  templateUrl: 'view-english-type-dialog.component.html',
 })
 export class ViewEnglishTypeDialogComponent implements OnInit {
   constructor(
@@ -43,19 +43,19 @@ export class ViewEnglishTypeDialogComponent implements OnInit {
   matcher = new ErrorStateMatcher();
 
   // Field : type class
-  typeClassFormControl = new FormControl("", []);
+  typeClassFormControl = new FormControl('', []);
 
   // Field : type code
-  typeCodeFormControl = new FormControl("", []);
+  typeCodeFormControl = new FormControl('', []);
 
   // Field : type name
-  typeNameFormControl = new FormControl("", [Validators.required]);
+  typeNameFormControl = new FormControl('', [Validators.required]);
 
   // Field : description
-  descriptionFormControl = new FormControl("", []);
+  descriptionFormControl = new FormControl('', []);
 
   // Field : icon URL
-  iconUrlFormControl = new FormControl("", []);
+  iconUrlFormControl = new FormControl('', []);
 
   ngOnInit() {
     // Set current value

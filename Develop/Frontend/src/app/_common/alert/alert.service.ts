@@ -1,8 +1,8 @@
-import { Injectable } from "@angular/core";
-import { NavigationStart, Router } from "@angular/router";
-import { Observable, Subject } from "rxjs";
+import { Injectable } from '@angular/core';
+import { NavigationStart, Router } from '@angular/router';
+import { Observable, Subject } from 'rxjs';
 
-@Injectable({ providedIn: "root" })
+@Injectable({ providedIn: 'root' })
 export class AlertService {
   subject = new Subject<any>();
   keepAfterNavigationChange = false;
@@ -10,23 +10,23 @@ export class AlertService {
   constructor(private router: Router) {
     router.events.subscribe((event) => {
       if (event instanceof NavigationStart) {
-        this.subject.next("");
+        this.subject.next('');
       }
     });
   }
 
   success(message: string, keepAfterNavigationChange = false) {
     this.keepAfterNavigationChange = keepAfterNavigationChange;
-    this.subject.next({ type: "success", text: message });
+    this.subject.next({ type: 'success', text: message });
   }
 
   error(message: string, keepAfterNavigationChange = false) {
     this.keepAfterNavigationChange = keepAfterNavigationChange;
-    this.subject.next({ type: "error", text: message });
+    this.subject.next({ type: 'error', text: message });
   }
 
   clear() {
-    this.subject.next("");
+    this.subject.next('');
   }
 
   getMessage(): Observable<any> {

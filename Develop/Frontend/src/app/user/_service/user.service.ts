@@ -1,10 +1,10 @@
-import { HttpClient } from "@angular/common/http";
-import { Injectable } from "@angular/core";
-import { UserSCO } from "@app/_common/_sco";
-import { environment } from "@environments/environment";
-import { User } from "../_models";
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { UserSCO } from '@app/_common/_sco';
+import { environment } from '@environments/environment';
+import { User } from '../_models';
 
-@Injectable({ providedIn: "root" })
+@Injectable({ providedIn: 'root' })
 export class UserService {
   constructor(private http: HttpClient) {}
 

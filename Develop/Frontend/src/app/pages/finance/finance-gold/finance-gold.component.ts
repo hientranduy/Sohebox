@@ -1,14 +1,14 @@
-import { Component, OnInit } from "@angular/core";
-import { AlertService } from "@app/_common/alert";
-import { ApiReponse } from "@app/_common/_models";
-import { SpinnerService } from "@app/_common/_services";
-import { GoldSjc } from "../_models";
-import { FinanceService } from "../_services";
+import { Component, OnInit } from '@angular/core';
+import { AlertService } from '@app/_common/alert';
+import { ApiReponse } from '@app/_common/_models';
+import { SpinnerService } from '@app/_common/_services';
+import { GoldSjc } from '../_models';
+import { FinanceService } from '../_services';
 
 @Component({
-  selector: "app-finance-gold",
-  templateUrl: "./finance-gold.component.html",
-  styleUrls: ["./finance-gold.component.css"],
+  selector: 'app-finance-gold',
+  templateUrl: './finance-gold.component.html',
+  styleUrls: ['./finance-gold.component.css'],
 })
 export class FinanceGoldComponent implements OnInit {
   goldSjc: GoldSjc;

@@ -1,21 +1,21 @@
-import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute, Params } from "@angular/router";
-import { AppSettings } from "@app/appSettings";
-import { User } from "@app/user/_models";
-import { AuthenticationService } from "@app/user/_service";
-import { AlertService } from "@app/_common/alert";
-import { ApiReponse } from "@app/_common/_models";
-import { YoutubeChannelVideoSCO } from "@app/_common/_sco";
-import { SearchNumber } from "@app/_common/_sco/core_sco";
-import { SEOService, SpinnerService } from "@app/_common/_services";
-import { ToastrService } from "ngx-toastr";
-import { YoutubeVideo } from "../_models";
-import { YoutubeService } from "../_services";
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Params } from '@angular/router';
+import { AppSettings } from '@app/appSettings';
+import { User } from '@app/user/_models';
+import { AuthenticationService } from '@app/user/_service';
+import { AlertService } from '@app/_common/alert';
+import { ApiReponse } from '@app/_common/_models';
+import { YoutubeChannelVideoSCO } from '@app/_common/_sco';
+import { SearchNumber } from '@app/_common/_sco/core_sco';
+import { SEOService, SpinnerService } from '@app/_common/_services';
+import { ToastrService } from 'ngx-toastr';
+import { YoutubeVideo } from '../_models';
+import { YoutubeService } from '../_services';
 
 @Component({
-  selector: "app-youtube-player-channel",
-  templateUrl: "./youtube-player-channel.component.html",
-  styleUrls: ["./youtube-player-channel.component.css"],
+  selector: 'app-youtube-player-channel',
+  templateUrl: './youtube-player-channel.component.html',
+  styleUrls: ['./youtube-player-channel.component.css'],
 })
 export class YoutubePlayerChannelComponent implements OnInit {
   currentUser: User;
@@ -44,7 +44,7 @@ export class YoutubePlayerChannelComponent implements OnInit {
 
     // Get channel id from parameter
     this.route.params.subscribe(
-      (params: Params) => (this.channelId = params["channelId"]),
+      (params: Params) => (this.channelId = params['channelId']),
     );
 
     this.videoWidth = window.innerWidth;
@@ -63,7 +63,7 @@ export class YoutubePlayerChannelComponent implements OnInit {
     }
 
     // Initial video
-    const tag = document.createElement("script");
+    const tag = document.createElement('script');
     tag.src = AppSettings.GOOGLE_YOUTUBE_IFRAME;
     document.body.appendChild(tag);
   }
@@ -193,7 +193,7 @@ export class YoutubePlayerChannelComponent implements OnInit {
    *
    */
   public onErrorEvent(event) {
-    this.toastr.error("[Youtube Player] Error:" + event.data);
+    this.toastr.error('[Youtube Player] Error:' + event.data);
   }
 
   /**

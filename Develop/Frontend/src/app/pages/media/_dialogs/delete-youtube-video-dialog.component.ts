@@ -1,12 +1,12 @@
-import { Component, Input, OnInit } from "@angular/core";
-import { SpinnerService } from "@app/_common/_services";
-import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
-import { ToastrService } from "ngx-toastr";
-import { YoutubeVideo } from "../_models";
-import { YoutubeService } from "../_services";
+import { Component, Input, OnInit } from '@angular/core';
+import { SpinnerService } from '@app/_common/_services';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { ToastrService } from 'ngx-toastr';
+import { YoutubeVideo } from '../_models';
+import { YoutubeService } from '../_services';
 
 @Component({
-  templateUrl: "delete-youtube-video-dialog.component.html",
+  templateUrl: 'delete-youtube-video-dialog.component.html',
 })
 export class DeleteYoutubeVideoDialogComponent implements OnInit {
   @Input() title: string;
@@ -37,7 +37,7 @@ export class DeleteYoutubeVideoDialogComponent implements OnInit {
       (data) => {
         // Send toast success
         this.toastr.success(
-          "Your video " + this.video.videoId + " is successful deleted",
+          'Your video ' + this.video.videoId + ' is successful deleted',
         );
 
         // Hide loading

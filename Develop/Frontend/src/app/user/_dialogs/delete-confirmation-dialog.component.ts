@@ -1,12 +1,12 @@
-import { Component, Input, OnInit } from "@angular/core";
-import { Router } from "@angular/router";
-import { AuthenticationService, UserService } from "@app/user/_service";
-import { AlertService } from "@app/_common/alert";
-import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
-import { SpinnerService } from "@app/_common/_services";
+import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthenticationService, UserService } from '@app/user/_service';
+import { AlertService } from '@app/_common/alert';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { SpinnerService } from '@app/_common/_services';
 
 @Component({
-  templateUrl: "delete-confirmation-dialog.component.html",
+  templateUrl: 'delete-confirmation-dialog.component.html',
 })
 export class DeleteConfirmationDialogComponent implements OnInit {
   @Input() title: string;
@@ -38,10 +38,10 @@ export class DeleteConfirmationDialogComponent implements OnInit {
         this.authenticationService.logout();
 
         // Send alert message
-        this.alertService.success("User delete successful", true);
+        this.alertService.success('User delete successful', true);
 
         // Navigate to login page
-        this.router.navigate(["/login"]);
+        this.router.navigate(['/login']);
 
         this.spinner.hide();
       },

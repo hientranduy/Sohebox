@@ -1,13 +1,13 @@
-import { Component, Input, OnInit } from "@angular/core";
-import { FormBuilder, FormGroup } from "@angular/forms";
-import { AuthenticationService, UserService } from "@app/user/_service";
-import { AlertService } from "@app/_common/alert";
-import { SpinnerService } from "@app/_common/_services";
-import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
-import { User } from "../_models";
+import { Component, Input, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { AuthenticationService, UserService } from '@app/user/_service';
+import { AlertService } from '@app/_common/alert';
+import { SpinnerService } from '@app/_common/_services';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { User } from '../_models';
 
 @Component({
-  templateUrl: "change-private-key-dialog.component.html",
+  templateUrl: 'change-private-key-dialog.component.html',
 })
 export class ChangePrivateKeyDialogComponent implements OnInit {
   @Input() title: string;
@@ -45,16 +45,16 @@ export class ChangePrivateKeyDialogComponent implements OnInit {
     this.validData = true;
     if (!this.newPrivateKey || !this.retypePrivateKey) {
       this.message = null;
-      this.messageError = "Missing input";
+      this.messageError = 'Missing input';
       this.validData = false;
     } else if (this.newPrivateKey !== this.retypePrivateKey) {
       this.message = null;
       this.messageError =
-        "Your new private key is not map with retype private key";
+        'Your new private key is not map with retype private key';
       this.validData = false;
     } else if (this.newPrivateKey.length < 6) {
       this.message = null;
-      this.messageError = "Private key must be at least 6 characters";
+      this.messageError = 'Private key must be at least 6 characters';
       this.validData = false;
     }
 
@@ -71,7 +71,7 @@ export class ChangePrivateKeyDialogComponent implements OnInit {
         .changePrivatekey(this.changePrivateKeyForm.value)
         .subscribe(
           (data) => {
-            this.alertService.success("Private key change successful", true);
+            this.alertService.success('Private key change successful', true);
 
             this.spinner.hide();
 

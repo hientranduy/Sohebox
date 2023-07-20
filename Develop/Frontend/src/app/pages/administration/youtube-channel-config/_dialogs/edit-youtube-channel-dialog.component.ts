@@ -1,29 +1,29 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, Input, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
   FormGroup,
   Validators,
-} from "@angular/forms";
-import { ErrorStateMatcher } from "@angular/material/core";
-import { ApiReponse, MediaType } from "@app/_common/_models";
-import { SearchText, Sorter } from "@app/_common/_sco/core_sco";
-import { MediaTypeSCO } from "@app/_common/_sco/mediaTypeSCO";
-import { SpinnerService } from "@app/_common/_services";
-import { AlertService } from "@app/_common/alert";
-import { YoutubeChannel } from "@app/pages/media/_models";
-import { YoutubeService } from "@app/pages/media/_services";
-import { AuthenticationService } from "@app/user/_service";
-import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
-import { ToastrService } from "ngx-toastr";
-import { Observable } from "rxjs";
-import { map, startWith } from "rxjs/operators";
-import { MediaTypeDialogService } from "../../media-type/media-type.service";
+} from '@angular/forms';
+import { ErrorStateMatcher } from '@angular/material/core';
+import { ApiReponse, MediaType } from '@app/_common/_models';
+import { SearchText, Sorter } from '@app/_common/_sco/core_sco';
+import { MediaTypeSCO } from '@app/_common/_sco/mediaTypeSCO';
+import { SpinnerService } from '@app/_common/_services';
+import { AlertService } from '@app/_common/alert';
+import { YoutubeChannel } from '@app/pages/media/_models';
+import { YoutubeService } from '@app/pages/media/_services';
+import { AuthenticationService } from '@app/user/_service';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { ToastrService } from 'ngx-toastr';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
+import { MediaTypeDialogService } from '../../media-type/media-type.service';
 
 @Component({
-  selector: "app-edit-youtube-channel-dialog",
-  templateUrl: "./edit-youtube-channel-dialog.component.html",
-  styleUrls: ["./edit-youtube-channel-dialog.component.css"],
+  selector: 'app-edit-youtube-channel-dialog',
+  templateUrl: './edit-youtube-channel-dialog.component.html',
+  styleUrls: ['./edit-youtube-channel-dialog.component.css'],
 })
 export class EditYoutubeChannelDialogComponent implements OnInit {
   constructor(
@@ -63,16 +63,16 @@ export class EditYoutubeChannelDialogComponent implements OnInit {
   matcher = new ErrorStateMatcher();
 
   // Field : channel ID
-  channelIdFormControl = new FormControl("", []);
+  channelIdFormControl = new FormControl('', []);
 
   // Field : Name
-  nameFormControl = new FormControl("", [Validators.required]);
+  nameFormControl = new FormControl('', [Validators.required]);
 
   // Field : description
-  descriptionFormControl = new FormControl("", []);
+  descriptionFormControl = new FormControl('', []);
 
   // Field : category
-  categoryFormControl = new FormControl("", [Validators.required]);
+  categoryFormControl = new FormControl('', [Validators.required]);
 
   ngOnInit() {
     // Set old data
@@ -95,9 +95,9 @@ export class EditYoutubeChannelDialogComponent implements OnInit {
 
     // Prepare search condition
     const typeClass = new SearchText();
-    typeClass.eq = "YOUTUBE_CHANNEL_CATEGORY";
+    typeClass.eq = 'YOUTUBE_CHANNEL_CATEGORY';
     const sorters: Array<Sorter> = [];
-    sorters.push(new Sorter("id", "ASC"));
+    sorters.push(new Sorter('id', 'ASC'));
 
     const sco = new MediaTypeSCO();
     sco.typeClass = typeClass;
@@ -113,7 +113,7 @@ export class EditYoutubeChannelDialogComponent implements OnInit {
         const categories: MediaType[] = response.data.elements;
         if (response.data.elements != null) {
           this.filteredCategories = this.categoryFormControl.valueChanges.pipe(
-            startWith(""),
+            startWith(''),
             map((value) =>
               categories.filter((valueFilter) =>
                 valueFilter.typeCode
@@ -177,7 +177,7 @@ export class EditYoutubeChannelDialogComponent implements OnInit {
         (data) => {
           // Send success toast message
           this.toastr.success(
-            "New channel " + this.nameValue + " is added successful",
+            'New channel ' + this.nameValue + ' is added successful',
           );
 
           // Hide loading
@@ -197,7 +197,7 @@ export class EditYoutubeChannelDialogComponent implements OnInit {
       );
     } else {
       this.message = null;
-      this.messageError = "Invalid fields, please check your input";
+      this.messageError = 'Invalid fields, please check your input';
     }
   }
 
@@ -205,16 +205,16 @@ export class EditYoutubeChannelDialogComponent implements OnInit {
   public isFormValid() {
     let result = true;
 
-    if (this.channelIdFormControl.status === "INVALID") {
+    if (this.channelIdFormControl.status === 'INVALID') {
       result = false;
     }
-    if (this.nameFormControl.status === "INVALID") {
+    if (this.nameFormControl.status === 'INVALID') {
       result = false;
     }
-    if (this.descriptionFormControl.status === "INVALID") {
+    if (this.descriptionFormControl.status === 'INVALID') {
       result = false;
     }
-    if (this.categoryFormControl.status === "INVALID") {
+    if (this.categoryFormControl.status === 'INVALID') {
       result = false;
     }
 

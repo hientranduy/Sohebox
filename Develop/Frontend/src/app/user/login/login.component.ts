@@ -1,14 +1,14 @@
-import { Component, OnInit } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { ActivatedRoute, Router } from "@angular/router";
-import { AlertService } from "@app/_common/alert";
-import { SEOService, SpinnerService } from "@app/_common/_services";
-import { first } from "rxjs/operators";
-import { AuthenticationService } from "../_service";
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AlertService } from '@app/_common/alert';
+import { SEOService, SpinnerService } from '@app/_common/_services';
+import { first } from 'rxjs/operators';
+import { AuthenticationService } from '../_service';
 
 @Component({
-  templateUrl: "./login.component.html",
-  styleUrls: ["./login.component.css"],
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit {
   ) {
     // redirect to home if already logged in
     if (this.authenticationService.currentUserValue) {
-      this.router.navigate(["/"]);
+      this.router.navigate(['/']);
     }
   }
 
@@ -38,12 +38,12 @@ export class LoginComponent implements OnInit {
     this.seoService.updateCEO(this.route);
 
     this.loginForm = this.formBuilder.group({
-      username: ["", Validators.required],
-      password: ["", Validators.required],
+      username: ['', Validators.required],
+      password: ['', Validators.required],
     });
 
     // get return url from route parameters or default to '/'
-    this.returnUrl = this.route.snapshot.queryParams["returnUrl"] || "/";
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
   }
 
   // convenience getter for easy access to form fields
@@ -85,8 +85,8 @@ export class LoginComponent implements OnInit {
   }
 
   fillVisitorAccount() {
-    this.accountDisplay = "visitor";
-    this.passwordDisplay = "visitor";
+    this.accountDisplay = 'visitor';
+    this.passwordDisplay = 'visitor';
     this.onSubmit();
   }
 }

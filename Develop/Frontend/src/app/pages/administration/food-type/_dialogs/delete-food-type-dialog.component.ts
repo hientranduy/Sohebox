@@ -1,11 +1,11 @@
-import { Component, Input, OnInit } from "@angular/core";
-import { SpinnerService } from "@app/_common/_services";
-import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
+import { Component, Input, OnInit } from '@angular/core';
+import { SpinnerService } from '@app/_common/_services';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-  selector: "app-delete-food-type-dialog",
-  templateUrl: "./delete-food-type-dialog.component.html",
-  styleUrls: ["./delete-food-type-dialog.component.css"],
+  selector: 'app-delete-food-type-dialog',
+  templateUrl: './delete-food-type-dialog.component.html',
+  styleUrls: ['./delete-food-type-dialog.component.css'],
 })
 export class DeleteFoodTypeDialogComponent implements OnInit {
   @Input() title: string;

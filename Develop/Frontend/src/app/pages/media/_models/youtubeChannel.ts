@@ -1,4 +1,4 @@
-import { MediaType } from "@app/_common/_models";
+import { MediaType } from '@app/_common/_models';
 
 export class YoutubeChannel {
   id: number;

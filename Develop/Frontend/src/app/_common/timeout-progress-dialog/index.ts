@@ -1,1 +1,1 @@
-export * from "./timeout-progress-dialog.component";
+export * from './timeout-progress-dialog.component';

@@ -1,19 +1,19 @@
-import { Component, OnInit } from "@angular/core";
-import { Router } from "@angular/router";
-import { EnglishLearnReport } from "@app/pages/english/_model";
-import { EnglishService } from "@app/pages/english/_services";
-import { AuthenticationService } from "@app/user/_service";
-import { AlertService } from "@app/_common/alert";
-import { ApiReponse } from "@app/_common/_models";
-import { PageResultVO } from "@app/_common/_models/pageResultVO";
-import { EnglishLearnReportSCO } from "@app/_common/_sco";
-import { SpinnerService } from "@app/_common/_services";
-import { ToastrService } from "ngx-toastr";
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { EnglishLearnReport } from '@app/pages/english/_model';
+import { EnglishService } from '@app/pages/english/_services';
+import { AuthenticationService } from '@app/user/_service';
+import { AlertService } from '@app/_common/alert';
+import { ApiReponse } from '@app/_common/_models';
+import { PageResultVO } from '@app/_common/_models/pageResultVO';
+import { EnglishLearnReportSCO } from '@app/_common/_sco';
+import { SpinnerService } from '@app/_common/_services';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  selector: "app-english-user-report",
-  templateUrl: "./english-user-report.component.html",
-  styleUrls: ["./english-user-report.component.css"],
+  selector: 'app-english-user-report',
+  templateUrl: './english-user-report.component.html',
+  styleUrls: ['./english-user-report.component.css'],
 })
 export class EnglishUserReportComponent implements OnInit {
   // Table elements
@@ -75,6 +75,6 @@ export class EnglishUserReportComponent implements OnInit {
    * Navigate to E-Dashboard
    */
   public navigateEDashboard(item: EnglishLearnReport) {
-    window.open("/englishReport/" + item.user.id);
+    window.open('/englishReport/' + item.user.id);
   }
 }

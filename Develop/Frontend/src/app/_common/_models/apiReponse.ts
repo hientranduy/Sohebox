@@ -1,4 +1,4 @@
-import { PageResultVO } from "./pageResultVO";
+import { PageResultVO } from './pageResultVO';
 
 export class ApiReponse<Data> {
   message: string;

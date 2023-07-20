@@ -1,20 +1,20 @@
-import { HttpClient } from "@angular/common/http";
-import { Injectable } from "@angular/core";
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import {
   EnglishLearnRecordSCO,
   EnglishLearnReportSCO,
   EnglishSCO,
   EnglishUserGradeSCO,
-} from "@app/_common/_sco";
-import { environment } from "@environments/environment";
+} from '@app/_common/_sco';
+import { environment } from '@environments/environment';
 import {
   DownloadFile,
   English,
   EnglishLearnRecord,
   EnglishUserGrade,
-} from "../_model";
+} from '../_model';
 
-@Injectable({ providedIn: "root" })
+@Injectable({ providedIn: 'root' })
 export class EnglishService {
   constructor(private http: HttpClient) {}
 

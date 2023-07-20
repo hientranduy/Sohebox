@@ -1,19 +1,19 @@
-import { Component, HostListener, OnInit } from "@angular/core";
-import { AuthenticationService } from "@app/user/_service";
-import { AlertService } from "@app/_common/alert";
-import { ApiReponse } from "@app/_common/_models";
-import { PageResultVO } from "@app/_common/_models/pageResultVO";
-import { Type } from "@app/_common/_models/type";
-import { SearchText, Sorter } from "@app/_common/_sco/core_sco";
-import { TypeSCO } from "@app/_common/_sco/typeSCO";
-import { SpinnerService, TypeService } from "@app/_common/_services";
-import { ToastrService } from "ngx-toastr";
-import { TypeDialogService } from "./_dialogs";
+import { Component, HostListener, OnInit } from '@angular/core';
+import { AuthenticationService } from '@app/user/_service';
+import { AlertService } from '@app/_common/alert';
+import { ApiReponse } from '@app/_common/_models';
+import { PageResultVO } from '@app/_common/_models/pageResultVO';
+import { Type } from '@app/_common/_models/type';
+import { SearchText, Sorter } from '@app/_common/_sco/core_sco';
+import { TypeSCO } from '@app/_common/_sco/typeSCO';
+import { SpinnerService, TypeService } from '@app/_common/_services';
+import { ToastrService } from 'ngx-toastr';
+import { TypeDialogService } from './_dialogs';
 
 @Component({
-  selector: "app-setting-type",
-  templateUrl: "./setting-type.component.html",
-  styleUrls: ["./setting-type.component.css"],
+  selector: 'app-setting-type',
+  templateUrl: './setting-type.component.html',
+  styleUrls: ['./setting-type.component.css'],
 })
 export class SettingTypeComponent implements OnInit {
   // Table elements
@@ -24,11 +24,11 @@ export class SettingTypeComponent implements OnInit {
 
   // Width change
   windownInnerWidth = window.innerWidth;
-  @HostListener("window:resize", ["$event"])
+  @HostListener('window:resize', ['$event'])
   onResize(event) {
     this.windownInnerWidth = window.innerWidth;
   }
-  @HostListener("window:orientationchange", ["$event"])
+  @HostListener('window:orientationchange', ['$event'])
   onOrientationChange(event) {
     this.windownInnerWidth = window.innerWidth;
   }
@@ -143,7 +143,7 @@ export class SettingTypeComponent implements OnInit {
       sco.sorters = sorters;
     } else {
       const sorters: Array<Sorter> = [];
-      sorters.push(new Sorter("id", "ASC"));
+      sorters.push(new Sorter('id', 'ASC'));
       sco.sorters = sorters;
     }
     if (filterValue) {
@@ -199,7 +199,7 @@ export class SettingTypeComponent implements OnInit {
    * Add button
    */
   public add() {
-    this.typeDialogService.add("ADD", "").then(
+    this.typeDialogService.add('ADD', '').then(
       (result) => {
         if (result) {
           // Refresh table
@@ -212,7 +212,7 @@ export class SettingTypeComponent implements OnInit {
         }
       },
       (reason) => {
-        console.log("ADD reason:" + reason);
+        console.log('ADD reason:' + reason);
       },
     );
   }
@@ -226,7 +226,7 @@ export class SettingTypeComponent implements OnInit {
         this.deleteChoose(element);
       });
     } else {
-      this.toastr.info("No selected item", "Information", {
+      this.toastr.info('No selected item', 'Information', {
         timeOut: 2000,
       });
     }
@@ -243,13 +243,13 @@ export class SettingTypeComponent implements OnInit {
    * View detail chosen
    */
   public viewDetailChoose(item: Type) {
-    this.typeDialogService.view("DETAIL", "", item).then(
+    this.typeDialogService.view('DETAIL', '', item).then(
       (result) => {
         if (result) {
         }
       },
       (reason) => {
-        console.log("DETAIL reason:" + reason);
+        console.log('DETAIL reason:' + reason);
       },
     );
   }
@@ -258,7 +258,7 @@ export class SettingTypeComponent implements OnInit {
    * Edit chosen
    */
   public editChoose(item: Type) {
-    this.typeDialogService.edit("EDIT", "", item).then(
+    this.typeDialogService.edit('EDIT', '', item).then(
       (result) => {
         if (result) {
           this.getPageResult(
@@ -270,7 +270,7 @@ export class SettingTypeComponent implements OnInit {
         }
       },
       (reason) => {
-        console.log("EDIT reason:" + reason);
+        console.log('EDIT reason:' + reason);
       },
     );
   }
@@ -280,11 +280,11 @@ export class SettingTypeComponent implements OnInit {
    */
   public deleteChoose(item: Type) {
     this.typeDialogService
-      .delete("DELETION", "Are you sure deleting: " + item.typeCode + " ?")
+      .delete('DELETION', 'Are you sure deleting: ' + item.typeCode + ' ?')
       .then(
         (result) => {
           if (result) {
-            this.toastr.warning("[Admin notice] Not allow to delete");
+            this.toastr.warning('[Admin notice] Not allow to delete');
 
             // this.configService.delete(item.id).subscribe(
             //   data => {
@@ -310,7 +310,7 @@ export class SettingTypeComponent implements OnInit {
           }
         },
         (reason) => {
-          console.log("DELETE reason:" + reason);
+          console.log('DELETE reason:' + reason);
         },
       );
   }

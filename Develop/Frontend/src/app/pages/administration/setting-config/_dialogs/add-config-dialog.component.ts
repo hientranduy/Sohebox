@@ -1,18 +1,18 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, Input, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
   FormGroup,
   Validators,
-} from "@angular/forms";
-import { ErrorStateMatcher } from "@angular/material/core";
-import { ConfigService, SpinnerService } from "@app/_common/_services";
-import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
-import { ToastrService } from "ngx-toastr";
+} from '@angular/forms';
+import { ErrorStateMatcher } from '@angular/material/core';
+import { ConfigService, SpinnerService } from '@app/_common/_services';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  styleUrls: ["add-config-dialog.component.css"],
-  templateUrl: "add-config-dialog.component.html",
+  styleUrls: ['add-config-dialog.component.css'],
+  templateUrl: 'add-config-dialog.component.html',
 })
 export class AddConfigDialogComponent implements OnInit {
   constructor(
@@ -41,13 +41,13 @@ export class AddConfigDialogComponent implements OnInit {
   matcher = new ErrorStateMatcher();
 
   // Field : config key
-  configKeyFormControl = new FormControl("", [Validators.required]);
+  configKeyFormControl = new FormControl('', [Validators.required]);
 
   // Field : config value
-  configValueFormControl = new FormControl("", [Validators.required]);
+  configValueFormControl = new FormControl('', [Validators.required]);
 
   // Field : description
-  descriptionFormControl = new FormControl("", []);
+  descriptionFormControl = new FormControl('', []);
 
   ngOnInit() {}
 
@@ -76,7 +76,7 @@ export class AddConfigDialogComponent implements OnInit {
       // Case data is invalid
       case !this.isFormValid():
         this.message = null;
-        this.messageError = "Invalid fields, please check your input";
+        this.messageError = 'Invalid fields, please check your input';
         break;
 
       // Case ok
@@ -97,7 +97,7 @@ export class AddConfigDialogComponent implements OnInit {
           (data) => {
             // Send success toast message
             this.toastr.success(
-              "<Config Key " + this.configKey + "> is created successful",
+              '<Config Key ' + this.configKey + '> is created successful',
             );
 
             // Hide loading
@@ -123,13 +123,13 @@ export class AddConfigDialogComponent implements OnInit {
   // Validate all fields
   public isFormValid() {
     let result = true;
-    if (this.configKeyFormControl.status === "INVALID") {
+    if (this.configKeyFormControl.status === 'INVALID') {
       result = false;
     }
-    if (this.configValueFormControl.status === "INVALID") {
+    if (this.configValueFormControl.status === 'INVALID') {
       result = false;
     }
-    if (this.descriptionFormControl.status === "INVALID") {
+    if (this.descriptionFormControl.status === 'INVALID') {
       result = false;
     }
     return result;

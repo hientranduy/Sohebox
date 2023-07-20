@@ -1,20 +1,20 @@
-import { Component, OnInit } from "@angular/core";
-import { FoodDialogService } from "@app/pages/food/_dialogs";
-import { Food } from "@app/pages/food/_model";
-import { FoodService } from "@app/pages/food/_services";
-import { AuthenticationService } from "@app/user/_service";
-import { AlertService } from "@app/_common/alert";
-import { ApiReponse } from "@app/_common/_models";
-import { PageResultVO } from "@app/_common/_models/pageResultVO";
-import { SearchText, Sorter } from "@app/_common/_sco/core_sco";
-import { FoodSCO } from "@app/_common/_sco/foodSCO";
-import { SpinnerService } from "@app/_common/_services";
-import { ToastrService } from "ngx-toastr";
+import { Component, OnInit } from '@angular/core';
+import { FoodDialogService } from '@app/pages/food/_dialogs';
+import { Food } from '@app/pages/food/_model';
+import { FoodService } from '@app/pages/food/_services';
+import { AuthenticationService } from '@app/user/_service';
+import { AlertService } from '@app/_common/alert';
+import { ApiReponse } from '@app/_common/_models';
+import { PageResultVO } from '@app/_common/_models/pageResultVO';
+import { SearchText, Sorter } from '@app/_common/_sco/core_sco';
+import { FoodSCO } from '@app/_common/_sco/foodSCO';
+import { SpinnerService } from '@app/_common/_services';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  selector: "app-food-config",
-  templateUrl: "./food-config.component.html",
-  styleUrls: ["./food-config.component.css"],
+  selector: 'app-food-config',
+  templateUrl: './food-config.component.html',
+  styleUrls: ['./food-config.component.css'],
 })
 export class FoodConfigComponent implements OnInit {
   // Table elements
@@ -124,7 +124,7 @@ export class FoodConfigComponent implements OnInit {
       sco.sorters = sorters;
     } else {
       const sorters: Array<Sorter> = [];
-      sorters.push(new Sorter("id", "ASC"));
+      sorters.push(new Sorter('id', 'ASC'));
       sco.sorters = sorters;
     }
     if (filterValue) {
@@ -166,7 +166,7 @@ export class FoodConfigComponent implements OnInit {
    * Add button
    */
   public add() {
-    this.foodDialogService.add("Add word", "").then(
+    this.foodDialogService.add('Add word', '').then(
       (result) => {
         if (result) {
           // Refresh table
@@ -179,7 +179,7 @@ export class FoodConfigComponent implements OnInit {
         }
       },
       (reason) => {
-        console.log("ADD reason:" + reason);
+        console.log('ADD reason:' + reason);
       },
     );
   }
@@ -195,7 +195,7 @@ export class FoodConfigComponent implements OnInit {
    * Edit chosen
    */
   public editChoosen(item: Food) {
-    this.foodDialogService.edit("EDIT", "", item).then(
+    this.foodDialogService.edit('EDIT', '', item).then(
       (result) => {
         if (result) {
           this.getPageResult(
@@ -207,7 +207,7 @@ export class FoodConfigComponent implements OnInit {
         }
       },
       (reason) => {
-        console.log("EDIT reason:" + reason);
+        console.log('EDIT reason:' + reason);
       },
     );
   }

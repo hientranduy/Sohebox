@@ -1,5 +1,5 @@
-import { User } from "@app/user/_models";
-import { EnglishType } from "@app/_common/_models";
+import { User } from '@app/user/_models';
+import { EnglishType } from '@app/_common/_models';
 
 export class EnglishUserGrade {
   id: number;

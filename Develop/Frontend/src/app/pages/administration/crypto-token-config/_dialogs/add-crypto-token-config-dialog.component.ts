@@ -1,22 +1,22 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, Input, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
   FormGroup,
   Validators,
-} from "@angular/forms";
-import { ErrorStateMatcher } from "@angular/material/core";
-import { CryptoTokenConfigService } from "@app/pages/crypto/_services";
-import { AuthenticationService } from "@app/user/_service";
-import { AlertService } from "@app/_common/alert";
-import { SpinnerService } from "@app/_common/_services";
-import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
-import { ToastrService } from "ngx-toastr";
+} from '@angular/forms';
+import { ErrorStateMatcher } from '@angular/material/core';
+import { CryptoTokenConfigService } from '@app/pages/crypto/_services';
+import { AuthenticationService } from '@app/user/_service';
+import { AlertService } from '@app/_common/alert';
+import { SpinnerService } from '@app/_common/_services';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  selector: "app-add-crypto-token-config-dialog",
-  templateUrl: "./add-crypto-token-config-dialog.component.html",
-  styleUrls: ["./add-crypto-token-config-dialog.component.css"],
+  selector: 'app-add-crypto-token-config-dialog',
+  templateUrl: './add-crypto-token-config-dialog.component.html',
+  styleUrls: ['./add-crypto-token-config-dialog.component.css'],
 })
 export class AddCryptoTokenConfigDialogComponent implements OnInit {
   constructor(
@@ -54,34 +54,34 @@ export class AddCryptoTokenConfigDialogComponent implements OnInit {
   matcher = new ErrorStateMatcher();
 
   // tokenCode
-  tokenCodeFormControl = new FormControl("", [Validators.required]);
+  tokenCodeFormControl = new FormControl('', [Validators.required]);
 
   // tokenName
-  tokenNameFormControl = new FormControl("", [Validators.required]);
+  tokenNameFormControl = new FormControl('', [Validators.required]);
 
   // iconUrl
-  iconUrlFormControl = new FormControl("", []);
+  iconUrlFormControl = new FormControl('', []);
 
   // nodeUrl
-  nodeUrlFormControl = new FormControl("", []);
+  nodeUrlFormControl = new FormControl('', []);
 
   // rpcUrl
-  rpcUrlFormControl = new FormControl("", []);
+  rpcUrlFormControl = new FormControl('', []);
 
   // denom
-  denomFormControl = new FormControl("", []);
+  denomFormControl = new FormControl('', []);
 
   // decimalExponent
-  decimalExponentFormControl = new FormControl("", []);
+  decimalExponentFormControl = new FormControl('', []);
 
   // addressPrefix
-  addressPrefixFormControl = new FormControl("", []);
+  addressPrefixFormControl = new FormControl('', []);
 
   // mintscanPrefix
-  mintscanPrefixFormControl = new FormControl("", []);
+  mintscanPrefixFormControl = new FormControl('', []);
 
   // deligateUrl
-  deligateUrlFormControl = new FormControl("", []);
+  deligateUrlFormControl = new FormControl('', []);
 
   ngOnInit() {}
 
@@ -129,7 +129,7 @@ export class AddCryptoTokenConfigDialogComponent implements OnInit {
         (data) => {
           // Send success toast message
           this.toastr.success(
-            "New token " + this.tokenCodeValue + " is added successful",
+            'New token ' + this.tokenCodeValue + ' is added successful',
           );
 
           // Hide loading
@@ -149,7 +149,7 @@ export class AddCryptoTokenConfigDialogComponent implements OnInit {
       );
     } else {
       this.message = null;
-      this.messageError = "Invalid fields, please check your input";
+      this.messageError = 'Invalid fields, please check your input';
     }
   }
 
@@ -157,34 +157,34 @@ export class AddCryptoTokenConfigDialogComponent implements OnInit {
   public isFormValid() {
     let result = true;
 
-    if (this.tokenCodeFormControl.status === "INVALID") {
+    if (this.tokenCodeFormControl.status === 'INVALID') {
       result = false;
     }
-    if (this.tokenNameFormControl.status === "INVALID") {
+    if (this.tokenNameFormControl.status === 'INVALID') {
       result = false;
     }
-    if (this.iconUrlFormControl.status === "INVALID") {
+    if (this.iconUrlFormControl.status === 'INVALID') {
       result = false;
     }
-    if (this.nodeUrlFormControl.status === "INVALID") {
+    if (this.nodeUrlFormControl.status === 'INVALID') {
       result = false;
     }
-    if (this.rpcUrlFormControl.status === "INVALID") {
+    if (this.rpcUrlFormControl.status === 'INVALID') {
       result = false;
     }
-    if (this.denomFormControl.status === "INVALID") {
+    if (this.denomFormControl.status === 'INVALID') {
       result = false;
     }
-    if (this.decimalExponentFormControl.status === "INVALID") {
+    if (this.decimalExponentFormControl.status === 'INVALID') {
       result = false;
     }
-    if (this.addressPrefixFormControl.status === "INVALID") {
+    if (this.addressPrefixFormControl.status === 'INVALID') {
       result = false;
     }
-    if (this.mintscanPrefixFormControl.status === "INVALID") {
+    if (this.mintscanPrefixFormControl.status === 'INVALID') {
       result = false;
     }
-    if (this.mintscanPrefixFormControl.status === "INVALID") {
+    if (this.mintscanPrefixFormControl.status === 'INVALID') {
       result = false;
     }
 

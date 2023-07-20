@@ -1,21 +1,21 @@
-import { Component, OnInit } from "@angular/core";
-import { ToastrService } from "ngx-toastr";
+import { Component, OnInit } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  selector: "app-movie-player",
-  templateUrl: "./movie-player.component.html",
-  styleUrls: ["./movie-player.component.css"],
+  selector: 'app-movie-player',
+  templateUrl: './movie-player.component.html',
+  styleUrls: ['./movie-player.component.css'],
 })
 export class MoviePlayerComponent implements OnInit {
   // Field movide URL
   movieUrlValue: String;
   movieUrlValuePlay: String =
-    "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4";
+    'http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4';
 
   constructor(private toastr: ToastrService) {}
 
   ngOnInit(): void {
-    this.toastr.info("Playing URL:" + this.movieUrlValuePlay);
+    this.toastr.info('Playing URL:' + this.movieUrlValuePlay);
   }
 
   /**
@@ -28,7 +28,7 @@ export class MoviePlayerComponent implements OnInit {
     ) {
       this.movieUrlValuePlay = this.movieUrlValue;
 
-      this.toastr.info("Playing URL:" + this.movieUrlValuePlay);
+      this.toastr.info('Playing URL:' + this.movieUrlValuePlay);
     }
   }
 }

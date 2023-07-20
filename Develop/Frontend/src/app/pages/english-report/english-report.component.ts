@@ -1,24 +1,24 @@
-import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute, Params, Router } from "@angular/router";
-import { AuthenticationService } from "@app/user/_service";
-import { AlertService } from "@app/_common/alert";
-import { ApiReponse } from "@app/_common/_models";
-import { PageResultVO } from "@app/_common/_models/pageResultVO";
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { AuthenticationService } from '@app/user/_service';
+import { AlertService } from '@app/_common/alert';
+import { ApiReponse } from '@app/_common/_models';
+import { PageResultVO } from '@app/_common/_models/pageResultVO';
 import {
   EnglishLearnRecordSCO,
   EnglishLearnReportSCO,
-} from "@app/_common/_sco";
-import { SearchDate, SearchNumber, Sorter } from "@app/_common/_sco/core_sco";
-import { SpinnerService } from "@app/_common/_services";
-import { ToastrService } from "ngx-toastr";
-import { EnglishDialogService } from "../english/_dialogs";
-import { EnglishLearnRecord, EnglishLearnReport } from "../english/_model";
-import { EnglishService } from "../english/_services";
+} from '@app/_common/_sco';
+import { SearchDate, SearchNumber, Sorter } from '@app/_common/_sco/core_sco';
+import { SpinnerService } from '@app/_common/_services';
+import { ToastrService } from 'ngx-toastr';
+import { EnglishDialogService } from '../english/_dialogs';
+import { EnglishLearnRecord, EnglishLearnReport } from '../english/_model';
+import { EnglishService } from '../english/_services';
 
 @Component({
-  selector: "app-english-report",
-  templateUrl: "./english-report.component.html",
-  styleUrls: ["./english-report.component.css"],
+  selector: 'app-english-report',
+  templateUrl: './english-report.component.html',
+  styleUrls: ['./english-report.component.css'],
 })
 export class EnglishReportComponent implements OnInit {
   userId: number;
@@ -55,7 +55,7 @@ export class EnglishReportComponent implements OnInit {
   ngOnInit(): void {
     // Get user id from parameters
     this.route.params.subscribe(
-      (params: Params) => (this.userId = params["id"]),
+      (params: Params) => (this.userId = params['id']),
     );
 
     // Initial
@@ -120,7 +120,7 @@ export class EnglishReportComponent implements OnInit {
     if (sorter) {
       sorters.push(sorter);
     } else {
-      sorters.push(new Sorter("learnedDate", "DESC"));
+      sorters.push(new Sorter('learnedDate', 'DESC'));
     }
 
     const sco = new EnglishLearnReportSCO();
@@ -205,7 +205,7 @@ export class EnglishReportComponent implements OnInit {
     if (sorter) {
       sorters.push(sorter);
     } else {
-      sorters.push(new Sorter("updatedDate", "ASC"));
+      sorters.push(new Sorter('updatedDate', 'ASC'));
     }
 
     const sco = new EnglishLearnRecordSCO();
@@ -237,7 +237,7 @@ export class EnglishReportComponent implements OnInit {
 
         // Process error
         this.toastr.error(error);
-        this.router.navigate(["/"]);
+        this.router.navigate(['/']);
       },
     );
   }
@@ -252,7 +252,7 @@ export class EnglishReportComponent implements OnInit {
         }
       },
       (reason) => {
-        console.log("VIEW WORD reason:" + reason);
+        console.log('VIEW WORD reason:' + reason);
       },
     );
   }
@@ -299,7 +299,7 @@ export class EnglishReportComponent implements OnInit {
 
         // Process error
         this.toastr.error(error);
-        this.router.navigate(["/"]);
+        this.router.navigate(['/']);
       },
     );
   }

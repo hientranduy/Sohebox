@@ -1,20 +1,20 @@
-import { Component, HostListener, OnInit } from "@angular/core";
-import { EnglishTypeService } from "@app/pages/english/_services";
-import { AuthenticationService } from "@app/user/_service";
-import { AlertService } from "@app/_common/alert";
-import { ApiReponse } from "@app/_common/_models";
-import { EnglishType } from "@app/_common/_models/englishType";
-import { PageResultVO } from "@app/_common/_models/pageResultVO";
-import { SearchText, Sorter } from "@app/_common/_sco/core_sco";
-import { EnglishTypeSCO } from "@app/_common/_sco/englishTypeSCO";
-import { SpinnerService } from "@app/_common/_services";
-import { ToastrService } from "ngx-toastr";
-import { EnglishTypeDialogService } from "./_dialogs";
+import { Component, HostListener, OnInit } from '@angular/core';
+import { EnglishTypeService } from '@app/pages/english/_services';
+import { AuthenticationService } from '@app/user/_service';
+import { AlertService } from '@app/_common/alert';
+import { ApiReponse } from '@app/_common/_models';
+import { EnglishType } from '@app/_common/_models/englishType';
+import { PageResultVO } from '@app/_common/_models/pageResultVO';
+import { SearchText, Sorter } from '@app/_common/_sco/core_sco';
+import { EnglishTypeSCO } from '@app/_common/_sco/englishTypeSCO';
+import { SpinnerService } from '@app/_common/_services';
+import { ToastrService } from 'ngx-toastr';
+import { EnglishTypeDialogService } from './_dialogs';
 
 @Component({
-  selector: "app-english-type",
-  templateUrl: "./english-type.component.html",
-  styleUrls: ["./english-type.component.css"],
+  selector: 'app-english-type',
+  templateUrl: './english-type.component.html',
+  styleUrls: ['./english-type.component.css'],
 })
 export class EnglishTypeComponent implements OnInit {
   // Table elements
@@ -25,11 +25,11 @@ export class EnglishTypeComponent implements OnInit {
 
   // Width change
   windownInnerWidth = window.innerWidth;
-  @HostListener("window:resize", ["$event"])
+  @HostListener('window:resize', ['$event'])
   onResize(event) {
     this.windownInnerWidth = window.innerWidth;
   }
-  @HostListener("window:orientationchange", ["$event"])
+  @HostListener('window:orientationchange', ['$event'])
   onOrientationChange(event) {
     this.windownInnerWidth = window.innerWidth;
   }
@@ -144,7 +144,7 @@ export class EnglishTypeComponent implements OnInit {
       sco.sorters = sorters;
     } else {
       const sorters: Array<Sorter> = [];
-      sorters.push(new Sorter("id", "ASC"));
+      sorters.push(new Sorter('id', 'ASC'));
       sco.sorters = sorters;
     }
     if (filterValue) {
@@ -200,7 +200,7 @@ export class EnglishTypeComponent implements OnInit {
    * Add button
    */
   public add() {
-    this.toastr.warning("[Admin notice] Not allow to create");
+    this.toastr.warning('[Admin notice] Not allow to create');
     // this.englishTypeDialogService.add("ADD", "").then(
     //   result => {
     //     if (result) {
@@ -228,7 +228,7 @@ export class EnglishTypeComponent implements OnInit {
         this.deleteChoose(element);
       });
     } else {
-      this.toastr.info("No selected item", "Information", {
+      this.toastr.info('No selected item', 'Information', {
         timeOut: 2000,
       });
     }
@@ -245,13 +245,13 @@ export class EnglishTypeComponent implements OnInit {
    * View detail chosen
    */
   public viewDetailChoose(item: EnglishType) {
-    this.englishTypeDialogService.view("DETAIL", "", item).then(
+    this.englishTypeDialogService.view('DETAIL', '', item).then(
       (result) => {
         if (result) {
         }
       },
       (reason) => {
-        console.log("DETAIL reason:" + reason);
+        console.log('DETAIL reason:' + reason);
       },
     );
   }
@@ -260,7 +260,7 @@ export class EnglishTypeComponent implements OnInit {
    * Edit chosen
    */
   public editChoose(item: EnglishType) {
-    this.englishTypeDialogService.edit("EDIT", "", item).then(
+    this.englishTypeDialogService.edit('EDIT', '', item).then(
       (result) => {
         if (result) {
           this.getPageResult(
@@ -272,7 +272,7 @@ export class EnglishTypeComponent implements OnInit {
         }
       },
       (reason) => {
-        console.log("EDIT reason:" + reason);
+        console.log('EDIT reason:' + reason);
       },
     );
   }
@@ -282,11 +282,11 @@ export class EnglishTypeComponent implements OnInit {
    */
   public deleteChoose(item: EnglishType) {
     this.englishTypeDialogService
-      .delete("DELETION", "Are you sure deleting: " + item.typeCode + " ?")
+      .delete('DELETION', 'Are you sure deleting: ' + item.typeCode + ' ?')
       .then(
         (result) => {
           if (result) {
-            this.toastr.warning("[Admin notice] Not allow to delete");
+            this.toastr.warning('[Admin notice] Not allow to delete');
 
             // this.configService.delete(item.id).subscribe(
             //   data => {
@@ -312,7 +312,7 @@ export class EnglishTypeComponent implements OnInit {
           }
         },
         (reason) => {
-          console.log("DELETE reason:" + reason);
+          console.log('DELETE reason:' + reason);
         },
       );
   }

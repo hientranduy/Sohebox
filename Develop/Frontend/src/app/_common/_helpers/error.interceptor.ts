@@ -3,11 +3,11 @@ import {
   HttpHandler,
   HttpInterceptor,
   HttpRequest,
-} from "@angular/common/http";
-import { Injectable } from "@angular/core";
-import { AuthenticationService } from "@app/user/_service";
-import { Observable, throwError } from "rxjs";
-import { catchError } from "rxjs/operators";
+} from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { AuthenticationService } from '@app/user/_service';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
@@ -26,17 +26,17 @@ export class ErrorInterceptor implements HttpInterceptor {
 
             // auto logout if 401 response returned from api
             this.authenticationService.logout();
-            if (!err.message.includes("/users/login")) {
+            if (!err.message.includes('/users/login')) {
               // Reload to return to login page
               location.reload();
             }
             break;
 
-          case err.statusText === "Unknown Error":
+          case err.statusText === 'Unknown Error':
             error =
               err.error.message ||
               err.error.errors ||
-              "Service is temporary turn down, please connect admin";
+              'Service is temporary turn down, please connect admin';
             break;
 
           default:

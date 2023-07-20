@@ -1,10 +1,10 @@
-import { HttpClient } from "@angular/common/http";
-import { Injectable } from "@angular/core";
-import { environment } from "@environments/environment";
-import { Config } from "../_models";
-import { ConfigSCO } from "../_sco";
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { environment } from '@environments/environment';
+import { Config } from '../_models';
+import { ConfigSCO } from '../_sco';
 
-@Injectable({ providedIn: "root" })
+@Injectable({ providedIn: 'root' })
 export class ConfigService {
   constructor(private http: HttpClient) {}
 

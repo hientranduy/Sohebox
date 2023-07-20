@@ -1,20 +1,20 @@
-import { Component, Input, OnInit } from "@angular/core";
-import { FormControl, Validators } from "@angular/forms";
-import { AlertService } from "@app/_common/alert";
-import { ApiReponse } from "@app/_common/_models";
-import { SearchText } from "@app/_common/_sco/core_sco";
-import { RequireMatchForm, SpinnerService } from "@app/_common/_services";
-import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
-import { ToastrService } from "ngx-toastr";
-import { Observable } from "rxjs";
-import { map, startWith } from "rxjs/operators";
-import { CryptoPortfolio, CryptoTokenConfig } from "../_models";
-import { CryptoTokenConfigSCO } from "../_sco";
-import { CryptoPortfolioService, CryptoTokenConfigService } from "../_services";
+import { Component, Input, OnInit } from '@angular/core';
+import { FormControl, Validators } from '@angular/forms';
+import { AlertService } from '@app/_common/alert';
+import { ApiReponse } from '@app/_common/_models';
+import { SearchText } from '@app/_common/_sco/core_sco';
+import { RequireMatchForm, SpinnerService } from '@app/_common/_services';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { ToastrService } from 'ngx-toastr';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
+import { CryptoPortfolio, CryptoTokenConfig } from '../_models';
+import { CryptoTokenConfigSCO } from '../_sco';
+import { CryptoPortfolioService, CryptoTokenConfigService } from '../_services';
 
 @Component({
-  styleUrls: ["add-crypto-portfolio-dialog.component.css"],
-  templateUrl: "add-crypto-portfolio-dialog.component.html",
+  styleUrls: ['add-crypto-portfolio-dialog.component.css'],
+  templateUrl: 'add-crypto-portfolio-dialog.component.html',
 })
 export class AddCryptoFortfolioDialogComponent implements OnInit {
   constructor(
@@ -36,18 +36,18 @@ export class AddCryptoFortfolioDialogComponent implements OnInit {
   // Field token
   tokenValue: CryptoTokenConfig;
   filteredTokens: Observable<CryptoTokenConfig[]>;
-  tokenFormControl = new FormControl("", [
+  tokenFormControl = new FormControl('', [
     Validators.required,
     RequireMatchForm,
   ]);
 
   // Field wallet
   walletValue: string;
-  walletFormControl = new FormControl("", [Validators.required]);
+  walletFormControl = new FormControl('', [Validators.required]);
 
   // Field starname
   starnameValue: string;
-  starnameFormControl = new FormControl("", []);
+  starnameFormControl = new FormControl('', []);
 
   ngOnInit() {
     this.getTokenList();
@@ -68,7 +68,7 @@ export class AddCryptoFortfolioDialogComponent implements OnInit {
 
     // Only display if have node URL
     const nodeUrl = new SearchText();
-    nodeUrl.like = "http";
+    nodeUrl.like = 'http';
     sco.nodeUrl = nodeUrl;
 
     // Show loading
@@ -83,7 +83,7 @@ export class AddCryptoFortfolioDialogComponent implements OnInit {
         if (typeResponse.data != null) {
           const items: CryptoTokenConfig[] = typeResponse.data.elements;
           this.filteredTokens = this.tokenFormControl.valueChanges.pipe(
-            startWith(""),
+            startWith(''),
             map((value) =>
               items.filter((valueFilter) =>
                 valueFilter.tokenCode
@@ -142,12 +142,12 @@ export class AddCryptoFortfolioDialogComponent implements OnInit {
         (data) => {
           // Send success toast message
           this.toastr.success(
-            "Wallet " +
+            'Wallet ' +
               this.walletValue +
-              "<" +
+              '<' +
               this.tokenValue.tokenCode +
-              ">" +
-              " is added successful",
+              '>' +
+              ' is added successful',
           );
 
           // Hide loading
@@ -167,7 +167,7 @@ export class AddCryptoFortfolioDialogComponent implements OnInit {
       );
     } else {
       this.message = null;
-      this.messageError = "Invalid fields, please check your input";
+      this.messageError = 'Invalid fields, please check your input';
     }
   }
 
@@ -176,13 +176,13 @@ export class AddCryptoFortfolioDialogComponent implements OnInit {
    */
   public isFormValid() {
     let result = true;
-    if (this.tokenFormControl.status === "INVALID") {
+    if (this.tokenFormControl.status === 'INVALID') {
       result = false;
     }
-    if (this.walletFormControl.status === "INVALID") {
+    if (this.walletFormControl.status === 'INVALID') {
       result = false;
     }
-    if (this.starnameFormControl.status === "INVALID") {
+    if (this.starnameFormControl.status === 'INVALID') {
       result = false;
     }
     return result;

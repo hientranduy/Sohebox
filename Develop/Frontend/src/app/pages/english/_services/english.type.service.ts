@@ -1,10 +1,10 @@
-import { HttpClient } from "@angular/common/http";
-import { Injectable } from "@angular/core";
-import { EnglishType } from "@app/_common/_models";
-import { EnglishTypeSCO } from "@app/_common/_sco";
-import { environment } from "@environments/environment";
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { EnglishType } from '@app/_common/_models';
+import { EnglishTypeSCO } from '@app/_common/_sco';
+import { environment } from '@environments/environment';
 
-@Injectable({ providedIn: "root" })
+@Injectable({ providedIn: 'root' })
 export class EnglishTypeService {
   constructor(private http: HttpClient) {}
 

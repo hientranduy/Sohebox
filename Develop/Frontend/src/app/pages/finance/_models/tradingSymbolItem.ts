@@ -1,4 +1,4 @@
-import { Country } from "@app/_common/_models";
+import { Country } from '@app/_common/_models';
 
 export class TradingSymbolItem {
   Symbol: String;

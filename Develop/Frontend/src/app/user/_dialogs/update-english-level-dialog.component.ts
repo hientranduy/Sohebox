@@ -1,26 +1,26 @@
-import { Component, Input, OnInit } from "@angular/core";
-import { FormBuilder, FormControl, Validators } from "@angular/forms";
-import { EnglishUserGrade } from "@app/pages/english/_model";
+import { Component, Input, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { EnglishUserGrade } from '@app/pages/english/_model';
 import {
   EnglishService,
   EnglishTypeService,
-} from "@app/pages/english/_services";
-import { User } from "@app/user/_models";
-import { AuthenticationService } from "@app/user/_service";
-import { AlertService } from "@app/_common/alert";
-import { ApiReponse, EnglishType } from "@app/_common/_models";
-import { EnglishTypeSCO, EnglishUserGradeSCO } from "@app/_common/_sco";
-import { SearchNumber, SearchText, Sorter } from "@app/_common/_sco/core_sco";
-import { RequireMatchForm, SpinnerService } from "@app/_common/_services";
-import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
-import { ToastrService } from "ngx-toastr";
-import { Observable } from "rxjs";
-import { map, startWith } from "rxjs/operators";
+} from '@app/pages/english/_services';
+import { User } from '@app/user/_models';
+import { AuthenticationService } from '@app/user/_service';
+import { AlertService } from '@app/_common/alert';
+import { ApiReponse, EnglishType } from '@app/_common/_models';
+import { EnglishTypeSCO, EnglishUserGradeSCO } from '@app/_common/_sco';
+import { SearchNumber, SearchText, Sorter } from '@app/_common/_sco/core_sco';
+import { RequireMatchForm, SpinnerService } from '@app/_common/_services';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { ToastrService } from 'ngx-toastr';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
 
 @Component({
-  selector: "app-update-english-level-dialog",
-  templateUrl: "./update-english-level-dialog.component.html",
-  styleUrls: ["./update-english-level-dialog.component.css"],
+  selector: 'app-update-english-level-dialog',
+  templateUrl: './update-english-level-dialog.component.html',
+  styleUrls: ['./update-english-level-dialog.component.css'],
 })
 export class UpdateEnglishLevelDialogComponent implements OnInit {
   constructor(
@@ -51,12 +51,12 @@ export class UpdateEnglishLevelDialogComponent implements OnInit {
   // Field grade
   gradeSelect: EnglishType;
   filteredGrades: Observable<EnglishType[]>;
-  gradeControl = new FormControl("", [Validators.required, RequireMatchForm]);
+  gradeControl = new FormControl('', [Validators.required, RequireMatchForm]);
 
   // Field learn day
   learnDaySelect: EnglishType;
   filteredLearnDays: Observable<EnglishType[]>;
-  learnDayControl = new FormControl("", [
+  learnDayControl = new FormControl('', [
     Validators.required,
     RequireMatchForm,
   ]);
@@ -86,9 +86,9 @@ export class UpdateEnglishLevelDialogComponent implements OnInit {
   getFilterGrades() {
     // Prepare search condition
     const typeClass = new SearchText();
-    typeClass.eq = "ENGLISH_VUS_GRADE";
+    typeClass.eq = 'ENGLISH_VUS_GRADE';
     const sorters: Array<Sorter> = [];
-    sorters.push(new Sorter("id", "ASC"));
+    sorters.push(new Sorter('id', 'ASC'));
 
     const typeSCO = new EnglishTypeSCO();
     typeSCO.typeClass = typeClass;
@@ -107,7 +107,7 @@ export class UpdateEnglishLevelDialogComponent implements OnInit {
         if (typeResponse.data != null) {
           const grades: EnglishType[] = typeResponse.data.elements;
           this.filteredGrades = this.gradeControl.valueChanges.pipe(
-            startWith(""),
+            startWith(''),
             map((value) =>
               grades.filter((valueFilter) =>
                 valueFilter.typeName
@@ -136,7 +136,7 @@ export class UpdateEnglishLevelDialogComponent implements OnInit {
   getFilterLearnDays() {
     // Prepare search condition
     const typeClass = new SearchText();
-    typeClass.eq = "ENGLISH_LEARN_DAY";
+    typeClass.eq = 'ENGLISH_LEARN_DAY';
     const englishTypeSCO = new EnglishTypeSCO();
     englishTypeSCO.typeClass = typeClass;
 
@@ -152,7 +152,7 @@ export class UpdateEnglishLevelDialogComponent implements OnInit {
         if (typeResponse.data != null) {
           const learnDays: EnglishType[] = typeResponse.data.elements;
           this.filteredLearnDays = this.learnDayControl.valueChanges.pipe(
-            startWith(""),
+            startWith(''),
             map((value) =>
               learnDays.filter((valueFilter) =>
                 valueFilter.typeName
@@ -238,14 +238,14 @@ export class UpdateEnglishLevelDialogComponent implements OnInit {
       // Case data is invalid
       case !this.isFormValid():
         this.message = null;
-        this.messageError = "Invalid fields, please check your input";
+        this.messageError = 'Invalid fields, please check your input';
         break;
 
       // Case data is unchanged
       case !this.isHaveUpdateValue():
         // Send warning toast message
         this.toastr.warning(
-          "Skip update account because the value is not changed",
+          'Skip update account because the value is not changed',
         );
 
         // Close dialog as cancel
@@ -273,7 +273,7 @@ export class UpdateEnglishLevelDialogComponent implements OnInit {
         this.englishService.updateEnglishLevel(englishUserGrade).subscribe(
           (data) => {
             // Send success toast message
-            this.toastr.success("Your new level is updated successful");
+            this.toastr.success('Your new level is updated successful');
 
             // Hide loading
             this.spinner.hide();
@@ -298,10 +298,10 @@ export class UpdateEnglishLevelDialogComponent implements OnInit {
   // Validate all fields
   public isFormValid() {
     let result = true;
-    if (this.gradeControl.status === "INVALID") {
+    if (this.gradeControl.status === 'INVALID') {
       result = false;
     }
-    if (this.learnDayControl.status === "INVALID") {
+    if (this.learnDayControl.status === 'INVALID') {
       result = false;
     }
     return result;

@@ -1,13 +1,13 @@
-import { Component, Input, OnInit } from "@angular/core";
-import { FormControl, Validators } from "@angular/forms";
-import { ErrorStateMatcher } from "@angular/material/core";
-import { AuthenticationService } from "@app/user/_service";
-import { MediaType } from "@app/_common/_models/mediaType";
-import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
+import { Component, Input, OnInit } from '@angular/core';
+import { FormControl, Validators } from '@angular/forms';
+import { ErrorStateMatcher } from '@angular/material/core';
+import { AuthenticationService } from '@app/user/_service';
+import { MediaType } from '@app/_common/_models/mediaType';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-  styleUrls: ["view-media-type.component.css"],
-  templateUrl: "view-media-type.component.html",
+  styleUrls: ['view-media-type.component.css'],
+  templateUrl: 'view-media-type.component.html',
 })
 export class ViewMediaTypeDialogComponent implements OnInit {
   constructor(private activeModal: NgbActiveModal) {}
@@ -33,19 +33,19 @@ export class ViewMediaTypeDialogComponent implements OnInit {
   matcher = new ErrorStateMatcher();
 
   // Field : type class
-  typeClassFormControl = new FormControl("", []);
+  typeClassFormControl = new FormControl('', []);
 
   // Field : type code
-  typeCodeFormControl = new FormControl("", []);
+  typeCodeFormControl = new FormControl('', []);
 
   // Field : type name
-  typeNameFormControl = new FormControl("", [Validators.required]);
+  typeNameFormControl = new FormControl('', [Validators.required]);
 
   // Field : description
-  descriptionFormControl = new FormControl("", []);
+  descriptionFormControl = new FormControl('', []);
 
   // Field : icon URL
-  iconUrlFormControl = new FormControl("", []);
+  iconUrlFormControl = new FormControl('', []);
 
   ngOnInit() {
     // Set current value

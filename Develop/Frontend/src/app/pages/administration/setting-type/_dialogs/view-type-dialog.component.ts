@@ -1,16 +1,16 @@
-import { Component, Input, OnInit } from "@angular/core";
-import { FormBuilder, FormControl, Validators } from "@angular/forms";
-import { ErrorStateMatcher } from "@angular/material/core";
-import { AuthenticationService } from "@app/user/_service";
-import { AlertService } from "@app/_common/alert";
-import { Type } from "@app/_common/_models";
-import { TypeService } from "@app/_common/_services";
-import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
-import { ToastrService } from "ngx-toastr";
+import { Component, Input, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { ErrorStateMatcher } from '@angular/material/core';
+import { AuthenticationService } from '@app/user/_service';
+import { AlertService } from '@app/_common/alert';
+import { Type } from '@app/_common/_models';
+import { TypeService } from '@app/_common/_services';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  styleUrls: ["view-type-dialog.component.css"],
-  templateUrl: "view-type-dialog.component.html",
+  styleUrls: ['view-type-dialog.component.css'],
+  templateUrl: 'view-type-dialog.component.html',
 })
 export class ViewTypeDialogComponent implements OnInit {
   constructor(
@@ -44,22 +44,22 @@ export class ViewTypeDialogComponent implements OnInit {
   matcher = new ErrorStateMatcher();
 
   // Field : type class
-  typeClassFormControl = new FormControl("", []);
+  typeClassFormControl = new FormControl('', []);
 
   // Field : type code
-  typeCodeFormControl = new FormControl("", []);
+  typeCodeFormControl = new FormControl('', []);
 
   // Field : type name
-  typeNameFormControl = new FormControl("", [Validators.required]);
+  typeNameFormControl = new FormControl('', [Validators.required]);
 
   // Field : description
-  descriptionFormControl = new FormControl("", []);
+  descriptionFormControl = new FormControl('', []);
 
   // Field : icon URL
-  iconUrlFormControl = new FormControl("", []);
+  iconUrlFormControl = new FormControl('', []);
 
   // Field : URL
-  urlFormControl = new FormControl("", []);
+  urlFormControl = new FormControl('', []);
 
   ngOnInit() {
     // Set current value

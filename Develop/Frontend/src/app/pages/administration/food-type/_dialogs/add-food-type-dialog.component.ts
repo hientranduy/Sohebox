@@ -1,9 +1,9 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
-  selector: "app-add-food-type-dialog",
-  templateUrl: "./add-food-type-dialog.component.html",
-  styleUrls: ["./add-food-type-dialog.component.css"],
+  selector: 'app-add-food-type-dialog',
+  templateUrl: './add-food-type-dialog.component.html',
+  styleUrls: ['./add-food-type-dialog.component.css'],
 })
 export class AddFoodTypeDialogComponent implements OnInit {
   @Input() title: string;

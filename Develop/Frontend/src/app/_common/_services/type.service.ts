@@ -1,10 +1,10 @@
-import { HttpClient } from "@angular/common/http";
-import { Injectable } from "@angular/core";
-import { environment } from "@environments/environment";
-import { Type } from "../_models";
-import { TypeSCO } from "../_sco";
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { environment } from '@environments/environment';
+import { Type } from '../_models';
+import { TypeSCO } from '../_sco';
 
-@Injectable({ providedIn: "root" })
+@Injectable({ providedIn: 'root' })
 export class TypeService {
   constructor(private http: HttpClient) {}
 

@@ -1,5 +1,5 @@
-import { User } from "@app/user/_models";
-import { CryptoTokenConfig } from "./cryptoTokenConfig";
+import { User } from '@app/user/_models';
+import { CryptoTokenConfig } from './cryptoTokenConfig';
 
 export class CryptoPortfolioHistory {
   id: number;

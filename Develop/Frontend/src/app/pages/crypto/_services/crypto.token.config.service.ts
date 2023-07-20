@@ -1,10 +1,10 @@
-import { HttpClient } from "@angular/common/http";
-import { Injectable } from "@angular/core";
-import { environment } from "@environments/environment";
-import { CryptoTokenConfig } from "../_models";
-import { CryptoTokenConfigSCO } from "../_sco/cryptoTokenConfigSCO";
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { environment } from '@environments/environment';
+import { CryptoTokenConfig } from '../_models';
+import { CryptoTokenConfigSCO } from '../_sco/cryptoTokenConfigSCO';
 
-@Injectable({ providedIn: "root" })
+@Injectable({ providedIn: 'root' })
 export class CryptoTokenConfigService {
   constructor(private http: HttpClient) {}
 

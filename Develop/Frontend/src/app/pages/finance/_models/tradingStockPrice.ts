@@ -1,4 +1,4 @@
-import { TradingSymbolItem } from "./tradingSymbolItem";
+import { TradingSymbolItem } from './tradingSymbolItem';
 
 export class TradingStockPrice {
   america: Array<TradingSymbolItem>;

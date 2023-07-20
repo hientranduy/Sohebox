@@ -1,20 +1,20 @@
-import { Component, OnInit } from "@angular/core";
-import { CryptoTokenConfig } from "@app/pages/crypto/_models";
-import { CryptoTokenConfigSCO } from "@app/pages/crypto/_sco";
-import { CryptoTokenConfigService } from "@app/pages/crypto/_services";
-import { AuthenticationService } from "@app/user/_service";
-import { AlertService } from "@app/_common/alert";
-import { ApiReponse } from "@app/_common/_models";
-import { PageResultVO } from "@app/_common/_models/pageResultVO";
-import { SearchText, Sorter } from "@app/_common/_sco/core_sco";
-import { SpinnerService } from "@app/_common/_services";
-import { ToastrService } from "ngx-toastr";
-import { CryptoTokenDialogService } from "./_dialogs";
+import { Component, OnInit } from '@angular/core';
+import { CryptoTokenConfig } from '@app/pages/crypto/_models';
+import { CryptoTokenConfigSCO } from '@app/pages/crypto/_sco';
+import { CryptoTokenConfigService } from '@app/pages/crypto/_services';
+import { AuthenticationService } from '@app/user/_service';
+import { AlertService } from '@app/_common/alert';
+import { ApiReponse } from '@app/_common/_models';
+import { PageResultVO } from '@app/_common/_models/pageResultVO';
+import { SearchText, Sorter } from '@app/_common/_sco/core_sco';
+import { SpinnerService } from '@app/_common/_services';
+import { ToastrService } from 'ngx-toastr';
+import { CryptoTokenDialogService } from './_dialogs';
 
 @Component({
-  selector: "app-crypto-token-config",
-  templateUrl: "./crypto-token-config.component.html",
-  styleUrls: ["./crypto-token-config.component.css"],
+  selector: 'app-crypto-token-config',
+  templateUrl: './crypto-token-config.component.html',
+  styleUrls: ['./crypto-token-config.component.css'],
 })
 export class CryptoTokenConfigComponent implements OnInit {
   // Table elements
@@ -125,7 +125,7 @@ export class CryptoTokenConfigComponent implements OnInit {
       sco.sorters = sorters;
     } else {
       const sorters: Array<Sorter> = [];
-      sorters.push(new Sorter("id", "ASC"));
+      sorters.push(new Sorter('id', 'ASC'));
       sco.sorters = sorters;
     }
 
@@ -182,7 +182,7 @@ export class CryptoTokenConfigComponent implements OnInit {
    * Add button
    */
   public add() {
-    this.cryptoTokenDialogService.add("Add token", "").then(
+    this.cryptoTokenDialogService.add('Add token', '').then(
       (result) => {
         if (result) {
           // Refresh table
@@ -195,7 +195,7 @@ export class CryptoTokenConfigComponent implements OnInit {
         }
       },
       (reason) => {
-        console.log("ADD reason:" + reason);
+        console.log('ADD reason:' + reason);
       },
     );
   }
@@ -211,7 +211,7 @@ export class CryptoTokenConfigComponent implements OnInit {
    * Edit chosen
    */
   public editChoosen(item: CryptoTokenConfig) {
-    this.cryptoTokenDialogService.edit("EDIT", "", item).then(
+    this.cryptoTokenDialogService.edit('EDIT', '', item).then(
       (result) => {
         if (result) {
           this.getPageResult(
@@ -223,7 +223,7 @@ export class CryptoTokenConfigComponent implements OnInit {
         }
       },
       (reason) => {
-        console.log("EDIT reason:" + reason);
+        console.log('EDIT reason:' + reason);
       },
     );
   }

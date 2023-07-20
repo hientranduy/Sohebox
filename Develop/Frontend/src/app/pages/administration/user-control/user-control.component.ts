@@ -1,18 +1,18 @@
-import { Component, HostListener, OnDestroy, OnInit } from "@angular/core";
-import { UserStatus } from "@app/user/_models";
-import { UserService } from "@app/user/_service";
-import { AlertService } from "@app/_common/alert";
-import { ApiReponse } from "@app/_common/_models";
-import { PageResultVO } from "@app/_common/_models/pageResultVO";
-import { UserSCO } from "@app/_common/_sco";
-import { SearchText, Sorter } from "@app/_common/_sco/core_sco";
-import { SpinnerService } from "@app/_common/_services";
-import { ToastrService } from "ngx-toastr";
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
+import { UserStatus } from '@app/user/_models';
+import { UserService } from '@app/user/_service';
+import { AlertService } from '@app/_common/alert';
+import { ApiReponse } from '@app/_common/_models';
+import { PageResultVO } from '@app/_common/_models/pageResultVO';
+import { UserSCO } from '@app/_common/_sco';
+import { SearchText, Sorter } from '@app/_common/_sco/core_sco';
+import { SpinnerService } from '@app/_common/_services';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  selector: "app-user-control",
-  templateUrl: "./user-control.component.html",
-  styleUrls: ["./user-control.component.css"],
+  selector: 'app-user-control',
+  templateUrl: './user-control.component.html',
+  styleUrls: ['./user-control.component.css'],
 })
 export class UserControlComponent implements OnInit, OnDestroy {
   pageResult: PageResultVO<UserStatus>;
@@ -26,11 +26,11 @@ export class UserControlComponent implements OnInit, OnDestroy {
 
   // Width change
   windownInnerWidth = window.innerWidth;
-  @HostListener("window:resize", ["$event"])
+  @HostListener('window:resize', ['$event'])
   onResize(event) {
     this.windownInnerWidth = window.innerWidth;
   }
-  @HostListener("window:orientationchange", ["$event"])
+  @HostListener('window:orientationchange', ['$event'])
   onOrientationChange(event) {
     this.windownInnerWidth = window.innerWidth;
   }

@@ -1,20 +1,20 @@
-import { Component, OnInit } from "@angular/core";
-import { YoutubeChannel } from "@app/pages/media/_models";
-import { YoutubeService } from "@app/pages/media/_services";
-import { AuthenticationService } from "@app/user/_service";
-import { AlertService } from "@app/_common/alert";
-import { ApiReponse } from "@app/_common/_models";
-import { PageResultVO } from "@app/_common/_models/pageResultVO";
-import { YoutubeChannelSCO } from "@app/_common/_sco";
-import { SearchText, Sorter } from "@app/_common/_sco/core_sco";
-import { SpinnerService } from "@app/_common/_services";
-import { ToastrService } from "ngx-toastr";
-import { YoutubeChannelDialogService } from "./_dialogs";
+import { Component, OnInit } from '@angular/core';
+import { YoutubeChannel } from '@app/pages/media/_models';
+import { YoutubeService } from '@app/pages/media/_services';
+import { AuthenticationService } from '@app/user/_service';
+import { AlertService } from '@app/_common/alert';
+import { ApiReponse } from '@app/_common/_models';
+import { PageResultVO } from '@app/_common/_models/pageResultVO';
+import { YoutubeChannelSCO } from '@app/_common/_sco';
+import { SearchText, Sorter } from '@app/_common/_sco/core_sco';
+import { SpinnerService } from '@app/_common/_services';
+import { ToastrService } from 'ngx-toastr';
+import { YoutubeChannelDialogService } from './_dialogs';
 
 @Component({
-  selector: "app-youtube-channel-config",
-  templateUrl: "./youtube-channel-config.component.html",
-  styleUrls: ["./youtube-channel-config.component.css"],
+  selector: 'app-youtube-channel-config',
+  templateUrl: './youtube-channel-config.component.html',
+  styleUrls: ['./youtube-channel-config.component.css'],
 })
 export class YoutubeChannelConfigComponent implements OnInit {
   // Table elements
@@ -125,7 +125,7 @@ export class YoutubeChannelConfigComponent implements OnInit {
       sco.sorters = sorters;
     } else {
       const sorters: Array<Sorter> = [];
-      sorters.push(new Sorter("id", "ASC"));
+      sorters.push(new Sorter('id', 'ASC'));
       sco.sorters = sorters;
     }
 
@@ -176,7 +176,7 @@ export class YoutubeChannelConfigComponent implements OnInit {
    * Add button
    */
   public add() {
-    this.youtubeChannelDialogService.add("Add channel", "").then(
+    this.youtubeChannelDialogService.add('Add channel', '').then(
       (result) => {
         if (result) {
           // Refresh table
@@ -189,7 +189,7 @@ export class YoutubeChannelConfigComponent implements OnInit {
         }
       },
       (reason) => {
-        console.log("ADD reason:" + reason);
+        console.log('ADD reason:' + reason);
       },
     );
   }
@@ -205,7 +205,7 @@ export class YoutubeChannelConfigComponent implements OnInit {
    * Edit chosen
    */
   public editChoosen(item: YoutubeChannel) {
-    this.youtubeChannelDialogService.edit("EDIT", "", item).then(
+    this.youtubeChannelDialogService.edit('EDIT', '', item).then(
       (result) => {
         if (result) {
           this.getPageResult(
@@ -217,7 +217,7 @@ export class YoutubeChannelConfigComponent implements OnInit {
         }
       },
       (reason) => {
-        console.log("EDIT reason:" + reason);
+        console.log('EDIT reason:' + reason);
       },
     );
   }

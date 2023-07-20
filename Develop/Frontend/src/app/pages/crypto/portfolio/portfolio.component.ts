@@ -1,21 +1,21 @@
-import { Component, HostListener, OnInit } from "@angular/core";
-import { AppSettings } from "@app/appSettings";
-import { User } from "@app/user/_models";
-import { AuthenticationService } from "@app/user/_service";
-import { AlertService } from "@app/_common/alert";
-import { ApiReponse } from "@app/_common/_models";
-import { PageResultVO } from "@app/_common/_models/pageResultVO";
-import { SearchText, Sorter } from "@app/_common/_sco/core_sco";
-import { SpinnerService, UtilsService } from "@app/_common/_services";
-import { CryptoPortfolioDialogService } from "../_dialogs";
-import { CryptoPortfolio, CryptoPortfolioHistory } from "../_models";
-import { CryptoPortfolioHistorySCO, CryptoPortfolioSCO } from "../_sco";
-import { CryptoPortfolioService } from "../_services";
+import { Component, HostListener, OnInit } from '@angular/core';
+import { AppSettings } from '@app/appSettings';
+import { User } from '@app/user/_models';
+import { AuthenticationService } from '@app/user/_service';
+import { AlertService } from '@app/_common/alert';
+import { ApiReponse } from '@app/_common/_models';
+import { PageResultVO } from '@app/_common/_models/pageResultVO';
+import { SearchText, Sorter } from '@app/_common/_sco/core_sco';
+import { SpinnerService, UtilsService } from '@app/_common/_services';
+import { CryptoPortfolioDialogService } from '../_dialogs';
+import { CryptoPortfolio, CryptoPortfolioHistory } from '../_models';
+import { CryptoPortfolioHistorySCO, CryptoPortfolioSCO } from '../_sco';
+import { CryptoPortfolioService } from '../_services';
 
 @Component({
-  selector: "app-crypto-portfolio",
-  templateUrl: "./portfolio.component.html",
-  styleUrls: ["./portfolio.component.css"],
+  selector: 'app-crypto-portfolio',
+  templateUrl: './portfolio.component.html',
+  styleUrls: ['./portfolio.component.css'],
 })
 export class PortfolioComponent implements OnInit {
   /**
@@ -63,11 +63,11 @@ export class PortfolioComponent implements OnInit {
 
   // Width change
   windownInnerWidth = window.innerWidth;
-  @HostListener("window:resize", ["$event"])
+  @HostListener('window:resize', ['$event'])
   onResize(event) {
     this.windownInnerWidth = window.innerWidth;
   }
-  @HostListener("window:orientationchange", ["$event"])
+  @HostListener('window:orientationchange', ['$event'])
   onOrientationChange(event) {
     this.windownInnerWidth = window.innerWidth;
   }
@@ -193,15 +193,15 @@ export class PortfolioComponent implements OnInit {
     if (sorter) {
       const sorters: Array<Sorter> = [];
       sorters.push(sorter);
-      if (sorter.property === "token") {
-        sorters.push(new Sorter("starname", "ASC"));
+      if (sorter.property === 'token') {
+        sorters.push(new Sorter('starname', 'ASC'));
       }
       sco.sorters = sorters;
     } else {
       const sorters: Array<Sorter> = [];
       // sorters.push(new Sorter('id', 'ASC'));
-      sorters.push(new Sorter("token", "ASC"));
-      sorters.push(new Sorter("starname", "ASC"));
+      sorters.push(new Sorter('token', 'ASC'));
+      sorters.push(new Sorter('starname', 'ASC'));
       sco.sorters = sorters;
     }
     if (filterValue) {
@@ -260,7 +260,7 @@ export class PortfolioComponent implements OnInit {
       sco.sorters = sorters;
     } else {
       const sorters: Array<Sorter> = [];
-      sorters.push(new Sorter("token", "ASC"));
+      sorters.push(new Sorter('token', 'ASC'));
       sco.sorters = sorters;
     }
 
@@ -291,7 +291,7 @@ export class PortfolioComponent implements OnInit {
    * Add button
    */
   public add() {
-    this.cryptoPortfolioDialogService.add("ADD WALLET", "").then(
+    this.cryptoPortfolioDialogService.add('ADD WALLET', '').then(
       (result) => {
         if (result) {
           // Refresh table
@@ -304,7 +304,7 @@ export class PortfolioComponent implements OnInit {
         }
       },
       (reason) => {
-        console.log("ADD reason:" + reason);
+        console.log('ADD reason:' + reason);
       },
     );
   }
@@ -320,13 +320,13 @@ export class PortfolioComponent implements OnInit {
    * View detail chosen
    */
   public viewDetailChoose(item: CryptoPortfolio) {
-    this.cryptoPortfolioDialogService.view("DETAIL WALLET", "", item).then(
+    this.cryptoPortfolioDialogService.view('DETAIL WALLET', '', item).then(
       (result) => {
         if (result) {
         }
       },
       (reason) => {
-        console.log("DETAIL reason:" + reason);
+        console.log('DETAIL reason:' + reason);
       },
     );
   }
@@ -335,7 +335,7 @@ export class PortfolioComponent implements OnInit {
    * Edit chosen
    */
   public editChoose(item: CryptoPortfolio) {
-    this.cryptoPortfolioDialogService.edit("EDIT WALLET", "", item).then(
+    this.cryptoPortfolioDialogService.edit('EDIT WALLET', '', item).then(
       (result) => {
         if (result) {
           this.getPageResult(
@@ -347,7 +347,7 @@ export class PortfolioComponent implements OnInit {
         }
       },
       (reason) => {
-        console.log("EDIT reason:" + reason);
+        console.log('EDIT reason:' + reason);
       },
     );
   }
@@ -357,7 +357,7 @@ export class PortfolioComponent implements OnInit {
    */
   public deleteChoose(item: CryptoPortfolio) {
     this.cryptoPortfolioDialogService
-      .delete("DELETION", "Are you sure deleting: " + item.wallet + " ?", item)
+      .delete('DELETION', 'Are you sure deleting: ' + item.wallet + ' ?', item)
       .then(
         (result) => {
           if (result) {
@@ -373,7 +373,7 @@ export class PortfolioComponent implements OnInit {
           }
         },
         (reason) => {
-          console.log("DELETE reason:" + reason);
+          console.log('DELETE reason:' + reason);
         },
       );
   }
@@ -385,7 +385,7 @@ export class PortfolioComponent implements OnInit {
     window.open(
       AppSettings.CRYPTO_MINTSCAN +
         item.token.mintscanPrefix +
-        "/account/" +
+        '/account/' +
         item.wallet,
     );
   }
@@ -397,7 +397,7 @@ export class PortfolioComponent implements OnInit {
     window.open(
       AppSettings.CRYPTO_MINTSCAN +
         item.token.mintscanPrefix +
-        "/validators/" +
+        '/validators/' +
         item.validator.validatorAddress,
     );
   }

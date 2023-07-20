@@ -1,43 +1,43 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
-import { FormControl } from "@angular/forms";
-import { ActivatedRoute, Router } from "@angular/router";
-import { AppSettings } from "@app/appSettings";
-import { User } from "@app/user/_models";
-import { AuthenticationService } from "@app/user/_service";
-import { AlertService } from "@app/_common/alert";
-import { ApiReponse, EnglishType } from "@app/_common/_models";
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AppSettings } from '@app/appSettings';
+import { User } from '@app/user/_models';
+import { AuthenticationService } from '@app/user/_service';
+import { AlertService } from '@app/_common/alert';
+import { ApiReponse, EnglishType } from '@app/_common/_models';
 import {
   EnglishLearnRecordSCO,
   EnglishSCO,
   EnglishTypeSCO,
   EnglishUserGradeSCO,
-} from "@app/_common/_sco";
+} from '@app/_common/_sco';
 import {
   SearchDate,
   SearchNumber,
   SearchText,
   Sorter,
-} from "@app/_common/_sco/core_sco";
+} from '@app/_common/_sco/core_sco';
 import {
   RequireMatchForm,
   SEOService,
   SpinnerService,
   UtilsService,
-} from "@app/_common/_services";
-import { ToastrService } from "ngx-toastr";
-import { Observable } from "rxjs";
-import { map, startWith } from "rxjs/operators";
-import { EnglishDialogService } from "./_dialogs";
-import { English, EnglishLearnRecord, EnglishUserGrade } from "./_model";
-import { EnglishService, EnglishTypeService } from "./_services";
+} from '@app/_common/_services';
+import { ToastrService } from 'ngx-toastr';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
+import { EnglishDialogService } from './_dialogs';
+import { English, EnglishLearnRecord, EnglishUserGrade } from './_model';
+import { EnglishService, EnglishTypeService } from './_services';
 
 @Component({
-  selector: "app-english",
-  templateUrl: "./english.component.html",
-  styleUrls: ["./english.component.css"],
+  selector: 'app-english',
+  templateUrl: './english.component.html',
+  styleUrls: ['./english.component.css'],
 })
 export class EnglishComponent implements OnInit {
-  @ViewChild("searchButtonEnglish") public searchButton: any;
+  @ViewChild('searchButtonEnglish') public searchButton: any;
 
   // Current user
   currentUser: User;
@@ -74,14 +74,14 @@ export class EnglishComponent implements OnInit {
   //////////////////////
   keyWordValue: string;
   keyWordValueSave: string;
-  wordFormControl = new FormControl("", []);
+  wordFormControl = new FormControl('', []);
 
   ////////////////////
   // Field Category //
   ////////////////////
   categoryValue: EnglishType;
   categoryValueSave: EnglishType;
-  categoryControl = new FormControl("", [RequireMatchForm]);
+  categoryControl = new FormControl('', [RequireMatchForm]);
   filteredCategories: Observable<EnglishType[]>;
 
   /////////////////
@@ -89,7 +89,7 @@ export class EnglishComponent implements OnInit {
   /////////////////
   gradeValue: EnglishType;
   gradeValueSave: EnglishType;
-  gradeControl = new FormControl("", [RequireMatchForm]);
+  gradeControl = new FormControl('', [RequireMatchForm]);
   filteredGrades: Observable<EnglishType[]>;
 
   ///////////////////////
@@ -164,7 +164,7 @@ export class EnglishComponent implements OnInit {
     this.getCurrentUserlevelAndFirstWord();
 
     // Add event listener for fullscreen
-    document.addEventListener("fullscreenchange", (event) => {
+    document.addEventListener('fullscreenchange', (event) => {
       if (document.fullscreenElement) {
         this.isFullScreen = true;
       } else {
@@ -186,7 +186,7 @@ export class EnglishComponent implements OnInit {
   public getCalegoryList() {
     // Prepare search condition
     const typeClass = new SearchText();
-    typeClass.eq = "ENGLISH_CATEGORY";
+    typeClass.eq = 'ENGLISH_CATEGORY';
     const englishTypeSCO = new EnglishTypeSCO();
     englishTypeSCO.typeClass = typeClass;
 
@@ -199,7 +199,7 @@ export class EnglishComponent implements OnInit {
         if (typeResponse.data != null) {
           const categories: EnglishType[] = typeResponse.data.elements;
           this.filteredCategories = this.categoryControl.valueChanges.pipe(
-            startWith(""),
+            startWith(''),
             map((value) =>
               categories.filter((valueFilter) =>
                 valueFilter.typeCode
@@ -222,9 +222,9 @@ export class EnglishComponent implements OnInit {
   public getGradeList() {
     // Prepare search condition
     const typeClass = new SearchText();
-    typeClass.eq = "ENGLISH_VUS_GRADE";
+    typeClass.eq = 'ENGLISH_VUS_GRADE';
     const sorters: Array<Sorter> = [];
-    sorters.push(new Sorter("id", "ASC"));
+    sorters.push(new Sorter('id', 'ASC'));
 
     const englishTypeSCO = new EnglishTypeSCO();
     englishTypeSCO.typeClass = typeClass;
@@ -240,7 +240,7 @@ export class EnglishComponent implements OnInit {
         if (typeResponse.data != null) {
           const grades: EnglishType[] = typeResponse.data.elements;
           this.filteredGrades = this.gradeControl.valueChanges.pipe(
-            startWith(""),
+            startWith(''),
             map((value) =>
               grades.filter((valueFilter) =>
                 valueFilter.typeCode
@@ -429,7 +429,7 @@ export class EnglishComponent implements OnInit {
         } else {
           // Toast warning if not found
           this.toastr.warning(
-            "No WORD with search condition, please select others",
+            'No WORD with search condition, please select others',
           );
 
           // Set display word elements to null
@@ -462,7 +462,7 @@ export class EnglishComponent implements OnInit {
       );
     } else {
       // Toast warning if not found
-      this.toastr.warning("Need to generate a WORD first");
+      this.toastr.warning('Need to generate a WORD first');
     }
   }
 
@@ -473,11 +473,11 @@ export class EnglishComponent implements OnInit {
     if (this.displayWord) {
       window.open(
         AppSettings.CAMBRIDGE_DICTIONATY_WORD_URL +
-          this.displayWord.keyWord.split(" ").join("-"),
+          this.displayWord.keyWord.split(' ').join('-'),
       );
     } else {
       // Toast warning if not found
-      this.toastr.warning("Need to generate a WORD first");
+      this.toastr.warning('Need to generate a WORD first');
     }
   }
 
@@ -530,7 +530,7 @@ export class EnglishComponent implements OnInit {
    */
   public clickFullScreen() {
     this.isFullScreen = true;
-    const elem = document.getElementById("englishFunction") as HTMLElement & {
+    const elem = document.getElementById('englishFunction') as HTMLElement & {
       // const elem = document.documentElement as HTMLElement & {
       mozRequestFullScreen(): Promise<void>;
       webkitRequestFullscreen(): Promise<void>;
@@ -583,7 +583,7 @@ export class EnglishComponent implements OnInit {
       (new Date().getTime() - this.playVoiceDate.getTime()) / 1000;
     if (durationVoiceTime < 1) {
       // Toast warning if not found
-      this.toastr.warning("Click too fast - Nhấn nhanh quá");
+      this.toastr.warning('Click too fast - Nhấn nhanh quá');
     } else {
       this.playVoiceDate = new Date();
       // Count
@@ -602,7 +602,7 @@ export class EnglishComponent implements OnInit {
         }
       } else {
         // Toast warning if not found
-        this.toastr.warning("For UK Voice: Need to generate a WORD first");
+        this.toastr.warning('For UK Voice: Need to generate a WORD first');
       }
     }
 
@@ -618,7 +618,7 @@ export class EnglishComponent implements OnInit {
       (new Date().getTime() - this.playVoiceDate.getTime()) / 1000;
     if (durationVoiceTime < 1) {
       // Toast warning if not found
-      this.toastr.warning("Click too fast - Nhấn nhanh quá");
+      this.toastr.warning('Click too fast - Nhấn nhanh quá');
     } else {
       this.playVoiceDate = new Date();
       // Count
@@ -637,7 +637,7 @@ export class EnglishComponent implements OnInit {
         }
       } else {
         // Toast warning if not found
-        this.toastr.warning("For US Voice: Need to generate a WORD first");
+        this.toastr.warning('For US Voice: Need to generate a WORD first');
       }
     }
 
@@ -679,8 +679,8 @@ export class EnglishComponent implements OnInit {
     if (this.numberOfLearned > 0) {
       this.englishDialogService
         .showLearnedWord(
-          "LEARNED WORDS",
-          "You are seeing your list of word that learned by today",
+          'LEARNED WORDS',
+          'You are seeing your list of word that learned by today',
         )
         .then(
           (result) => {
@@ -688,12 +688,12 @@ export class EnglishComponent implements OnInit {
             }
           },
           (reason) => {
-            console.log("showDialogLearnedWord reason:" + reason);
+            console.log('showDialogLearnedWord reason:' + reason);
           },
         );
     } else {
       this.toastr.warning(
-        "You have not learned any word by today, let try hard",
+        'You have not learned any word by today, let try hard',
       );
     }
   }
@@ -719,7 +719,7 @@ export class EnglishComponent implements OnInit {
 
       if (inputWord.toUpperCase() === this.displayWord.keyWord.toUpperCase()) {
         // Show success message
-        this.toastr.success(inputWord + " is the corrected word");
+        this.toastr.success(inputWord + ' is the corrected word');
 
         // Check click image to true
         this.isClickImage = true;
@@ -730,7 +730,7 @@ export class EnglishComponent implements OnInit {
         // Add learn
         this.addLearn(this.currentUser, this.displayWord);
       } else {
-        this.toastr.warning("Not corrected ! Try again");
+        this.toastr.warning('Not corrected ! Try again');
       }
     }
   }
@@ -857,10 +857,10 @@ export class EnglishComponent implements OnInit {
    */
   public isFormValid() {
     let result = true;
-    if (this.categoryControl.status === "INVALID") {
+    if (this.categoryControl.status === 'INVALID') {
       result = false;
     }
-    if (this.gradeControl.status === "INVALID") {
+    if (this.gradeControl.status === 'INVALID') {
       result = false;
     }
 

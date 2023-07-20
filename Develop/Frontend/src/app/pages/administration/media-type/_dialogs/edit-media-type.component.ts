@@ -1,20 +1,20 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, Input, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
   FormGroup,
   Validators,
-} from "@angular/forms";
-import { ErrorStateMatcher } from "@angular/material/core";
-import { MediaType } from "@app/_common/_models/mediaType";
-import { SpinnerService } from "@app/_common/_services";
-import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
-import { ToastrService } from "ngx-toastr";
-import { MediaTypeDialogService } from "../media-type.service";
+} from '@angular/forms';
+import { ErrorStateMatcher } from '@angular/material/core';
+import { MediaType } from '@app/_common/_models/mediaType';
+import { SpinnerService } from '@app/_common/_services';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { ToastrService } from 'ngx-toastr';
+import { MediaTypeDialogService } from '../media-type.service';
 
 @Component({
-  styleUrls: ["edit-media-type.component.css"],
-  templateUrl: "edit-media-type.component.html",
+  styleUrls: ['edit-media-type.component.css'],
+  templateUrl: 'edit-media-type.component.html',
 })
 export class EditMediaTypeDialogComponent implements OnInit {
   constructor(
@@ -46,19 +46,19 @@ export class EditMediaTypeDialogComponent implements OnInit {
   matcher = new ErrorStateMatcher();
 
   // Field : type class
-  typeClassFormControl = new FormControl("", []);
+  typeClassFormControl = new FormControl('', []);
 
   // Field : type code
-  typeCodeFormControl = new FormControl("", []);
+  typeCodeFormControl = new FormControl('', []);
 
   // Field : type name
-  typeNameFormControl = new FormControl("", [Validators.required]);
+  typeNameFormControl = new FormControl('', [Validators.required]);
 
   // Field : description
-  descriptionFormControl = new FormControl("", []);
+  descriptionFormControl = new FormControl('', []);
 
   // Field : icon URL
-  iconUrlFormControl = new FormControl("", []);
+  iconUrlFormControl = new FormControl('', []);
 
   ngOnInit() {
     // Set current value
@@ -94,7 +94,7 @@ export class EditMediaTypeDialogComponent implements OnInit {
       // Case data is unchanged
       case !this.isHaveUpdateValue():
         // Send warning toast message
-        this.toastr.warning("Skip update because the value is not changed");
+        this.toastr.warning('Skip update because the value is not changed');
 
         // Close dialog as cancel
         this.activeModal.close(false);
@@ -103,7 +103,7 @@ export class EditMediaTypeDialogComponent implements OnInit {
       // Case data is invalid
       case !this.isFormValid():
         this.message = null;
-        this.messageError = "Invalid fields, please check your input";
+        this.messageError = 'Invalid fields, please check your input';
         break;
 
       // Case ok
@@ -127,11 +127,11 @@ export class EditMediaTypeDialogComponent implements OnInit {
           next: async (response) => {
             // Send success toast message
             this.toastr.success(
-              "<Type class " +
+              '<Type class ' +
                 this.typeClass +
-                " & type code " +
+                ' & type code ' +
                 this.typeCode +
-                "> is updated successful",
+                '> is updated successful',
             );
 
             // Hide loading
@@ -157,19 +157,19 @@ export class EditMediaTypeDialogComponent implements OnInit {
   // Validate all fields
   public isFormValid() {
     let result = true;
-    if (this.typeClassFormControl.status === "INVALID") {
+    if (this.typeClassFormControl.status === 'INVALID') {
       result = false;
     }
-    if (this.typeCodeFormControl.status === "INVALID") {
+    if (this.typeCodeFormControl.status === 'INVALID') {
       result = false;
     }
-    if (this.typeNameFormControl.status === "INVALID") {
+    if (this.typeNameFormControl.status === 'INVALID') {
       result = false;
     }
-    if (this.descriptionFormControl.status === "INVALID") {
+    if (this.descriptionFormControl.status === 'INVALID') {
       result = false;
     }
-    if (this.iconUrlFormControl.status === "INVALID") {
+    if (this.iconUrlFormControl.status === 'INVALID') {
       result = false;
     }
     return result;

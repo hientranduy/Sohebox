@@ -1,14 +1,14 @@
-import { Component, Input, OnInit } from "@angular/core";
-import { ApiReponse } from "@app/_common/_models";
-import { SpinnerService } from "@app/_common/_services";
-import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
-import { ToastrService } from "ngx-toastr";
-import { Account } from "../_models";
-import { AccountService } from "../_services";
+import { Component, Input, OnInit } from '@angular/core';
+import { ApiReponse } from '@app/_common/_models';
+import { SpinnerService } from '@app/_common/_services';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { ToastrService } from 'ngx-toastr';
+import { Account } from '../_models';
+import { AccountService } from '../_services';
 
 @Component({
-  styleUrls: ["show-password-dialog.component.css"],
-  templateUrl: "show-password-dialog.component.html",
+  styleUrls: ['show-password-dialog.component.css'],
+  templateUrl: 'show-password-dialog.component.html',
 })
 export class ShowPasswordDialogComponent implements OnInit {
   constructor(
@@ -61,7 +61,7 @@ export class ShowPasswordDialogComponent implements OnInit {
             this.messageError = typeResponse.message;
             this.displayPassword = this.account.mdp;
           } else {
-            this.messageError = "";
+            this.messageError = '';
           }
 
           // Hide Loading
@@ -73,7 +73,7 @@ export class ShowPasswordDialogComponent implements OnInit {
         },
       );
     } else {
-      this.messageError = "Input missing";
+      this.messageError = 'Input missing';
     }
   }
 }

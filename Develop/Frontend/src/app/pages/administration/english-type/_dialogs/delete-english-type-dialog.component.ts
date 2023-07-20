@@ -1,11 +1,11 @@
-import { Component, Input, OnInit } from "@angular/core";
-import { SpinnerService } from "@app/_common/_services";
-import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
+import { Component, Input, OnInit } from '@angular/core';
+import { SpinnerService } from '@app/_common/_services';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-  selector: "app-delete-english-type-dialog",
-  templateUrl: "./delete-english-type-dialog.component.html",
-  styleUrls: ["./delete-english-type-dialog.component.css"],
+  selector: 'app-delete-english-type-dialog',
+  templateUrl: './delete-english-type-dialog.component.html',
+  styleUrls: ['./delete-english-type-dialog.component.css'],
 })
 export class DeleteEnglishTypeDialogComponent implements OnInit {
   @Input() title: string;

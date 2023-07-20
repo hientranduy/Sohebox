@@ -1,12 +1,12 @@
-import { Component, Input, OnInit } from "@angular/core";
-import { FormControl, Validators } from "@angular/forms";
-import { ErrorStateMatcher } from "@angular/material/core";
-import { Config } from "@app/_common/_models";
-import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
+import { Component, Input, OnInit } from '@angular/core';
+import { FormControl, Validators } from '@angular/forms';
+import { ErrorStateMatcher } from '@angular/material/core';
+import { Config } from '@app/_common/_models';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-  styleUrls: ["view-config-dialog.component.css"],
-  templateUrl: "view-config-dialog.component.html",
+  styleUrls: ['view-config-dialog.component.css'],
+  templateUrl: 'view-config-dialog.component.html',
 })
 export class ViewConfigDialogComponent implements OnInit {
   constructor(private activeModal: NgbActiveModal) {}
@@ -29,13 +29,13 @@ export class ViewConfigDialogComponent implements OnInit {
   matcher = new ErrorStateMatcher();
 
   // Field : config key
-  configKeyFormControl = new FormControl("", []);
+  configKeyFormControl = new FormControl('', []);
 
   // Field : config value
-  configValueFormControl = new FormControl("", [Validators.required]);
+  configValueFormControl = new FormControl('', [Validators.required]);
 
   // Field : description
-  descriptionFormControl = new FormControl("", []);
+  descriptionFormControl = new FormControl('', []);
 
   ngOnInit() {
     // Set current value

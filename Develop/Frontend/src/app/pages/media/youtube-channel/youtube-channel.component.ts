@@ -1,27 +1,27 @@
-import { Component, HostListener, OnInit } from "@angular/core";
-import { FormControl } from "@angular/forms";
-import { User } from "@app/user/_models";
-import { AuthenticationService } from "@app/user/_service";
-import { AlertService } from "@app/_common/alert";
-import { ApiReponse } from "@app/_common/_models";
-import { YoutubeChannelSCO, YoutubeChannelVideoSCO } from "@app/_common/_sco";
-import { SearchNumber } from "@app/_common/_sco/core_sco";
+import { Component, HostListener, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { User } from '@app/user/_models';
+import { AuthenticationService } from '@app/user/_service';
+import { AlertService } from '@app/_common/alert';
+import { ApiReponse } from '@app/_common/_models';
+import { YoutubeChannelSCO, YoutubeChannelVideoSCO } from '@app/_common/_sco';
+import { SearchNumber } from '@app/_common/_sco/core_sco';
 import {
   RequireMatchForm,
   SpinnerService,
   UtilsService,
-} from "@app/_common/_services";
-import { ToastrService } from "ngx-toastr";
-import { Observable } from "rxjs";
-import { map, startWith } from "rxjs/operators";
-import { YoutubeChannel, YoutubeVideo } from "../_models";
-import { YoutubeService } from "../_services";
-import { YoutubeVideoDialogService } from "../_services/youtube-video-dialog.service";
+} from '@app/_common/_services';
+import { ToastrService } from 'ngx-toastr';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
+import { YoutubeChannel, YoutubeVideo } from '../_models';
+import { YoutubeService } from '../_services';
+import { YoutubeVideoDialogService } from '../_services/youtube-video-dialog.service';
 
 @Component({
-  selector: "app-youtube-channel",
-  templateUrl: "./youtube-channel.component.html",
-  styleUrls: ["./youtube-channel.component.css"],
+  selector: 'app-youtube-channel',
+  templateUrl: './youtube-channel.component.html',
+  styleUrls: ['./youtube-channel.component.css'],
 })
 export class YoutubeChannelComponent implements OnInit {
   currentUser: User;
@@ -52,18 +52,18 @@ export class YoutubeChannelComponent implements OnInit {
 
   // Field Channel
   channelSelect: YoutubeChannel;
-  channelFormControl = new FormControl("", [RequireMatchForm]);
+  channelFormControl = new FormControl('', [RequireMatchForm]);
   filteredChannels: Observable<YoutubeChannel[]>;
 
   // Auto resize card styles
   videoCardWidth: String;
-  @HostListener("window:resize", ["$event"])
+  @HostListener('window:resize', ['$event'])
   onResize(event) {
-    this.videoCardWidth = this.utilsService.getAdjustCardWidth() + "px";
+    this.videoCardWidth = this.utilsService.getAdjustCardWidth() + 'px';
   }
-  @HostListener("window:orientationchange", ["$event"])
+  @HostListener('window:orientationchange', ['$event'])
   onOrientationChange(event) {
-    this.videoCardWidth = this.utilsService.getAdjustCardWidth() + "px";
+    this.videoCardWidth = this.utilsService.getAdjustCardWidth() + 'px';
   }
 
   public displayChannel(channel: YoutubeChannel) {
@@ -82,7 +82,7 @@ export class YoutubeChannelComponent implements OnInit {
     }
 
     // Set card styles
-    this.videoCardWidth = this.utilsService.getAdjustCardWidth() + "px";
+    this.videoCardWidth = this.utilsService.getAdjustCardWidth() + 'px';
   }
 
   ////////////////////
@@ -106,7 +106,7 @@ export class YoutubeChannelComponent implements OnInit {
         this.getPrivateVideo();
       }
     } else {
-      this.toastr.info("Let select a channel");
+      this.toastr.info('Let select a channel');
     }
   }
 
@@ -134,22 +134,22 @@ export class YoutubeChannelComponent implements OnInit {
         this.channelSelect.channelId &&
         this.channelSelect.channelId !== this.currentUser.username
       ) {
-        window.open("/media/youtubeplayerchannel/" + this.channelSelect.id);
+        window.open('/media/youtubeplayerchannel/' + this.channelSelect.id);
       } else {
         if (this.isHavePrivateVideo) {
-          window.open("/media/youtubeplayerchannel/" + 0);
+          window.open('/media/youtubeplayerchannel/' + 0);
         } else {
           this.toastr.info(
-            "Let login and add personal videos or select a channel to play",
+            'Let login and add personal videos or select a channel to play',
           );
         }
       }
     } else {
       if (this.channelSelect && this.channelSelect.channelId) {
-        window.open("/media/youtubeplayerchannel/" + this.channelSelect.id);
+        window.open('/media/youtubeplayerchannel/' + this.channelSelect.id);
       } else {
         this.toastr.info(
-          "Let login and add personal videos or select a channel to play",
+          'Let login and add personal videos or select a channel to play',
         );
       }
     }
@@ -159,7 +159,7 @@ export class YoutubeChannelComponent implements OnInit {
    * Open youtube player
    */
   onClickVideo(video: YoutubeVideo) {
-    window.open("/media/youtubeplayer/" + video.videoId);
+    window.open('/media/youtubeplayer/' + video.videoId);
   }
 
   /**
@@ -168,12 +168,12 @@ export class YoutubeChannelComponent implements OnInit {
   onClickDelete(video: YoutubeVideo) {
     this.youtubeVideoDialogService
       .deletePrivateVideo(
-        "DELETION",
-        "Are you sure remove video: " +
+        'DELETION',
+        'Are you sure remove video: ' +
           video.title +
-          " _ id:" +
+          ' _ id:' +
           video.videoId +
-          " ?",
+          ' ?',
         video,
       )
       .then(
@@ -181,7 +181,7 @@ export class YoutubeChannelComponent implements OnInit {
           this.getPrivateVideo();
         },
         (reason) => {
-          console.log("DELETE reason:" + reason);
+          console.log('DELETE reason:' + reason);
         },
       );
   }
@@ -191,7 +191,7 @@ export class YoutubeChannelComponent implements OnInit {
    */
   public addPrivateVideo() {
     this.youtubeVideoDialogService
-      .addPrivateVideo("Add private video", "")
+      .addPrivateVideo('Add private video', '')
       .then(
         (result) => {
           if (result) {
@@ -200,7 +200,7 @@ export class YoutubeChannelComponent implements OnInit {
           }
         },
         (reason) => {
-          console.log("ADD video reason:" + reason);
+          console.log('ADD video reason:' + reason);
         },
       );
   }
@@ -228,7 +228,7 @@ export class YoutubeChannelComponent implements OnInit {
         if (typeResponse.data != null) {
           const channels: YoutubeChannel[] = typeResponse.data.elements;
           this.filteredChannels = this.channelFormControl.valueChanges.pipe(
-            startWith(""),
+            startWith(''),
             map((value) =>
               channels.filter((valueFilter) =>
                 valueFilter.name
@@ -331,9 +331,9 @@ export class YoutubeChannelComponent implements OnInit {
    */
   public isFormValid() {
     let result = true;
-    if (this.channelFormControl.status === "INVALID") {
+    if (this.channelFormControl.status === 'INVALID') {
       result = false;
-      this.channelFormControl.setValue("");
+      this.channelFormControl.setValue('');
     }
     return result;
   }

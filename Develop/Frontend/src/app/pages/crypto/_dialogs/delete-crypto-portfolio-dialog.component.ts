@@ -1,12 +1,12 @@
-import { Component, Input, OnInit } from "@angular/core";
-import { SpinnerService } from "@app/_common/_services";
-import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
-import { ToastrService } from "ngx-toastr";
-import { CryptoPortfolio } from "../_models";
-import { CryptoPortfolioService } from "../_services";
+import { Component, Input, OnInit } from '@angular/core';
+import { SpinnerService } from '@app/_common/_services';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { ToastrService } from 'ngx-toastr';
+import { CryptoPortfolio } from '../_models';
+import { CryptoPortfolioService } from '../_services';
 
 @Component({
-  templateUrl: "delete-crypto-portfolio-dialog.component.html",
+  templateUrl: 'delete-crypto-portfolio-dialog.component.html',
 })
 export class DeleteCryptoPortfolioDialogComponent implements OnInit {
   @Input() title: string;
@@ -36,14 +36,14 @@ export class DeleteCryptoPortfolioDialogComponent implements OnInit {
 
     const infoData =
       this.cryptoPortfolio.wallet +
-      "<" +
+      '<' +
       this.cryptoPortfolio.token.tokenCode +
-      ">";
+      '>';
     this.cryptoPortfolioService.delete(this.cryptoPortfolio.id).subscribe(
       (data) => {
         // Send toast success
         this.toastr.success(
-          "Your wallet " + infoData + " is successful deleted",
+          'Your wallet ' + infoData + ' is successful deleted',
         );
 
         // Hide loading

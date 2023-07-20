@@ -1,18 +1,18 @@
-import { Component, HostListener, OnInit } from "@angular/core";
-import { ApiReponse } from "@app/_common/_models";
-import { MediaType } from "@app/_common/_models/mediaType";
-import { PageResultVO } from "@app/_common/_models/pageResultVO";
-import { SearchText, Sorter } from "@app/_common/_sco/core_sco";
-import { MediaTypeSCO } from "@app/_common/_sco/mediaTypeSCO";
-import { SpinnerService } from "@app/_common/_services";
-import { AlertService } from "@app/_common/alert";
-import { ToastrService } from "ngx-toastr";
-import { MediaTypeDialogService } from "./media-type.service";
+import { Component, HostListener, OnInit } from '@angular/core';
+import { ApiReponse } from '@app/_common/_models';
+import { MediaType } from '@app/_common/_models/mediaType';
+import { PageResultVO } from '@app/_common/_models/pageResultVO';
+import { SearchText, Sorter } from '@app/_common/_sco/core_sco';
+import { MediaTypeSCO } from '@app/_common/_sco/mediaTypeSCO';
+import { SpinnerService } from '@app/_common/_services';
+import { AlertService } from '@app/_common/alert';
+import { ToastrService } from 'ngx-toastr';
+import { MediaTypeDialogService } from './media-type.service';
 
 @Component({
-  selector: "app-media-type",
-  templateUrl: "./media-type.component.html",
-  styleUrls: ["./media-type.component.css"],
+  selector: 'app-media-type',
+  templateUrl: './media-type.component.html',
+  styleUrls: ['./media-type.component.css'],
 })
 export class MediaTypeComponent implements OnInit {
   // Table elements
@@ -23,11 +23,11 @@ export class MediaTypeComponent implements OnInit {
 
   // Width change
   windownInnerWidth = window.innerWidth;
-  @HostListener("window:resize", ["$event"])
+  @HostListener('window:resize', ['$event'])
   onResize(event) {
     this.windownInnerWidth = window.innerWidth;
   }
-  @HostListener("window:orientationchange", ["$event"])
+  @HostListener('window:orientationchange', ['$event'])
   onOrientationChange(event) {
     this.windownInnerWidth = window.innerWidth;
   }
@@ -140,7 +140,7 @@ export class MediaTypeComponent implements OnInit {
       sco.sorters = sorters;
     } else {
       const sorters: Array<Sorter> = [];
-      sorters.push(new Sorter("id", "ASC"));
+      sorters.push(new Sorter('id', 'ASC'));
       sco.sorters = sorters;
     }
     if (filterValue) {
@@ -203,13 +203,13 @@ export class MediaTypeComponent implements OnInit {
    * View detail chosen
    */
   public viewDetailChoose(item: MediaType) {
-    this.mediaTypeDialogService.view("DETAIL", "", item).then(
+    this.mediaTypeDialogService.view('DETAIL', '', item).then(
       (result) => {
         if (result) {
         }
       },
       (reason) => {
-        console.log("DETAIL reason:" + reason);
+        console.log('DETAIL reason:' + reason);
       },
     );
   }
@@ -218,7 +218,7 @@ export class MediaTypeComponent implements OnInit {
    * Edit chosen
    */
   public editChoose(item: MediaType) {
-    this.mediaTypeDialogService.edit("EDIT", "", item).then(
+    this.mediaTypeDialogService.edit('EDIT', '', item).then(
       (result) => {
         if (result) {
           this.getPageResult(
@@ -230,7 +230,7 @@ export class MediaTypeComponent implements OnInit {
         }
       },
       (reason) => {
-        console.log("EDIT reason:" + reason);
+        console.log('EDIT reason:' + reason);
       },
     );
   }

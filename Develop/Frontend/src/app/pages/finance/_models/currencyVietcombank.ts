@@ -1,4 +1,4 @@
-import { CurrencyVietcombankItem } from "./currencyVietcombankItem";
+import { CurrencyVietcombankItem } from './currencyVietcombankItem';
 
 export class CurrencyVietcombank {
   dateTime: string;

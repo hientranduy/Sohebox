@@ -1,5 +1,5 @@
-import { BaseSCO } from "./baseSCO";
-import { SearchNumber, SearchDate } from "./core_sco";
+import { BaseSCO } from './baseSCO';
+import { SearchNumber, SearchDate } from './core_sco';
 
 export class EnglishLearnRecordSCO extends BaseSCO {
   id: SearchNumber;
