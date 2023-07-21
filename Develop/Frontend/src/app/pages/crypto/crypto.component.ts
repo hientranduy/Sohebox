@@ -1,6 +1,5 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { SEOService } from '@app/_common/_services';
 
 @Component({
   selector: 'app-crypto',
@@ -8,15 +7,9 @@ import { SEOService } from '@app/_common/_services';
   styleUrls: ['./crypto.component.css'],
 })
 export class CryptoComponent implements OnInit {
-  constructor(
-    private route: ActivatedRoute,
-    private seoService: SEOService,
-  ) {}
+  constructor(private route: ActivatedRoute) {}
 
-  ngOnInit(): void {
-    // CEO
-    this.seoService.updateCEO(this.route);
-  }
+  ngOnInit(): void {}
 
   // Width change
   windownInnerWidth = window.innerWidth;

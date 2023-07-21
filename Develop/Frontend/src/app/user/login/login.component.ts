@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { SEOService, SpinnerService } from '@app/_common/_services';
+import { SpinnerService } from '@app/_common/_services';
+import { AlertService } from '@app/_common/alert/alert.service';
 import { first } from 'rxjs/operators';
 import { AuthenticationService } from '../_service';
-import { AlertService } from '@app/_common/alert/alert.service';
 
 @Component({
   templateUrl: './login.component.html',
@@ -22,7 +22,6 @@ export class LoginComponent implements OnInit {
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private seoService: SEOService,
     private authenticationService: AuthenticationService,
     private alertService: AlertService,
     private spinner: SpinnerService,
@@ -34,9 +33,6 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
-    // CEO
-    this.seoService.updateCEO(this.route);
-
     this.loginForm = this.formBuilder.group({
       username: ['', Validators.required],
       password: ['', Validators.required],

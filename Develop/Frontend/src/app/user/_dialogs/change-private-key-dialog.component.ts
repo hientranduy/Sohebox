@@ -4,7 +4,7 @@ import { SpinnerService } from '@app/_common/_services';
 import { AlertService } from '@app/_common/alert/alert.service';
 import { AuthenticationService, UserService } from '@app/user/_service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { User } from '../_models';
+import { User } from '@app/_common/_models';
 
 @Component({
   templateUrl: 'change-private-key-dialog.component.html',

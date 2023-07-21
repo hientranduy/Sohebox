@@ -7,7 +7,7 @@ import {
 } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { Config } from '@app/_common/_models';
-import { ConfigService, SpinnerService } from '@app/_common/_services';
+import { BackendService, SpinnerService } from '@app/_common/_services';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 
@@ -19,7 +19,7 @@ export class EditConfigDialogComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private activeModal: NgbActiveModal,
-    private configService: ConfigService,
+    private backendService: BackendService,
     private toastr: ToastrService,
     private spinner: SpinnerService,
   ) {}
@@ -110,7 +110,7 @@ export class EditConfigDialogComponent implements OnInit {
         this.spinner.show();
 
         // Update
-        this.configService.update(configForm.value).subscribe(
+        this.backendService.updateConfig(configForm.value).subscribe(
           (data) => {
             // Send success toast message
             this.toastr.success(

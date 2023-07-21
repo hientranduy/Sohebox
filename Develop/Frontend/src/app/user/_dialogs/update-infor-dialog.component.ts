@@ -3,8 +3,8 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { AuthenticationService, UserService } from '@app/user/_service';
 import { SpinnerService } from '@app/_common/_services';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { User } from '../_models';
 import { AlertService } from '@app/_common/alert/alert.service';
+import { User } from '@app/_common/_models';
 
 @Component({
   templateUrl: 'update-infor-dialog.component.html',

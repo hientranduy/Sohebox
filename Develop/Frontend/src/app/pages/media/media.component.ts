@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { SEOService, UtilsService } from '@app/_common/_services';
+import { UtilsService } from '@app/_common/_services';
 
 @Component({
   selector: 'app-media',
@@ -14,15 +14,11 @@ export class MediaComponent implements OnInit {
    *  Constructor
    */
   constructor(
-    private seoService: SEOService,
     private route: ActivatedRoute,
     public utilsService: UtilsService,
   ) {}
 
-  ngOnInit() {
-    // CEO
-    this.seoService.updateCEO(this.route);
-  }
+  ngOnInit() {}
 
   ///////////////////
   // SELECT OPTION //

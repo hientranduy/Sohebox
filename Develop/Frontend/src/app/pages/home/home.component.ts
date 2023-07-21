@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { User } from '@app/user/_models';
+import { UtilsService } from '@app/_common/_services';
+import { User } from '@app/_common/_models';
 import { AuthenticationService } from '@app/user/_service';
-import { SEOService, UtilsService } from '@app/_common/_services';
 
 @Component({
   templateUrl: 'home.component.html',
@@ -15,7 +15,6 @@ export class HomeComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private authenticationService: AuthenticationService,
-    private seoService: SEOService,
     public utilsService: UtilsService,
   ) {
     // Get user info
@@ -24,10 +23,7 @@ export class HomeComponent implements OnInit {
     );
   }
 
-  ngOnInit() {
-    // CEO
-    this.seoService.updateCEO(this.route);
-  }
+  ngOnInit() {}
 
   /**
    * navigate english report page

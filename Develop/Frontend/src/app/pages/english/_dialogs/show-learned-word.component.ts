@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { User } from '@app/user/_models';
+import { User } from '@app/_common/_models';
 import { AuthenticationService } from '@app/user/_service';
 import { ApiReponse } from '@app/_common/_models';
 import { EnglishLearnRecordSCO } from '@app/_common/_sco';

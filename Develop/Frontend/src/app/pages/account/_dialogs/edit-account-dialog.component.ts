@@ -4,17 +4,17 @@ import { ApiReponse, Type } from '@app/_common/_models';
 import { TypeSCO } from '@app/_common/_sco';
 import { SearchText } from '@app/_common/_sco/core_sco';
 import {
+  BackendService,
   RequireMatchForm,
   SpinnerService,
-  TypeService,
 } from '@app/_common/_services';
+import { AlertService } from '@app/_common/alert/alert.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { Account } from '../_models';
 import { AccountService } from '../_services';
-import { AlertService } from '@app/_common/alert/alert.service';
 
 @Component({
   styleUrls: ['edit-account-dialog.component.css'],
@@ -25,7 +25,7 @@ export class EditAccountDialogComponent implements OnInit {
     private activeModal: NgbActiveModal,
     private accountService: AccountService,
     private alertService: AlertService,
-    private typeService: TypeService,
+    private backendService: BackendService,
     private toastr: ToastrService,
     private spinner: SpinnerService,
   ) {}
@@ -88,7 +88,7 @@ export class EditAccountDialogComponent implements OnInit {
     this.spinner.show();
 
     // Get list type
-    this.typeService.search(typeSCO).subscribe(
+    this.backendService.searchType(typeSCO).subscribe(
       (data) => {
         // Get data
         const responseAPi: any = data;

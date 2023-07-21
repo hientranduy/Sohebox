@@ -1,6 +1,6 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { AppSettings } from '@app/appSettings';
-import { User } from '@app/user/_models';
+import { AppSettings } from '@app/app.settings';
+import { User } from '@app/_common/_models';
 import { AuthenticationService } from '@app/user/_service';
 import { ApiReponse } from '@app/_common/_models';
 import { PageResultVO } from '@app/_common/_models/pageResultVO';

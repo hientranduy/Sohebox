@@ -13,9 +13,9 @@ import {
   YoutubePlayerChannelComponent,
   YoutubePlayerComponent,
 } from './pages/media';
-import { LoginComponent } from './user/login';
-import { RegisterComponent } from './user/register';
-import { AuthGuard } from './user/_guards';
+import { AuthGuard } from './_common/auth.guard';
+import { LoginComponent } from './user/login/login.component';
+import { RegisterComponent } from './user/register/register.component';
 
 const appRoutes: Routes = [
   {

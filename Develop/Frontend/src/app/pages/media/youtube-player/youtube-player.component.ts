@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import { AppSettings } from '@app/appSettings';
-import { SEOService } from '@app/_common/_services';
+import { AppSettings } from '@app/app.settings';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -16,7 +15,6 @@ export class YoutubePlayerComponent implements OnInit {
   player;
 
   constructor(
-    private seoService: SEOService,
     private route: ActivatedRoute,
     private toastr: ToastrService,
   ) {
@@ -30,9 +28,6 @@ export class YoutubePlayerComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // CEO
-    this.seoService.updateCEO(this.route);
-
     // Initial video
     const tag = document.createElement('script');
     tag.src = AppSettings.GOOGLE_YOUTUBE_IFRAME;

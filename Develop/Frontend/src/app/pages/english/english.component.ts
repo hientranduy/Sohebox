@@ -1,9 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { AppSettings } from '@app/appSettings';
-import { User } from '@app/user/_models';
-import { AuthenticationService } from '@app/user/_service';
+import { ActivatedRoute } from '@angular/router';
 import { ApiReponse, EnglishType } from '@app/_common/_models';
 import {
   EnglishLearnRecordSCO,
@@ -19,17 +16,19 @@ import {
 } from '@app/_common/_sco/core_sco';
 import {
   RequireMatchForm,
-  SEOService,
   SpinnerService,
   UtilsService,
 } from '@app/_common/_services';
+import { AlertService } from '@app/_common/alert/alert.service';
+import { AppSettings } from '@app/app.settings';
+import { User } from '@app/_common/_models';
+import { AuthenticationService } from '@app/user/_service';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { EnglishDialogService } from './_dialogs';
 import { English, EnglishLearnRecord, EnglishUserGrade } from './_model';
 import { EnglishService, EnglishTypeService } from './_services';
-import { AlertService } from '@app/_common/alert/alert.service';
 
 @Component({
   selector: 'app-english',
@@ -47,9 +46,6 @@ export class EnglishComponent implements OnInit {
    * Construction
    */
   constructor(
-    private router: Router,
-    private seoService: SEOService,
-
     private route: ActivatedRoute,
     private englishDialogService: EnglishDialogService,
     private authenticationService: AuthenticationService,
@@ -157,9 +153,6 @@ export class EnglishComponent implements OnInit {
    * Initialize
    */
   ngOnInit() {
-    // CEO
-    this.seoService.updateCEO(this.route);
-
     // Get data master
     this.getCalegoryList();
     this.getGradeList();

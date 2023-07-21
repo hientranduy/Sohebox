@@ -1,16 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import { AppSettings } from '@app/appSettings';
-import { User } from '@app/user/_models';
-import { AuthenticationService } from '@app/user/_service';
 import { ApiReponse } from '@app/_common/_models';
 import { YoutubeChannelVideoSCO } from '@app/_common/_sco';
 import { SearchNumber } from '@app/_common/_sco/core_sco';
-import { SEOService, SpinnerService } from '@app/_common/_services';
+import { SpinnerService } from '@app/_common/_services';
+import { AlertService } from '@app/_common/alert/alert.service';
+import { AppSettings } from '@app/app.settings';
+import { User } from '@app/_common/_models';
+import { AuthenticationService } from '@app/user/_service';
 import { ToastrService } from 'ngx-toastr';
 import { YoutubeVideo } from '../_models';
 import { YoutubeService } from '../_services';
-import { AlertService } from '@app/_common/alert/alert.service';
 
 @Component({
   selector: 'app-youtube-player-channel',
@@ -29,7 +29,6 @@ export class YoutubePlayerChannelComponent implements OnInit {
   videos: Array<YoutubeVideo>;
 
   constructor(
-    private seoService: SEOService,
     private spinner: SpinnerService,
     private route: ActivatedRoute,
     private alertService: AlertService,
@@ -52,9 +51,6 @@ export class YoutubePlayerChannelComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // CEO
-    this.seoService.updateCEO(this.route);
-
     // Load video list - must use ==
     if (this.currentUser && this.channelId == 0) {
       this.getPrivateVideos();

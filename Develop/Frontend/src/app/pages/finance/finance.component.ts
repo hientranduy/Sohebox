@@ -1,6 +1,5 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { SEOService } from '@app/_common/_services';
 
 @Component({
   selector: 'app-finance',
@@ -8,10 +7,7 @@ import { SEOService } from '@app/_common/_services';
   styleUrls: ['./finance.component.css'],
 })
 export class FinanceComponent implements OnInit {
-  constructor(
-    private route: ActivatedRoute,
-    private seoService: SEOService,
-  ) {}
+  constructor(private route: ActivatedRoute) {}
 
   get isGoldOpen() {
     return this.selectOpion === 1;
@@ -33,10 +29,7 @@ export class FinanceComponent implements OnInit {
   // Width change
   windownInnerWidth = window.innerWidth;
 
-  ngOnInit(): void {
-    // CEO
-    this.seoService.updateCEO(this.route);
-  }
+  ngOnInit(): void {}
   @HostListener('window:resize', ['$event'])
   onResize(event) {
     this.windownInnerWidth = window.innerWidth;

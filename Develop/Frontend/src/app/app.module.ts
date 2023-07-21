@@ -113,9 +113,6 @@ import {
   AddYoutubeVideoDialogComponent,
   DeleteYoutubeVideoDialogComponent,
 } from './pages/media/_dialogs';
-import { LoginComponent } from './user/login';
-import { RegisterComponent } from './user/register';
-import { UserSlideBarComponent } from './user/user-slide-bar';
 import {
   ChangePasswordDialogComponent,
   ChangePrivateKeyDialogComponent,
@@ -124,13 +121,16 @@ import {
   UpdateEnglishLevelDialogComponent,
   UpdateInforDialogComponent,
 } from './user/_dialogs';
-import { TimeoutProgressDialogComponent } from './_common/timeout-progress-dialog/timeout-progress-dialog.component';
+import { TimeoutProgressDialogComponent } from './_common/timeout/timeout-progress-dialog.component';
 import { EditMediaTypeDialogComponent } from './pages/administration/media-type/_dialogs/edit-media-type.component';
 import { ViewMediaTypeDialogComponent } from './pages/administration/media-type/_dialogs/view-media-type.component';
-import { JwtInterceptor } from './_common/_helpers/jwt.interceptor';
-import { ErrorInterceptor } from './_common/_helpers/error.interceptor';
-import { AutoFocusDirective } from './_common/directive/auto-focus.directive';
+import { JwtInterceptor } from './_common/jwt.interceptor';
+import { ErrorInterceptor } from './_common/error.interceptor';
+import { AutoFocusDirective } from './_common/auto-focus.directive';
 import { AlertComponent } from './_common/alert/alert.component';
+import { UserSlideBarComponent } from './user/user-slide-bar/user-slide-bar.component';
+import { LoginComponent } from './user/login/login.component';
+import { RegisterComponent } from './user/register/register.component';
 
 @NgModule({
   imports: [

@@ -5,7 +5,7 @@ import { PageResultVO } from '@app/_common/_models/pageResultVO';
 import { Type } from '@app/_common/_models/type';
 import { SearchText, Sorter } from '@app/_common/_sco/core_sco';
 import { TypeSCO } from '@app/_common/_sco/typeSCO';
-import { SpinnerService, TypeService } from '@app/_common/_services';
+import { BackendService, SpinnerService } from '@app/_common/_services';
 import { ToastrService } from 'ngx-toastr';
 import { TypeDialogService } from './_dialogs';
 import { AlertService } from '@app/_common/alert/alert.service';
@@ -37,9 +37,8 @@ export class SettingTypeComponent implements OnInit {
    * Constructor
    */
   constructor(
-    private authenticationService: AuthenticationService,
     private typeDialogService: TypeDialogService,
-    private typeService: TypeService,
+    private backendService: BackendService,
     private alertService: AlertService,
     private toastr: ToastrService,
     private spinner: SpinnerService,
@@ -170,7 +169,7 @@ export class SettingTypeComponent implements OnInit {
     this.spinner.show();
 
     // Search
-    this.typeService.search(sco).subscribe(
+    this.backendService.searchType(sco).subscribe(
       (data) => {
         const responseAPi: any = data;
         const typeResponse: ApiReponse<Type> = responseAPi;

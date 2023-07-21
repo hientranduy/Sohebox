@@ -1,11 +1,10 @@
 import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
-import { ApiReponse } from '@app/_common/_models';
+import { ApiReponse, UserStatus } from '@app/_common/_models';
 import { PageResultVO } from '@app/_common/_models/pageResultVO';
 import { UserSCO } from '@app/_common/_sco';
 import { SearchText, Sorter } from '@app/_common/_sco/core_sco';
 import { SpinnerService } from '@app/_common/_services';
 import { AlertService } from '@app/_common/alert/alert.service';
-import { UserStatus } from '@app/user/_models';
 import { UserService } from '@app/user/_service';
 
 @Component({

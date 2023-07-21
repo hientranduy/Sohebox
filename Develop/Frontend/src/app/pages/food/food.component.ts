@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ApiReponse } from '@app/_common/_models';
 import { Sorter } from '@app/_common/_sco/core_sco';
 import { FoodSCO } from '@app/_common/_sco/foodSCO';
-import { SEOService, SpinnerService } from '@app/_common/_services';
+import { SpinnerService } from '@app/_common/_services';
 import { AlertService } from '@app/_common/alert/alert.service';
 import { Food } from './_model';
 import { FoodService } from './_services';
@@ -20,17 +20,13 @@ export class FoodComponent implements OnInit {
     private alertService: AlertService,
     private spinner: SpinnerService,
     private foodService: FoodService,
-    private seoService: SEOService,
     private route: ActivatedRoute,
   ) {
     // Get all food
     this.refreshAllFood();
   }
 
-  ngOnInit() {
-    // CEO
-    this.seoService.updateCEO(this.route);
-  }
+  ngOnInit() {}
 
   /**
    * Reload table

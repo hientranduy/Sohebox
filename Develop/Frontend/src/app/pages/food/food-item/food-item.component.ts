@@ -1,6 +1,6 @@
 import { Component, HostListener, Input, OnInit } from '@angular/core';
 import { UtilsService } from '@app/_common/_services';
-import { AppSettings } from '@app/appSettings';
+import { AppSettings } from '@app/app.settings';
 import { Food } from '../_model';
 
 @Component({

@@ -1,5 +1,4 @@
-import { User } from '@app/user/_models';
-import { English } from './english';
+import { User } from '@app/_common/_models';
 
 export class EnglishLearnReport {
   id: number;

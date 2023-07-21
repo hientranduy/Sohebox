@@ -2,8 +2,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { UserDialogService } from '../_dialogs';
-import { User } from '../_models';
 import { AuthenticationService } from '../_service';
+import { User } from '@app/_common/_models/';
 
 @Component({
   selector: 'app-user-slide-bar',

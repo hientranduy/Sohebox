@@ -1,6 +1,5 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { SEOService } from '@app/_common/_services';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -9,11 +8,7 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./administration.component.css'],
 })
 export class AdministrationComponent implements OnInit {
-  constructor(
-    private route: ActivatedRoute,
-    private seoService: SEOService,
-    private toastr: ToastrService,
-  ) {}
+  constructor(private route: ActivatedRoute) {}
 
   get isUserControlOpen() {
     return this.selectOpion === 1;
@@ -72,10 +67,7 @@ export class AdministrationComponent implements OnInit {
     this.windownInnerWidth = window.innerWidth;
   }
 
-  ngOnInit() {
-    // CEO
-    this.seoService.updateCEO(this.route);
-  }
+  ngOnInit() {}
 
   ///////////////////
   // SELECT OPTION //

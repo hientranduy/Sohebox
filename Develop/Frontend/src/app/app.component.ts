@@ -6,9 +6,9 @@ import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal/modal.module';
 import { EventTargetInterruptSource, Idle } from '@ng-idle/core';
 import { Keepalive } from '@ng-idle/keepalive';
 import { UserDialogService } from './user/_dialogs';
-import { User } from './user/_models';
+import { User } from '@app/_common/_models';
 import { AuthenticationService } from './user/_service';
-import { TimeoutProgressDialogComponent } from './_common/timeout-progress-dialog/timeout-progress-dialog.component';
+import { TimeoutProgressDialogComponent } from './_common/timeout/timeout-progress-dialog.component';
 
 @Component({
   selector: 'app-sohebox',

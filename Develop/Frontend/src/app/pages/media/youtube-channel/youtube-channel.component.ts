@@ -9,7 +9,7 @@ import {
   UtilsService,
 } from '@app/_common/_services';
 import { AlertService } from '@app/_common/alert/alert.service';
-import { User } from '@app/user/_models';
+import { User } from '@app/_common/_models';
 import { AuthenticationService } from '@app/user/_service';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';

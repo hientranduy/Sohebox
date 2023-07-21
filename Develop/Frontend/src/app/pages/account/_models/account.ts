@@ -1,4 +1,4 @@
-import { User } from '@app/user/_models';
+import { User } from '@app/_common/_models';
 import { Type } from '@app/_common/_models';
 
 export class Account {

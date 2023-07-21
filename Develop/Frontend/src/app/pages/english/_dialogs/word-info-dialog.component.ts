@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AppSettings } from '@app/appSettings';
+import { AppSettings } from '@app/app.settings';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { English } from '../_model';

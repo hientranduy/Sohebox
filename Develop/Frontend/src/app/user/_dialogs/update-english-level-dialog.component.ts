@@ -10,7 +10,7 @@ import {
   EnglishService,
   EnglishTypeService,
 } from '@app/pages/english/_services';
-import { User } from '@app/user/_models';
+import { User } from '@app/_common/_models';
 import { AuthenticationService } from '@app/user/_service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
@@ -20,7 +20,6 @@ import { map, startWith } from 'rxjs/operators';
 @Component({
   selector: 'app-update-english-level-dialog',
   templateUrl: './update-english-level-dialog.component.html',
-  styleUrls: ['./update-english-level-dialog.component.css'],
 })
 export class UpdateEnglishLevelDialogComponent implements OnInit {
   constructor(

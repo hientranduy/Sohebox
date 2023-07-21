@@ -6,7 +6,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
-import { SpinnerService, TypeService } from '@app/_common/_services';
+import { BackendService, SpinnerService } from '@app/_common/_services';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 
@@ -34,7 +34,7 @@ export class AddTypeDialogComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private activeModal: NgbActiveModal,
-    private typeService: TypeService,
+    private backendService: BackendService,
     private toastr: ToastrService,
     private spinner: SpinnerService,
   ) {}
@@ -109,7 +109,7 @@ export class AddTypeDialogComponent implements OnInit {
         this.spinner.show();
 
         // Create
-        this.typeService.create(typeForm.value).subscribe(
+        this.backendService.createType(typeForm.value).subscribe(
           (data) => {
             // Send success toast message
             this.toastr.success(

@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
-import { User } from '../_models';
+import { User } from '@app/_common/_models';
 import { AuthenticationService } from '../_service';
 
 @Component({

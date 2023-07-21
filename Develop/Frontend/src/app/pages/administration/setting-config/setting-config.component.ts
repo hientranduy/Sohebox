@@ -1,13 +1,12 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { AuthenticationService } from '@app/user/_service';
 import { ApiReponse, Config } from '@app/_common/_models';
 import { PageResultVO } from '@app/_common/_models/pageResultVO';
 import { ConfigSCO } from '@app/_common/_sco';
 import { SearchText, Sorter } from '@app/_common/_sco/core_sco';
-import { ConfigService, SpinnerService } from '@app/_common/_services';
+import { BackendService, SpinnerService } from '@app/_common/_services';
+import { AlertService } from '@app/_common/alert/alert.service';
 import { ToastrService } from 'ngx-toastr';
 import { ConfigDialogService } from './_dialogs';
-import { AlertService } from '@app/_common/alert/alert.service';
 
 @Component({
   selector: 'app-setting-config',
@@ -36,9 +35,8 @@ export class SettingConfigComponent implements OnInit {
    * Constructor
    */
   constructor(
-    private authenticationService: AuthenticationService,
     private configDialogService: ConfigDialogService,
-    private configService: ConfigService,
+    private backendService: BackendService,
     private alertService: AlertService,
     private toastr: ToastrService,
     private spinner: SpinnerService,
@@ -165,7 +163,7 @@ export class SettingConfigComponent implements OnInit {
     this.spinner.show();
 
     // Search
-    this.configService.search(sco).subscribe(
+    this.backendService.searchConfig(sco).subscribe(
       (data) => {
         const responseAPi: any = data;
         const typeResponse: ApiReponse<Config> = responseAPi;
