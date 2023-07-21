@@ -1,7 +1,6 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { AppSettings } from '@app/app.settings';
 import { User } from '@app/_common/_models';
-import { AuthenticationService } from '@app/user/_service';
 import { ApiReponse } from '@app/_common/_models';
 import { PageResultVO } from '@app/_common/_models/pageResultVO';
 import { SearchText, Sorter } from '@app/_common/_sco/core_sco';
@@ -11,6 +10,7 @@ import { CryptoPortfolio, CryptoPortfolioHistory } from '../_models';
 import { CryptoPortfolioHistorySCO, CryptoPortfolioSCO } from '../_sco';
 import { CryptoPortfolioService } from '../_services';
 import { AlertService } from '@app/_common/alert/alert.service';
+import { AuthenticationService } from '@app/_common/_services/';
 
 @Component({
   selector: 'app-crypto-portfolio',

@@ -1,10 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { User } from '@app/_common/_models';
+import { BackendService } from '@app/_common/_services';
 import { environment } from '@environments/environment';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { UserService } from './user.service';
-import { User } from '@app/_common/_models';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
@@ -13,7 +13,7 @@ export class AuthenticationService {
 
   constructor(
     private http: HttpClient,
-    private userService: UserService,
+    private backendService: BackendService,
   ) {
     this.currentUserSubject = new BehaviorSubject<User>(
       JSON.parse(localStorage.getItem('currentUser')),
@@ -47,7 +47,7 @@ export class AuthenticationService {
 
   logout() {
     // Call logout service
-    this.userService.logout().subscribe((data) => {});
+    this.backendService.logout().subscribe((data) => {});
 
     // remove user from local storage to log user out
     localStorage.removeItem('currentUser');

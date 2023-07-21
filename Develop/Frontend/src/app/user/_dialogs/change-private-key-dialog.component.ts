@@ -1,10 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { SpinnerService } from '@app/_common/_services';
+import { BackendService, SpinnerService } from '@app/_common/_services';
 import { AlertService } from '@app/_common/alert/alert.service';
-import { AuthenticationService, UserService } from '@app/user/_service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { User } from '@app/_common/_models';
+import { AuthenticationService } from '../../_common/_services/';
 
 @Component({
   templateUrl: 'change-private-key-dialog.component.html',
@@ -27,7 +27,7 @@ export class ChangePrivateKeyDialogComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private activeModal: NgbActiveModal,
-    private userService: UserService,
+    private backendService: BackendService,
     private alertService: AlertService,
     private spinner: SpinnerService,
     private authenticationService: AuthenticationService,
@@ -67,7 +67,7 @@ export class ChangePrivateKeyDialogComponent implements OnInit {
         oldPrivateKey: [this.oldPrivateKey],
         newPrivateKey: [this.newPrivateKey],
       });
-      this.userService
+      this.backendService
         .changePrivatekey(this.changePrivateKeyForm.value)
         .subscribe(
           (data) => {

@@ -1,7 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
-import { AuthenticationService } from '@app/user/_service';
 import { FoodType } from '@app/_common/_models/foodType';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -10,10 +9,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
   templateUrl: 'view-food-type-dialog.component.html',
 })
 export class ViewFoodTypeDialogComponent implements OnInit {
-  constructor(
-    private activeModal: NgbActiveModal,
-    private authenticationService: AuthenticationService,
-  ) {}
+  constructor(private activeModal: NgbActiveModal) {}
 
   // Form value
   @Input() title: string;

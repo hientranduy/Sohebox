@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { SpinnerService } from '@app/_common/_services';
 import { AlertService } from '@app/_common/alert/alert.service';
 import { first } from 'rxjs/operators';
-import { AuthenticationService } from '../_service';
+import { AuthenticationService } from '../../_common/_services/';
 
 @Component({
   templateUrl: './login.component.html',

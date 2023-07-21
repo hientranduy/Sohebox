@@ -2,7 +2,6 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { AppSettings } from '@app/app.settings';
-import { AuthenticationService } from '@app/user/_service';
 import { SpinnerService } from '@app/_common/_services';
 import { environment } from '@environments/environment';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
@@ -20,7 +19,6 @@ export class DownloadVoiceComponent implements OnInit {
     private formBuilder: FormBuilder,
     private activeModal: NgbActiveModal,
     private englishService: EnglishService,
-    private authenticationService: AuthenticationService,
     private toastr: ToastrService,
     private spinner: SpinnerService,
   ) {}

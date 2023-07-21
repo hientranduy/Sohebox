@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthenticationService } from '@app/user/_service';
+import { AuthenticationService } from '@app/_common/_services/';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({

@@ -10,13 +10,13 @@ import {
 } from '@app/_common/_services';
 import { AlertService } from '@app/_common/alert/alert.service';
 import { User } from '@app/_common/_models';
-import { AuthenticationService } from '@app/user/_service';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { YoutubeChannel, YoutubeVideo } from '../_models';
 import { YoutubeService } from '../_services';
 import { YoutubeVideoDialogService } from '../_services/youtube-video-dialog.service';
+import { AuthenticationService } from '@app/_common/_services/';
 
 @Component({
   selector: 'app-youtube-channel',

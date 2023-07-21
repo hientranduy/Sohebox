@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { User } from '@app/_common/_models';
-import { AuthenticationService } from '@app/user/_service';
+import { AuthenticationService } from '@app/_common/_services/';
 
 @Injectable({ providedIn: 'root' })
 export class UtilsService {

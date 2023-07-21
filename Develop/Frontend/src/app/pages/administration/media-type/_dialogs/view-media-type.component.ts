@@ -1,7 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
-import { AuthenticationService } from '@app/user/_service';
 import { MediaType } from '@app/_common/_models/mediaType';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 

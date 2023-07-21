@@ -1,7 +1,6 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { AppSettings } from '@app/app.settings';
 import { User } from '@app/_common/_models';
-import { AuthenticationService } from '@app/user/_service';
 import { ApiReponse } from '@app/_common/_models';
 import { PageResultVO } from '@app/_common/_models/pageResultVO';
 import { AccountSCO } from '@app/_common/_sco';
@@ -12,6 +11,7 @@ import { AccountDialogService } from './_dialogs';
 import { Account } from './_models';
 import { AccountService } from './_services';
 import { AlertService } from '@app/_common/alert/alert.service';
+import { AuthenticationService } from '@app/_common/_services/';
 
 @Component({
   selector: 'app-account',

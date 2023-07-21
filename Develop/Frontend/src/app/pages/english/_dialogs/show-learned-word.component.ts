@@ -1,7 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from '@app/_common/_models';
-import { AuthenticationService } from '@app/user/_service';
 import { ApiReponse } from '@app/_common/_models';
 import { EnglishLearnRecordSCO } from '@app/_common/_sco';
 import { SearchDate, SearchNumber } from '@app/_common/_sco/core_sco';
@@ -9,6 +8,7 @@ import { SpinnerService } from '@app/_common/_services';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { EnglishLearnRecord } from '../_model';
 import { EnglishService } from '../_services';
+import { AuthenticationService } from '@app/_common/_services/';
 
 @Component({
   styleUrls: ['show-learned-word.component.css'],

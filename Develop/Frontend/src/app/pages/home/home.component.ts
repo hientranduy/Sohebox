@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UtilsService } from '@app/_common/_services';
 import { User } from '@app/_common/_models';
-import { AuthenticationService } from '@app/user/_service';
+import { AuthenticationService } from '@app/_common/_services/';
 
 @Component({
   templateUrl: 'home.component.html',

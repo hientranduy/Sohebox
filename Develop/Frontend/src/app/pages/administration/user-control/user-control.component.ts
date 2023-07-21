@@ -3,9 +3,8 @@ import { ApiReponse, UserStatus } from '@app/_common/_models';
 import { PageResultVO } from '@app/_common/_models/pageResultVO';
 import { UserSCO } from '@app/_common/_sco';
 import { SearchText, Sorter } from '@app/_common/_sco/core_sco';
-import { SpinnerService } from '@app/_common/_services';
+import { BackendService, SpinnerService } from '@app/_common/_services';
 import { AlertService } from '@app/_common/alert/alert.service';
-import { UserService } from '@app/user/_service';
 
 @Component({
   selector: 'app-user-control',
@@ -37,7 +36,7 @@ export class UserControlComponent implements OnInit, OnDestroy {
    * Constructor
    */
   constructor(
-    private userService: UserService,
+    private backendService: BackendService,
     private alertService: AlertService,
     private spinner: SpinnerService,
   ) {
@@ -160,7 +159,7 @@ export class UserControlComponent implements OnInit, OnDestroy {
     this.spinner.show();
 
     // Search
-    this.userService.searchUserStatus(sco).subscribe(
+    this.backendService.searchUserStatus(sco).subscribe(
       (data) => {
         // Get data
         const responseAPi: any = data;
@@ -196,7 +195,7 @@ export class UserControlComponent implements OnInit, OnDestroy {
     this.spinner.show();
 
     // Search
-    this.userService.searchActiveUser(sco).subscribe(
+    this.backendService.searchActiveUser(sco).subscribe(
       (data) => {
         // Get data
         const responseAPi: any = data;

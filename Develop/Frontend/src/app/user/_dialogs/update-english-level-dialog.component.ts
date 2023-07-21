@@ -11,11 +11,11 @@ import {
   EnglishTypeService,
 } from '@app/pages/english/_services';
 import { User } from '@app/_common/_models';
-import { AuthenticationService } from '@app/user/_service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
+import { AuthenticationService } from '../../_common/_services/';
 
 @Component({
   selector: 'app-update-english-level-dialog',

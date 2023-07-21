@@ -1,10 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { AuthenticationService, UserService } from '@app/user/_service';
-import { SpinnerService } from '@app/_common/_services';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { AlertService } from '@app/_common/alert/alert.service';
 import { User } from '@app/_common/_models';
+import { BackendService, SpinnerService } from '@app/_common/_services';
+import { AlertService } from '@app/_common/alert/alert.service';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { AuthenticationService } from '../../_common/_services/';
 
 @Component({
   templateUrl: 'update-infor-dialog.component.html',
@@ -25,7 +25,7 @@ export class UpdateInforDialogComponent implements OnInit {
     private authenticationService: AuthenticationService,
     private formBuilder: FormBuilder,
     private activeModal: NgbActiveModal,
-    private userService: UserService,
+    private backendService: BackendService,
     private alertService: AlertService,
     private spinner: SpinnerService,
   ) {
@@ -62,7 +62,7 @@ export class UpdateInforDialogComponent implements OnInit {
 
       // Update user
       this.spinner.show();
-      this.userService.updateUser(this.updateUserForm.value).subscribe(
+      this.backendService.updateUser(this.updateUserForm.value).subscribe(
         (data) => {
           // Send alert message
           this.alertService.success('User update successful', true);

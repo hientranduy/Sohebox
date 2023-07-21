@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { SpinnerService } from '@app/_common/_services';
+import { Router } from '@angular/router';
+import { BackendService, SpinnerService } from '@app/_common/_services';
 import { AlertService } from '@app/_common/alert/alert.service';
 import { ToastrService } from 'ngx-toastr';
 import { first } from 'rxjs/operators';
-import { AuthenticationService, UserService } from '../_service';
+import { AuthenticationService } from '../../_common/_services/';
 
 @Component({
   templateUrl: './register.component.html',
@@ -17,10 +17,9 @@ export class RegisterComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private route: ActivatedRoute,
     private router: Router,
     private authenticationService: AuthenticationService,
-    private userService: UserService,
+    private backendService: BackendService,
     private alertService: AlertService,
     private toastr: ToastrService,
     private spinner: SpinnerService,
@@ -57,7 +56,7 @@ export class RegisterComponent implements OnInit {
     this.spinner.show();
 
     // Register
-    this.userService
+    this.backendService
       .register(this.registerForm.value)
       .pipe(first())
       .subscribe(

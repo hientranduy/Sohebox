@@ -22,13 +22,13 @@ import {
 import { AlertService } from '@app/_common/alert/alert.service';
 import { AppSettings } from '@app/app.settings';
 import { User } from '@app/_common/_models';
-import { AuthenticationService } from '@app/user/_service';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { EnglishDialogService } from './_dialogs';
 import { English, EnglishLearnRecord, EnglishUserGrade } from './_model';
 import { EnglishService, EnglishTypeService } from './_services';
+import { AuthenticationService } from '@app/_common/_services/';
 
 @Component({
   selector: 'app-english',

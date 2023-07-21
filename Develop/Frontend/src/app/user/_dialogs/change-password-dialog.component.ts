@@ -1,9 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { UserService } from '@app/user/_service';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { SpinnerService } from '@app/_common/_services';
+import { BackendService, SpinnerService } from '@app/_common/_services';
 import { AlertService } from '@app/_common/alert/alert.service';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   templateUrl: 'change-password-dialog.component.html',
@@ -22,7 +21,7 @@ export class ChangePasswordDialogComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private activeModal: NgbActiveModal,
-    private userService: UserService,
+    private backendService: BackendService,
     private alertService: AlertService,
     private spinner: SpinnerService,
   ) {}
@@ -58,7 +57,7 @@ export class ChangePasswordDialogComponent implements OnInit {
 
       // Change password
       this.spinner.show();
-      this.userService
+      this.backendService
         .changePasswordByLoggedUser(this.changePasswordForm.value)
         .subscribe(
           (data) => {

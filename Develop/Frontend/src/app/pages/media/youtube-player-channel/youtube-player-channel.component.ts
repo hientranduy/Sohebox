@@ -7,10 +7,10 @@ import { SpinnerService } from '@app/_common/_services';
 import { AlertService } from '@app/_common/alert/alert.service';
 import { AppSettings } from '@app/app.settings';
 import { User } from '@app/_common/_models';
-import { AuthenticationService } from '@app/user/_service';
 import { ToastrService } from 'ngx-toastr';
 import { YoutubeVideo } from '../_models';
 import { YoutubeService } from '../_services';
+import { AuthenticationService } from '@app/_common/_services/';
 
 @Component({
   selector: 'app-youtube-player-channel',

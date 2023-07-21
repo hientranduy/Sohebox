@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { User } from '@app/_common/_models';
-import { AuthenticationService } from '../_service';
+import { AuthenticationService } from '../../_common/_services/';
 
 @Component({
   templateUrl: 'help-guest-dialog.component.html',
