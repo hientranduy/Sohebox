@@ -47,6 +47,7 @@ export class ViewCryptoPortfolioDialogComponent implements OnInit {
     if (item) {
       return item.tokenCode + ' (' + item.tokenName + ')';
     }
+    return null;
   }
 
   /////////////////////////////////////

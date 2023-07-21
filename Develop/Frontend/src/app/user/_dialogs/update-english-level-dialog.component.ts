@@ -73,11 +73,13 @@ export class UpdateEnglishLevelDialogComponent implements OnInit {
     if (grade) {
       return grade.typeName;
     }
+    return null;
   }
   public displayLearnDay(learnDay: EnglishType) {
     if (learnDay) {
       return learnDay.typeName;
     }
+    return null;
   }
 
   /**

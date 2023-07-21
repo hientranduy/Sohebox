@@ -70,6 +70,7 @@ export class YoutubeChannelComponent implements OnInit {
     if (channel) {
       return channel.name;
     }
+    return null;
   }
 
   ngOnInit(): void {

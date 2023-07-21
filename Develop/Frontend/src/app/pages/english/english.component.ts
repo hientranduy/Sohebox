@@ -140,6 +140,7 @@ export class EnglishComponent implements OnInit {
     if (category) {
       return category.typeName;
     }
+    return null;
   }
 
   /**
@@ -149,6 +150,7 @@ export class EnglishComponent implements OnInit {
     if (grade) {
       return grade.typeName;
     }
+    return null;
   }
 
   /**

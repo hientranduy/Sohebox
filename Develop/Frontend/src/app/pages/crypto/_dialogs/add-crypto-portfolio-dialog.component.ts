@@ -57,6 +57,7 @@ export class AddCryptoFortfolioDialogComponent implements OnInit {
     if (item) {
       return item.tokenCode;
     }
+    return null;
   }
 
   /**

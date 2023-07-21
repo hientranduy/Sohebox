@@ -66,6 +66,7 @@ export class ViewAccountDialogComponent implements OnInit {
     if (type) {
       return type.typeName;
     }
+    return null;
   }
 
   /////////////////////////////////////

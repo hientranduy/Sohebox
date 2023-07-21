@@ -71,6 +71,7 @@ export class EditAccountDialogComponent implements OnInit {
     if (type) {
       return type.typeName;
     }
+    return null;
   }
 
   /**
