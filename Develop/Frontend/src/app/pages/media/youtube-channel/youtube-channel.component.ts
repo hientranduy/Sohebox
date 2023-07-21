@@ -1,6 +1,6 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { ApiReponse } from '@app/_common/_models';
+import { ApiReponse, YoutubeChannel, YoutubeVideo } from '@app/_common/_models';
 import { YoutubeChannelSCO, YoutubeChannelVideoSCO } from '@app/_common/_sco';
 import { SearchNumber } from '@app/_common/_sco/core_sco';
 import {
@@ -13,7 +13,6 @@ import { User } from '@app/_common/_models';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
-import { YoutubeChannel, YoutubeVideo } from '../_models';
 import { YoutubeService } from '../_services';
 import { YoutubeVideoDialogService } from '../_services/youtube-video-dialog.service';
 import { AuthenticationService } from '@app/_common/_services/';

@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { SpinnerService } from '@app/_common/_services';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
-import { CryptoPortfolio } from '../_models';
+import { CryptoPortfolio } from '@app/_common/_models';
 import { CryptoPortfolioService } from '../_services';
 
 @Component({

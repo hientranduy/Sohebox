@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiReponse } from '@app/_common/_models';
+import { ApiReponse, CryptoTokenConfig } from '@app/_common/_models';
 import { PageResultVO } from '@app/_common/_models/pageResultVO';
 import { SearchText, Sorter } from '@app/_common/_sco/core_sco';
 import { SpinnerService } from '@app/_common/_services';
 import { AlertService } from '@app/_common/alert/alert.service';
-import { CryptoTokenConfig } from '@app/pages/crypto/_models';
-import { CryptoTokenConfigSCO } from '@app/pages/crypto/_sco';
 import { CryptoTokenConfigService } from '@app/pages/crypto/_services';
 import { CryptoTokenDialogService } from './_dialogs';
+import { CryptoTokenConfigSCO } from '@app/_common/_sco';
 
 @Component({
   selector: 'app-crypto-token-config',

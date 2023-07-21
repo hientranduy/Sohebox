@@ -1,7 +1,7 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { ApiReponse } from '@app/_common/_models';
 import { SpinnerService } from '@app/_common/_services';
-import { CurrencyVietcombank } from '../_models';
+import { CurrencyVietcombank } from '@app/_common/_models';
 import { FinanceService } from '../_services';
 import { AlertService } from '@app/_common/alert/alert.service';
 

@@ -6,12 +6,11 @@ import {
   Validators,
 } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
-import { ApiReponse, MediaType } from '@app/_common/_models';
+import { ApiReponse, MediaType, YoutubeChannel } from '@app/_common/_models';
 import { SearchText, Sorter } from '@app/_common/_sco/core_sco';
 import { MediaTypeSCO } from '@app/_common/_sco/mediaTypeSCO';
 import { SpinnerService } from '@app/_common/_services';
 import { AlertService } from '@app/_common/alert/alert.service';
-import { YoutubeChannel } from '@app/pages/media/_models';
 import { YoutubeService } from '@app/pages/media/_services';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';

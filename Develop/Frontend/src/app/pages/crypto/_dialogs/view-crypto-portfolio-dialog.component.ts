@@ -3,7 +3,7 @@ import { FormControl, Validators } from '@angular/forms';
 import { RequireMatchForm } from '@app/_common/_services';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs';
-import { CryptoPortfolio, CryptoTokenConfig } from '../_models';
+import { CryptoPortfolio, CryptoTokenConfig } from '@app/_common/_models';
 
 @Component({
   styleUrls: ['view-crypto-portfolio-dialog.component.css'],

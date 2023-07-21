@@ -13,7 +13,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
-import { Account } from '../_models';
+import { Account } from '@app/_common/_models';
 import { AccountService } from '../_services';
 
 @Component({

@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AccountSCO } from '@app/_common/_sco';
 import { environment } from '@environments/environment';
-import { Account } from '../_models';
+import { Account } from '@app/_common/_models';
 
 @Injectable({ providedIn: 'root' })
 export class AccountService {

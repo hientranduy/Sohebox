@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
-import { CryptoPortfolio } from '../_models';
+import { CryptoPortfolio } from '@app/_common/_models';
 import { AddCryptoFortfolioDialogComponent } from './add-crypto-portfolio-dialog.component';
 import { DeleteCryptoPortfolioDialogComponent } from './delete-crypto-portfolio-dialog.component';
 import { EditCryptoPortfolioDialogComponent } from './edit-crypto-portfolio-dialog.component';

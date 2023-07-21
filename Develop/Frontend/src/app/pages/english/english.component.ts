@@ -26,7 +26,11 @@ import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { EnglishDialogService } from './_dialogs';
-import { English, EnglishLearnRecord, EnglishUserGrade } from './_model';
+import {
+  English,
+  EnglishLearnRecord,
+  EnglishUserGrade,
+} from '@app/_common/_models';
 import { EnglishService, EnglishTypeService } from './_services';
 import { AuthenticationService } from '@app/_common/_services/';
 

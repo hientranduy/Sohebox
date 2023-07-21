@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { YoutubeChannel } from '@app/pages/media/_models';
+import { YoutubeChannel } from '@app/_common/_models';
 import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 import { AddYoutubeChannelDialogComponent } from './add-youtube-channel-dialog.component';
 import { EditYoutubeChannelDialogComponent } from './edit-youtube-channel-dialog.component';

@@ -10,7 +10,7 @@ import { SearchDate, SearchNumber, Sorter } from '@app/_common/_sco/core_sco';
 import { SpinnerService } from '@app/_common/_services';
 import { ToastrService } from 'ngx-toastr';
 import { EnglishDialogService } from '../english/_dialogs';
-import { EnglishLearnRecord, EnglishLearnReport } from '../english/_model';
+import { EnglishLearnRecord, EnglishLearnReport } from '@app/_common/_models';
 import { EnglishService } from '../english/_services';
 
 @Component({

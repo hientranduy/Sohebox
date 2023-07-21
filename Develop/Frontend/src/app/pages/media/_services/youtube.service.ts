@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { YoutubeChannel, YoutubeVideo } from '@app/_common/_models';
 import { YoutubeChannelSCO, YoutubeChannelVideoSCO } from '@app/_common/_sco';
 import { environment } from '@environments/environment';
-import { YoutubeChannel, YoutubeVideo } from '../_models';
 
 @Injectable({ providedIn: 'root' })
 export class YoutubeService {

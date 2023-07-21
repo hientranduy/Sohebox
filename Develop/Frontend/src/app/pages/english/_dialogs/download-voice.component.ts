@@ -6,7 +6,7 @@ import { SpinnerService } from '@app/_common/_services';
 import { environment } from '@environments/environment';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
-import { English } from '../_model';
+import { English } from '@app/_common/_models';
 import { EnglishService } from '../_services';
 
 @Component({

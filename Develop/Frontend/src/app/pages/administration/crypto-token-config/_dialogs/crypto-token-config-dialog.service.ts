@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { CryptoTokenConfig } from '@app/pages/crypto/_models';
 import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 import { AddCryptoTokenConfigDialogComponent } from './add-crypto-token-config-dialog.component';
 import { EditCryptoTokenConfigDialogComponent } from './edit-crypto-token-config-dialog.component';
+import { CryptoTokenConfig } from '@app/_common/_models';
 
 @Injectable({ providedIn: 'root' })
 export class CryptoTokenDialogService {

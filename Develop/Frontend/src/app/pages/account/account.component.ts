@@ -1,6 +1,6 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { AppSettings } from '@app/app.settings';
-import { User } from '@app/_common/_models';
+import { Account, User } from '@app/_common/_models';
 import { ApiReponse } from '@app/_common/_models';
 import { PageResultVO } from '@app/_common/_models/pageResultVO';
 import { AccountSCO } from '@app/_common/_sco';
@@ -8,7 +8,6 @@ import { SearchText, Sorter } from '@app/_common/_sco/core_sco';
 import { SpinnerService, UtilsService } from '@app/_common/_services';
 import { ToastrService } from 'ngx-toastr';
 import { AccountDialogService } from './_dialogs';
-import { Account } from './_models';
 import { AccountService } from './_services';
 import { AlertService } from '@app/_common/alert/alert.service';
 import { AuthenticationService } from '@app/_common/_services/';

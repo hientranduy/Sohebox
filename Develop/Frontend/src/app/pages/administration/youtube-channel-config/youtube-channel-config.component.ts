@@ -5,7 +5,7 @@ import { YoutubeChannelSCO } from '@app/_common/_sco';
 import { SearchText, Sorter } from '@app/_common/_sco/core_sco';
 import { SpinnerService } from '@app/_common/_services';
 import { AlertService } from '@app/_common/alert/alert.service';
-import { YoutubeChannel } from '@app/pages/media/_models';
+import { YoutubeChannel } from '@app/_common/_models';
 import { YoutubeService } from '@app/pages/media/_services';
 import { YoutubeChannelDialogService } from './_dialogs';
 

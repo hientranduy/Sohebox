@@ -1,7 +1,7 @@
 import { Component, HostListener, Input, OnInit } from '@angular/core';
+import { Food } from '@app/_common/_models';
 import { UtilsService } from '@app/_common/_services';
 import { AppSettings } from '@app/app.settings';
-import { Food } from '../_model';
 
 @Component({
   selector: 'app-food-item',

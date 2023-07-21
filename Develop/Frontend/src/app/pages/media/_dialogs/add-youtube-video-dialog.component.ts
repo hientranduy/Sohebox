@@ -4,7 +4,7 @@ import { YoutubeService } from '@app/pages/media/_services';
 import { SpinnerService } from '@app/_common/_services';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
-import { YoutubeVideo } from '../_models';
+import { YoutubeVideo } from '@app/_common/_models';
 
 @Component({
   selector: 'app-add-youtube-video-dialog',

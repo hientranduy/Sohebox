@@ -1,9 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { CryptoPortfolioSCO } from '@app/pages/crypto/_sco/cryptoPortfolioSCO';
+import { CryptoPortfolio } from '@app/_common/_models';
+import {
+  CryptoPortfolioHistorySCO,
+  CryptoPortfolioSCO,
+} from '@app/_common/_sco';
 import { environment } from '@environments/environment';
-import { CryptoPortfolio } from '../_models';
-import { CryptoPortfolioHistorySCO } from '../_sco';
 
 @Injectable({ providedIn: 'root' })
 export class CryptoPortfolioService {

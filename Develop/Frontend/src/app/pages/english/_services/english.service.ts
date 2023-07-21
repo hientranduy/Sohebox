@@ -12,7 +12,7 @@ import {
   English,
   EnglishLearnRecord,
   EnglishUserGrade,
-} from '../_model';
+} from '@app/_common/_models';
 
 @Injectable({ providedIn: 'root' })
 export class EnglishService {

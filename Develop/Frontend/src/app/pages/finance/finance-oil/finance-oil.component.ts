@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ApiReponse } from '@app/_common/_models';
 import { SpinnerService } from '@app/_common/_services';
 import { AlertService } from '@app/_common/alert/alert.service';
-import { TradingOilPrice } from '../_models';
+import { TradingOilPrice } from '@app/_common/_models';
 import { TradingService } from '../_services';
 
 @Component({

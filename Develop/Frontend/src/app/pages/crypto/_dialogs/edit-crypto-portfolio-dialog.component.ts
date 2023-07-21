@@ -6,8 +6,8 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
-import { CryptoPortfolio, CryptoTokenConfig } from '../_models';
-import { CryptoTokenConfigSCO } from '../_sco';
+import { CryptoPortfolio, CryptoTokenConfig } from '@app/_common/_models';
+import { CryptoTokenConfigSCO } from '@app/_common/_sco';
 import { CryptoPortfolioService, CryptoTokenConfigService } from '../_services';
 import { AlertService } from '@app/_common/alert/alert.service';
 

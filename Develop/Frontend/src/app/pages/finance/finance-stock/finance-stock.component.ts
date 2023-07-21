@@ -1,7 +1,6 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { ApiReponse } from '@app/_common/_models';
+import { ApiReponse, TradingStockPrice } from '@app/_common/_models';
 import { SpinnerService } from '@app/_common/_services';
-import { TradingStockPrice } from '../_models';
 import { TradingService } from '../_services';
 import { AlertService } from '@app/_common/alert/alert.service';
 

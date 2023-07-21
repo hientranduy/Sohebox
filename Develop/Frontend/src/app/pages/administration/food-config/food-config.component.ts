@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiReponse } from '@app/_common/_models';
+import { ApiReponse, Food } from '@app/_common/_models';
 import { PageResultVO } from '@app/_common/_models/pageResultVO';
 import { SearchText, Sorter } from '@app/_common/_sco/core_sco';
 import { FoodSCO } from '@app/_common/_sco/foodSCO';
 import { SpinnerService } from '@app/_common/_services';
 import { AlertService } from '@app/_common/alert/alert.service';
 import { FoodDialogService } from '@app/pages/food/_dialogs';
-import { Food } from '@app/pages/food/_model';
 import { FoodService } from '@app/pages/food/_services';
 
 @Component({

@@ -3,7 +3,7 @@ import { ApiReponse } from '@app/_common/_models';
 import { SpinnerService } from '@app/_common/_services';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
-import { Account } from '../_models';
+import { Account } from '@app/_common/_models';
 import { AccountService } from '../_services';
 
 @Component({

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
-import { Account } from '../_models';
+import { Account } from '@app/_common/_models';
 import { AddAccountDialogComponent } from './add-account-dialog.component';
 import { DeleteAccountDialogComponent } from './delete-account-dialog.component';
 import { EditAccountDialogComponent } from './edit-account-dialog.component';

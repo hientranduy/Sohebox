@@ -6,8 +6,8 @@ import {
   Validators,
 } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
+import { CryptoTokenConfig } from '@app/_common/_models';
 import { SpinnerService } from '@app/_common/_services';
-import { CryptoTokenConfig } from '@app/pages/crypto/_models';
 import { CryptoTokenConfigService } from '@app/pages/crypto/_services';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';

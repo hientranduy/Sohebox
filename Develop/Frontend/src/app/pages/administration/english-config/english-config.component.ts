@@ -1,5 +1,5 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { ApiReponse } from '@app/_common/_models';
+import { ApiReponse, English } from '@app/_common/_models';
 import { PageResultVO } from '@app/_common/_models/pageResultVO';
 import { EnglishSCO } from '@app/_common/_sco';
 import { SearchText, Sorter } from '@app/_common/_sco/core_sco';
@@ -7,7 +7,6 @@ import { SpinnerService } from '@app/_common/_services';
 import { AlertService } from '@app/_common/alert/alert.service';
 import { AppSettings } from '@app/app.settings';
 import { EnglishDialogService } from '@app/pages/english/_dialogs';
-import { English } from '@app/pages/english/_model';
 import { EnglishService } from '@app/pages/english/_services';
 
 @Component({

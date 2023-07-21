@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FoodSCO } from '@app/_common/_sco/foodSCO';
 import { environment } from '@environments/environment';
-import { Food } from '../_model';
+import { Food } from '@app/_common/_models';
 
 @Injectable({ providedIn: 'root' })
 export class FoodService {

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
-import { English } from '../_model';
+import { English } from '@app/_common/_models';
 import { AddWordDialogComponent } from './add-word-dialog.component';
 import { DownloadVoiceComponent } from './download-voice.component';
 import { EditWordDialogComponent } from './edit-word-dialog.component';

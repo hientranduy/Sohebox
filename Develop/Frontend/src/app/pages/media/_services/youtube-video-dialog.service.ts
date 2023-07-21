@@ -4,7 +4,7 @@ import {
   AddYoutubeVideoDialogComponent,
   DeleteYoutubeVideoDialogComponent,
 } from '../_dialogs';
-import { YoutubeVideo } from '../_models';
+import { YoutubeVideo } from '@app/_common/_models';
 
 @Injectable({ providedIn: 'root' })
 export class YoutubeVideoDialogService {

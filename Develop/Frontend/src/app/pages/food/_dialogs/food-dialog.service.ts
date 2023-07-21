@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
-import { Food } from '../_model';
+import { Food } from '@app/_common/_models';
 import { AddFoodDialogComponent } from './add-food-dialog.component';
 import { EditFoodDialogComponent } from './edit-food-dialog.component';
 

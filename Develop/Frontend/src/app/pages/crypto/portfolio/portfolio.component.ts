@@ -6,11 +6,12 @@ import { PageResultVO } from '@app/_common/_models/pageResultVO';
 import { SearchText, Sorter } from '@app/_common/_sco/core_sco';
 import { SpinnerService, UtilsService } from '@app/_common/_services';
 import { CryptoPortfolioDialogService } from '../_dialogs';
-import { CryptoPortfolio, CryptoPortfolioHistory } from '../_models';
-import { CryptoPortfolioHistorySCO, CryptoPortfolioSCO } from '../_sco';
+import { CryptoPortfolio, CryptoPortfolioHistory } from '@app/_common/_models';
 import { CryptoPortfolioService } from '../_services';
 import { AlertService } from '@app/_common/alert/alert.service';
 import { AuthenticationService } from '@app/_common/_services/';
+import { CryptoPortfolioSCO } from '@app/_common/_sco/cryptoPortfolioSCO';
+import { CryptoPortfolioHistorySCO } from '@app/_common/_sco/cryptoPortfolioHistorySCO';
 
 @Component({
   selector: 'app-crypto-portfolio',

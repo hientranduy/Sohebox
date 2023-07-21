@@ -6,7 +6,7 @@ import { EnglishLearnRecordSCO } from '@app/_common/_sco';
 import { SearchDate, SearchNumber } from '@app/_common/_sco/core_sco';
 import { SpinnerService } from '@app/_common/_services';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { EnglishLearnRecord } from '../_model';
+import { EnglishLearnRecord } from '@app/_common/_models';
 import { EnglishService } from '../_services';
 import { AuthenticationService } from '@app/_common/_services/';
 

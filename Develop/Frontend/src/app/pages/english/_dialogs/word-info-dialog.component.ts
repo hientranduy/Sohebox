@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { AppSettings } from '@app/app.settings';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
-import { English } from '../_model';
+import { English } from '@app/_common/_models';
 
 @Component({
   selector: 'app-word-info-dialog',

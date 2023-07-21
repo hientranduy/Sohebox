@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiReponse } from '@app/_common/_models';
 import { SpinnerService } from '@app/_common/_services';
-import { GoldSjc } from '../_models';
+import { GoldSjc } from '@app/_common/_models';
 import { FinanceService } from '../_services';
 import { AlertService } from '@app/_common/alert/alert.service';
 

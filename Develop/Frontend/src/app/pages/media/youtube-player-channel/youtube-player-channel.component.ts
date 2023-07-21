@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import { ApiReponse } from '@app/_common/_models';
+import { ApiReponse, YoutubeVideo } from '@app/_common/_models';
 import { YoutubeChannelVideoSCO } from '@app/_common/_sco';
 import { SearchNumber } from '@app/_common/_sco/core_sco';
 import { SpinnerService } from '@app/_common/_services';
@@ -8,7 +8,6 @@ import { AlertService } from '@app/_common/alert/alert.service';
 import { AppSettings } from '@app/app.settings';
 import { User } from '@app/_common/_models';
 import { ToastrService } from 'ngx-toastr';
-import { YoutubeVideo } from '../_models';
 import { YoutubeService } from '../_services';
 import { AuthenticationService } from '@app/_common/_services/';
 

@@ -4,7 +4,7 @@ import { Type } from '@app/_common/_models';
 import { RequireMatchForm } from '@app/_common/_services';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs';
-import { Account } from '../_models';
+import { Account } from '@app/_common/_models';
 
 @Component({
   styleUrls: ['view-account-dialog.component.css'],

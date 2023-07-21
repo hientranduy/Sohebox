@@ -1,16 +1,19 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import { ApiReponse, EnglishType } from '@app/_common/_models';
+import {
+  ApiReponse,
+  EnglishType,
+  EnglishUserGrade,
+  User,
+} from '@app/_common/_models';
 import { EnglishTypeSCO, EnglishUserGradeSCO } from '@app/_common/_sco';
 import { SearchNumber, SearchText, Sorter } from '@app/_common/_sco/core_sco';
 import { RequireMatchForm, SpinnerService } from '@app/_common/_services';
 import { AlertService } from '@app/_common/alert/alert.service';
-import { EnglishUserGrade } from '@app/pages/english/_model';
 import {
   EnglishService,
   EnglishTypeService,
 } from '@app/pages/english/_services';
-import { User } from '@app/_common/_models';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';

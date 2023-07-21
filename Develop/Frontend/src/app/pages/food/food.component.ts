@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ApiReponse } from '@app/_common/_models';
+import { ApiReponse, Food } from '@app/_common/_models';
 import { Sorter } from '@app/_common/_sco/core_sco';
 import { FoodSCO } from '@app/_common/_sco/foodSCO';
 import { SpinnerService } from '@app/_common/_services';
 import { AlertService } from '@app/_common/alert/alert.service';
-import { Food } from './_model';
 import { FoodService } from './_services';
 
 @Component({

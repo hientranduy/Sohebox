@@ -9,7 +9,7 @@ import {
   SpinnerService,
 } from '@app/_common/_services';
 import { AlertService } from '@app/_common/alert/alert.service';
-import { Account } from '@app/pages/account/_models/account';
+import { Account } from '@app/_common/_models/account';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
