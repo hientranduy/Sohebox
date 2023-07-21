@@ -1,13 +1,12 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { EnglishTypeService } from '@app/pages/english/_services';
-import { AuthenticationService } from '@app/user/_service';
-import { AlertService } from '@app/_common/alert';
 import { ApiReponse } from '@app/_common/_models';
 import { EnglishType } from '@app/_common/_models/englishType';
 import { PageResultVO } from '@app/_common/_models/pageResultVO';
 import { SearchText, Sorter } from '@app/_common/_sco/core_sco';
 import { EnglishTypeSCO } from '@app/_common/_sco/englishTypeSCO';
 import { SpinnerService } from '@app/_common/_services';
+import { AlertService } from '@app/_common/alert/alert.service';
+import { EnglishTypeService } from '@app/pages/english/_services';
 import { ToastrService } from 'ngx-toastr';
 import { EnglishTypeDialogService } from './_dialogs';
 
@@ -38,7 +37,6 @@ export class EnglishTypeComponent implements OnInit {
    * Constructor
    */
   constructor(
-    private authenticationService: AuthenticationService,
     private englishTypeDialogService: EnglishTypeDialogService,
     private englishTypeService: EnglishTypeService,
     private alertService: AlertService,

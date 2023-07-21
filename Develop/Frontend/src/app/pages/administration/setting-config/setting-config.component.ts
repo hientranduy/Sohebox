@@ -1,6 +1,5 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { AuthenticationService } from '@app/user/_service';
-import { AlertService } from '@app/_common/alert';
 import { ApiReponse, Config } from '@app/_common/_models';
 import { PageResultVO } from '@app/_common/_models/pageResultVO';
 import { ConfigSCO } from '@app/_common/_sco';
@@ -8,6 +7,7 @@ import { SearchText, Sorter } from '@app/_common/_sco/core_sco';
 import { ConfigService, SpinnerService } from '@app/_common/_services';
 import { ToastrService } from 'ngx-toastr';
 import { ConfigDialogService } from './_dialogs';
+import { AlertService } from '@app/_common/alert/alert.service';
 
 @Component({
   selector: 'app-setting-config',

@@ -1,16 +1,14 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { AppSettings } from '@app/appSettings';
-import { EnglishDialogService } from '@app/pages/english/_dialogs';
-import { English } from '@app/pages/english/_model';
-import { EnglishService } from '@app/pages/english/_services';
-import { AuthenticationService } from '@app/user/_service';
-import { AlertService } from '@app/_common/alert';
 import { ApiReponse } from '@app/_common/_models';
 import { PageResultVO } from '@app/_common/_models/pageResultVO';
 import { EnglishSCO } from '@app/_common/_sco';
 import { SearchText, Sorter } from '@app/_common/_sco/core_sco';
 import { SpinnerService } from '@app/_common/_services';
-import { ToastrService } from 'ngx-toastr';
+import { AlertService } from '@app/_common/alert/alert.service';
+import { AppSettings } from '@app/appSettings';
+import { EnglishDialogService } from '@app/pages/english/_dialogs';
+import { English } from '@app/pages/english/_model';
+import { EnglishService } from '@app/pages/english/_services';
 
 @Component({
   selector: 'app-english-config',
@@ -38,11 +36,9 @@ export class EnglishConfigComponent implements OnInit {
    * Constructor
    */
   constructor(
-    private authenticationService: AuthenticationService,
     private englishDialogService: EnglishDialogService,
     private englishService: EnglishService,
     private alertService: AlertService,
-    private toastr: ToastrService,
     private spinner: SpinnerService,
   ) {
     // Set default

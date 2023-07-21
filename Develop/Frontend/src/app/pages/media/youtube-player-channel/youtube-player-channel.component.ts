@@ -3,7 +3,6 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { AppSettings } from '@app/appSettings';
 import { User } from '@app/user/_models';
 import { AuthenticationService } from '@app/user/_service';
-import { AlertService } from '@app/_common/alert';
 import { ApiReponse } from '@app/_common/_models';
 import { YoutubeChannelVideoSCO } from '@app/_common/_sco';
 import { SearchNumber } from '@app/_common/_sco/core_sco';
@@ -11,6 +10,7 @@ import { SEOService, SpinnerService } from '@app/_common/_services';
 import { ToastrService } from 'ngx-toastr';
 import { YoutubeVideo } from '../_models';
 import { YoutubeService } from '../_services';
+import { AlertService } from '@app/_common/alert/alert.service';
 
 @Component({
   selector: 'app-youtube-player-channel',

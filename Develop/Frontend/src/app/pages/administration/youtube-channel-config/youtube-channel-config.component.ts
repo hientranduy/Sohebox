@@ -1,14 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { YoutubeChannel } from '@app/pages/media/_models';
-import { YoutubeService } from '@app/pages/media/_services';
-import { AuthenticationService } from '@app/user/_service';
-import { AlertService } from '@app/_common/alert';
 import { ApiReponse } from '@app/_common/_models';
 import { PageResultVO } from '@app/_common/_models/pageResultVO';
 import { YoutubeChannelSCO } from '@app/_common/_sco';
 import { SearchText, Sorter } from '@app/_common/_sco/core_sco';
 import { SpinnerService } from '@app/_common/_services';
-import { ToastrService } from 'ngx-toastr';
+import { AlertService } from '@app/_common/alert/alert.service';
+import { YoutubeChannel } from '@app/pages/media/_models';
+import { YoutubeService } from '@app/pages/media/_services';
 import { YoutubeChannelDialogService } from './_dialogs';
 
 @Component({
@@ -26,9 +24,7 @@ export class YoutubeChannelConfigComponent implements OnInit {
    * Constructor
    */
   constructor(
-    private authenticationService: AuthenticationService,
     private alertService: AlertService,
-    private toastr: ToastrService,
     private spinner: SpinnerService,
     private youtubeService: YoutubeService,
     private youtubeChannelDialogService: YoutubeChannelDialogService,

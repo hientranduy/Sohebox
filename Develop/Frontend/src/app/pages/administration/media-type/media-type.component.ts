@@ -5,8 +5,7 @@ import { PageResultVO } from '@app/_common/_models/pageResultVO';
 import { SearchText, Sorter } from '@app/_common/_sco/core_sco';
 import { MediaTypeSCO } from '@app/_common/_sco/mediaTypeSCO';
 import { SpinnerService } from '@app/_common/_services';
-import { AlertService } from '@app/_common/alert';
-import { ToastrService } from 'ngx-toastr';
+import { AlertService } from '@app/_common/alert/alert.service';
 import { MediaTypeDialogService } from './media-type.service';
 
 @Component({
@@ -38,7 +37,6 @@ export class MediaTypeComponent implements OnInit {
   constructor(
     private mediaTypeDialogService: MediaTypeDialogService,
     private alertService: AlertService,
-    private toastr: ToastrService,
     private spinner: SpinnerService,
   ) {
     // Set default

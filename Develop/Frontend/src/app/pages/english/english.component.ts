@@ -4,7 +4,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AppSettings } from '@app/appSettings';
 import { User } from '@app/user/_models';
 import { AuthenticationService } from '@app/user/_service';
-import { AlertService } from '@app/_common/alert';
 import { ApiReponse, EnglishType } from '@app/_common/_models';
 import {
   EnglishLearnRecordSCO,
@@ -30,6 +29,7 @@ import { map, startWith } from 'rxjs/operators';
 import { EnglishDialogService } from './_dialogs';
 import { English, EnglishLearnRecord, EnglishUserGrade } from './_model';
 import { EnglishService, EnglishTypeService } from './_services';
+import { AlertService } from '@app/_common/alert/alert.service';
 
 @Component({
   selector: 'app-english',

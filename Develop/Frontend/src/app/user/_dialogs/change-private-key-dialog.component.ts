@@ -1,8 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { AuthenticationService, UserService } from '@app/user/_service';
-import { AlertService } from '@app/_common/alert';
 import { SpinnerService } from '@app/_common/_services';
+import { AlertService } from '@app/_common/alert/alert.service';
+import { AuthenticationService, UserService } from '@app/user/_service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { User } from '../_models';
 

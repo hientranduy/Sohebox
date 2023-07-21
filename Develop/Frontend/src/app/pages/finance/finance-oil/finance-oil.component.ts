@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertService } from '@app/_common/alert';
 import { ApiReponse } from '@app/_common/_models';
 import { SpinnerService } from '@app/_common/_services';
-import { ToastrService } from 'ngx-toastr';
+import { AlertService } from '@app/_common/alert/alert.service';
 import { TradingOilPrice } from '../_models';
 import { TradingService } from '../_services';
 
@@ -27,7 +26,6 @@ export class FinanceOilComponent implements OnInit {
   constructor(
     private spinner: SpinnerService,
     private tradingService: TradingService,
-    private toastr: ToastrService,
     private alertService: AlertService,
   ) {}
 

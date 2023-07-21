@@ -2,7 +2,6 @@ import { Component, HostListener, OnInit } from '@angular/core';
 import { AppSettings } from '@app/appSettings';
 import { User } from '@app/user/_models';
 import { AuthenticationService } from '@app/user/_service';
-import { AlertService } from '@app/_common/alert';
 import { ApiReponse } from '@app/_common/_models';
 import { PageResultVO } from '@app/_common/_models/pageResultVO';
 import { AccountSCO } from '@app/_common/_sco';
@@ -12,6 +11,7 @@ import { ToastrService } from 'ngx-toastr';
 import { AccountDialogService } from './_dialogs';
 import { Account } from './_models';
 import { AccountService } from './_services';
+import { AlertService } from '@app/_common/alert/alert.service';
 
 @Component({
   selector: 'app-account',

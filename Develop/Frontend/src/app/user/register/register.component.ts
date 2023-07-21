@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AlertService } from '@app/_common/alert';
 import { SEOService, SpinnerService } from '@app/_common/_services';
 import { ToastrService } from 'ngx-toastr';
 import { first } from 'rxjs/operators';
 import { AuthenticationService, UserService } from '../_service';
+import { AlertService } from '@app/_common/alert/alert.service';
 
 @Component({
   templateUrl: './register.component.html',

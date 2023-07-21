@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AlertService } from '@app/_common/alert';
 import { SEOService, SpinnerService } from '@app/_common/_services';
 import { first } from 'rxjs/operators';
 import { AuthenticationService } from '../_service';
+import { AlertService } from '@app/_common/alert/alert.service';
 
 @Component({
   templateUrl: './login.component.html',

@@ -1,15 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { FoodDialogService } from '@app/pages/food/_dialogs';
-import { Food } from '@app/pages/food/_model';
-import { FoodService } from '@app/pages/food/_services';
-import { AuthenticationService } from '@app/user/_service';
-import { AlertService } from '@app/_common/alert';
 import { ApiReponse } from '@app/_common/_models';
 import { PageResultVO } from '@app/_common/_models/pageResultVO';
 import { SearchText, Sorter } from '@app/_common/_sco/core_sco';
 import { FoodSCO } from '@app/_common/_sco/foodSCO';
 import { SpinnerService } from '@app/_common/_services';
-import { ToastrService } from 'ngx-toastr';
+import { AlertService } from '@app/_common/alert/alert.service';
+import { FoodDialogService } from '@app/pages/food/_dialogs';
+import { Food } from '@app/pages/food/_model';
+import { FoodService } from '@app/pages/food/_services';
 
 @Component({
   selector: 'app-food-config',
@@ -26,11 +24,9 @@ export class FoodConfigComponent implements OnInit {
    * Constructor
    */
   constructor(
-    private authenticationService: AuthenticationService,
     private foodDialogService: FoodDialogService,
     private foodService: FoodService,
     private alertService: AlertService,
-    private toastr: ToastrService,
     private spinner: SpinnerService,
   ) {
     // Set default

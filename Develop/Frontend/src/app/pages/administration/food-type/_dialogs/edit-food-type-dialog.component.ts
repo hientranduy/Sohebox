@@ -6,11 +6,9 @@ import {
   Validators,
 } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
-import { FoodTypeService } from '@app/pages/food/_services';
-import { AuthenticationService } from '@app/user/_service';
-import { AlertService } from '@app/_common/alert';
 import { FoodType } from '@app/_common/_models/foodType';
 import { SpinnerService } from '@app/_common/_services';
+import { FoodTypeService } from '@app/pages/food/_services';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 
@@ -22,8 +20,6 @@ export class EditFoodTypeDialogComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private activeModal: NgbActiveModal,
-    private alertService: AlertService,
-    private authenticationService: AuthenticationService,
     private foodTypeService: FoodTypeService,
     private toastr: ToastrService,
     private spinner: SpinnerService,

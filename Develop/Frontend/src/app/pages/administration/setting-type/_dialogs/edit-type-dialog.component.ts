@@ -6,8 +6,6 @@ import {
   Validators,
 } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
-import { AuthenticationService } from '@app/user/_service';
-import { AlertService } from '@app/_common/alert';
 import { Type } from '@app/_common/_models';
 import { SpinnerService, TypeService } from '@app/_common/_services';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
@@ -21,8 +19,6 @@ export class EditTypeDialogComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private activeModal: NgbActiveModal,
-    private alertService: AlertService,
-    private authenticationService: AuthenticationService,
     private typeService: TypeService,
     private toastr: ToastrService,
     private spinner: SpinnerService,

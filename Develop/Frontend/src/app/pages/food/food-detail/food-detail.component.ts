@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { AppSettings } from '@app/appSettings';
-import { AlertService } from '@app/_common/alert';
 import { SpinnerService } from '@app/_common/_services';
 import { Food } from '../_model';
 import { FoodService } from '../_services';
+import { AlertService } from '@app/_common/alert/alert.service';
 
 @Component({
   selector: 'app-food-detail',

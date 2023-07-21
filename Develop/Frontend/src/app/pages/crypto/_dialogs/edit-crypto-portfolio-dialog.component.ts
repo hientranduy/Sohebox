@@ -1,6 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import { AlertService } from '@app/_common/alert';
 import { ApiReponse } from '@app/_common/_models';
 import { RequireMatchForm, SpinnerService } from '@app/_common/_services';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
@@ -10,6 +9,7 @@ import { map, startWith } from 'rxjs/operators';
 import { CryptoPortfolio, CryptoTokenConfig } from '../_models';
 import { CryptoTokenConfigSCO } from '../_sco';
 import { CryptoPortfolioService, CryptoTokenConfigService } from '../_services';
+import { AlertService } from '@app/_common/alert/alert.service';
 
 @Component({
   styleUrls: ['edit-crypto-portfolio-dialog.component.css'],

@@ -6,12 +6,11 @@ import {
   Validators,
 } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
-import { AuthenticationService } from '@app/user/_service';
-import { AlertService } from '@app/_common/alert';
 import { ApiReponse, EnglishType } from '@app/_common/_models';
 import { EnglishTypeSCO } from '@app/_common/_sco';
 import { SearchText, Sorter } from '@app/_common/_sco/core_sco';
 import { SpinnerService } from '@app/_common/_services';
+import { AlertService } from '@app/_common/alert/alert.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
@@ -30,7 +29,6 @@ export class EditWordDialogComponent implements OnInit {
     private activeModal: NgbActiveModal,
     private englishService: EnglishService,
     private alertService: AlertService,
-    private authenticationService: AuthenticationService,
     private englishTypeService: EnglishTypeService,
     private toastr: ToastrService,
     private spinner: SpinnerService,

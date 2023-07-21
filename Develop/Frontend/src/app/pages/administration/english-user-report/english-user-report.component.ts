@@ -1,14 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { EnglishLearnReport } from '@app/pages/english/_model';
-import { EnglishService } from '@app/pages/english/_services';
-import { AuthenticationService } from '@app/user/_service';
-import { AlertService } from '@app/_common/alert';
 import { ApiReponse } from '@app/_common/_models';
 import { PageResultVO } from '@app/_common/_models/pageResultVO';
 import { EnglishLearnReportSCO } from '@app/_common/_sco';
 import { SpinnerService } from '@app/_common/_services';
-import { ToastrService } from 'ngx-toastr';
+import { AlertService } from '@app/_common/alert/alert.service';
+import { EnglishLearnReport } from '@app/pages/english/_model';
+import { EnglishService } from '@app/pages/english/_services';
 
 @Component({
   selector: 'app-english-user-report',
@@ -23,11 +20,8 @@ export class EnglishUserReportComponent implements OnInit {
    * Constructor
    */
   constructor(
-    private authenticationService: AuthenticationService,
-    private router: Router,
     private englishService: EnglishService,
     private alertService: AlertService,
-    private toastr: ToastrService,
     private spinner: SpinnerService,
   ) {
     // Set default

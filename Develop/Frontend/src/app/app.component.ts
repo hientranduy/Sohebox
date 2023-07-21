@@ -8,7 +8,7 @@ import { Keepalive } from '@ng-idle/keepalive';
 import { UserDialogService } from './user/_dialogs';
 import { User } from './user/_models';
 import { AuthenticationService } from './user/_service';
-import { TimeoutProgressDialogComponent } from './_common/timeout-progress-dialog';
+import { TimeoutProgressDialogComponent } from './_common/timeout-progress-dialog/timeout-progress-dialog.component';
 
 @Component({
   selector: 'app-sohebox',

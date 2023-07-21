@@ -5,9 +5,8 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "test": "ng test",
-    "e2e": "ng e2e",
-    "lint": "ng lint"
+    "watch": "ng build --watch --configuration development",
+    "test": "ng test"
   },
   "private": true,
   "dependencies": {
@@ -38,23 +37,16 @@
     "zone.js": "~0.13.1"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^16.1.4",
-    "@angular-eslint/builder": "16.1.0",
-    "@angular-eslint/eslint-plugin": "16.1.0",
-    "@angular-eslint/eslint-plugin-template": "16.1.0",
-    "@angular-eslint/schematics": "16.1.0",
-    "@angular-eslint/template-parser": "16.1.0",
-    "@angular/cli": "^16.1.4",
+    "@angular-devkit/build-angular": "^16.1.5",
+    "@angular/cli": "^16.1.5",
     "@angular/compiler-cli": "^16.1.6",
-    "@typescript-eslint/eslint-plugin": "^6.1.0",
+    "@types/jasmine": "~4.3.0",
     "jasmine-core": "^5.0.1",
     "karma": "~6.4.2",
     "karma-chrome-launcher": "^3.2.0",
-    "karma-coverage-istanbul-reporter": "~3.0.2",
+    "karma-coverage": "~2.2.0",
     "karma-jasmine": "^5.1.0",
     "karma-jasmine-html-reporter": "^2.1.0",
-    "protractor": "~7.0.0",
-    "tslib": "^2.6.0",
     "typescript": "5.1.6"
   }
 }

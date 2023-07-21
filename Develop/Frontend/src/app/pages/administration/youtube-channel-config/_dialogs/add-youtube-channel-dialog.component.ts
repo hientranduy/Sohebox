@@ -11,13 +11,13 @@ import { YoutubeChannelSCO } from '@app/_common/_sco';
 import { SearchText, Sorter } from '@app/_common/_sco/core_sco';
 import { MediaTypeSCO } from '@app/_common/_sco/mediaTypeSCO';
 import { SpinnerService } from '@app/_common/_services';
-import { AlertService } from '@app/_common/alert';
 import { YoutubeService } from '@app/pages/media/_services';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { MediaTypeDialogService } from '../../media-type/media-type.service';
+import { AlertService } from '@app/_common/alert/alert.service';
 
 @Component({
   selector: 'app-add-youtube-channel-dialog',

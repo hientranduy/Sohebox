@@ -1,7 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { Account } from '@app/pages/account/_models/account';
-import { AlertService } from '@app/_common/alert';
 import { ApiReponse, Type } from '@app/_common/_models';
 import { TypeSCO } from '@app/_common/_sco';
 import { SearchText } from '@app/_common/_sco/core_sco';
@@ -15,6 +14,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { AccountService } from '../_services';
+import { AlertService } from '@app/_common/alert/alert.service';
 
 @Component({
   styleUrls: ['add-account-dialog.component.css'],

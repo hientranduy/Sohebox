@@ -1,9 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthenticationService, UserService } from '@app/user/_service';
-import { AlertService } from '@app/_common/alert';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { SpinnerService } from '@app/_common/_services';
+import { AlertService } from '@app/_common/alert/alert.service';
 
 @Component({
   templateUrl: 'delete-confirmation-dialog.component.html',

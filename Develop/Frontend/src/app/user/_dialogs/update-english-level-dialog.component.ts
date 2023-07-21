@@ -1,5 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
+import { ApiReponse, EnglishType } from '@app/_common/_models';
+import { EnglishTypeSCO, EnglishUserGradeSCO } from '@app/_common/_sco';
+import { SearchNumber, SearchText, Sorter } from '@app/_common/_sco/core_sco';
+import { RequireMatchForm, SpinnerService } from '@app/_common/_services';
+import { AlertService } from '@app/_common/alert/alert.service';
 import { EnglishUserGrade } from '@app/pages/english/_model';
 import {
   EnglishService,
@@ -7,11 +12,6 @@ import {
 } from '@app/pages/english/_services';
 import { User } from '@app/user/_models';
 import { AuthenticationService } from '@app/user/_service';
-import { AlertService } from '@app/_common/alert';
-import { ApiReponse, EnglishType } from '@app/_common/_models';
-import { EnglishTypeSCO, EnglishUserGradeSCO } from '@app/_common/_sco';
-import { SearchNumber, SearchText, Sorter } from '@app/_common/_sco/core_sco';
-import { RequireMatchForm, SpinnerService } from '@app/_common/_services';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
@@ -24,7 +24,6 @@ import { map, startWith } from 'rxjs/operators';
 })
 export class UpdateEnglishLevelDialogComponent implements OnInit {
   constructor(
-    private formBuilder: FormBuilder,
     private activeModal: NgbActiveModal,
     private englishService: EnglishService,
     private englishTypeService: EnglishTypeService,

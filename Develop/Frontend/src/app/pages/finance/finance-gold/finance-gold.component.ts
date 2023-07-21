@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertService } from '@app/_common/alert';
 import { ApiReponse } from '@app/_common/_models';
 import { SpinnerService } from '@app/_common/_services';
 import { GoldSjc } from '../_models';
 import { FinanceService } from '../_services';
+import { AlertService } from '@app/_common/alert/alert.service';
 
 @Component({
   selector: 'app-finance-gold',

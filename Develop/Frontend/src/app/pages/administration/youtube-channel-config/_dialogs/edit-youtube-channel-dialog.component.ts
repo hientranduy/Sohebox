@@ -10,10 +10,9 @@ import { ApiReponse, MediaType } from '@app/_common/_models';
 import { SearchText, Sorter } from '@app/_common/_sco/core_sco';
 import { MediaTypeSCO } from '@app/_common/_sco/mediaTypeSCO';
 import { SpinnerService } from '@app/_common/_services';
-import { AlertService } from '@app/_common/alert';
+import { AlertService } from '@app/_common/alert/alert.service';
 import { YoutubeChannel } from '@app/pages/media/_models';
 import { YoutubeService } from '@app/pages/media/_services';
-import { AuthenticationService } from '@app/user/_service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
@@ -30,7 +29,6 @@ export class EditYoutubeChannelDialogComponent implements OnInit {
     private formBuilder: FormBuilder,
     private activeModal: NgbActiveModal,
     private alertService: AlertService,
-    private authenticationService: AuthenticationService,
     private mediaTypeDialogService: MediaTypeDialogService,
     private youtubeService: YoutubeService,
     private toastr: ToastrService,

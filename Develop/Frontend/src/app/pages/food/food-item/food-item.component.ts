@@ -1,10 +1,6 @@
 import { Component, HostListener, Input, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { UtilsService } from '@app/_common/_services';
 import { AppSettings } from '@app/appSettings';
-import { AuthenticationService } from '@app/user/_service';
-import { AlertService } from '@app/_common/alert';
-import { SpinnerService, UtilsService } from '@app/_common/_services';
-import { ToastrService } from 'ngx-toastr';
 import { Food } from '../_model';
 
 @Component({
@@ -28,14 +24,7 @@ export class FoodItemComponent implements OnInit {
     this.foodCardWidth = this.utilsService.getAdjustCardWidth() + 'px';
   }
 
-  constructor(
-    private router: Router,
-    private authenticationService: AuthenticationService,
-    private alertService: AlertService,
-    private toastr: ToastrService,
-    private spinner: SpinnerService,
-    private utilsService: UtilsService,
-  ) {}
+  constructor(private utilsService: UtilsService) {}
 
   ngOnInit() {
     this.displayImageUrl = AppSettings.FOOD_IMAGE_PATH + this.food.imageName;

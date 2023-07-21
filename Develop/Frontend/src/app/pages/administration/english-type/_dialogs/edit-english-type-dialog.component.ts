@@ -6,11 +6,9 @@ import {
   Validators,
 } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
-import { EnglishTypeService } from '@app/pages/english/_services';
-import { AuthenticationService } from '@app/user/_service';
-import { AlertService } from '@app/_common/alert';
 import { EnglishType } from '@app/_common/_models';
 import { SpinnerService } from '@app/_common/_services';
+import { EnglishTypeService } from '@app/pages/english/_services';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 
@@ -22,8 +20,6 @@ export class EditEnglishTypeDialogComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private activeModal: NgbActiveModal,
-    private alertService: AlertService,
-    private authenticationService: AuthenticationService,
     private englishTypeService: EnglishTypeService,
     private toastr: ToastrService,
     private spinner: SpinnerService,

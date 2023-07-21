@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { AuthenticationService } from '@app/user/_service';
-import { AlertService } from '@app/_common/alert';
 import { ApiReponse } from '@app/_common/_models';
 import { PageResultVO } from '@app/_common/_models/pageResultVO';
 import {
@@ -36,9 +34,7 @@ export class EnglishReportComponent implements OnInit {
     private route: ActivatedRoute,
     private toastr: ToastrService,
     private router: Router,
-    private authenticationService: AuthenticationService,
     private spinner: SpinnerService,
-    private alertService: AlertService,
     private englishService: EnglishService,
     private englishDialogService: EnglishDialogService,
   ) {

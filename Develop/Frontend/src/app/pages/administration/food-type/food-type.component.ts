@@ -1,13 +1,12 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { FoodTypeService } from '@app/pages/food/_services';
-import { AuthenticationService } from '@app/user/_service';
-import { AlertService } from '@app/_common/alert';
 import { ApiReponse } from '@app/_common/_models';
 import { FoodType } from '@app/_common/_models/foodType';
 import { PageResultVO } from '@app/_common/_models/pageResultVO';
 import { SearchText, Sorter } from '@app/_common/_sco/core_sco';
 import { FoodTypeSCO } from '@app/_common/_sco/foodTypeSCO';
 import { SpinnerService } from '@app/_common/_services';
+import { AlertService } from '@app/_common/alert/alert.service';
+import { FoodTypeService } from '@app/pages/food/_services';
 import { ToastrService } from 'ngx-toastr';
 import { FoodTypeDialogService } from './_dialogs';
 
@@ -38,7 +37,6 @@ export class FoodTypeComponent implements OnInit {
    * Constructor
    */
   constructor(
-    private authenticationService: AuthenticationService,
     private foodTypeDialogService: FoodTypeDialogService,
     private foodTypeService: FoodTypeService,
     private alertService: AlertService,

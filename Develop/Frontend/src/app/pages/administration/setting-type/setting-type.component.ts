@@ -1,6 +1,5 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { AuthenticationService } from '@app/user/_service';
-import { AlertService } from '@app/_common/alert';
 import { ApiReponse } from '@app/_common/_models';
 import { PageResultVO } from '@app/_common/_models/pageResultVO';
 import { Type } from '@app/_common/_models/type';
@@ -9,6 +8,7 @@ import { TypeSCO } from '@app/_common/_sco/typeSCO';
 import { SpinnerService, TypeService } from '@app/_common/_services';
 import { ToastrService } from 'ngx-toastr';
 import { TypeDialogService } from './_dialogs';
+import { AlertService } from '@app/_common/alert/alert.service';
 
 @Component({
   selector: 'app-setting-type',

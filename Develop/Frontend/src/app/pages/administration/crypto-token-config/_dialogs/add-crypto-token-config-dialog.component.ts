@@ -6,10 +6,8 @@ import {
   Validators,
 } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
-import { CryptoTokenConfigService } from '@app/pages/crypto/_services';
-import { AuthenticationService } from '@app/user/_service';
-import { AlertService } from '@app/_common/alert';
 import { SpinnerService } from '@app/_common/_services';
+import { CryptoTokenConfigService } from '@app/pages/crypto/_services';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 
@@ -22,8 +20,6 @@ export class AddCryptoTokenConfigDialogComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private activeModal: NgbActiveModal,
-    private alertService: AlertService,
-    private authenticationService: AuthenticationService,
     private cryptoTokenConfigService: CryptoTokenConfigService,
     private toastr: ToastrService,
     private spinner: SpinnerService,

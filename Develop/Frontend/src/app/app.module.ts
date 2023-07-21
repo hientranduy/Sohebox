@@ -124,12 +124,13 @@ import {
   UpdateEnglishLevelDialogComponent,
   UpdateInforDialogComponent,
 } from './user/_dialogs';
-import { AlertComponent } from './_common/alert';
-import { AutoFocusDirective } from './_common/directive';
 import { TimeoutProgressDialogComponent } from './_common/timeout-progress-dialog/timeout-progress-dialog.component';
-import { ErrorInterceptor, JwtInterceptor } from './_common/_helpers';
 import { EditMediaTypeDialogComponent } from './pages/administration/media-type/_dialogs/edit-media-type.component';
 import { ViewMediaTypeDialogComponent } from './pages/administration/media-type/_dialogs/view-media-type.component';
+import { JwtInterceptor } from './_common/_helpers/jwt.interceptor';
+import { ErrorInterceptor } from './_common/_helpers/error.interceptor';
+import { AutoFocusDirective } from './_common/directive/auto-focus.directive';
+import { AlertComponent } from './_common/alert/alert.component';
 
 @NgModule({
   imports: [

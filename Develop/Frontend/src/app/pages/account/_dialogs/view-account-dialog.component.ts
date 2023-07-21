@@ -1,31 +1,17 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import { AlertService } from '@app/_common/alert';
 import { Type } from '@app/_common/_models';
-import {
-  RequireMatchForm,
-  SpinnerService,
-  TypeService,
-} from '@app/_common/_services';
+import { RequireMatchForm } from '@app/_common/_services';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { Account } from '../_models';
-import { AccountService } from '../_services';
 
 @Component({
   styleUrls: ['view-account-dialog.component.css'],
   templateUrl: 'view-account-dialog.component.html',
 })
 export class ViewAccountDialogComponent implements OnInit {
-  constructor(
-    private activeModal: NgbActiveModal,
-    private accountService: AccountService,
-    private alertService: AlertService,
-    private typeService: TypeService,
-    private toastr: ToastrService,
-    private spinner: SpinnerService,
-  ) {}
+  constructor(private activeModal: NgbActiveModal) {}
 
   // Form value
   @Input() title: string;

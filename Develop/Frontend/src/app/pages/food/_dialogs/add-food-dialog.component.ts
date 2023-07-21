@@ -7,14 +7,13 @@ import {
 } from '@angular/forms';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { ErrorStateMatcher } from '@angular/material/core';
-import { AuthenticationService } from '@app/user/_service';
-import { AlertService } from '@app/_common/alert';
 import { ApiReponse } from '@app/_common/_models';
 import { FoodType } from '@app/_common/_models/foodType';
 import { SearchText, Sorter } from '@app/_common/_sco/core_sco';
 import { FoodSCO } from '@app/_common/_sco/foodSCO';
 import { FoodTypeSCO } from '@app/_common/_sco/foodTypeSCO';
 import { SpinnerService } from '@app/_common/_services';
+import { AlertService } from '@app/_common/alert/alert.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
@@ -32,7 +31,6 @@ export class AddFoodDialogComponent implements OnInit {
     private activeModal: NgbActiveModal,
     private foodService: FoodService,
     private alertService: AlertService,
-    private authenticationService: AuthenticationService,
     private foodTypeService: FoodTypeService,
     private toastr: ToastrService,
     private spinner: SpinnerService,
@@ -378,24 +376,6 @@ function validFoodName(control: FormControl) {
     nameSearch.eq = foodName;
     const sco = new FoodSCO();
     sco.name = nameSearch;
-
-    // this.foodService.searchFood(sco)
-    //   .subscribe(data => {
-    //     const responseAPi: any = data;
-    //     const typeResponse: ApiReponse<Food> = responseAPi;
-    //     if (typeResponse.data != null) {
-    //       // Invalid because new work is existed
-    //       return {
-    //         foodIsExisted: {
-    //           parsedUrln: keyWord
-    //         }
-    //       };
-    //     } else {
-    //       // New food is not existed
-    //     }
-    //   }, error => {
-    //     this.toastr.info('error:' + error);
-    //   });
   }
   return null;
 }
