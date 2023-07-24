@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiReponse, EnglishLearnReport } from '@app/_common/_models';
-import { PageResultVO } from '@app/_common/_models/pageResultVO';
-import { EnglishLearnReportSCO } from '@app/_common/_sco';
-import { SpinnerService } from '@app/_common/_services';
-import { AlertService } from '@app/_common/alert/alert.service';
-import { EnglishService } from '@app/pages/english/_services';
+import { PageResultVO } from '@app/models/pageResultVO';
+import { AlertService } from '@app/commons/alert/alert.service';
+import { ApiReponse } from '@app/models/apiReponse';
+import { EnglishLearnReport } from '@app/models/englishLearnReport';
+import { EnglishLearnReportSCO } from '@app/scos/englishLearnReportSCO';
+import { BackendService } from '@app/services/backend.service';
+import { SpinnerService } from '@app/services/spinner.service';
 
 @Component({
   selector: 'app-english-user-report',
@@ -19,7 +20,7 @@ export class EnglishUserReportComponent implements OnInit {
    * Constructor
    */
   constructor(
-    private englishService: EnglishService,
+    private backendService: BackendService,
     private alertService: AlertService,
     private spinner: SpinnerService,
   ) {
@@ -42,7 +43,7 @@ export class EnglishUserReportComponent implements OnInit {
     this.spinner.show();
 
     // Search
-    this.englishService.searchTopLearn(new EnglishLearnReportSCO()).subscribe(
+    this.backendService.searchTopLearn(new EnglishLearnReportSCO()).subscribe(
       (data) => {
         const responseAPi: any = data;
         const typeResponse: ApiReponse<EnglishLearnReport> = responseAPi;

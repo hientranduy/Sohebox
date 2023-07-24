@@ -1,12 +1,14 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { ApiReponse } from '@app/_common/_models';
-import { MediaType } from '@app/_common/_models/mediaType';
-import { PageResultVO } from '@app/_common/_models/pageResultVO';
-import { SearchText, Sorter } from '@app/_common/_sco/core_sco';
-import { MediaTypeSCO } from '@app/_common/_sco/mediaTypeSCO';
-import { SpinnerService } from '@app/_common/_services';
-import { AlertService } from '@app/_common/alert/alert.service';
-import { MediaTypeDialogService } from './media-type.service';
+import { MediaType } from '@app/models/mediaType';
+import { PageResultVO } from '@app/models/pageResultVO';
+import { MediaTypeSCO } from '@app/scos/mediaTypeSCO';
+import { AlertService } from '@app/commons/alert/alert.service';
+import { ApiReponse } from '@app/models/apiReponse';
+import { SearchText } from '@app/scos/core_sco/searchText';
+import { Sorter } from '@app/scos/core_sco/sorter';
+import { BackendService } from '@app/services/backend.service';
+import { SpinnerService } from '@app/services/spinner.service';
+import { DialogService } from '@app/services/dialog.service';
 
 @Component({
   selector: 'app-media-type',
@@ -35,9 +37,10 @@ export class MediaTypeComponent implements OnInit {
    * Constructor
    */
   constructor(
-    private mediaTypeDialogService: MediaTypeDialogService,
+    private dialogService: DialogService,
     private alertService: AlertService,
     private spinner: SpinnerService,
+    private backendService: BackendService,
   ) {
     // Set default
     this.pageResult = new PageResultVO<MediaType>();
@@ -165,7 +168,7 @@ export class MediaTypeComponent implements OnInit {
     this.spinner.show();
 
     // Search
-    this.mediaTypeDialogService.search(sco).subscribe(
+    this.backendService.searchMediaType(sco).subscribe(
       (data) => {
         const responseAPi: any = data;
         const typeResponse: ApiReponse<MediaType> = responseAPi;
@@ -201,7 +204,7 @@ export class MediaTypeComponent implements OnInit {
    * View detail chosen
    */
   public viewDetailChoose(item: MediaType) {
-    this.mediaTypeDialogService.view('DETAIL', '', item).then(
+    this.dialogService.viewMediaType('DETAIL', '', item).then(
       (result) => {
         if (result) {
         }
@@ -216,7 +219,7 @@ export class MediaTypeComponent implements OnInit {
    * Edit chosen
    */
   public editChoose(item: MediaType) {
-    this.mediaTypeDialogService.edit('EDIT', '', item).then(
+    this.dialogService.editMediaType('EDIT', '', item).then(
       (result) => {
         if (result) {
           this.getPageResult(

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { UtilsService } from '@app/_common/_services';
+import { UtilsService } from '@app/services/utils.service';
 
 @Component({
   selector: 'app-media',

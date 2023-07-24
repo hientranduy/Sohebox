@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiReponse } from '@app/_common/_models';
-import { PageResultVO } from '@app/_common/_models/pageResultVO';
-import { YoutubeChannelSCO } from '@app/_common/_sco';
-import { SearchText, Sorter } from '@app/_common/_sco/core_sco';
-import { SpinnerService } from '@app/_common/_services';
-import { AlertService } from '@app/_common/alert/alert.service';
-import { YoutubeChannel } from '@app/_common/_models';
-import { YoutubeService } from '@app/pages/media/_services';
-import { YoutubeChannelDialogService } from './_dialogs';
+import { PageResultVO } from '@app/models/pageResultVO';
+import { AlertService } from '@app/commons/alert/alert.service';
+import { ApiReponse } from '@app/models/apiReponse';
+import { YoutubeChannel } from '@app/models/youtubeChannel';
+import { SearchText } from '@app/scos/core_sco/searchText';
+import { Sorter } from '@app/scos/core_sco/sorter';
+import { YoutubeChannelSCO } from '@app/scos/youtubeChannelSCO';
+import { BackendService } from '@app/services/backend.service';
+import { SpinnerService } from '@app/services/spinner.service';
+import { DialogService } from '@app/services/dialog.service';
 
 @Component({
   selector: 'app-youtube-channel-config',
@@ -26,8 +27,8 @@ export class YoutubeChannelConfigComponent implements OnInit {
   constructor(
     private alertService: AlertService,
     private spinner: SpinnerService,
-    private youtubeService: YoutubeService,
-    private youtubeChannelDialogService: YoutubeChannelDialogService,
+    private backendService: BackendService,
+    private dialogService: DialogService,
   ) {
     // Set default
     this.pageResult = new PageResultVO<YoutubeChannel>();
@@ -143,7 +144,7 @@ export class YoutubeChannelConfigComponent implements OnInit {
     this.spinner.show();
 
     // Search
-    this.youtubeService.searchChannel(sco).subscribe(
+    this.backendService.searchChannel(sco).subscribe(
       (data) => {
         const responseAPi: any = data;
         const typeResponse: ApiReponse<YoutubeChannel> = responseAPi;
@@ -172,7 +173,7 @@ export class YoutubeChannelConfigComponent implements OnInit {
    * Add button
    */
   public add() {
-    this.youtubeChannelDialogService.add('Add channel', '').then(
+    this.dialogService.addYoutubeChannel('Add channel', '').then(
       (result) => {
         if (result) {
           // Refresh table
@@ -201,7 +202,7 @@ export class YoutubeChannelConfigComponent implements OnInit {
    * Edit chosen
    */
   public editChoosen(item: YoutubeChannel) {
-    this.youtubeChannelDialogService.edit('EDIT', '', item).then(
+    this.dialogService.editYoutubeChannel('EDIT', '', item).then(
       (result) => {
         if (result) {
           this.getPageResult(

@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiReponse } from '@app/_common/_models';
-import { SpinnerService } from '@app/_common/_services';
-import { AlertService } from '@app/_common/alert/alert.service';
-import { TradingOilPrice } from '@app/_common/_models';
-import { TradingService } from '../_services';
+import { AlertService } from '@app/commons/alert/alert.service';
+import { ApiReponse } from '@app/models/apiReponse';
+import { TradingOilPrice } from '@app/models/tradingOilPrice';
+import { BackendService } from '@app/services/backend.service';
+import { SpinnerService } from '@app/services/spinner.service';
 
 @Component({
   selector: 'app-finance-oil',
@@ -25,7 +25,7 @@ export class FinanceOilComponent implements OnInit {
 
   constructor(
     private spinner: SpinnerService,
-    private tradingService: TradingService,
+    private backendService: BackendService,
     private alertService: AlertService,
   ) {}
 
@@ -41,7 +41,7 @@ export class FinanceOilComponent implements OnInit {
     this.spinner.show();
 
     // Get list
-    this.tradingService.getOilPrice().subscribe(
+    this.backendService.getOilPrice().subscribe(
       (data) => {
         // Get data
         const responseAPi: any = data;

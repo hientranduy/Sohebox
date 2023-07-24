@@ -1,17 +1,20 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { AppSettings } from '@app/app.settings';
-import { User } from '@app/_common/_models';
-import { ApiReponse } from '@app/_common/_models';
-import { PageResultVO } from '@app/_common/_models/pageResultVO';
-import { SearchText, Sorter } from '@app/_common/_sco/core_sco';
-import { SpinnerService, UtilsService } from '@app/_common/_services';
-import { CryptoPortfolioDialogService } from '../_dialogs';
-import { CryptoPortfolio, CryptoPortfolioHistory } from '@app/_common/_models';
-import { CryptoPortfolioService } from '../_services';
-import { AlertService } from '@app/_common/alert/alert.service';
-import { AuthenticationService } from '@app/_common/_services/';
-import { CryptoPortfolioSCO } from '@app/_common/_sco/cryptoPortfolioSCO';
-import { CryptoPortfolioHistorySCO } from '@app/_common/_sco/cryptoPortfolioHistorySCO';
+import { PageResultVO } from '@app/models/pageResultVO';
+import { AlertService } from '@app/commons/alert/alert.service';
+import { CryptoPortfolioSCO } from '@app/scos/cryptoPortfolioSCO';
+import { CryptoPortfolioHistorySCO } from '@app/scos/cryptoPortfolioHistorySCO';
+import { ApiReponse } from '@app/models/apiReponse';
+import { CryptoPortfolio } from '@app/models/cryptoPortfolio';
+import { CryptoPortfolioHistory } from '@app/models/cryptoPortfolioHistory';
+import { User } from '@app/models/user';
+import { SearchText } from '@app/scos/core_sco/searchText';
+import { Sorter } from '@app/scos/core_sco/sorter';
+import { AuthenticationService } from '@app/services/authentication.service';
+import { BackendService } from '@app/services/backend.service';
+import { SpinnerService } from '@app/services/spinner.service';
+import { UtilsService } from '@app/services/utils.service';
+import { DialogService } from '@app/services/dialog.service';
 
 @Component({
   selector: 'app-crypto-portfolio',
@@ -24,8 +27,8 @@ export class PortfolioComponent implements OnInit {
    */
   constructor(
     private authenticationService: AuthenticationService,
-    private cryptoPortfolioDialogService: CryptoPortfolioDialogService,
-    private cryptoPortfolioService: CryptoPortfolioService,
+    private dialogService: DialogService,
+    private backendService: BackendService,
     private alertService: AlertService,
     private spinner: SpinnerService,
     public utilsService: UtilsService,
@@ -222,7 +225,7 @@ export class PortfolioComponent implements OnInit {
     }
 
     // Search
-    this.cryptoPortfolioService.search(sco).subscribe(
+    this.backendService.searchCryptoPortfolio(sco).subscribe(
       (data) => {
         const responseAPi: any = data;
         const typeResponse: ApiReponse<CryptoPortfolio> = responseAPi;
@@ -266,7 +269,7 @@ export class PortfolioComponent implements OnInit {
     }
 
     // Search
-    this.cryptoPortfolioService.getPortfolioSummary(sco).subscribe(
+    this.backendService.getPortfolioSummary(sco).subscribe(
       (data) => {
         const responseAPi: any = data;
         const typeResponse: ApiReponse<CryptoPortfolioHistory> = responseAPi;
@@ -292,7 +295,7 @@ export class PortfolioComponent implements OnInit {
    * Add button
    */
   public add() {
-    this.cryptoPortfolioDialogService.add('ADD WALLET', '').then(
+    this.dialogService.addCryptoPortfolio('ADD WALLET', '').then(
       (result) => {
         if (result) {
           // Refresh table
@@ -321,7 +324,7 @@ export class PortfolioComponent implements OnInit {
    * View detail chosen
    */
   public viewDetailChoose(item: CryptoPortfolio) {
-    this.cryptoPortfolioDialogService.view('DETAIL WALLET', '', item).then(
+    this.dialogService.viewCryptoPortfolio('DETAIL WALLET', '', item).then(
       (result) => {
         if (result) {
         }
@@ -336,7 +339,7 @@ export class PortfolioComponent implements OnInit {
    * Edit chosen
    */
   public editChoose(item: CryptoPortfolio) {
-    this.cryptoPortfolioDialogService.edit('EDIT WALLET', '', item).then(
+    this.dialogService.editCryptoPortfolio('EDIT WALLET', '', item).then(
       (result) => {
         if (result) {
           this.getPageResult(
@@ -357,8 +360,12 @@ export class PortfolioComponent implements OnInit {
    * Delete chosen
    */
   public deleteChoose(item: CryptoPortfolio) {
-    this.cryptoPortfolioDialogService
-      .delete('DELETION', 'Are you sure deleting: ' + item.wallet + ' ?', item)
+    this.dialogService
+      .deleteCryptoPortfolio(
+        'DELETION',
+        'Are you sure deleting: ' + item.wallet + ' ?',
+        item,
+      )
       .then(
         (result) => {
           if (result) {

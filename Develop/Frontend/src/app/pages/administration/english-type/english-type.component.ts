@@ -1,14 +1,15 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { ApiReponse } from '@app/_common/_models';
-import { EnglishType } from '@app/_common/_models/englishType';
-import { PageResultVO } from '@app/_common/_models/pageResultVO';
-import { SearchText, Sorter } from '@app/_common/_sco/core_sco';
-import { EnglishTypeSCO } from '@app/_common/_sco/englishTypeSCO';
-import { SpinnerService } from '@app/_common/_services';
-import { AlertService } from '@app/_common/alert/alert.service';
-import { EnglishTypeService } from '@app/pages/english/_services';
+import { EnglishType } from '@app/models/englishType';
+import { PageResultVO } from '@app/models/pageResultVO';
+import { EnglishTypeSCO } from '@app/scos/englishTypeSCO';
+import { AlertService } from '@app/commons/alert/alert.service';
 import { ToastrService } from 'ngx-toastr';
-import { EnglishTypeDialogService } from './_dialogs';
+import { ApiReponse } from '@app/models/apiReponse';
+import { SearchText } from '@app/scos/core_sco/searchText';
+import { Sorter } from '@app/scos/core_sco/sorter';
+import { BackendService } from '@app/services/backend.service';
+import { SpinnerService } from '@app/services/spinner.service';
+import { DialogService } from '@app/services/dialog.service';
 
 @Component({
   selector: 'app-english-type',
@@ -37,8 +38,8 @@ export class EnglishTypeComponent implements OnInit {
    * Constructor
    */
   constructor(
-    private englishTypeDialogService: EnglishTypeDialogService,
-    private englishTypeService: EnglishTypeService,
+    private dialogService: DialogService,
+    private backendService: BackendService,
     private alertService: AlertService,
     private toastr: ToastrService,
     private spinner: SpinnerService,
@@ -169,7 +170,7 @@ export class EnglishTypeComponent implements OnInit {
     this.spinner.show();
 
     // Search
-    this.englishTypeService.search(sco).subscribe(
+    this.backendService.searchEnglishType(sco).subscribe(
       (data) => {
         const responseAPi: any = data;
         const typeResponse: ApiReponse<EnglishType> = responseAPi;
@@ -243,7 +244,7 @@ export class EnglishTypeComponent implements OnInit {
    * View detail chosen
    */
   public viewDetailChoose(item: EnglishType) {
-    this.englishTypeDialogService.view('DETAIL', '', item).then(
+    this.dialogService.viewEnglishType('DETAIL', '', item).then(
       (result) => {
         if (result) {
         }
@@ -258,7 +259,7 @@ export class EnglishTypeComponent implements OnInit {
    * Edit chosen
    */
   public editChoose(item: EnglishType) {
-    this.englishTypeDialogService.edit('EDIT', '', item).then(
+    this.dialogService.editEnglishType('EDIT', '', item).then(
       (result) => {
         if (result) {
           this.getPageResult(
@@ -279,8 +280,11 @@ export class EnglishTypeComponent implements OnInit {
    * Delete chosen
    */
   public deleteChoose(item: EnglishType) {
-    this.englishTypeDialogService
-      .delete('DELETION', 'Are you sure deleting: ' + item.typeCode + ' ?')
+    this.dialogService
+      .deleteEnglishType(
+        'DELETION',
+        'Are you sure deleting: ' + item.typeCode + ' ?',
+      )
       .then(
         (result) => {
           if (result) {

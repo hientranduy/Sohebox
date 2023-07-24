@@ -1,12 +1,15 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { ApiReponse, Config } from '@app/_common/_models';
-import { PageResultVO } from '@app/_common/_models/pageResultVO';
-import { ConfigSCO } from '@app/_common/_sco';
-import { SearchText, Sorter } from '@app/_common/_sco/core_sco';
-import { BackendService, SpinnerService } from '@app/_common/_services';
-import { AlertService } from '@app/_common/alert/alert.service';
+import { PageResultVO } from '@app/models/pageResultVO';
+import { AlertService } from '@app/commons/alert/alert.service';
 import { ToastrService } from 'ngx-toastr';
-import { ConfigDialogService } from './_dialogs';
+import { ApiReponse } from '@app/models/apiReponse';
+import { Config } from '@app/models/config';
+import { ConfigSCO } from '@app/scos/configSCO';
+import { SearchText } from '@app/scos/core_sco/searchText';
+import { Sorter } from '@app/scos/core_sco/sorter';
+import { BackendService } from '@app/services/backend.service';
+import { SpinnerService } from '@app/services/spinner.service';
+import { DialogService } from '@app/services/dialog.service';
 
 @Component({
   selector: 'app-setting-config',
@@ -35,7 +38,7 @@ export class SettingConfigComponent implements OnInit {
    * Constructor
    */
   constructor(
-    private configDialogService: ConfigDialogService,
+    private dialogService: DialogService,
     private backendService: BackendService,
     private alertService: AlertService,
     private toastr: ToastrService,
@@ -192,7 +195,7 @@ export class SettingConfigComponent implements OnInit {
    * Add button
    */
   public add() {
-    this.configDialogService.add('ADD', '').then(
+    this.dialogService.addConfig('ADD', '').then(
       (result) => {
         if (result) {
           // Refresh table
@@ -236,7 +239,7 @@ export class SettingConfigComponent implements OnInit {
    * View detail chosen
    */
   public viewDetailChoose(item: Config) {
-    this.configDialogService.view('DETAIL', '', item).then(
+    this.dialogService.viewConfig('DETAIL', '', item).then(
       (result) => {
         if (result) {
         }
@@ -251,7 +254,7 @@ export class SettingConfigComponent implements OnInit {
    * Edit chosen
    */
   public editChoose(item: Config) {
-    this.configDialogService.edit('EDIT', '', item).then(
+    this.dialogService.editConfig('EDIT', '', item).then(
       (result) => {
         if (result) {
           this.getPageResult(
@@ -272,8 +275,11 @@ export class SettingConfigComponent implements OnInit {
    * Delete chosen
    */
   public deleteChoose(item: Config) {
-    this.configDialogService
-      .delete('DELETION', 'Are you sure deleting: ' + item.configKey + ' ?')
+    this.dialogService
+      .deleteConfig(
+        'DELETION',
+        'Are you sure deleting: ' + item.configKey + ' ?',
+      )
       .then(
         (result) => {
           if (result) {

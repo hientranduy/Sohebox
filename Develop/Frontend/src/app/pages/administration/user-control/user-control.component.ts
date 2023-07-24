@@ -1,10 +1,13 @@
 import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
-import { ApiReponse, UserStatus } from '@app/_common/_models';
-import { PageResultVO } from '@app/_common/_models/pageResultVO';
-import { UserSCO } from '@app/_common/_sco';
-import { SearchText, Sorter } from '@app/_common/_sco/core_sco';
-import { BackendService, SpinnerService } from '@app/_common/_services';
-import { AlertService } from '@app/_common/alert/alert.service';
+import { PageResultVO } from '@app/models/pageResultVO';
+import { AlertService } from '@app/commons/alert/alert.service';
+import { ApiReponse } from '@app/models/apiReponse';
+import { UserStatus } from '@app/models/userStatus';
+import { SearchText } from '@app/scos/core_sco/searchText';
+import { Sorter } from '@app/scos/core_sco/sorter';
+import { UserSCO } from '@app/scos/userSCO';
+import { BackendService } from '@app/services/backend.service';
+import { SpinnerService } from '@app/services/spinner.service';
 
 @Component({
   selector: 'app-user-control',

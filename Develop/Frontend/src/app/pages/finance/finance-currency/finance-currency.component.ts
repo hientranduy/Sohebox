@@ -1,9 +1,9 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { ApiReponse } from '@app/_common/_models';
-import { SpinnerService } from '@app/_common/_services';
-import { CurrencyVietcombank } from '@app/_common/_models';
-import { FinanceService } from '../_services';
-import { AlertService } from '@app/_common/alert/alert.service';
+import { AlertService } from '@app/commons/alert/alert.service';
+import { ApiReponse } from '@app/models/apiReponse';
+import { CurrencyVietcombank } from '@app/models/currencyVietcombank';
+import { BackendService } from '@app/services/backend.service';
+import { SpinnerService } from '@app/services/spinner.service';
 
 @Component({
   selector: 'app-finance-currency',
@@ -26,7 +26,7 @@ export class FinanceCurrencyComponent implements OnInit {
 
   constructor(
     private spinner: SpinnerService,
-    private financeService: FinanceService,
+    private backendService: BackendService,
     private alertService: AlertService,
   ) {}
 
@@ -42,7 +42,7 @@ export class FinanceCurrencyComponent implements OnInit {
     this.spinner.show();
 
     // Get list
-    this.financeService.getCurrencyVcbRate().subscribe(
+    this.backendService.getCurrencyVcbRate().subscribe(
       (data) => {
         // Get data
         const responseAPi: any = data;

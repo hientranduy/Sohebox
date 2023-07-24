@@ -1,17 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { ApiReponse } from '@app/_common/_models';
-import { PageResultVO } from '@app/_common/_models/pageResultVO';
-import {
-  EnglishLearnRecordSCO,
-  EnglishLearnReportSCO,
-} from '@app/_common/_sco';
-import { SearchDate, SearchNumber, Sorter } from '@app/_common/_sco/core_sco';
-import { SpinnerService } from '@app/_common/_services';
+import { PageResultVO } from '@app/models/pageResultVO';
 import { ToastrService } from 'ngx-toastr';
-import { EnglishDialogService } from '../english/_dialogs';
-import { EnglishLearnRecord, EnglishLearnReport } from '@app/_common/_models';
-import { EnglishService } from '../english/_services';
+import { ApiReponse } from '@app/models/apiReponse';
+import { EnglishLearnRecord } from '@app/models/englishLearnRecord';
+import { EnglishLearnReport } from '@app/models/englishLearnReport';
+import { SearchDate } from '@app/scos/core_sco/searchDate';
+import { SearchNumber } from '@app/scos/core_sco/searchNumber';
+import { Sorter } from '@app/scos/core_sco/sorter';
+import { EnglishLearnRecordSCO } from '@app/scos/englishLearnRecordSCO';
+import { EnglishLearnReportSCO } from '@app/scos/englishLearnReportSCO';
+import { BackendService } from '@app/services/backend.service';
+import { SpinnerService } from '@app/services/spinner.service';
+import { DialogService } from '@app/services/dialog.service';
 
 @Component({
   selector: 'app-english-report',
@@ -35,8 +36,8 @@ export class EnglishReportComponent implements OnInit {
     private toastr: ToastrService,
     private router: Router,
     private spinner: SpinnerService,
-    private englishService: EnglishService,
-    private englishDialogService: EnglishDialogService,
+    private backendService: BackendService,
+    private dialogService: DialogService,
   ) {
     // Set default
     this.pageResultLearnReport = new PageResultVO<EnglishLearnReport>();
@@ -129,7 +130,7 @@ export class EnglishReportComponent implements OnInit {
     this.spinner.show();
 
     // Search
-    this.englishService.searchLearnReport(sco).subscribe(
+    this.backendService.searchLearnReport(sco).subscribe(
       (data) => {
         // Get data
         const responseAPi: any = data;
@@ -215,7 +216,7 @@ export class EnglishReportComponent implements OnInit {
     this.spinner.show();
 
     // Search
-    this.englishService.searchLearnRecord(sco).subscribe(
+    this.backendService.searchLearnRecord(sco).subscribe(
       (data) => {
         // Get data
         const responseAPi: any = data;
@@ -242,7 +243,7 @@ export class EnglishReportComponent implements OnInit {
    * View english info
    */
   public viewEnglishInfo(item: EnglishLearnRecord) {
-    this.englishDialogService.viewWordInfo(item.english).then(
+    this.dialogService.viewWordInfo(item.english).then(
       (result) => {
         if (result) {
         }
@@ -270,7 +271,7 @@ export class EnglishReportComponent implements OnInit {
     this.spinner.show();
 
     // Search
-    this.englishService.searchLearnRecord(sco).subscribe(
+    this.backendService.searchLearnRecord(sco).subscribe(
       (data) => {
         // Get data
         const responseAPi: any = data;

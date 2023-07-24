@@ -1,13 +1,15 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { ApiReponse, English } from '@app/_common/_models';
-import { PageResultVO } from '@app/_common/_models/pageResultVO';
-import { EnglishSCO } from '@app/_common/_sco';
-import { SearchText, Sorter } from '@app/_common/_sco/core_sco';
-import { SpinnerService } from '@app/_common/_services';
-import { AlertService } from '@app/_common/alert/alert.service';
+import { PageResultVO } from '@app/models/pageResultVO';
+import { AlertService } from '@app/commons/alert/alert.service';
 import { AppSettings } from '@app/app.settings';
-import { EnglishDialogService } from '@app/pages/english/_dialogs';
-import { EnglishService } from '@app/pages/english/_services';
+import { ApiReponse } from '@app/models/apiReponse';
+import { English } from '@app/models/english';
+import { SearchText } from '@app/scos/core_sco/searchText';
+import { Sorter } from '@app/scos/core_sco/sorter';
+import { EnglishSCO } from '@app/scos/englishSCO';
+import { BackendService } from '@app/services/backend.service';
+import { SpinnerService } from '@app/services/spinner.service';
+import { DialogService } from '@app/services/dialog.service';
 
 @Component({
   selector: 'app-english-config',
@@ -35,8 +37,8 @@ export class EnglishConfigComponent implements OnInit {
    * Constructor
    */
   constructor(
-    private englishDialogService: EnglishDialogService,
-    private englishService: EnglishService,
+    private dialogService: DialogService,
+    private backendService: BackendService,
     private alertService: AlertService,
     private spinner: SpinnerService,
   ) {
@@ -144,7 +146,7 @@ export class EnglishConfigComponent implements OnInit {
     this.spinner.show();
 
     // Search
-    this.englishService.searchEnglish(sco).subscribe(
+    this.backendService.searchEnglish(sco).subscribe(
       (data) => {
         const responseAPi: any = data;
         const typeResponse: ApiReponse<English> = responseAPi;
@@ -173,7 +175,7 @@ export class EnglishConfigComponent implements OnInit {
    * Add button
    */
   public add() {
-    this.englishDialogService.addWord('Add word', '').then(
+    this.dialogService.addWord('Add word', '').then(
       (result) => {
         if (result) {
           this.getPageResult(
@@ -201,7 +203,7 @@ export class EnglishConfigComponent implements OnInit {
    * Edit chosen
    */
   public editChoosen(item: English) {
-    this.englishDialogService.editWord('EDIT', '', item).then(
+    this.dialogService.editWord('EDIT', '', item).then(
       (result) => {
         if (result) {
           this.getPageResult(
@@ -223,7 +225,7 @@ export class EnglishConfigComponent implements OnInit {
   public downloadVoice(english: English) {
     this.gotoCambridgeDictionary(english);
 
-    this.englishDialogService
+    this.dialogService
       .downloadVoice(
         'Download Voice',
         'You are downloading voice of word <' + english.keyWord + '>',

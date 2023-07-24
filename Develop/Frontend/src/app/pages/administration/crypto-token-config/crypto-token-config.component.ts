@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiReponse, CryptoTokenConfig } from '@app/_common/_models';
-import { PageResultVO } from '@app/_common/_models/pageResultVO';
-import { SearchText, Sorter } from '@app/_common/_sco/core_sco';
-import { SpinnerService } from '@app/_common/_services';
-import { AlertService } from '@app/_common/alert/alert.service';
-import { CryptoTokenConfigService } from '@app/pages/crypto/_services';
-import { CryptoTokenDialogService } from './_dialogs';
-import { CryptoTokenConfigSCO } from '@app/_common/_sco';
+import { PageResultVO } from '@app/models/pageResultVO';
+import { AlertService } from '@app/commons/alert/alert.service';
+import { ApiReponse } from '@app/models/apiReponse';
+import { CryptoTokenConfig } from '@app/models/cryptoTokenConfig';
+import { SearchText } from '@app/scos/core_sco/searchText';
+import { Sorter } from '@app/scos/core_sco/sorter';
+import { CryptoTokenConfigSCO } from '@app/scos/cryptoTokenConfigSCO';
+import { BackendService } from '@app/services/backend.service';
+import { SpinnerService } from '@app/services/spinner.service';
+import { DialogService } from '@app/services/dialog.service';
 
 @Component({
   selector: 'app-crypto-token-config',
@@ -25,8 +27,8 @@ export class CryptoTokenConfigComponent implements OnInit {
   constructor(
     private alertService: AlertService,
     private spinner: SpinnerService,
-    private cryptoTokenService: CryptoTokenConfigService,
-    private cryptoTokenDialogService: CryptoTokenDialogService,
+    private backendService: BackendService,
+    private dialogService: DialogService,
   ) {
     // Set default
     this.pageResult = new PageResultVO<CryptoTokenConfig>();
@@ -148,7 +150,7 @@ export class CryptoTokenConfigComponent implements OnInit {
     this.spinner.show();
 
     // Search
-    this.cryptoTokenService.search(sco).subscribe(
+    this.backendService.searchCryptoTokenConfig(sco).subscribe(
       (data) => {
         const responseAPi: any = data;
         const typeResponse: ApiReponse<CryptoTokenConfig> = responseAPi;
@@ -177,7 +179,7 @@ export class CryptoTokenConfigComponent implements OnInit {
    * Add button
    */
   public add() {
-    this.cryptoTokenDialogService.add('Add token', '').then(
+    this.dialogService.addCryptoTokenConfig('Add token', '').then(
       (result) => {
         if (result) {
           // Refresh table
@@ -206,7 +208,7 @@ export class CryptoTokenConfigComponent implements OnInit {
    * Edit chosen
    */
   public editChoosen(item: CryptoTokenConfig) {
-    this.cryptoTokenDialogService.edit('EDIT', '', item).then(
+    this.dialogService.editCryptoTokenConfig('EDIT', '', item).then(
       (result) => {
         if (result) {
           this.getPageResult(

@@ -1,21 +1,23 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { ApiReponse, YoutubeChannel, YoutubeVideo } from '@app/_common/_models';
-import { YoutubeChannelSCO, YoutubeChannelVideoSCO } from '@app/_common/_sco';
-import { SearchNumber } from '@app/_common/_sco/core_sco';
-import {
-  RequireMatchForm,
-  SpinnerService,
-  UtilsService,
-} from '@app/_common/_services';
-import { AlertService } from '@app/_common/alert/alert.service';
-import { User } from '@app/_common/_models';
+
+import { AlertService } from '@app/commons/alert/alert.service';
+import { ApiReponse } from '@app/models/apiReponse';
+import { User } from '@app/models/user';
+import { YoutubeChannel } from '@app/models/youtubeChannel';
+import { YoutubeVideo } from '@app/models/youtubeVideo';
+import { SearchNumber } from '@app/scos/core_sco/searchNumber';
+import { YoutubeChannelSCO } from '@app/scos/youtubeChannelSCO';
+import { YoutubeChannelVideoSCO } from '@app/scos/youtubeChannelVideoSCO';
+import { AuthenticationService } from '@app/services/authentication.service';
+import { BackendService } from '@app/services/backend.service';
+import { DialogService } from '@app/services/dialog.service';
+import { RequireMatchForm } from '@app/services/requireMatchForm';
+import { SpinnerService } from '@app/services/spinner.service';
+import { UtilsService } from '@app/services/utils.service';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
-import { YoutubeService } from '../_services';
-import { YoutubeVideoDialogService } from '../_services/youtube-video-dialog.service';
-import { AuthenticationService } from '@app/_common/_services/';
 
 @Component({
   selector: 'app-youtube-channel',
@@ -30,12 +32,12 @@ export class YoutubeChannelComponent implements OnInit {
    */
   constructor(
     private spinner: SpinnerService,
-    private youTubeService: YoutubeService,
+    private backendService: BackendService,
     private utilsService: UtilsService,
     private alertService: AlertService,
     private toastr: ToastrService,
     private authenticationService: AuthenticationService,
-    private youtubeVideoDialogService: YoutubeVideoDialogService,
+    private dialogService: DialogService,
   ) {
     // Get logged user
     this.authenticationService.currentUser.subscribe(
@@ -166,7 +168,7 @@ export class YoutubeChannelComponent implements OnInit {
    * Remove video form list
    */
   onClickDelete(video: YoutubeVideo) {
-    this.youtubeVideoDialogService
+    this.dialogService
       .deletePrivateVideo(
         'DELETION',
         'Are you sure remove video: ' +
@@ -190,19 +192,17 @@ export class YoutubeChannelComponent implements OnInit {
    * Add private video
    */
   public addPrivateVideo() {
-    this.youtubeVideoDialogService
-      .addPrivateVideo('Add private video', '')
-      .then(
-        (result) => {
-          if (result) {
-            this.getChannelList();
-            this.getPrivateVideo();
-          }
-        },
-        (reason) => {
-          console.log('ADD video reason:' + reason);
-        },
-      );
+    this.dialogService.addPrivateVideo('Add private video', '').then(
+      (result) => {
+        if (result) {
+          this.getChannelList();
+          this.getPrivateVideo();
+        }
+      },
+      (reason) => {
+        console.log('ADD video reason:' + reason);
+      },
+    );
   }
 
   ///////////////////////
@@ -220,7 +220,7 @@ export class YoutubeChannelComponent implements OnInit {
     this.spinner.show();
 
     // Get list
-    this.youTubeService.searchMyChannel(sco).subscribe(
+    this.backendService.searchMyChannel(sco).subscribe(
       (data) => {
         // Get data
         const responseAPi: any = data;
@@ -264,7 +264,7 @@ export class YoutubeChannelComponent implements OnInit {
     // this.spinner.show();
 
     // Get list
-    this.youTubeService.searchChannelVideo(sco).subscribe(
+    this.backendService.searchChannelVideo(sco).subscribe(
       (data) => {
         // Get data
         const responseAPi: any = data;
@@ -298,7 +298,7 @@ export class YoutubeChannelComponent implements OnInit {
     this.spinner.show();
 
     // Get list
-    this.youTubeService.getPrivateVideo().subscribe(
+    this.backendService.getPrivateVideo().subscribe(
       (data) => {
         // Get data
         const responseAPi: any = data;

@@ -1,8 +1,9 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { ApiReponse, TradingStockPrice } from '@app/_common/_models';
-import { SpinnerService } from '@app/_common/_services';
-import { TradingService } from '../_services';
-import { AlertService } from '@app/_common/alert/alert.service';
+import { AlertService } from '@app/commons/alert/alert.service';
+import { ApiReponse } from '@app/models/apiReponse';
+import { TradingStockPrice } from '@app/models/tradingStockPrice';
+import { BackendService } from '@app/services/backend.service';
+import { SpinnerService } from '@app/services/spinner.service';
 
 @Component({
   selector: 'app-finance-stock',
@@ -25,7 +26,7 @@ export class FinanceStockComponent implements OnInit {
 
   constructor(
     private spinner: SpinnerService,
-    private tradingService: TradingService,
+    private backendService: BackendService,
     private alertService: AlertService,
   ) {}
 
@@ -41,7 +42,7 @@ export class FinanceStockComponent implements OnInit {
     this.spinner.show();
 
     // Get list
-    this.tradingService.getStockPrice().subscribe(
+    this.backendService.getStockPrice().subscribe(
       (data) => {
         // Get data
         const responseAPi: any = data;

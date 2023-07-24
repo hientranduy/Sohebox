@@ -1,38 +1,32 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { ApiReponse, EnglishType } from '@app/_common/_models';
-import {
-  EnglishLearnRecordSCO,
-  EnglishSCO,
-  EnglishTypeSCO,
-  EnglishUserGradeSCO,
-} from '@app/_common/_sco';
-import {
-  SearchDate,
-  SearchNumber,
-  SearchText,
-  Sorter,
-} from '@app/_common/_sco/core_sco';
-import {
-  RequireMatchForm,
-  SpinnerService,
-  UtilsService,
-} from '@app/_common/_services';
-import { AlertService } from '@app/_common/alert/alert.service';
+
+import { AlertService } from '@app/commons/alert/alert.service';
 import { AppSettings } from '@app/app.settings';
-import { User } from '@app/_common/_models';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
-import { EnglishDialogService } from './_dialogs';
-import {
-  English,
-  EnglishLearnRecord,
-  EnglishUserGrade,
-} from '@app/_common/_models';
-import { EnglishService, EnglishTypeService } from './_services';
-import { AuthenticationService } from '@app/_common/_services/';
+import { ApiReponse } from '@app/models/apiReponse';
+import { English } from '@app/models/english';
+import { EnglishLearnRecord } from '@app/models/englishLearnRecord';
+import { EnglishType } from '@app/models/englishType';
+import { EnglishUserGrade } from '@app/models/englishUserGrade';
+import { User } from '@app/models/user';
+import { SearchDate } from '@app/scos/core_sco/searchDate';
+import { SearchNumber } from '@app/scos/core_sco/searchNumber';
+import { SearchText } from '@app/scos/core_sco/searchText';
+import { Sorter } from '@app/scos/core_sco/sorter';
+import { EnglishLearnRecordSCO } from '@app/scos/englishLearnRecordSCO';
+import { EnglishSCO } from '@app/scos/englishSCO';
+import { EnglishTypeSCO } from '@app/scos/englishTypeSCO';
+import { EnglishUserGradeSCO } from '@app/scos/englishUserGradeSCO';
+import { AuthenticationService } from '@app/services/authentication.service';
+import { BackendService } from '@app/services/backend.service';
+import { RequireMatchForm } from '@app/services/requireMatchForm';
+import { SpinnerService } from '@app/services/spinner.service';
+import { UtilsService } from '@app/services/utils.service';
+import { DialogService } from '@app/services/dialog.service';
 
 @Component({
   selector: 'app-english',
@@ -51,10 +45,9 @@ export class EnglishComponent implements OnInit {
    */
   constructor(
     private route: ActivatedRoute,
-    private englishDialogService: EnglishDialogService,
+    private dialogService: DialogService,
     private authenticationService: AuthenticationService,
-    private englishService: EnglishService,
-    private englishTypeService: EnglishTypeService,
+    private backendService: BackendService,
     private alertService: AlertService,
     private toastr: ToastrService,
     private spinner: SpinnerService,
@@ -190,7 +183,7 @@ export class EnglishComponent implements OnInit {
     englishTypeSCO.typeClass = typeClass;
 
     // Get list category
-    this.englishTypeService.search(englishTypeSCO).subscribe(
+    this.backendService.searchEnglishType(englishTypeSCO).subscribe(
       (data) => {
         // Get data
         const responseAPi: any = data;
@@ -231,7 +224,7 @@ export class EnglishComponent implements OnInit {
     englishTypeSCO.sorters = sorters;
 
     // Get list grade
-    this.englishTypeService.search(englishTypeSCO).subscribe(
+    this.backendService.searchEnglishType(englishTypeSCO).subscribe(
       (data) => {
         // Get data
         const responseAPi: any = data;
@@ -270,7 +263,7 @@ export class EnglishComponent implements OnInit {
     sco.userId = userIdSearch;
 
     // Search
-    this.englishService.searchLearnRecord(sco).subscribe(
+    this.backendService.searchLearnRecord(sco).subscribe(
       (data) => {
         // Get data
         const responseAPi: any = data;
@@ -310,7 +303,7 @@ export class EnglishComponent implements OnInit {
     this.spinner.show();
 
     // Search
-    this.englishService.searchEnglishLevel(englishUserGradeSCO).subscribe(
+    this.backendService.searchEnglishLevel(englishUserGradeSCO).subscribe(
       (data) => {
         // Get data
         const responseAPi: any = data;
@@ -404,7 +397,7 @@ export class EnglishComponent implements OnInit {
     this.spinner.show();
 
     // Get list word
-    this.englishService.searchLowLearnEnglish(englishSCO).subscribe(
+    this.backendService.searchLowLearnEnglish(englishSCO).subscribe(
       (data) => {
         // Get data
         const responseAPi: any = data;
@@ -655,7 +648,7 @@ export class EnglishComponent implements OnInit {
       englishLearnRecord.english = english;
 
       // Call API count learn
-      this.englishService.addLearnRecord(englishLearnRecord).subscribe(
+      this.backendService.addLearnRecord(englishLearnRecord).subscribe(
         (data) => {
           // Success
           // Increase learned times
@@ -676,7 +669,7 @@ export class EnglishComponent implements OnInit {
    */
   public showDialogLearnedWord() {
     if (this.numberOfLearned > 0) {
-      this.englishDialogService
+      this.dialogService
         .showLearnedWord(
           'LEARNED WORDS',
           'You are seeing your list of word that learned by today',

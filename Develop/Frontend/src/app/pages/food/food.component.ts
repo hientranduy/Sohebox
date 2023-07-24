@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { ApiReponse, Food } from '@app/_common/_models';
-import { Sorter } from '@app/_common/_sco/core_sco';
-import { FoodSCO } from '@app/_common/_sco/foodSCO';
-import { SpinnerService } from '@app/_common/_services';
-import { AlertService } from '@app/_common/alert/alert.service';
-import { FoodService } from './_services';
+import { AlertService } from '@app/commons/alert/alert.service';
+import { ApiReponse } from '@app/models/apiReponse';
+import { Food } from '@app/models/food';
+import { Sorter } from '@app/scos/core_sco/sorter';
+import { FoodSCO } from '@app/scos/foodSCO';
+import { BackendService } from '@app/services/backend.service';
+import { SpinnerService } from '@app/services/spinner.service';
 
 @Component({
   selector: 'app-food',
@@ -18,8 +18,7 @@ export class FoodComponent implements OnInit {
   constructor(
     private alertService: AlertService,
     private spinner: SpinnerService,
-    private foodService: FoodService,
-    private route: ActivatedRoute,
+    private backendService: BackendService,
   ) {
     // Get all food
     this.refreshAllFood();
@@ -40,7 +39,7 @@ export class FoodComponent implements OnInit {
     const foodSCO = new FoodSCO();
     foodSCO.sorters = sorters;
 
-    this.foodService.searchFood(foodSCO).subscribe(
+    this.backendService.searchFood(foodSCO).subscribe(
       (data) => {
         // Get data
         const responseAPi: any = data;

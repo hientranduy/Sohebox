@@ -1,13 +1,15 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { ApiReponse } from '@app/_common/_models';
-import { PageResultVO } from '@app/_common/_models/pageResultVO';
-import { Type } from '@app/_common/_models/type';
-import { SearchText, Sorter } from '@app/_common/_sco/core_sco';
-import { TypeSCO } from '@app/_common/_sco/typeSCO';
-import { BackendService, SpinnerService } from '@app/_common/_services';
+import { PageResultVO } from '@app/models/pageResultVO';
+import { Type } from '@app/models/type';
+import { TypeSCO } from '@app/scos/typeSCO';
 import { ToastrService } from 'ngx-toastr';
-import { TypeDialogService } from './_dialogs';
-import { AlertService } from '@app/_common/alert/alert.service';
+import { AlertService } from '@app/commons/alert/alert.service';
+import { ApiReponse } from '@app/models/apiReponse';
+import { SearchText } from '@app/scos/core_sco/searchText';
+import { Sorter } from '@app/scos/core_sco/sorter';
+import { BackendService } from '@app/services/backend.service';
+import { SpinnerService } from '@app/services/spinner.service';
+import { DialogService } from '@app/services/dialog.service';
 
 @Component({
   selector: 'app-setting-type',
@@ -36,7 +38,7 @@ export class SettingTypeComponent implements OnInit {
    * Constructor
    */
   constructor(
-    private typeDialogService: TypeDialogService,
+    private dialogService: DialogService,
     private backendService: BackendService,
     private alertService: AlertService,
     private toastr: ToastrService,
@@ -197,7 +199,7 @@ export class SettingTypeComponent implements OnInit {
    * Add button
    */
   public add() {
-    this.typeDialogService.add('ADD', '').then(
+    this.dialogService.addType('ADD', '').then(
       (result) => {
         if (result) {
           // Refresh table
@@ -241,7 +243,7 @@ export class SettingTypeComponent implements OnInit {
    * View detail chosen
    */
   public viewDetailChoose(item: Type) {
-    this.typeDialogService.view('DETAIL', '', item).then(
+    this.dialogService.viewType('DETAIL', '', item).then(
       (result) => {
         if (result) {
         }
@@ -256,7 +258,7 @@ export class SettingTypeComponent implements OnInit {
    * Edit chosen
    */
   public editChoose(item: Type) {
-    this.typeDialogService.edit('EDIT', '', item).then(
+    this.dialogService.editType('EDIT', '', item).then(
       (result) => {
         if (result) {
           this.getPageResult(
@@ -277,8 +279,8 @@ export class SettingTypeComponent implements OnInit {
    * Delete chosen
    */
   public deleteChoose(item: Type) {
-    this.typeDialogService
-      .delete('DELETION', 'Are you sure deleting: ' + item.typeCode + ' ?')
+    this.dialogService
+      .deleteType('DELETION', 'Are you sure deleting: ' + item.typeCode + ' ?')
       .then(
         (result) => {
           if (result) {

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { UtilsService } from '@app/_common/_services';
-import { User } from '@app/_common/_models';
-import { AuthenticationService } from '@app/_common/_services/';
+import { User } from '@app/models/user';
+import { AuthenticationService } from '@app/services/authentication.service';
+import { UtilsService } from '@app/services/utils.service';
 
 @Component({
   templateUrl: 'home.component.html',

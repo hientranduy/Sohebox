@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiReponse, Food } from '@app/_common/_models';
-import { PageResultVO } from '@app/_common/_models/pageResultVO';
-import { SearchText, Sorter } from '@app/_common/_sco/core_sco';
-import { FoodSCO } from '@app/_common/_sco/foodSCO';
-import { SpinnerService } from '@app/_common/_services';
-import { AlertService } from '@app/_common/alert/alert.service';
-import { FoodDialogService } from '@app/pages/food/_dialogs';
-import { FoodService } from '@app/pages/food/_services';
+import { PageResultVO } from '@app/models/pageResultVO';
+import { FoodSCO } from '@app/scos/foodSCO';
+import { AlertService } from '@app/commons/alert/alert.service';
+import { ApiReponse } from '@app/models/apiReponse';
+import { Food } from '@app/models/food';
+import { SearchText } from '@app/scos/core_sco/searchText';
+import { Sorter } from '@app/scos/core_sco/sorter';
+import { BackendService } from '@app/services/backend.service';
+import { SpinnerService } from '@app/services/spinner.service';
+import { DialogService } from '@app/services/dialog.service';
 
 @Component({
   selector: 'app-food-config',
@@ -23,8 +25,8 @@ export class FoodConfigComponent implements OnInit {
    * Constructor
    */
   constructor(
-    private foodDialogService: FoodDialogService,
-    private foodService: FoodService,
+    private dialogService: DialogService,
+    private backendService: BackendService,
     private alertService: AlertService,
     private spinner: SpinnerService,
   ) {
@@ -132,7 +134,7 @@ export class FoodConfigComponent implements OnInit {
     this.spinner.show();
 
     // Search
-    this.foodService.searchFood(sco).subscribe(
+    this.backendService.searchFood(sco).subscribe(
       (data) => {
         const responseAPi: any = data;
         const typeResponse: ApiReponse<Food> = responseAPi;
@@ -161,7 +163,7 @@ export class FoodConfigComponent implements OnInit {
    * Add button
    */
   public add() {
-    this.foodDialogService.add('Add word', '').then(
+    this.dialogService.addFood('Add word', '').then(
       (result) => {
         if (result) {
           // Refresh table
@@ -190,7 +192,7 @@ export class FoodConfigComponent implements OnInit {
    * Edit chosen
    */
   public editChoosen(item: Food) {
-    this.foodDialogService.edit('EDIT', '', item).then(
+    this.dialogService.editFood('EDIT', '', item).then(
       (result) => {
         if (result) {
           this.getPageResult(

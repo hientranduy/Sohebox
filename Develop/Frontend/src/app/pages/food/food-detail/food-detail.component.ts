@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { AppSettings } from '@app/app.settings';
-import { SpinnerService } from '@app/_common/_services';
-import { FoodService } from '../_services';
-import { AlertService } from '@app/_common/alert/alert.service';
-import { Food } from '@app/_common/_models';
+import { AlertService } from '@app/commons/alert/alert.service';
+import { Food } from '@app/models/food';
+import { BackendService } from '@app/services/backend.service';
+import { SpinnerService } from '@app/services/spinner.service';
 
 @Component({
   selector: 'app-food-detail',
@@ -19,7 +19,7 @@ export class FoodDetailComponent implements OnInit {
     private route: ActivatedRoute,
     private alertService: AlertService,
     private spinner: SpinnerService,
-    private foodService: FoodService,
+    private backendService: BackendService,
   ) {}
 
   ngOnInit() {
@@ -31,7 +31,7 @@ export class FoodDetailComponent implements OnInit {
     this.route.params.subscribe((params: Params) => (foodId = params['id']));
 
     // Get food infos
-    this.foodService.getFood(foodId).subscribe(
+    this.backendService.getFood(foodId).subscribe(
       (data) => {
         // Get data
         const responseAPi: any = data;

@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiReponse } from '@app/_common/_models';
-import { SpinnerService } from '@app/_common/_services';
-import { GoldSjc } from '@app/_common/_models';
-import { FinanceService } from '../_services';
-import { AlertService } from '@app/_common/alert/alert.service';
+import { AlertService } from '@app/commons/alert/alert.service';
+import { ApiReponse } from '@app/models/apiReponse';
+import { GoldSjc } from '@app/models/goldSjc';
+import { BackendService } from '@app/services/backend.service';
+import { SpinnerService } from '@app/services/spinner.service';
 
 @Component({
   selector: 'app-finance-gold',
@@ -15,7 +15,7 @@ export class FinanceGoldComponent implements OnInit {
 
   constructor(
     private spinner: SpinnerService,
-    private financeService: FinanceService,
+    private backendService: BackendService,
     private alertService: AlertService,
   ) {}
 
@@ -31,7 +31,7 @@ export class FinanceGoldComponent implements OnInit {
     this.spinner.show();
 
     // Get list
-    this.financeService.getGoldSjcPrice().subscribe(
+    this.backendService.getGoldSjcPrice().subscribe(
       (data) => {
         // Get data
         const responseAPi: any = data;

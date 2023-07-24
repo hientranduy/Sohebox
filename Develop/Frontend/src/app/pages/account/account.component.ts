@@ -1,16 +1,20 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { AppSettings } from '@app/app.settings';
-import { Account, User } from '@app/_common/_models';
-import { ApiReponse } from '@app/_common/_models';
-import { PageResultVO } from '@app/_common/_models/pageResultVO';
-import { AccountSCO } from '@app/_common/_sco';
-import { SearchText, Sorter } from '@app/_common/_sco/core_sco';
-import { SpinnerService, UtilsService } from '@app/_common/_services';
+
 import { ToastrService } from 'ngx-toastr';
-import { AccountDialogService } from './_dialogs';
-import { AccountService } from './_services';
-import { AlertService } from '@app/_common/alert/alert.service';
-import { AuthenticationService } from '@app/_common/_services/';
+import { AlertService } from '@app/commons/alert/alert.service';
+import { Account } from '@app/models/account';
+import { ApiReponse } from '@app/models/apiReponse';
+import { PageResultVO } from '@app/models/pageResultVO';
+import { User } from '@app/models/user';
+import { AccountSCO } from '@app/scos/accountSCO';
+import { SearchText } from '@app/scos/core_sco/searchText';
+import { Sorter } from '@app/scos/core_sco/sorter';
+import { AuthenticationService } from '@app/services/authentication.service';
+import { BackendService } from '@app/services/backend.service';
+import { DialogService } from '@app/services/dialog.service';
+import { SpinnerService } from '@app/services/spinner.service';
+import { UtilsService } from '@app/services/utils.service';
 
 @Component({
   selector: 'app-account',
@@ -23,8 +27,8 @@ export class AccountComponent implements OnInit {
    */
   constructor(
     private authenticationService: AuthenticationService,
-    private accountDialogService: AccountDialogService,
-    private accountService: AccountService,
+    private dialogService: DialogService,
+    private backendService: BackendService,
     private alertService: AlertService,
     private toastr: ToastrService,
     private spinner: SpinnerService,
@@ -176,7 +180,7 @@ export class AccountComponent implements OnInit {
     this.spinner.show();
 
     // Search
-    this.accountService.searchAccount(sco).subscribe(
+    this.backendService.searchAccount(sco).subscribe(
       (data) => {
         const responseAPi: any = data;
         const typeResponse: ApiReponse<Account> = responseAPi;
@@ -205,7 +209,7 @@ export class AccountComponent implements OnInit {
    * Add button
    */
   public add() {
-    this.accountDialogService.addAccount('ADD ACCOUNT', '').then(
+    this.dialogService.addAccount('ADD ACCOUNT', '').then(
       (result) => {
         if (result) {
           // Refresh table
@@ -235,7 +239,7 @@ export class AccountComponent implements OnInit {
    */
   public showPassword(item: Account) {
     if (item.mdp) {
-      this.accountDialogService.showPassword(item).then(
+      this.dialogService.showPassword(item).then(
         (result) => {
           if (result) {
           }
@@ -253,7 +257,7 @@ export class AccountComponent implements OnInit {
    * View detail chosen
    */
   public viewDetailChoose(item: Account) {
-    this.accountDialogService.viewAccount('DETAIL ACCOUNT', '', item).then(
+    this.dialogService.viewAccount('DETAIL ACCOUNT', '', item).then(
       (result) => {
         if (result) {
         }
@@ -268,7 +272,7 @@ export class AccountComponent implements OnInit {
    * Edit chosen
    */
   public editChoose(item: Account) {
-    this.accountDialogService.editAccount('EDIT ACCOUNT', '', item).then(
+    this.dialogService.editAccount('EDIT ACCOUNT', '', item).then(
       (result) => {
         if (result) {
           this.getPageResult(
@@ -289,7 +293,7 @@ export class AccountComponent implements OnInit {
    * Delete chosen
    */
   public deleteChoose(item: Account) {
-    this.accountDialogService
+    this.dialogService
       .deleteAccount(
         'DELETION',
         'Are you sure deleting: ' + item.accountName + ' ?',

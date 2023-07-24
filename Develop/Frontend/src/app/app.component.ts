@@ -5,10 +5,10 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal/modal.module';
 import { EventTargetInterruptSource, Idle } from '@ng-idle/core';
 import { Keepalive } from '@ng-idle/keepalive';
-import { UserDialogService } from './user/_dialogs';
-import { User } from '@app/_common/_models';
-import { TimeoutProgressDialogComponent } from './_common/timeout/timeout-progress-dialog.component';
-import { AuthenticationService } from './_common/_services/';
+import { TimeoutProgressDialogComponent } from './commons/timeout/timeout-progress-dialog.component';
+import { User } from './models/user';
+import { AuthenticationService } from './services/authentication.service';
+import { DialogService } from './services/dialog.service';
 
 @Component({
   selector: 'app-sohebox',
@@ -31,7 +31,7 @@ export class AppComponent {
     private idle: Idle,
     private keepalive: Keepalive,
     private ngbModal: NgbModal,
-    private userDialogService: UserDialogService,
+    private dialogService: DialogService,
   ) {
     // Get logged user
     this.authenticationService.currentUser.subscribe(
@@ -168,6 +168,6 @@ export class AppComponent {
   }
 
   public openHelpGuest() {
-    this.userDialogService.openHelpGuest();
+    this.dialogService.openHelpGuest();
   }
 }

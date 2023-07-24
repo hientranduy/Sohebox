@@ -1,21 +1,19 @@
 import { RouterModule, Routes } from '@angular/router';
-import { AccountComponent } from './pages/account';
-import { AdministrationComponent } from './pages/administration';
 import { CryptoComponent } from './pages/crypto/crypto.component';
-import { EnglishComponent } from './pages/english';
-import { EnglishReportComponent } from './pages/english-report';
 import { FinanceComponent } from './pages/finance/finance.component';
-import { FoodComponent } from './pages/food';
 import { FoodDetailComponent } from './pages/food/food-detail/food-detail.component';
-import { HomeComponent } from './pages/home';
-import {
-  MediaComponent,
-  YoutubePlayerChannelComponent,
-  YoutubePlayerComponent,
-} from './pages/media';
-import { AuthGuard } from './_common/auth.guard';
-import { LoginComponent } from './user/login/login.component';
-import { RegisterComponent } from './user/register/register.component';
+import { AuthGuard } from './commons/auth.guard';
+import { LoginComponent } from './pages/user/login/login.component';
+import { RegisterComponent } from './pages/user/register/register.component';
+import { AccountComponent } from './pages/account/account.component';
+import { AdministrationComponent } from './pages/administration/administration.component';
+import { EnglishComponent } from './pages/english/english.component';
+import { HomeComponent } from './pages/home/home.component';
+import { EnglishReportComponent } from './pages/english-report/english-report.component';
+import { FoodComponent } from './pages/food/food.component';
+import { MediaComponent } from './pages/media/media.component';
+import { YoutubePlayerComponent } from './pages/media/youtube-player/youtube-player.component';
+import { YoutubePlayerChannelComponent } from './pages/media/youtube-player-channel/youtube-player-channel.component';
 
 const appRoutes: Routes = [
   {

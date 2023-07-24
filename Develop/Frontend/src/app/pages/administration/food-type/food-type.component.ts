@@ -1,14 +1,15 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { ApiReponse } from '@app/_common/_models';
-import { FoodType } from '@app/_common/_models/foodType';
-import { PageResultVO } from '@app/_common/_models/pageResultVO';
-import { SearchText, Sorter } from '@app/_common/_sco/core_sco';
-import { FoodTypeSCO } from '@app/_common/_sco/foodTypeSCO';
-import { SpinnerService } from '@app/_common/_services';
-import { AlertService } from '@app/_common/alert/alert.service';
-import { FoodTypeService } from '@app/pages/food/_services';
+import { FoodType } from '@app/models/foodType';
+import { PageResultVO } from '@app/models/pageResultVO';
+import { FoodTypeSCO } from '@app/scos/foodTypeSCO';
+import { AlertService } from '@app/commons/alert/alert.service';
 import { ToastrService } from 'ngx-toastr';
-import { FoodTypeDialogService } from './_dialogs';
+import { ApiReponse } from '@app/models/apiReponse';
+import { SearchText } from '@app/scos/core_sco/searchText';
+import { Sorter } from '@app/scos/core_sco/sorter';
+import { BackendService } from '@app/services/backend.service';
+import { SpinnerService } from '@app/services/spinner.service';
+import { DialogService } from '@app/services/dialog.service';
 
 @Component({
   selector: 'app-food-type',
@@ -37,8 +38,8 @@ export class FoodTypeComponent implements OnInit {
    * Constructor
    */
   constructor(
-    private foodTypeDialogService: FoodTypeDialogService,
-    private foodTypeService: FoodTypeService,
+    private dialogService: DialogService,
+    private backendService: BackendService,
     private alertService: AlertService,
     private toastr: ToastrService,
     private spinner: SpinnerService,
@@ -169,7 +170,7 @@ export class FoodTypeComponent implements OnInit {
     this.spinner.show();
 
     // Search
-    this.foodTypeService.search(sco).subscribe(
+    this.backendService.searchFoodType(sco).subscribe(
       (data) => {
         const responseAPi: any = data;
         const typeResponse: ApiReponse<FoodType> = responseAPi;
@@ -243,7 +244,7 @@ export class FoodTypeComponent implements OnInit {
    * View detail chosen
    */
   public viewDetailChoose(item: FoodType) {
-    this.foodTypeDialogService.view('DETAIL', '', item).then(
+    this.dialogService.viewFoodType('DETAIL', '', item).then(
       (result) => {
         if (result) {
         }
@@ -258,7 +259,7 @@ export class FoodTypeComponent implements OnInit {
    * Edit chosen
    */
   public editChoose(item: FoodType) {
-    this.foodTypeDialogService.edit('EDIT', '', item).then(
+    this.dialogService.editFoodType('EDIT', '', item).then(
       (result) => {
         if (result) {
           this.getPageResult(
@@ -279,8 +280,11 @@ export class FoodTypeComponent implements OnInit {
    * Delete chosen
    */
   public deleteChoose(item: FoodType) {
-    this.foodTypeDialogService
-      .delete('DELETION', 'Are you sure deleting: ' + item.typeCode + ' ?')
+    this.dialogService
+      .deleteFoodType(
+        'DELETION',
+        'Are you sure deleting: ' + item.typeCode + ' ?',
+      )
       .then(
         (result) => {
           if (result) {
