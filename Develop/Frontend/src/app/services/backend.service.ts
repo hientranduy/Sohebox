@@ -190,11 +190,6 @@ export class BackendService {
     );
   }
 
-  // Get by ID
-  getByIdCryptoPortfolio(id: number) {
-    return this.http.get(`${environment.soheboxUrl}/api/cryptoPortfolio/${id}`);
-  }
-
   // Portfolio Summary
   getPortfolioSummary(sco: CryptoPortfolioHistorySCO) {
     return this.http.post(
@@ -230,13 +225,6 @@ export class BackendService {
     );
   }
 
-  // Get by id
-  getByIdCryptoTokenConfig(id: number) {
-    return this.http.get(
-      `${environment.soheboxUrl}/api/cryptoTokenConfig/${id}`,
-    );
-  }
-
   /////////////
   // ENGLISH //
   /////////////
@@ -269,11 +257,6 @@ export class BackendService {
       `${environment.soheboxUrl}/api/english/englishTopLearn`,
       sco,
     );
-  }
-
-  // Get engish by id
-  getEnglish(id: number) {
-    return this.http.get(`${environment.soheboxUrl}/api/english/${id}`);
   }
 
   // Add learn record
@@ -324,9 +307,9 @@ export class BackendService {
     );
   }
 
-  //////////////////////
+  //////////////////
   // ENGLISH TYPE //
-  //////////////////////
+  //////////////////
   // Search
   searchEnglishType(sco: EnglishTypeSCO) {
     return this.http.post(
@@ -335,24 +318,9 @@ export class BackendService {
     );
   }
 
-  // Add new
-  createEnglishType(item: EnglishType) {
-    return this.http.post(`${environment.soheboxUrl}/api/englishTypes`, item);
-  }
-
-  // Delete
-  deleteEnglishType(id: Number) {
-    return this.http.delete(`${environment.soheboxUrl}/api/englishTypes/${id}`);
-  }
-
   // Update
   updateEnglishType(item: EnglishType) {
     return this.http.put(`${environment.soheboxUrl}/api/englishTypes`, item);
-  }
-
-  // Get
-  getEnglishType(id: number) {
-    return this.http.get(`${environment.soheboxUrl}/api/englishTypes/${id}`);
   }
 
   /////////////
@@ -422,24 +390,9 @@ export class BackendService {
     );
   }
 
-  // Add
-  createFoodType(item: FoodType) {
-    return this.http.post(`${environment.soheboxUrl}/api/foodTypes`, item);
-  }
-
-  // Delete
-  deleteFoodType(id: Number) {
-    return this.http.delete(`${environment.soheboxUrl}/api/foodTypes/${id}`);
-  }
-
   // Update
   updateFoodType(item: FoodType) {
     return this.http.put(`${environment.soheboxUrl}/api/foodTypes`, item);
-  }
-
-  // Get
-  getFoodType(id: number) {
-    return this.http.get(`${environment.soheboxUrl}/api/foodTypes/${id}`);
   }
 
   /////////////

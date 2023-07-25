@@ -214,21 +214,6 @@ export class SettingConfigComponent implements OnInit {
   }
 
   /**
-   * Delete button
-   */
-  public delete() {
-    if (this.selected.length > 0) {
-      this.selected.forEach((element) => {
-        this.deleteChoose(element);
-      });
-    } else {
-      this.toastr.info('No selected item', 'Information', {
-        timeOut: 2000,
-      });
-    }
-  }
-
-  /**
    * Refresh button
    */
   public refresh() {
@@ -269,48 +254,5 @@ export class SettingConfigComponent implements OnInit {
         console.log('EDIT reason:' + reason);
       },
     );
-  }
-
-  /**
-   * Delete chosen
-   */
-  public deleteChoose(item: Config) {
-    this.dialogService
-      .deleteConfig(
-        'DELETION',
-        'Are you sure deleting: ' + item.configKey + ' ?',
-      )
-      .then(
-        (result) => {
-          if (result) {
-            this.toastr.warning('[Admin notice] Not allow to delete');
-
-            // this.configService.delete(item.id).subscribe(
-            //   data => {
-            //     // Send toast success
-            //     this.toastr.success(
-            //       "Your config key " + item.configKey + " is successful deleted"
-            //     );
-
-            //     // Refresh page
-            //     if (result) {
-            //       this.getPageResult(
-            //         this.pageResult.currentPage,
-            //         this.pageResult.pageSize,
-            //         this.currentSort,
-            //         this.currentFilterValue
-            //       );
-            //     }
-            //   },
-            //   error => {
-            //     this.toastr.error(error);
-            //   }
-            // );
-          }
-        },
-        (reason) => {
-          console.log('DELETE reason:' + reason);
-        },
-      );
   }
 }

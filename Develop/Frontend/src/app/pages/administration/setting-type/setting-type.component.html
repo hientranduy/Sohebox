@@ -17,12 +17,6 @@
       <strong>New</strong>
     </button>
 
-    <!-- Delete -->
-    <button mat-button class="toolbar-button-style" (click)="delete()" disabled>
-      <mat-icon>delete</mat-icon>
-      <strong>Delete</strong>
-    </button>
-
     <!-- Add spaces   -->
     <span class="toolbar-spacer-style"></span>
 
@@ -178,9 +172,6 @@
       <mat-menu #menu="matMenu">
         <button mat-menu-item (click)="viewDetailChoose(row)">Detail</button>
         <button mat-menu-item (click)="editChoose(row)">Edit</button>
-        <button mat-menu-item (click)="deleteChoose(row)" disabled>
-          Delete
-        </button>
       </mat-menu>
     </ng-template>
   </ngx-datatable-column>

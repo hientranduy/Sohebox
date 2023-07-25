@@ -71,20 +71,14 @@ import { ViewAccountDialogComponent } from './dialogs/account/view-account-dialo
 import { ShowPasswordDialogComponent } from './dialogs/account/show-password-dialog.component';
 import { AddCryptoTokenConfigDialogComponent } from './dialogs/crypto-token-config/add-crypto-token-config-dialog.component';
 import { EditCryptoTokenConfigDialogComponent } from './dialogs/crypto-token-config/edit-crypto-token-config-dialog.component';
-import { AddEnglishTypeDialogComponent } from './dialogs/english-type/add-english-type-dialog.component';
-import { DeleteEnglishTypeDialogComponent } from './dialogs/english-type/delete-english-type-dialog.component';
 import { EditEnglishTypeDialogComponent } from './dialogs/english-type/edit-english-type-dialog.component';
 import { ViewEnglishTypeDialogComponent } from './dialogs/english-type/view-english-type-dialog.component';
-import { AddFoodTypeDialogComponent } from './dialogs/food-type/add-food-type-dialog.component';
-import { DeleteFoodTypeDialogComponent } from './dialogs/food-type/delete-food-type-dialog.component';
 import { EditFoodTypeDialogComponent } from './dialogs/food-type/edit-food-type-dialog.component';
 import { ViewFoodTypeDialogComponent } from './dialogs/food-type/view-food-type-dialog.component';
 import { AddConfigDialogComponent } from './dialogs/config/add-config-dialog.component';
-import { DeleteConfigDialogComponent } from './dialogs/config/delete-config-dialog.component';
 import { EditConfigDialogComponent } from './dialogs/config/edit-config-dialog.component';
 import { ViewConfigDialogComponent } from './dialogs/config/view-config-dialog.component';
 import { AddTypeDialogComponent } from './dialogs/type/add-type-dialog.component';
-import { DeleteTypeDialogComponent } from './dialogs/type/delete-type-dialog.component';
 import { EditTypeDialogComponent } from './dialogs/type/edit-type-dialog.component';
 import { ViewTypeDialogComponent } from './dialogs/type/view-type-dialog.component';
 import { AddYoutubeChannelDialogComponent } from './dialogs/youtube-channel/add-youtube-channel-dialog.component';
@@ -146,11 +140,9 @@ import { DeleteYoutubeVideoDialogComponent } from './dialogs/media/delete-youtub
     // Dialog
     AddTypeDialogComponent,
     EditTypeDialogComponent,
-    DeleteTypeDialogComponent,
     ViewTypeDialogComponent,
     AddConfigDialogComponent,
     EditConfigDialogComponent,
-    DeleteConfigDialogComponent,
     ViewConfigDialogComponent,
 
     // User
@@ -184,8 +176,6 @@ import { DeleteYoutubeVideoDialogComponent } from './dialogs/media/delete-youtub
     EnglishUserReportComponent,
 
     // Dialog
-    AddEnglishTypeDialogComponent,
-    DeleteEnglishTypeDialogComponent,
     EditEnglishTypeDialogComponent,
     ViewEnglishTypeDialogComponent,
     UpdateEnglishLevelDialogComponent,
@@ -203,8 +193,6 @@ import { DeleteYoutubeVideoDialogComponent } from './dialogs/media/delete-youtub
     // Dialog
     AddFoodDialogComponent,
     EditFoodDialogComponent,
-    AddFoodTypeDialogComponent,
-    DeleteFoodTypeDialogComponent,
     EditFoodTypeDialogComponent,
     ViewFoodTypeDialogComponent,
 
