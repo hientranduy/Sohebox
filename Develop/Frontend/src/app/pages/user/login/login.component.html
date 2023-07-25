@@ -28,9 +28,9 @@
           [(ngModel)]="accountDisplay"
           formControlName="username"
           class="form-control"
-          [ngClass]="{ 'is-invalid': submitted && f.username.errors }"
+          [ngClass]="{ 'is-invalid': submitted && f['username'].errors }"
         />
-        <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+        <div *ngIf="submitted && f['username'].errors" class="invalid-feedback">
           <div *ngIf="f.username.errors.required">Username is required</div>
         </div>
       </div>
@@ -41,9 +41,9 @@
           [(ngModel)]="passwordDisplay"
           formControlName="password"
           class="form-control"
-          [ngClass]="{ 'is-invalid': submitted && f.password.errors }"
+          [ngClass]="{ 'is-invalid': submitted && f['password'].errors }"
         />
-        <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+        <div *ngIf="submitted && f['password'].errors" class="invalid-feedback">
           <div *ngIf="f.password.errors.required">Password is required</div>
         </div>
       </div>
