@@ -6,9 +6,8 @@ import { EditAccountDialogComponent } from '@app/dialogs/account/edit-account-di
 import { ViewAccountDialogComponent } from '@app/dialogs/account/view-account-dialog.component';
 import { ShowPasswordDialogComponent } from '@app/dialogs/account/show-password-dialog.component';
 import { Account } from '@app/models/account';
-import { AddConfigDialogComponent } from '@app/dialogs/config/add-config-dialog.component';
-import { EditConfigDialogComponent } from '@app/dialogs/config/edit-config-dialog.component';
-import { ViewConfigDialogComponent } from '@app/dialogs/config/view-config-dialog.component';
+import { AddConfigDialogComponent } from '@app/dialogs/setting-config/add-config-dialog.component';
+import { EditConfigDialogComponent } from '@app/dialogs/setting-config/edit-config-dialog.component';
 import { Config } from '@app/models/config';
 import { AddCryptoFortfolioDialogComponent } from '@app/dialogs/crypto-portfolio/add-crypto-portfolio-dialog.component';
 import { DeleteCryptoPortfolioDialogComponent } from '@app/dialogs/crypto-portfolio/delete-crypto-portfolio-dialog.component';
@@ -25,21 +24,18 @@ import { ShowLearnedWordComponent } from '@app/dialogs/english/show-learned-word
 import { WordInfoDialogComponent } from '@app/dialogs/english/word-info-dialog.component';
 import { English } from '@app/models/english';
 import { EditEnglishTypeDialogComponent } from '@app/dialogs/english-type/edit-english-type-dialog.component';
-import { ViewEnglishTypeDialogComponent } from '@app/dialogs/english-type/view-english-type-dialog.component';
 import { EnglishType } from '@app/models/englishType';
 import { Food } from '@app/models/food';
 import { AddFoodDialogComponent } from '@app/dialogs/food/add-food-dialog.component';
 import { EditFoodDialogComponent } from '@app/dialogs/food/edit-food-dialog.component';
 import { EditFoodTypeDialogComponent } from '@app/dialogs/food-type/edit-food-type-dialog.component';
-import { ViewFoodTypeDialogComponent } from '@app/dialogs/food-type/view-food-type-dialog.component';
 import { FoodType } from '@app/models/foodType';
 import { YoutubeVideo } from '@app/models/youtubeVideo';
 import { AddYoutubeVideoDialogComponent } from '@app/dialogs/media/add-youtube-video-dialog.component';
 import { DeleteYoutubeVideoDialogComponent } from '@app/dialogs/media/delete-youtube-video-dialog.component';
 import { Type } from '@app/models/type';
-import { AddTypeDialogComponent } from '@app/dialogs/type/add-type-dialog.component';
-import { EditTypeDialogComponent } from '@app/dialogs/type/edit-type-dialog.component';
-import { ViewTypeDialogComponent } from '@app/dialogs/type/view-type-dialog.component';
+import { AddTypeDialogComponent } from '@app/dialogs/setting-type/add-type-dialog.component';
+import { EditTypeDialogComponent } from '@app/dialogs/setting-type/edit-type-dialog.component';
 import { ChangePasswordDialogComponent } from '@app/dialogs/user/change-password-dialog.component';
 import { ChangePrivateKeyDialogComponent } from '@app/dialogs/user/change-private-key-dialog.component';
 import { DeleteConfirmationDialogComponent } from '@app/dialogs/user/delete-confirmation-dialog.component';
@@ -50,7 +46,6 @@ import { AddYoutubeChannelDialogComponent } from '@app/dialogs/youtube-channel/a
 import { EditYoutubeChannelDialogComponent } from '@app/dialogs/youtube-channel/edit-youtube-channel-dialog.component';
 import { YoutubeChannel } from '@app/models/youtubeChannel';
 import { EditMediaTypeDialogComponent } from '@app/dialogs/media-type/edit-media-type.component';
-import { ViewMediaTypeDialogComponent } from '@app/dialogs/media-type/view-media-type.component';
 
 @Injectable({ providedIn: 'root' })
 export class DialogService {
@@ -96,25 +91,9 @@ export class DialogService {
     return modalRef.result;
   }
 
-  public viewType(
-    title: string,
-    message: string,
-    type: Type,
-    dialogSize: 'sm' | 'lg' = 'lg',
-  ): Promise<boolean> {
-    const modalRef = this.modalService.open(ViewTypeDialogComponent, {
-      size: dialogSize,
-    });
-    modalRef.componentInstance.title = title;
-    modalRef.componentInstance.message = message;
-    modalRef.componentInstance.btnCancelText = 'Cancel';
-    modalRef.componentInstance.type = type;
-    return modalRef.result;
-  }
-
-  ///////////
-  // CONFIG//
-  ///////////
+  ////////////
+  // CONFIG //
+  ////////////
   public addConfig(
     title: string,
     message: string,
@@ -142,22 +121,6 @@ export class DialogService {
     modalRef.componentInstance.title = title;
     modalRef.componentInstance.message = message;
     modalRef.componentInstance.btnOkText = 'Edit';
-    modalRef.componentInstance.btnCancelText = 'Cancel';
-    modalRef.componentInstance.item = item;
-    return modalRef.result;
-  }
-
-  public viewConfig(
-    title: string,
-    message: string,
-    item: Config,
-    dialogSize: 'sm' | 'lg' = 'lg',
-  ): Promise<boolean> {
-    const modalRef = this.modalService.open(ViewConfigDialogComponent, {
-      size: dialogSize,
-    });
-    modalRef.componentInstance.title = title;
-    modalRef.componentInstance.message = message;
     modalRef.componentInstance.btnCancelText = 'Cancel';
     modalRef.componentInstance.item = item;
     return modalRef.result;
@@ -540,22 +503,6 @@ export class DialogService {
     return modalRef.result;
   }
 
-  public viewEnglishType(
-    title: string,
-    message: string,
-    item: EnglishType,
-    dialogSize: 'sm' | 'lg' = 'lg',
-  ): Promise<boolean> {
-    const modalRef = this.modalService.open(ViewEnglishTypeDialogComponent, {
-      size: dialogSize,
-    });
-    modalRef.componentInstance.title = title;
-    modalRef.componentInstance.message = message;
-    modalRef.componentInstance.btnCancelText = 'Cancel';
-    modalRef.componentInstance.item = item;
-    return modalRef.result;
-  }
-
   //////////
   // FOOD //
   //////////
@@ -611,21 +558,6 @@ export class DialogService {
     return modalRef.result;
   }
 
-  public viewFoodType(
-    title: string,
-    message: string,
-    item: FoodType,
-    dialogSize: 'sm' | 'lg' = 'lg',
-  ): Promise<boolean> {
-    const modalRef = this.modalService.open(ViewFoodTypeDialogComponent, {
-      size: dialogSize,
-    });
-    modalRef.componentInstance.title = title;
-    modalRef.componentInstance.message = message;
-    modalRef.componentInstance.btnCancelText = 'Cancel';
-    modalRef.componentInstance.item = item;
-    return modalRef.result;
-  }
   ///////////////////
   // YOUTUBE VIDEO //
   ///////////////////
@@ -711,22 +643,6 @@ export class DialogService {
     modalRef.componentInstance.title = title;
     modalRef.componentInstance.message = message;
     modalRef.componentInstance.btnOkText = 'Edit';
-    modalRef.componentInstance.btnCancelText = 'Cancel';
-    modalRef.componentInstance.item = item;
-    return modalRef.result;
-  }
-
-  public viewMediaType(
-    title: string,
-    message: string,
-    item: FoodType,
-    dialogSize: 'sm' | 'lg' = 'lg',
-  ): Promise<boolean> {
-    const modalRef = this.modalService.open(ViewMediaTypeDialogComponent, {
-      size: dialogSize,
-    });
-    modalRef.componentInstance.title = title;
-    modalRef.componentInstance.message = message;
     modalRef.componentInstance.btnCancelText = 'Cancel';
     modalRef.componentInstance.item = item;
     return modalRef.result;

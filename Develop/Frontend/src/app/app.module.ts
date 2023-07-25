@@ -33,7 +33,6 @@ import { MediaComponent } from './pages/media/media.component';
 
 import { TimeoutProgressDialogComponent } from './commons/timeout/timeout-progress-dialog.component';
 import { EditMediaTypeDialogComponent } from './dialogs/media-type/edit-media-type.component';
-import { ViewMediaTypeDialogComponent } from './dialogs/media-type/view-media-type.component';
 import { JwtInterceptor } from './commons/jwt.interceptor';
 import { ErrorInterceptor } from './commons/error.interceptor';
 import { AutoFocusDirective } from './commons/auto-focus.directive';
@@ -72,15 +71,11 @@ import { ShowPasswordDialogComponent } from './dialogs/account/show-password-dia
 import { AddCryptoTokenConfigDialogComponent } from './dialogs/crypto-token-config/add-crypto-token-config-dialog.component';
 import { EditCryptoTokenConfigDialogComponent } from './dialogs/crypto-token-config/edit-crypto-token-config-dialog.component';
 import { EditEnglishTypeDialogComponent } from './dialogs/english-type/edit-english-type-dialog.component';
-import { ViewEnglishTypeDialogComponent } from './dialogs/english-type/view-english-type-dialog.component';
 import { EditFoodTypeDialogComponent } from './dialogs/food-type/edit-food-type-dialog.component';
-import { ViewFoodTypeDialogComponent } from './dialogs/food-type/view-food-type-dialog.component';
-import { AddConfigDialogComponent } from './dialogs/config/add-config-dialog.component';
-import { EditConfigDialogComponent } from './dialogs/config/edit-config-dialog.component';
-import { ViewConfigDialogComponent } from './dialogs/config/view-config-dialog.component';
-import { AddTypeDialogComponent } from './dialogs/type/add-type-dialog.component';
-import { EditTypeDialogComponent } from './dialogs/type/edit-type-dialog.component';
-import { ViewTypeDialogComponent } from './dialogs/type/view-type-dialog.component';
+import { AddConfigDialogComponent } from './dialogs/setting-config/add-config-dialog.component';
+import { EditConfigDialogComponent } from './dialogs/setting-config/edit-config-dialog.component';
+import { AddTypeDialogComponent } from './dialogs/setting-type/add-type-dialog.component';
+import { EditTypeDialogComponent } from './dialogs/setting-type/edit-type-dialog.component';
 import { AddYoutubeChannelDialogComponent } from './dialogs/youtube-channel/add-youtube-channel-dialog.component';
 import { EditYoutubeChannelDialogComponent } from './dialogs/youtube-channel/edit-youtube-channel-dialog.component';
 import { AddCryptoFortfolioDialogComponent } from './dialogs/crypto-portfolio/add-crypto-portfolio-dialog.component';
@@ -132,18 +127,24 @@ import { DeleteYoutubeVideoDialogComponent } from './dialogs/media/delete-youtub
     UserSlideBarComponent,
     HelpGuestDialogComponent,
 
+    //////////
+    // PAGE //
+    //////////
     // Admin
     AdministrationComponent,
     SettingConfigComponent,
     SettingTypeComponent,
 
-    // Dialog
+    ////////////
+    // DIALOG //
+    ////////////
+    // Type
     AddTypeDialogComponent,
     EditTypeDialogComponent,
-    ViewTypeDialogComponent,
+
+    // Config
     AddConfigDialogComponent,
     EditConfigDialogComponent,
-    ViewConfigDialogComponent,
 
     // User
     LoginComponent,
@@ -177,7 +178,6 @@ import { DeleteYoutubeVideoDialogComponent } from './dialogs/media/delete-youtub
 
     // Dialog
     EditEnglishTypeDialogComponent,
-    ViewEnglishTypeDialogComponent,
     UpdateEnglishLevelDialogComponent,
     AddWordDialogComponent,
     EditWordDialogComponent,
@@ -194,7 +194,6 @@ import { DeleteYoutubeVideoDialogComponent } from './dialogs/media/delete-youtub
     AddFoodDialogComponent,
     EditFoodDialogComponent,
     EditFoodTypeDialogComponent,
-    ViewFoodTypeDialogComponent,
 
     // Media
     MediaComponent,
@@ -208,7 +207,6 @@ import { DeleteYoutubeVideoDialogComponent } from './dialogs/media/delete-youtub
 
     // Dialog
     EditMediaTypeDialogComponent,
-    ViewMediaTypeDialogComponent,
     AddYoutubeChannelDialogComponent,
     EditYoutubeChannelDialogComponent,
     AddYoutubeVideoDialogComponent,

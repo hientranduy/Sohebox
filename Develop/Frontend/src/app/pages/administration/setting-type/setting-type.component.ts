@@ -225,21 +225,6 @@ export class SettingTypeComponent implements OnInit {
   }
 
   /**
-   * View detail chosen
-   */
-  public viewDetailChoose(item: Type) {
-    this.dialogService.viewType('DETAIL', '', item).then(
-      (result) => {
-        if (result) {
-        }
-      },
-      (reason) => {
-        console.log('DETAIL reason:' + reason);
-      },
-    );
-  }
-
-  /**
    * Edit chosen
    */
   public editChoose(item: Type) {

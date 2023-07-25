@@ -204,21 +204,6 @@ export class FoodTypeComponent implements OnInit {
   }
 
   /**
-   * View detail chosen
-   */
-  public viewDetailChoose(item: FoodType) {
-    this.dialogService.viewFoodType('DETAIL', '', item).then(
-      (result) => {
-        if (result) {
-        }
-      },
-      (reason) => {
-        console.log('DETAIL reason:' + reason);
-      },
-    );
-  }
-
-  /**
    * Edit chosen
    */
   public editChoose(item: FoodType) {

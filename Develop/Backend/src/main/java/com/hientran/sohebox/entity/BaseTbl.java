@@ -31,6 +31,5 @@ public abstract class BaseTbl extends GenericTbl {
 	private Date updatedDate;
 
 	@Column(name = "delete_flag", nullable = false, columnDefinition = "tinyint(1) default 0")
-	@JsonIgnore
 	private boolean deleteFlag;
 }

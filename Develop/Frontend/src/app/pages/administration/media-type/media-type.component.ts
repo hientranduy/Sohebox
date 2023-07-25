@@ -201,21 +201,6 @@ export class MediaTypeComponent implements OnInit {
   }
 
   /**
-   * View detail chosen
-   */
-  public viewDetailChoose(item: MediaType) {
-    this.dialogService.viewMediaType('DETAIL', '', item).then(
-      (result) => {
-        if (result) {
-        }
-      },
-      (reason) => {
-        console.log('DETAIL reason:' + reason);
-      },
-    );
-  }
-
-  /**
    * Edit chosen
    */
   public editChoose(item: MediaType) {

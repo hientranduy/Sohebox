@@ -204,21 +204,6 @@ export class EnglishTypeComponent implements OnInit {
   }
 
   /**
-   * View detail chosen
-   */
-  public viewDetailChoose(item: EnglishType) {
-    this.dialogService.viewEnglishType('DETAIL', '', item).then(
-      (result) => {
-        if (result) {
-        }
-      },
-      (reason) => {
-        console.log('DETAIL reason:' + reason);
-      },
-    );
-  }
-
-  /**
    * Edit chosen
    */
   public editChoose(item: EnglishType) {
