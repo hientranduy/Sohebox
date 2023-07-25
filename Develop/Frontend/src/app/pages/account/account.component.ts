@@ -254,21 +254,6 @@ export class AccountComponent implements OnInit {
   }
 
   /**
-   * View detail chosen
-   */
-  public viewDetailChoose(item: Account) {
-    this.dialogService.viewAccount('DETAIL ACCOUNT', '', item).then(
-      (result) => {
-        if (result) {
-        }
-      },
-      (reason) => {
-        console.log('DETAIL reason:' + reason);
-      },
-    );
-  }
-
-  /**
    * Edit chosen
    */
   public editChoose(item: Account) {

@@ -321,21 +321,6 @@ export class PortfolioComponent implements OnInit {
   }
 
   /**
-   * View detail chosen
-   */
-  public viewDetailChoose(item: CryptoPortfolio) {
-    this.dialogService.viewCryptoPortfolio('DETAIL WALLET', '', item).then(
-      (result) => {
-        if (result) {
-        }
-      },
-      (reason) => {
-        console.log('DETAIL reason:' + reason);
-      },
-    );
-  }
-
-  /**
    * Edit chosen
    */
   public editChoose(item: CryptoPortfolio) {

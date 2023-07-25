@@ -3,7 +3,6 @@ import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 import { AddAccountDialogComponent } from '@app/dialogs/account/add-account-dialog.component';
 import { DeleteAccountDialogComponent } from '@app/dialogs/account/delete-account-dialog.component';
 import { EditAccountDialogComponent } from '@app/dialogs/account/edit-account-dialog.component';
-import { ViewAccountDialogComponent } from '@app/dialogs/account/view-account-dialog.component';
 import { ShowPasswordDialogComponent } from '@app/dialogs/account/show-password-dialog.component';
 import { Account } from '@app/models/account';
 import { AddConfigDialogComponent } from '@app/dialogs/setting-config/add-config-dialog.component';
@@ -12,7 +11,6 @@ import { Config } from '@app/models/config';
 import { AddCryptoFortfolioDialogComponent } from '@app/dialogs/crypto-portfolio/add-crypto-portfolio-dialog.component';
 import { DeleteCryptoPortfolioDialogComponent } from '@app/dialogs/crypto-portfolio/delete-crypto-portfolio-dialog.component';
 import { EditCryptoPortfolioDialogComponent } from '@app/dialogs/crypto-portfolio/edit-crypto-portfolio-dialog.component';
-import { ViewCryptoPortfolioDialogComponent } from '@app/dialogs/crypto-portfolio/view-crypto-portfolio-dialog.component';
 import { CryptoPortfolio } from '@app/models/cryptoPortfolio';
 import { AddCryptoTokenConfigDialogComponent } from '@app/dialogs/crypto-token-config/add-crypto-token-config-dialog.component';
 import { EditCryptoTokenConfigDialogComponent } from '@app/dialogs/crypto-token-config/edit-crypto-token-config-dialog.component';
@@ -265,22 +263,6 @@ export class DialogService {
     return modalRef.result;
   }
 
-  public viewAccount(
-    title: string,
-    message: string,
-    account: Account,
-    dialogSize: 'sm' | 'lg' = 'lg',
-  ): Promise<boolean> {
-    const modalRef = this.modalService.open(ViewAccountDialogComponent, {
-      size: dialogSize,
-    });
-    modalRef.componentInstance.title = title;
-    modalRef.componentInstance.message = message;
-    modalRef.componentInstance.btnCancelText = 'Cancel';
-    modalRef.componentInstance.account = account;
-    return modalRef.result;
-  }
-
   public showPassword(
     account: Account,
     dialogSize: 'sm' | 'sm' = 'sm',
@@ -342,23 +324,6 @@ export class DialogService {
     modalRef.componentInstance.title = title;
     modalRef.componentInstance.message = message;
     modalRef.componentInstance.btnOkText = 'Edit';
-    modalRef.componentInstance.btnCancelText = 'Cancel';
-    modalRef.componentInstance.cryptoPortfolio = cryptoPortfolio;
-    return modalRef.result;
-  }
-
-  public viewCryptoPortfolio(
-    title: string,
-    message: string,
-    cryptoPortfolio: CryptoPortfolio,
-    dialogSize: 'sm' | 'lg' = 'lg',
-  ): Promise<boolean> {
-    const modalRef = this.modalService.open(
-      ViewCryptoPortfolioDialogComponent,
-      { size: dialogSize },
-    );
-    modalRef.componentInstance.title = title;
-    modalRef.componentInstance.message = message;
     modalRef.componentInstance.btnCancelText = 'Cancel';
     modalRef.componentInstance.cryptoPortfolio = cryptoPortfolio;
     return modalRef.result;

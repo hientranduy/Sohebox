@@ -66,7 +66,6 @@ import { YoutubePlayerComponent } from './pages/media/youtube-player/youtube-pla
 import { AddAccountDialogComponent } from './dialogs/account/add-account-dialog.component';
 import { EditAccountDialogComponent } from './dialogs/account/edit-account-dialog.component';
 import { DeleteAccountDialogComponent } from './dialogs/account/delete-account-dialog.component';
-import { ViewAccountDialogComponent } from './dialogs/account/view-account-dialog.component';
 import { ShowPasswordDialogComponent } from './dialogs/account/show-password-dialog.component';
 import { AddCryptoTokenConfigDialogComponent } from './dialogs/crypto-token-config/add-crypto-token-config-dialog.component';
 import { EditCryptoTokenConfigDialogComponent } from './dialogs/crypto-token-config/edit-crypto-token-config-dialog.component';
@@ -81,7 +80,6 @@ import { EditYoutubeChannelDialogComponent } from './dialogs/youtube-channel/edi
 import { AddCryptoFortfolioDialogComponent } from './dialogs/crypto-portfolio/add-crypto-portfolio-dialog.component';
 import { DeleteCryptoPortfolioDialogComponent } from './dialogs/crypto-portfolio/delete-crypto-portfolio-dialog.component';
 import { EditCryptoPortfolioDialogComponent } from './dialogs/crypto-portfolio/edit-crypto-portfolio-dialog.component';
-import { ViewCryptoPortfolioDialogComponent } from './dialogs/crypto-portfolio/view-crypto-portfolio-dialog.component';
 import { DownloadVoiceComponent } from './dialogs/english/download-voice.component';
 import { AddWordDialogComponent } from './dialogs/english/add-word-dialog.component';
 import { EditWordDialogComponent } from './dialogs/english/edit-word-dialog.component';
@@ -163,7 +161,6 @@ import { DeleteYoutubeVideoDialogComponent } from './dialogs/media/delete-youtub
     AddAccountDialogComponent,
     EditAccountDialogComponent,
     DeleteAccountDialogComponent,
-    ViewAccountDialogComponent,
     ShowPasswordDialogComponent,
 
     // English
@@ -231,7 +228,6 @@ import { DeleteYoutubeVideoDialogComponent } from './dialogs/media/delete-youtub
     AddCryptoFortfolioDialogComponent,
     EditCryptoPortfolioDialogComponent,
     DeleteCryptoPortfolioDialogComponent,
-    ViewCryptoPortfolioDialogComponent,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
