@@ -6,11 +6,9 @@ import { AuthenticationService } from '@app/services/authentication.service';
 import { BackendService } from '@app/services/backend.service';
 import { SpinnerService } from '@app/services/spinner.service';
 import { ToastrService } from 'ngx-toastr';
-import { first } from 'rxjs/operators';
 
 @Component({
   templateUrl: './register.component.html',
-  styleUrls: ['./register.component.css'],
 })
 export class RegisterComponent implements OnInit {
   registerForm: FormGroup;
@@ -57,31 +55,20 @@ export class RegisterComponent implements OnInit {
     this.spinner.show();
 
     // Register
-    this.backendService
-      .register(this.registerForm.value)
-      .pipe(first())
-      .subscribe(
-        (data) => {
-          // Hide loading
-          this.spinner.hide();
+    this.backendService.register(this.registerForm.value).subscribe({
+      next: async (res) => {
+        this.toastr.success(
+          `Your account ${this.registerForm.value.username} is successful created`,
+        );
 
-          // Send toast success
-          this.toastr.success(
-            'Your account ' +
-              this.registerForm.value.username +
-              ' is successful created',
-          );
-
-          this.alertService.success('Registration successful', true);
-          this.router.navigate(['/login']);
-        },
-        (error) => {
-          // Hide loading
-          this.spinner.hide();
-
-          // Alert error message
-          this.alertService.error(error);
-        },
-      );
+        this.router.navigate(['/login']);
+      },
+      error: (err) => {
+        this.alertService.error(err);
+      },
+    });
+    
+    // Hide loading
+    this.spinner.hide();
   }
 }

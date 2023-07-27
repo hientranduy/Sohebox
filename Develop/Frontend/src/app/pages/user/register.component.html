@@ -1,0 +1,80 @@
+﻿<ngx-spinner
+  bdColor="rgba(51,51,51,0.8)"
+  size="medium"
+  color="#fff"
+  type="ball-atom"
+  [fullScreen]="true"
+>
+  <p style="color: white">Loading...</p>
+</ngx-spinner>
+
+<div class="row">
+  <div class="col"></div>
+  <div class="col-sm-6">
+    <!-- Image -->
+    <img
+      class="sh_login_register_image"
+      src="assets/common/welcome_image.png"
+    />
+
+    <br />
+    <br />
+
+    <h2>Register</h2>
+
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+      <label>First Name</label>
+      <input
+        class="form-control"
+        formControlName="firstName"
+        [ngClass]="{ 'is-invalid': submitted && f['firstName'].errors }"
+      />
+      <div *ngIf="submitted && f['firstName'].errors" class="invalid-feedback">
+        <div *ngIf="f['firstName'].errors['required']">
+          First Name is required
+        </div>
+      </div>
+
+      <label>Last Name</label>
+      <input
+        class="form-control"
+        formControlName="lastName"
+        [ngClass]="{ 'is-invalid': submitted && f['lastName'].errors }"
+      />
+      <div *ngIf="submitted && f['lastName'].errors" class="invalid-feedback">
+        <div *ngIf="f['lastName'].errors['required']">
+          Last Name is required
+        </div>
+      </div>
+
+      <label>Username</label>
+      <input
+        class="form-control"
+        formControlName="username"
+        [ngClass]="{ 'is-invalid': submitted && f['username'].errors }"
+      />
+      <div *ngIf="submitted && f['username'].errors" class="invalid-feedback">
+        <div *ngIf="f['username'].errors['required']">Username is required</div>
+      </div>
+
+      <label>Password</label>
+      <input
+        class="form-control"
+        type="password"
+        formControlName="password"
+        [ngClass]="{ 'is-invalid': submitted && f['password'].errors }"
+      />
+      <div *ngIf="submitted && f['password'].errors" class="invalid-feedback">
+        <div *ngIf="f['password'].errors['required']">Password is required</div>
+        <div *ngIf="f['password'].errors['minlength']">
+          Password must be at least 6 characters
+        </div>
+      </div>
+
+      <br />
+      <button class="btn btn-primary">Register</button>
+      <a routerLink="/" class="btn btn-link">Cancel</a>
+    </form>
+  </div>
+  <div class="col"></div>
+</div>

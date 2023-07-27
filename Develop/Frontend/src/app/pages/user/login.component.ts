@@ -4,11 +4,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AlertService } from '@app/commons/alert/alert.service';
 import { AuthenticationService } from '@app/services/authentication.service';
 import { SpinnerService } from '@app/services/spinner.service';
-import { first } from 'rxjs/operators';
 
 @Component({
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
@@ -61,23 +59,17 @@ export class LoginComponent implements OnInit {
     // Authenticate
     this.authenticationService
       .login(this.f['username'].value, this.f['password'].value)
-      .pipe(first())
-      .subscribe(
-        (data) => {
-          // Hide loading
-          this.spinner.hide();
-
-          // Navigate to page "/"
+      .subscribe({
+        next: async (res) => {
           this.router.navigate([this.returnUrl]);
         },
-        (error) => {
-          // Hide loading
-          this.spinner.hide();
-
-          // Alert error message
-          this.alertService.error(error);
+        error: (err) => {
+          this.alertService.error(err);
         },
-      );
+      });
+
+    // Hide loading
+    this.spinner.hide();
   }
 
   fillVisitorAccount() {

@@ -124,7 +124,7 @@ export class EditMediaTypeDialogComponent implements OnInit {
 
         // Update
         this.backendService.updateMediaType(updateForm.value).subscribe({
-          next: async (response) => {
+          next: async (res) => {
             // Send success toast message
             this.toastr.success(
               '<Type class ' +
