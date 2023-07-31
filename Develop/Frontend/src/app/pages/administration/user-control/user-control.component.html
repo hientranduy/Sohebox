@@ -9,13 +9,17 @@
 </ngx-spinner>
 
 <div>
-  <button mat-button class="page-title-bottom">USER LIST</button>
+  <mat-toolbar class="mat-toolbar-style">
+    <span class="toolbar-spacer-style"></span>
+    <h1 class="toolbar-title-style" fxHide.xs>USER TYPES</h1>
+    <span class="toolbar-spacer-style"></span>
+  </mat-toolbar>
 
   <br />
   <br />
   <input
     matInput
-    class="page-input-filter"
+    class="sh_page_input_filter"
     (keyup)="onFilter($event)"
     placeholder="Type to filter the username column..."
   />

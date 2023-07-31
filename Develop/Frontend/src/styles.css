@@ -128,3 +128,14 @@ body {
   min-height: 70%;
   box-shadow: 0 0 15px whitesmoke;
 }
+
+/* PAGE */
+.sh_page_img_icon {
+  max-width: 2.4rem;
+}
+
+.sh_page_input_filter {
+  padding-top: 1px;
+  padding-bottom: 1px;
+  width: 100%;
+}

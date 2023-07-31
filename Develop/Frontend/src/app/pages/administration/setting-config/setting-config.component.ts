@@ -14,7 +14,6 @@ import { DialogService } from '@app/services/dialog.service';
 @Component({
   selector: 'app-setting-config',
   templateUrl: './setting-config.component.html',
-  styleUrls: ['../administration.component.css'],
 })
 export class SettingConfigComponent implements OnInit {
   // Table elements

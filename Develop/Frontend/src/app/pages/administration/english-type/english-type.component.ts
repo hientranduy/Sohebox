@@ -14,7 +14,6 @@ import { DialogService } from '@app/services/dialog.service';
 @Component({
   selector: 'app-english-type',
   templateUrl: './english-type.component.html',
-  styleUrls: ['../administration.component.css'],
 })
 export class EnglishTypeComponent implements OnInit {
   // Table elements

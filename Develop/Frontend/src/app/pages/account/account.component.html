@@ -8,7 +8,7 @@
   <p style="color: white">Loading...</p>
 </ngx-spinner>
 
-<div class="account-container">
+<div style="margin: 10px">
   <mat-toolbar class="mat-toolbar-style">
     <!-- 1st toolbar row -->
     <mat-toolbar-row>
@@ -37,7 +37,7 @@
   <!-- Table data -->
   <input
     matInput
-    class="page-input-filter"
+    class="sh_page_input_filter"
     (keyup)="onFilter($event)"
     placeholder="Type to search value..."
   />
@@ -85,7 +85,7 @@
         <img
           class="img-responsive"
           src="assets/account/{{ row.accountType.iconUrl }}"
-          class="icon__image"
+          class="sh_page_img_icon"
         />
         {{ row.accountType.typeCode }}
       </ng-template>

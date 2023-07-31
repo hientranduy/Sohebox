@@ -14,7 +14,6 @@ import { DialogService } from '@app/services/dialog.service';
 @Component({
   selector: 'app-food-type',
   templateUrl: './food-type.component.html',
-  styleUrls: ['../administration.component.css'],
 })
 export class FoodTypeComponent implements OnInit {
   // Table elements
