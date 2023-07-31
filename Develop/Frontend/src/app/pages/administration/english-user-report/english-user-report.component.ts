@@ -8,7 +8,9 @@ import { BackendService } from '@app/services/backend.service';
 import { SpinnerService } from '@app/services/spinner.service';
 
 @Component({
+  selector: 'app-english-user-report',
   templateUrl: './english-user-report.component.html',
+  styleUrls: ['../administration.component.css'],
 })
 export class EnglishUserReportComponent implements OnInit {
   // Table elements

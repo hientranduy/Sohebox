@@ -13,6 +13,7 @@ import { BackendService } from '@app/services/backend.service';
 import { SpinnerService } from '@app/services/spinner.service';
 
 @Component({
+  selector: 'app-youtube-player-channel',
   templateUrl: './youtube-player-channel.component.html',
 })
 export class YoutubePlayerChannelComponent implements OnInit {
