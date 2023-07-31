@@ -11,9 +11,7 @@ import { SpinnerService } from '@app/services/spinner.service';
 import { DialogService } from '@app/services/dialog.service';
 
 @Component({
-  selector: 'app-crypto-token-config',
   templateUrl: './crypto-token-config.component.html',
-  styleUrls: ['./crypto-token-config.component.css'],
 })
 export class CryptoTokenConfigComponent implements OnInit {
   // Table elements

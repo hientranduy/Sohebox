@@ -12,9 +12,7 @@ import { SpinnerService } from '@app/services/spinner.service';
 import { DialogService } from '@app/services/dialog.service';
 
 @Component({
-  selector: 'app-english-config',
   templateUrl: './english-config.component.html',
-  styleUrls: ['./english-config.component.css'],
 })
 export class EnglishConfigComponent implements OnInit {
   // Table elements

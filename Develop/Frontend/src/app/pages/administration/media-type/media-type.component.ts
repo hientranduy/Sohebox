@@ -11,9 +11,7 @@ import { SpinnerService } from '@app/services/spinner.service';
 import { DialogService } from '@app/services/dialog.service';
 
 @Component({
-  selector: 'app-media-type',
   templateUrl: './media-type.component.html',
-  styleUrls: ['./media-type.component.css'],
 })
 export class MediaTypeComponent implements OnInit {
   // Table elements

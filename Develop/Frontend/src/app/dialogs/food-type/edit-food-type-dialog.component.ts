@@ -13,7 +13,6 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  styleUrls: ['edit-food-type-dialog.component.css'],
   templateUrl: 'edit-food-type-dialog.component.html',
 })
 export class EditFoodTypeDialogComponent implements OnInit {

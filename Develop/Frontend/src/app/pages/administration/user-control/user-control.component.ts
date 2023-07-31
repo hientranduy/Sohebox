@@ -10,9 +10,7 @@ import { BackendService } from '@app/services/backend.service';
 import { SpinnerService } from '@app/services/spinner.service';
 
 @Component({
-  selector: 'app-user-control',
   templateUrl: './user-control.component.html',
-  styleUrls: ['./user-control.component.css'],
 })
 export class UserControlComponent implements OnInit, OnDestroy {
   pageResult: PageResultVO<UserStatus>;

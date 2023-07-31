@@ -11,7 +11,6 @@ import { SpinnerService } from '@app/services/spinner.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-  styleUrls: ['show-learned-word.component.css'],
   templateUrl: 'show-learned-word.component.html',
 })
 export class ShowLearnedWordComponent implements OnInit {

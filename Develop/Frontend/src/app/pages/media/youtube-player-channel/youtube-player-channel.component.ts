@@ -13,9 +13,7 @@ import { BackendService } from '@app/services/backend.service';
 import { SpinnerService } from '@app/services/spinner.service';
 
 @Component({
-  selector: 'app-youtube-player-channel',
   templateUrl: './youtube-player-channel.component.html',
-  styleUrls: ['./youtube-player-channel.component.css'],
 })
 export class YoutubePlayerChannelComponent implements OnInit {
   currentUser: User;

@@ -67,7 +67,7 @@ export class RegisterComponent implements OnInit {
         this.alertService.error(err);
       },
     });
-    
+
     // Hide loading
     this.spinner.hide();
   }

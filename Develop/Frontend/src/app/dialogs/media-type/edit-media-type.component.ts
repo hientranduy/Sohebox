@@ -13,7 +13,6 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  styleUrls: ['edit-media-type.component.css'],
   templateUrl: 'edit-media-type.component.html',
 })
 export class EditMediaTypeDialogComponent implements OnInit {

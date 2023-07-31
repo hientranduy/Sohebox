@@ -10,9 +10,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  selector: 'app-download-voice',
   templateUrl: './download-voice.component.html',
-  styleUrls: ['./download-voice.component.css'],
 })
 export class DownloadVoiceComponent implements OnInit {
   constructor(

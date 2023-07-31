@@ -16,7 +16,6 @@ import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 
 @Component({
-  styleUrls: ['add-account-dialog.component.css'],
   templateUrl: 'add-account-dialog.component.html',
 })
 export class AddAccountDialogComponent implements OnInit {

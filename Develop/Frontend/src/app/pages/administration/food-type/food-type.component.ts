@@ -12,9 +12,7 @@ import { SpinnerService } from '@app/services/spinner.service';
 import { DialogService } from '@app/services/dialog.service';
 
 @Component({
-  selector: 'app-food-type',
   templateUrl: './food-type.component.html',
-  styleUrls: ['./food-type.component.css'],
 })
 export class FoodTypeComponent implements OnInit {
   // Table elements

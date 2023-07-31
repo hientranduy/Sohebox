@@ -21,9 +21,7 @@ import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-edit-word-dialog',
   templateUrl: './edit-word-dialog.component.html',
-  styleUrls: ['./edit-word-dialog.component.css'],
 })
 export class EditWordDialogComponent implements OnInit {
   constructor(

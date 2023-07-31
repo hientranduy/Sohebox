@@ -22,9 +22,7 @@ import { BackendService } from '@app/services/backend.service';
 import { SpinnerService } from '@app/services/spinner.service';
 
 @Component({
-  selector: 'app-add-food-dialog',
   templateUrl: './add-food-dialog.component.html',
-  styleUrls: ['./add-food-dialog.component.css'],
 })
 export class AddFoodDialogComponent implements OnInit {
   constructor(

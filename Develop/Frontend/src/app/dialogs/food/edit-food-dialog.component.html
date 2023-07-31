@@ -29,11 +29,11 @@
     >
   </p>
 
-  <form class="food-form">
+  <form class="sh_dialog_form">
     <!-- Field : Name -->
-    <mat-form-field class="field-full-width">
+    <mat-form-field class="sh_dialog_form_field_full_width">
       <input
-        class="field-input-value"
+        class="sh_dialog_input"
         matInput
         readonly
         type="text"
@@ -51,9 +51,9 @@
     </mat-form-field>
 
     <!-- Field : Description -->
-    <mat-form-field class="field-full-width">
+    <mat-form-field class="sh_dialog_form_field_full_width">
       <input
-        class="field-input-value"
+        class="sh_dialog_input"
         matInput
         type="text"
         placeholder="Description"
@@ -67,9 +67,9 @@
     </mat-form-field>
 
     <!-- Field : Location Note -->
-    <mat-form-field class="field-full-width">
+    <mat-form-field class="sh_dialog_form_field_full_width">
       <input
-        class="field-input-value"
+        class="sh_dialog_input"
         matInput
         type="text"
         placeholder="Note for location"
@@ -83,7 +83,7 @@
     </mat-form-field>
 
     <!-- Field : Type -->
-    <mat-form-field class="field-full-width">
+    <mat-form-field class="sh_dialog_form_field_full_width">
       <img
         *ngIf="food.type.iconUrl"
         class="img-responsive"
@@ -91,7 +91,7 @@
         style="max-width: 1.4rem"
       />
       <input
-        class="field-input-value"
+        class="sh_dialog_input"
         matInput
         type="text"
         placeholder="Pick or type new food type"
@@ -121,7 +121,7 @@
     </mat-form-field>
 
     <!-- Field : Category -->
-    <mat-form-field class="field-full-width">
+    <mat-form-field class="sh_dialog_form_field_full_width">
       <img
         *ngIf="food.category.iconUrl"
         class="img-responsive"
@@ -129,7 +129,7 @@
         style="max-width: 1.4rem"
       />
       <input
-        class="field-input-value"
+        class="sh_dialog_input"
         matInput
         type="text"
         placeholder="Pick or type new category"
@@ -159,7 +159,7 @@
     </mat-form-field>
 
     <!-- Field : Is fast food -->
-    <div class="field-full-width">
+    <div class="sh_dialog_form_field_full_width">
       <img
         *ngIf="isFastFoodValue === true"
         class="img-responsive"
@@ -172,7 +172,7 @@
         src="assets/food/function/isNotFastFood.jpg"
         style="max-width: 1.4rem"
       />
-      <mat-label class="field-is-fast-food">Is fastfood? </mat-label>
+      <mat-label class="sh_dialog_input">Is fastfood? </mat-label>
       <mat-checkbox
         class="amateur"
         color="primary"
@@ -182,9 +182,9 @@
     </div>
 
     <!-- Field : Recipe -->
-    <mat-form-field class="field-full-width">
+    <mat-form-field class="sh_dialog_form_field_full_width">
       <textarea
-        class="field-input-value"
+        class="sh_dialog_input"
         matInput
         rows="5"
         cols="40"
@@ -199,9 +199,9 @@
     </mat-form-field>
 
     <!-- Field : Url refference -->
-    <mat-form-field class="field-full-width">
+    <mat-form-field class="sh_dialog_form_field_full_width">
       <input
-        class="field-input-value"
+        class="sh_dialog_input"
         matInput
         type="text"
         placeholder="URL Refference"
@@ -220,7 +220,7 @@
     <img
       class="img-responsive"
       src="assets/food/image/{{ food.imageName }}"
-      class="icon_image"
+      class="sh_dialog_img"
       *ngIf="!imageFile"
     />
   </form>

@@ -5,9 +5,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  selector: 'app-word-info-dialog',
   templateUrl: './word-info-dialog.component.html',
-  styleUrls: ['./word-info-dialog.component.css'],
 })
 export class WordInfoDialogComponent implements OnInit {
   // Form value

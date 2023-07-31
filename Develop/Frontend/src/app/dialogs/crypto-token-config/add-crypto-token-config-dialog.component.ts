@@ -12,9 +12,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  selector: 'app-add-crypto-token-config-dialog',
   templateUrl: './add-crypto-token-config-dialog.component.html',
-  styleUrls: ['./add-crypto-token-config-dialog.component.css'],
 })
 export class AddCryptoTokenConfigDialogComponent implements OnInit {
   constructor(

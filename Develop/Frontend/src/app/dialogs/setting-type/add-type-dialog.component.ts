@@ -12,9 +12,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  selector: 'app-add-type-dialog',
   templateUrl: './add-type-dialog.component.html',
-  styleUrls: ['./add-type-dialog.component.css'],
 })
 export class AddTypeDialogComponent implements OnInit {
   // Form value

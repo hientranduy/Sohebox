@@ -13,7 +13,6 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  styleUrls: ['edit-english-type-dialog.component.css'],
   templateUrl: 'edit-english-type-dialog.component.html',
 })
 export class EditEnglishTypeDialogComponent implements OnInit {

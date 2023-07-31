@@ -21,9 +21,7 @@ import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-add-word-dialog',
   templateUrl: './add-word-dialog.component.html',
-  styleUrls: ['./add-word-dialog.component.css'],
 })
 export class AddWordDialogComponent implements OnInit {
   constructor(

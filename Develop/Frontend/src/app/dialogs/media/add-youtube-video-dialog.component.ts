@@ -7,9 +7,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  selector: 'app-add-youtube-video-dialog',
   templateUrl: './add-youtube-video-dialog.component.html',
-  styleUrls: ['./add-youtube-video-dialog.component.css'],
 })
 export class AddYoutubeVideoDialogComponent implements OnInit {
   constructor(

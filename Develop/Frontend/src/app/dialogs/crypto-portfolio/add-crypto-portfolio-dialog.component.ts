@@ -16,7 +16,6 @@ import { RequireMatchForm } from '@app/services/requireMatchForm';
 import { SpinnerService } from '@app/services/spinner.service';
 
 @Component({
-  styleUrls: ['add-crypto-portfolio-dialog.component.css'],
   templateUrl: 'add-crypto-portfolio-dialog.component.html',
 })
 export class AddCryptoFortfolioDialogComponent implements OnInit {

@@ -12,7 +12,6 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  styleUrls: ['add-config-dialog.component.css'],
   templateUrl: 'add-config-dialog.component.html',
 })
 export class AddConfigDialogComponent implements OnInit {

@@ -4,9 +4,7 @@ import { AppSettings } from '@app/app.settings';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  selector: 'app-youtube-player',
   templateUrl: './youtube-player.component.html',
-  styleUrls: ['./youtube-player.component.css'],
 })
 export class YoutubePlayerComponent implements OnInit {
   videoId: String;

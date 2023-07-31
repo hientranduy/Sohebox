@@ -21,9 +21,7 @@ import { BackendService } from '@app/services/backend.service';
 import { SpinnerService } from '@app/services/spinner.service';
 
 @Component({
-  selector: 'app-edit-youtube-channel-dialog',
   templateUrl: './edit-youtube-channel-dialog.component.html',
-  styleUrls: ['./edit-youtube-channel-dialog.component.css'],
 })
 export class EditYoutubeChannelDialogComponent implements OnInit {
   constructor(

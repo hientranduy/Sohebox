@@ -29,9 +29,9 @@
     >
   </p>
 
-  <form class="crypto-portfolio-form">
+  <form class="sh_dialog_form">
     <!-- Field : token -->
-    <mat-form-field class="field-full-width">
+    <mat-form-field class="sh_dialog_form_field_full_width">
       <input
         matInput
         placeholder="Choose token"
@@ -50,7 +50,7 @@
           <img
             class="img-responsive"
             src="assets/crypto/{{ token.iconUrl }}"
-            class="icon__image"
+            class="sh_dialog_img_icon"
           />
           {{ token.tokenCode }} ({{ token.tokenName }})
         </mat-option>
@@ -64,7 +64,7 @@
     </mat-form-field>
 
     <!-- Field : wallet -->
-    <mat-form-field class="field-full-width">
+    <mat-form-field class="sh_dialog_form_field_full_width">
       <input
         matInput
         placeholder="Wallet address"
@@ -77,7 +77,7 @@
     </mat-form-field>
 
     <!-- Field : starname -->
-    <mat-form-field class="field-full-width">
+    <mat-form-field class="sh_dialog_form_field_full_width">
       <input
         matInput
         placeholder="Starname"
