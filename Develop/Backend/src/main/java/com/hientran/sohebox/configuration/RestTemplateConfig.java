@@ -46,7 +46,7 @@ public class RestTemplateConfig {
 		this.objectMapper = objectMapper;
 	}
 
-	@Bean("restTemplateL")
+	@Bean("restTemplate")
 	public RestTemplate restTemplateL() throws KeyStoreException, NoSuchAlgorithmException, KeyManagementException {
 		// Read config timeout
 		int readTimeout = env.getProperty("rest.template.timeout.read", Integer.class, 60000);
