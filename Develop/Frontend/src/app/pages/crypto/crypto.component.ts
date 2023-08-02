@@ -4,7 +4,6 @@ import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-crypto',
   templateUrl: './crypto.component.html',
-  styleUrls: ['./crypto.component.css'],
 })
 export class CryptoComponent implements OnInit {
   constructor(private route: ActivatedRoute) {}

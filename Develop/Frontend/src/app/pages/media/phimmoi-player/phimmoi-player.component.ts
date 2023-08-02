@@ -4,7 +4,6 @@ import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-phimmoi-player',
   templateUrl: './phimmoi-player.component.html',
-  styleUrls: ['./phimmoi-player.component.css'],
 })
 export class PhimmoiPlayerComponent implements OnInit {
   // Field movide URL

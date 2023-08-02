@@ -8,7 +8,6 @@ import { SpinnerService } from '@app/services/spinner.service';
 @Component({
   selector: 'app-finance-stock',
   templateUrl: './finance-stock.component.html',
-  styleUrls: ['./finance-stock.component.css'],
 })
 export class FinanceStockComponent implements OnInit {
   stocks: TradingStockPrice;

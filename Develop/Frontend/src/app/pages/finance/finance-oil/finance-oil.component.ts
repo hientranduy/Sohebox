@@ -8,7 +8,6 @@ import { SpinnerService } from '@app/services/spinner.service';
 @Component({
   selector: 'app-finance-oil',
   templateUrl: './finance-oil.component.html',
-  styleUrls: ['./finance-oil.component.css'],
 })
 export class FinanceOilComponent implements OnInit {
   selectWTICrudeOil = '1m';

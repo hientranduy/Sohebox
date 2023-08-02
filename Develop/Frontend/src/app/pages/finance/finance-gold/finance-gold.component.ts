@@ -8,7 +8,6 @@ import { SpinnerService } from '@app/services/spinner.service';
 @Component({
   selector: 'app-finance-gold',
   templateUrl: './finance-gold.component.html',
-  styleUrls: ['./finance-gold.component.css'],
 })
 export class FinanceGoldComponent implements OnInit {
   goldSjc: GoldSjc;
