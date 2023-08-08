@@ -39,7 +39,6 @@ import com.hientran.sohebox.sco.YoutubeChannelVideoSCO;
 import com.hientran.sohebox.specification.YoutubeChannelSpecs.YoutubeChannelTblEnum;
 import com.hientran.sohebox.specification.YoutubeVideoSpecs.YoutubeVideoTblEnum;
 import com.hientran.sohebox.utils.ObjectMapperUtil;
-import com.hientran.sohebox.webservice.YoutubeWebService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -56,8 +55,8 @@ public class YoutubeChannelVideoService extends BaseService {
 	private final UserDetailsServiceImpl userService;
 	private final MediaTypeCache mediaTypeCache;
 	private final ConfigCache configCache;
-	private final YoutubeWebService youtubeWebService;
 	private final ObjectMapperUtil objectMapperUtil;
+	private final RestTemplateService restTemplateService;
 
 	/**
 	 * Add personal video
@@ -123,7 +122,9 @@ public class YoutubeChannelVideoService extends BaseService {
 				parameters.put(GoogleConstants.YOUTUBE_PARAM_PART, GoogleConstants.YOUTUBE_DEFAUT_VALUE_SNIPPET);
 				parameters.put(GoogleConstants.YOUTUBE_PARAM_ID, vo.getVideoId());
 				try {
-					String responseData = youtubeWebService.get(GoogleConstants.YOUTUBE_API_SEARCH_VIDEO, parameters);
+					String responseData = restTemplateService.getResultCall(GoogleConstants.GOOGLE_API_URL,
+							GoogleConstants.YOUTUBE_API_SEARCH_VIDEO, parameters);
+
 					YoutubeReponseVO response = objectMapperUtil.readValue(responseData, YoutubeReponseVO.class);
 
 					if (response.getItems() != null) {

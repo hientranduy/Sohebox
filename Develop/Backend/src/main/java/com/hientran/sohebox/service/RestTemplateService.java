@@ -1,4 +1,4 @@
-package com.hientran.sohebox.webservice;
+package com.hientran.sohebox.service;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -39,7 +39,7 @@ public class RestTemplateService {
 	/*
 	 * Create URI
 	 */
-	private URI createURI(String baseUrl, String pathUrl, Map<String, String> uriVariables) throws URISyntaxException {
+	public URI createURI(String baseUrl, String pathUrl, Map<String, String> uriVariables) throws URISyntaxException {
 		URIBuilder builder = new URIBuilder(baseUrl);
 		builder.appendPath(pathUrl);
 		if (uriVariables != null) {
@@ -64,6 +64,26 @@ public class RestTemplateService {
 		} catch (Exception e) {
 			log.error("ERROR getResultCall String - baseUrl {} - pathUrl {} ::: message {}", baseUrl, pathUrl,
 					e.getMessage());
+			throw e;
+		}
+
+		return null;
+	}
+
+	public String getResultCall(String baseUrl, String pathUrl, Map<String, String> uriVariables) throws Exception {
+		try {
+			// Build URL
+			URI uri = createURI(baseUrl, pathUrl, uriVariables);
+
+			// Call
+			ResponseEntity<String> resultString = restTemplate.exchange(uri, HttpMethod.GET,
+					new HttpEntity<>(null, createHeaders()), String.class);
+			if (resultString != null && resultString.getBody() != null) {
+				return resultString.getBody();
+			}
+		} catch (Exception e) {
+			log.error("ERROR getResultCall String - baseUrl {} - pathUrl {} - uriVariables {} ::: message {}", baseUrl,
+					pathUrl, uriVariables, e.getMessage());
 			throw e;
 		}
 

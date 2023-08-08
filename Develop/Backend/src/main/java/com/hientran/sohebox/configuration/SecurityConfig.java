@@ -160,8 +160,6 @@ public class SecurityConfig {
 				//////////////////////
 				// Finance //
 				//////////////////////
-				// QUANDL
-				.requestMatchers(HttpMethod.GET, "/api" + ApiPublicConstants.API_QUANDL + "/*").permitAll()
 				// TRADING
 				.requestMatchers(HttpMethod.GET, "/api" + ApiPublicConstants.API_TRADINGECONOMICS + "/*").permitAll()
 				// FINANCE

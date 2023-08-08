@@ -199,6 +199,23 @@ public class BaseService extends BaseTransformer {
 	}
 
 	/**
+	 * Record external request
+	 *
+	 * @throws Exception
+	 *
+	 */
+	protected void recordRequestExternal(String requestUrl, String requestTypeCode, String note) throws Exception {
+		TypeTbl type = new TypeTbl();
+		type.setTypeCode(requestTypeCode);
+
+		RequestExternalTbl tbl = new RequestExternalTbl();
+		tbl.setRequestUrl(requestUrl);
+		tbl.setNote(note);
+		tbl.setRequestType(type);
+		requestExternalService.create(tbl);
+	}
+
+	/**
 	 *
 	 * Record user activity
 	 *

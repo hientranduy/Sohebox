@@ -88,10 +88,6 @@ public class ApiPublicConstants {
 
 	public static final String API_REPORT_SUMMARY = "/report/summary";
 
-	public static final String API_QUANDL = "/quandl";
-
-	public static final String API_QUANDL_OPEC_ORB = "/OPECORB";
-
 	public static final String API_FINANCE = "/finance";
 
 	public static final String API_CURRENCY_VCB_RATE = "/vietcombankRate";

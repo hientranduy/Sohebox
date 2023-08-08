@@ -28,7 +28,6 @@ import com.hientran.sohebox.repository.CryptoValidatorRepository;
 import com.hientran.sohebox.sco.CryptoValidatorSCO;
 import com.hientran.sohebox.sco.SearchTextVO;
 import com.hientran.sohebox.specification.CryptoValidatorSpecs.CryptoValidatorTblEnum;
-import com.hientran.sohebox.webservice.RestTemplateService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

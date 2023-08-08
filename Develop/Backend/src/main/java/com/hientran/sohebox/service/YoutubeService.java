@@ -13,6 +13,7 @@ import org.springframework.util.CollectionUtils;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.hientran.sohebox.cache.ConfigCache;
+import com.hientran.sohebox.constants.DBConstants;
 import com.hientran.sohebox.constants.GoogleConstants;
 import com.hientran.sohebox.dto.PageResultVO;
 import com.hientran.sohebox.dto.YoutubeReponseVO;
@@ -25,7 +26,6 @@ import com.hientran.sohebox.entity.YoutubeChannelVideoTbl;
 import com.hientran.sohebox.entity.YoutubeVideoTbl;
 import com.hientran.sohebox.sco.YoutubeChannelVideoSCO;
 import com.hientran.sohebox.utils.ObjectMapperUtil;
-import com.hientran.sohebox.webservice.YoutubeWebService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -33,12 +33,34 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class YoutubeService extends BaseService {
 
-	private final YoutubeWebService youtubeWebService;
 	private final ObjectMapperUtil objectMapperUtil;
 	private final ConfigCache configCache;
 	private final YoutubeVideoService youtubeVideoService;
 	private final YoutubeChannelService youtubeChannelService;
 	private final YoutubeChannelVideoService youtubeChannelVideoService;
+	private final RestTemplateService restTemplateService;
+
+	/**
+	 *
+	 * Get method
+	 *
+	 * @param apiName
+	 * @param parameters
+	 * @return
+	 * @throws Exception
+	 */
+	public String getLatestVideoByChannel(URIBuilder builder) throws Exception {
+		// Get result
+		String result = restTemplateService.getResultCall(builder.toString(), null);
+
+		// Record external request
+		recordRequestExternal(builder.toString(), DBConstants.REQUEST_EXTERNAL_TYPE_DATA,
+				this.getClass().getSimpleName() + "." + new Object() {
+				}.getClass().getEnclosingMethod().getName());
+
+		// Return
+		return result;
+	}
 
 	/**
 	 * Search video by channel
@@ -81,7 +103,7 @@ public class YoutubeService extends BaseService {
 					.parseInt(configCache.getValueByKey(GoogleConstants.GOOGLE_API_CHANNEL_VIDEO_LATE_TIME_SECOND));
 			if (dataIsOutUpdate(builder.toString(), lateTimeSecond)) {
 				// Execute request if out update
-				String responseData = youtubeWebService.getLatestVideoByChannel(builder);
+				String responseData = getLatestVideoByChannel(builder);
 				YoutubeReponseVO response = objectMapperUtil.readValue(responseData, YoutubeReponseVO.class);
 				if (response.getItems() != null) {
 					List<YoutubeVideoVO> youtubeVideos = new ArrayList<>();

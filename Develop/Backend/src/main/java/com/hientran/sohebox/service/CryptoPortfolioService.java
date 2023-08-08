@@ -34,7 +34,6 @@ import com.hientran.sohebox.sco.CryptoPortfolioSCO;
 import com.hientran.sohebox.sco.SearchNumberVO;
 import com.hientran.sohebox.sco.SearchTextVO;
 import com.hientran.sohebox.specification.CryptoPortfolioSpecs.CryptoPortfolioTblEnum;
-import com.hientran.sohebox.webservice.RestTemplateService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

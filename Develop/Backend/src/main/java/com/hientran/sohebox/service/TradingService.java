@@ -1,5 +1,6 @@
 package com.hientran.sohebox.service;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -8,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.hc.core5.net.URIBuilder;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -35,9 +37,9 @@ import com.hientran.sohebox.entity.TypeTbl;
 import com.hientran.sohebox.repository.TradingSymbolRepository;
 import com.hientran.sohebox.sco.SearchNumberVO;
 import com.hientran.sohebox.sco.TradingSymbolSCO;
+import com.hientran.sohebox.utils.FileUtils;
 import com.hientran.sohebox.utils.MyDateUtils;
 import com.hientran.sohebox.utils.ObjectMapperUtil;
-import com.hientran.sohebox.webservice.TradingWebService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -45,11 +47,11 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class TradingService extends BaseService {
 
-	private final TradingWebService tradingWebService;
 	private final TradingSymbolRepository tradingSymbolRepository;
 	private final TypeCache typeCache;
 	private final ConfigCache configCache;
 	private final ObjectMapperUtil objectMapperUtil;
+	private final RestTemplateService restTemplateService;
 
 	@Value("${resource.path}")
 	private String resourcePath;
@@ -89,7 +91,7 @@ public class TradingService extends BaseService {
 			lateTimeSecond = Integer.parseInt(
 					configCache.getValueByKey(DataExternalConstants.FINANCE_TRADING_MARKET_OIL_LATE_TIME_SECOND));
 
-			String responseData = tradingWebService.get(TradingConstants.TRADINGECONOMICS_API_MARKET_SYMBOL, symbols,
+			String responseData = tradingWebServiceGet(TradingConstants.TRADINGECONOMICS_API_MARKET_SYMBOL, symbols,
 					parameters, lateTimeSecond, localFilepath);
 			TradingSymbolItemVO[] response = objectMapperUtil.readValue(responseData,
 					new TypeReference<TradingSymbolItemVO[]>() {
@@ -121,7 +123,7 @@ public class TradingService extends BaseService {
 				lateTimeSecond = Integer.parseInt(
 						configCache.getValueByKey(DataExternalConstants.FINANCE_TRADING_HISTORY_OIL_LATE_TIME_SECOND));
 
-				String responseData = tradingWebService.get(TradingConstants.TRADINGECONOMICS_API_MARKET_HISTORY,
+				String responseData = tradingWebServiceGet(TradingConstants.TRADINGECONOMICS_API_MARKET_HISTORY,
 						symbols, parameters, lateTimeSecond, localFilepath);
 				TradingHistoryItemVO[] response = objectMapperUtil.readValue(responseData,
 						new TypeReference<TradingHistoryItemVO[]>() {
@@ -312,7 +314,7 @@ public class TradingService extends BaseService {
 				break;
 			}
 
-			String responseData = tradingWebService.get(TradingConstants.TRADINGECONOMICS_API_MARKET_SYMBOL, symbols,
+			String responseData = tradingWebServiceGet(TradingConstants.TRADINGECONOMICS_API_MARKET_SYMBOL, symbols,
 					parameters, lateTimeSecond, localFilepath);
 			TradingSymbolItemVO[] response = objectMapperUtil.readValue(responseData,
 					new TypeReference<TradingSymbolItemVO[]>() {
@@ -332,6 +334,66 @@ public class TradingService extends BaseService {
 						item.setCountry(country);
 					}
 				}
+			}
+		}
+
+		// Return
+		return result;
+	}
+
+	/**
+	 *
+	 * Get method
+	 *
+	 */
+	public String tradingWebServiceGet(String urlApi, List<String> symbols, Map<String, String> parameters,
+			int lateTimeSecond, String localFilepath) throws Exception {
+		// Declare result
+		String result = null;
+
+		// Build URL
+		URIBuilder builder = new URIBuilder(TradingConstants.TRADINGECONOMICS_URL);
+
+		// Build symbols
+		if (!CollectionUtils.isEmpty(symbols)) {
+			String symbolKey = null;
+			for (String symbol : symbols) {
+				if (symbolKey == null) {
+					symbolKey = symbol;
+				} else {
+					symbolKey = symbolKey + "," + symbol;
+				}
+			}
+			builder.setPath(urlApi + symbolKey);
+		} else {
+			builder.setPath(urlApi);
+		}
+
+		// Build parameters
+		if (parameters != null) {
+			for (Map.Entry<String, String> param : parameters.entrySet()) {
+				builder.setParameter(param.getKey(), param.getValue());
+			}
+		}
+
+		URI uri = restTemplateService.createURI(builder.toString(), null, parameters);
+
+		// Get data
+		if (dataIsOutUpdate(uri.toString(), lateTimeSecond)) {
+			// Execute and check status
+			result = restTemplateService.getResultCall(uri.toString(), null);
+
+			if (localFilepath != null) {
+				FileUtils.updateJsonDataRequest(result, localFilepath);
+			}
+
+			// Record external request
+			recordRequestExternal(uri.toString(), DBConstants.REQUEST_EXTERNAL_TYPE_DATA,
+					this.getClass().getSimpleName() + "." + new Object() {
+					}.getClass().getEnclosingMethod().getName());
+		} else {
+			if (localFilepath != null) {
+				result = FileUtils.readLocalFile(localFilepath);
 			}
 		}
 

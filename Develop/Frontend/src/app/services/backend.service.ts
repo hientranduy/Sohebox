@@ -37,7 +37,7 @@ import { environment } from '@environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class BackendService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   //////////
   // TYPE //
@@ -336,11 +336,6 @@ export class BackendService {
   // Get gold price SJC
   getGoldSjcPrice() {
     return this.http.get(`${environment.soheboxUrl}/api/finance/goldSjc`);
-  }
-
-  // Search WTI oil price
-  getWTIOilPrices() {
-    return this.http.get(`${environment.soheboxUrl}/api/quandl/OPECORB`);
   }
 
   // Search oil price (WTI and Brent)
