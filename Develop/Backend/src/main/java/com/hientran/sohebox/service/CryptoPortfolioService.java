@@ -10,7 +10,6 @@ import java.util.Optional;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.hc.core5.net.URIBuilder;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -35,7 +34,7 @@ import com.hientran.sohebox.sco.CryptoPortfolioSCO;
 import com.hientran.sohebox.sco.SearchNumberVO;
 import com.hientran.sohebox.sco.SearchTextVO;
 import com.hientran.sohebox.specification.CryptoPortfolioSpecs.CryptoPortfolioTblEnum;
-import com.hientran.sohebox.webservice.CosmosWebService;
+import com.hientran.sohebox.webservice.RestTemplateService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -48,9 +47,9 @@ public class CryptoPortfolioService extends BaseService {
 	private final CryptoPortfolioRepository cryptoPortfolioRepository;
 	private final UserService userService;
 	private final UserDetailsServiceImpl userDetailsServiceImpl;
-	private final CosmosWebService cosmosWebService;
 	private final ConfigCache configCache;
 	private final CryptoValidatorService cryptoValidatorService;
+	private final RestTemplateService restTemplateService;
 
 	/**
 	 *
@@ -305,14 +304,13 @@ public class CryptoPortfolioService extends BaseService {
 	private void setDataOnChain(CryptoPortfolioTbl tbl) {
 		DecimalFormat df = new DecimalFormat("#.###");
 		df.setRoundingMode(RoundingMode.CEILING);
-		URIBuilder builder;
 		JsonObject jsonObject;
 
 		// Get available
 		try {
-			builder = new URIBuilder(
-					tbl.getToken().getNodeUrl() + CosmosConstants.COSMOS_BANK_V1BETA1_BALANCES + "/" + tbl.getWallet());
-			jsonObject = new Gson().fromJson(cosmosWebService.get(builder), JsonObject.class);
+			String stringResult = restTemplateService.getResultCall(tbl.getToken().getNodeUrl(),
+					CosmosConstants.COSMOS_BANK_V1BETA1_BALANCES + "/" + tbl.getWallet());
+			jsonObject = new Gson().fromJson(stringResult, JsonObject.class);
 
 			if (jsonObject.getAsJsonArray("balances").size() > 0) {
 				JsonArray listObject = jsonObject.getAsJsonArray("balances");
@@ -336,10 +334,10 @@ public class CryptoPortfolioService extends BaseService {
 
 		// Get reward
 		try {
-			builder = new URIBuilder(
-					tbl.getToken().getNodeUrl() + CosmosConstants.COSMOS_DISTRIBUTION_V1BETA1_DELEGATORS + "/"
-							+ tbl.getWallet() + CosmosConstants.COSMOS_REWARDS);
-			jsonObject = new Gson().fromJson(cosmosWebService.get(builder), JsonObject.class);
+			String stringResult = restTemplateService.getResultCall(tbl.getToken().getNodeUrl(),
+					CosmosConstants.COSMOS_DISTRIBUTION_V1BETA1_DELEGATORS + "/" + tbl.getWallet()
+							+ CosmosConstants.COSMOS_REWARDS);
+			jsonObject = new Gson().fromJson(stringResult, JsonObject.class);
 
 			if (jsonObject.getAsJsonArray("total").size() > 0) {
 				JsonArray array = jsonObject.getAsJsonArray("total");
@@ -363,9 +361,10 @@ public class CryptoPortfolioService extends BaseService {
 
 		// Get delegated
 		try {
-			builder = new URIBuilder(tbl.getToken().getNodeUrl() + CosmosConstants.COSMOS_STAKING_V1BETA1_DELEGATION
-					+ "/" + tbl.getWallet());
-			jsonObject = new Gson().fromJson(cosmosWebService.get(builder), JsonObject.class);
+			String stringResult = restTemplateService.getResultCall(tbl.getToken().getNodeUrl(),
+					CosmosConstants.COSMOS_STAKING_V1BETA1_DELEGATION + "/" + tbl.getWallet());
+			jsonObject = new Gson().fromJson(stringResult, JsonObject.class);
+
 			JsonArray jsonArray = jsonObject.getAsJsonArray("delegation_responses");
 
 			Double amtTotalDelegated = Double.valueOf(0);

@@ -26,6 +26,30 @@ public class RestTemplateService {
 	@Autowired
 	private RestTemplate restTemplate;
 
+	/*
+	 * Create request header
+	 */
+	private HttpHeaders createHeaders() {
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+		return headers;
+	}
+
+	/*
+	 * Create URI
+	 */
+	private URI createURI(String baseUrl, String pathUrl, Map<String, String> uriVariables) throws URISyntaxException {
+		URIBuilder builder = new URIBuilder(baseUrl);
+		builder.appendPath(pathUrl);
+		if (uriVariables != null) {
+			for (Map.Entry<String, String> param : uriVariables.entrySet()) {
+				builder.setParameter(param.getKey(), param.getValue());
+			}
+		}
+		return builder.build();
+	}
+
 	public String getResultCall(String baseUrl, String pathUrl) throws Exception {
 		try {
 			// Build URI
@@ -65,29 +89,5 @@ public class RestTemplateService {
 		}
 
 		return null;
-	}
-
-	/*
-	 * Create request header
-	 */
-	private HttpHeaders createHeaders() {
-		HttpHeaders headers = new HttpHeaders();
-		headers.setContentType(MediaType.APPLICATION_JSON);
-		headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
-		return headers;
-	}
-
-	/*
-	 * Create URI
-	 */
-	private URI createURI(String baseUrl, String pathUrl, Map<String, String> uriVariables) throws URISyntaxException {
-		URIBuilder builder = new URIBuilder(baseUrl);
-		builder.setPath(pathUrl);
-		if (uriVariables != null) {
-			for (Map.Entry<String, String> param : uriVariables.entrySet()) {
-				builder.setParameter(param.getKey(), param.getValue());
-			}
-		}
-		return builder.build();
 	}
 }

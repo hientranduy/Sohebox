@@ -9,7 +9,6 @@ import java.util.Optional;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.hc.core5.net.URIBuilder;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -29,7 +28,7 @@ import com.hientran.sohebox.repository.CryptoValidatorRepository;
 import com.hientran.sohebox.sco.CryptoValidatorSCO;
 import com.hientran.sohebox.sco.SearchTextVO;
 import com.hientran.sohebox.specification.CryptoValidatorSpecs.CryptoValidatorTblEnum;
-import com.hientran.sohebox.webservice.CosmosWebService;
+import com.hientran.sohebox.webservice.RestTemplateService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -42,7 +41,7 @@ public class CryptoValidatorService extends BaseService {
 
 	private final CryptoValidatorRepository cryptoValidatorRepository;
 	private final ConfigCache configCache;
-	private final CosmosWebService cosmosWebService;
+	private final RestTemplateService restTemplateService;
 
 	DecimalFormat df = new DecimalFormat("#.###");
 
@@ -164,9 +163,8 @@ public class CryptoValidatorService extends BaseService {
 		if (isSyncValidator) {
 			// Sync new value
 			try {
-				URIBuilder builder = new URIBuilder(cryptoPortfolioTbl.getToken().getNodeUrl()
-						+ CosmosConstants.COSMOS_STAKING_V1BETA1_VALIDATORS + "/" + validatorAddress);
-				String responseString = cosmosWebService.get(builder);
+				String responseString = restTemplateService.getResultCall(cryptoPortfolioTbl.getToken().getNodeUrl(),
+						CosmosConstants.COSMOS_STAKING_V1BETA1_VALIDATORS + "/" + validatorAddress);
 				JsonObject jsonObject = new Gson().fromJson(responseString, JsonObject.class);
 
 				String validatorName = jsonObject.get("validator").getAsJsonObject().get("description")
