@@ -28,8 +28,6 @@ public class TradingConstants {
 
 	public static final String TRADINGECONOMICS_PARAM_START_DATE = "d1";
 
-	public static final String TRADINGECONOMICS_PARAM_END_DATE = "d2";
-
 	///////////////
 	// CONSTANTS //
 	///////////////

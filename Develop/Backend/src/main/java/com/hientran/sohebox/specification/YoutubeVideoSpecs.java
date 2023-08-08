@@ -10,7 +10,7 @@ import com.hientran.sohebox.sco.YoutubeVideoSCO;
 @SuppressWarnings({ "unchecked", "rawtypes" })
 public class YoutubeVideoSpecs extends GenericSpecs {
 	public enum YoutubeVideoTblEnum {
-		videoId, publishedAt, title, description, urlThumbnail
+		videoId
 	}
 
 	public Specification<YoutubeVideoTbl> buildSpecification(YoutubeVideoSCO sco) {

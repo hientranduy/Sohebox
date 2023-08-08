@@ -24,8 +24,6 @@ public class ApiPublicConstants {
 
 	public static final String SET = "/set";
 
-	public static final String GET = "/get";
-
 	public static final String ID = "/{id}";
 
 	/////////
@@ -49,8 +47,6 @@ public class ApiPublicConstants {
 	public static final String API_FOOD_TYPE = "/foodTypes";
 
 	public static final String API_CONFIG = "/configs";
-
-	public static final String API_TYPE_CLASS = "/typeclass";
 
 	public static final String API_ENGLISH = "/english";
 
@@ -79,14 +75,6 @@ public class ApiPublicConstants {
 	public static final String API_ACTIVE_USER = "/activeUser";
 
 	public static final String API_ENGLISH_DOWNLOAD_FILE_MP3 = "/downloadFileMp3";
-
-	public static final String API_IMAGE = "/images";
-
-	public static final String API_IMAGE_SYNC = "/image/sync";
-
-	public static final String API_BITTREX_PAIR_EXTRACT = "/bittrex/extractionpairs";
-
-	public static final String API_REPORT_SUMMARY = "/report/summary";
 
 	public static final String API_FINANCE = "/finance";
 

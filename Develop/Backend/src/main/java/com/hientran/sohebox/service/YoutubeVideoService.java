@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -109,28 +108,4 @@ public class YoutubeVideoService extends BaseService {
 		// Return
 		return result;
 	}
-
-	/**
-	 * Search
-	 *
-	 * @param sco
-	 * @return
-	 */
-	@Transactional(readOnly = false, rollbackFor = Exception.class)
-	public List<YoutubeVideoTbl> search(YoutubeVideoSCO sco) {
-		// Declare result
-		List<YoutubeVideoTbl> result = new ArrayList<>();
-
-		// Get data
-		Page<YoutubeVideoTbl> page = youtubeVideoRepository.findAll(sco);
-
-		// Transformer
-		if (CollectionUtils.isNotEmpty(page.getContent())) {
-			result = page.getContent();
-		}
-
-		// Return
-		return result;
-	}
-
 }

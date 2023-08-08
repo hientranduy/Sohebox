@@ -7,8 +7,6 @@ public class DBConstants {
 	/////////
 	public static final String WILDCARD = "%";
 
-	public static final int LIKE_ANY_WHERE = 0;
-
 	public static final int LIKE_START = 1;
 
 	public static final int LIKE_END = 2;
@@ -59,23 +57,13 @@ public class DBConstants {
 	//////////
 	// USER //
 	//////////
-	public static final boolean USER_INACTIVE = true;
-
 	public static final String USER_ROLE_USER = "user";
 
 	public static final String USER_ROLE_CREATOR = "creator";
 
-	public static final String USER_DEFAULT_PASSWORD = "NA";
-
 	public static final String USER_DEFAULT_AVATAR = "defaut.png";
 
 	public static final String USER_ACTIVITY_LOGIN = "login";
-
-	public static final String USER_ACTIVITY_LOGOUT = "logout";
-
-	public static final String USER_ACTIVITY_DELETE = "delete";
-
-	public static final String USER_ACTIVITY_UPDATE_INFO = "update info";
 
 	public static final String USER_ACTIVITY_ACCOUNT_ACCESS = "account access";
 
@@ -103,14 +91,6 @@ public class DBConstants {
 
 	public static final String USER_ACTIVITY_CRYPTO_TOKEN_CONFIG_ACCESS = "token access";
 
-	public static final String USER_ACTIVITY_CRYPTO_PORTFOLIO_CREATE = "portfolio create";
-
-	public static final String USER_ACTIVITY_CRYPTO_PORTFOLIO_UPDATE = "portfolio update";
-
-	public static final String USER_ACTIVITY_CRYPTO_PORTFOLIO_ACCESS = "portfolio access";
-
-	public static final String USER_ACTIVITY_CRYPTO_PORTFOLIO_DELETE = "portfolio delete";
-
 	public static final String USER_ACTIVITY_MEDIA_YOUTUBE_CHANNEL_ACCESS = "media youtube channel access";
 
 	/////////////
@@ -136,8 +116,6 @@ public class DBConstants {
 	///////////
 
 	public static final String ENCODING_UTF8 = "UTF-8";
-
-	public static final String REQUEST_EXTERNAL_TYPE_IMG_CHART = "IMAGE CHART";
 
 	public static final String REQUEST_EXTERNAL_TYPE_DATA = "DATA";
 
