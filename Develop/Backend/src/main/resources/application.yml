@@ -10,7 +10,7 @@ MYSQL_PASSWORD: admin
 MAIL_USERNAME: xxxxxx
 MAIL_PASSWORD: xxxxxx
 
-AUTHEN_ENABLE: false
+AUTHEN_ENABLE: true
 JWT_SECRET: xxxxxx
 
 SSL_ENABLE: false

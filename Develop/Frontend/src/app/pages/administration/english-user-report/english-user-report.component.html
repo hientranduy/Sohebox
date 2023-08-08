@@ -8,10 +8,14 @@
   <p style="color: white">Loading...</p>
 </ngx-spinner>
 
-<button mat-button class="page-title-button">ENGLISH USER REPORT</button>
+<mat-toolbar class="mat-toolbar-style">
+  <mat-toolbar-row>
+    <span class="toolbar-spacer-style"></span>
+    <h1 class="toolbar-title-style" fxHide.xs>ENGLISH USER REPORT</h1>
+    <span class="toolbar-spacer-style"></span>
+  </mat-toolbar-row>
+</mat-toolbar>
 
-<br />
-<br />
 <ngx-datatable
   class="material"
   [rows]="pageResult.elements"
