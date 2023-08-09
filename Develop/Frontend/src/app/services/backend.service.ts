@@ -146,11 +146,6 @@ export class BackendService {
     return this.http.put(`${environment.soheboxUrl}/api/accounts`, account);
   }
 
-  // Get account
-  getAccount(id: number) {
-    return this.http.get(`${environment.soheboxUrl}/api/accounts/${id}`);
-  }
-
   // Get clear password
   showPassword(account: Account) {
     return this.http.post(

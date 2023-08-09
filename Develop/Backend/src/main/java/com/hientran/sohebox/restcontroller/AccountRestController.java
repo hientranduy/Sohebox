@@ -62,22 +62,6 @@ public class AccountRestController extends BaseRestController {
 
 	/**
 	 *
-	 * Get by ID
-	 *
-	 * @param id
-	 * @return
-	 */
-	@GetMapping(ApiPublicConstants.API_ACCOUNT + ApiPublicConstants.ID)
-	public ResponseEntity<?> getUserById(@PathVariable(value = "id") Long id) {
-		APIResponse<?> result = accountService.getById(id);
-
-		// Return
-		return new ResponseEntity<>(result, new HttpHeaders(),
-				result.getStatus() != null ? result.getStatus() : HttpStatus.OK);
-	}
-
-	/**
-	 *
 	 * Search
 	 *
 	 * @param sco

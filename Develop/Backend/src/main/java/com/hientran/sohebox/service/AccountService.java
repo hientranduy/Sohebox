@@ -196,39 +196,6 @@ public class AccountService extends BaseService {
 	}
 
 	/**
-	 * Get by id
-	 *
-	 * @param User
-	 * @return
-	 */
-	public APIResponse<Object> getById(Long id) {
-		// Declare result
-		APIResponse<Object> result = new APIResponse<>();
-
-		// Check existence
-		Optional<AccountTbl> accountTbl = accountRepository.findById(id);
-		if (!accountTbl.isPresent()) {
-			result = new APIResponse<>(HttpStatus.BAD_REQUEST,
-					ResponseCode.mapParam(ResponseCode.INEXISTED_RECORD, "account"));
-		}
-
-		// Check if user is the owner of data
-		if (result.getStatus() == null) {
-			AccountVO vo = accountTransformer.convertToAccountVO(accountTbl.get());
-			if (!userService.isDataOwner(vo.getUser().getUsername())) {
-				result = new APIResponse<>(HttpStatus.BAD_REQUEST,
-						ResponseCode.mapParam(ResponseCode.UNAUTHORIZED_DATA, null));
-			} else {
-				// Set return data
-				result.setData(vo);
-			}
-		}
-
-		// Return
-		return result;
-	}
-
-	/**
 	 *
 	 * Check if record is existed
 	 *
