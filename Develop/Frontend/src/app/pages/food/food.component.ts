@@ -10,7 +10,6 @@ import { SpinnerService } from '@app/services/spinner.service';
 @Component({
   selector: 'app-food',
   templateUrl: './food.component.html',
-  styleUrls: ['./food.component.css'],
 })
 export class FoodComponent implements OnInit {
   foods: Array<Food>;
