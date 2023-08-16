@@ -10,6 +10,7 @@ import { Sorter } from '@app/scos/core_sco/sorter';
 import { BackendService } from '@app/services/backend.service';
 import { SpinnerService } from '@app/services/spinner.service';
 import { DialogService } from '@app/services/dialog.service';
+import { DatatableComponent, SelectionType } from '@swimlane/ngx-datatable';
 
 @Component({
   selector: 'app-english-type',
@@ -21,6 +22,7 @@ export class EnglishTypeComponent implements OnInit {
   currentSort: Sorter;
   currentFilterValue: string;
   selected = [];
+  checkbox: SelectionType = SelectionType.checkbox;
 
   // Width change
   windownInnerWidth = window.innerWidth;

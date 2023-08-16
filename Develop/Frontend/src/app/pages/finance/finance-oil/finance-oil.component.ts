@@ -1,8 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertService } from '@app/commons/alert/alert.service';
-import { ApiReponse } from '@app/models/apiReponse';
-import { TradingOilPrice } from '@app/models/tradingOilPrice';
-import { BackendService } from '@app/services/backend.service';
 import { SpinnerService } from '@app/services/spinner.service';
 
 @Component({
@@ -14,61 +11,12 @@ export class FinanceOilComponent implements OnInit {
   selectBrentCrudeOil = '1m';
   selectNatureGas = '1m';
 
-  tradingOilPrice: TradingOilPrice;
-  currentWTIPrice;
-  currentWTIPriceChange;
-  currentWTIPercentChange;
-  currentBrentPrice;
-  currentBrentPriceChange;
-  currentBrentPercentChange;
-
   constructor(
     private spinner: SpinnerService,
-    private backendService: BackendService,
     private alertService: AlertService,
   ) {}
 
-  ngOnInit(): void {
-    this.loadOilPrice();
-  }
-
-  /**
-   * Load oil price
-   */
-  public loadOilPrice() {
-    // Show loading
-    this.spinner.show();
-
-    // Get list
-    this.backendService.getOilPrice().subscribe(
-      (data) => {
-        // Get data
-        const responseAPi: any = data;
-        const typeResponse: ApiReponse<TradingOilPrice> = responseAPi;
-        if (typeResponse.data != null && typeResponse.data.elements != null) {
-          this.tradingOilPrice = typeResponse.data.elements[0];
-
-          this.currentWTIPrice = this.tradingOilPrice.symbolCL1.Last;
-          this.currentWTIPriceChange =
-            this.tradingOilPrice.symbolCL1.DailyChange.toFixed(2);
-          this.currentWTIPercentChange =
-            this.tradingOilPrice.symbolCL1.DailyPercentualChange.toFixed(2);
-
-          this.currentBrentPrice = this.tradingOilPrice.symbolCO1.Last;
-          this.currentBrentPriceChange =
-            this.tradingOilPrice.symbolCO1.DailyChange.toFixed(2);
-          this.currentBrentPercentChange =
-            this.tradingOilPrice.symbolCO1.DailyPercentualChange.toFixed(2);
-        }
-
-        // Hide loading
-        this.spinner.hide();
-      },
-      (error) => {
-        this.processError(error);
-      },
-    );
-  }
+  ngOnInit(): void {}
 
   /**
    * WTI Crude Oil options

@@ -9,8 +9,8 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class YoutubePlayerComponent implements OnInit {
   videoId: String;
-  videoHeight;
-  videoWidth;
+  videoHeight: number;
+  videoWidth: number;
   player;
 
   constructor(

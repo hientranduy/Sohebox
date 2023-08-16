@@ -176,7 +176,7 @@
       <mat-checkbox
         class="amateur"
         color="primary"
-        [checked]="isFastFoodValue"
+        [checked]="$any(isFastFoodValue)"
         (change)="onChangeIsFastFood($event)"
       ></mat-checkbox>
     </div>

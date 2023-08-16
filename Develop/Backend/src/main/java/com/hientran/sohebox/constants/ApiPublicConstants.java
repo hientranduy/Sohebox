@@ -86,7 +86,5 @@ public class ApiPublicConstants {
 
 	public static final String API_TRADING_SYMBOL = "/tradingSymbol";
 
-	public static final String API_TRADINGECONOMICS_PRICE_OIL = "/oilprice";
-
 	public static final String API_TRADINGECONOMICS_PRICE_STOCK = "/stockprice";
 }

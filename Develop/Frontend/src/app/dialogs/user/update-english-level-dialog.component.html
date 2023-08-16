@@ -34,13 +34,11 @@
     <mat-form-field>
       <input
         matInput
+        placeholder="New VUS grade"
         [matAutocomplete]="autoGrade"
         [formControl]="gradeControl"
         [(ngModel)]="gradeSelect"
       />
-      <mat-placeholder *ngIf="!this.gradeControl.value" class="placeholder"
-        >New VUS grade</mat-placeholder
-      >
       <mat-autocomplete
         #autoGrade="matAutocomplete"
         [displayWith]="displayGrade"
@@ -64,13 +62,11 @@
     <mat-form-field>
       <input
         matInput
+        placeholder="Select Learnd day"
         [matAutocomplete]="autoLearnDay"
         [formControl]="learnDayControl"
         [(ngModel)]="learnDaySelect"
       />
-      <mat-placeholder *ngIf="!this.learnDayControl.value" class="placeholder">
-        Select Learnd day</mat-placeholder
-      >
       <mat-autocomplete
         #autoLearnDay="matAutocomplete"
         [displayWith]="displayLearnDay"

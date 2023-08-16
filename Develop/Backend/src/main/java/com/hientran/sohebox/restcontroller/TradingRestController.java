@@ -23,20 +23,6 @@ public class TradingRestController extends BaseRestController {
 	 * Get WTI oil price
 	 *
 	 */
-	@GetMapping(ApiPublicConstants.API_TRADINGECONOMICS + ApiPublicConstants.API_TRADINGECONOMICS_PRICE_OIL)
-	public ResponseEntity<?> getOilPrice() {
-		APIResponse<?> result = tradingService.searchOilPrice();
-
-		return new ResponseEntity<>(result, new HttpHeaders(),
-				result.getStatus() != null ? result.getStatus() : HttpStatus.OK);
-
-	}
-
-	/**
-	 *
-	 * Get WTI oil price
-	 *
-	 */
 	@GetMapping(ApiPublicConstants.API_TRADINGECONOMICS + ApiPublicConstants.API_TRADINGECONOMICS_PRICE_STOCK)
 	public ResponseEntity<?> getStockPrice() {
 		APIResponse<?> result = tradingService.searchStockPrice();

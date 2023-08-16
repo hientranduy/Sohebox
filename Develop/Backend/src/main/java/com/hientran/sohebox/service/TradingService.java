@@ -3,12 +3,10 @@ package com.hientran.sohebox.service;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.hc.core5.net.URIBuilder;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,8 +23,6 @@ import com.hientran.sohebox.constants.DBConstants;
 import com.hientran.sohebox.constants.DataExternalConstants;
 import com.hientran.sohebox.constants.TradingConstants;
 import com.hientran.sohebox.dto.PageResultVO;
-import com.hientran.sohebox.dto.TradingHistoryItemVO;
-import com.hientran.sohebox.dto.TradingOilPriceSendVO;
 import com.hientran.sohebox.dto.TradingStockPriceSendVO;
 import com.hientran.sohebox.dto.TradingSymbolItemVO;
 import com.hientran.sohebox.dto.response.APIResponse;
@@ -38,7 +34,6 @@ import com.hientran.sohebox.repository.TradingSymbolRepository;
 import com.hientran.sohebox.sco.SearchNumberVO;
 import com.hientran.sohebox.sco.TradingSymbolSCO;
 import com.hientran.sohebox.utils.FileUtils;
-import com.hientran.sohebox.utils.MyDateUtils;
 import com.hientran.sohebox.utils.ObjectMapperUtil;
 
 import lombok.RequiredArgsConstructor;
@@ -55,136 +50,6 @@ public class TradingService extends BaseService {
 
 	@Value("${resource.path}")
 	private String resourcePath;
-
-	/**
-	 * Search video
-	 *
-	 * @param sco
-	 * @return
-	 */
-	@Transactional(readOnly = false, rollbackFor = Exception.class)
-	public APIResponse<Object> searchOilPrice() {
-		// Declare result
-		APIResponse<Object> result = new APIResponse<>();
-
-		// Calculate start date
-		Date startDate = MyDateUtils.addMinusDate(new Date(), -7);
-
-		// Prepare symbol
-		List<String> symbols = new ArrayList<>();
-		symbols.add(TradingConstants.TRADINGECONOMICS_SYMBOL_COM_CLI);
-		symbols.add(TradingConstants.TRADINGECONOMICS_SYMBOL_COM_CO1);
-
-		///////////////////
-		// Get data LIVE //
-		///////////////////
-		Map<String, String> parameters = new HashMap<>();
-		parameters.put(TradingConstants.TRADINGECONOMICS_PARAM_KEY, TradingConstants.TRADINGECONOMICS_CONSTANT_KEY);
-		parameters.put(TradingConstants.TRADINGECONOMICS_PARAM_OUTPUT_FORMAT,
-				TradingConstants.TRADINGECONOMICS_CONSTANT_FORMAT_JSON);
-
-		List<TradingSymbolItemVO> symbolItems = null;
-		String localFilepath = null;
-		int lateTimeSecond = 0;
-		try {
-			localFilepath = resourcePath + DataExternalConstants.REQUEST_DATA_FILE_PATH_TRADING_MARKET_OIL;
-			lateTimeSecond = Integer.parseInt(
-					configCache.getValueByKey(DataExternalConstants.FINANCE_TRADING_MARKET_OIL_LATE_TIME_SECOND));
-
-			String responseData = tradingWebServiceGet(TradingConstants.TRADINGECONOMICS_API_MARKET_SYMBOL, symbols,
-					parameters, lateTimeSecond, localFilepath);
-			TradingSymbolItemVO[] response = objectMapperUtil.readValue(responseData,
-					new TypeReference<TradingSymbolItemVO[]>() {
-					});
-			if (response != null) {
-				symbolItems = Arrays.asList(response);
-			}
-		} catch (Exception e) {
-			result = new APIResponse<>(HttpStatus.BAD_REQUEST,
-					ResponseCode.mapParam(ResponseCode.ERROR_EXCEPTION, e.getMessage()));
-		}
-
-		//////////////////////
-		// Get data HISTORY //
-		//////////////////////
-		List<TradingHistoryItemVO> historyItems = null;
-		localFilepath = null;
-		lateTimeSecond = 0;
-		if (result.getStatus() == null) {
-			parameters = new HashMap<>();
-			parameters.put(TradingConstants.TRADINGECONOMICS_PARAM_KEY, TradingConstants.TRADINGECONOMICS_CONSTANT_KEY);
-			parameters.put(TradingConstants.TRADINGECONOMICS_PARAM_OUTPUT_FORMAT,
-					TradingConstants.TRADINGECONOMICS_CONSTANT_FORMAT_JSON);
-			parameters.put(TradingConstants.TRADINGECONOMICS_PARAM_START_DATE,
-					MyDateUtils.formatDate(startDate, MyDateUtils.YYYYMMDD));
-
-			try {
-				localFilepath = resourcePath + DataExternalConstants.REQUEST_DATA_FILE_PATH_TRADING_HISTORY_OIL;
-				lateTimeSecond = Integer.parseInt(
-						configCache.getValueByKey(DataExternalConstants.FINANCE_TRADING_HISTORY_OIL_LATE_TIME_SECOND));
-
-				String responseData = tradingWebServiceGet(TradingConstants.TRADINGECONOMICS_API_MARKET_HISTORY,
-						symbols, parameters, lateTimeSecond, localFilepath);
-				TradingHistoryItemVO[] response = objectMapperUtil.readValue(responseData,
-						new TypeReference<TradingHistoryItemVO[]>() {
-						});
-				if (response != null) {
-					historyItems = Arrays.asList(response);
-				}
-			} catch (Exception e) {
-				result = new APIResponse<>(HttpStatus.BAD_REQUEST,
-						ResponseCode.mapParam(ResponseCode.ERROR_EXCEPTION, e.getMessage()));
-			}
-		}
-
-		////////////////////
-		// Transform data //
-		////////////////////
-		if (result.getStatus() == null) {
-			TradingSymbolItemVO symbolCL1 = null;
-			TradingSymbolItemVO symbolCO1 = null;
-			for (TradingSymbolItemVO item : symbolItems) {
-				if (StringUtils.equals(item.getSymbol(), TradingConstants.TRADINGECONOMICS_SYMBOL_COM_CLI)) {
-					symbolCL1 = item;
-				} else {
-					symbolCO1 = item;
-				}
-			}
-
-			List<TradingHistoryItemVO> historyCL1 = new ArrayList<>();
-			List<TradingHistoryItemVO> historyCO1 = new ArrayList<>();
-			for (TradingHistoryItemVO item : historyItems) {
-				if (StringUtils.equals(item.getSymbol(), TradingConstants.TRADINGECONOMICS_SYMBOL_COM_CLI)) {
-					historyCL1.add(item);
-				} else {
-					historyCO1.add(item);
-				}
-			}
-
-			////////////////////
-			// Transform data //
-			////////////////////
-			TradingOilPriceSendVO resultItem = new TradingOilPriceSendVO();
-			resultItem.setSymbolCL1(symbolCL1);
-			resultItem.setSymbolCO1(symbolCO1);
-			resultItem.setHistoryCL1(historyCL1);
-			resultItem.setHistoryCO1(historyCO1);
-
-			List<TradingOilPriceSendVO> resultList = new ArrayList<>();
-			resultList.add(resultItem);
-
-			PageResultVO<TradingOilPriceSendVO> data = new PageResultVO<>();
-			data.setElements(resultList);
-			data.setCurrentPage(0);
-			data.setTotalPage(1);
-			data.setTotalElement(resultList.size());
-
-			result.setData(data);
-		}
-
-		// Return
-		return result;
-	}
 
 	/**
 	 * Search video

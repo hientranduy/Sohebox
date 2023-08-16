@@ -20,8 +20,8 @@ export class YoutubePlayerChannelComponent implements OnInit {
   currentUser: User;
   channelId: number;
   videoId: String;
-  videoHeight;
-  videoWidth;
+  videoHeight: number;
+  videoWidth: number;
   player;
 
   // Video list

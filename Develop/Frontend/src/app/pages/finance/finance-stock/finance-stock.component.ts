@@ -34,7 +34,7 @@ export class FinanceStockComponent implements OnInit {
   }
 
   /**
-   * Load oil price
+   * Load stock price
    */
   public loadStockPrice() {
     // Show loading
