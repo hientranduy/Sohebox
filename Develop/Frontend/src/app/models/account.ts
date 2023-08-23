@@ -4,8 +4,9 @@ import { User } from './user';
 export class Account {
   id: number;
   user: User;
-  accountType: Type;
+  type: Type;
   accountName: string;
-  mdp: string;
   note: string;
+
+  mdpPlain: string;
 }

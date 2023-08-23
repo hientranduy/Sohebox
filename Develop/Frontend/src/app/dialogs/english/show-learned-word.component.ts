@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ApiReponse } from '@app/models/apiReponse';
+import { ApiReponse } from '@app/models/response/apiReponse';
 import { EnglishLearnRecord } from '@app/models/englishLearnRecord';
 import { User } from '@app/models/user';
 import { SearchDate } from '@app/scos/core_sco/searchDate';

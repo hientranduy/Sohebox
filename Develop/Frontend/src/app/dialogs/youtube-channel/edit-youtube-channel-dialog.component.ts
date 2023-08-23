@@ -12,7 +12,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
-import { ApiReponse } from '@app/models/apiReponse';
+import { ApiReponse } from '@app/models/response/apiReponse';
 import { MediaType } from '@app/models/mediaType';
 import { YoutubeChannel } from '@app/models/youtubeChannel';
 import { SearchText } from '@app/scos/core_sco/searchText';

@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hientran.sohebox.constants.ApiPublicConstants;
-import com.hientran.sohebox.dto.AccountVO;
 import com.hientran.sohebox.dto.response.APIResponse;
+import com.hientran.sohebox.entity.AccountTbl;
 import com.hientran.sohebox.sco.AccountSCO;
 import com.hientran.sohebox.service.AccountService;
 
@@ -33,9 +33,9 @@ public class AccountRestController extends BaseRestController {
 	 * @return
 	 */
 	@PostMapping(ApiPublicConstants.API_ACCOUNT)
-	public ResponseEntity<?> create(@Validated @RequestBody AccountVO vo) {
+	public ResponseEntity<?> create(@Validated @RequestBody AccountTbl request) {
 		// Create Account
-		APIResponse<?> result = accountService.create(vo);
+		APIResponse<?> result = accountService.create(request);
 
 		// Return
 		return new ResponseEntity<>(result, new HttpHeaders(),
@@ -85,8 +85,8 @@ public class AccountRestController extends BaseRestController {
 	 * @return
 	 */
 	@PostMapping(ApiPublicConstants.API_ACCOUNT + ApiPublicConstants.API_ACCOUNT_SHOW_PASSWORD)
-	public ResponseEntity<?> showPassword(@RequestBody AccountVO vo) {
-		APIResponse<?> result = accountService.showPassword(vo);
+	public ResponseEntity<?> showPassword(@RequestBody AccountTbl request) {
+		APIResponse<?> result = accountService.showPassword(request);
 
 		// Return
 		return new ResponseEntity<>(result, new HttpHeaders(),
@@ -101,9 +101,9 @@ public class AccountRestController extends BaseRestController {
 	 * @return
 	 */
 	@PutMapping(ApiPublicConstants.API_ACCOUNT)
-	public ResponseEntity<?> update(@Validated @RequestBody AccountVO vo) {
+	public ResponseEntity<?> update(@Validated @RequestBody AccountTbl request) {
 		// Update Account
-		APIResponse<?> result = accountService.update(vo);
+		APIResponse<?> result = accountService.update(request);
 
 		// Return
 		return new ResponseEntity<>(result, new HttpHeaders(),

@@ -3,7 +3,7 @@ import { FormControl, Validators } from '@angular/forms';
 
 import { AlertService } from '@app/commons/alert/alert.service';
 import { Account } from '@app/models/account';
-import { ApiReponse } from '@app/models/apiReponse';
+import { ApiReponse } from '@app/models/response/apiReponse';
 import { Type } from '@app/models/type';
 import { SearchText } from '@app/scos/core_sco/searchText';
 import { TypeSCO } from '@app/scos/typeSCO';
@@ -57,9 +57,9 @@ export class EditAccountDialogComponent implements OnInit {
 
   ngOnInit() {
     // Set current value
-    this.accountTypeValue = this.account.accountType;
+    this.accountTypeValue = this.account.type;
     this.accountNameValue = this.account.accountName;
-    this.passwordValue = this.account.mdp;
+    this.passwordValue = this.account.mdpPlain;
     this.noteValue = this.account.note;
 
     this.getAccountTypeList();
@@ -157,10 +157,12 @@ export class EditAccountDialogComponent implements OnInit {
       default:
         // Prepare update account
         const updateAccount: Account = this.account;
-        updateAccount.accountType = this.accountTypeValue;
+        updateAccount.type = this.accountTypeValue;
         updateAccount.accountName = this.accountNameValue;
-        if (this.passwordValue !== this.account.mdp) {
-          updateAccount.mdp = this.passwordValue;
+        if (this.passwordValue !== this.account.mdpPlain) {
+          updateAccount.mdpPlain = this.passwordValue;
+        } else {
+          updateAccount.mdpPlain = "";
         }
         if (this.noteValue !== this.account.note) {
           updateAccount.note = this.noteValue;
@@ -225,13 +227,13 @@ export class EditAccountDialogComponent implements OnInit {
    */
   public isHaveUpdateValue() {
     let result = false;
-    if (this.accountTypeValue !== this.account.accountType) {
+    if (this.accountTypeValue !== this.account.type) {
       result = true;
     }
     if (this.accountNameValue !== this.account.accountName) {
       result = true;
     }
-    if (this.passwordValue !== this.account.mdp) {
+    if (this.passwordValue !== this.account.mdpPlain) {
       result = true;
     }
     if (this.noteValue !== this.account.note) {

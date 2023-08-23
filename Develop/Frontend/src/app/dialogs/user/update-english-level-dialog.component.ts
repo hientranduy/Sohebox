@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 
 import { AlertService } from '@app/commons/alert/alert.service';
-import { ApiReponse } from '@app/models/apiReponse';
+import { ApiReponse } from '@app/models/response/apiReponse';
 import { EnglishType } from '@app/models/englishType';
 import { EnglishUserGrade } from '@app/models/englishUserGrade';
 import { User } from '@app/models/user';

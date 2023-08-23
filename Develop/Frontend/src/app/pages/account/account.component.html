@@ -80,14 +80,15 @@
     </ngx-datatable-column>
 
     <!-- Account Type -->
-    <ngx-datatable-column name="Type" prop="accountType">
+    <ngx-datatable-column name="Type" prop="type">
       <ng-template let-row="row" ngx-datatable-cell-template>
         <img
+        *ngIf="row.type.iconUrl"
           class="img-responsive"
-          src="assets/account/{{ row.accountType.iconUrl }}"
+          src="assets/account/{{ row.type.iconUrl }}"
           class="sh_page_img_icon"
         />
-        {{ row.accountType.typeCode }}
+        {{ row.type.typeCode }}
       </ng-template>
     </ngx-datatable-column>
 
@@ -99,7 +100,7 @@
     </ngx-datatable-column>
 
     <!-- Password -->
-    <ngx-datatable-column name="Password" prop="mdp">
+    <ngx-datatable-column name="Password" prop="mdpPlain">
       <ng-template let-value="value" ngx-datatable-cell-template>
         {{ value }}
       </ng-template>

@@ -6,7 +6,6 @@ import java.util.Optional;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -14,9 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.hientran.sohebox.authentication.UserDetailsServiceImpl;
 import com.hientran.sohebox.constants.DBConstants;
-import com.hientran.sohebox.dto.AccountVO;
 import com.hientran.sohebox.dto.PageResultVO;
-import com.hientran.sohebox.dto.UserVO;
 import com.hientran.sohebox.dto.response.APIResponse;
 import com.hientran.sohebox.dto.response.ResponseCode;
 import com.hientran.sohebox.entity.AccountTbl;
@@ -26,9 +23,7 @@ import com.hientran.sohebox.repository.AccountRepository;
 import com.hientran.sohebox.repository.TypeRepository;
 import com.hientran.sohebox.sco.AccountSCO;
 import com.hientran.sohebox.sco.SearchNumberVO;
-import com.hientran.sohebox.sco.SearchTextVO;
 import com.hientran.sohebox.specification.AccountSpecs.AccountTblEnum;
-import com.hientran.sohebox.transformer.AccountTransformer;
 
 import lombok.RequiredArgsConstructor;
 
@@ -38,7 +33,6 @@ import lombok.RequiredArgsConstructor;
 public class AccountService extends BaseService {
 
 	private final AccountRepository accountRepository;
-	private final AccountTransformer accountTransformer;
 	private final MdpService mdpService;
 	private final UserService userService;
 	private final UserDetailsServiceImpl userDetailsServiceImpl;
@@ -46,74 +40,54 @@ public class AccountService extends BaseService {
 	private final TypeRepository typeRepository;
 
 	/**
-	 *
 	 * Create new Account
-	 *
-	 * Anyone
-	 *
-	 * @param vo
-	 * @return
 	 */
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
-	public APIResponse<Long> create(AccountVO vo) {
+	public APIResponse<Long> create(AccountTbl request) {
 		// Declare result
 		APIResponse<Long> result = new APIResponse<>();
 
 		// Validate input
-		if (result.getStatus() == null) {
-			List<String> errors = new ArrayList<>();
+		List<String> errors = new ArrayList<>();
 
-			// Account type not null
-			if (vo.getAccountType() == null) {
-				errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, AccountTblEnum.type.name()));
-			}
+		// Account type not null
+		if (request.getType() == null) {
+			errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, AccountTblEnum.type.name()));
+		}
 
-			// Account name not null
-			if (StringUtils.isBlank(vo.getAccountName())) {
-				errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, AccountTblEnum.accountName.name()));
-			}
+		// Account name not null
+		if (StringUtils.isBlank(request.getAccountName())) {
+			errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, AccountTblEnum.accountName.name()));
+		}
 
-			// Record error
-			if (CollectionUtils.isNotEmpty(errors)) {
-				result = new APIResponse<>(HttpStatus.BAD_REQUEST, errors);
-			}
+		// Record error
+		if (CollectionUtils.isNotEmpty(errors)) {
+			return new APIResponse<>(HttpStatus.BAD_REQUEST, errors);
 		}
 
 		// Get logged user
 		UserTbl loggedUser = userDetailsServiceImpl.getCurrentLoginUser();
 
 		// Record existed already
-		if (result.getStatus() == null) {
-			if (recordIsExisted(loggedUser, vo.getAccountType(), vo.getAccountName())) {
-				result = new APIResponse<>(HttpStatus.BAD_REQUEST, ResponseCode.mapParam(ResponseCode.EXISTED_RECORD,
-						"account " + vo.getAccountType().getTypeCode() + "<" + vo.getAccountName() + ">"));
-			}
+		if (accountRepository.findFirstByUserAndTypeAndAccountName(loggedUser, request.getType(),
+				request.getAccountName()) != null) {
+			return new APIResponse<>(HttpStatus.BAD_REQUEST, ResponseCode.mapParam(ResponseCode.EXISTED_RECORD,
+					"account " + request.getType().getTypeCode() + "<" + request.getAccountName() + ">"));
 		}
 
 		// Create new
-		if (result.getStatus() == null) {
-			// Transform
-			AccountTbl tbl = new AccountTbl();
-			tbl.setUser(loggedUser);
-
-			TypeTbl accountType = new TypeTbl();
-			BeanUtils.copyProperties(vo.getAccountType(), accountType);
-			tbl.setType(accountType);
-			tbl.setAccountName(vo.getAccountName());
-			if (StringUtils.isNotBlank(vo.getMdp())) {
-				tbl.setMdp(mdpService.getMdp(vo.getMdp()));
-			}
-			if (StringUtils.isNotBlank(vo.getNote())) {
-				tbl.setNote(vo.getNote());
-			}
-
-			// Create
-			tbl = accountRepository.save(tbl);
-			result.setData(tbl.getId());
+		AccountTbl tbl = new AccountTbl();
+		tbl.setUser(loggedUser);
+		tbl.setType(request.getType());
+		tbl.setAccountName(request.getAccountName());
+		if (StringUtils.isNotBlank(request.getMdpPlain())) {
+			tbl.setMdp(mdpService.getMdp(request.getMdpPlain()));
 		}
-
-		// Write activity type "create account"
-		recordUserActivity(DBConstants.USER_ACTIVITY_ACCOUNT_CREATE);
+		if (StringUtils.isNotBlank(request.getNote())) {
+			tbl.setNote(request.getNote());
+		}
+		tbl = accountRepository.save(tbl);
+		result.setData(tbl.getId());
 
 		// Return
 		return result;
@@ -123,9 +97,6 @@ public class AccountService extends BaseService {
 	 * Delete by id
 	 *
 	 * Only role creator
-	 *
-	 * @param User
-	 * @return
 	 */
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
 	public APIResponse<Object> deleteById(Long id) {
@@ -196,44 +167,6 @@ public class AccountService extends BaseService {
 	}
 
 	/**
-	 *
-	 * Check if record is existed
-	 *
-	 * @param userOwnerId
-	 * @param accountTypeId
-	 * @param accountName
-	 * @return
-	 */
-	private boolean recordIsExisted(UserTbl user, TypeTbl accountType, String accountName) {
-		// Declare result
-		boolean result = false;
-
-		// Prepare search
-		SearchNumberVO userIdSearch = new SearchNumberVO();
-		userIdSearch.setEq(user.getId().doubleValue());
-
-		SearchNumberVO accountTypeIdSearch = new SearchNumberVO();
-		accountTypeIdSearch.setEq(accountType.getId().doubleValue());
-
-		SearchTextVO accountNameSearch = new SearchTextVO();
-		accountNameSearch.setEq(accountName);
-
-		AccountSCO sco = new AccountSCO();
-		sco.setUser(userIdSearch);
-		sco.setAccountType(accountTypeIdSearch);
-		sco.setAccountName(accountNameSearch);
-
-		// Get data
-		List<AccountTbl> listAccount = accountRepository.findAll(sco).getContent();
-		if (CollectionUtils.isNotEmpty(listAccount)) {
-			result = true;
-		}
-
-		// Return
-		return result;
-	}
-
-	/**
 	 * Search
 	 *
 	 * @param sco
@@ -244,66 +177,49 @@ public class AccountService extends BaseService {
 		// Declare result
 		APIResponse<Object> result = new APIResponse<>();
 
-		// Check if input user is existed
-		UserVO userVO = null;
-		if (sco.getUserName() != null) {
-			userVO = userService.getByUserName(sco.getUserName().getEq());
+		// Get logged user
+		UserTbl loggedUser = userDetailsServiceImpl.getCurrentLoginUser();
+
+		// Filter by user
+		if (!StringUtils.equals(loggedUser.getRole().getRoleName(), DBConstants.USER_ROLE_CREATOR)) {
+			SearchNumberVO userIdSearch = new SearchNumberVO();
+			userIdSearch.setEq(loggedUser.getId().doubleValue());
+			sco.setUser(userIdSearch);
 		}
 
-		if (result.getStatus() == null && userVO == null) {
-			result = new APIResponse<>(HttpStatus.BAD_REQUEST,
-					ResponseCode.mapParam(ResponseCode.INEXISTED_USERNAME, sco.getUserName().getEq()));
-		}
+		// Filter like by account type
+		if (sco.getAccountTypeName() != null && sco.getAccountTypeName().getLike() != null) {
+			List<TypeTbl> accountTypes = typeRepository.findAllByTypeClassAndTypeCodeContaining(
+					DBConstants.TYPE_CLASS_ACCOUNT, sco.getAccountTypeName().getLike());
 
-		// Check authentication data
-		if (result.getStatus() == null) {
-			if (StringUtils.equals(userVO.getRoleName(), DBConstants.USER_ROLE_CREATOR)) {
-				// Role creator: get all accounts
-				sco.setUserName(null);
-			} else {
-				// Other role: return account of logged user
-				if (userService.isDataOwner(sco.getUserName().getEq())) {
-					SearchNumberVO userIdSearch = new SearchNumberVO();
-					userIdSearch.setEq(userVO.getId().doubleValue());
-					sco.setUser(userIdSearch);
-				} else {
-					result = new APIResponse<>(HttpStatus.BAD_REQUEST,
-							ResponseCode.mapParam(ResponseCode.UNAUTHORIZED_DATA, null));
+			if (CollectionUtils.isNotEmpty(accountTypes)) {
+				List<Double> ids = new ArrayList<>();
+				for (TypeTbl typeTbl : accountTypes) {
+					ids.add(typeTbl.getId().doubleValue());
 				}
+
+				SearchNumberVO accountTypeId = new SearchNumberVO();
+				accountTypeId.setIn(ids.toArray(new Double[ids.size()]));
+				sco.setAccountType(accountTypeId);
 			}
 		}
 
-		// Get data
-		if (result.getStatus() == null) {
-			if (sco.getAccountName() != null && sco.getAccountName().getLike() != null) {
-				List<TypeTbl> accountTypes = typeRepository.findAllByTypeClassAndTypeCodeContaining(
-						DBConstants.TYPE_CLASS_ACCOUNT, sco.getAccountName().getLike());
+		Page<AccountTbl> page = accountRepository.findAll(sco);
 
-				if (CollectionUtils.isNotEmpty(accountTypes)) {
-					List<Double> ids = new ArrayList<>();
-					for (TypeTbl typeTbl : accountTypes) {
-						ids.add(typeTbl.getId().doubleValue());
-					}
-
-					SearchNumberVO accountTypeId = new SearchNumberVO();
-					accountTypeId.setIn(ids.toArray(new Double[ids.size()]));
-					sco.setAccountType(accountTypeId);
-				}
+		// Transformer
+		PageResultVO<AccountTbl> data = new PageResultVO<>();
+		if (!CollectionUtils.isEmpty(page.getContent())) {
+			List<AccountTbl> outData = new ArrayList<>();
+			for (AccountTbl item : page.getContent()) {
+				item.setMdpPlain(hideText(item.getMdp().getDescription()));
+				outData.add(item);
 			}
-
-			Page<AccountTbl> page = accountRepository.findAll(sco);
-
-			// Transformer
-			PageResultVO<AccountVO> data = accountTransformer.convertToPageReturn(page);
-
-			// Set data return
-			result.setData(data);
+			data.setElements(outData);
+			setPageHeader(page, data);
 		}
 
-		// Write activity type "access account"
-		if (userVO != null) {
-			userActivityService.recordUserActivity(userVO, DBConstants.USER_ACTIVITY_ACCOUNT_ACCESS);
-		}
+		// Set data return
+		result.setData(data);
 
 		// Return
 		return result;
@@ -314,127 +230,87 @@ public class AccountService extends BaseService {
 	 *
 	 * @return
 	 */
-	public APIResponse<?> showPassword(AccountVO vo) {
-		// Declare result
-		APIResponse<Object> result = new APIResponse<>();
-
+	public APIResponse<?> showPassword(AccountTbl request) {
 		// Get current logged user
 		UserTbl loggedUser = userDetailsServiceImpl.getCurrentLoginUser();
 
 		// Check authentication
 		if (loggedUser.getPrivateKey() != null) {
-			if (!mdpService.isValidPassword(vo.getUser().getPrivateKey(), loggedUser.getPrivateKey().getMdp())) {
-				result = new APIResponse<>(HttpStatus.OK, "Incorrect private key");
+			if (!mdpService.isValidPassword(request.getMdpPlain(), loggedUser.getPrivateKey().getMdp())) {
+				return new APIResponse<>(HttpStatus.OK, "Incorrect private key");
 			}
 		} else {
-			result = new APIResponse<>(HttpStatus.OK, "Private key is not set yet");
+			return new APIResponse<>(HttpStatus.OK, "Private key is not set yet");
 		}
 
 		// Get data
-		AccountTbl accountTbl = accountRepository.findById(vo.getId()).get();
-
-		// Verify data owner
-		if (result.getStatus() == null) {
-			if (accountTbl == null || accountTbl.getUser().getId() != loggedUser.getId()) {
-				result = new APIResponse<>(HttpStatus.OK, "You are not data owner");
-			}
+		AccountTbl accountTbl = accountRepository.findFirstByUserAndTypeAndAccountName(loggedUser, request.getType(),
+				request.getAccountName());
+		if (accountTbl == null) {
+			return new APIResponse<>(HttpStatus.OK, "You are not data owner");
 		}
 
-		// Return
-		if (result.getStatus() == null) {
-			List<AccountVO> accountList = new ArrayList<>();
-			vo.setMdp(accountTbl.getMdp().getDescription());
-			accountList.add(vo);
+		// Body
+		List<AccountTbl> accountList = new ArrayList<>();
+		request.setMdpPlain(accountTbl.getMdp().getDescription());
+		accountList.add(request);
 
-			PageResultVO<AccountVO> data = new PageResultVO<>();
-			data.setElements(accountList);
-			data.setCurrentPage(0);
-			data.setTotalPage(1);
-			data.setTotalElement(accountList.size());
+		PageResultVO<AccountTbl> data = new PageResultVO<>();
+		data.setElements(accountList);
+		data.setCurrentPage(0);
+		data.setTotalPage(1);
+		data.setTotalElement(accountList.size());
 
-			result.setData(data);
-		}
-
-		// Return
+		// return
+		APIResponse<Object> result = new APIResponse<>();
+		result.setData(data);
 		return result;
 	}
 
 	/**
-	 *
 	 * Update
-	 *
-	 * @param vo
-	 * @return
 	 */
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
-	public APIResponse<Long> update(AccountVO vo) {
+	public APIResponse<Long> update(AccountTbl request) {
 		// Declare result
 		APIResponse<Long> result = new APIResponse<>();
 
 		// Validate input
-		if (result.getStatus() == null) {
-			List<String> errors = new ArrayList<>();
-
-			// Account type not null
-			if (vo.getAccountType() == null) {
-				errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, AccountTblEnum.type.name()));
-			}
-
-			// Account name not null
-			if (StringUtils.isBlank(vo.getAccountName())) {
-				errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, AccountTblEnum.accountName.name()));
-			}
-
-			// Record error
-			if (CollectionUtils.isNotEmpty(errors)) {
-				result = new APIResponse<>(HttpStatus.BAD_REQUEST, errors);
-			}
+		List<String> errors = new ArrayList<>();
+		if (request.getType() == null) {
+			errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, AccountTblEnum.type.name()));
+		}
+		if (StringUtils.isBlank(request.getAccountName())) {
+			errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, AccountTblEnum.accountName.name()));
+		}
+		if (CollectionUtils.isNotEmpty(errors)) {
+			return new APIResponse<>(HttpStatus.BAD_REQUEST, errors);
 		}
 
 		// Get logged user
 		UserTbl loggedUser = userDetailsServiceImpl.getCurrentLoginUser();
 
 		// Get updated account
-		AccountTbl updateAccount = null;
-		if (result.getStatus() == null) {
-			updateAccount = getAccountIdByUser(loggedUser, vo.getId());
-			if (updateAccount == null) {
-				result = new APIResponse<>(HttpStatus.BAD_REQUEST, ResponseCode.mapParam(ResponseCode.INEXISTED_RECORD,
-						"account " + vo.getAccountType().getTypeCode() + "<" + vo.getAccountName() + ">"));
-			}
+		AccountTbl updateAccount = getAccountIdByUser(loggedUser, request.getId());
+		if (updateAccount == null) {
+			return new APIResponse<>(HttpStatus.BAD_REQUEST, ResponseCode.mapParam(ResponseCode.INEXISTED_RECORD,
+					"account " + request.getType().getTypeCode() + "<" + request.getAccountName() + ">"));
 		}
 
 		// Update
-		if (result.getStatus() == null) {
-			if (!StringUtils.equals(vo.getAccountType().getTypeCode(), updateAccount.getType().getTypeCode())) {
-				TypeTbl accountType = new TypeTbl();
-				BeanUtils.copyProperties(vo.getAccountType(), accountType);
-				updateAccount.setType(accountType);
-			}
-			if (!StringUtils.equals(vo.getAccountName(), updateAccount.getAccountName())) {
-				updateAccount.setAccountName(vo.getAccountName());
-			}
-
-			if (updateAccount.getMdp() == null && vo.getMdp() == null) {
-			} else {
-				if (updateAccount.getMdp() == null && vo.getMdp() != null) {
-					updateAccount.setMdp(mdpService.getMdp(vo.getMdp()));
-				} else {
-					if (!StringUtils.equals(vo.getMdp(),
-							accountTransformer.convertMdp(updateAccount.getMdp().getDescription()))) {
-						updateAccount.setMdp(mdpService.getMdp(vo.getMdp()));
-					}
-				}
-			}
-
-			if (!StringUtils.equals(vo.getNote(), updateAccount.getNote())) {
-				updateAccount.setNote(vo.getNote());
-			}
-			accountRepository.save(updateAccount);
+		updateAccount.setType(request.getType());
+		if (StringUtils.isNotEmpty(request.getAccountName())
+				&& !StringUtils.equals(updateAccount.getAccountName(), request.getAccountName())) {
+			updateAccount.setAccountName(request.getAccountName());
 		}
-
-		// Write activity type "update account"
-		recordUserActivity(DBConstants.USER_ACTIVITY_ACCOUNT_UPDATE);
+		if (StringUtils.isNotEmpty(request.getMdpPlain())) {
+			updateAccount.setMdp(mdpService.getMdp(request.getMdpPlain()));
+		}
+		if (StringUtils.isNotEmpty(request.getNote())
+				&& !StringUtils.equals(updateAccount.getNote(), request.getNote())) {
+			updateAccount.setNote(request.getNote());
+		}
+		accountRepository.save(updateAccount);
 
 		// Return
 		return result;

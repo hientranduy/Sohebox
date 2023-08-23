@@ -3,7 +3,7 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { AlertService } from '@app/commons/alert/alert.service';
 import { AppSettings } from '@app/app.settings';
 import { ToastrService } from 'ngx-toastr';
-import { ApiReponse } from '@app/models/apiReponse';
+import { ApiReponse } from '@app/models/response/apiReponse';
 import { User } from '@app/models/user';
 import { YoutubeVideo } from '@app/models/youtubeVideo';
 import { SearchNumber } from '@app/scos/core_sco/searchNumber';

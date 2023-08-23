@@ -1,8 +1,8 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { PageResultVO } from '@app/models/pageResultVO';
+import { PageResultVO } from '@app/models/response/pageResultVO';
 import { AlertService } from '@app/commons/alert/alert.service';
 import { AppSettings } from '@app/app.settings';
-import { ApiReponse } from '@app/models/apiReponse';
+import { ApiReponse } from '@app/models/response/apiReponse';
 import { English } from '@app/models/english';
 import { SearchText } from '@app/scos/core_sco/searchText';
 import { Sorter } from '@app/scos/core_sco/sorter';

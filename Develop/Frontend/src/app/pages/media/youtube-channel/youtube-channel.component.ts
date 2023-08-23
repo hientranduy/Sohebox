@@ -2,7 +2,7 @@ import { Component, HostListener, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
 import { AlertService } from '@app/commons/alert/alert.service';
-import { ApiReponse } from '@app/models/apiReponse';
+import { ApiReponse } from '@app/models/response/apiReponse';
 import { User } from '@app/models/user';
 import { YoutubeChannel } from '@app/models/youtubeChannel';
 import { YoutubeVideo } from '@app/models/youtubeVideo';

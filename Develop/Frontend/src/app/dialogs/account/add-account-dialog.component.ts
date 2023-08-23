@@ -3,7 +3,7 @@ import { FormControl, Validators } from '@angular/forms';
 
 import { AlertService } from '@app/commons/alert/alert.service';
 import { Account } from '@app/models/account';
-import { ApiReponse } from '@app/models/apiReponse';
+import { ApiReponse } from '@app/models/response/apiReponse';
 import { Type } from '@app/models/type';
 import { SearchText } from '@app/scos/core_sco/searchText';
 import { TypeSCO } from '@app/scos/typeSCO';
@@ -138,9 +138,9 @@ export class AddAccountDialogComponent implements OnInit {
 
       // Add account
       const account: Account = new Account();
-      account.accountType = this.accountTypeValue;
+      account.type = this.accountTypeValue;
       account.accountName = this.accountNameValue;
-      account.mdp = this.passwordValue;
+      account.mdpPlain = this.passwordValue;
       account.note = this.noteValue;
 
       this.backendService.createAccount(account).subscribe(

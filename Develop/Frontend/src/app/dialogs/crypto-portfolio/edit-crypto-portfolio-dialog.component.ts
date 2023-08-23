@@ -6,7 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { AlertService } from '@app/commons/alert/alert.service';
-import { ApiReponse } from '@app/models/apiReponse';
+import { ApiReponse } from '@app/models/response/apiReponse';
 import { CryptoPortfolio } from '@app/models/cryptoPortfolio';
 import { CryptoTokenConfig } from '@app/models/cryptoTokenConfig';
 import { CryptoTokenConfigSCO } from '@app/scos/cryptoTokenConfigSCO';

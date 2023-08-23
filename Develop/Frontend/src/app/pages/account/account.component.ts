@@ -4,8 +4,8 @@ import { AppSettings } from '@app/app.settings';
 import { ToastrService } from 'ngx-toastr';
 import { AlertService } from '@app/commons/alert/alert.service';
 import { Account } from '@app/models/account';
-import { ApiReponse } from '@app/models/apiReponse';
-import { PageResultVO } from '@app/models/pageResultVO';
+import { ApiReponse } from '@app/models/response/apiReponse';
+import { PageResultVO } from '@app/models/response/pageResultVO';
 import { User } from '@app/models/user';
 import { AccountSCO } from '@app/scos/accountSCO';
 import { SearchText } from '@app/scos/core_sco/searchText';
@@ -152,10 +152,6 @@ export class AccountComponent implements OnInit {
       sco.sorters = sorters;
     }
     if (filterValue) {
-      const userName = new SearchText();
-      userName.eq = this.currentUser.username;
-      sco.userName = userName;
-
       const accountTypeName = new SearchText();
       accountTypeName.like = filterValue;
       sco.accountTypeName = accountTypeName;
@@ -169,10 +165,6 @@ export class AccountComponent implements OnInit {
       sco.note = note;
 
       sco.searchOr = true;
-    } else {
-      const userName = new SearchText();
-      userName.eq = this.currentUser.username;
-      sco.userName = userName;
     }
 
     // Show Loading
@@ -183,7 +175,7 @@ export class AccountComponent implements OnInit {
       (data) => {
         const responseAPi: any = data;
         const typeResponse: ApiReponse<Account> = responseAPi;
-        if (typeResponse.data != null) {
+        if (typeResponse.data != null && typeResponse.data.totalElement > 0) {
           this.pageResult = typeResponse.data;
         } else {
           this.pageResult = new PageResultVO<Account>();
@@ -237,7 +229,7 @@ export class AccountComponent implements OnInit {
    * Show password
    */
   public showPassword(item: Account) {
-    if (item.mdp) {
+    if (item.mdpPlain) {
       this.dialogService.showPassword(item).then(
         (result) => {
           if (result) {
@@ -307,7 +299,7 @@ export class AccountComponent implements OnInit {
    * Open login URL
    */
   public openLoginUrl(account: Account) {
-    switch (account.accountType.typeCode) {
+    switch (account.type.typeCode) {
       case AppSettings.ACCOUNT_TYPE_GMAIL:
       case AppSettings.ACCOUNT_TYPE_GOOGLE: {
         window.open(
@@ -327,7 +319,7 @@ export class AccountComponent implements OnInit {
    * Open change password URL
    */
   public openChangePassWord(account: Account) {
-    switch (account.accountType.typeCode) {
+    switch (account.type.typeCode) {
       case AppSettings.ACCOUNT_TYPE_GMAIL:
       case AppSettings.ACCOUNT_TYPE_GOOGLE: {
         window.open(AppSettings.GOOGLE_CHANGE_PASSWORD_URL);
@@ -345,7 +337,7 @@ export class AccountComponent implements OnInit {
    * Open reset password URL
    */
   public openResetPassWord(account: Account) {
-    switch (account.accountType.typeCode) {
+    switch (account.type.typeCode) {
       case AppSettings.ACCOUNT_TYPE_GMAIL:
       case AppSettings.ACCOUNT_TYPE_GOOGLE: {
         window.open(AppSettings.GOOGLE_RESET_PASSWORD_URL);

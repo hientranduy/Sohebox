@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { PageResultVO } from '@app/models/pageResultVO';
+import { PageResultVO } from '@app/models/response/pageResultVO';
 import { FoodSCO } from '@app/scos/foodSCO';
 import { AlertService } from '@app/commons/alert/alert.service';
-import { ApiReponse } from '@app/models/apiReponse';
+import { ApiReponse } from '@app/models/response/apiReponse';
 import { Food } from '@app/models/food';
 import { SearchText } from '@app/scos/core_sco/searchText';
 import { Sorter } from '@app/scos/core_sco/sorter';

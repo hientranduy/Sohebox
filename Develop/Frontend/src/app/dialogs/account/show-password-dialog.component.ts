@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Account } from '@app/models/account';
-import { ApiReponse } from '@app/models/apiReponse';
+import { ApiReponse } from '@app/models/response/apiReponse';
 import { BackendService } from '@app/services/backend.service';
 import { SpinnerService } from '@app/services/spinner.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
@@ -25,7 +25,7 @@ export class ShowPasswordDialogComponent implements OnInit {
   privateKey: string;
 
   ngOnInit() {
-    this.displayPassword = this.account.mdp;
+    this.displayPassword = this.account.mdpPlain;
   }
 
   /////////////////////////////////////
@@ -40,7 +40,7 @@ export class ShowPasswordDialogComponent implements OnInit {
 
   public checkPrivateKey() {
     if (this.privateKey) {
-      this.account.user.privateKey = this.privateKey;
+      this.account.mdpPlain = this.privateKey;
 
       // Show Loading
       this.spinner.show();
@@ -52,12 +52,11 @@ export class ShowPasswordDialogComponent implements OnInit {
           const typeResponse: ApiReponse<Account> = responseAPi;
           if (typeResponse.data != null) {
             const accounts: Account[] = typeResponse.data.elements;
-            this.displayPassword = accounts[0].mdp;
+            this.displayPassword = accounts[0].mdpPlain;
           }
 
           if (typeResponse.message) {
             this.messageError = typeResponse.message;
-            this.displayPassword = this.account.mdp;
           } else {
             this.messageError = '';
           }

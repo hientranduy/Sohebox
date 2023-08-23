@@ -1,8 +1,8 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { PageResultVO } from '@app/models/pageResultVO';
+import { PageResultVO } from '@app/models/response/pageResultVO';
 import { AlertService } from '@app/commons/alert/alert.service';
 import { ToastrService } from 'ngx-toastr';
-import { ApiReponse } from '@app/models/apiReponse';
+import { ApiReponse } from '@app/models/response/apiReponse';
 import { Config } from '@app/models/config';
 import { ConfigSCO } from '@app/scos/configSCO';
 import { SearchText } from '@app/scos/core_sco/searchText';

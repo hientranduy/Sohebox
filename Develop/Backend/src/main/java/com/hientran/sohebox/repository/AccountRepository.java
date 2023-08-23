@@ -7,11 +7,15 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 import com.hientran.sohebox.entity.AccountTbl;
+import com.hientran.sohebox.entity.TypeTbl;
+import com.hientran.sohebox.entity.UserTbl;
 import com.hientran.sohebox.sco.AccountSCO;
 import com.hientran.sohebox.specification.AccountSpecs;
 
 public interface AccountRepository
 		extends JpaRepository<AccountTbl, Long>, JpaSpecificationExecutor<AccountTbl>, BaseRepository {
+
+	AccountTbl findFirstByUserAndTypeAndAccountName(UserTbl user, TypeTbl type, String accountName);
 
 	AccountSpecs specs = new AccountSpecs();
 

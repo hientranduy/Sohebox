@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertService } from '@app/commons/alert/alert.service';
-import { ApiReponse } from '@app/models/apiReponse';
+import { ApiReponse } from '@app/models/response/apiReponse';
 import { Food } from '@app/models/food';
 import { Sorter } from '@app/scos/core_sco/sorter';
 import { FoodSCO } from '@app/scos/foodSCO';
