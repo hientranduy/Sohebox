@@ -230,10 +230,12 @@ export class AccountComponent implements OnInit {
    */
   public showPassword(item: Account) {
     if (item.mdpPlain) {
+      let mdpPaint: string = item.mdpPlain;
       this.dialogService.showPassword(item).then(
         (result) => {
           if (result) {
           }
+          item.mdpPlain =  mdpPaint;
         },
         (reason) => {
           console.log('Show password reason:' + reason);
