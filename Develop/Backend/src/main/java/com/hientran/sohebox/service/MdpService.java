@@ -1,8 +1,5 @@
 package com.hientran.sohebox.service;
 
-import java.util.List;
-
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.Validate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -28,30 +25,13 @@ public class MdpService {
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
 	public MdpTbl getMdp(String mdp) {
 		Validate.notNull(mdp, "Fail validation, Password is null");
-
-		// Declare result
-		MdpTbl result = null;
-
-		// Get all mdp
-		List<MdpTbl> listMdp = mdpRepository.findAll();
-		if (CollectionUtils.isNotEmpty(listMdp)) {
-			for (MdpTbl item : listMdp) {
-				if (isValidPassword(mdp, item.getMdp())) {
-					result = item;
-					break;
-				}
-			}
-		}
-
-		// Create new if empty
+		MdpTbl result = mdpRepository.findFirstByDescription(mdp);
 		if (result == null) {
 			result = new MdpTbl();
 			result.setMdp(encryptMdp(mdp));
 			result.setDescription(mdp);
 			result = mdpRepository.save(result);
 		}
-
-		// Return
 		return result;
 	}
 

@@ -37,7 +37,7 @@ import { environment } from '@environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class BackendService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   //////////
   // TYPE //
@@ -82,12 +82,17 @@ export class BackendService {
     return this.http.post(`${environment.soheboxUrl}/users`, user);
   }
 
+  // Update user
+  updateUser(user: User) {
+    return this.http.put(`${environment.soheboxUrl}/users`, user);
+  }
+
   // Logout
   logout() {
     return this.http.post(`${environment.soheboxUrl}/users/logout`, null);
   }
 
-  // Change password by logged user
+  // Change password
   changePasswordByLoggedUser(user: User) {
     return this.http.put(
       `${environment.soheboxUrl}/users/changePasswordLoggedUser`,
@@ -95,14 +100,9 @@ export class BackendService {
     );
   }
 
-  // Delete logged user
+  // Delete user
   deleteLoggedUser() {
     return this.http.delete(`${environment.soheboxUrl}/users`);
-  }
-
-  // Update user
-  updateUser(user: User) {
-    return this.http.put(`${environment.soheboxUrl}/users`, user);
   }
 
   // Search user

@@ -17,11 +17,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.hientran.sohebox.authentication.UserDetailsServiceImpl;
 import com.hientran.sohebox.constants.DBConstants;
-import com.hientran.sohebox.dto.ChangePasswordVO;
 import com.hientran.sohebox.dto.ChangePrivateKeyVO;
 import com.hientran.sohebox.dto.PageResultVO;
 import com.hientran.sohebox.dto.UserStatusVO;
-import com.hientran.sohebox.dto.UserVO;
 import com.hientran.sohebox.dto.response.APIResponse;
 import com.hientran.sohebox.dto.response.ResponseCode;
 import com.hientran.sohebox.entity.UserActivityTbl;
@@ -34,7 +32,6 @@ import com.hientran.sohebox.sco.UserActivitySCO;
 import com.hientran.sohebox.sco.UserSCO;
 import com.hientran.sohebox.specification.UserActivitySpecs.UserActivityTblEnum;
 import com.hientran.sohebox.specification.UserSpecs.UserTblEnum;
-import com.hientran.sohebox.transformer.UserTransformer;
 import com.hientran.sohebox.utils.MyDateUtils;
 
 import jakarta.persistence.EntityManager;
@@ -44,13 +41,12 @@ import lombok.RequiredArgsConstructor;
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
-public class UserService {
+public class UserService extends BaseService {
 
 	@PersistenceContext
 	protected EntityManager entityManager;
 
 	private final UserRepository userRepository;
-	private final UserTransformer userTransformer;
 	private final RoleService roleService;
 	private final MdpService mdpService;
 	private final UserActivityService userActivityService;
@@ -61,13 +57,13 @@ public class UserService {
 	 * Change password logged user
 	 */
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
-	public APIResponse<Object> changePassword(ChangePasswordVO vo) {
+	public APIResponse<Object> changePassword(UserTbl request) {
 		// Declare result
 		APIResponse<Object> result = new APIResponse<>();
 
 		// Validate password
 		List<String> errors = new ArrayList<>();
-		if (isInvalidPassword(vo.getNewPassword())) {
+		if (isInvalidPassword(request.getPassword())) {
 			errors.add(ResponseCode.mapParam(ResponseCode.INVALID_FIELD, UserTblEnum.password.name()));
 		}
 		if (CollectionUtils.isNotEmpty(errors)) {
@@ -76,7 +72,7 @@ public class UserService {
 
 		// Change password
 		UserTbl userTbl = userDetailsServiceImpl.getCurrentLoginUser();
-		userTbl.setMdp(mdpService.getMdp(vo.getNewPassword()));
+		userTbl.setMdp(mdpService.getMdp(request.getPassword()));
 		userRepository.save(userTbl);
 
 		// Return
@@ -95,39 +91,38 @@ public class UserService {
 		// Declare result
 		APIResponse<Object> result = new APIResponse<>();
 
-		// Get current logged in user
-		UserTbl tbl = userDetailsServiceImpl.getCurrentLoginUser();
-
 		// Validate input
-		if (result.getStatus() == null) {
-			List<String> errors = new ArrayList<>();
-			if (tbl.getPrivateKey() != null && StringUtils.isBlank(vo.getOldPrivateKey())) {
-				errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, "old private key"));
-			}
-
-			if (StringUtils.isBlank(vo.getNewPrivateKey())) {
-				errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, UserTblEnum.privateKey.name()));
-			}
-
-			// Record error
-			if (CollectionUtils.isNotEmpty(errors)) {
-				result = new APIResponse<>(HttpStatus.BAD_REQUEST, errors);
-			}
+		List<String> errors = new ArrayList<>();
+		if (StringUtils.isBlank(vo.getNewPrivateKey())) {
+			errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, "new private key"));
+		}
+		if (CollectionUtils.isNotEmpty(errors)) {
+			return new APIResponse<>(HttpStatus.BAD_REQUEST, errors);
 		}
 
-		// Validate old private key
-		if (result.getStatus() == null && tbl.getPrivateKey() != null) {
-			if (!mdpService.isValidPassword(vo.getOldPrivateKey(), tbl.getPrivateKey().getMdp())) {
-				result = new APIResponse<>(HttpStatus.BAD_REQUEST,
+		// Get current logged in user
+		UserTbl loggedUser = userDetailsServiceImpl.getCurrentLoginUser();
+
+		// Validate old private key if found
+		if (ObjectUtils.isNotEmpty(loggedUser.getPrivateKey())) {
+			// Required
+			if (StringUtils.isBlank(vo.getOldPrivateKey())) {
+				errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, "old private key"));
+			}
+			if (CollectionUtils.isNotEmpty(errors)) {
+				return new APIResponse<>(HttpStatus.BAD_REQUEST, errors);
+			}
+
+			// Check equal
+			if (!mdpService.isValidPassword(vo.getOldPrivateKey(), loggedUser.getPrivateKey().getMdp())) {
+				return new APIResponse<>(HttpStatus.BAD_REQUEST,
 						ResponseCode.mapParam(ResponseCode.UNAUTHORIZED_USER, null));
 			}
 		}
 
 		// Update private key
-		if (result.getStatus() == null) {
-			tbl.setPrivateKey(mdpService.getMdp(vo.getNewPrivateKey()));
-			userRepository.save(tbl);
-		}
+		loggedUser.setPrivateKey(mdpService.getMdp(vo.getNewPrivateKey()));
+		userRepository.save(loggedUser);
 
 		// Return
 		return result;
@@ -137,20 +132,20 @@ public class UserService {
 	 * Create user
 	 */
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
-	public APIResponse<Long> create(UserVO vo) {
+	public APIResponse<Long> create(UserTbl request) {
 
 		// Validate input
 		List<String> errors = new ArrayList<>();
-		if (StringUtils.isBlank(vo.getUsername())) {
+		if (StringUtils.isBlank(request.getUsername())) {
 			errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, UserTblEnum.username.name()));
 		}
-		if (isInvalidPassword(vo.getPassword())) {
+		if (isInvalidPassword(request.getPassword())) {
 			errors.add(ResponseCode.mapParam(ResponseCode.INVALID_FIELD, UserTblEnum.password.name()));
 		}
-		if (StringUtils.isBlank(vo.getFirstName())) {
+		if (StringUtils.isBlank(request.getFirstName())) {
 			errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, UserTblEnum.firstName.name()));
 		}
-		if (StringUtils.isBlank(vo.getLastName())) {
+		if (StringUtils.isBlank(request.getLastName())) {
 			errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, UserTblEnum.lastName.name()));
 		}
 		if (CollectionUtils.isNotEmpty(errors)) {
@@ -158,22 +153,22 @@ public class UserService {
 		}
 
 		// Valid existed record
-		if (getByUserName(vo.getUsername()) != null) {
+		if (getByUserName(request.getUsername()) != null) {
 			return new APIResponse<>(HttpStatus.BAD_REQUEST,
-					ResponseCode.mapParam(ResponseCode.EXISTED_USERNAME, vo.getUsername()));
+					ResponseCode.mapParam(ResponseCode.EXISTED_USERNAME, request.getUsername()));
 		}
 
 		// Create User
-		UserTbl tbl = userTransformer.convertToTbl(vo);
+		UserTbl tbl = request;
 
 		// Always set role "user"
 		tbl.setRole(roleService.getByRoleName(DBConstants.USER_ROLE_USER));
 
 		// Set mdp
-		tbl.setMdp(mdpService.getMdp(vo.getPassword()));
+		tbl.setMdp(mdpService.getMdp(request.getPassword()));
 
 		// Set avatar
-		if (StringUtils.isBlank(vo.getAvatarUrl())) {
+		if (StringUtils.isBlank(request.getAvatarUrl())) {
 			tbl.setAvatarUrl(DBConstants.USER_DEFAULT_AVATAR);
 		}
 
@@ -196,17 +191,8 @@ public class UserService {
 	 * @param userName
 	 * @return
 	 */
-	public UserVO getByUserName(String userName) {
-		// Declare result
-		UserVO result = null;
-
-		UserTbl tbl = userRepository.findFirstByUsername(userName);
-		if (ObjectUtils.isNotEmpty(tbl)) {
-			result = userTransformer.convertToVO(tbl);
-		}
-
-		// Return
-		return result;
+	public UserTbl getByUserName(String userName) {
+		return userRepository.findFirstByUsername(userName);
 	}
 
 	/**
@@ -282,31 +268,6 @@ public class UserService {
 		if (userLogin != null) {
 			userActivityService.recordUserActivity(userLogin, activity);
 		}
-	}
-
-	/**
-	 * Search User by condition
-	 *
-	 * Only creator
-	 *
-	 * @param UserId
-	 * @return
-	 */
-	public APIResponse<Object> search(UserSCO sco) {
-		// Declare result
-		APIResponse<Object> result = new APIResponse<>();
-
-		// Get data
-		Page<UserTbl> page = userRepository.findAll(sco);
-
-		// Transformer
-		PageResultVO<UserVO> data = userTransformer.convertToPageReturn(page);
-
-		// Set data return
-		result.setData(data);
-
-		// Return
-		return result;
 	}
 
 	/**
@@ -476,27 +437,15 @@ public class UserService {
 	 * Update logged user
 	 */
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
-	public APIResponse<Object> update(UserVO vo) {
-
-		// Validate data
-		List<String> errors = new ArrayList<>();
-		if (StringUtils.isBlank(vo.getUsername())) {
-			errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, UserTblEnum.username.name()));
-		}
-		if (StringUtils.isBlank(vo.getFirstName())) {
-			errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, UserTblEnum.firstName.name()));
-		}
-		if (StringUtils.isBlank(vo.getLastName())) {
-			errors.add(ResponseCode.mapParam(ResponseCode.FILED_EMPTY, UserTblEnum.lastName.name()));
-		}
-		if (CollectionUtils.isNotEmpty(errors)) {
-			return new APIResponse<>(HttpStatus.BAD_REQUEST, errors);
-		}
-
+	public APIResponse<Object> update(UserTbl request) {
 		// Update
 		UserTbl updateTbl = userDetailsServiceImpl.getCurrentLoginUser();
-		updateTbl.setFirstName(vo.getFirstName());
-		updateTbl.setLastName(vo.getLastName());
+		if (StringUtils.isNotEmpty(request.getFirstName())) {
+			updateTbl.setFirstName(request.getFirstName());
+		}
+		if (StringUtils.isNotEmpty(request.getLastName())) {
+			updateTbl.setLastName(request.getLastName());
+		}
 		userRepository.save(updateTbl);
 
 		// Return

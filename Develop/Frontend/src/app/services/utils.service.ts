@@ -16,7 +16,7 @@ export class UtilsService {
 
   get isAdmin() {
     let result = false;
-    if (this.currentUser && this.currentUser.roleName === 'creator') {
+    if (this.currentUser && this.currentUser.role.roleName === 'creator') {
       result = true;
     }
     return result;

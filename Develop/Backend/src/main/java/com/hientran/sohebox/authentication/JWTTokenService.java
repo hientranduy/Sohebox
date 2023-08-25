@@ -18,7 +18,7 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hientran.sohebox.constants.DBConstants;
-import com.hientran.sohebox.dto.UserVO;
+import com.hientran.sohebox.entity.UserTbl;
 import com.hientran.sohebox.service.UserActivityService;
 import com.hientran.sohebox.service.UserService;
 
@@ -65,15 +65,15 @@ public class JWTTokenService {
 		res.addHeader(HEADER, SCHEME + " " + jwtToken);
 
 		// Add to body
-		UserVO userVO = userService.getByUserName(username);
-		userVO.setToken(SCHEME + " " + jwtToken);
+		UserTbl user = userService.getByUserName(username);
+		user.setToken(SCHEME + " " + jwtToken);
 
 		res.setContentType("application/json");
 		res.setCharacterEncoding("UTF-8");
-		res.getWriter().write(objectMapper.writeValueAsString(userVO));
+		res.getWriter().write(objectMapper.writeValueAsString(user));
 
 		// Record activity "LOGIN"
-		userActivityService.recordUserActivity(userVO, DBConstants.USER_ACTIVITY_LOGIN);
+		userActivityService.recordUserActivity(user, DBConstants.USER_ACTIVITY_LOGIN);
 	}
 
 	private Date calculateExpirationDate(Date createdDate, Long expirationMiliSecond) {
