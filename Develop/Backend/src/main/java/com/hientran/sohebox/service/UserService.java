@@ -49,7 +49,6 @@ public class UserService extends BaseService {
 	private final UserRepository userRepository;
 	private final RoleService roleService;
 	private final MdpService mdpService;
-	private final UserActivityService userActivityService;
 	private final UserActivityRepository userActivityRepository;
 	private final UserDetailsServiceImpl userDetailsServiceImpl;
 
@@ -256,18 +255,6 @@ public class UserService extends BaseService {
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
 	public APIResponse<Object> logout() {
 		return new APIResponse<>();
-	}
-
-	/**
-	 *
-	 * Record user activity
-	 *
-	 */
-	protected void recordUserActivity(String activity) {
-		UserTbl userLogin = userDetailsServiceImpl.getCurrentLoginUser();
-		if (userLogin != null) {
-			userActivityService.recordUserActivity(userLogin, activity);
-		}
 	}
 
 	/**

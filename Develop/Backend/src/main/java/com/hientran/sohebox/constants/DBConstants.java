@@ -65,12 +65,6 @@ public class DBConstants {
 
 	public static final String USER_ACTIVITY_LOGIN = "login";
 
-	public static final String USER_ACTIVITY_ACCOUNT_ACCESS = "account access";
-
-	public static final String USER_ACTIVITY_ACCOUNT_CREATE = "account create";
-
-	public static final String USER_ACTIVITY_ACCOUNT_UPDATE = "account update";
-
 	public static final String USER_ACTIVITY_ACCOUNT_DELETE = "account delete";
 
 	public static final String USER_ACTIVITY_ENGLISH_ACCESS = "english access";

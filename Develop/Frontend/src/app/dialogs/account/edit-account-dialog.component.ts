@@ -162,7 +162,7 @@ export class EditAccountDialogComponent implements OnInit {
         if (this.passwordValue !== this.account.mdpPlain) {
           updateAccount.mdpPlain = this.passwordValue;
         } else {
-          updateAccount.mdpPlain = "";
+          updateAccount.mdpPlain = '';
         }
         if (this.noteValue !== this.account.note) {
           updateAccount.note = this.noteValue;

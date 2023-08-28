@@ -15,8 +15,6 @@ import com.hientran.sohebox.specification.AccountSpecs;
 public interface AccountRepository
 		extends JpaRepository<AccountTbl, Long>, JpaSpecificationExecutor<AccountTbl>, BaseRepository {
 
-	AccountTbl findFirstByUserAndTypeAndAccountName(UserTbl user, TypeTbl type, String accountName);
-
 	AccountSpecs specs = new AccountSpecs();
 
 	/**
@@ -44,5 +42,7 @@ public interface AccountRepository
 		result = pageData;
 		return result;
 	}
+
+	AccountTbl findFirstByUserAndTypeAndAccountName(UserTbl user, TypeTbl type, String accountName);
 
 }

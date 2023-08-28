@@ -211,7 +211,9 @@ public class AccountService extends BaseService {
 		if (!CollectionUtils.isEmpty(page.getContent())) {
 			List<AccountTbl> outData = new ArrayList<>();
 			for (AccountTbl item : page.getContent()) {
-				item.setMdpPlain(hideText(item.getMdp().getDescription()));
+				if (item.getMdp() != null) {
+					item.setMdpPlain(hideText(item.getMdp().getDescription()));
+				}
 				outData.add(item);
 			}
 			data.setElements(outData);

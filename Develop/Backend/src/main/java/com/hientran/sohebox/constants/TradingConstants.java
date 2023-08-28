@@ -10,14 +10,6 @@ public class TradingConstants {
 
 	public static final String TRADINGECONOMICS_API_MARKET_SYMBOL = "/markets/symbol/";
 
-	public static final String TRADINGECONOMICS_API_MARKET_HISTORY = "/markets/historical/";
-
-	// WTI Crude Oil
-	public static final String TRADINGECONOMICS_SYMBOL_COM_CLI = "CL1:COM";
-
-	// Brent Crude Oil
-	public static final String TRADINGECONOMICS_SYMBOL_COM_CO1 = "CO1:COM";
-
 	///////////////
 	// PARAMETER //
 	///////////////
@@ -25,8 +17,6 @@ public class TradingConstants {
 	public static final String TRADINGECONOMICS_PARAM_KEY = "c";
 
 	public static final String TRADINGECONOMICS_PARAM_OUTPUT_FORMAT = "f";
-
-	public static final String TRADINGECONOMICS_PARAM_START_DATE = "d1";
 
 	///////////////
 	// CONSTANTS //

@@ -235,7 +235,7 @@ export class AccountComponent implements OnInit {
         (result) => {
           if (result) {
           }
-          item.mdpPlain =  mdpPaint;
+          item.mdpPlain = mdpPaint;
         },
         (reason) => {
           console.log('Show password reason:' + reason);

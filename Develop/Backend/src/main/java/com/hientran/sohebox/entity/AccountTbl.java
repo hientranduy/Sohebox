@@ -36,7 +36,7 @@ public class AccountTbl extends BaseTbl {
 
 	@Column(name = "note")
 	private String note;
-	
+
 	// Other field
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@Transient

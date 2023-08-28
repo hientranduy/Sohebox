@@ -41,12 +41,12 @@ public class UserTbl extends BaseTbl {
 
 	@Column(name = "avatar_url")
 	private String avatarUrl;
-	
+
 	// Other field
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@Transient
 	private String password;
-	
+
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@Transient
 	private String token;

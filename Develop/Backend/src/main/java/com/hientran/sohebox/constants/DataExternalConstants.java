@@ -28,14 +28,6 @@ public class DataExternalConstants {
 	///////////////////////
 	// Trading economics //
 	///////////////////////
-	public static final String FINANCE_TRADING_MARKET_OIL_LATE_TIME_SECOND = "FINANCE_TRADING_MARKET_OIL_LATE_TIME_SECOND";
-
-	public static final String REQUEST_DATA_FILE_PATH_TRADING_MARKET_OIL = "/dataExternal/tradingMarketOil.txt";
-
-	public static final String FINANCE_TRADING_HISTORY_OIL_LATE_TIME_SECOND = "FINANCE_TRADING_HISTORY_OIL_LATE_TIME_SECOND";
-
-	public static final String REQUEST_DATA_FILE_PATH_TRADING_HISTORY_OIL = "/dataExternal/tradingHistoryOil.txt";
-
 	public static final String FINANCE_TRADING_MARKET_STOCK_LATE_TIME_SECOND = "FINANCE_TRADING_MARKET_STOCK_LATE_TIME_SECOND";
 
 	public static final String REQUEST_DATA_FILE_PATH_TRADING_MARKET_STOCK_AMERICA = "/dataExternal/tradingMarketStock_AMERICA.txt";
