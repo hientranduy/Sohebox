@@ -6,4 +6,5 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import com.hientran.sohebox.entity.MdpTbl;
 
 public interface MdpRepository extends JpaRepository<MdpTbl, Long>, JpaSpecificationExecutor<MdpTbl> {
+	MdpTbl findFirstByDescription(String description);
 }

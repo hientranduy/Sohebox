@@ -53,7 +53,7 @@ export class ChangePasswordDialogComponent implements OnInit {
     if (this.validData) {
       // Prepare change password form
       this.changePasswordForm = this.formBuilder.group({
-        newPassword: [this.newPassword],
+        password: [this.newPassword],
       });
 
       // Change password

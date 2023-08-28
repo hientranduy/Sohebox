@@ -1,9 +1,9 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { MediaType } from '@app/models/mediaType';
-import { PageResultVO } from '@app/models/pageResultVO';
+import { PageResultVO } from '@app/models/response/pageResultVO';
 import { MediaTypeSCO } from '@app/scos/mediaTypeSCO';
 import { AlertService } from '@app/commons/alert/alert.service';
-import { ApiReponse } from '@app/models/apiReponse';
+import { ApiReponse } from '@app/models/response/apiReponse';
 import { SearchText } from '@app/scos/core_sco/searchText';
 import { Sorter } from '@app/scos/core_sco/sorter';
 import { BackendService } from '@app/services/backend.service';

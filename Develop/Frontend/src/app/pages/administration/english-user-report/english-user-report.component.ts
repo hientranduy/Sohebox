@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { PageResultVO } from '@app/models/pageResultVO';
+import { PageResultVO } from '@app/models/response/pageResultVO';
 import { AlertService } from '@app/commons/alert/alert.service';
-import { ApiReponse } from '@app/models/apiReponse';
+import { ApiReponse } from '@app/models/response/apiReponse';
 import { EnglishLearnReport } from '@app/models/englishLearnReport';
 import { EnglishLearnReportSCO } from '@app/scos/englishLearnReportSCO';
 import { BackendService } from '@app/services/backend.service';

@@ -7,7 +7,7 @@ import {
 } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { AlertService } from '@app/commons/alert/alert.service';
-import { ApiReponse } from '@app/models/apiReponse';
+import { ApiReponse } from '@app/models/response/apiReponse';
 import { EnglishType } from '@app/models/englishType';
 import { SearchText } from '@app/scos/core_sco/searchText';
 import { Sorter } from '@app/scos/core_sco/sorter';

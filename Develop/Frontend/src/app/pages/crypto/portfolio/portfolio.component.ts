@@ -1,10 +1,10 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { AppSettings } from '@app/app.settings';
-import { PageResultVO } from '@app/models/pageResultVO';
+import { PageResultVO } from '@app/models/response/pageResultVO';
 import { AlertService } from '@app/commons/alert/alert.service';
 import { CryptoPortfolioSCO } from '@app/scos/cryptoPortfolioSCO';
 import { CryptoPortfolioHistorySCO } from '@app/scos/cryptoPortfolioHistorySCO';
-import { ApiReponse } from '@app/models/apiReponse';
+import { ApiReponse } from '@app/models/response/apiReponse';
 import { CryptoPortfolio } from '@app/models/cryptoPortfolio';
 import { CryptoPortfolioHistory } from '@app/models/cryptoPortfolioHistory';
 import { User } from '@app/models/user';

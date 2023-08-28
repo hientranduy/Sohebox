@@ -31,15 +31,13 @@
     >
   </p>
 
-  <div *ngIf="currentUser.privateKey">
-    <label>Old Private Key</label>
-    <input
-      type="password"
-      required
-      class="form-control"
-      [(ngModel)]="oldPrivateKey"
-    />
-  </div>
+  <label>Old Private Key</label>
+  <input
+    type="password"
+    required
+    class="form-control"
+    [(ngModel)]="oldPrivateKey"
+  />
 
   <label>New Private Key</label>
   <input

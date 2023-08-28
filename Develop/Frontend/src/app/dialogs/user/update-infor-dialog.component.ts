@@ -56,7 +56,6 @@ export class UpdateInforDialogComponent implements OnInit {
     if (this.validData) {
       // Prepare update user form
       this.updateUserForm = this.formBuilder.group({
-        username: [this.currentUser.username],
         firstName: [this.firstName],
         lastName: [this.lastName],
       });

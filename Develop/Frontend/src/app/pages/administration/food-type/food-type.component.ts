@@ -1,10 +1,10 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { FoodType } from '@app/models/foodType';
-import { PageResultVO } from '@app/models/pageResultVO';
+import { PageResultVO } from '@app/models/response/pageResultVO';
 import { FoodTypeSCO } from '@app/scos/foodTypeSCO';
 import { AlertService } from '@app/commons/alert/alert.service';
 import { ToastrService } from 'ngx-toastr';
-import { ApiReponse } from '@app/models/apiReponse';
+import { ApiReponse } from '@app/models/response/apiReponse';
 import { SearchText } from '@app/scos/core_sco/searchText';
 import { Sorter } from '@app/scos/core_sco/sorter';
 import { BackendService } from '@app/services/backend.service';

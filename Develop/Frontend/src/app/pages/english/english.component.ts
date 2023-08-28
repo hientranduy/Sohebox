@@ -7,7 +7,7 @@ import { AppSettings } from '@app/app.settings';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
-import { ApiReponse } from '@app/models/apiReponse';
+import { ApiReponse } from '@app/models/response/apiReponse';
 import { English } from '@app/models/english';
 import { EnglishLearnRecord } from '@app/models/englishLearnRecord';
 import { EnglishType } from '@app/models/englishType';

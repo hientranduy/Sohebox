@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertService } from '@app/commons/alert/alert.service';
-import { ApiReponse } from '@app/models/apiReponse';
+import { ApiReponse } from '@app/models/response/apiReponse';
 import { GoldSjc } from '@app/models/goldSjc';
 import { BackendService } from '@app/services/backend.service';
 import { SpinnerService } from '@app/services/spinner.service';

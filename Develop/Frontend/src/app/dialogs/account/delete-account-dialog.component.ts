@@ -34,7 +34,7 @@ export class DeleteAccountDialogComponent implements OnInit {
     this.spinner.show();
 
     const accountInfo =
-      this.account.accountType.typeCode + '<' + this.account.accountName + '>';
+      this.account.type.typeCode + '<' + this.account.accountName + '>';
     this.backendService.deleteAccount(this.account.id).subscribe(
       (data) => {
         // Send toast success

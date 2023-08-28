@@ -1,11 +1,14 @@
 package com.hientran.sohebox.entity;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ForeignKey;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import jakarta.persistence.UniqueConstraint;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -38,4 +41,13 @@ public class UserTbl extends BaseTbl {
 
 	@Column(name = "avatar_url")
 	private String avatarUrl;
+
+	// Other field
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@Transient
+	private String password;
+
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@Transient
+	private String token;
 }

@@ -168,11 +168,12 @@ public class SecurityConfig {
 				///////////////////////////////////////////
 				// RESTRICTION - ADMIN ONLY //
 				///////////////////////////////////////////
-				// User: get all
-				.requestMatchers(HttpMethod.GET, ApiPublicConstants.API_USER).hasRole(DBConstants.USER_ROLE_CREATOR)
 				// User: search
-				.requestMatchers(HttpMethod.POST, ApiPublicConstants.API_USER + ApiPublicConstants.SEARCH)
+				.requestMatchers(HttpMethod.POST, ApiPublicConstants.API_USER + ApiPublicConstants.API_ACTIVE_USER)
 				.hasRole(DBConstants.USER_ROLE_CREATOR)
+				.requestMatchers(HttpMethod.POST, ApiPublicConstants.API_USER + ApiPublicConstants.API_USER_STATUS)
+				.hasRole(DBConstants.USER_ROLE_CREATOR)
+
 				// User: delete
 				.requestMatchers(HttpMethod.DELETE, ApiPublicConstants.API_USER + "/*")
 				.hasRole(DBConstants.USER_ROLE_CREATOR)

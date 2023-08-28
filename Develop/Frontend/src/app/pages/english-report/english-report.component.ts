@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { PageResultVO } from '@app/models/pageResultVO';
+import { PageResultVO } from '@app/models/response/pageResultVO';
 import { ToastrService } from 'ngx-toastr';
-import { ApiReponse } from '@app/models/apiReponse';
+import { ApiReponse } from '@app/models/response/apiReponse';
 import { EnglishLearnRecord } from '@app/models/englishLearnRecord';
 import { EnglishLearnReport } from '@app/models/englishLearnReport';
 import { SearchDate } from '@app/scos/core_sco/searchDate';
