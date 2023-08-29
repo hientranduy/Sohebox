@@ -93,8 +93,8 @@ export class AddConfigDialogComponent implements OnInit {
         this.spinner.show();
 
         // Update
-        this.backendService.createConfig(configForm.value).subscribe(
-          (data) => {
+        this.backendService.createConfig(configForm.value).subscribe({
+          next: async (res) => {
             // Send success toast message
             this.toastr.success(
               '<Config Key ' + this.configKey + '> is created successful',
@@ -106,17 +106,17 @@ export class AddConfigDialogComponent implements OnInit {
             // Close dialog
             this.activeModal.close(true);
           },
-          (error) => {
+          error: (err) => {
             // Hide loading
             this.spinner.hide();
 
             // Send error toast message
-            this.toastr.error(error);
+            this.toastr.error(err);
 
             // Close dialog
             this.activeModal.close(false);
           },
-        );
+        });
     }
   }
 

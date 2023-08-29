@@ -85,10 +85,10 @@ export class EditAccountDialogComponent implements OnInit {
     this.spinner.show();
 
     // Get list type
-    this.backendService.searchType(typeSCO).subscribe(
-      (data) => {
+    this.backendService.searchType(typeSCO).subscribe({
+      next: async (res) => {
         // Get data
-        const responseAPi: any = data;
+        const responseAPi: any = res;
         const typeResponse: ApiReponse<Type> = responseAPi;
         if (typeResponse.data != null) {
           const accountTypes: Type[] = typeResponse.data.elements;
@@ -108,14 +108,14 @@ export class EditAccountDialogComponent implements OnInit {
         // Hide loading
         this.spinner.hide();
       },
-      (error) => {
+      error: (err) => {
         // Hide loading
         this.spinner.hide();
 
         // Show alert message
-        this.alertService.error(error);
+        this.alertService.error(err);
       },
-    );
+    });
   }
 
   /////////////////////////////////////
@@ -172,8 +172,8 @@ export class EditAccountDialogComponent implements OnInit {
         this.spinner.show();
 
         // Edit account
-        this.backendService.updateAccount(updateAccount).subscribe(
-          (data) => {
+        this.backendService.updateAccount(updateAccount).subscribe({
+          next: async (res) => {
             // Send success toast message
             this.toastr.success(
               'Account ' +
@@ -190,15 +190,15 @@ export class EditAccountDialogComponent implements OnInit {
             // Close dialog
             this.activeModal.close(true);
           },
-          (error) => {
+          error: (err) => {
             // Hide loading
             this.spinner.hide();
 
             // Send error
             this.message = null;
-            this.messageError = error;
+            this.messageError = err;
           },
-        );
+        });
     }
   }
 

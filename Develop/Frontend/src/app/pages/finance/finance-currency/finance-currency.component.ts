@@ -41,10 +41,10 @@ export class FinanceCurrencyComponent implements OnInit {
     this.spinner.show();
 
     // Get list
-    this.backendService.getCurrencyVcbRate().subscribe(
-      (data) => {
+    this.backendService.getCurrencyVcbRate().subscribe({
+      next: async (res) => {
         // Get data
-        const responseAPi: any = data;
+        const responseAPi: any = res;
         const typeResponse: ApiReponse<CurrencyVietcombank> = responseAPi;
         if (typeResponse.data != null) {
           this.currencyVCB = typeResponse.data.elements[0];
@@ -55,10 +55,10 @@ export class FinanceCurrencyComponent implements OnInit {
         // Hide loading
         this.spinner.hide();
       },
-      (error) => {
-        this.processError(error);
+      error: (err) => {
+        this.processError(err);
       },
-    );
+    });
   }
 
   ///////////////////

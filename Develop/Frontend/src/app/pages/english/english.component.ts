@@ -183,10 +183,10 @@ export class EnglishComponent implements OnInit {
     englishTypeSCO.typeClass = typeClass;
 
     // Get list category
-    this.backendService.searchEnglishType(englishTypeSCO).subscribe(
-      (data) => {
+    this.backendService.searchEnglishType(englishTypeSCO).subscribe({
+      next: async (res) => {
         // Get data
-        const responseAPi: any = data;
+        const responseAPi: any = res;
         const typeResponse: ApiReponse<EnglishType> = responseAPi;
         if (typeResponse.data != null) {
           const categories: EnglishType[] = typeResponse.data.elements;
@@ -202,10 +202,10 @@ export class EnglishComponent implements OnInit {
           );
         }
       },
-      (error) => {
-        this.processError(error);
+      error: (err) => {
+        this.processError(err);
       },
-    );
+    });
   }
 
   /**
@@ -224,10 +224,10 @@ export class EnglishComponent implements OnInit {
     englishTypeSCO.sorters = sorters;
 
     // Get list grade
-    this.backendService.searchEnglishType(englishTypeSCO).subscribe(
-      (data) => {
+    this.backendService.searchEnglishType(englishTypeSCO).subscribe({
+      next: async (res) => {
         // Get data
-        const responseAPi: any = data;
+        const responseAPi: any = res;
         const typeResponse: ApiReponse<EnglishType> = responseAPi;
         if (typeResponse.data != null) {
           const grades: EnglishType[] = typeResponse.data.elements;
@@ -243,10 +243,10 @@ export class EnglishComponent implements OnInit {
           );
         }
       },
-      (error) => {
-        this.processError(error);
+      error: (err) => {
+        this.processError(err);
       },
-    );
+    });
   }
 
   /**
@@ -263,10 +263,10 @@ export class EnglishComponent implements OnInit {
     sco.userId = userIdSearch;
 
     // Search
-    this.backendService.searchLearnRecord(sco).subscribe(
-      (data) => {
+    this.backendService.searchLearnRecord(sco).subscribe({
+      next: async (res) => {
         // Get data
-        const responseAPi: any = data;
+        const responseAPi: any = res;
         const typeResponse: ApiReponse<EnglishLearnRecord> = responseAPi;
         if (typeResponse.data != null) {
           this.learnedRecords = typeResponse.data.elements;
@@ -282,10 +282,10 @@ export class EnglishComponent implements OnInit {
           }
         }
       },
-      (error) => {
-        this.processError(error);
+      error: (err) => {
+        this.processError(err);
       },
-    );
+    });
   }
 
   /**
@@ -303,10 +303,10 @@ export class EnglishComponent implements OnInit {
     this.spinner.show();
 
     // Search
-    this.backendService.searchEnglishLevel(englishUserGradeSCO).subscribe(
-      (data) => {
+    this.backendService.searchEnglishLevel(englishUserGradeSCO).subscribe({
+      next: async (res) => {
         // Get data
-        const responseAPi: any = data;
+        const responseAPi: any = res;
         const typeResponse: ApiReponse<EnglishUserGrade> = responseAPi;
         const englishLevel: EnglishUserGrade[] = typeResponse.data.elements;
         if (typeResponse.data.elements != null) {
@@ -319,13 +319,13 @@ export class EnglishComponent implements OnInit {
 
         this.generateWord();
       },
-      (error) => {
+      error: (err) => {
         // Hide loading
         this.spinner.hide();
 
-        this.alertService.error(error);
+        this.alertService.error(err);
       },
-    );
+    });
   }
 
   /**
@@ -397,10 +397,10 @@ export class EnglishComponent implements OnInit {
     this.spinner.show();
 
     // Get list word
-    this.backendService.searchLowLearnEnglish(englishSCO).subscribe(
-      (data) => {
+    this.backendService.searchLowLearnEnglish(englishSCO).subscribe({
+      next: async (res) => {
         // Get data
-        const responseAPi: any = data;
+        const responseAPi: any = res;
         const typeResponse: ApiReponse<English> = responseAPi;
         if (typeResponse.data != null) {
           this.searchListWord = typeResponse.data.elements;
@@ -434,10 +434,10 @@ export class EnglishComponent implements OnInit {
         // Hide loading
         this.spinner.hide();
       },
-      (error) => {
-        this.processError(error);
+      error: (err) => {
+        this.processError(err);
       },
-    );
+    });
   }
 
   ////////////////////
@@ -648,8 +648,8 @@ export class EnglishComponent implements OnInit {
       englishLearnRecord.english = english;
 
       // Call API count learn
-      this.backendService.addLearnRecord(englishLearnRecord).subscribe(
-        (data) => {
+      this.backendService.addLearnRecord(englishLearnRecord).subscribe({
+        next: async (res) => {
           // Success
           // Increase learned times
           this.numberOfLearned = this.numberOfLearned + 1;
@@ -657,10 +657,10 @@ export class EnglishComponent implements OnInit {
           // Check add learn flag to true
           this.isAddLearn = true;
         },
-        (error) => {
+        error: (err) => {
           // Error
         },
-      );
+      });
     }
   }
 

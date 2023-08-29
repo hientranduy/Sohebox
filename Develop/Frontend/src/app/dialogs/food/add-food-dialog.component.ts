@@ -121,10 +121,10 @@ export class AddFoodDialogComponent implements OnInit {
     this.spinner.show();
 
     // Get list
-    this.backendService.searchFoodType(sco).subscribe(
-      (data) => {
+    this.backendService.searchFoodType(sco).subscribe({
+      next: async (res) => {
         // Get data
-        const responseAPi: any = data;
+        const responseAPi: any = res;
         const response: ApiReponse<FoodType> = responseAPi;
         const types: FoodType[] = response.data.elements;
         if (response.data.elements != null) {
@@ -143,13 +143,13 @@ export class AddFoodDialogComponent implements OnInit {
         // Hide loading
         this.spinner.hide();
       },
-      (error) => {
+      error: (err) => {
         // Hide loading
         this.spinner.hide();
 
-        this.alertService.error(error);
+        this.alertService.error(err);
       },
-    );
+    });
   }
 
   /**
@@ -171,10 +171,10 @@ export class AddFoodDialogComponent implements OnInit {
     sco.sorters = sorters;
 
     // Get list
-    this.backendService.searchFoodType(sco).subscribe(
-      (data) => {
+    this.backendService.searchFoodType(sco).subscribe({
+      next: async (res) => {
         // Get data
-        const responseAPi: any = data;
+        const responseAPi: any = res;
         const response: ApiReponse<FoodType> = responseAPi;
         const categories: FoodType[] = response.data.elements;
         if (response.data.elements != null) {
@@ -193,13 +193,13 @@ export class AddFoodDialogComponent implements OnInit {
         // Hide loading
         this.spinner.hide();
       },
-      (error) => {
+      error: (err) => {
         // Hide loading
         this.spinner.hide();
 
-        this.alertService.error(error);
+        this.alertService.error(err);
       },
-    );
+    });
   }
 
   //////////////////
@@ -285,8 +285,8 @@ export class AddFoodDialogComponent implements OnInit {
       this.spinner.show();
 
       // Add
-      this.backendService.addFood(addForm.value).subscribe(
-        (data) => {
+      this.backendService.addFood(addForm.value).subscribe({
+        next: async (res) => {
           // Send success toast message
           this.toastr.success(
             'New Food ' + this.nameValue + ' is added successful',
@@ -298,15 +298,15 @@ export class AddFoodDialogComponent implements OnInit {
           // Close dialog
           this.activeModal.close(true);
         },
-        (error) => {
+        error: (err) => {
           // Hide loading
           this.spinner.hide();
 
           // Send error message to dialog
           this.message = null;
-          this.messageError = error;
+          this.messageError = err;
         },
-      );
+      });
     } else {
       this.message = null;
       this.messageError = 'Invalid fields, please check your input';

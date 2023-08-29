@@ -33,8 +33,8 @@ export class DeleteYoutubeVideoDialogComponent implements OnInit {
     // Show loading
     this.spinner.show();
 
-    this.backendService.deletePrivateVideo(this.video.videoId).subscribe(
-      (data) => {
+    this.backendService.deletePrivateVideo(this.video.videoId).subscribe({
+      next: async (res) => {
         // Send toast success
         this.toastr.success(
           'Your video ' + this.video.videoId + ' is successful deleted',
@@ -46,17 +46,17 @@ export class DeleteYoutubeVideoDialogComponent implements OnInit {
         // Return true
         this.activeModal.close(true);
       },
-      (error) => {
+      error: (err) => {
         // Hide loading
         this.spinner.hide();
 
         // Send error toast message
-        this.toastr.error(error);
+        this.toastr.error(err);
 
         // Return false
         this.activeModal.close(false);
       },
-    );
+    });
   }
 
   public dismiss() {

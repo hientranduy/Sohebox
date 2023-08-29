@@ -31,10 +31,10 @@ export class FoodDetailComponent implements OnInit {
     this.route.params.subscribe((params: Params) => (foodId = params['id']));
 
     // Get food infos
-    this.backendService.getFood(foodId).subscribe(
-      (data) => {
+    this.backendService.getFood(foodId).subscribe({
+      next: async (res) => {
         // Get data
-        const responseAPi: any = data;
+        const responseAPi: any = res;
         if (responseAPi.data != null) {
           this.food = responseAPi.data;
         }
@@ -46,13 +46,13 @@ export class FoodDetailComponent implements OnInit {
         // Hide loading
         this.spinner.hide();
       },
-      (error) => {
+      error: (err) => {
         // Hide loading
         this.spinner.hide();
 
-        this.alertService.error(error);
+        this.alertService.error(err);
       },
-    );
+    });
   }
 
   /**

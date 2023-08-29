@@ -123,10 +123,10 @@ export class EditWordDialogComponent implements OnInit {
     this.spinner.show();
 
     // Get list type
-    this.backendService.searchEnglishType(typeSCO).subscribe(
-      (data) => {
+    this.backendService.searchEnglishType(typeSCO).subscribe({
+      next: async (res) => {
         // Get data
-        const responseAPi: any = data;
+        const responseAPi: any = res;
         const typeResponse: ApiReponse<EnglishType> = responseAPi;
         const grades: EnglishType[] = typeResponse.data.elements;
         if (typeResponse.data.elements != null) {
@@ -145,13 +145,13 @@ export class EditWordDialogComponent implements OnInit {
         // Hide loading
         this.spinner.hide();
       },
-      (error) => {
+      error: (err) => {
         // Hide loading
         this.spinner.hide();
 
-        this.alertService.error(error);
+        this.alertService.error(err);
       },
-    );
+    });
   }
 
   /**
@@ -169,10 +169,10 @@ export class EditWordDialogComponent implements OnInit {
     this.spinner.show();
 
     // Get list type
-    this.backendService.searchEnglishType(typeSCO).subscribe(
-      (data) => {
+    this.backendService.searchEnglishType(typeSCO).subscribe({
+      next: async (res) => {
         // Get dataa
-        const responseAPi: any = data;
+        const responseAPi: any = res;
         const typeResponse: ApiReponse<EnglishType> = responseAPi;
         const categories: EnglishType[] = typeResponse.data.elements;
         if (typeResponse.data.elements != null) {
@@ -192,13 +192,13 @@ export class EditWordDialogComponent implements OnInit {
         // Hide loading
         this.spinner.hide();
       },
-      (error) => {
+      error: (err) => {
         // Hide loading
         this.spinner.hide();
 
-        this.alertService.error(error);
+        this.alertService.error(err);
       },
-    );
+    });
   }
 
   /**
@@ -216,10 +216,10 @@ export class EditWordDialogComponent implements OnInit {
     this.spinner.show();
 
     // Get list type
-    this.backendService.searchEnglishType(englishTypeSCO).subscribe(
-      (data) => {
+    this.backendService.searchEnglishType(englishTypeSCO).subscribe({
+      next: async (res) => {
         // Get dataa
-        const responseAPi: any = data;
+        const responseAPi: any = res;
         const typeResponse: ApiReponse<EnglishType> = responseAPi;
         const learnDays: EnglishType[] = typeResponse.data.elements;
         if (typeResponse.data.elements != null) {
@@ -239,13 +239,13 @@ export class EditWordDialogComponent implements OnInit {
         // Hide loading
         this.spinner.hide();
       },
-      (error) => {
+      error: (err) => {
         // Hide loading
         this.spinner.hide();
 
-        this.alertService.error(error);
+        this.alertService.error(err);
       },
-    );
+    });
   }
 
   //////////////////
@@ -363,8 +363,8 @@ export class EditWordDialogComponent implements OnInit {
         this.spinner.show();
 
         // Edit word
-        this.backendService.updateEnglish(editWordForm.value).subscribe(
-          (data) => {
+        this.backendService.updateEnglish(editWordForm.value).subscribe({
+          next: async (res) => {
             // Send success toast message
             this.toastr.success(
               'The Word ' + this.keyWord + ' is updated successful',
@@ -376,9 +376,9 @@ export class EditWordDialogComponent implements OnInit {
             // Close dialog
             this.activeModal.close(true);
           },
-          (error) => {
+          error: (err) => {
             // Send error toast message
-            this.toastr.error(error);
+            this.toastr.error(err);
 
             // Hide loading
             this.spinner.hide();
@@ -386,7 +386,7 @@ export class EditWordDialogComponent implements OnInit {
             // Close dialog
             this.activeModal.close(false);
           },
-        );
+        });
     }
   }
 

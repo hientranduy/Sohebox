@@ -41,8 +41,8 @@ export class DeleteCryptoPortfolioDialogComponent implements OnInit {
       '>';
     this.backendService
       .deleteCryptoPortfolio(this.cryptoPortfolio.id)
-      .subscribe(
-        (data) => {
+      .subscribe({
+        next: async (res) => {
           // Send toast success
           this.toastr.success(
             'Your wallet ' + infoData + ' is successful deleted',
@@ -54,17 +54,17 @@ export class DeleteCryptoPortfolioDialogComponent implements OnInit {
           // Return true
           this.activeModal.close(true);
         },
-        (error) => {
+        error: (err) => {
           // Hide loading
           this.spinner.hide();
 
           // Send error toast message
-          this.toastr.error(error);
+          this.toastr.error(err);
 
           // Return false
           this.activeModal.close(false);
         },
-      );
+      });
   }
 
   public dismiss() {

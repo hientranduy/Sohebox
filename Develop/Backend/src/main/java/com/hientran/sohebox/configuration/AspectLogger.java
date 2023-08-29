@@ -15,28 +15,18 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class AspectLogger {
 
-	@AfterReturning(value = "execution(* com.hientran.sohebox.restcontroller.*.*(..))", returning = "result")
-	public void afterRestful(JoinPoint joinPoint, Object result) {
-		if (result != null) {
-			log.info("Returned  : {}", result);
-		}
-		log.info("END       : {}", joinPoint.getSignature());
-	}
-
-	@AfterReturning(value = "execution(* com.hientran.sohebox.scheduler.*.*(..))", returning = "result")
-	public void afterScheduler(JoinPoint joinPoint, Object result) {
-		log.info("END SCHEDULER : {}", joinPoint.getSignature());
-	}
-
 	///////////////////////////////////////////////////////
 	// Configured log before - after for rest controller //
 	///////////////////////////////////////////////////////
 	@Before(value = "execution(* com.hientran.sohebox.restcontroller.*.*(..))")
 	public void beforeRestful(JoinPoint joinPoint) {
-		log.info("START     : {}", joinPoint.getSignature());
-		if (joinPoint.getArgs() != null && joinPoint.getArgs().length > 0) {
-			log.info("Arguments : {}", Arrays.asList(joinPoint.getArgs()).toString());
-		}
+		log.info("START {} - Arguments : {}", joinPoint.getSignature().toShortString(),
+				Arrays.asList(joinPoint.getArgs()).toString());
+	}
+
+	@AfterReturning(value = "execution(* com.hientran.sohebox.restcontroller.*.*(..))", returning = "result")
+	public void afterRestful(JoinPoint joinPoint, Object result) {
+		log.info("END   {} - Returned  : {}", joinPoint.getSignature().toShortString(), result);
 	}
 
 	///////////////////////////////////////////////////
@@ -44,6 +34,11 @@ public class AspectLogger {
 	///////////////////////////////////////////////////
 	@Before(value = "execution(* com.hientran.sohebox.scheduler.*.*(..))")
 	public void beforeScheduler(JoinPoint joinPoint) {
-		log.info("START SCHEDULER : {}", joinPoint.getSignature());
+		log.info("START SCHEDULER : {}", joinPoint.getSignature().toShortString());
+	}
+
+	@AfterReturning(value = "execution(* com.hientran.sohebox.scheduler.*.*(..))", returning = "result")
+	public void afterScheduler(JoinPoint joinPoint, Object result) {
+		log.info("END SCHEDULER : {}", joinPoint.getSignature().toShortString());
 	}
 }

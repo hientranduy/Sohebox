@@ -171,9 +171,9 @@ export class AccountComponent implements OnInit {
     this.spinner.show();
 
     // Search
-    this.backendService.searchAccount(sco).subscribe(
-      (data) => {
-        const responseAPi: any = data;
+    this.backendService.searchAccount(sco).subscribe({
+      next: async (res) => {
+        const responseAPi: any = res;
         const typeResponse: ApiReponse<Account> = responseAPi;
         if (typeResponse.data != null && typeResponse.data.totalElement > 0) {
           this.pageResult = typeResponse.data;
@@ -184,13 +184,13 @@ export class AccountComponent implements OnInit {
         // Hide Loading
         this.spinner.hide();
       },
-      (error) => {
+      error: (err) => {
         // Hide Loading
         this.spinner.hide();
 
-        this.alertService.error(error);
+        this.alertService.error(err);
       },
-    );
+    });
   }
 
   /////////////////////////////////////

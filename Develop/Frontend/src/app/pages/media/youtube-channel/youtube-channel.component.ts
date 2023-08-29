@@ -220,10 +220,10 @@ export class YoutubeChannelComponent implements OnInit {
     this.spinner.show();
 
     // Get list
-    this.backendService.searchMyChannel(sco).subscribe(
-      (data) => {
+    this.backendService.searchMyChannel(sco).subscribe({
+      next: async (res) => {
         // Get data
-        const responseAPi: any = data;
+        const responseAPi: any = res;
         const typeResponse: ApiReponse<YoutubeChannel> = responseAPi;
         if (typeResponse.data != null) {
           const channels: YoutubeChannel[] = typeResponse.data.elements;
@@ -242,10 +242,10 @@ export class YoutubeChannelComponent implements OnInit {
         // Hide loading
         this.spinner.hide();
       },
-      (error) => {
-        this.processError(error);
+      error: (err) => {
+        this.processError(err);
       },
-    );
+    });
   }
 
   /**
@@ -264,10 +264,10 @@ export class YoutubeChannelComponent implements OnInit {
     // this.spinner.show();
 
     // Get list
-    this.backendService.searchChannelVideo(sco).subscribe(
-      (data) => {
+    this.backendService.searchChannelVideo(sco).subscribe({
+      next: async (res) => {
         // Get data
-        const responseAPi: any = data;
+        const responseAPi: any = res;
         const typeResponse: ApiReponse<YoutubeVideo> = responseAPi;
         if (typeResponse.data != null) {
           this.videos = typeResponse.data.elements;
@@ -284,10 +284,10 @@ export class YoutubeChannelComponent implements OnInit {
         // Hide loading
         this.spinner.hide();
       },
-      (error) => {
-        this.processError(error);
+      error: (err) => {
+        this.processError(err);
       },
-    );
+    });
   }
 
   /**
@@ -298,10 +298,10 @@ export class YoutubeChannelComponent implements OnInit {
     this.spinner.show();
 
     // Get list
-    this.backendService.getPrivateVideo().subscribe(
-      (data) => {
+    this.backendService.getPrivateVideo().subscribe({
+      next: async (res) => {
         // Get data
-        const responseAPi: any = data;
+        const responseAPi: any = res;
         const typeResponse: ApiReponse<YoutubeVideo> = responseAPi;
         if (typeResponse.data != null) {
           this.videos = typeResponse.data.elements;
@@ -317,10 +317,10 @@ export class YoutubeChannelComponent implements OnInit {
         // Hide loading
         this.spinner.hide();
       },
-      (error) => {
-        this.processError(error);
+      error: (err) => {
+        this.processError(err);
       },
-    );
+    });
   }
 
   ///////////////////

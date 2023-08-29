@@ -134,8 +134,8 @@ export class EditCryptoTokenConfigDialogComponent implements OnInit {
       this.spinner.show();
 
       // Add
-      this.backendService.updateCryptoTokenConfig(editForm.value).subscribe(
-        (data) => {
+      this.backendService.updateCryptoTokenConfig(editForm.value).subscribe({
+        next: async (res) => {
           // Send success toast message
           this.toastr.success(
             'Token ' + this.tokenCodeValue + ' is updated successful',
@@ -147,15 +147,15 @@ export class EditCryptoTokenConfigDialogComponent implements OnInit {
           // Close dialog
           this.activeModal.close(true);
         },
-        (error) => {
+        error: (err) => {
           // Hide loading
           this.spinner.hide();
 
           // Send error message to dialog
           this.message = null;
-          this.messageError = error;
+          this.messageError = err;
         },
-      );
+      });
     } else {
       this.message = null;
       this.messageError = 'Invalid fields, please check your input';

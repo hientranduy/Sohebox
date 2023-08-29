@@ -69,8 +69,8 @@ export class ChangePrivateKeyDialogComponent implements OnInit {
       });
       this.backendService
         .changePrivatekey(this.changePrivateKeyForm.value)
-        .subscribe(
-          (data) => {
+        .subscribe({
+          next: async (res) => {
             this.alertService.success('Private key change successful', true);
 
             this.spinner.hide();
@@ -78,12 +78,12 @@ export class ChangePrivateKeyDialogComponent implements OnInit {
             // Close dialog
             this.activeModal.close(true);
           },
-          (error) => {
+          error: (err) => {
             this.spinner.hide();
 
-            this.messageError = error;
+            this.messageError = err;
           },
-        );
+        });
     }
   }
 

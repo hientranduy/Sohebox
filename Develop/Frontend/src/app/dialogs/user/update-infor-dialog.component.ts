@@ -62,8 +62,8 @@ export class UpdateInforDialogComponent implements OnInit {
 
       // Update user
       this.spinner.show();
-      this.backendService.updateUser(this.updateUserForm.value).subscribe(
-        (data) => {
+      this.backendService.updateUser(this.updateUserForm.value).subscribe({
+        next: async (res) => {
           // Send alert message
           this.alertService.success('User update successful', true);
 
@@ -74,11 +74,11 @@ export class UpdateInforDialogComponent implements OnInit {
 
           this.spinner.hide();
         },
-        (error) => {
+        error: (err) => {
           this.spinner.hide();
-          this.alertService.error(error);
+          this.alertService.error(err);
         },
-      );
+      });
 
       // Close dialog
       this.activeModal.close(true);

@@ -108,8 +108,8 @@ export class AddTypeDialogComponent implements OnInit {
         this.spinner.show();
 
         // Create
-        this.backendService.createType(typeForm.value).subscribe(
-          (data) => {
+        this.backendService.createType(typeForm.value).subscribe({
+          next: async (res) => {
             // Send success toast message
             this.toastr.success(
               '<Type class ' +
@@ -125,17 +125,17 @@ export class AddTypeDialogComponent implements OnInit {
             // Close dialog
             this.activeModal.close(true);
           },
-          (error) => {
+          error: (err) => {
             // Hide loading
             this.spinner.hide();
 
             // Send error toast message
-            this.toastr.error(error);
+            this.toastr.error(err);
 
             // Close dialog
             this.activeModal.close(false);
           },
-        );
+        });
     }
   }
 

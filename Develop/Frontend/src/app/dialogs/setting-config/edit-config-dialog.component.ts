@@ -110,8 +110,8 @@ export class EditConfigDialogComponent implements OnInit {
         this.spinner.show();
 
         // Update
-        this.backendService.updateConfig(configForm.value).subscribe(
-          (data) => {
+        this.backendService.updateConfig(configForm.value).subscribe({
+          next: async (res) => {
             // Send success toast message
             this.toastr.success(
               '<Config Key ' + this.item.configKey + '> is updated successful',
@@ -123,17 +123,17 @@ export class EditConfigDialogComponent implements OnInit {
             // Close dialog
             this.activeModal.close(true);
           },
-          (error) => {
+          error: (err) => {
             // Hide loading
             this.spinner.hide();
 
             // Send error toast message
-            this.toastr.error(error);
+            this.toastr.error(err);
 
             // Close dialog
             this.activeModal.close(false);
           },
-        );
+        });
     }
   }
 

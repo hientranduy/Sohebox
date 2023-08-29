@@ -77,10 +77,10 @@ export class EditCryptoPortfolioDialogComponent implements OnInit {
     this.spinner.show();
 
     // Get list type
-    this.backendService.searchCryptoTokenConfig(sco).subscribe(
-      (data) => {
+    this.backendService.searchCryptoTokenConfig(sco).subscribe({
+      next: async (res) => {
         // Get data
-        const responseAPi: any = data;
+        const responseAPi: any = res;
         const typeResponse: ApiReponse<CryptoTokenConfig> = responseAPi;
         if (typeResponse.data != null) {
           const items: CryptoTokenConfig[] = typeResponse.data.elements;
@@ -99,14 +99,14 @@ export class EditCryptoPortfolioDialogComponent implements OnInit {
         // Hide loading
         this.spinner.hide();
       },
-      (error) => {
+      error: (err) => {
         // Hide loading
         this.spinner.hide();
 
         // Show alert message
-        this.alertService.error(error);
+        this.alertService.error(err);
       },
-    );
+    });
   }
 
   /////////////////////////////////////
@@ -155,8 +155,8 @@ export class EditCryptoPortfolioDialogComponent implements OnInit {
         this.spinner.show();
 
         // Edit account
-        this.backendService.updateCryptoPortfolio(updateItem).subscribe(
-          (data) => {
+        this.backendService.updateCryptoPortfolio(updateItem).subscribe({
+          next: async (res) => {
             // Send success toast message
             this.toastr.success(
               'Wallet ' +
@@ -173,15 +173,15 @@ export class EditCryptoPortfolioDialogComponent implements OnInit {
             // Close dialog
             this.activeModal.close(true);
           },
-          (error) => {
+          error: (err) => {
             // Hide loading
             this.spinner.hide();
 
             // Send error
             this.message = null;
-            this.messageError = error;
+            this.messageError = err;
           },
-        );
+        });
     }
   }
 

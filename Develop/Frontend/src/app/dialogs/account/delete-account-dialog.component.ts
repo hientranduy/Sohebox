@@ -35,8 +35,8 @@ export class DeleteAccountDialogComponent implements OnInit {
 
     const accountInfo =
       this.account.type.typeCode + '<' + this.account.accountName + '>';
-    this.backendService.deleteAccount(this.account.id).subscribe(
-      (data) => {
+    this.backendService.deleteAccount(this.account.id).subscribe({
+      next: async (res) => {
         // Send toast success
         this.toastr.success(
           'Your account ' + accountInfo + ' is successful deleted',
@@ -48,17 +48,17 @@ export class DeleteAccountDialogComponent implements OnInit {
         // Return true
         this.activeModal.close(true);
       },
-      (error) => {
+      error: (err) => {
         // Hide loading
         this.spinner.hide();
 
         // Send error toast message
-        this.toastr.error(error);
+        this.toastr.error(err);
 
         // Return false
         this.activeModal.close(false);
       },
-    );
+    });
   }
 
   public dismiss() {

@@ -33,8 +33,8 @@ export class DeleteConfirmationDialogComponent implements OnInit {
   public accept() {
     // Delete user
     this.spinner.show();
-    this.backendService.deleteLoggedUser().subscribe(
-      (data) => {
+    this.backendService.deleteLoggedUser().subscribe({
+      next: async (res) => {
         // Logout current user
         this.authenticationService.logout();
 
@@ -46,11 +46,11 @@ export class DeleteConfirmationDialogComponent implements OnInit {
 
         this.spinner.hide();
       },
-      (error) => {
+      error: (err) => {
         this.spinner.hide();
-        this.alertService.error(error);
+        this.alertService.error(err);
       },
-    );
+    });
 
     // Close dialog
     this.activeModal.close(true);

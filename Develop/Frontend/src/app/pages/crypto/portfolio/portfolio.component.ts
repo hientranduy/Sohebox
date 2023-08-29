@@ -224,9 +224,9 @@ export class PortfolioComponent implements OnInit {
     }
 
     // Search
-    this.backendService.searchCryptoPortfolio(sco).subscribe(
-      (data) => {
-        const responseAPi: any = data;
+    this.backendService.searchCryptoPortfolio(sco).subscribe({
+      next: async (res) => {
+        const responseAPi: any = res;
         const typeResponse: ApiReponse<CryptoPortfolio> = responseAPi;
         if (typeResponse.data != null) {
           this.pageResult = typeResponse.data;
@@ -234,13 +234,13 @@ export class PortfolioComponent implements OnInit {
           this.pageResult = new PageResultVO<CryptoPortfolio>();
         }
       },
-      (error) => {
+      error: (err) => {
         // Hide Loading
         this.spinner.hide();
 
-        this.alertService.error(error);
+        this.alertService.error(err);
       },
-    );
+    });
   }
 
   /**
@@ -268,9 +268,9 @@ export class PortfolioComponent implements OnInit {
     }
 
     // Search
-    this.backendService.getPortfolioSummary(sco).subscribe(
-      (data) => {
-        const responseAPi: any = data;
+    this.backendService.getPortfolioSummary(sco).subscribe({
+      next: async (res) => {
+        const responseAPi: any = res;
         const typeResponse: ApiReponse<CryptoPortfolioHistory> = responseAPi;
         if (typeResponse.data != null) {
           this.pageResultSummary = typeResponse.data;
@@ -278,13 +278,13 @@ export class PortfolioComponent implements OnInit {
           this.pageResultSummary = new PageResultVO<CryptoPortfolioHistory>();
         }
       },
-      (error) => {
+      error: (err) => {
         // Hide Loading
         this.spinner.hide();
 
-        this.alertService.error(error);
+        this.alertService.error(err);
       },
-    );
+    });
   }
 
   /////////////////////////////////////
