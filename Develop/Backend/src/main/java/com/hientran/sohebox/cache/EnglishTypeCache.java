@@ -19,14 +19,14 @@ import com.hientran.sohebox.entity.EnglishTypeTbl;
 import com.hientran.sohebox.repository.EnglishTypeRepository;
 import com.hientran.sohebox.sco.EnglishTypeSCO;
 import com.hientran.sohebox.sco.SearchTextVO;
+import com.hientran.sohebox.service.TransformerService;
 import com.hientran.sohebox.specification.EnglishTypeSpecs.EnglishTypeTblEnum;
-import com.hientran.sohebox.transformer.BaseTransformer;
 
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class EnglishTypeCache extends BaseTransformer {
+public class EnglishTypeCache extends TransformerService {
 
 	private final EnglishTypeRepository typeRepository;
 

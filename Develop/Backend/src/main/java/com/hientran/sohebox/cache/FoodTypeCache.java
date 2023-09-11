@@ -19,14 +19,14 @@ import com.hientran.sohebox.entity.FoodTypeTbl;
 import com.hientran.sohebox.repository.FoodTypeRepository;
 import com.hientran.sohebox.sco.FoodTypeSCO;
 import com.hientran.sohebox.sco.SearchTextVO;
+import com.hientran.sohebox.service.TransformerService;
 import com.hientran.sohebox.specification.FoodTypeSpecs.FoodTypeTblEnum;
-import com.hientran.sohebox.transformer.BaseTransformer;
 
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class FoodTypeCache extends BaseTransformer {
+public class FoodTypeCache extends TransformerService {
 
 	private final FoodTypeRepository typeRepository;
 

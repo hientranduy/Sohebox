@@ -18,14 +18,14 @@ import com.hientran.sohebox.dto.response.ResponseCode;
 import com.hientran.sohebox.entity.TypeTbl;
 import com.hientran.sohebox.repository.TypeRepository;
 import com.hientran.sohebox.sco.TypeSCO;
+import com.hientran.sohebox.service.TransformerService;
 import com.hientran.sohebox.specification.TypeSpecs.TypeTblEnum;
-import com.hientran.sohebox.transformer.BaseTransformer;
 
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class TypeCache extends BaseTransformer {
+public class TypeCache extends TransformerService {
 
 	private final TypeRepository typeRepository;
 

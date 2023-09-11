@@ -19,14 +19,14 @@ import com.hientran.sohebox.entity.MediaTypeTbl;
 import com.hientran.sohebox.repository.MediaTypeRepository;
 import com.hientran.sohebox.sco.MediaTypeSCO;
 import com.hientran.sohebox.sco.SearchTextVO;
+import com.hientran.sohebox.service.TransformerService;
 import com.hientran.sohebox.specification.MediaTypeSpecs.MediaTypeTblEnum;
-import com.hientran.sohebox.transformer.BaseTransformer;
 
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class MediaTypeCache extends BaseTransformer {
+public class MediaTypeCache extends TransformerService {
 
 	private final MediaTypeRepository typeRepository;
 

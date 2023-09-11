@@ -18,14 +18,14 @@ import com.hientran.sohebox.dto.response.ResponseCode;
 import com.hientran.sohebox.entity.ConfigTbl;
 import com.hientran.sohebox.repository.ConfigRepository;
 import com.hientran.sohebox.sco.ConfigSCO;
+import com.hientran.sohebox.service.TransformerService;
 import com.hientran.sohebox.specification.ConfigSpecs.ConfigTblEnum;
-import com.hientran.sohebox.transformer.BaseTransformer;
 
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class ConfigCache extends BaseTransformer {
+public class ConfigCache extends TransformerService {
 
 	private final ConfigRepository configRepository;
 
