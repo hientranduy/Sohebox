@@ -15,6 +15,16 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class AspectLogger {
 
+	@AfterReturning(value = "execution(* com.hientran.sohebox.restcontroller.*.*(..))", returning = "result")
+	public void afterRestful(JoinPoint joinPoint, Object result) {
+		log.info("END   {} - Returned  : {}", joinPoint.getSignature().toShortString(), result);
+	}
+
+	@AfterReturning(value = "execution(* com.hientran.sohebox.scheduler.*.*(..))", returning = "result")
+	public void afterScheduler(JoinPoint joinPoint, Object result) {
+		log.info("END SCHEDULER : {}", joinPoint.getSignature().toShortString());
+	}
+
 	///////////////////////////////////////////////////////
 	// Configured log before - after for rest controller //
 	///////////////////////////////////////////////////////
@@ -24,21 +34,11 @@ public class AspectLogger {
 				Arrays.asList(joinPoint.getArgs()).toString());
 	}
 
-	@AfterReturning(value = "execution(* com.hientran.sohebox.restcontroller.*.*(..))", returning = "result")
-	public void afterRestful(JoinPoint joinPoint, Object result) {
-		log.info("END   {} - Returned  : {}", joinPoint.getSignature().toShortString(), result);
-	}
-
 	///////////////////////////////////////////////////
 	// Configured log before - after for scheduler //
 	///////////////////////////////////////////////////
 	@Before(value = "execution(* com.hientran.sohebox.scheduler.*.*(..))")
 	public void beforeScheduler(JoinPoint joinPoint) {
 		log.info("START SCHEDULER : {}", joinPoint.getSignature().toShortString());
-	}
-
-	@AfterReturning(value = "execution(* com.hientran.sohebox.scheduler.*.*(..))", returning = "result")
-	public void afterScheduler(JoinPoint joinPoint, Object result) {
-		log.info("END SCHEDULER : {}", joinPoint.getSignature().toShortString());
 	}
 }
