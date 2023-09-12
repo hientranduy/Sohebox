@@ -30,10 +30,10 @@ export class FinanceGoldComponent implements OnInit {
     this.spinner.show();
 
     // Get list
-    this.backendService.getGoldSjcPrice().subscribe(
-      (data) => {
+    this.backendService.getGoldSjcPrice().subscribe({
+      next: async (res) => {
         // Get data
-        const responseAPi: any = data;
+        const responseAPi: any = res;
         const typeResponse: ApiReponse<GoldSjc> = responseAPi;
         if (typeResponse.data != null) {
           this.goldSjc = typeResponse.data.elements[0];
@@ -44,10 +44,10 @@ export class FinanceGoldComponent implements OnInit {
         // Hide loading
         this.spinner.hide();
       },
-      (error) => {
-        this.processError(error);
+      error: (err) => {
+        this.processError(err);
       },
-    );
+    });
   }
 
   ///////////////////

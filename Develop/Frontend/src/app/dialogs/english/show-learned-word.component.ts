@@ -59,10 +59,10 @@ export class ShowLearnedWordComponent implements OnInit {
     this.spinner.show();
 
     // Search
-    this.backendService.searchLearnRecord(sco).subscribe(
-      (data) => {
+    this.backendService.searchLearnRecord(sco).subscribe({
+      next: async (res) => {
         // Get data
-        const responseAPi: any = data;
+        const responseAPi: any = res;
         const typeResponse: ApiReponse<EnglishLearnRecord> = responseAPi;
         if (typeResponse.data != null) {
           this.learnedRecords = typeResponse.data.elements;
@@ -71,10 +71,10 @@ export class ShowLearnedWordComponent implements OnInit {
         // Hide Loading
         this.spinner.hide();
       },
-      (error) => {
-        this.processError(error);
+      error: (err) => {
+        this.processError(err);
       },
-    );
+    });
   }
 
   /**

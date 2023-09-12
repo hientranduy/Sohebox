@@ -95,10 +95,10 @@ export class AddYoutubeChannelDialogComponent implements OnInit {
     sco.sorters = sorters;
 
     // Get list
-    this.backendService.searchMediaType(sco).subscribe(
-      (data) => {
+    this.backendService.searchMediaType(sco).subscribe({
+      next: async (res) => {
         // Get data
-        const responseAPi: any = data;
+        const responseAPi: any = res;
         const response: ApiReponse<MediaType> = responseAPi;
         const categories: MediaType[] = response.data.elements;
         if (response.data.elements != null) {
@@ -117,13 +117,13 @@ export class AddYoutubeChannelDialogComponent implements OnInit {
         // Hide loading
         this.spinner.hide();
       },
-      (error) => {
+      error: (err) => {
         // Hide loading
         this.spinner.hide();
 
-        this.alertService.error(error);
+        this.alertService.error(err);
       },
-    );
+    });
   }
 
   /////////////////////////////////////
@@ -163,8 +163,8 @@ export class AddYoutubeChannelDialogComponent implements OnInit {
       this.spinner.show();
 
       // Add
-      this.backendService.addChannel(addForm.value).subscribe(
-        (data) => {
+      this.backendService.addChannel(addForm.value).subscribe({
+        next: async (res) => {
           // Send success toast message
           this.toastr.success(
             'New channel ' + this.nameValue + ' is added successful',
@@ -176,15 +176,15 @@ export class AddYoutubeChannelDialogComponent implements OnInit {
           // Close dialog
           this.activeModal.close(true);
         },
-        (error) => {
+        error: (err) => {
           // Hide loading
           this.spinner.hide();
 
           // Send error message to dialog
           this.message = null;
-          this.messageError = error;
+          this.messageError = err;
         },
-      );
+      });
     } else {
       this.message = null;
       this.messageError = 'Invalid fields, please check your input';
@@ -236,7 +236,7 @@ function validChannel(control: FormControl) {
 
     // this.foodService.searchFood(sco)
     //   .subscribe(data => {
-    //     const responseAPi: any = data;
+    //     const responseAPi: any = res;
     //     const typeResponse: ApiReponse<Food> = responseAPi;
     //     if (typeResponse.data != null) {
     //       // Invalid because new work is existed

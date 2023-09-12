@@ -169,9 +169,9 @@ export class MediaTypeComponent implements OnInit {
     this.spinner.show();
 
     // Search
-    this.backendService.searchMediaType(sco).subscribe(
-      (data) => {
-        const responseAPi: any = data;
+    this.backendService.searchMediaType(sco).subscribe({
+      next: async (res) => {
+        const responseAPi: any = res;
         const typeResponse: ApiReponse<MediaType> = responseAPi;
         if (typeResponse.data != null) {
           this.pageResult = typeResponse.data;
@@ -182,13 +182,13 @@ export class MediaTypeComponent implements OnInit {
         // Hide Loading
         this.spinner.hide();
       },
-      (error) => {
+      error: (err) => {
         // Hide Loading
         this.spinner.hide();
 
-        this.alertService.error(error);
+        this.alertService.error(err);
       },
-    );
+    });
   }
 
   /////////////////////////////////////

@@ -130,10 +130,10 @@ export class EnglishReportComponent implements OnInit {
     this.spinner.show();
 
     // Search
-    this.backendService.searchLearnReport(sco).subscribe(
-      (data) => {
+    this.backendService.searchLearnReport(sco).subscribe({
+      next: async (res) => {
         // Get data
-        const responseAPi: any = data;
+        const responseAPi: any = res;
         const typeResponse: ApiReponse<EnglishLearnReport> = responseAPi;
         if (typeResponse.data != null) {
           this.pageResultLearnReport = typeResponse.data;
@@ -142,11 +142,11 @@ export class EnglishReportComponent implements OnInit {
         // Hide Loading
         this.spinner.hide();
       },
-      (error) => {
+      error: (err) => {
         // Hide Loading
         this.spinner.hide();
       },
-    );
+    });
   }
 
   /**
@@ -216,10 +216,10 @@ export class EnglishReportComponent implements OnInit {
     this.spinner.show();
 
     // Search
-    this.backendService.searchLearnRecord(sco).subscribe(
-      (data) => {
+    this.backendService.searchLearnRecord(sco).subscribe({
+      next: async (res) => {
         // Get data
-        const responseAPi: any = data;
+        const responseAPi: any = res;
         const typeResponse: ApiReponse<EnglishLearnRecord> = responseAPi;
         if (typeResponse.data != null) {
           this.pageResultLearnRecord = typeResponse.data;
@@ -228,15 +228,15 @@ export class EnglishReportComponent implements OnInit {
         // Hide Loading
         this.spinner.hide();
       },
-      (error) => {
+      error: (err) => {
         // Hide Loading
         this.spinner.hide();
 
         // Process error
-        this.toastr.error(error);
+        this.toastr.error(err);
         this.router.navigate(['/']);
       },
-    );
+    });
   }
 
   /**
@@ -271,10 +271,10 @@ export class EnglishReportComponent implements OnInit {
     this.spinner.show();
 
     // Search
-    this.backendService.searchLearnRecord(sco).subscribe(
-      (data) => {
+    this.backendService.searchLearnRecord(sco).subscribe({
+      next: async (res) => {
         // Get data
-        const responseAPi: any = data;
+        const responseAPi: any = res;
         const typeResponse: ApiReponse<EnglishLearnRecord> = responseAPi;
         if (typeResponse.data != null) {
           this.learnedRecords = typeResponse.data.elements;
@@ -290,15 +290,15 @@ export class EnglishReportComponent implements OnInit {
           }
         }
       },
-      (error) => {
+      error: (err) => {
         // Hide Loading
         this.spinner.hide();
 
         // Process error
-        this.toastr.error(error);
+        this.toastr.error(err);
         this.router.navigate(['/']);
       },
-    );
+    });
   }
 
   /**

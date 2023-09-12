@@ -143,9 +143,9 @@ export class YoutubeChannelConfigComponent implements OnInit {
     this.spinner.show();
 
     // Search
-    this.backendService.searchChannel(sco).subscribe(
-      (data) => {
-        const responseAPi: any = data;
+    this.backendService.searchChannel(sco).subscribe({
+      next: async (res) => {
+        const responseAPi: any = res;
         const typeResponse: ApiReponse<YoutubeChannel> = responseAPi;
         if (typeResponse.data != null) {
           this.pageResult = typeResponse.data;
@@ -156,13 +156,13 @@ export class YoutubeChannelConfigComponent implements OnInit {
         // Hide Loading
         this.spinner.hide();
       },
-      (error) => {
+      error: (err) => {
         // Hide Loading
         this.spinner.hide();
 
-        this.alertService.error(error);
+        this.alertService.error(err);
       },
-    );
+    });
   }
 
   /////////////////////////////////////

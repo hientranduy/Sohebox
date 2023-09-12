@@ -41,10 +41,10 @@ export class FinanceStockComponent implements OnInit {
     this.spinner.show();
 
     // Get list
-    this.backendService.getStockPrice().subscribe(
-      (data) => {
+    this.backendService.getStockPrice().subscribe({
+      next: async (res) => {
         // Get data
-        const responseAPi: any = data;
+        const responseAPi: any = res;
         const typeResponse: ApiReponse<TradingStockPrice> = responseAPi;
         if (typeResponse.data != null && typeResponse.data.elements != null) {
           this.stocks = typeResponse.data.elements[0];
@@ -53,10 +53,10 @@ export class FinanceStockComponent implements OnInit {
         // Hide loading
         this.spinner.hide();
       },
-      (error) => {
-        this.processError(error);
+      error: (err) => {
+        this.processError(err);
       },
-    );
+    });
   }
 
   ///////////////////

@@ -38,10 +38,10 @@ export class FoodComponent implements OnInit {
     const foodSCO = new FoodSCO();
     foodSCO.sorters = sorters;
 
-    this.backendService.searchFood(foodSCO).subscribe(
-      (data) => {
+    this.backendService.searchFood(foodSCO).subscribe({
+      next: async (res) => {
         // Get data
-        const responseAPi: any = data;
+        const responseAPi: any = res;
         const foodResponse: ApiReponse<Food> = responseAPi;
 
         if (foodResponse.data.elements != null) {
@@ -51,12 +51,12 @@ export class FoodComponent implements OnInit {
         // Hide loading
         this.spinner.hide();
       },
-      (error) => {
+      error: (err) => {
         // Hide loading
         this.spinner.hide();
 
-        this.alertService.error(error);
+        this.alertService.error(err);
       },
-    );
+    });
   }
 }

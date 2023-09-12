@@ -79,10 +79,10 @@ export class YoutubePlayerChannelComponent implements OnInit {
     this.spinner.show();
 
     // Get list
-    this.backendService.searchChannelVideo(sco).subscribe(
-      (data) => {
+    this.backendService.searchChannelVideo(sco).subscribe({
+      next: async (res) => {
         // Get data
-        const responseAPi: any = data;
+        const responseAPi: any = res;
         const typeResponse: ApiReponse<YoutubeVideo> = responseAPi;
         if (typeResponse.data != null) {
           this.videos = typeResponse.data.elements;
@@ -96,10 +96,10 @@ export class YoutubePlayerChannelComponent implements OnInit {
         // Hide loading
         this.spinner.hide();
       },
-      (error) => {
-        this.processError(error);
+      error: (err) => {
+        this.processError(err);
       },
-    );
+    });
   }
 
   /**
@@ -110,10 +110,10 @@ export class YoutubePlayerChannelComponent implements OnInit {
     this.spinner.show();
 
     // Get list
-    this.backendService.getPrivateVideo().subscribe(
-      (data) => {
+    this.backendService.getPrivateVideo().subscribe({
+      next: async (res) => {
         // Get data
-        const responseAPi: any = data;
+        const responseAPi: any = res;
         const typeResponse: ApiReponse<YoutubeVideo> = responseAPi;
         if (typeResponse.data != null) {
           this.videos = typeResponse.data.elements;
@@ -127,10 +127,10 @@ export class YoutubePlayerChannelComponent implements OnInit {
         // Hide loading
         this.spinner.hide();
       },
-      (error) => {
-        this.processError(error);
+      error: (err) => {
+        this.processError(err);
       },
-    );
+    });
   }
 
   public getRandomVideoId() {

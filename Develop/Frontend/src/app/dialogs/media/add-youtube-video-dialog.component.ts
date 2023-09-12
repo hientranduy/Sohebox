@@ -61,8 +61,8 @@ export class AddYoutubeVideoDialogComponent implements OnInit {
         video.videoId = this.validVideoId;
 
         // Add
-        this.backendService.addPrivateVideo(video).subscribe(
-          (data) => {
+        this.backendService.addPrivateVideo(video).subscribe({
+          next: async (res) => {
             // Send success toast message
             this.toastr.success(
               'New video ' +
@@ -76,15 +76,15 @@ export class AddYoutubeVideoDialogComponent implements OnInit {
             // Close dialog
             this.activeModal.close(true);
           },
-          (error) => {
+          error: (err) => {
             // Hide loading
             this.spinner.hide();
 
             // Send error message to dialog
             this.message = null;
-            this.messageError = error;
+            this.messageError = err;
           },
-        );
+        });
       } else {
         this.message = null;
         this.messageError = 'Not a valid youtube video or URL';

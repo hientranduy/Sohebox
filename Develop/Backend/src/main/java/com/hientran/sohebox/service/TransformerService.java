@@ -1,10 +1,10 @@
-package com.hientran.sohebox.transformer;
+package com.hientran.sohebox.service;
 
 import org.springframework.data.domain.Page;
 
 import com.hientran.sohebox.dto.PageResultVO;
 
-public class BaseTransformer {
+public class TransformerService {
 	/*
 	 * Set page infos
 	 */

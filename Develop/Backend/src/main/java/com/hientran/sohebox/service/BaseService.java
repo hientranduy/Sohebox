@@ -37,7 +37,6 @@ import com.hientran.sohebox.sco.RequestExternalSCO;
 import com.hientran.sohebox.sco.SearchDateVO;
 import com.hientran.sohebox.sco.SearchNumberVO;
 import com.hientran.sohebox.sco.SearchTextVO;
-import com.hientran.sohebox.transformer.BaseTransformer;
 import com.hientran.sohebox.utils.FileUtils;
 import com.hientran.sohebox.utils.MyDateUtils;
 
@@ -46,7 +45,7 @@ import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class BaseService extends BaseTransformer {
+public class BaseService extends TransformerService {
 
 	@PersistenceContext
 	protected EntityManager entityManager;

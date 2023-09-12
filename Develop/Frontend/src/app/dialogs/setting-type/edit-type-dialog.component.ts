@@ -130,8 +130,8 @@ export class EditTypeDialogComponent implements OnInit {
         this.spinner.show();
 
         // Update
-        this.backendService.updateType(typeForm.value).subscribe(
-          (data) => {
+        this.backendService.updateType(typeForm.value).subscribe({
+          next: async (res) => {
             // Send success toast message
             this.toastr.success(
               '<Type class ' +
@@ -147,17 +147,17 @@ export class EditTypeDialogComponent implements OnInit {
             // Close dialog
             this.activeModal.close(true);
           },
-          (error) => {
+          error: (err) => {
             // Hide loading
             this.spinner.hide();
 
             // Send error toast message
-            this.toastr.error(error);
+            this.toastr.error(err);
 
             // Close dialog
             this.activeModal.close(false);
           },
-        );
+        });
     }
   }
 

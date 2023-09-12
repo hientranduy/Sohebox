@@ -78,10 +78,10 @@ export class AddAccountDialogComponent implements OnInit {
     this.spinner.show();
 
     // Get list type
-    this.backendService.searchType(typeSCO).subscribe(
-      (data) => {
+    this.backendService.searchType(typeSCO).subscribe({
+      next: async (res) => {
         // Get data
-        const responseAPi: any = data;
+        const responseAPi: any = res;
         const typeResponse: ApiReponse<Type> = responseAPi;
         if (typeResponse.data != null) {
           const accountTypes: Type[] = typeResponse.data.elements;
@@ -101,14 +101,14 @@ export class AddAccountDialogComponent implements OnInit {
         // Hide loading
         this.spinner.hide();
       },
-      (error) => {
+      error: (err) => {
         // Hide loading
         this.spinner.hide();
 
         // Show alert message
-        this.alertService.error(error);
+        this.alertService.error(err);
       },
-    );
+    });
   }
 
   /////////////////////////////////////
@@ -143,8 +143,8 @@ export class AddAccountDialogComponent implements OnInit {
       account.mdpPlain = this.passwordValue;
       account.note = this.noteValue;
 
-      this.backendService.createAccount(account).subscribe(
-        (data) => {
+      this.backendService.createAccount(account).subscribe({
+        next: async (res) => {
           // Send success toast message
           this.toastr.success(
             'Account ' +
@@ -161,15 +161,15 @@ export class AddAccountDialogComponent implements OnInit {
           // Close dialog
           this.activeModal.close(true);
         },
-        (error) => {
+        error: (err) => {
           // Hide loading
           this.spinner.hide();
 
           // Send error toast message
           this.message = null;
-          this.messageError = error;
+          this.messageError = err;
         },
-      );
+      });
     } else {
       this.message = null;
       this.messageError = 'Invalid fields, please check your input';

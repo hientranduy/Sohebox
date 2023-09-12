@@ -121,26 +121,28 @@ export class DownloadVoiceComponent implements OnInit {
           this.spinner.show();
 
           // Download
-          this.backendService.downloadFileMp3(downloadFileForm.value).subscribe(
-            (data) => {
-              // Send success toast message
-              this.toastr.success(
-                'UK Voice of word <' +
-                  this.english.keyWord +
-                  '> is downloaded successfull',
-              );
+          this.backendService
+            .downloadFileMp3(downloadFileForm.value)
+            .subscribe({
+              next: async (res) => {
+                // Send success toast message
+                this.toastr.success(
+                  'UK Voice of word <' +
+                    this.english.keyWord +
+                    '> is downloaded successfull',
+                );
 
-              // Hide loading
-              this.spinner.hide();
-            },
-            (error) => {
-              // Hide loading
-              this.spinner.hide();
+                // Hide loading
+                this.spinner.hide();
+              },
+              error: (err) => {
+                // Hide loading
+                this.spinner.hide();
 
-              // Send error toast message
-              this.toastr.error(error + ' is not found');
-            },
-          );
+                // Send error toast message
+                this.toastr.error(err + ' is not found');
+              },
+            });
         }
 
         // Download US Voice
@@ -166,26 +168,28 @@ export class DownloadVoiceComponent implements OnInit {
           this.spinner.show();
 
           // Download
-          this.backendService.downloadFileMp3(downloadFileForm.value).subscribe(
-            (data) => {
-              // Send success toast message
-              this.toastr.success(
-                'US Voice of word <' +
-                  this.english.keyWord +
-                  '> is downloaded successfull',
-              );
+          this.backendService
+            .downloadFileMp3(downloadFileForm.value)
+            .subscribe({
+              next: async (res) => {
+                // Send success toast message
+                this.toastr.success(
+                  'US Voice of word <' +
+                    this.english.keyWord +
+                    '> is downloaded successfull',
+                );
 
-              // Hide loading
-              this.spinner.hide();
-            },
-            (error) => {
-              // Hide loading
-              this.spinner.hide();
+                // Hide loading
+                this.spinner.hide();
+              },
+              error: (err) => {
+                // Hide loading
+                this.spinner.hide();
 
-              // Send error toast message
-              this.toastr.error(error + ' is not found');
-            },
-          );
+                // Send error toast message
+                this.toastr.error(err + ' is not found');
+              },
+            });
         }
 
         // Update voice file name database
@@ -201,22 +205,22 @@ export class DownloadVoiceComponent implements OnInit {
         // Show loading
         this.spinner.show();
 
-        this.backendService.updateEnglish(englishUpdate).subscribe(
-          (data) => {
+        this.backendService.updateEnglish(englishUpdate).subscribe({
+          next: async (res) => {
             // Hide loading
             this.spinner.hide();
 
             // Close dialog
             this.activeModal.close(true);
           },
-          (error) => {
+          error: (err) => {
             // Hide loading
             this.spinner.hide();
 
             // Send error toast message
-            this.toastr.error(error);
+            this.toastr.error(err);
           },
-        );
+        });
     }
   }
 

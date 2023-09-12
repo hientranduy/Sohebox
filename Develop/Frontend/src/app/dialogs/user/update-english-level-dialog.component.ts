@@ -101,10 +101,10 @@ export class UpdateEnglishLevelDialogComponent implements OnInit {
     this.spinner.show();
 
     // Get list type
-    this.backendService.searchEnglishType(typeSCO).subscribe(
-      (data) => {
+    this.backendService.searchEnglishType(typeSCO).subscribe({
+      next: async (res) => {
         // Get data
-        const responseAPi: any = data;
+        const responseAPi: any = res;
         const typeResponse: ApiReponse<EnglishType> = responseAPi;
         if (typeResponse.data != null) {
           const grades: EnglishType[] = typeResponse.data.elements;
@@ -123,13 +123,13 @@ export class UpdateEnglishLevelDialogComponent implements OnInit {
         // Hide loading
         this.spinner.hide();
       },
-      (error) => {
+      error: (err) => {
         // Hide loading
         this.spinner.hide();
 
-        this.alertService.error(error);
+        this.alertService.error(err);
       },
-    );
+    });
   }
 
   /**
@@ -146,10 +146,10 @@ export class UpdateEnglishLevelDialogComponent implements OnInit {
     this.spinner.show();
 
     // Get list type
-    this.backendService.searchEnglishType(englishTypeSCO).subscribe(
-      (data) => {
+    this.backendService.searchEnglishType(englishTypeSCO).subscribe({
+      next: async (res) => {
         // Get dataa
-        const responseAPi: any = data;
+        const responseAPi: any = res;
         const typeResponse: ApiReponse<EnglishType> = responseAPi;
         if (typeResponse.data != null) {
           const learnDays: EnglishType[] = typeResponse.data.elements;
@@ -168,13 +168,13 @@ export class UpdateEnglishLevelDialogComponent implements OnInit {
         // Hide loading
         this.spinner.hide();
       },
-      (error) => {
+      error: (err) => {
         // Hide loading
         this.spinner.hide();
 
-        this.alertService.error(error);
+        this.alertService.error(err);
       },
-    );
+    });
   }
 
   /**
@@ -191,10 +191,10 @@ export class UpdateEnglishLevelDialogComponent implements OnInit {
     this.spinner.show();
 
     // Search
-    this.backendService.searchEnglishLevel(englishUserGradeSCO).subscribe(
-      (data) => {
+    this.backendService.searchEnglishLevel(englishUserGradeSCO).subscribe({
+      next: async (res) => {
         // Get data
-        const responseAPi: any = data;
+        const responseAPi: any = res;
         const typeResponse: ApiReponse<EnglishUserGrade> = responseAPi;
         const englishLevel: EnglishUserGrade[] = typeResponse.data.elements;
         if (typeResponse.data.elements != null) {
@@ -206,13 +206,13 @@ export class UpdateEnglishLevelDialogComponent implements OnInit {
         // Hide loading
         this.spinner.hide();
       },
-      (error) => {
+      error: (err) => {
         // Hide loading
         this.spinner.hide();
 
-        this.alertService.error(error);
+        this.alertService.error(err);
       },
-    );
+    });
   }
 
   /////////////////////////////////////
@@ -272,8 +272,8 @@ export class UpdateEnglishLevelDialogComponent implements OnInit {
         this.spinner.show();
 
         // Edit word
-        this.backendService.updateEnglishLevel(englishUserGrade).subscribe(
-          (data) => {
+        this.backendService.updateEnglishLevel(englishUserGrade).subscribe({
+          next: async (res) => {
             // Send success toast message
             this.toastr.success('Your new level is updated successful');
 
@@ -283,9 +283,9 @@ export class UpdateEnglishLevelDialogComponent implements OnInit {
             // Close dialog
             this.activeModal.close(true);
           },
-          (error) => {
+          error: (err) => {
             // Send error toast message
-            this.toastr.error(error);
+            this.toastr.error(err);
 
             // Hide loading
             this.spinner.hide();
@@ -293,7 +293,7 @@ export class UpdateEnglishLevelDialogComponent implements OnInit {
             // Close dialog
             this.activeModal.close(false);
           },
-        );
+        });
     }
   }
 

@@ -149,9 +149,9 @@ export class CryptoTokenConfigComponent implements OnInit {
     this.spinner.show();
 
     // Search
-    this.backendService.searchCryptoTokenConfig(sco).subscribe(
-      (data) => {
-        const responseAPi: any = data;
+    this.backendService.searchCryptoTokenConfig(sco).subscribe({
+      next: async (res) => {
+        const responseAPi: any = res;
         const typeResponse: ApiReponse<CryptoTokenConfig> = responseAPi;
         if (typeResponse.data != null) {
           this.pageResult = typeResponse.data;
@@ -162,13 +162,13 @@ export class CryptoTokenConfigComponent implements OnInit {
         // Hide Loading
         this.spinner.hide();
       },
-      (error) => {
+      error: (err) => {
         // Hide Loading
         this.spinner.hide();
 
-        this.alertService.error(error);
+        this.alertService.error(err);
       },
-    );
+    });
   }
 
   /////////////////////////////////////

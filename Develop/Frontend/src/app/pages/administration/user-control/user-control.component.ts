@@ -161,10 +161,10 @@ export class UserControlComponent implements OnInit, OnDestroy {
     this.spinner.show();
 
     // Search
-    this.backendService.searchUserStatus(sco).subscribe(
-      (data) => {
+    this.backendService.searchUserStatus(sco).subscribe({
+      next: async (res) => {
         // Get data
-        const responseAPi: any = data;
+        const responseAPi: any = res;
         const typeResponse: ApiReponse<UserStatus> = responseAPi;
         if (typeResponse.data != null) {
           this.pageResult = typeResponse.data;
@@ -175,13 +175,13 @@ export class UserControlComponent implements OnInit, OnDestroy {
         // Hide Loading
         this.spinner.hide();
       },
-      (error) => {
+      error: (err) => {
         // Hide Loading
         this.spinner.hide();
 
-        this.alertService.error(error);
+        this.alertService.error(err);
       },
-    );
+    });
   }
 
   /**
@@ -197,10 +197,10 @@ export class UserControlComponent implements OnInit, OnDestroy {
     this.spinner.show();
 
     // Search
-    this.backendService.searchActiveUser(sco).subscribe(
-      (data) => {
+    this.backendService.searchActiveUser(sco).subscribe({
+      next: async (res) => {
         // Get data
-        const responseAPi: any = data;
+        const responseAPi: any = res;
         const typeResponse: ApiReponse<UserStatus> = responseAPi;
         if (typeResponse.data != null) {
           this.pageResult = typeResponse.data;
@@ -209,12 +209,12 @@ export class UserControlComponent implements OnInit, OnDestroy {
         // Hide Loading
         this.spinner.hide();
       },
-      (error) => {
+      error: (err) => {
         // Hide Loading
         this.spinner.hide();
 
-        this.alertService.error(error);
+        this.alertService.error(err);
       },
-    );
+    });
   }
 }

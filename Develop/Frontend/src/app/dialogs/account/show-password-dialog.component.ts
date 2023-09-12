@@ -45,10 +45,10 @@ export class ShowPasswordDialogComponent implements OnInit {
       // Show Loading
       this.spinner.show();
 
-      this.backendService.showPassword(this.account).subscribe(
-        (data) => {
+      this.backendService.showPassword(this.account).subscribe({
+        next: async (res) => {
           // Get data
-          const responseAPi: any = data;
+          const responseAPi: any = res;
           const typeResponse: ApiReponse<Account> = responseAPi;
           if (typeResponse.data != null) {
             const accounts: Account[] = typeResponse.data.elements;
@@ -64,11 +64,11 @@ export class ShowPasswordDialogComponent implements OnInit {
           // Hide Loading
           this.spinner.hide();
         },
-        (error) => {
+        error: (err) => {
           // Hide Loading
           this.spinner.hide();
         },
-      );
+      });
     } else {
       this.messageError = 'Input missing';
     }

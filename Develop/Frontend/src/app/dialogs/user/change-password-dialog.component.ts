@@ -60,17 +60,17 @@ export class ChangePasswordDialogComponent implements OnInit {
       this.spinner.show();
       this.backendService
         .changePasswordByLoggedUser(this.changePasswordForm.value)
-        .subscribe(
-          (data) => {
+        .subscribe({
+          next: async (res) => {
             // Send alert message
             this.alertService.success('Password change successful', true);
             this.spinner.hide();
           },
-          (error) => {
+          error: (err) => {
             this.spinner.hide();
-            this.alertService.error(error);
+            this.alertService.error(err);
           },
-        );
+        });
 
       // Close dialog
       this.activeModal.close(true);

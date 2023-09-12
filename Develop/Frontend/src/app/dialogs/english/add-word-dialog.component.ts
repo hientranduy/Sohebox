@@ -74,7 +74,7 @@ export class AddWordDialogComponent implements OnInit {
   learnDayControl = new FormControl('', [Validators.required]);
 
   // Field : key word
-  wordFormControl = new FormControl('', [englishKeyWord, Validators.required]);
+  wordFormControl = new FormControl('', [Validators.required]);
 
   // Field : Explanation English
   explanationEnFormControl = new FormControl('', []);
@@ -107,10 +107,10 @@ export class AddWordDialogComponent implements OnInit {
     this.spinner.show();
 
     // Get list type
-    this.backendService.searchEnglishType(typeSCO).subscribe(
-      (data) => {
+    this.backendService.searchEnglishType(typeSCO).subscribe({
+      next: async (res) => {
         // Get data
-        const responseAPi: any = data;
+        const responseAPi: any = res;
         const typeResponse: ApiReponse<EnglishType> = responseAPi;
         const grades: EnglishType[] = typeResponse.data.elements;
         if (typeResponse.data.elements != null) {
@@ -129,13 +129,13 @@ export class AddWordDialogComponent implements OnInit {
         // Hide loading
         this.spinner.hide();
       },
-      (error) => {
+      error: (err) => {
         // Hide loading
         this.spinner.hide();
 
-        this.alertService.error(error);
+        this.alertService.error(err);
       },
-    );
+    });
   }
 
   /**
@@ -153,10 +153,10 @@ export class AddWordDialogComponent implements OnInit {
     typeSCO.deleteFlag = false;
 
     // Get list type
-    this.backendService.searchEnglishType(typeSCO).subscribe(
-      (data) => {
+    this.backendService.searchEnglishType(typeSCO).subscribe({
+      next: async (res) => {
         // Get data
-        const responseAPi: any = data;
+        const responseAPi: any = res;
         const typeResponse: ApiReponse<EnglishType> = responseAPi;
         const categories: EnglishType[] = typeResponse.data.elements;
         if (typeResponse.data.elements != null) {
@@ -176,13 +176,13 @@ export class AddWordDialogComponent implements OnInit {
         // Hide loading
         this.spinner.hide();
       },
-      (error) => {
+      error: (err) => {
         // Hide loading
         this.spinner.hide();
 
-        this.alertService.error(error);
+        this.alertService.error(err);
       },
-    );
+    });
   }
 
   /**
@@ -200,10 +200,10 @@ export class AddWordDialogComponent implements OnInit {
     this.spinner.show();
 
     // Get list type
-    this.backendService.searchEnglishType(englishTypeSCO).subscribe(
-      (data) => {
+    this.backendService.searchEnglishType(englishTypeSCO).subscribe({
+      next: async (res) => {
         // Get dataa
-        const responseAPi: any = data;
+        const responseAPi: any = res;
         const typeResponse: ApiReponse<EnglishType> = responseAPi;
         const learnDays: EnglishType[] = typeResponse.data.elements;
         if (typeResponse.data.elements != null) {
@@ -223,13 +223,13 @@ export class AddWordDialogComponent implements OnInit {
         // Hide loading
         this.spinner.hide();
       },
-      (error) => {
+      error: (err) => {
         // Hide loading
         this.spinner.hide();
 
-        this.alertService.error(error);
+        this.alertService.error(err);
       },
-    );
+    });
   }
 
   //////////////////
@@ -315,8 +315,8 @@ export class AddWordDialogComponent implements OnInit {
       this.spinner.show();
 
       // Add account
-      this.backendService.addEnglish(addWordForm.value).subscribe(
-        (data) => {
+      this.backendService.addEnglish(addWordForm.value).subscribe({
+        next: async (res) => {
           // Send success toast message
           this.toastr.success(
             'New Word ' + this.keyWord + ' is added successful',
@@ -328,15 +328,15 @@ export class AddWordDialogComponent implements OnInit {
           // Close dialog
           this.activeModal.close(true);
         },
-        (error) => {
+        error: (err) => {
           // Hide loading
           this.spinner.hide();
 
           // Send error message to dialog
           this.message = null;
-          this.messageError = error;
+          this.messageError = err;
         },
-      );
+      });
     } else {
       this.message = null;
       this.messageError = 'Invalid fields, please check your input';
@@ -371,41 +371,4 @@ export class AddWordDialogComponent implements OnInit {
     }
     return result;
   }
-}
-
-/**
- * Function validator english ky work
- *  - Must be not existed in database
- *
- */
-function englishKeyWord(control: FormControl) {
-  const keyWord = control.value;
-
-  // Validate keyword if have input
-  if (keyWord) {
-    // Search keyword
-    const keywordSearch = new SearchText();
-    keywordSearch.eq = keyWord;
-    const sco = new EnglishSCO();
-    sco.keyWord = keywordSearch;
-
-    // this.englishService.searchEnglish(sco)
-    //   .subscribe(data => {
-    //     const responseAPi: any = data;
-    //     const typeResponse: ApiReponse<English> = responseAPi;
-    //     if (typeResponse.data != null) {
-    //       // Invalid because new work is existed
-    //       return {
-    //         englishIsExisted: {
-    //           parsedUrln: keyWord
-    //         }
-    //       };
-    //     } else {
-    //       // New english is not existed
-    //     }
-    //   }, error => {
-    //     this.toastr.info('error:' + error);
-    //   });
-  }
-  return null;
 }

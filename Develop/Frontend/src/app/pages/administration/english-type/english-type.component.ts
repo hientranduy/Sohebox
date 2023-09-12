@@ -171,9 +171,9 @@ export class EnglishTypeComponent implements OnInit {
     this.spinner.show();
 
     // Search
-    this.backendService.searchEnglishType(sco).subscribe(
-      (data) => {
-        const responseAPi: any = data;
+    this.backendService.searchEnglishType(sco).subscribe({
+      next: async (res) => {
+        const responseAPi: any = res;
         const typeResponse: ApiReponse<EnglishType> = responseAPi;
         if (typeResponse.data != null) {
           this.pageResult = typeResponse.data;
@@ -184,13 +184,13 @@ export class EnglishTypeComponent implements OnInit {
         // Hide Loading
         this.spinner.hide();
       },
-      (error) => {
+      error: (err) => {
         // Hide Loading
         this.spinner.hide();
 
-        this.alertService.error(error);
+        this.alertService.error(err);
       },
-    );
+    });
   }
 
   /////////////////////////////////////
