@@ -42,7 +42,6 @@
 		<java.version>17</java.version>
 		<springdoc-openapi.version>2.0.0</springdoc-openapi.version>
 		<springdoc-openapi-ui.version>1.7.0</springdoc-openapi-ui.version>
-		<dozer.version>5.5.1</dozer.version>
 		<velocity.version>1.4.7.RELEASE</velocity.version>
 		<jwt.version>4.4.0</jwt.version>
 		<mysql.version>8.0.19</mysql.version>
