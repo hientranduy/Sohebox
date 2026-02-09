@@ -32,7 +32,7 @@ import com.hientran.sohebox.constants.DBConstants;
 
 @Configuration
 @EnableWebSecurity
-@ConditionalOnProperty(name = "authentication.isActived", havingValue = "true", matchIfMissing = true)
+@ConditionalOnProperty(name = "authentication.isActived", havingValue = "false", matchIfMissing = true)
 public class SecurityConfig {
 
 	@Autowired
@@ -76,7 +76,7 @@ public class SecurityConfig {
 		corsConfiguration.setAllowedMethods(Arrays.asList(HttpMethod.GET.name(), HttpMethod.POST.name(),
 				HttpMethod.PUT.name(), HttpMethod.DELETE.name(), HttpMethod.OPTIONS.name(), HttpMethod.HEAD.name()));
 		corsConfiguration.setAllowedHeaders(Arrays.asList("*"));
-		corsConfiguration.setAllowCredentials(false);
+		corsConfiguration.setAllowCredentials(true);
 		corsConfiguration.setMaxAge(Long.valueOf(3600));
 
 		// Register CORS configuration
