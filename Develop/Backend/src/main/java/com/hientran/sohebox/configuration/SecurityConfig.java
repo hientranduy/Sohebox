@@ -76,12 +76,12 @@ public class SecurityConfig {
 		corsConfiguration.setAllowedMethods(Arrays.asList(HttpMethod.GET.name(), HttpMethod.POST.name(),
 				HttpMethod.PUT.name(), HttpMethod.DELETE.name(), HttpMethod.OPTIONS.name(), HttpMethod.HEAD.name()));
 		corsConfiguration.setAllowedHeaders(Arrays.asList("*"));
-		corsConfiguration.setAllowCredentials(true);
+		corsConfiguration.setAllowCredentials(false);
 		corsConfiguration.setMaxAge(Long.valueOf(3600));
 
 		// Register CORS configuration
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-		// source.registerCorsConfiguration("/**", corsConfiguration);
+		source.registerCorsConfiguration("/**", corsConfiguration);
 		return source;
 	}
 
