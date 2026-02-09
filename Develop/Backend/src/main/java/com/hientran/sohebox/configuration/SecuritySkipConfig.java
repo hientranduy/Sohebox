@@ -10,7 +10,7 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
-@ConditionalOnProperty(name = "authentication.isActived", havingValue = "false", matchIfMissing = true)
+@ConditionalOnProperty(name = "authentication.isActived", havingValue = "true", matchIfMissing = true)
 public class SecuritySkipConfig {
 
 	@Bean
