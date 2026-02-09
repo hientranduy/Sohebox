@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
   soheboxRepo: '/home/hientran/Repository/Sohebox',
-  soheboxUrl: 'https://localhost:8080',
+  soheboxUrl: 'https://192.168.100.171/',
 };
