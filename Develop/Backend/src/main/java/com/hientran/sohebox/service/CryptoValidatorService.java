@@ -16,9 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.hientran.sohebox.cache.ConfigCache;
 import com.hientran.sohebox.constants.CosmosConstants;
-import com.hientran.sohebox.constants.DataExternalConstants;
 import com.hientran.sohebox.dto.PageResultVO;
 import com.hientran.sohebox.dto.response.APIResponse;
 import com.hientran.sohebox.dto.response.ResponseCode;
@@ -39,7 +37,6 @@ import lombok.extern.slf4j.Slf4j;
 public class CryptoValidatorService extends BaseService {
 
 	private final CryptoValidatorRepository cryptoValidatorRepository;
-	private final ConfigCache configCache;
 	private final RestTemplateService restTemplateService;
 
 	DecimalFormat df = new DecimalFormat("#.###");
@@ -148,8 +145,7 @@ public class CryptoValidatorService extends BaseService {
 		// Check if need sync
 		boolean isSyncValidator = false;
 		if (returnValidator != null) {
-			int lateTimeSecond = Integer.parseInt(
-					configCache.getValueByKey(DataExternalConstants.CRYPTO_PORTFOLIO_SYNC_VALIDATOR_LATE_TIME_SECOND));
+			int lateTimeSecond = 432000; // 5 days
 			long diffInSecond = (new Date().getTime() - returnValidator.getUpdatedDate().getTime()) / 1000;
 			if (diffInSecond > lateTimeSecond) {
 				isSyncValidator = true;

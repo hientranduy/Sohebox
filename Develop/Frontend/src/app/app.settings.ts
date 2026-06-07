@@ -34,16 +34,8 @@ export class AppSettings {
   public static GOOGLE_RESET_PASSWORD_URL =
     'https://accounts.google.com/signin/v2/recoveryidentifier?flowName=GlifWebSignIn&flowEntry=ServiceLogin';
 
-  // Google youtube embed
-  public static GOOGLE_YOUTUBE_EMBED = 'https://www.youtube.com/embed/';
-
-  // Google youtube iframe
-  public static GOOGLE_YOUTUBE_IFRAME = 'https://www.youtube.com/iframe_api';
-
   /////////////////////
   // CRYPTO          //
   /////////////////////
-
-  // Google youtube iframe
   public static CRYPTO_MINTSCAN = 'https://www.mintscan.io/';
 }

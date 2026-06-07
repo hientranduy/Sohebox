@@ -129,24 +129,6 @@ public class SecurityConfig {
 				// Logout
 				.requestMatchers(HttpMethod.POST, ApiPublicConstants.API_USER + ApiPublicConstants.LOGOUT).permitAll()
 
-				//////////////////////
-				// Media //
-				//////////////////////
-				// YOUTUBE channel: search
-				.requestMatchers(HttpMethod.POST,
-						"/api" + ApiPublicConstants.API_YOUTUBE_CHANNEL + ApiPublicConstants.SEARCH)
-				.permitAll()
-				// YOUTUBE channel: search my channel
-				.requestMatchers(HttpMethod.POST,
-						"/api" + ApiPublicConstants.API_YOUTUBE_CHANNEL + ApiPublicConstants.SEARCH_MY_OWNER)
-				.permitAll()
-				// YOUTUBE video: search
-				.requestMatchers(HttpMethod.POST,
-						"/api" + ApiPublicConstants.API_YOUTUBE_VIDEO + ApiPublicConstants.SEARCH)
-				.permitAll()
-				.requestMatchers(HttpMethod.POST,
-						"/api" + ApiPublicConstants.API_YOUTUBE_VIDEO + ApiPublicConstants.SEARCH_BY_CHANNEL)
-				.permitAll()
 
 				///////////////////////////////////////////
 				// RESTRICTION - ADMIN ONLY //
@@ -171,23 +153,10 @@ public class SecurityConfig {
 				.requestMatchers(HttpMethod.PUT, "/api" + ApiPublicConstants.API_ENGLISH_TYPE)
 				.hasRole(DBConstants.USER_ROLE_CREATOR)
 
-				// MediaType: update-search
-				.requestMatchers(HttpMethod.PUT, "/api" + ApiPublicConstants.API_MEDIA_TYPE)
-				.hasRole(DBConstants.USER_ROLE_CREATOR)
-				.requestMatchers(HttpMethod.POST,
-						"/api" + ApiPublicConstants.API_MEDIA_TYPE + ApiPublicConstants.SEARCH)
-				.hasRole(DBConstants.USER_ROLE_CREATOR)
-
 				// English: add-update
 				.requestMatchers(HttpMethod.PUT, "/api" + ApiPublicConstants.API_ENGLISH)
 				.hasRole(DBConstants.USER_ROLE_CREATOR)
 				.requestMatchers(HttpMethod.POST, "/api" + ApiPublicConstants.API_ENGLISH)
-				.hasRole(DBConstants.USER_ROLE_CREATOR)
-
-				// Youtube Channel: add-update
-				.requestMatchers(HttpMethod.POST, "/api" + ApiPublicConstants.API_YOUTUBE_CHANNEL)
-				.hasRole(DBConstants.USER_ROLE_CREATOR)
-				.requestMatchers(HttpMethod.PUT, "/api" + ApiPublicConstants.API_YOUTUBE_CHANNEL)
 				.hasRole(DBConstants.USER_ROLE_CREATOR)
 
 				// Crypto Token: add-update

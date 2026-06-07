@@ -140,12 +140,6 @@ body {
   width: 100%;
 }
 
-.sh_page_media_button_ok {
-  background: white;
-  opacity: 0.6;
-  text-align: center;
-}
-
 .sh_page_english_learn_report_info {
   text-transform: capitalize;
   color: darkblue;

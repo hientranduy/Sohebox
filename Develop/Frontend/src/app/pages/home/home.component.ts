@@ -44,10 +44,6 @@ export class HomeComponent implements OnInit {
     this.router.navigate(['/english']);
   }
 
-  public openMediaApplication() {
-    this.router.navigate(['/media']);
-  }
-
   public openCryptoApplication() {
     this.router.navigate(['/crypto']);
   }

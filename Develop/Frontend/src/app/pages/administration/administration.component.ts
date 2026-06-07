@@ -9,9 +9,6 @@ import { ToastrService } from 'ngx-toastr';
 export class AdministrationComponent implements OnInit {
   constructor(private route: ActivatedRoute) { }
 
-  get isSettingConfigOpen() {
-    return this.selectOpion === 2;
-  }
 
   get isSettingTypeOpen() {
     return this.selectOpion === 3;
@@ -27,14 +24,6 @@ export class AdministrationComponent implements OnInit {
 
   get isEnglishUserReportOpen() {
     return this.selectOpion === 8;
-  }
-
-  get isYoutubeChannelConfigOpen() {
-    return this.selectOpion === 9;
-  }
-
-  get isMediaTypeOpen() {
-    return this.selectOpion === 10;
   }
 
   get isCryptoTokenConfigOpen() {
@@ -60,10 +49,6 @@ export class AdministrationComponent implements OnInit {
   // SELECT OPTION //
   ///////////////////
 
-  public selectSettingConfig() {
-    this.selectOpion = 2;
-  }
-
   public selectSettingType() {
     this.selectOpion = 3;
   }
@@ -78,14 +63,6 @@ export class AdministrationComponent implements OnInit {
 
   public selectEnglishUserReport() {
     this.selectOpion = 8;
-  }
-
-  public selectYoutubeChannelConfig() {
-    this.selectOpion = 9;
-  }
-
-  public selectMediaType() {
-    this.selectOpion = 10;
   }
 
   public selectCryptoTokenConfig() {

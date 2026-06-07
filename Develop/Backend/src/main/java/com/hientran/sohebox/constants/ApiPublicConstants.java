@@ -12,8 +12,6 @@ public class ApiPublicConstants {
 
 	public static final String SEARCH = "/search";
 
-	public static final String SEARCH_BY_CHANNEL = "/searchByChannel";
-
 	public static final String SEARCH_MY_OWNER = "/searchMyOwner";
 
 	public static final String SEARCH_LOW_LEARN = "/searchLowLearn";
@@ -40,8 +38,6 @@ public class ApiPublicConstants {
 
 	public static final String API_TYPE = "/types";
 
-	public static final String API_MEDIA_TYPE = "/mediaTypes";
-
 	public static final String API_CONFIG = "/configs";
 
 	public static final String API_CRYPTO_TOKEN_CONFIG = "/cryptoTokenConfig";
@@ -49,12 +45,6 @@ public class ApiPublicConstants {
 	public static final String API_CRYPTO_PORTFOLIO = "/cryptoPortfolio";
 
 	public static final String API_CRYPTO_PORTFOLIO_HISTORY = "/cryptoPortfolioHistory";
-
-	public static final String API_YOUTUBE_CHANNEL = "/youtubeChannel";
-
-	public static final String API_YOUTUBE_VIDEO = "/youtubeVideo";
-
-	public static final String API_YOUTUBE_PRIVATE_VIDEO = "/privateVideo";
 	
 	public static final String API_ENGLISH = "/english";
 	

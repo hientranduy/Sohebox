@@ -8,9 +8,6 @@ import { AdministrationComponent } from './pages/administration/administration.c
 import { EnglishComponent } from './pages/english/english.component';
 import { HomeComponent } from './pages/home/home.component';
 import { EnglishReportComponent } from './pages/english-report/english-report.component';
-import { MediaComponent } from './pages/media/media.component';
-import { YoutubePlayerComponent } from './pages/media/youtube-player/youtube-player.component';
-import { YoutubePlayerChannelComponent } from './pages/media/youtube-player-channel/youtube-player-channel.component';
 
 const appRoutes: Routes = [
   {
@@ -89,36 +86,6 @@ const appRoutes: Routes = [
       ogUrl: 'https://sohebox.com/englishReport',
       description: 'Report your english learning process',
       keywords: 'S.H Box, english',
-    },
-  },
-  {
-    path: 'media',
-    component: MediaComponent,
-    data: {
-      title: 'S.H Box - Media',
-      ogUrl: 'https://sohebox.com/media',
-      description: 'Incomming function',
-      keywords: 'S.H Box',
-    },
-  },
-  {
-    path: 'media/youtubeplayer/:videoId',
-    component: YoutubePlayerComponent,
-    data: {
-      title: 'S.H Box - Youtube Player',
-      ogUrl: 'https://sohebox.com/media/youtubeplayer',
-      description: 'Youtube player',
-      keywords: 'S.H Box, player',
-    },
-  },
-  {
-    path: 'media/youtubeplayerchannel/:channelId',
-    component: YoutubePlayerChannelComponent,
-    data: {
-      title: 'S.H Box - Youtube Channel Player',
-      ogUrl: 'https://sohebox.com/media/youtubeplayerchannel',
-      description: 'Youtube channe player',
-      keywords: 'S.H Box, channe player',
     },
   },
   {

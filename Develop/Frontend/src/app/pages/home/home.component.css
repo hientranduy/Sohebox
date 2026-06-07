@@ -36,11 +36,6 @@
   background-size: cover;
 }
 
-.media-avatar-image {
-  background-image: url("/assets/home_function/ic_media.gif");
-  background-size: cover;
-}
-
 .crypto-avatar-image {
   background-image: url("/assets/home_function/ic_crypto.gif");
   background-size: cover;

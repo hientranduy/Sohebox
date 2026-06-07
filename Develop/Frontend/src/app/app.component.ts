@@ -40,15 +40,7 @@ export class AppComponent {
 
     // Check show main toolbar
     router.events.subscribe((val) => {
-      const currentURL = this.router.url;
-      if (
-        currentURL.includes('/media/youtubeplayer/') ||
-        currentURL.includes('/media/youtubeplayerchannel/')
-      ) {
-        this.isShowMainToolbar = false;
-      } else {
-        this.isShowMainToolbar = true;
-      }
+      this.isShowMainToolbar = true;
     });
 
     // Set idle timeout

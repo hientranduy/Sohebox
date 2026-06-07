@@ -20,10 +20,8 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.hientran.sohebox.authentication.UserDetailsServiceImpl;
-import com.hientran.sohebox.cache.ConfigCache;
 import com.hientran.sohebox.constants.CosmosConstants;
 import com.hientran.sohebox.constants.DBConstants;
-import com.hientran.sohebox.constants.DataExternalConstants;
 import com.hientran.sohebox.dto.PageResultVO;
 import com.hientran.sohebox.dto.response.APIResponse;
 import com.hientran.sohebox.dto.response.ResponseCode;
@@ -46,7 +44,6 @@ public class CryptoPortfolioService extends BaseService {
 	private final CryptoPortfolioRepository cryptoPortfolioRepository;
 	private final UserService userService;
 	private final UserDetailsServiceImpl userDetailsServiceImpl;
-	private final ConfigCache configCache;
 	private final CryptoValidatorService cryptoValidatorService;
 	private final RestTemplateService restTemplateService;
 
@@ -270,8 +267,7 @@ public class CryptoPortfolioService extends BaseService {
 
 		// Get data on chain
 		if (CollectionUtils.isNotEmpty(data.getElements())) {
-			int lateTimeSecond = Integer.parseInt(
-					configCache.getValueByKey(DataExternalConstants.CRYPTO_PORTFOLIO_SYNC_ONCHAIN_LATE_TIME_SECOND));
+			int lateTimeSecond = 54000; // 15h
 
 			for (CryptoPortfolioTbl item : data.getElements()) {
 				// Get if out update

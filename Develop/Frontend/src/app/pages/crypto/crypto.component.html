@@ -3,17 +3,14 @@
     <button mat-button class="toolbar-button-style" (click)="selectPortfolio()">
       <img class="sh_page_img_icon" src="assets/crypto/icon-porfolio.png" />
       <strong *ngIf="windownInnerWidth >= 410" style="color: white">
-        Portfolio</strong
-      >
+        Portfolio</strong>
     </button>
     <button mat-button class="toolbar-button-style" (click)="selectCoin()">
       <img class="sh_page_img_icon" src="assets/crypto/icon-coin.png" />
       <strong *ngIf="windownInnerWidth >= 410" style="color: white">
-        Coin</strong
-      >
+        Coin</strong>
     </button>
   </mat-toolbar-row>
 </mat-toolbar>
 
 <app-crypto-portfolio *ngIf="isPortfolioOpen"></app-crypto-portfolio>
-<app-crypto-coin *ngIf="isCoinOpen"></app-crypto-coin>

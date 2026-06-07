@@ -5,9 +5,6 @@ import { DeleteAccountDialogComponent } from '@app/dialogs/account/delete-accoun
 import { EditAccountDialogComponent } from '@app/dialogs/account/edit-account-dialog.component';
 import { ShowPasswordDialogComponent } from '@app/dialogs/account/show-password-dialog.component';
 import { Account } from '@app/models/account';
-import { AddConfigDialogComponent } from '@app/dialogs/setting-config/add-config-dialog.component';
-import { EditConfigDialogComponent } from '@app/dialogs/setting-config/edit-config-dialog.component';
-import { Config } from '@app/models/config';
 import { AddCryptoFortfolioDialogComponent } from '@app/dialogs/crypto-portfolio/add-crypto-portfolio-dialog.component';
 import { DeleteCryptoPortfolioDialogComponent } from '@app/dialogs/crypto-portfolio/delete-crypto-portfolio-dialog.component';
 import { EditCryptoPortfolioDialogComponent } from '@app/dialogs/crypto-portfolio/edit-crypto-portfolio-dialog.component';
@@ -23,9 +20,6 @@ import { WordInfoDialogComponent } from '@app/dialogs/english/word-info-dialog.c
 import { English } from '@app/models/english';
 import { EditEnglishTypeDialogComponent } from '@app/dialogs/english-type/edit-english-type-dialog.component';
 import { EnglishType } from '@app/models/englishType';
-import { YoutubeVideo } from '@app/models/youtubeVideo';
-import { AddYoutubeVideoDialogComponent } from '@app/dialogs/media/add-youtube-video-dialog.component';
-import { DeleteYoutubeVideoDialogComponent } from '@app/dialogs/media/delete-youtube-video-dialog.component';
 import { Type } from '@app/models/type';
 import { AddTypeDialogComponent } from '@app/dialogs/setting-type/add-type-dialog.component';
 import { EditTypeDialogComponent } from '@app/dialogs/setting-type/edit-type-dialog.component';
@@ -35,11 +29,6 @@ import { DeleteConfirmationDialogComponent } from '@app/dialogs/user/delete-conf
 import { HelpGuestDialogComponent } from '@app/dialogs/user/help-guest-dialog.component';
 import { UpdateEnglishLevelDialogComponent } from '@app/dialogs/user/update-english-level-dialog.component';
 import { UpdateInforDialogComponent } from '@app/dialogs/user/update-infor-dialog.component';
-import { AddYoutubeChannelDialogComponent } from '@app/dialogs/youtube-channel/add-youtube-channel-dialog.component';
-import { EditYoutubeChannelDialogComponent } from '@app/dialogs/youtube-channel/edit-youtube-channel-dialog.component';
-import { YoutubeChannel } from '@app/models/youtubeChannel';
-import { EditMediaTypeDialogComponent } from '@app/dialogs/media-type/edit-media-type.component';
-import { MediaType } from '@app/models/mediaType';
 
 @Injectable({ providedIn: 'root' })
 export class DialogService {
@@ -82,41 +71,6 @@ export class DialogService {
     modalRef.componentInstance.btnOkText = 'Edit';
     modalRef.componentInstance.btnCancelText = 'Cancel';
     modalRef.componentInstance.type = type;
-    return modalRef.result;
-  }
-
-  ////////////
-  // CONFIG //
-  ////////////
-  public addConfig(
-    title: string,
-    message: string,
-    dialogSize: 'sm' | 'lg' = 'lg',
-  ): Promise<boolean> {
-    const modalRef = this.modalService.open(AddConfigDialogComponent, {
-      size: dialogSize,
-    });
-    modalRef.componentInstance.title = title;
-    modalRef.componentInstance.message = message;
-    modalRef.componentInstance.btnOkText = 'Add';
-    modalRef.componentInstance.btnCancelText = 'Cancel';
-    return modalRef.result;
-  }
-
-  public editConfig(
-    title: string,
-    message: string,
-    item: Config,
-    dialogSize: 'sm' | 'lg' = 'lg',
-  ): Promise<boolean> {
-    const modalRef = this.modalService.open(EditConfigDialogComponent, {
-      size: dialogSize,
-    });
-    modalRef.componentInstance.title = title;
-    modalRef.componentInstance.message = message;
-    modalRef.componentInstance.btnOkText = 'Edit';
-    modalRef.componentInstance.btnCancelText = 'Cancel';
-    modalRef.componentInstance.item = item;
     return modalRef.result;
   }
 
@@ -454,96 +408,6 @@ export class DialogService {
     dialogSize: 'sm' | 'lg' = 'lg',
   ): Promise<boolean> {
     const modalRef = this.modalService.open(EditEnglishTypeDialogComponent, {
-      size: dialogSize,
-    });
-    modalRef.componentInstance.title = title;
-    modalRef.componentInstance.message = message;
-    modalRef.componentInstance.btnOkText = 'Edit';
-    modalRef.componentInstance.btnCancelText = 'Cancel';
-    modalRef.componentInstance.item = item;
-    return modalRef.result;
-  }
-
-  ///////////////////
-  // YOUTUBE VIDEO //
-  ///////////////////
-  public addPrivateVideo(
-    title: string,
-    message: string,
-    dialogSize: 'sm' | 'lg' = 'lg',
-  ): Promise<boolean> {
-    const modalRef = this.modalService.open(AddYoutubeVideoDialogComponent, {
-      size: dialogSize,
-    });
-    modalRef.componentInstance.title = title;
-    modalRef.componentInstance.message = message;
-    modalRef.componentInstance.btnOkText = 'Add';
-    modalRef.componentInstance.btnCancelText = 'Cancel';
-    return modalRef.result;
-  }
-
-  public deletePrivateVideo(
-    title: string,
-    message: string,
-    video: YoutubeVideo,
-    dialogSize: 'sm' | 'lg' = 'lg',
-  ): Promise<boolean> {
-    const modalRef = this.modalService.open(DeleteYoutubeVideoDialogComponent, {
-      size: dialogSize,
-    });
-    modalRef.componentInstance.title = title;
-    modalRef.componentInstance.message = message;
-    modalRef.componentInstance.btnOkText = 'Delete';
-    modalRef.componentInstance.btnCancelText = 'Cancel';
-    modalRef.componentInstance.video = video;
-    return modalRef.result;
-  }
-
-  /////////////////////
-  // YOUTUBE CHANNEL //
-  /////////////////////
-  public addYoutubeChannel(
-    title: string,
-    message: string,
-    dialogSize: 'sm' | 'lg' = 'lg',
-  ): Promise<boolean> {
-    const modalRef = this.modalService.open(AddYoutubeChannelDialogComponent, {
-      size: dialogSize,
-    });
-    modalRef.componentInstance.title = title;
-    modalRef.componentInstance.message = message;
-    modalRef.componentInstance.btnOkText = 'Add';
-    modalRef.componentInstance.btnCancelText = 'Cancel';
-    return modalRef.result;
-  }
-
-  public editYoutubeChannel(
-    title: string,
-    message: string,
-    youtubeChannel: YoutubeChannel,
-    dialogSize: 'sm' | 'lg' = 'lg',
-  ): Promise<boolean> {
-    const modalRef = this.modalService.open(EditYoutubeChannelDialogComponent, {
-      size: dialogSize,
-    });
-    modalRef.componentInstance.title = title;
-    modalRef.componentInstance.message = message;
-    modalRef.componentInstance.btnOkText = 'Edit';
-    modalRef.componentInstance.btnCancelText = 'Cancel';
-    modalRef.componentInstance.youtubeChannel = youtubeChannel;
-    return modalRef.result;
-  }
-
-  ////////////////
-  // MEDIA TYPE //
-  ////////////////
-  public editMediaType(
-    title: string,
-    message: string,
-    item: MediaType,
-    dialogSize: 'sm' | 'lg' = 'lg',
-  ): Promise<boolean> {
-    const modalRef = this.modalService.open(EditMediaTypeDialogComponent, {
       size: dialogSize,
     });
     modalRef.componentInstance.title = title;

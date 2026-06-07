@@ -4,12 +4,10 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { YouTubePlayerModule } from '@angular/youtube-player';
 import { MaterialModule } from '@app/material-module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgIdleKeepaliveModule } from '@ng-idle/keepalive';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
-import { NgxImageZoomModule } from 'ngx-image-zoom';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { ToastrModule } from 'ngx-toastr';
 import { AppComponent } from './app.component';
@@ -19,16 +17,12 @@ import { CryptoTokenConfigComponent } from './pages/administration/crypto-token-
 
 import { EnglishUserReportComponent } from './pages/administration/english-user-report/english-user-report.component';
 
-import { CoinComponent } from './pages/crypto/coin/coin.component';
 import { CryptoComponent } from './pages/crypto/crypto.component';
 import { PortfolioComponent } from './pages/crypto/portfolio/portfolio.component';
 
 import { ShowLearnedWordComponent } from './dialogs/english/show-learned-word.component';
 
-import { MediaComponent } from './pages/media/media.component';
-
 import { TimeoutProgressDialogComponent } from './commons/timeout/timeout-progress-dialog.component';
-import { EditMediaTypeDialogComponent } from './dialogs/media-type/edit-media-type.component';
 import { JwtInterceptor } from './commons/jwt.interceptor';
 import { ErrorInterceptor } from './commons/error.interceptor';
 import { AutoFocusDirective } from './commons/auto-focus.directive';
@@ -37,18 +31,12 @@ import { UserSlideBarComponent } from './pages/user/user-slide-bar/user-slide-ba
 import { LoginComponent } from './pages/user/login.component';
 import { RegisterComponent } from './pages/user/register.component';
 import { AccountComponent } from './pages/account/account.component';
-import { SettingConfigComponent } from './pages/administration/setting-config/setting-config.component';
 import { SettingTypeComponent } from './pages/administration/setting-type/setting-type.component';
 import { EnglishConfigComponent } from './pages/administration/english-config/english-config.component';
 import { EnglishTypeComponent } from './pages/administration/english-type/english-type.component';
-import { MediaTypeComponent } from './pages/administration/media-type/media-type.component';
-import { YoutubeChannelConfigComponent } from './pages/administration/youtube-channel-config/youtube-channel-config.component';
 import { EnglishComponent } from './pages/english/english.component';
 import { HomeComponent } from './pages/home/home.component';
 import { EnglishReportComponent } from './pages/english-report/english-report.component';
-import { YoutubeChannelComponent } from './pages/media/youtube-channel/youtube-channel.component';
-import { YoutubePlayerChannelComponent } from './pages/media/youtube-player-channel/youtube-player-channel.component';
-import { YoutubePlayerComponent } from './pages/media/youtube-player/youtube-player.component';
 import { AddAccountDialogComponent } from './dialogs/account/add-account-dialog.component';
 import { EditAccountDialogComponent } from './dialogs/account/edit-account-dialog.component';
 import { DeleteAccountDialogComponent } from './dialogs/account/delete-account-dialog.component';
@@ -56,12 +44,8 @@ import { ShowPasswordDialogComponent } from './dialogs/account/show-password-dia
 import { AddCryptoTokenConfigDialogComponent } from './dialogs/crypto-token-config/add-crypto-token-config-dialog.component';
 import { EditCryptoTokenConfigDialogComponent } from './dialogs/crypto-token-config/edit-crypto-token-config-dialog.component';
 import { EditEnglishTypeDialogComponent } from './dialogs/english-type/edit-english-type-dialog.component';
-import { AddConfigDialogComponent } from './dialogs/setting-config/add-config-dialog.component';
-import { EditConfigDialogComponent } from './dialogs/setting-config/edit-config-dialog.component';
 import { AddTypeDialogComponent } from './dialogs/setting-type/add-type-dialog.component';
 import { EditTypeDialogComponent } from './dialogs/setting-type/edit-type-dialog.component';
-import { AddYoutubeChannelDialogComponent } from './dialogs/youtube-channel/add-youtube-channel-dialog.component';
-import { EditYoutubeChannelDialogComponent } from './dialogs/youtube-channel/edit-youtube-channel-dialog.component';
 import { AddCryptoFortfolioDialogComponent } from './dialogs/crypto-portfolio/add-crypto-portfolio-dialog.component';
 import { DeleteCryptoPortfolioDialogComponent } from './dialogs/crypto-portfolio/delete-crypto-portfolio-dialog.component';
 import { EditCryptoPortfolioDialogComponent } from './dialogs/crypto-portfolio/edit-crypto-portfolio-dialog.component';
@@ -75,8 +59,6 @@ import { ChangePrivateKeyDialogComponent } from './dialogs/user/change-private-k
 import { DeleteConfirmationDialogComponent } from './dialogs/user/delete-confirmation-dialog.component';
 import { UpdateEnglishLevelDialogComponent } from './dialogs/user/update-english-level-dialog.component';
 import { UpdateInforDialogComponent } from './dialogs/user/update-infor-dialog.component';
-import { AddYoutubeVideoDialogComponent } from './dialogs/media/add-youtube-video-dialog.component';
-import { DeleteYoutubeVideoDialogComponent } from './dialogs/media/delete-youtube-video-dialog.component';
 
 @NgModule({
   imports: [
@@ -89,9 +71,7 @@ import { DeleteYoutubeVideoDialogComponent } from './dialogs/media/delete-youtub
     NgbModule,
     MaterialModule,
     NgIdleKeepaliveModule.forRoot(),
-    NgxImageZoomModule,
     NgxDatatableModule,
-    YouTubePlayerModule,
     ToastrModule.forRoot({
       timeOut: 5000,
       positionClass: 'toast-top-full-width',
@@ -113,7 +93,6 @@ import { DeleteYoutubeVideoDialogComponent } from './dialogs/media/delete-youtub
     //////////
     // Admin
     AdministrationComponent,
-    SettingConfigComponent,
     SettingTypeComponent,
 
     ////////////
@@ -122,10 +101,6 @@ import { DeleteYoutubeVideoDialogComponent } from './dialogs/media/delete-youtub
     // Type
     AddTypeDialogComponent,
     EditTypeDialogComponent,
-
-    // Config
-    AddConfigDialogComponent,
-    EditConfigDialogComponent,
 
     // User
     LoginComponent,
@@ -162,24 +137,8 @@ import { DeleteYoutubeVideoDialogComponent } from './dialogs/media/delete-youtub
     EditWordDialogComponent,
     WordInfoDialogComponent,
 
-    // Media
-    MediaComponent,
-    MediaTypeComponent,
-    YoutubeChannelConfigComponent,
-    YoutubeChannelComponent,
-    YoutubePlayerComponent,
-    YoutubePlayerChannelComponent,
-
-    // Dialog
-    EditMediaTypeDialogComponent,
-    AddYoutubeChannelDialogComponent,
-    EditYoutubeChannelDialogComponent,
-    AddYoutubeVideoDialogComponent,
-    DeleteYoutubeVideoDialogComponent,
-
     // Crypto
     CryptoComponent,
-    CoinComponent,
 
     CryptoTokenConfigComponent,
     AddCryptoTokenConfigDialogComponent,
