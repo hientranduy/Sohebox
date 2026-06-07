@@ -82,9 +82,6 @@ web:
     english:
        image:
           path: ${web.asset.path}/english/image/
-    food:
-       image:
-          path: ${web.asset.path}/food/image/
 
 # ========================================== #
 # SETTING REST API Input/Output              #
