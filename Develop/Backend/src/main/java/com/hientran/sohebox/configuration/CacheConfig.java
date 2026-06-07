@@ -16,7 +16,7 @@ public class CacheConfig {
 	public CacheManager cacheManager() {
 		ConcurrentMapCacheManager mgr = new ConcurrentMapCacheManager();
 		mgr.setCacheNames(
-				Arrays.asList("configCache", "typeCache", "englishTypeCache", "foodTypeCache", "mediaTypeCache"));
+				Arrays.asList("configCache", "typeCache", "englishTypeCache", "mediaTypeCache"));
 		mgr.setAllowNullValues(false);
 		return mgr;
 	}

@@ -18,7 +18,7 @@ public class Scheduler {
 	 *
 	 * @throws Exception
 	 */
-	@Scheduled(cron = "${schedule.english.learn_report}")
+	@Scheduled(cron = "${schedule.crypto.history}")
 	public void cronjobCalculTotalPortfolio() throws Exception {
 		schedulerService.cronjobCalculTotalPortfolio();
 	}

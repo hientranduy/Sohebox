@@ -43,7 +43,6 @@ export class AppComponent {
       const currentURL = this.router.url;
       if (
         currentURL.includes('/media/youtubeplayer/') ||
-        currentURL.includes('/foodDetail/') ||
         currentURL.includes('/media/youtubeplayerchannel/')
       ) {
         this.isShowMainToolbar = false;

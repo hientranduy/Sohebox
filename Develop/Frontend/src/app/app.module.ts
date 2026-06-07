@@ -19,15 +19,11 @@ import { CryptoTokenConfigComponent } from './pages/administration/crypto-token-
 
 import { EnglishUserReportComponent } from './pages/administration/english-user-report/english-user-report.component';
 
-import { UserControlComponent } from './pages/administration/user-control/user-control.component';
 import { CoinComponent } from './pages/crypto/coin/coin.component';
 import { CryptoComponent } from './pages/crypto/crypto.component';
 import { PortfolioComponent } from './pages/crypto/portfolio/portfolio.component';
 
 import { ShowLearnedWordComponent } from './dialogs/english/show-learned-word.component';
-
-import { FoodDetailComponent } from './pages/food/food-detail/food-detail.component';
-import { FoodItemComponent } from './pages/food/food-item/food-item.component';
 
 import { MediaComponent } from './pages/media/media.component';
 
@@ -45,21 +41,11 @@ import { SettingConfigComponent } from './pages/administration/setting-config/se
 import { SettingTypeComponent } from './pages/administration/setting-type/setting-type.component';
 import { EnglishConfigComponent } from './pages/administration/english-config/english-config.component';
 import { EnglishTypeComponent } from './pages/administration/english-type/english-type.component';
-import { FoodConfigComponent } from './pages/administration/food-config/food-config.component';
-import { FoodTypeComponent } from './pages/administration/food-type/food-type.component';
 import { MediaTypeComponent } from './pages/administration/media-type/media-type.component';
 import { YoutubeChannelConfigComponent } from './pages/administration/youtube-channel-config/youtube-channel-config.component';
 import { EnglishComponent } from './pages/english/english.component';
 import { HomeComponent } from './pages/home/home.component';
 import { EnglishReportComponent } from './pages/english-report/english-report.component';
-import { FinanceCurrencyComponent } from './pages/finance/finance-currency/finance-currency.component';
-import { FinanceGoldComponent } from './pages/finance/finance-gold/finance-gold.component';
-import { FinanceOilComponent } from './pages/finance/finance-oil/finance-oil.component';
-import { FinanceStockComponent } from './pages/finance/finance-stock/finance-stock.component';
-import { FinanceComponent } from './pages/finance/finance.component';
-import { FoodComponent } from './pages/food/food.component';
-import { MoviePlayerComponent } from './pages/media/movie-player/movie-player.component';
-import { PhimmoiPlayerComponent } from './pages/media/phimmoi-player/phimmoi-player.component';
 import { YoutubeChannelComponent } from './pages/media/youtube-channel/youtube-channel.component';
 import { YoutubePlayerChannelComponent } from './pages/media/youtube-player-channel/youtube-player-channel.component';
 import { YoutubePlayerComponent } from './pages/media/youtube-player/youtube-player.component';
@@ -70,7 +56,6 @@ import { ShowPasswordDialogComponent } from './dialogs/account/show-password-dia
 import { AddCryptoTokenConfigDialogComponent } from './dialogs/crypto-token-config/add-crypto-token-config-dialog.component';
 import { EditCryptoTokenConfigDialogComponent } from './dialogs/crypto-token-config/edit-crypto-token-config-dialog.component';
 import { EditEnglishTypeDialogComponent } from './dialogs/english-type/edit-english-type-dialog.component';
-import { EditFoodTypeDialogComponent } from './dialogs/food-type/edit-food-type-dialog.component';
 import { AddConfigDialogComponent } from './dialogs/setting-config/add-config-dialog.component';
 import { EditConfigDialogComponent } from './dialogs/setting-config/edit-config-dialog.component';
 import { AddTypeDialogComponent } from './dialogs/setting-type/add-type-dialog.component';
@@ -84,8 +69,6 @@ import { DownloadVoiceComponent } from './dialogs/english/download-voice.compone
 import { AddWordDialogComponent } from './dialogs/english/add-word-dialog.component';
 import { EditWordDialogComponent } from './dialogs/english/edit-word-dialog.component';
 import { WordInfoDialogComponent } from './dialogs/english/word-info-dialog.component';
-import { AddFoodDialogComponent } from './dialogs/food/add-food-dialog.component';
-import { EditFoodDialogComponent } from './dialogs/food/edit-food-dialog.component';
 import { HelpGuestDialogComponent } from './dialogs/user/help-guest-dialog.component';
 import { ChangePasswordDialogComponent } from './dialogs/user/change-password-dialog.component';
 import { ChangePrivateKeyDialogComponent } from './dialogs/user/change-private-key-dialog.component';
@@ -152,7 +135,6 @@ import { DeleteYoutubeVideoDialogComponent } from './dialogs/media/delete-youtub
     DeleteConfirmationDialogComponent,
     ChangePasswordDialogComponent,
     UpdateInforDialogComponent,
-    UserControlComponent,
     ChangePrivateKeyDialogComponent,
 
     // Account
@@ -180,18 +162,6 @@ import { DeleteYoutubeVideoDialogComponent } from './dialogs/media/delete-youtub
     EditWordDialogComponent,
     WordInfoDialogComponent,
 
-    // Food
-    FoodComponent,
-    FoodItemComponent,
-    FoodConfigComponent,
-    FoodTypeComponent,
-    FoodDetailComponent,
-
-    // Dialog
-    AddFoodDialogComponent,
-    EditFoodDialogComponent,
-    EditFoodTypeDialogComponent,
-
     // Media
     MediaComponent,
     MediaTypeComponent,
@@ -199,8 +169,6 @@ import { DeleteYoutubeVideoDialogComponent } from './dialogs/media/delete-youtub
     YoutubeChannelComponent,
     YoutubePlayerComponent,
     YoutubePlayerChannelComponent,
-    MoviePlayerComponent,
-    PhimmoiPlayerComponent,
 
     // Dialog
     EditMediaTypeDialogComponent,
@@ -208,13 +176,6 @@ import { DeleteYoutubeVideoDialogComponent } from './dialogs/media/delete-youtub
     EditYoutubeChannelDialogComponent,
     AddYoutubeVideoDialogComponent,
     DeleteYoutubeVideoDialogComponent,
-
-    // Finance
-    FinanceComponent,
-    FinanceGoldComponent,
-    FinanceOilComponent,
-    FinanceCurrencyComponent,
-    FinanceStockComponent,
 
     // Crypto
     CryptoComponent,
@@ -235,4 +196,4 @@ import { DeleteYoutubeVideoDialogComponent } from './dialogs/media/delete-youtub
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

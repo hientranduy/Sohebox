@@ -31,7 +31,7 @@ export class AddYoutubeChannelDialogComponent implements OnInit {
     private backendService: BackendService,
     private toastr: ToastrService,
     private spinner: SpinnerService,
-  ) {}
+  ) { }
 
   // Form value
   @Input() title: string;
@@ -233,24 +233,6 @@ function validChannel(control: FormControl) {
     channelIdSearch.eq = channelId;
     const sco = new YoutubeChannelSCO();
     sco.channelId = channelIdSearch;
-
-    // this.foodService.searchFood(sco)
-    //   .subscribe(data => {
-    //     const responseAPi: any = res;
-    //     const typeResponse: ApiReponse<Food> = responseAPi;
-    //     if (typeResponse.data != null) {
-    //       // Invalid because new work is existed
-    //       return {
-    //         foodIsExisted: {
-    //           parsedUrln: keyWord
-    //         }
-    //       };
-    //     } else {
-    //       // New food is not existed
-    //     }
-    //   }, error => {
-    //     this.toastr.info('error:' + error);
-    //   });
   }
   return null;
 }

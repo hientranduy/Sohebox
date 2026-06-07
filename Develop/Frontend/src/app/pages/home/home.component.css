@@ -31,11 +31,6 @@
   background-size: cover;
 }
 
-.food-avatar-image {
-  background-image: url("/assets/home_function/ic_food.gif");
-  background-size: cover;
-}
-
 .english-avatar-image {
   background-image: url("/assets/home_function/ic_english.gif");
   background-size: cover;
@@ -43,11 +38,6 @@
 
 .media-avatar-image {
   background-image: url("/assets/home_function/ic_media.gif");
-  background-size: cover;
-}
-
-.finance-avatar-image {
-  background-image: url("/assets/home_function/ic_finance.gif");
   background-size: cover;
 }
 

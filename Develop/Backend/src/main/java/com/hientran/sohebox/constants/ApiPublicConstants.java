@@ -40,15 +40,9 @@ public class ApiPublicConstants {
 
 	public static final String API_TYPE = "/types";
 
-	public static final String API_ENGLISH_TYPE = "/englishTypes";
-
 	public static final String API_MEDIA_TYPE = "/mediaTypes";
 
-	public static final String API_FOOD_TYPE = "/foodTypes";
-
 	public static final String API_CONFIG = "/configs";
-
-	public static final String API_ENGLISH = "/english";
 
 	public static final String API_CRYPTO_TOKEN_CONFIG = "/cryptoTokenConfig";
 
@@ -61,8 +55,10 @@ public class ApiPublicConstants {
 	public static final String API_YOUTUBE_VIDEO = "/youtubeVideo";
 
 	public static final String API_YOUTUBE_PRIVATE_VIDEO = "/privateVideo";
-
-	public static final String API_FOOD = "/food";
+	
+	public static final String API_ENGLISH = "/english";
+	
+	public static final String API_ENGLISH_TYPE = "/englishTypes";
 
 	public static final String API_ENGLISH_LEARN_RECORD = "/englishLearnRecord";
 
@@ -70,21 +66,5 @@ public class ApiPublicConstants {
 
 	public static final String API_ENGLISH_USER_GRADE = "/englishUserGrade";
 
-	public static final String API_USER_STATUS = "/status";
-
-	public static final String API_ACTIVE_USER = "/activeUser";
-
 	public static final String API_ENGLISH_DOWNLOAD_FILE_MP3 = "/downloadFileMp3";
-
-	public static final String API_FINANCE = "/finance";
-
-	public static final String API_CURRENCY_VCB_RATE = "/vietcombankRate";
-
-	public static final String API_GOLD_SJC = "/goldSjc";
-
-	public static final String API_TRADINGECONOMICS = "/tradingeconomics";
-
-	public static final String API_TRADING_SYMBOL = "/tradingSymbol";
-
-	public static final String API_TRADINGECONOMICS_PRICE_STOCK = "/stockprice";
 }

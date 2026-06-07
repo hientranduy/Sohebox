@@ -23,7 +23,7 @@ export class HomeComponent implements OnInit {
     );
   }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   /**
    * navigate english report page
@@ -40,20 +40,12 @@ export class HomeComponent implements OnInit {
     this.router.navigate(['/account']);
   }
 
-  public openFoodApplication() {
-    this.router.navigate(['/food']);
-  }
-
   public openEnglishApplication() {
     this.router.navigate(['/english']);
   }
 
   public openMediaApplication() {
     this.router.navigate(['/media']);
-  }
-
-  public openFinanceApplication() {
-    this.router.navigate(['/finance']);
   }
 
   public openCryptoApplication() {

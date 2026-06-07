@@ -15,9 +15,9 @@ export class MediaComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     public utilsService: UtilsService,
-  ) {}
+  ) { }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   ///////////////////
   // SELECT OPTION //
@@ -27,19 +27,5 @@ export class MediaComponent implements OnInit {
   }
   get isYoutubeChannelOpen() {
     return this.selectOpion === 1;
-  }
-
-  public selectMediaPlayer() {
-    this.selectOpion = 2;
-  }
-  get isMediaPlayerOpen() {
-    return this.selectOpion === 2;
-  }
-
-  public selectPhimMoiPlayer() {
-    this.selectOpion = 3;
-  }
-  get isPhimMoiPlayerOpen() {
-    return this.selectOpion === 3;
   }
 }

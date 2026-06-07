@@ -196,9 +196,6 @@ public class YoutubeChannelService extends BaseService {
 		// Set data return
 		result.setData(data);
 
-		// Write activity type "YoutubeChannel access"
-		recordUserActivity(DBConstants.USER_ACTIVITY_MEDIA_YOUTUBE_CHANNEL_ACCESS);
-
 		// Return
 		return result;
 	}
@@ -248,9 +245,6 @@ public class YoutubeChannelService extends BaseService {
 		data.setCurrentPage(0);
 		data.setTotalPage(1);
 		data.setTotalElement(resultChannel.size());
-
-		// Write activity type "YoutubeChannel access"
-		recordUserActivity(DBConstants.USER_ACTIVITY_MEDIA_YOUTUBE_CHANNEL_ACCESS);
 
 		// Return
 		result.setData(data);

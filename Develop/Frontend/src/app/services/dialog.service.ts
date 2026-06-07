@@ -23,11 +23,6 @@ import { WordInfoDialogComponent } from '@app/dialogs/english/word-info-dialog.c
 import { English } from '@app/models/english';
 import { EditEnglishTypeDialogComponent } from '@app/dialogs/english-type/edit-english-type-dialog.component';
 import { EnglishType } from '@app/models/englishType';
-import { Food } from '@app/models/food';
-import { AddFoodDialogComponent } from '@app/dialogs/food/add-food-dialog.component';
-import { EditFoodDialogComponent } from '@app/dialogs/food/edit-food-dialog.component';
-import { EditFoodTypeDialogComponent } from '@app/dialogs/food-type/edit-food-type-dialog.component';
-import { FoodType } from '@app/models/foodType';
 import { YoutubeVideo } from '@app/models/youtubeVideo';
 import { AddYoutubeVideoDialogComponent } from '@app/dialogs/media/add-youtube-video-dialog.component';
 import { DeleteYoutubeVideoDialogComponent } from '@app/dialogs/media/delete-youtube-video-dialog.component';
@@ -44,6 +39,7 @@ import { AddYoutubeChannelDialogComponent } from '@app/dialogs/youtube-channel/a
 import { EditYoutubeChannelDialogComponent } from '@app/dialogs/youtube-channel/edit-youtube-channel-dialog.component';
 import { YoutubeChannel } from '@app/models/youtubeChannel';
 import { EditMediaTypeDialogComponent } from '@app/dialogs/media-type/edit-media-type.component';
+import { MediaType } from '@app/models/mediaType';
 
 @Injectable({ providedIn: 'root' })
 export class DialogService {
@@ -468,61 +464,6 @@ export class DialogService {
     return modalRef.result;
   }
 
-  //////////
-  // FOOD //
-  //////////
-  public addFood(
-    title: string,
-    message: string,
-    dialogSize: 'sm' | 'lg' = 'lg',
-  ): Promise<boolean> {
-    const modalRef = this.modalService.open(AddFoodDialogComponent, {
-      size: dialogSize,
-    });
-    modalRef.componentInstance.title = title;
-    modalRef.componentInstance.message = message;
-    modalRef.componentInstance.btnOkText = 'Add';
-    modalRef.componentInstance.btnCancelText = 'Cancel';
-    return modalRef.result;
-  }
-
-  public editFood(
-    title: string,
-    message: string,
-    food: Food,
-    dialogSize: 'sm' | 'lg' = 'lg',
-  ): Promise<boolean> {
-    const modalRef = this.modalService.open(EditFoodDialogComponent, {
-      size: dialogSize,
-    });
-    modalRef.componentInstance.title = title;
-    modalRef.componentInstance.message = message;
-    modalRef.componentInstance.btnOkText = 'Edit';
-    modalRef.componentInstance.btnCancelText = 'Cancel';
-    modalRef.componentInstance.food = food;
-    return modalRef.result;
-  }
-
-  ///////////////
-  // FOOD TYPE //
-  ///////////////
-  public editFoodType(
-    title: string,
-    message: string,
-    item: FoodType,
-    dialogSize: 'sm' | 'lg' = 'lg',
-  ): Promise<boolean> {
-    const modalRef = this.modalService.open(EditFoodTypeDialogComponent, {
-      size: dialogSize,
-    });
-    modalRef.componentInstance.title = title;
-    modalRef.componentInstance.message = message;
-    modalRef.componentInstance.btnOkText = 'Edit';
-    modalRef.componentInstance.btnCancelText = 'Cancel';
-    modalRef.componentInstance.item = item;
-    return modalRef.result;
-  }
-
   ///////////////////
   // YOUTUBE VIDEO //
   ///////////////////
@@ -599,7 +540,7 @@ export class DialogService {
   public editMediaType(
     title: string,
     message: string,
-    item: FoodType,
+    item: MediaType,
     dialogSize: 'sm' | 'lg' = 'lg',
   ): Promise<boolean> {
     const modalRef = this.modalService.open(EditMediaTypeDialogComponent, {

@@ -7,11 +7,7 @@ import { ToastrService } from 'ngx-toastr';
   templateUrl: './administration.component.html',
 })
 export class AdministrationComponent implements OnInit {
-  constructor(private route: ActivatedRoute) {}
-
-  get isUserControlOpen() {
-    return this.selectOpion === 1;
-  }
+  constructor(private route: ActivatedRoute) { }
 
   get isSettingConfigOpen() {
     return this.selectOpion === 2;
@@ -27,14 +23,6 @@ export class AdministrationComponent implements OnInit {
 
   get isEnglishTypeOpen() {
     return this.selectOpion === 5;
-  }
-
-  get isFoodConfigOpen() {
-    return this.selectOpion === 6;
-  }
-
-  get isFoodTypeOpen() {
-    return this.selectOpion === 7;
   }
 
   get isEnglishUserReportOpen() {
@@ -66,14 +54,11 @@ export class AdministrationComponent implements OnInit {
     this.windownInnerWidth = window.innerWidth;
   }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   ///////////////////
   // SELECT OPTION //
   ///////////////////
-  public selectUserList() {
-    this.selectOpion = 1;
-  }
 
   public selectSettingConfig() {
     this.selectOpion = 2;
@@ -89,14 +74,6 @@ export class AdministrationComponent implements OnInit {
 
   public selectEnglishType() {
     this.selectOpion = 5;
-  }
-
-  public selectFoodConfig() {
-    this.selectOpion = 6;
-  }
-
-  public selectFoodType() {
-    this.selectOpion = 7;
   }
 
   public selectEnglishUserReport() {

@@ -6,9 +6,6 @@ export class AppSettings {
   public static ENGLISH_SOUND_PATH = 'assets/english/sound/';
   public static ENGLISH_IMAGE_PATH = 'assets/english/image/';
 
-  // Food path
-  public static FOOD_IMAGE_PATH = 'assets/food/image/';
-
   // Canbridge dictionary link
   public static CAMBRIDGE_DICTIONATY_URL = 'https://dictionary.cambridge.org';
   public static CAMBRIDGE_DICTIONATY_WORD_URL =

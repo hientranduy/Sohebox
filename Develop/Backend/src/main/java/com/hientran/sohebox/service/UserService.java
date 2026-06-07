@@ -1,16 +1,12 @@
 package com.hientran.sohebox.service;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,21 +14,11 @@ import org.springframework.transaction.annotation.Transactional;
 import com.hientran.sohebox.authentication.UserDetailsServiceImpl;
 import com.hientran.sohebox.constants.DBConstants;
 import com.hientran.sohebox.dto.ChangePrivateKeyVO;
-import com.hientran.sohebox.dto.PageResultVO;
-import com.hientran.sohebox.dto.UserStatusVO;
 import com.hientran.sohebox.dto.response.APIResponse;
 import com.hientran.sohebox.dto.response.ResponseCode;
-import com.hientran.sohebox.entity.UserActivityTbl;
 import com.hientran.sohebox.entity.UserTbl;
-import com.hientran.sohebox.repository.UserActivityRepository;
 import com.hientran.sohebox.repository.UserRepository;
-import com.hientran.sohebox.sco.SearchNumberVO;
-import com.hientran.sohebox.sco.Sorter;
-import com.hientran.sohebox.sco.UserActivitySCO;
-import com.hientran.sohebox.sco.UserSCO;
-import com.hientran.sohebox.specification.UserActivitySpecs.UserActivityTblEnum;
 import com.hientran.sohebox.specification.UserSpecs.UserTblEnum;
-import com.hientran.sohebox.utils.MyDateUtils;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -49,7 +35,6 @@ public class UserService extends BaseService {
 	private final UserRepository userRepository;
 	private final RoleService roleService;
 	private final MdpService mdpService;
-	private final UserActivityRepository userActivityRepository;
 	private final UserDetailsServiceImpl userDetailsServiceImpl;
 
 	/**
@@ -255,169 +240,6 @@ public class UserService extends BaseService {
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
 	public APIResponse<Object> logout() {
 		return new APIResponse<>();
-	}
-
-	/**
-	 * Get active user
-	 *
-	 * Only role creator
-	 *
-	 * @return
-	 */
-	@Transactional(readOnly = false, rollbackFor = Exception.class)
-	public APIResponse<Object> searchActiveUser(UserSCO sco) {
-		// Declare result
-		APIResponse<Object> result = new APIResponse<>();
-
-		// Get All Users
-		List<Object[]> listData = userRepository.getActiveUser(sco, entityManager);
-
-		// Transform data
-		if (CollectionUtils.isNotEmpty(listData)) {
-			List<UserStatusVO> listElement = new ArrayList<>();
-
-			UserStatusVO userStatus;
-			for (Object[] object : listData) {
-				// Get user
-				UserTbl userTbl = getTblById((Long) object[0]);
-
-				// Fill result item
-				userStatus = new UserStatusVO();
-				userStatus.setId(userTbl.getId());
-				userStatus.setFirstName(userTbl.getFirstName());
-				userStatus.setLastName(userTbl.getLastName());
-				userStatus.setUsername(userTbl.getUsername());
-				userStatus.setRoleName(userTbl.getRole().getRoleName());
-				userStatus.setAvatarUrl(userTbl.getAvatarUrl());
-
-				// Get user activities
-				SearchNumberVO userIdSearch = new SearchNumberVO();
-				userIdSearch.setEq(userTbl.getId().doubleValue());
-				List<Sorter> sorters = new ArrayList<>();
-				sorters.add(new Sorter(UserActivityTblEnum.createdDate.name(), DBConstants.DIRECTION_DECCENT));
-				UserActivitySCO userActivitySCO = new UserActivitySCO();
-				userActivitySCO.setUserId(userIdSearch);
-				userActivitySCO.setSorters(sorters);
-				userActivitySCO.setMaxRecordPerPage(1);
-
-				Page<UserActivityTbl> userActivityList = userActivityRepository.findAll(userActivitySCO);
-				long seconds = 0;
-				if (CollectionUtils.isNotEmpty(userActivityList.getContent())) {
-					UserActivityTbl userActivity = userActivityList.getContent().get(0);
-					seconds = (new Date().getTime() - userActivity.getCreatedDate().getTime()) / 1000;
-
-					userStatus.setStatus(userActivity.getActivity().getTypeName());
-					userStatus.setDurationSeconds(seconds);
-					userStatus.setDurationTime(MyDateUtils.formatDate(seconds));
-				}
-
-				listElement.add(userStatus);
-			}
-
-			// Set data return
-			PageResultVO<UserStatusVO> data = new PageResultVO<>();
-			data.setElements(listElement);
-			data.setCurrentPage(sco.getPageToGet());
-			data.setPageSize(sco.getMaxRecordPerPage());
-
-			// Fill total page and element
-			Page<UserTbl> page = userRepository.findAll(sco);
-			data.setTotalPage(page.getTotalPages());
-			data.setTotalElement(page.getTotalElements());
-
-			result.setData(data);
-		}
-
-		// Return
-		return result;
-	}
-
-	/**
-	 * Get all Users
-	 *
-	 * Only role creator
-	 *
-	 * @return
-	 */
-	@Transactional(readOnly = false, rollbackFor = Exception.class)
-	public APIResponse<Object> searchUserStatus(UserSCO sco) {
-		// Declare result
-		APIResponse<Object> result = new APIResponse<>();
-
-		// Get All Users
-		Page<UserTbl> page = userRepository.findAll(sco);
-
-		// Transform data
-		if (CollectionUtils.isNotEmpty(page.getContent())) {
-			List<UserStatusVO> listElement = new ArrayList<>();
-
-			UserStatusVO userStatus;
-			for (UserTbl tbl : page.getContent()) {
-				userStatus = new UserStatusVO();
-				userStatus.setId(tbl.getId());
-				userStatus.setFirstName(tbl.getFirstName());
-				userStatus.setLastName(tbl.getLastName());
-				userStatus.setUsername(tbl.getUsername());
-				userStatus.setRoleName(tbl.getRole().getRoleName());
-				userStatus.setAvatarUrl(tbl.getAvatarUrl());
-
-				// Get user activities
-				SearchNumberVO userIdSearch = new SearchNumberVO();
-				userIdSearch.setEq(tbl.getId().doubleValue());
-				List<Sorter> sorters = new ArrayList<>();
-				sorters.add(new Sorter(UserActivityTblEnum.createdDate.name(), DBConstants.DIRECTION_DECCENT));
-				UserActivitySCO userActivitySCO = new UserActivitySCO();
-				userActivitySCO.setUserId(userIdSearch);
-				userActivitySCO.setSorters(sorters);
-				userActivitySCO.setMaxRecordPerPage(1);
-
-				Page<UserActivityTbl> userActivityList = userActivityRepository.findAll(userActivitySCO);
-				long seconds = 0;
-				if (CollectionUtils.isNotEmpty(userActivityList.getContent())) {
-					UserActivityTbl userActivity = userActivityList.getContent().get(0);
-					seconds = (new Date().getTime() - userActivity.getCreatedDate().getTime()) / 1000;
-
-					userStatus.setStatus(userActivity.getActivity().getTypeName());
-					userStatus.setDurationSeconds(seconds);
-					userStatus.setDurationTime(MyDateUtils.formatDate(seconds));
-				}
-				listElement.add(userStatus);
-			}
-
-			// Sort data
-			if (CollectionUtils.isEmpty(sco.getSorters())) {
-				Collections.sort(listElement, new Comparator<UserStatusVO>() {
-					@Override
-					public int compare(UserStatusVO a, UserStatusVO b) {
-						return (int) (a.getDurationSeconds() - b.getDurationSeconds());
-					}
-				});
-			}
-
-			// Set data return
-			PageResultVO<UserStatusVO> data = new PageResultVO<>();
-			data.setElements(listElement);
-			data.setTotalPage(page.getTotalPages());
-			data.setTotalElement(page.getTotalElements());
-			data.setCurrentPage(page.getPageable().getPageNumber());
-			data.setPageSize(page.getPageable().getPageSize());
-
-			result.setData(data);
-		} else {
-
-			// Set data return
-			PageResultVO<UserStatusVO> data = new PageResultVO<>();
-			data.setElements(new ArrayList<>());
-			data.setTotalPage(0);
-			data.setTotalElement(0);
-			data.setCurrentPage(sco.getPageToGet());
-			data.setPageSize(sco.getMaxRecordPerPage());
-
-			result.setData(data);
-		}
-
-		// Return
-		return result;
 	}
 
 	/**

@@ -36,7 +36,6 @@ public class AccountService extends BaseService {
 	private final MdpService mdpService;
 	private final UserService userService;
 	private final UserDetailsServiceImpl userDetailsServiceImpl;
-	private final UserActivityService userActivityService;
 	private final TypeRepository typeRepository;
 
 	/**
@@ -119,12 +118,6 @@ public class AccountService extends BaseService {
 		// Process delete
 		if (result.getStatus() == null) {
 			accountRepository.delete(accountTbl.get());
-		}
-
-		// Write activity type "delete account"
-		if (accountTbl.isPresent()) {
-			userActivityService.recordUserActivity(accountTbl.get().getUser(),
-					DBConstants.USER_ACTIVITY_ACCOUNT_DELETE);
 		}
 
 		// Return

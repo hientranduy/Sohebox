@@ -1,7 +1,5 @@
 import { RouterModule, Routes } from '@angular/router';
 import { CryptoComponent } from './pages/crypto/crypto.component';
-import { FinanceComponent } from './pages/finance/finance.component';
-import { FoodDetailComponent } from './pages/food/food-detail/food-detail.component';
 import { AuthGuard } from './commons/auth.guard';
 import { LoginComponent } from './pages/user/login.component';
 import { RegisterComponent } from './pages/user/register.component';
@@ -10,7 +8,6 @@ import { AdministrationComponent } from './pages/administration/administration.c
 import { EnglishComponent } from './pages/english/english.component';
 import { HomeComponent } from './pages/home/home.component';
 import { EnglishReportComponent } from './pages/english-report/english-report.component';
-import { FoodComponent } from './pages/food/food.component';
 import { MediaComponent } from './pages/media/media.component';
 import { YoutubePlayerComponent } from './pages/media/youtube-player/youtube-player.component';
 import { YoutubePlayerChannelComponent } from './pages/media/youtube-player-channel/youtube-player-channel.component';
@@ -23,7 +20,7 @@ const appRoutes: Routes = [
       title: 'S.H Box',
       ogUrl: 'https://sohebox.com',
       description:
-        'Create an account or log into S.H Box. Keep and save all your common accounts, learn english with image, experience with food collection',
+        'Create an account or log into S.H Box. Keep and save all your common accounts, learn english with image',
       keywords: 'S.H Box',
     },
   },
@@ -44,7 +41,7 @@ const appRoutes: Routes = [
       title: 'S.H Box - Sign Up',
       ogUrl: 'https://sohebox.com/register',
       description:
-        'Sign up for S.H Box and select function. Create an account to start getting your accounts, learning english, get food information. It is easy to register',
+        'Sign up for S.H Box and select function. Create an account to start getting your accounts, learning english. It is easy to register',
       keywords: 'S.H Box',
     },
   },
@@ -95,21 +92,6 @@ const appRoutes: Routes = [
     },
   },
   {
-    path: 'food',
-    component: FoodComponent,
-    data: {
-      title: 'S.H Box - Food Collection',
-      ogUrl: 'https://sohebox.com/food',
-      description:
-        'Find your favorist food/drink. Check its recepe and atttibute. You can also find the saler location',
-      keywords: 'S.H Box',
-    },
-  },
-  {
-    path: 'foodDetail/:id',
-    component: FoodDetailComponent,
-  },
-  {
     path: 'media',
     component: MediaComponent,
     data: {
@@ -137,16 +119,6 @@ const appRoutes: Routes = [
       ogUrl: 'https://sohebox.com/media/youtubeplayerchannel',
       description: 'Youtube channe player',
       keywords: 'S.H Box, channe player',
-    },
-  },
-  {
-    path: 'finance',
-    component: FinanceComponent,
-    data: {
-      title: 'S.H Box - Finance Indicators',
-      ogUrl: 'https://sohebox.com/finance',
-      description: 'Gold, Old, Stock, Crypto charts and indicators',
-      keywords: 'S.H Box',
     },
   },
   {

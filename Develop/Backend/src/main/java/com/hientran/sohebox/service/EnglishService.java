@@ -165,9 +165,6 @@ public class EnglishService extends BaseService {
 
 			// Set id return
 			result.setData(tbl.getId());
-
-			// Write activity type "create word"
-			recordUserActivity(DBConstants.USER_ACTIVITY_ENGLISH_CREATE);
 		}
 
 		// Return
@@ -335,9 +332,6 @@ public class EnglishService extends BaseService {
 		// Set data return
 		result.setData(data);
 
-		// Write activity type "English access"
-		recordUserActivity(DBConstants.USER_ACTIVITY_ENGLISH_ACCESS);
-
 		// Return
 		return result;
 	}
@@ -419,9 +413,6 @@ public class EnglishService extends BaseService {
 			// Set data return
 			result.setData(data);
 		}
-
-		// Write activity type "english access"
-		recordUserActivity(DBConstants.USER_ACTIVITY_ENGLISH_ACCESS);
 
 		// Return
 		return result;
@@ -649,9 +640,6 @@ public class EnglishService extends BaseService {
 
 			// Set id return
 			result.setData(updateTbl.getId());
-
-			// Write activity type "update word"
-			recordUserActivity(DBConstants.USER_ACTIVITY_ENGLISH_UPDATE);
 		}
 
 		// Return

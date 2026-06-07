@@ -13,7 +13,6 @@ import com.hientran.sohebox.constants.ApiPublicConstants;
 import com.hientran.sohebox.dto.ChangePrivateKeyVO;
 import com.hientran.sohebox.dto.response.APIResponse;
 import com.hientran.sohebox.entity.UserTbl;
-import com.hientran.sohebox.sco.UserSCO;
 import com.hientran.sohebox.service.UserService;
 
 import lombok.RequiredArgsConstructor;
@@ -74,40 +73,6 @@ public class UserController {
 	public ResponseEntity<?> logout() {
 		// Create Account
 		APIResponse<?> result = userService.logout();
-
-		// Return
-		return new ResponseEntity<>(result, new HttpHeaders(),
-				result.getStatus() != null ? result.getStatus() : HttpStatus.OK);
-	}
-
-	/**
-	 *
-	 * Search
-	 *
-	 * @param sco
-	 * @return
-	 */
-	@PostMapping(ApiPublicConstants.API_USER + ApiPublicConstants.API_ACTIVE_USER)
-	public ResponseEntity<?> searchActiveUser(@RequestBody UserSCO sco) {
-		// Get all User
-		APIResponse<?> result = userService.searchActiveUser(sco);
-
-		// Return
-		return new ResponseEntity<>(result, new HttpHeaders(),
-				result.getStatus() != null ? result.getStatus() : HttpStatus.OK);
-	}
-
-	/**
-	 *
-	 * Search
-	 *
-	 * @param sco
-	 * @return
-	 */
-	@PostMapping(ApiPublicConstants.API_USER + ApiPublicConstants.API_USER_STATUS)
-	public ResponseEntity<?> searchStatus(@RequestBody UserSCO sco) {
-		// Get all User
-		APIResponse<?> result = userService.searchUserStatus(sco);
 
 		// Return
 		return new ResponseEntity<>(result, new HttpHeaders(),

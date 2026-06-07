@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.hientran.sohebox.constants.CosmosConstants;
-import com.hientran.sohebox.constants.DBConstants;
 import com.hientran.sohebox.dto.PageResultVO;
 import com.hientran.sohebox.dto.response.APIResponse;
 import com.hientran.sohebox.dto.response.ResponseCode;
@@ -87,9 +86,6 @@ public class CryptoTokenConfigService extends BaseService {
 
 			// Set id return
 			result.setData(tbl.getId());
-
-			// Write activity
-			recordUserActivity(DBConstants.USER_ACTIVITY_CRYPTO_TOKEN_CONFIG_CREATE);
 		}
 
 		// Return
@@ -169,9 +165,6 @@ public class CryptoTokenConfigService extends BaseService {
 
 		// Set data return
 		result.setData(data);
-
-		// Write activity
-		recordUserActivity(DBConstants.USER_ACTIVITY_CRYPTO_TOKEN_CONFIG_ACCESS);
 
 		// Return
 		return result;
@@ -259,9 +252,6 @@ public class CryptoTokenConfigService extends BaseService {
 
 			// Set id return
 			result.setData(updateTbl.getId());
-
-			// Write activity
-			recordUserActivity(DBConstants.USER_ACTIVITY_CRYPTO_TOKEN_CONFIG_UPDATE);
 		}
 
 		// Return

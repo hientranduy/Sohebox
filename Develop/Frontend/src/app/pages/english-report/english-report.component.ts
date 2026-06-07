@@ -302,7 +302,7 @@ export class EnglishReportComponent implements OnInit {
   }
 
   /**
-   * Back to food home
+   * Back
    */
   public closeTab() {
     window.close();

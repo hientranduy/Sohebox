@@ -53,22 +53,10 @@ export class HelpGuestDialogComponent implements OnInit {
           "- Guessing the english word by its image, funny game\n- Don't forget to update your english level for new word appearance\n- It is easy to review and tracking your learn history, your E-Dashboard\n- There are almost 1000 words and stil be added";
         break;
 
-      case '/food':
-        this.helpTitle = 'Food - Hungry notebook';
-        this.helpContent =
-          '- Find your favourite dish for breafast, lunch and dinner\n- You are welcome to contribute :)';
-        break;
-
       case '/media':
         this.helpTitle = 'Media - Ignore adversisement';
         this.helpContent =
           '- Could login to add your favarist youtube video in dashboard\n- We select some english channels for kid, listing 20 newest movies each channel\n- Could watch movie by input your movie URL from any host';
-        break;
-
-      case '/finance':
-        this.helpTitle = 'Finance - Realtime indicators - charts';
-        this.helpContent =
-          '- International and Vietnam gold price\n- Oil & Gas price\n- VCB VND rate\n- Stock index';
         break;
 
       default:

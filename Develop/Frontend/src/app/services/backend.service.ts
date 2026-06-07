@@ -9,8 +9,6 @@ import { English } from '@app/models/english';
 import { EnglishLearnRecord } from '@app/models/englishLearnRecord';
 import { EnglishType } from '@app/models/englishType';
 import { EnglishUserGrade } from '@app/models/englishUserGrade';
-import { Food } from '@app/models/food';
-import { FoodType } from '@app/models/foodType';
 import { MediaType } from '@app/models/mediaType';
 import { Type } from '@app/models/type';
 import { User } from '@app/models/user';
@@ -26,8 +24,6 @@ import { EnglishLearnReportSCO } from '@app/scos/englishLearnReportSCO';
 import { EnglishSCO } from '@app/scos/englishSCO';
 import { EnglishTypeSCO } from '@app/scos/englishTypeSCO';
 import { EnglishUserGradeSCO } from '@app/scos/englishUserGradeSCO';
-import { FoodSCO } from '@app/scos/foodSCO';
-import { FoodTypeSCO } from '@app/scos/foodTypeSCO';
 import { MediaTypeSCO } from '@app/scos/mediaTypeSCO';
 import { TypeSCO } from '@app/scos/typeSCO';
 import { UserSCO } from '@app/scos/userSCO';
@@ -37,7 +33,7 @@ import { environment } from '@environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class BackendService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   //////////
   // TYPE //
@@ -103,16 +99,6 @@ export class BackendService {
   // Delete user
   deleteLoggedUser() {
     return this.http.delete(`${environment.soheboxUrl}/users`);
-  }
-
-  // Search user
-  searchUserStatus(sco: UserSCO) {
-    return this.http.post(`${environment.soheboxUrl}/users/status`, sco);
-  }
-
-  // Search user
-  searchActiveUser(sco: UserSCO) {
-    return this.http.post(`${environment.soheboxUrl}/users/activeUser`, sco);
   }
 
   // Change private key
@@ -316,66 +302,6 @@ export class BackendService {
   // Update
   updateEnglishType(item: EnglishType) {
     return this.http.put(`${environment.soheboxUrl}/api/englishTypes`, item);
-  }
-
-  /////////////
-  // FINANCE //
-  /////////////
-  // Get currency VCB
-  getCurrencyVcbRate() {
-    return this.http.get(
-      `${environment.soheboxUrl}/api/finance/vietcombankRate`,
-    );
-  }
-
-  // Get gold price SJC
-  getGoldSjcPrice() {
-    return this.http.get(`${environment.soheboxUrl}/api/finance/goldSjc`);
-  }
-
-  // Search stock price
-  getStockPrice() {
-    return this.http.get(
-      `${environment.soheboxUrl}/api/tradingeconomics/stockprice`,
-    );
-  }
-  //////////
-  // FOOD //
-  //////////
-  // Add
-  addFood(food: Food) {
-    return this.http.post(`${environment.soheboxUrl}/api/food`, food);
-  }
-
-  // Update
-  editFood(food: Food) {
-    return this.http.put(`${environment.soheboxUrl}/api/food`, food);
-  }
-
-  // Search
-  searchFood(sco: FoodSCO) {
-    return this.http.post(`${environment.soheboxUrl}/api/food/search`, sco);
-  }
-
-  // Get by id
-  getFood(id: number) {
-    return this.http.get(`${environment.soheboxUrl}/api/food/${id}`);
-  }
-
-  //////////////
-  // FOOD TYPE//
-  //////////////
-  // Search
-  searchFoodType(sco: FoodTypeSCO) {
-    return this.http.post(
-      `${environment.soheboxUrl}/api/foodTypes/search`,
-      sco,
-    );
-  }
-
-  // Update
-  updateFoodType(item: FoodType) {
-    return this.http.put(`${environment.soheboxUrl}/api/foodTypes`, item);
   }
 
   /////////////
